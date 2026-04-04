@@ -231,9 +231,13 @@ export default function Nav() {
               <Link href="/programme/mma" className="mega-prog-card">
                 <Image src="/images/action/sparring-mma-wall.webp" alt="" className="mega-prog-bg" fill sizes="(max-width: 768px) 100vw, 33vw" aria-hidden="true" />
                 <div className="mega-prog-icon" aria-hidden="true">
+                  {/* Boxing glove / fist */}
                   <svg viewBox="0 0 26 26" fill="none" stroke="currentColor" strokeWidth="1.5">
-                    <circle cx="13" cy="9" r="4"/><path d="M5 26c0-5 3.5-8 8-8s8 3 8 8"/>
-                    <line x1="19" y1="5" x2="24" y2="2.5"/><line x1="19" y1="9.5" x2="24" y2="11"/>
+                    <path d="M7 20V14C7 10.5 8.5 8 11 7C13.5 6 16 6.5 18 8.5C19.5 10 20 12 19.5 14L18.5 18C18 19.5 16.5 20.5 15 20.5H7Z"/>
+                    <line x1="7" y1="14" x2="19" y2="14"/>
+                    <path d="M10 14V10.5" strokeLinecap="round"/>
+                    <path d="M13 14V10" strokeLinecap="round"/>
+                    <path d="M16 14V10.5" strokeLinecap="round"/>
                   </svg>
                 </div>
                 <h3 className="mega-prog-title">MMA</h3>
@@ -243,9 +247,12 @@ export default function Nav() {
               <Link href="/programme/lutte" className="mega-prog-card">
                 <Image src="/images/action/takedown-wrestling.webp" alt="" className="mega-prog-bg" fill sizes="(max-width: 768px) 100vw, 33vw" aria-hidden="true" />
                 <div className="mega-prog-icon" aria-hidden="true">
+                  {/* Two wrestlers grappling */}
                   <svg viewBox="0 0 26 26" fill="none" stroke="currentColor" strokeWidth="1.5">
-                    <path d="M3 19 L8 9 L13 15 L19 5 L23 13"/>
-                    <circle cx="6" cy="20" r="2"/><circle cx="21" cy="14" r="2"/>
+                    <circle cx="8" cy="5" r="2.5"/>
+                    <circle cx="18" cy="5" r="2.5"/>
+                    <path d="M5 22L7 16L10 13L13 14L16 13L19 16L21 22" strokeLinejoin="round"/>
+                    <path d="M10 13L11.5 10L14.5 10L16 13" strokeLinejoin="round"/>
                   </svg>
                 </div>
                 <h3 className="mega-prog-title">LUTTE</h3>
@@ -255,10 +262,13 @@ export default function Nav() {
               <Link href="/programme#conditioning" className="mega-prog-card">
                 <Image src="/images/action/conditioning-rope.webp" alt="" className="mega-prog-bg" fill sizes="(max-width: 768px) 100vw, 33vw" aria-hidden="true" />
                 <div className="mega-prog-icon" aria-hidden="true">
+                  {/* Dumbbell / strength */}
                   <svg viewBox="0 0 26 26" fill="none" stroke="currentColor" strokeWidth="1.5">
-                    <rect x="1" y="10" width="6" height="6"/><rect x="19" y="10" width="6" height="6"/>
-                    <line x1="7" y1="13" x2="19" y2="13" strokeWidth="2.5"/>
-                    <rect x="10" y="8" width="6" height="10"/>
+                    <rect x="2" y="9" width="3" height="8" rx="0.5"/>
+                    <rect x="21" y="9" width="3" height="8" rx="0.5"/>
+                    <rect x="5" y="11" width="2" height="4"/>
+                    <rect x="19" y="11" width="2" height="4"/>
+                    <line x1="7" y1="13" x2="19" y2="13" strokeWidth="2"/>
                   </svg>
                 </div>
                 <h3 className="mega-prog-title">S&amp;C</h3>

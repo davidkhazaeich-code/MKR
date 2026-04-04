@@ -227,14 +227,14 @@ h1, h2, h3, h4, h5 {
 
 /* Panel: Destinations */
 .mega-dest-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: .85rem; }
-.mega-dest-card { display: block; position: relative; overflow: hidden; aspect-ratio: 32 / 9; text-decoration: none; grid-column: 1 / -1; }
+.mega-dest-card { display: block; position: relative; overflow: hidden; aspect-ratio: 16 / 7; text-decoration: none; }
 .mega-dest-img { object-fit: cover; object-position: center; filter: grayscale(60%) brightness(0.55); transition: transform 400ms var(--ease-out-expo), filter 400ms linear; }
 .mega-dest-card:hover .mega-dest-img { transform: scale(1.04); filter: grayscale(30%) brightness(0.6); }
 .mega-dest-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(7,7,5,0.92) 0%, rgba(7,7,5,0.28) 55%, transparent 100%); }
-.mega-dest-content { position: absolute; bottom: 0; left: 0; right: 0; padding: 1.4rem 1.6rem; }
-.mega-dest-region { display: block; font-family: var(--font-barlow-condensed), sans-serif; font-weight: 700; font-size: .56rem; letter-spacing: .3em; text-transform: uppercase; color: var(--primary); margin-bottom: .3rem; }
-.mega-dest-name { font-size: clamp(1.8rem, 2.5vw, 2.4rem); color: var(--text-primary); margin-bottom: .4rem; }
-.mega-dest-tagline { font-size: .78rem; color: var(--text-secondary); margin-bottom: .8rem; }
+.mega-dest-content { position: absolute; bottom: 0; left: 0; right: 0; padding: 1.2rem 1.4rem; }
+.mega-dest-region { display: block; font-family: var(--font-barlow-condensed), sans-serif; font-weight: 700; font-size: .56rem; letter-spacing: .3em; text-transform: uppercase; color: var(--primary); margin-bottom: .2rem; }
+.mega-dest-name { font-size: clamp(1.3rem, 2vw, 1.8rem); color: var(--text-primary); margin-bottom: .25rem; }
+.mega-dest-tagline { font-size: .75rem; color: var(--text-secondary); margin-bottom: .6rem; }
 .mega-dest-cta { display: inline-flex; align-items: center; gap: .4rem; font-family: var(--font-barlow-condensed), sans-serif; font-weight: 700; font-size: .7rem; letter-spacing: .14em; text-transform: uppercase; color: var(--text-primary); transition: gap 200ms var(--ease-out-expo); }
 .mega-dest-cta:hover { gap: .65rem; }
 .mega-dest-security { display: flex; align-items: center; gap: .75rem; background: rgba(200,75,49,0.07); border-left: 2px solid var(--primary); padding: .65rem 1rem; }
@@ -251,6 +251,16 @@ h1, h2, h3, h4, h5 {
 .mega-testi-quote { font-size: .84rem; line-height: 1.7; color: var(--text-secondary); font-style: italic; margin-bottom: 1rem; position: relative; z-index: 1; }
 .mega-testi-name { font-family: var(--font-teko), sans-serif; font-weight: 600; font-size: 1rem; text-transform: uppercase; letter-spacing: .06em; color: var(--text-primary); display: block; position: relative; z-index: 1; }
 .mega-testi-meta { font-family: var(--font-barlow-condensed), sans-serif; font-size: .6rem; letter-spacing: .18em; text-transform: uppercase; color: var(--text-muted); position: relative; z-index: 1; }
+
+/* Mega menu tablet responsive */
+@media (max-width: 1100px) {
+  .mega-camp-grid { grid-template-columns: 1.5fr 1fr; gap: 2rem; }
+  .mega-camp-accent { display: none; }
+  .mega-prog-grid { grid-template-columns: repeat(3, 1fr); gap: .75rem; }
+  .mega-prog-desc { font-size: .72rem; }
+  .mega-infos-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+  .mega-testi { display: none; }
+}
 
 /* Backdrop */
 #nav-backdrop { position: fixed; inset: 0; top: var(--nav-h); background: rgba(0,0,0,0.52); z-index: 298; opacity: 0; pointer-events: none; transition: opacity 200ms linear; }
@@ -1248,12 +1258,14 @@ h1, h2, h3, h4, h5 {
   letter-spacing: 0.04em;
 }
 
+/* Central vertical line — scroll-drawn via GSAP --bar-scale
+   Default 1 = visible fallback; GSAP fromTo overrides to 0→1 on scroll */
 .timeline-track {
   position: relative;
+  --bar-scale: 1;
 }
-/* Central vertical line — scroll-drawn via GSAP --bar-scale */
-.timeline-track {
-  --bar-scale: 0;
+#timeline .inner {
+  max-width: 1600px;
 }
 .timeline-track::before {
   content: '';
@@ -1298,12 +1310,15 @@ h1, h2, h3, h4, h5 {
   display: flex;
   align-items: center;
   gap: 2rem;
+  min-width: 0; /* prevent flex/grid overflow */
+}
+.timeline-empty {
+  min-width: 0;
 }
 /* Étapes gauche : numéro à droite du bloc texte (côté fil conducteur) */
-.timeline-text { flex: 1; text-align: right; }
+.timeline-text { flex: 1; min-width: 0; text-align: right; }
 /* Étapes droite : numéro à gauche du bloc texte (côté fil conducteur) */
 .timeline-step--reversed .timeline-text { text-align: left; }
-.timeline-empty { /* spacer -colonne vide côté opposé */ }
 
 .timeline-num {
   font-family: var(--font-teko), sans-serif;
@@ -1567,8 +1582,9 @@ h1, h2, h3, h4, h5 {
 .timeline-step-img {
   position: relative;
   aspect-ratio: 3 / 2;
-  width: clamp(280px, 25vw, 420px);
-  flex-shrink: 0;
+  width: clamp(200px, 22vw, 380px);
+  flex-shrink: 1;
+  min-width: 160px;
   background: var(--surface-high);
   overflow: hidden;
   align-self: center;
@@ -5389,6 +5405,7 @@ h1, h2, h3, h4, h5 {
     90% 1.8vw, 96% 0.6vw, 100% 2vw, 100% 100%, 0% 100%
   );
   margin-top: -5vw;
+  padding-top: 120px;
 }
 .fx-mask-b {
   clip-path: polygon(
@@ -5397,6 +5414,7 @@ h1, h2, h3, h4, h5 {
     88% 3vw, 95% 1vw, 100% 2.5vw, 100% 100%, 0% 100%
   );
   margin-top: -6vw;
+  padding-top: 120px;
 }
 .fx-mask-c {
   clip-path: polygon(
@@ -5405,6 +5423,7 @@ h1, h2, h3, h4, h5 {
     86% 1.2vw, 94% 3.2vw, 100% 0.8vw, 100% 100%, 0% 100%
   );
   margin-top: -5vw;
+  padding-top: 120px;
 }
 .fx-mask-d {
   clip-path: polygon(
@@ -5413,11 +5432,43 @@ h1, h2, h3, h4, h5 {
     92% 2.5vw, 100% 0.5vw, 100% 100%, 0% 100%
   );
   margin-top: -7vw;
+  padding-top: 120px;
 }
+/* Auto-pad sections BEFORE a mountain mask so content isn't hidden by overlap */
+section:has(+ .fx-mask-a),
+section:has(+ .fx-mask-b),
+section:has(+ .fx-mask-c),
+section:has(+ .fx-mask-d),
+div:has(+ .fx-mask-a),
+div:has(+ .fx-mask-b),
+div:has(+ .fx-mask-c),
+div:has(+ .fx-mask-d) {
+  padding-bottom: 120px;
+}
+/* Also pad bottom of masked sections themselves for safety */
+.fx-mask-a,
+.fx-mask-b,
+.fx-mask-c,
+.fx-mask-d {
+  padding-bottom: 80px;
+}
+
 @media (max-width: 768px) {
   .fx-mask-a, .fx-mask-b, .fx-mask-c, .fx-mask-d {
     clip-path: none;
     margin-top: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  section:has(+ .fx-mask-a),
+  section:has(+ .fx-mask-b),
+  section:has(+ .fx-mask-c),
+  section:has(+ .fx-mask-d),
+  div:has(+ .fx-mask-a),
+  div:has(+ .fx-mask-b),
+  div:has(+ .fx-mask-c),
+  div:has(+ .fx-mask-d) {
+    padding-bottom: 0;
   }
 }
 
