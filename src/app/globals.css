@@ -3661,12 +3661,28 @@ h1, h2, h3, h4, h5 {
   margin-top: 0.5rem;
 }
 
-@media (max-width: 768px) {
-  .dest-reveal-container { padding: 0 1.5rem; }
+@media (max-width: 1024px) {
+  .dest-reveal-container {
+    bottom: auto;
+    top: clamp(4rem, 10vh, 6rem);
+    padding: 0 1.5rem;
+  }
+  .dest-reveal-overlay {
+    background: linear-gradient(
+      to bottom,
+      rgba(9,9,7,0.88) 0%,
+      rgba(9,9,7,0.45) 50%,
+      rgba(9,9,7,0.12) 100%
+    );
+  }
   .dest-reveal-content { max-width: 100%; }
   .dest-reveal-content h2 { font-size: 2.4rem; }
-  .dest-reveal-facts { grid-template-columns: repeat(2, 1fr); gap: 0.5rem 1rem; }
+  .dest-reveal-facts { grid-template-columns: repeat(3, 1fr); gap: 0.5rem 1rem; }
   .dest-reveal-fact-value { font-size: 1.1rem; }
+}
+@media (max-width: 480px) {
+  .dest-reveal-facts { grid-template-columns: repeat(2, 1fr); }
+  .dest-reveal-content h2 { font-size: 2rem; }
 }
 
 /* ═══════════════════════════════════════════════
