@@ -16,7 +16,7 @@ export default function Timeline() {
           {/* Step 1 -Candidature (GAUCHE : image à l'extérieur, texte vers la ligne) */}
           <div className="timeline-step reveal">
             <div className="timeline-panel">
-              <div className="timeline-step-img">
+              <div className="timeline-step-img reveal-clip">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img className="timeline-step-photo" src="/images/textures/concrete-soviet.webp" alt="Béton soviétique" />
                 <div className="timeline-step-img-inner"></div>
@@ -61,7 +61,7 @@ export default function Timeline() {
                 <h3 className="timeline-step-title">ENTRETIEN</h3>
                 <p className="timeline-step-body">Un échange vidéo avec notre équipe. Pas un interrogatoire, une conversation. Nous voulons comprendre tes motivations et t&apos;expliquer ce qui t&apos;attend vraiment.</p>
               </div>
-              <div className="timeline-step-img">
+              <div className="timeline-step-img reveal-clip">
                 <div className="timeline-step-img-inner">
                   <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style={{ width: '40px', height: '40px', opacity: 0.4 }}>
                     <rect x="3" y="8" width="24" height="20" stroke="#C84B31" strokeWidth="2" />
@@ -75,7 +75,7 @@ export default function Timeline() {
           {/* Step 3 -Confirmation (GAUCHE : image à l'extérieur, texte vers la ligne) */}
           <div className="timeline-step reveal" style={{ transitionDelay: '0.2s' }}>
             <div className="timeline-panel">
-              <div className="timeline-step-img">
+              <div className="timeline-step-img reveal-clip">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img className="timeline-step-photo" src="/images/textures/basalt-rock.webp" alt="Roche volcanique" />
                 <div className="timeline-step-img-inner"></div>
@@ -118,7 +118,7 @@ export default function Timeline() {
                 <h3 className="timeline-step-title">PRÉPARATION</h3>
                 <p className="timeline-step-body">4 semaines de protocole préparatoire à distance : conditioning spécifique, nutrition, logistique Géorgie. On maximise chaque jour avant ton arrivée.</p>
               </div>
-              <div className="timeline-step-img">
+              <div className="timeline-step-img reveal-clip">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img className="timeline-step-photo" src="/images/action/conditioning-rope.webp" alt="Conditioning -grimper de corde" />
                 <div className="timeline-step-img-inner"></div>
@@ -129,7 +129,7 @@ export default function Timeline() {
           {/* Step 5 -Immersion (GAUCHE : image à l'extérieur, texte vers la ligne) */}
           <div className="timeline-step reveal" style={{ transitionDelay: '0.4s' }}>
             <div className="timeline-panel">
-              <div className="timeline-step-img">
+              <div className="timeline-step-img reveal-clip">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img className="timeline-step-photo" src="/images/environment/mountain-road.webp" alt="Route vers le camp -Caucase" />
                 <div className="timeline-step-img-inner"></div>

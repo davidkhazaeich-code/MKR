@@ -49,7 +49,7 @@ export default function ScrollParallax() {
 
             /* ── Glow / decorative element parallax (slower) ── */
             const glows = gsap.utils.toArray<HTMLElement>(
-              '.video-glow, .testimonials-glow, .cta-glow, .summit-glow',
+              '.video-glow, .testimonials-glow, .cta-glow, .summit-glow, .coaches-glow, .contact-glow, .faq-glow',
             )
 
             glows.forEach((el) => {
@@ -63,6 +63,63 @@ export default function ScrollParallax() {
                   scrub: 1.2,
                 },
               })
+            })
+
+            /* ── Coach cards stagger parallax ── */
+            const coachCards = gsap.utils.toArray<HTMLElement>('.coach-card')
+            coachCards.forEach((card, i) => {
+              gsap.fromTo(
+                card,
+                { y: 15 + i * 5 },
+                {
+                  y: -(10 + i * 3),
+                  ease: 'none',
+                  scrollTrigger: {
+                    trigger: '#coaches',
+                    start: 'top bottom',
+                    end: 'bottom top',
+                    scrub: 0.8,
+                  },
+                },
+              )
+            })
+
+            /* ── Session cards stagger parallax ── */
+            const sessionCards = gsap.utils.toArray<HTMLElement>('.session-card')
+            sessionCards.forEach((card, i) => {
+              gsap.fromTo(
+                card,
+                { y: 12 + i * 4 },
+                {
+                  y: -(8 + i * 3),
+                  ease: 'none',
+                  scrollTrigger: {
+                    trigger: '#sessions',
+                    start: 'top bottom',
+                    end: 'bottom top',
+                    scrub: 0.8,
+                  },
+                },
+              )
+            })
+
+            /* ── Bento cards depth parallax ── */
+            const bentoCards = gsap.utils.toArray<HTMLElement>('.bento-card')
+            bentoCards.forEach((card, i) => {
+              gsap.fromTo(
+                card,
+                { y: 20 },
+                {
+                  y: -(10 + i * 5),
+                  ease: 'none',
+                  scrollTrigger: {
+                    trigger: '#philosophie',
+                    start: 'top bottom',
+                    end: 'bottom top',
+                    scrub: 0.7,
+                  },
+                },
+              )
             })
           },
         )

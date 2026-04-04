@@ -208,6 +208,7 @@ export default function Nav() {
                 </ul>
               </div>
               <div className="mega-camp-accent" aria-hidden="true">
+                <Image src="/images/environment/gym-interior.webp" alt="" className="mega-camp-accent-img" fill sizes="280px" />
                 <h3 className="mega-camp-accent-title">TOUT<br/>COMPRIS.</h3>
                 <span className="mega-camp-accent-sub">Dagestan · Tchetchenie · Georgie</span>
               </div>
@@ -228,6 +229,7 @@ export default function Nav() {
             <span className="mega-section-label">Disciplines et Programme 2026</span>
             <div className="mega-prog-grid">
               <Link href="/programme/mma" className="mega-prog-card">
+                <Image src="/images/action/sparring-mma-wall.webp" alt="" className="mega-prog-bg" fill sizes="(max-width: 768px) 100vw, 33vw" aria-hidden="true" />
                 <div className="mega-prog-icon" aria-hidden="true">
                   <svg viewBox="0 0 26 26" fill="none" stroke="currentColor" strokeWidth="1.5">
                     <circle cx="13" cy="9" r="4"/><path d="M5 26c0-5 3.5-8 8-8s8 3 8 8"/>
@@ -239,6 +241,7 @@ export default function Nav() {
                 <span className="mega-arrow-link">Voir le programme {ARROW_RIGHT}</span>
               </Link>
               <Link href="/programme/lutte" className="mega-prog-card">
+                <Image src="/images/action/takedown-wrestling.webp" alt="" className="mega-prog-bg" fill sizes="(max-width: 768px) 100vw, 33vw" aria-hidden="true" />
                 <div className="mega-prog-icon" aria-hidden="true">
                   <svg viewBox="0 0 26 26" fill="none" stroke="currentColor" strokeWidth="1.5">
                     <path d="M3 19 L8 9 L13 15 L19 5 L23 13"/>
@@ -250,6 +253,7 @@ export default function Nav() {
                 <span className="mega-arrow-link">Voir le programme {ARROW_RIGHT}</span>
               </Link>
               <Link href="/programme#conditioning" className="mega-prog-card">
+                <Image src="/images/action/conditioning-rope.webp" alt="" className="mega-prog-bg" fill sizes="(max-width: 768px) 100vw, 33vw" aria-hidden="true" />
                 <div className="mega-prog-icon" aria-hidden="true">
                   <svg viewBox="0 0 26 26" fill="none" stroke="currentColor" strokeWidth="1.5">
                     <rect x="1" y="10" width="6" height="6"/><rect x="19" y="10" width="6" height="6"/>
@@ -278,7 +282,7 @@ export default function Nav() {
             <span className="mega-section-label">Destinations 2026</span>
             <div className="mega-dest-grid">
               <Link href="/destinations/dagestan" className="mega-dest-card" aria-label="Explorer le Dagestan">
-                <div className="mega-dest-bg" aria-hidden="true"/>
+                <Image src="/images/environment/dagestan-panorama.webp" alt="" className="mega-dest-img" fill sizes="(max-width: 768px) 100vw, 50vw" aria-hidden="true" />
                 <div className="mega-dest-overlay" aria-hidden="true"/>
                 <div className="mega-dest-content">
                   <span className="mega-dest-region">Caucase · Russie</span>
@@ -288,7 +292,7 @@ export default function Nav() {
                 </div>
               </Link>
               <Link href="/destinations/tchetchenie" className="mega-dest-card" aria-label="Explorer la Tchetchenie">
-                <div className="mega-dest-bg mega-dest-bg--alt" aria-hidden="true"/>
+                <Image src="/images/environment/mosque-grozny.webp" alt="" className="mega-dest-img" fill sizes="(max-width: 768px) 100vw, 50vw" aria-hidden="true" />
                 <div className="mega-dest-overlay" aria-hidden="true"/>
                 <div className="mega-dest-content">
                   <span className="mega-dest-region">Caucase · Russie</span>
@@ -341,6 +345,7 @@ export default function Nav() {
                 </ul>
               </div>
               <div className="mega-testi" aria-label="Temoignage athlete">
+                <Image src="/images/testimonials/thomas-b.webp" alt="" className="mega-testi-avatar" width={40} height={40} aria-hidden="true" />
                 <span className="mega-testi-quote-mark" aria-hidden="true">&ldquo;</span>
                 <p className="mega-testi-quote">Deux semaines apres le retour, j&apos;ai remporte mon premier titre regional. Ce que j&apos;ai construit la-bas, aucun gym en France ne pouvait me le donner.</p>
                 <span className="mega-testi-name">Thomas B.</span>

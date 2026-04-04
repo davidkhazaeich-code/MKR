@@ -204,13 +204,17 @@ h1, h2, h3, h4, h5 {
 .mega-camp-feature-body { font-size: .875rem; line-height: 1.75; color: var(--text-secondary); margin-bottom: 1.4rem; max-width: 360px; }
 .mega-camp-links-label { display: block; font-family: var(--font-barlow-condensed), sans-serif; font-weight: 700; font-size: .58rem; letter-spacing: .28em; text-transform: uppercase; color: var(--primary); margin-bottom: .9rem; }
 .mega-camp-accent { background: var(--surface); padding: 1.8rem 1.6rem; position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; min-height: 160px; }
-.mega-camp-accent::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 0% 110%, rgba(200,75,49,0.25) 0%, transparent 60%); }
+.mega-camp-accent-img { object-fit: cover; object-position: center; filter: grayscale(100%) brightness(0.4); transition: filter 400ms linear; }
+.mega-camp-accent:hover .mega-camp-accent-img { filter: grayscale(50%) brightness(0.5); }
+.mega-camp-accent::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 0% 110%, rgba(200,75,49,0.25) 0%, transparent 60%); z-index: 1; }
 .mega-camp-accent-title { font-size: 1.55rem; color: var(--text-primary); letter-spacing: .04em; position: relative; z-index: 1; margin-bottom: .3rem; }
 .mega-camp-accent-sub { font-family: var(--font-barlow-condensed), sans-serif; font-size: .6rem; letter-spacing: .22em; text-transform: uppercase; color: var(--text-muted); position: relative; z-index: 1; }
 
 /* Panel: Programme */
 .mega-prog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
 .mega-prog-card { background: var(--surface); padding: 1.8rem 1.6rem; position: relative; overflow: hidden; display: block; transition: background 200ms linear; text-decoration: none; }
+.mega-prog-bg { object-fit: cover; object-position: center; opacity: 0; filter: grayscale(100%); transition: opacity 400ms linear, filter 400ms linear; }
+.mega-prog-card:hover .mega-prog-bg { opacity: 0.12; filter: grayscale(60%); }
 .mega-prog-card:hover { background: var(--surface-high); }
 .mega-prog-card::after { content: ''; position: absolute; bottom: -24px; right: -24px; width: 80px; height: 80px; background: radial-gradient(circle, rgba(200,75,49,0.1) 0%, transparent 70%); pointer-events: none; }
 .mega-prog-icon { width: 26px; height: 26px; color: var(--primary); margin-bottom: 1rem; }
@@ -221,9 +225,8 @@ h1, h2, h3, h4, h5 {
 /* Panel: Destinations */
 .mega-dest-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: .85rem; }
 .mega-dest-card { display: block; position: relative; overflow: hidden; aspect-ratio: 16 / 7; text-decoration: none; }
-.mega-dest-bg { position: absolute; inset: 0; background: repeating-linear-gradient(-45deg, transparent 0, transparent 22px, rgba(200,75,49,0.06) 22px, rgba(200,75,49,0.06) 23px), #1a1815; transition: transform 400ms var(--ease-out-expo); }
-.mega-dest-bg--alt { background: repeating-linear-gradient(-45deg, transparent 0, transparent 22px, rgba(200,75,49,0.04) 22px, rgba(200,75,49,0.04) 23px), #1c1a17; }
-.mega-dest-card:hover .mega-dest-bg { transform: scale(1.04); }
+.mega-dest-img { object-fit: cover; object-position: center; filter: grayscale(60%) brightness(0.55); transition: transform 400ms var(--ease-out-expo), filter 400ms linear; }
+.mega-dest-card:hover .mega-dest-img { transform: scale(1.04); filter: grayscale(30%) brightness(0.6); }
 .mega-dest-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(7,7,5,0.92) 0%, rgba(7,7,5,0.28) 55%, transparent 100%); }
 .mega-dest-content { position: absolute; bottom: 0; left: 0; right: 0; padding: 1.4rem 1.6rem; }
 .mega-dest-region { display: block; font-family: var(--font-barlow-condensed), sans-serif; font-weight: 700; font-size: .56rem; letter-spacing: .3em; text-transform: uppercase; color: var(--primary); margin-bottom: .3rem; }
@@ -239,6 +242,7 @@ h1, h2, h3, h4, h5 {
 .mega-infos-grid { display: grid; grid-template-columns: 1fr 1fr 1.3fr; gap: 3.5rem; }
 .mega-infos-col-label { display: block; font-family: var(--font-barlow-condensed), sans-serif; font-weight: 700; font-size: .58rem; letter-spacing: .28em; text-transform: uppercase; color: var(--primary); margin-bottom: .9rem; }
 .mega-testi { background: var(--surface); padding: 1.6rem 1.5rem; position: relative; overflow: hidden; }
+.mega-testi-avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; filter: grayscale(100%); position: relative; z-index: 1; margin-bottom: .6rem; border: 1.5px solid rgba(200,75,49,0.3); }
 .mega-testi::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 100% 0%, rgba(200,75,49,0.1) 0%, transparent 55%); }
 .mega-testi-quote-mark { font-family: var(--font-teko), sans-serif; font-size: 3.5rem; color: var(--primary); line-height: .6; display: block; margin-bottom: .7rem; position: relative; z-index: 1; }
 .mega-testi-quote { font-size: .84rem; line-height: 1.7; color: var(--text-secondary); font-style: italic; margin-bottom: 1rem; position: relative; z-index: 1; }
@@ -3446,12 +3450,12 @@ h1, h2, h3, h4, h5 {
     repeating-linear-gradient(
       -45deg,
       transparent 0px, transparent 22px,
-      rgba(200,75,49,0.04) 22px, rgba(200,75,49,0.04) 23px
+      rgba(200,75,49,0.05) 22px, rgba(200,75,49,0.05) 23px
     ),
     repeating-linear-gradient(
       45deg,
       transparent 0px, transparent 22px,
-      rgba(200,75,49,0.02) 22px, rgba(200,75,49,0.02) 23px
+      rgba(200,75,49,0.025) 22px, rgba(200,75,49,0.025) 23px
     );
   pointer-events: none;
   z-index: 0;
@@ -3460,7 +3464,7 @@ h1, h2, h3, h4, h5 {
 /* Contact — ajout texture + crosshatch */
 #contact {
   background:
-    linear-gradient(rgba(26,26,24,0.94), rgba(26,26,24,0.94)),
+    linear-gradient(rgba(26,26,24,0.88), rgba(26,26,24,0.88)),
     url("/images/textures/concrete-soviet.webp") center / cover fixed;
 }
 #contact::before {
@@ -3471,21 +3475,18 @@ h1, h2, h3, h4, h5 {
     repeating-linear-gradient(
       -45deg,
       transparent 0px, transparent 22px,
-      rgba(200,75,49,0.04) 22px, rgba(200,75,49,0.04) 23px
+      rgba(200,75,49,0.05) 22px, rgba(200,75,49,0.05) 23px
     ),
     repeating-linear-gradient(
       45deg,
       transparent 0px, transparent 22px,
-      rgba(200,75,49,0.02) 22px, rgba(200,75,49,0.02) 23px
+      rgba(200,75,49,0.025) 22px, rgba(200,75,49,0.025) 23px
     );
   pointer-events: none;
   z-index: 0;
 }
 
-/* ── Breathing glow animation — all section glows ── */
-.video-glow,
-.testimonials-glow,
-.cta-glow,
+/* ── Breathing glow animation — new section glows ── */
 .coaches-glow,
 .contact-glow,
 .faq-glow {
@@ -3500,7 +3501,7 @@ h1, h2, h3, h4, h5 {
   transform: translateX(-50%);
   width: 65%;
   height: 55%;
-  background: radial-gradient(ellipse at 50% 50%, rgba(200,75,49,0.08) 0%, transparent 70%);
+  background: radial-gradient(ellipse at 50% 50%, rgba(200,75,49,0.14) 0%, transparent 70%);
   pointer-events: none;
   z-index: 0;
 }
@@ -3511,7 +3512,7 @@ h1, h2, h3, h4, h5 {
   left: 30%;
   width: 50%;
   height: 60%;
-  background: radial-gradient(ellipse at 50% 50%, rgba(200,75,49,0.07) 0%, transparent 70%);
+  background: radial-gradient(ellipse at 50% 50%, rgba(200,75,49,0.12) 0%, transparent 70%);
   pointer-events: none;
   z-index: 0;
 }
@@ -3522,15 +3523,15 @@ h1, h2, h3, h4, h5 {
   left: 55%;
   width: 50%;
   height: 50%;
-  background: radial-gradient(ellipse at 50% 50%, rgba(200,75,49,0.06) 0%, transparent 70%);
+  background: radial-gradient(ellipse at 50% 50%, rgba(200,75,49,0.11) 0%, transparent 70%);
   pointer-events: none;
   z-index: 0;
 }
 
 /* ── Scroll-reveal clip-path for images ── */
 .reveal-clip {
-  clip-path: inset(12%);
-  transition: clip-path 1.2s var(--ease-out-expo);
+  clip-path: inset(15% 8% 15% 8%);
+  transition: clip-path 1.4s var(--ease-out-expo);
   overflow: hidden;
 }
 .reveal-clip.visible {
@@ -3538,12 +3539,17 @@ h1, h2, h3, h4, h5 {
 }
 .reveal-clip img,
 .reveal-clip .coach-photo-placeholder {
-  transform: scale(1.1);
-  transition: transform 1.6s var(--ease-out-expo);
+  transform: scale(1.12);
+  transition: transform 1.8s var(--ease-out-expo);
 }
 .reveal-clip.visible img,
 .reveal-clip.visible .coach-photo-placeholder {
   transform: scale(1);
+}
+@media (max-width: 768px) {
+  .reveal-clip { clip-path: none; }
+  .reveal-clip img,
+  .reveal-clip .coach-photo-placeholder { transform: none; }
 }
 
 /* Mobile — disable contact texture parallax */
