@@ -432,9 +432,12 @@ h1, h2, h3, h4, h5 {
   text-shadow: 0 4px 40px rgba(0,0,0,0.85);
   max-width: 1000px;
 }
-@media (min-width: 1024px) {
-  /* Garantit 3 lignes max -chaque segment ne wrapp pas */
+@media (min-width: 1500px) {
+  /* Garantit 3 lignes max -chaque segment ne wrapp pas (only on wide screens) */
   .hero-h1 { white-space: nowrap; }
+}
+@media (min-width: 1024px) and (max-width: 1499px) {
+  .hero-h1 { font-size: clamp(3rem, 6.5vw, 6.5rem); max-width: calc(100vw - 520px); }
 }
 .hero-h1 .highlight { color: var(--primary); }
 .hero-subtitle {
@@ -575,7 +578,7 @@ h1, h2, h3, h4, h5 {
   gap: 0.6rem;
 }
 .hero-camps-card {
-  width: 364px;
+  width: min(364px, calc(100vw - 4rem));
   background: rgba(14,14,14,0.65);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
@@ -672,11 +675,6 @@ h1, h2, h3, h4, h5 {
   background: var(--primary);
 }
 
-@media (max-width: 480px) {
-  .hero-content { padding-top: clamp(5.5rem, 12vh, 8rem); padding-left: 1.5rem; padding-right: 1.5rem; padding-bottom: 1.5rem; }
-  .hero-stats { gap: 1.5rem; }
-  .scroll-indicator { display: none; }
-}
 @media (max-width: 768px) {
   .hero-camps {
     top: auto;
@@ -687,6 +685,11 @@ h1, h2, h3, h4, h5 {
   }
   .hero-camps-card { width: 100%; }
   .hero-camps-dots { justify-content: center; }
+}
+@media (max-width: 480px) {
+  .hero-content { padding-top: clamp(5.5rem, 12vh, 8rem); padding-left: 1.5rem; padding-right: 1.5rem; padding-bottom: 1.5rem; }
+  .hero-stats { gap: 1.5rem; }
+  .scroll-indicator { display: none; }
 }
 
 /* ═══════════════════════════════════════════════
@@ -812,6 +815,9 @@ h1, h2, h3, h4, h5 {
   text-transform: uppercase;
   color: var(--text-muted);
 }
+@media (max-width: 768px) {
+  .video-thumbs { grid-template-columns: repeat(2, 1fr); }
+}
 @media (max-width: 480px) {
   .video-thumbs { grid-template-columns: 1fr; }
 }
@@ -868,7 +874,7 @@ h1, h2, h3, h4, h5 {
 }
 .bento-card {
   background: var(--surface);
-  padding: 2.5rem 2.2rem;
+  padding: clamp(1.5rem, 4vw, 2.5rem) clamp(1.3rem, 3.5vw, 2.2rem);
   position: relative;
   overflow: hidden;
 }
@@ -2077,6 +2083,15 @@ h1, h2, h3, h4, h5 {
   text-align: center;
 }
 .cand-step.active .cand-step-label { color: var(--text-primary); }
+@media (max-width: 600px) {
+  .cand-progress { gap: 0; }
+  .cand-step-label { font-size: 0.5rem; letter-spacing: 0.06em; }
+  .cand-step-dot { width: 26px; height: 26px; font-size: 0.75rem; }
+  .cand-step:not(:last-child)::after { top: 13px; left: calc(50% + 14px); right: calc(-50% + 14px); }
+}
+@media (max-width: 400px) {
+  .cand-step-label { display: none; }
+}
 
 /* Form container */
 .cand-form {
@@ -3638,7 +3653,7 @@ h1, h2, h3, h4, h5 {
   .dest-reveal-container { padding: 0 1.5rem; }
   .dest-reveal-content { max-width: 100%; }
   .dest-reveal-content h2 { font-size: 2.4rem; }
-  .dest-reveal-facts { grid-template-columns: repeat(3, 1fr); gap: 0.5rem 1rem; }
+  .dest-reveal-facts { grid-template-columns: repeat(2, 1fr); gap: 0.5rem 1rem; }
   .dest-reveal-fact-value { font-size: 1.1rem; }
 }
 
@@ -3984,7 +3999,8 @@ h1, h2, h3, h4, h5 {
   grid-template-columns: repeat(3, 1fr);
   gap: 1.25rem;
 }
-@media (max-width: 900px) { .grid-3 { grid-template-columns: 1fr; } }
+@media (max-width: 900px) { .grid-3 { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px) { .grid-3 { grid-template-columns: 1fr; } }
 
 .grid-3x2 {
   display: grid;
@@ -4747,6 +4763,12 @@ h1, h2, h3, h4, h5 {
   font-size: 0.85rem;
   line-height: 1.55;
 }
+@media (max-width: 768px) {
+  .process-step { min-width: 75vw; max-width: 80vw; }
+}
+@media (max-width: 480px) {
+  .process-step { min-width: 85vw; max-width: 90vw; }
+}
 
 /* ─── LE CAMP PAGE ─── */
 .camp-section {
@@ -4805,6 +4827,12 @@ h1, h2, h3, h4, h5 {
   color: var(--text-secondary);
   font-size: 0.8rem;
   line-height: 1.5;
+}
+@media (max-width: 768px) {
+  .daily-step { min-width: 75vw; max-width: 80vw; }
+}
+@media (max-width: 480px) {
+  .daily-step { min-width: 85vw; max-width: 90vw; }
 }
 
 /* ─── DESTINATIONS HUB ─── */
@@ -5105,7 +5133,7 @@ h1, h2, h3, h4, h5 {
   margin-bottom: 1.25rem;
 }
 @media (max-width: 900px) { .galerie-grid { columns: 2; } }
-@media (max-width: 500px) { .galerie-grid { columns: 1; } }
+@media (max-width: 480px) { .galerie-grid { columns: 1; } }
 
 /* ─── CONTACT PAGE ─── */
 .contact-page-section {
