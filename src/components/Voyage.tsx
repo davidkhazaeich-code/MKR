@@ -40,7 +40,7 @@ export default function Voyage() {
         {/* Carte interactive — zoom sur la zone Europe/Caucase */}
         <div className="voyage-map-wrap reveal">
           <div className="voyage-map-zoom">
-            <WorldMap dots={ROUTES} lineColor="#C84B31" mapBg="transparent" />
+            <WorldMap dots={ROUTES} lineColor="#C84B31" />
           </div>
         </div>
 

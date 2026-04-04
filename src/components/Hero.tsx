@@ -226,16 +226,27 @@ export default function Hero() {
       mtnEls[id] = document.getElementById(id)
     })
 
+    const heroEl = document.getElementById('hero')
+    const heroContent = document.querySelector('.hero-content') as HTMLElement | null
+
     let ticking = false
     let scrollY = 0
 
     function updateParallax() {
+      // Montagnes — parallax normal
       Object.keys(MTN_SPEEDS).forEach(id => {
         const el = mtnEls[id]
         if (!el) return
-        // scaleX(-1) est sur le parent wrap — les layers n'ont besoin que du translateY
         el.style.transform = `translateY(${scrollY * MTN_SPEEDS[id]}px)`
       })
+
+      // Texte — épinglé (suit le scroll = apparaît fixe) jusqu'à 150px avant la fin du hero
+      if (heroContent && heroEl) {
+        const stopPoint = heroEl.offsetHeight - 150
+        const clampedY = Math.min(scrollY, stopPoint)
+        heroContent.style.transform = `translateY(${clampedY}px)`
+      }
+
       ticking = false
     }
 

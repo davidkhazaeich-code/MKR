@@ -46,13 +46,14 @@ export default function VoyageReveal() {
           className="voyage-reveal-map"
           style={{ scale: mapScale, transformOrigin: '50% 26%' }}
         >
-          <WorldMap dots={ROUTES} lineColor="#C84B31" mapBg="transparent" loop animationDuration={2.2} />
+          <WorldMap dots={ROUTES} lineColor="#C84B31" loop animationDuration={2.2} />
         </motion.div>
 
         {/* Overlay gradient sombre pour lisibilité */}
         <div className="voyage-reveal-overlay" aria-hidden="true" />
 
-        {/* Texte overlay */}
+        {/* Texte overlay — container centré max-width site */}
+        <div className="voyage-reveal-container">
         <motion.div
           className="voyage-reveal-content"
           style={{ opacity: textOpacity, y: textY }}
@@ -82,6 +83,7 @@ export default function VoyageReveal() {
             </div>
           </div>
         </motion.div>
+        </div>
       </motion.div>
     </div>
   )
