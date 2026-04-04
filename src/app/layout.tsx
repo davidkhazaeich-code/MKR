@@ -37,6 +37,8 @@ export const metadata: Metadata = {
   title: META_TITLE,
   description: META_DESC,
   metadataBase: new URL(SITE_URL),
+  // TODO: remove robots block when ready to go live
+  robots: { index: false, follow: false, googleBot: { index: false, follow: false } },
   alternates: { canonical: `${SITE_URL}/` },
   openGraph: {
     type: 'website',

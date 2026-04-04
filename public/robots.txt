@@ -1,6 +1,10 @@
-User-agent: *
-Allow: /
-Disallow: /inscription
-Disallow: /merci
+# TEMPORARY: block all indexing until site is ready to launch
+# TODO: restore original robots.txt when going live:
+#   User-agent: *
+#   Allow: /
+#   Disallow: /inscription
+#   Disallow: /merci
+#   Sitemap: https://mkrcaucasiancamp.com/sitemap.xml
 
-Sitemap: https://mkrcaucasiancamp.com/sitemap.xml
+User-agent: *
+Disallow: /
