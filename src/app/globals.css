@@ -2000,34 +2000,30 @@ h1, h2, h3, h4, h5 {
   transform-origin: 56% 25%;
 }
 
-/* Overlay sombre pour contraste texte */
+/* Overlay — couvre le bas + bord gauche pour lisibilité texte */
 .voyage-reveal-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    to right,
-    rgba(8,8,6,0.88) 0%,
-    rgba(8,8,6,0.72) 40%,
-    rgba(8,8,6,0.18) 75%,
-    rgba(8,8,6,0.05) 100%
-  );
+  background:
+    linear-gradient(to top, rgba(8,8,6,0.92) 0%, rgba(8,8,6,0.55) 35%, transparent 65%),
+    linear-gradient(to right, rgba(8,8,6,0.6) 0%, transparent 55%);
 }
 
-/* Container centré — même max-width que le reste du site */
+/* Container bas-gauche — même max-width que le reste du site */
 .voyage-reveal-container {
   position: absolute;
-  top: 50%;
+  bottom: 3.5rem;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translateX(-50%);
   width: 100%;
   max-width: 1200px;
   padding: 0 2rem;
   z-index: 10;
 }
 
-/* Contenu texte — aligné à gauche dans le container */
+/* Contenu texte */
 .voyage-reveal-content {
-  max-width: 560px;
+  max-width: 520px;
 }
 .voyage-reveal-content .label-tag {
   display: block;
@@ -2065,6 +2061,27 @@ h1, h2, h3, h4, h5 {
   color: var(--primary);
   font-weight: 700;
   flex-shrink: 0;
+}
+
+/* Étiquettes de réassurance */
+.voyage-reveal-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+}
+.voyage-badge {
+  font-family: var(--font-barlow-condensed), sans-serif;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  border: 1px solid rgba(248,248,248,0.14);
+  padding: 0.3rem 0.7rem;
+  background: rgba(14,14,14,0.55);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
 }
 
 @media (max-width: 768px) {

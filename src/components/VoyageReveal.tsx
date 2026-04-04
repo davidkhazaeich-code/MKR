@@ -52,37 +52,41 @@ export default function VoyageReveal() {
         {/* Overlay gradient sombre pour lisibilité */}
         <div className="voyage-reveal-overlay" aria-hidden="true" />
 
-        {/* Texte overlay — container centré max-width site */}
+        {/* Texte — coin bas gauche, dans le container max-width du site */}
         <div className="voyage-reveal-container">
-        <motion.div
-          className="voyage-reveal-content"
-          style={{ opacity: textOpacity, y: textY }}
-        >
-          <span className="label-tag">COMMENT Y ALLER</span>
-          <h2>
-            LE CHEMIN<br />
-            VERS LE <span className="highlight">CAUCASE</span>
-          </h2>
-          <p>
-            Genève ou Montréal — une connexion via Istanbul,
-            puis l&apos;envol final vers le cœur du Dagestan.
-          </p>
+          <motion.div
+            className="voyage-reveal-content"
+            style={{ opacity: textOpacity, y: textY }}
+          >
+            <span className="label-tag">COMMENT Y ALLER</span>
+            <h2>
+              LE CHEMIN<br />
+              VERS LE <span className="highlight">CAUCASE</span>
+            </h2>
 
-          <div className="voyage-reveal-steps">
-            <div className="voyage-reveal-step">
-              <span className="voyage-reveal-num">01</span>
-              <span>Genève ou Montréal → Istanbul</span>
+            <div className="voyage-reveal-steps">
+              <div className="voyage-reveal-step">
+                <span className="voyage-reveal-num">01</span>
+                <span>Genève ou Montréal → Istanbul</span>
+              </div>
+              <div className="voyage-reveal-step">
+                <span className="voyage-reveal-num">02</span>
+                <span>Istanbul → Makhachkala (2h30)</span>
+              </div>
+              <div className="voyage-reveal-step">
+                <span className="voyage-reveal-num">03</span>
+                <span>Transfert au camp</span>
+              </div>
             </div>
-            <div className="voyage-reveal-step">
-              <span className="voyage-reveal-num">02</span>
-              <span>Istanbul → Makhachkala (2h30)</span>
+
+            {/* Étiquettes de réassurance */}
+            <div className="voyage-reveal-badges">
+              <span className="voyage-badge">VISA ASSISTÉ</span>
+              <span className="voyage-badge">GROUPE ENCADRÉ</span>
+              <span className="voyage-badge">TRANSFERTS INCLUS</span>
+              <span className="voyage-badge">DESTINATION SÉCURISÉE</span>
             </div>
-            <div className="voyage-reveal-step">
-              <span className="voyage-reveal-num">03</span>
-              <span>Transfert au camp — le voyage commence</span>
-            </div>
-          </div>
-        </motion.div>
+          </motion.div>
         </div>
       </motion.div>
     </div>
