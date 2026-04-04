@@ -27,7 +27,7 @@ export default function VoyageReveal() {
   const clipPath = useMotionTemplate`polygon(${clipP}% ${clipP}%, ${clipQ}% ${clipP}%, ${clipQ}% ${clipQ}%, ${clipP}% ${clipQ}%)`
 
   // Dézoom carte du 140% au 100% pendant le reveal
-  const mapScale = useTransform(scrollYProgress, [0, 1], [1.6, 1])
+  const mapScale = useTransform(scrollYProgress, [0, 1], [1.25, 1])
 
   // Texte : apparaît quand le reveal est à 60%+
   const textOpacity = useTransform(scrollYProgress, [0.5, 1], [0, 1])
