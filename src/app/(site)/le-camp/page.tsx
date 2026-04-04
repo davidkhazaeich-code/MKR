@@ -191,7 +191,7 @@ export default function LeCampPage() {
       </section>
 
       {/* Journee type */}
-      <section id="journee-type" className="camp-section fx-texture-basalt fx-mask-b fx-stack-4">
+      <section id="journee-type" className="camp-section fx-texture-concrete fx-mask-b fx-stack-4">
         <div className="inner">
           <div className="logi-header reveal">
             <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>24 HEURES</span>
