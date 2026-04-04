@@ -7,7 +7,7 @@ import { WorldMap } from '@/components/WorldMap'
 const ROUTES = [
   { start: { lat: 46.2044, lng: 6.1432,   label: 'Genève'   }, end: { lat: 41.0082, lng: 28.9784, label: 'Istanbul' } },
   { start: { lat: 45.5017, lng: -73.5673, label: 'Montréal' }, end: { lat: 41.0082, lng: 28.9784, label: 'Istanbul' } },
-  { start: { lat: 41.0082, lng: 28.9784,  label: 'Istanbul' }, end: { lat: 42.9849, lng: 47.5047, label: 'Dagestan' }, color: '#2ECC71' },
+  { start: { lat: 41.0082, lng: 28.9784,  label: 'Istanbul' }, end: { lat: 42.9849, lng: 47.5047, label: 'Dagestan' }, color: '#2ECC71', routeLabel: 'TRAJET SÉCURISÉ' },
 ]
 
 const SCROLL_HEIGHT = 1400
@@ -26,7 +26,7 @@ export default function VoyageReveal() {
   const clipPath = useMotionTemplate`polygon(${clipP}% ${clipP}%, ${clipQ}% ${clipP}%, ${clipQ}% ${clipQ}%, ${clipP}% ${clipQ}%)`
 
   // Dézoom carte du 125% au 100% pendant le reveal
-  const mapScale = useTransform(scrollYProgress, [0, 1], [1.25, 1])
+  const mapScale = useTransform(scrollYProgress, [0, 1], [1.8, 1.35])
 
   // Texte : apparaît quand le reveal est à 50%+
   const textOpacity = useTransform(scrollYProgress, [0.5, 1], [0, 1])
@@ -45,7 +45,7 @@ export default function VoyageReveal() {
         {/* Carte en background zoomée */}
         <motion.div
           className="voyage-reveal-map"
-          style={{ scale: mapScale, transformOrigin: '50% 26%' }}
+          style={{ scale: mapScale, transformOrigin: '58% 26%' }}
         >
           <WorldMap dots={ROUTES} lineColor="#C84B31" loop animationDuration={2.2} />
         </motion.div>

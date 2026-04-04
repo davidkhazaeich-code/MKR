@@ -9,6 +9,7 @@ interface MapDot {
   start: { lat: number; lng: number; label?: string }
   end: { lat: number; lng: number; label?: string }
   color?: string
+  routeLabel?: string
 }
 
 interface WorldMapProps {
@@ -160,7 +161,9 @@ export function WorldMap({
         {dots.map((dot, i) => {
           const startPoint = projectPoint(dot.start.lat, dot.start.lng)
           const endPoint = projectPoint(dot.end.lat, dot.end.lng)
-          const c = dot.color || lineColor
+          const endColor = dot.color || lineColor
+          const midX = (startPoint.x + endPoint.x) / 2
+          const midY = Math.min(startPoint.y, endPoint.y) - 55
 
           return (
             <g key={`pts-${i}`}>
@@ -172,8 +175,8 @@ export function WorldMap({
                 transition={{ type: 'spring', stiffness: 400, damping: 10 }}
                 style={{ cursor: 'pointer' }}
               >
-                <circle cx={startPoint.x} cy={startPoint.y} r="3" fill={c} filter="url(#glow)" />
-                <circle cx={startPoint.x} cy={startPoint.y} r="3" fill={c} opacity="0.45">
+                <circle cx={startPoint.x} cy={startPoint.y} r="3" fill={lineColor} filter="url(#glow)" />
+                <circle cx={startPoint.x} cy={startPoint.y} r="3" fill={lineColor} opacity="0.45">
                   <animate attributeName="r" from="3" to="11" dur="2s" begin="0s" repeatCount="indefinite" />
                   <animate attributeName="opacity" from="0.5" to="0" dur="2s" begin="0s" repeatCount="indefinite" />
                 </circle>
@@ -193,6 +196,22 @@ export function WorldMap({
                 </motion.g>
               )}
 
+              {/* Route label above arc */}
+              {dot.routeLabel && (
+                <motion.g
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.5 * i + 0.8, duration: 0.6 }}
+                  style={{ pointerEvents: 'none' }}
+                >
+                  <foreignObject x={midX - 55} y={midY - 24} width="110" height="22">
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
+                      <span className="map-route-label" style={{ color: endColor }}>{dot.routeLabel}</span>
+                    </div>
+                  </foreignObject>
+                </motion.g>
+              )}
+
               {/* End */}
               <motion.g
                 onHoverStart={() => setHoveredLocation(dot.end.label ?? null)}
@@ -201,8 +220,8 @@ export function WorldMap({
                 transition={{ type: 'spring', stiffness: 400, damping: 10 }}
                 style={{ cursor: 'pointer' }}
               >
-                <circle cx={endPoint.x} cy={endPoint.y} r="3" fill={c} filter="url(#glow)" />
-                <circle cx={endPoint.x} cy={endPoint.y} r="3" fill={c} opacity="0.45">
+                <circle cx={endPoint.x} cy={endPoint.y} r="3" fill={endColor} filter="url(#glow)" />
+                <circle cx={endPoint.x} cy={endPoint.y} r="3" fill={endColor} opacity="0.45">
                   <animate attributeName="r" from="3" to="11" dur="2s" begin="0.5s" repeatCount="indefinite" />
                   <animate attributeName="opacity" from="0.5" to="0" dur="2s" begin="0.5s" repeatCount="indefinite" />
                 </circle>
