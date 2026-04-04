@@ -139,11 +139,6 @@ export default function Nav() {
   return (
     <>
       <header id="site-header">
-        <div
-          className="scroll-progress"
-          style={{ transform: `scaleX(${scrollProgress})` }}
-          aria-hidden="true"
-        />
         <nav id="nav" className={scrolled ? 'is-scrolled' : ''} aria-label="Navigation principale">
           <div className="nav-inner">
 
@@ -191,6 +186,11 @@ export default function Nav() {
 
           </div>
         </nav>
+        <div
+          className="scroll-progress"
+          style={{ transform: `scaleX(${scrollProgress})` }}
+          aria-hidden="true"
+        />
       </header>
 
       {/* ══ MEGA PANELS ══ */}
