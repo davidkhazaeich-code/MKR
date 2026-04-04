@@ -7,7 +7,6 @@ import Coaches from '@/components/Coaches'
 import Sessions from '@/components/Sessions'
 import Timeline from '@/components/Timeline'
 import Testimonials from '@/components/Testimonials'
-import Voyage from '@/components/Voyage'
 import VoyageReveal from '@/components/VoyageReveal'
 import Contact from '@/components/Contact'
 import FAQ from '@/components/FAQ'
@@ -82,16 +81,6 @@ export default function Home() {
         />
 
         <Testimonials />
-
-        {/* Mountain divider: testimonials -> voyage (next bg: surface #1A1A18) */}
-        <MtnDivider
-          bgColor="#131313"
-          fillColor="#1A1A18"
-          viewBox="0 0 1440 70"
-          points="0,70 0,48 70,35 145,50 225,28 300,46 365,18 420,36 470,10 510,28 548,4 572,22 595,0 618,18 640,4 665,20 690,6 718,24 748,10 782,30 822,14 870,38 922,20 980,44 1042,28 1105,50 1165,34 1225,56 1285,40 1348,60 1400,46 1440,58 1440,70"
-        />
-
-        <Voyage />
 
         <VoyageReveal />
 
