@@ -8,6 +8,7 @@ import Image from 'next/image'
 interface MapDot {
   start: { lat: number; lng: number; label?: string }
   end: { lat: number; lng: number; label?: string }
+  color?: string
 }
 
 interface WorldMapProps {
@@ -79,12 +80,17 @@ export function WorldMap({
         preserveAspectRatio="xMidYMid meet"
       >
         <defs>
-          <linearGradient id="path-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="white" stopOpacity="0" />
-            <stop offset="5%" stopColor={lineColor} stopOpacity="1" />
-            <stop offset="95%" stopColor={lineColor} stopOpacity="1" />
-            <stop offset="100%" stopColor="white" stopOpacity="0" />
-          </linearGradient>
+          {dots.map((dot, i) => {
+            const c = dot.color || lineColor
+            return (
+              <linearGradient key={`grad-${i}`} id={`path-gradient-${i}`} x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="white" stopOpacity="0" />
+                <stop offset="5%" stopColor={c} stopOpacity="1" />
+                <stop offset="95%" stopColor={c} stopOpacity="1" />
+                <stop offset="100%" stopColor="white" stopOpacity="0" />
+              </linearGradient>
+            )
+          })}
           <filter id="glow">
             <feMorphology operator="dilate" radius="0.5" />
             <feGaussianBlur stdDeviation="1.5" result="coloredBlur" />
@@ -105,12 +111,14 @@ export function WorldMap({
           const endTime = (i * staggerDelay + animationDuration) / fullCycleDuration
           const resetTime = totalAnimationTime / fullCycleDuration
 
+          const dotColor = dot.color || lineColor
+
           return (
             <g key={`path-${i}`}>
               <motion.path
                 d={pathD}
                 fill="none"
-                stroke="url(#path-gradient)"
+                stroke={`url(#path-gradient-${i})`}
                 strokeWidth="1.2"
                 initial={{ pathLength: 0 }}
                 animate={loop ? { pathLength: [0, 0, 1, 1, 0] } : { pathLength: 1 }}
@@ -128,7 +136,7 @@ export function WorldMap({
               {loop && (
                 <motion.circle
                   r="3.5"
-                  fill={lineColor}
+                  fill={dotColor}
                   filter="url(#glow)"
                   initial={{ offsetDistance: '0%', opacity: 0 }}
                   animate={{
@@ -152,6 +160,7 @@ export function WorldMap({
         {dots.map((dot, i) => {
           const startPoint = projectPoint(dot.start.lat, dot.start.lng)
           const endPoint = projectPoint(dot.end.lat, dot.end.lng)
+          const c = dot.color || lineColor
 
           return (
             <g key={`pts-${i}`}>
@@ -163,8 +172,8 @@ export function WorldMap({
                 transition={{ type: 'spring', stiffness: 400, damping: 10 }}
                 style={{ cursor: 'pointer' }}
               >
-                <circle cx={startPoint.x} cy={startPoint.y} r="3" fill={lineColor} filter="url(#glow)" />
-                <circle cx={startPoint.x} cy={startPoint.y} r="3" fill={lineColor} opacity="0.45">
+                <circle cx={startPoint.x} cy={startPoint.y} r="3" fill={c} filter="url(#glow)" />
+                <circle cx={startPoint.x} cy={startPoint.y} r="3" fill={c} opacity="0.45">
                   <animate attributeName="r" from="3" to="11" dur="2s" begin="0s" repeatCount="indefinite" />
                   <animate attributeName="opacity" from="0.5" to="0" dur="2s" begin="0s" repeatCount="indefinite" />
                 </circle>
@@ -192,8 +201,8 @@ export function WorldMap({
                 transition={{ type: 'spring', stiffness: 400, damping: 10 }}
                 style={{ cursor: 'pointer' }}
               >
-                <circle cx={endPoint.x} cy={endPoint.y} r="3" fill={lineColor} filter="url(#glow)" />
-                <circle cx={endPoint.x} cy={endPoint.y} r="3" fill={lineColor} opacity="0.45">
+                <circle cx={endPoint.x} cy={endPoint.y} r="3" fill={c} filter="url(#glow)" />
+                <circle cx={endPoint.x} cy={endPoint.y} r="3" fill={c} opacity="0.45">
                   <animate attributeName="r" from="3" to="11" dur="2s" begin="0.5s" repeatCount="indefinite" />
                   <animate attributeName="opacity" from="0.5" to="0" dur="2s" begin="0.5s" repeatCount="indefinite" />
                 </circle>

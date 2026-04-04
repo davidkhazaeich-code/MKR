@@ -7,7 +7,7 @@ import { WorldMap } from '@/components/WorldMap'
 const ROUTES = [
   { start: { lat: 46.2044, lng: 6.1432,   label: 'Genève'   }, end: { lat: 41.0082, lng: 28.9784, label: 'Istanbul' } },
   { start: { lat: 45.5017, lng: -73.5673, label: 'Montréal' }, end: { lat: 41.0082, lng: 28.9784, label: 'Istanbul' } },
-  { start: { lat: 41.0082, lng: 28.9784,  label: 'Istanbul' }, end: { lat: 42.9849, lng: 47.5047, label: 'Dagestan' } },
+  { start: { lat: 41.0082, lng: 28.9784,  label: 'Istanbul' }, end: { lat: 42.9849, lng: 47.5047, label: 'Dagestan' }, color: '#2ECC71' },
 ]
 
 const SCROLL_HEIGHT = 1400
@@ -85,7 +85,7 @@ export default function VoyageReveal() {
               <span className="voyage-badge">VISA ASSISTÉ</span>
               <span className="voyage-badge">GROUPE ENCADRÉ</span>
               <span className="voyage-badge">TRANSFERTS INCLUS</span>
-              <span className="voyage-badge">DESTINATION SÉCURISÉE</span>
+              <span className="voyage-badge voyage-badge--green">DESTINATION SÉCURISÉE</span>
             </div>
           </motion.div>
         </div>
