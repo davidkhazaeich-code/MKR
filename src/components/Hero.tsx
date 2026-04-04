@@ -209,6 +209,8 @@ export default function Hero() {
   // ── Parallax mountains ────────────────────────────────────
   useEffect(() => {
     const MTN_SPEEDS: Record<string, number> = {
+      mtn8: 0.42,
+      mtn7: 0.35,
       mtn6: 0.28,
       mtn5: 0.22,
       mtn4: 0.16,
@@ -267,8 +269,68 @@ export default function Hero() {
       {/* Summit Mountain Glow */}
       <div className="summit-glow" aria-hidden="true"></div>
 
-      {/* Mountains — 6-layer SVG parallax */}
+      {/* Mountains — 8-layer SVG parallax */}
       <div className="mountains-wrap" aria-hidden="true" id="mtn-wrap">
+
+        {/* Layer 8 — géante, collée à droite, tout en arrière-plan */}
+        <div className="mtn-layer" id="mtn8">
+          <svg viewBox="0 0 1440 520" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
+            {/* Corps — masse colossale, pic à gauche SVG = droite visuelle après scaleX(-1) */}
+            <polygon fill="#080705" points="
+              0,520 0,460 8,390 18,310 32,228 52,148 76,78
+              96,26 110,4 124,26 148,72 188,132 246,200
+              328,272 436,344 572,408 740,460 950,492
+              1200,510 1440,518 1440,520
+            " />
+            {/* Calotte neigeuse — sommet imposant */}
+            <polygon fill="rgba(240,236,228,0.28)" points="
+              88,50 96,26 110,4 124,26 148,72 168,104
+              158,118 142,110 126,118 110,122
+              96,116 84,106 78,84
+            " />
+            {/* Arête secondaire haute */}
+            <polygon fill="rgba(240,236,228,0.16)" points="
+              60,120 68,98 82,82 90,92 78,114
+            " />
+            {/* Arête tertiaire */}
+            <polygon fill="rgba(240,236,228,0.10)" points="
+              165,160 176,142 190,128 198,140 184,158
+            " />
+          </svg>
+        </div>
+
+        {/* Layer 7 — grande montagne sombre tout à droite, arrière-plan */}
+        <div className="mtn-layer" id="mtn7">
+          <svg viewBox="0 0 1440 500" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
+            {/* Corps — masse imposante ancrée à droite */}
+            <polygon fill="#0e0c0a" points="
+              860,500 880,480 905,455 935,425 968,392 1004,356
+              1042,318 1082,278 1122,238 1158,200 1188,166
+              1212,136 1228,112 1238,94 1244,80 1248,68
+              1252,56 1255,46 1258,36 1260,26 1262,16
+              1264,8 1266,2 1268,8 1270,18 1273,30
+              1276,44 1280,60 1285,78 1292,98 1300,120
+              1310,144 1322,170 1336,196 1352,222 1368,248
+              1385,272 1400,292 1415,312 1428,330
+              1440,346 1440,500
+            " />
+            {/* Calotte neigeuse — sommet bien enneigé */}
+            <polygon fill="rgba(240,236,228,0.32)" points="
+              1248,68 1252,56 1255,46 1258,36 1260,26
+              1262,16 1264,8 1266,2 1268,8 1270,18
+              1273,30 1276,44 1280,60 1285,78
+              1276,88 1266,96 1256,92 1246,84
+            " />
+            {/* Arête de neige secondaire gauche */}
+            <polygon fill="rgba(240,236,228,0.18)" points="
+              1212,136 1220,120 1232,108 1238,116 1226,132
+            " />
+            {/* Arête secondaire droite */}
+            <polygon fill="rgba(240,236,228,0.14)" points="
+              1310,144 1300,130 1312,118 1322,128 1316,148
+            " />
+          </svg>
+        </div>
 
         {/* Layer 6 — farthest, lightest */}
         <div className="mtn-layer" id="mtn6">
@@ -403,9 +465,9 @@ export default function Hero() {
         <span className="hero-pill">Caucasus Peak</span>
 
         <h1 className="hero-h1">
-          ENTRAÎNE-TOI LÀ OÙ<br />
-          <span className="highlight">NAISSENT</span> LES<br />
-          CHAMPIONS
+          ENTRAÎNE-TOI LÀ<br />
+          OÙ NAISSENT<br />
+          LES <span className="highlight">CHAMPIONS</span>
         </h1>
 
         <p className="hero-subtitle">Camp d&apos;entraînement MMA &amp; Lutte , Caucase, Géorgie</p>
