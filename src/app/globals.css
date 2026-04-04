@@ -680,7 +680,9 @@ h1, h2, h3, h4, h5 {
    PHILOSOPHIE BENTO
 ═══════════════════════════════════════════════ */
 #philosophie {
-  background: var(--bg);
+  background:
+    radial-gradient(ellipse 80% 50% at 50% 0%, rgba(200,75,49,0.09) 0%, transparent 65%),
+    var(--bg);
   padding: 7rem 0;
   position: relative;
   overflow: hidden;
@@ -691,14 +693,14 @@ h1, h2, h3, h4, h5 {
   inset: 0;
   background:
     repeating-linear-gradient(
-      0deg,
-      transparent, transparent 59px,
-      rgba(255,255,255,0.01) 59px, rgba(255,255,255,0.01) 60px
+      -45deg,
+      transparent 0px, transparent 22px,
+      rgba(200,75,49,0.05) 22px, rgba(200,75,49,0.05) 23px
     ),
     repeating-linear-gradient(
-      90deg,
-      transparent, transparent 59px,
-      rgba(255,255,255,0.008) 59px, rgba(255,255,255,0.008) 60px
+      45deg,
+      transparent 0px, transparent 22px,
+      rgba(200,75,49,0.025) 22px, rgba(200,75,49,0.025) 23px
     );
   pointer-events: none;
 }
@@ -915,8 +917,29 @@ h1, h2, h3, h4, h5 {
    SESSIONS CARDS
 ═══════════════════════════════════════════════ */
 #sessions {
-  background: var(--bg);
+  background:
+    radial-gradient(ellipse 80% 50% at 50% 0%, rgba(200,75,49,0.09) 0%, transparent 65%),
+    var(--bg);
   padding: 7rem 0;
+  position: relative;
+  overflow: hidden;
+}
+#sessions::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(
+      -45deg,
+      transparent 0px, transparent 22px,
+      rgba(200,75,49,0.05) 22px, rgba(200,75,49,0.05) 23px
+    ),
+    repeating-linear-gradient(
+      45deg,
+      transparent 0px, transparent 22px,
+      rgba(200,75,49,0.025) 22px, rgba(200,75,49,0.025) 23px
+    );
+  pointer-events: none;
 }
 .sessions-header { margin-bottom: 3.5rem; }
 .sessions-title {
@@ -1065,9 +1088,29 @@ h1, h2, h3, h4, h5 {
    TIMELINE — VOTRE PARCOURS
 ═══════════════════════════════════════════════ */
 #timeline {
-  background: var(--surface-lowest);
+  background:
+    radial-gradient(ellipse 80% 50% at 50% 0%, rgba(200,75,49,0.09) 0%, transparent 65%),
+    var(--surface-lowest);
   padding: 7rem 0;
   position: relative;
+  overflow: hidden;
+}
+#timeline::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(
+      -45deg,
+      transparent 0px, transparent 22px,
+      rgba(200,75,49,0.05) 22px, rgba(200,75,49,0.05) 23px
+    ),
+    repeating-linear-gradient(
+      45deg,
+      transparent 0px, transparent 22px,
+      rgba(200,75,49,0.025) 22px, rgba(200,75,49,0.025) 23px
+    );
+  pointer-events: none;
 }
 .timeline-header { margin-bottom: 4rem; }
 .timeline-title {
@@ -1152,6 +1195,27 @@ h1, h2, h3, h4, h5 {
   .timeline-dot-wrap { order: 1; }
   .timeline-content-left { order: 2; }
   .timeline-content-right { display: none; }
+}
+
+/* Desktop — alternating left/right (pair de steps inversées) */
+@media (min-width: 769px) {
+  .timeline-step--reversed .timeline-content-right {
+    grid-column: 1;
+    grid-row: 1;
+    justify-content: flex-end;
+  }
+  .timeline-step--reversed .timeline-dot-wrap {
+    grid-column: 2;
+    grid-row: 1;
+  }
+  .timeline-step--reversed .timeline-content-left {
+    grid-column: 3;
+    grid-row: 1;
+  }
+  .timeline-step--reversed .timeline-step-img {
+    margin-right: 0;
+    margin-left: auto;
+  }
 }
 
 /* ═══════════════════════════════════════════════
@@ -1717,4 +1781,155 @@ h1, h2, h3, h4, h5 {
 .faq-answer-wrap {
   overflow: hidden;
   transition: max-height 0.3s var(--ease-out-expo);
+}
+
+/* ═══════════════════════════════════════════════
+   VOYAGE SECTION
+═══════════════════════════════════════════════ */
+#voyage {
+  background: var(--surface);
+  padding: 7rem 0;
+}
+
+.voyage-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.voyage-header {
+  margin-bottom: 3rem;
+}
+.voyage-header .label-tag {
+  display: block;
+  margin-bottom: 0.75rem;
+}
+.voyage-header h2 {
+  font-size: clamp(3rem, 7vw, 5.5rem);
+  margin-bottom: 1.2rem;
+  color: var(--text-primary);
+}
+.voyage-subtitle {
+  font-family: var(--font-barlow), sans-serif;
+  font-size: 1rem;
+  color: var(--text-secondary);
+  max-width: 560px;
+  line-height: 1.65;
+}
+
+/* ── Carte ── */
+.voyage-map-wrap {
+  margin-bottom: 3rem;
+  border-radius: 0;
+  overflow: hidden;
+}
+
+.world-map-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 2 / 1;
+  background: #0E0E0E;
+  overflow: hidden;
+}
+.world-map-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+  user-select: none;
+  -webkit-mask-image: linear-gradient(to bottom, transparent, white 12%, white 88%, transparent);
+  mask-image: linear-gradient(to bottom, transparent, white 12%, white 88%, transparent);
+  display: block;
+}
+.world-map-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: auto;
+  user-select: none;
+}
+
+/* Labels sur la carte */
+.map-label {
+  font-family: var(--font-barlow-condensed), sans-serif;
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 2px 6px;
+  background: rgba(14,14,14,0.88);
+  color: var(--text-primary);
+  border: 1px solid rgba(200,75,49,0.35);
+  white-space: nowrap;
+}
+
+.map-tooltip {
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+  background: rgba(14,14,14,0.9);
+  color: var(--text-primary);
+  border: 1px solid rgba(200,75,49,0.35);
+  padding: 0.4rem 0.8rem;
+  font-family: var(--font-barlow-condensed), sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* ── Étapes ── */
+.voyage-steps {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.voyage-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  flex: 1;
+  min-width: 180px;
+}
+.voyage-step-num {
+  font-family: var(--font-teko), sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--primary);
+  line-height: 1;
+  flex-shrink: 0;
+  padding-top: 2px;
+}
+.voyage-step-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+.voyage-step-content strong {
+  font-family: var(--font-barlow-condensed), sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+}
+.voyage-step-content span {
+  font-family: var(--font-barlow), sans-serif;
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+.voyage-step-arrow {
+  font-size: 1.25rem;
+  color: var(--primary);
+  flex-shrink: 0;
+  opacity: 0.6;
+}
+
+@media (max-width: 768px) {
+  .voyage-steps { flex-direction: column; gap: 1.2rem; }
+  .voyage-step-arrow { transform: rotate(90deg); }
+  .world-map-wrap { aspect-ratio: 1.5 / 1; }
 }

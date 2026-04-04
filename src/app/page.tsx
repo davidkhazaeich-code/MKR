@@ -7,6 +7,7 @@ import Coaches from '@/components/Coaches'
 import Sessions from '@/components/Sessions'
 import Timeline from '@/components/Timeline'
 import Testimonials from '@/components/Testimonials'
+import Voyage from '@/components/Voyage'
 import Contact from '@/components/Contact'
 import FAQ from '@/components/FAQ'
 import CTAFinal from '@/components/CTAFinal'
@@ -81,12 +82,22 @@ export default function Home() {
 
         <Testimonials />
 
-        {/* Mountain divider: testimonials -> contact (next bg: surface #1A1A18) */}
+        {/* Mountain divider: testimonials -> voyage (next bg: surface #1A1A18) */}
         <MtnDivider
           bgColor="#131313"
           fillColor="#1A1A18"
           viewBox="0 0 1440 70"
           points="0,70 0,48 70,35 145,50 225,28 300,46 365,18 420,36 470,10 510,28 548,4 572,22 595,0 618,18 640,4 665,20 690,6 718,24 748,10 782,30 822,14 870,38 922,20 980,44 1042,28 1105,50 1165,34 1225,56 1285,40 1348,60 1400,46 1440,58 1440,70"
+        />
+
+        <Voyage />
+
+        {/* Mountain divider: voyage -> contact (next bg: surface #1A1A18) */}
+        <MtnDivider
+          bgColor="#1A1A18"
+          fillColor="#131313"
+          viewBox="0 0 1440 75"
+          points="0,75 0,52 60,38 128,54 202,30 272,48 340,22 398,40 452,14 500,32 542,8 572,26 598,4 622,20 645,2 668,18 692,4 716,20 742,6 770,24 802,8 838,30 880,14 928,36 978,20 1034,42 1090,26 1148,48 1202,34 1258,54 1315,40 1375,58 1440,44 1440,75"
         />
 
         <Contact />
