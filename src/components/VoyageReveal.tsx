@@ -20,9 +20,9 @@ export default function VoyageReveal() {
     offset: ['start end', 'center center'],
   })
 
-  // Clip-path : part d'un carré centré (22%→78%) vers plein écran (0%→100%)
-  const clipP = useTransform(scrollYProgress, [0, 1], [22, 0])
-  const clipQ = useTransform(scrollYProgress, [0, 1], [78, 100])
+  // Clip-path : part d'un carré centré (30%→70%) vers plein écran (0%→100%)
+  const clipP = useTransform(scrollYProgress, [0, 1], [30, 0])
+  const clipQ = useTransform(scrollYProgress, [0, 1], [70, 100])
   const clipPath = useMotionTemplate`polygon(${clipP}% ${clipP}%, ${clipQ}% ${clipP}%, ${clipQ}% ${clipQ}%, ${clipP}% ${clipQ}%)`
 
   // Dézoom carte du 140% au 100% pendant le reveal
@@ -35,7 +35,8 @@ export default function VoyageReveal() {
   return (
     <div
       ref={containerRef}
-      style={{ height: `calc(${SCROLL_HEIGHT}px + 100vh)`, position: 'relative' }}
+      className="voyage-reveal-outer"
+      style={{ height: `calc(${SCROLL_HEIGHT}px + 100vh)` }}
     >
       <motion.div
         className="voyage-reveal-sticky"
