@@ -29,58 +29,6 @@ export default function VideoSection() {
           </div>
         </div>
 
-        {/* 3 testimonial thumbs */}
-        <div className="video-thumbs">
-          <div
-            className="video-thumb reveal"
-            role="button"
-            tabIndex={0}
-            aria-label="Voir le témoignage 01"
-          >
-            <div className="video-thumb-inner">
-              <div className="play-btn-sm" aria-hidden="true">
-                <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                  <polygon points="4,2 14,8 4,14" fill="#F8F8F8" />
-                </svg>
-              </div>
-              <span className="thumb-label">TÉMOIGNAGE 01</span>
-            </div>
-          </div>
-
-          <div
-            className="video-thumb reveal"
-            role="button"
-            tabIndex={0}
-            aria-label="Voir le témoignage 02"
-            style={{ transitionDelay: '0.1s' }}
-          >
-            <div className="video-thumb-inner">
-              <div className="play-btn-sm" aria-hidden="true">
-                <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                  <polygon points="4,2 14,8 4,14" fill="#F8F8F8" />
-                </svg>
-              </div>
-              <span className="thumb-label">TÉMOIGNAGE 02</span>
-            </div>
-          </div>
-
-          <div
-            className="video-thumb reveal"
-            role="button"
-            tabIndex={0}
-            aria-label="Voir le témoignage 03"
-            style={{ transitionDelay: '0.2s' }}
-          >
-            <div className="video-thumb-inner">
-              <div className="play-btn-sm" aria-hidden="true">
-                <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                  <polygon points="4,2 14,8 4,14" fill="#F8F8F8" />
-                </svg>
-              </div>
-              <span className="thumb-label">TÉMOIGNAGE 03</span>
-            </div>
-          </div>
-        </div>
       </div>
     </section>
   )
