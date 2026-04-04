@@ -200,13 +200,19 @@ export function WorldMap({
               {dot.routeLabel && (
                 <motion.g
                   initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
+                  animate={{ opacity: [0, 1, 1] }}
                   transition={{ delay: 0.5 * i + 0.8, duration: 0.6 }}
                   style={{ pointerEvents: 'none' }}
                 >
-                  <foreignObject x={midX - 55} y={midY + 4} width="110" height="22">
+                  <foreignObject x={midX - 60} y={midY - 1} width="120" height="22">
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
-                      <span className="map-route-label" style={{ color: endColor }}>{dot.routeLabel}</span>
+                      <span className="map-route-label map-route-label--glow" style={{ color: endColor }}>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="7" height="7" style={{ flexShrink: 0 }}>
+                          <path d="M12 2L3 7v5c0 5.25 3.75 10.15 9 11.25C17.25 22.15 21 17.25 21 12V7l-9-5z" fill="currentColor" fillOpacity="0.2"/>
+                          <polyline points="9 12 11 14 15 10" stroke="currentColor" strokeWidth="2.5"/>
+                        </svg>
+                        {dot.routeLabel}
+                      </span>
                     </div>
                   </foreignObject>
                 </motion.g>

@@ -158,13 +158,15 @@ h1, h2, h3, h4, h5 {
 :root { --nav-h: 72px; }
 #site-header { position: fixed; top: 0; left: 0; right: 0; z-index: 300; }
 .scroll-progress {
-  height: 3px;
-  background: var(--primary);
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary), #e8622c);
   transform-origin: left center;
   transform: scaleX(0);
   will-change: transform;
   position: relative;
-  z-index: 1;
+  z-index: 301;
+  box-shadow: 0 0 8px rgba(200,75,49,0.5), 0 0 20px rgba(200,75,49,0.2);
+  pointer-events: none;
 }
 #nav { background: rgba(13,13,11,0.92); backdrop-filter: blur(22px); -webkit-backdrop-filter: blur(22px); border-bottom: 1px solid rgba(248,248,248,0.05); transition: border-color 300ms linear; }
 #nav.is-scrolled { border-color: rgba(200,75,49,0.1); }
@@ -3357,6 +3359,16 @@ h1, h2, h3, h4, h5 {
   letter-spacing: 0.14em;
   text-transform: uppercase;
   white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+.map-route-label--glow {
+  animation: route-label-glow 2.5s ease-in-out infinite;
+}
+@keyframes route-label-glow {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
 }
 @media (min-width: 1025px) {
   .map-label { font-size: 0.31rem; padding: 1px 3px; }
@@ -3590,6 +3602,9 @@ h1, h2, h3, h4, h5 {
   background: rgba(14,14,14,0.55);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
 }
 .voyage-badge--green {
   color: #2ECC71;
