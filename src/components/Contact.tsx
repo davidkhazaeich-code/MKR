@@ -70,6 +70,66 @@ export default function Contact() {
           </div>
 
         </div>
+
+        {/* Processus de candidature */}
+        <div className="contact-process reveal" style={{ transitionDelay: '0.15s' }}>
+          <h3 className="contact-process-title">COMMENT CA SE PASSE</h3>
+          <div className="contact-process-steps">
+            <div className="contact-step">
+              <span className="contact-step-num">01</span>
+              <h4 className="contact-step-label">Formulaire</h4>
+              <p className="contact-step-desc">Remplis le formulaire de candidature en ligne. Niveau, objectifs, experience.</p>
+            </div>
+            <div className="contact-step">
+              <span className="contact-step-num">02</span>
+              <h4 className="contact-step-label">Entretien video</h4>
+              <p className="contact-step-desc">Un appel de 15 min avec notre equipe pour evaluer ta motivation et ton niveau.</p>
+            </div>
+            <div className="contact-step">
+              <span className="contact-step-num">03</span>
+              <h4 className="contact-step-label">Confirmation</h4>
+              <p className="contact-step-desc">Reponse sous 72h. Si accepte, tu recois le guide de preparation complet.</p>
+            </div>
+            <div className="contact-step">
+              <span className="contact-step-num">04</span>
+              <h4 className="contact-step-label">Depart</h4>
+              <p className="contact-step-desc">Transfert aeroport inclus. On te recupere a l&apos;arrivee, tu n&apos;as rien a gerer.</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Badges de reassurance */}
+        <div className="contact-badges reveal" style={{ transitionDelay: '0.2s' }}>
+          <div className="contact-badge">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <polygon points="12,2 15,9 22,9 16.5,14 18.5,21 12,17 5.5,21 7.5,14 2,9 9,9" stroke="currentColor" strokeWidth="1.5"/>
+            </svg>
+            <span>Selection sur dossier</span>
+          </div>
+          <div className="contact-badge">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="1.5"/>
+              <path d="M8 12l3 3 5-5" stroke="currentColor" strokeWidth="1.5"/>
+            </svg>
+            <span>15 places max par session</span>
+          </div>
+          <div className="contact-badge">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <rect x="3" y="4" width="18" height="16" rx="2" stroke="currentColor" strokeWidth="1.5"/>
+              <line x1="3" y1="10" x2="21" y2="10" stroke="currentColor" strokeWidth="1.5"/>
+              <line x1="8" y1="4" x2="8" y2="10" stroke="currentColor" strokeWidth="1.5"/>
+              <line x1="16" y1="4" x2="16" y2="10" stroke="currentColor" strokeWidth="1.5"/>
+            </svg>
+            <span>Reponse sous 72h</span>
+          </div>
+          <div className="contact-badge">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M12 22s-8-4.5-8-11V5l8-3 8 3v6c0 6.5-8 11-8 11z" stroke="currentColor" strokeWidth="1.5"/>
+            </svg>
+            <span>Transferts inclus</span>
+          </div>
+        </div>
+
       </div>
     </section>
   )
