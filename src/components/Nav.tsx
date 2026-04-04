@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback, useRef } from 'react'
+import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 
@@ -72,10 +73,17 @@ function MobAccordion({ title, id, children }: { title: string; id: string; chil
 }
 
 export default function Nav() {
+  const pathname = usePathname()
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const [activePanel, setActivePanel] = useState<PanelId | null>(null)
   const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  // Close mobile menu + mega panels on route change
+  useEffect(() => {
+    setMenuOpen(false)
+    setActivePanel(null)
+  }, [pathname])
 
   useEffect(() => {
     let ticking = false
