@@ -157,6 +157,15 @@ h1, h2, h3, h4, h5 {
 ═══════════════════════════════════════════════ */
 :root { --nav-h: 72px; }
 #site-header { position: fixed; top: 0; left: 0; right: 0; z-index: 300; }
+.scroll-progress {
+  height: 3px;
+  background: var(--primary);
+  transform-origin: left center;
+  transform: scaleX(0);
+  will-change: transform;
+  position: relative;
+  z-index: 1;
+}
 #nav { background: rgba(13,13,11,0.92); backdrop-filter: blur(22px); -webkit-backdrop-filter: blur(22px); border-bottom: 1px solid rgba(248,248,248,0.05); transition: border-color 300ms linear; }
 #nav.is-scrolled { border-color: rgba(200,75,49,0.1); }
 .nav-inner { display: flex; align-items: center; height: var(--nav-h); width: 100%; padding: 0 clamp(2rem, 9vw, 16rem); gap: 1.5rem; }

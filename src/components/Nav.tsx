@@ -75,6 +75,7 @@ function MobAccordion({ title, id, children }: { title: string; id: string; chil
 export default function Nav() {
   const pathname = usePathname()
   const [scrolled, setScrolled] = useState(false)
+  const [scrollProgress, setScrollProgress] = useState(0)
   const [menuOpen, setMenuOpen] = useState(false)
   const [activePanel, setActivePanel] = useState<PanelId | null>(null)
   const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -91,6 +92,8 @@ export default function Nav() {
       if (!ticking) {
         requestAnimationFrame(() => {
           setScrolled(window.scrollY > 60)
+          const docH = document.documentElement.scrollHeight - window.innerHeight
+          setScrollProgress(docH > 0 ? Math.min(window.scrollY / docH, 1) : 0)
           ticking = false
         })
         ticking = true
@@ -136,6 +139,11 @@ export default function Nav() {
   return (
     <>
       <header id="site-header">
+        <div
+          className="scroll-progress"
+          style={{ transform: `scaleX(${scrollProgress})` }}
+          aria-hidden="true"
+        />
         <nav id="nav" className={scrolled ? 'is-scrolled' : ''} aria-label="Navigation principale">
           <div className="nav-inner">
 
