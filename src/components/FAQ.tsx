@@ -53,27 +53,34 @@ export default function FAQ() {
         </div>
 
         <div className="faq-grid">
-          {faqData.map((item, i) => (
-            <div
-              key={i}
-              className="faq-item reveal"
-              style={{ transitionDelay: item.delay }}
-            >
-              <button
-                className="faq-question"
-                onClick={() => toggle(i)}
-                aria-expanded={openIndex === i}
-              >
-                {item.q}
-                <span className={`faq-question-icon${openIndex === i ? ' open' : ''}`}>
-                  +
-                </span>
-              </button>
-              {openIndex === i && (
-                <div className="faq-answer-wrap">
-                  <p className="faq-answer">{item.a}</p>
-                </div>
-              )}
+          {[0, 1].map(col => (
+            <div key={col} className="faq-col">
+              {faqData
+                .map((item, i) => ({ item, i }))
+                .filter(({ i }) => i % 2 === col)
+                .map(({ item, i }) => (
+                  <div
+                    key={i}
+                    className="faq-item reveal"
+                    style={{ transitionDelay: item.delay }}
+                  >
+                    <button
+                      className="faq-question"
+                      onClick={() => toggle(i)}
+                      aria-expanded={openIndex === i}
+                    >
+                      {item.q}
+                      <span className={`faq-question-icon${openIndex === i ? ' open' : ''}`}>
+                        +
+                      </span>
+                    </button>
+                    {openIndex === i && (
+                      <div className="faq-answer-wrap">
+                        <p className="faq-answer">{item.a}</p>
+                      </div>
+                    )}
+                  </div>
+                ))}
             </div>
           ))}
         </div>

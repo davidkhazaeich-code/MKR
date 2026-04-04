@@ -1,3 +1,7 @@
+'use client'
+
+import { useRef } from 'react'
+
 function StarSvg() {
   return (
     <svg viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -17,20 +21,50 @@ function PlayBtnSm() {
 }
 
 export default function Testimonials() {
+  const carouselRef = useRef<HTMLDivElement>(null)
+
+  function scrollBy(direction: 'prev' | 'next') {
+    const el = carouselRef.current
+    if (!el) return
+    const cardWidth = el.querySelector('.testi-card')?.clientWidth ?? 320
+    const gap = 24
+    el.scrollBy({ left: direction === 'next' ? cardWidth + gap : -(cardWidth + gap), behavior: 'smooth' })
+  }
+
   return (
     <section id="testimonials" aria-labelledby="testimonials-heading">
       <div className="testimonials-glow" aria-hidden="true"></div>
+
       <div className="inner">
         <div className="testimonials-header reveal">
-          <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>
-            TÉMOIGNAGES
-          </span>
-          <h2 id="testimonials-heading" className="testimonials-title">
-            ILS ONT GRAVI<br />LE SOMMET
-          </h2>
+          <div className="testimonials-header-top">
+            <div>
+              <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>
+                TÉMOIGNAGES
+              </span>
+              <h2 id="testimonials-heading" className="testimonials-title">
+                ILS ONT GRAVI<br />LE SOMMET
+              </h2>
+            </div>
+            <div className="testi-nav" aria-label="Navigation du carousel">
+              <button className="testi-nav-btn" onClick={() => scrollBy('prev')} aria-label="Témoignage précédent">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <polyline points="15,6 9,12 15,18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </button>
+              <button className="testi-nav-btn" onClick={() => scrollBy('next')} aria-label="Témoignage suivant">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <polyline points="9,6 15,12 9,18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </button>
+            </div>
+          </div>
         </div>
+      </div>
 
-        <div className="testimonials-grid">
+      {/* Carousel — déborde à droite, clippé par overflow:hidden du #testimonials */}
+      <div className="testi-carousel-wrap">
+        <div className="testi-carousel" ref={carouselRef}>
 
           {/* Testimonial 1 */}
           <div className="testi-card reveal">

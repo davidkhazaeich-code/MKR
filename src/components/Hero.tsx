@@ -240,9 +240,12 @@ export default function Hero() {
         el.style.transform = `translateY(${scrollY * MTN_SPEEDS[id]}px)`
       })
 
-      // Texte — épinglé (suit le scroll = apparaît fixe) jusqu'à 150px avant la fin du hero
+      // Texte — épinglé jusqu'à 30% viewport, borné pour ne jamais sortir du #hero
       if (heroContent && heroEl) {
-        const stopPoint = heroEl.offsetHeight - 150
+        const heroHeight = heroEl.offsetHeight
+        const contentHeight = heroContent.offsetHeight
+        const maxSafe = Math.max(0, heroHeight - contentHeight)
+        const stopPoint = Math.min(window.innerHeight * 0.3, maxSafe)
         const clampedY = Math.min(scrollY, stopPoint)
         heroContent.style.transform = `translateY(${clampedY}px)`
       }

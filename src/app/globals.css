@@ -516,7 +516,7 @@ h1, h2, h3, h4, h5 {
 /* Scroll indicator */
 .scroll-indicator {
   position: absolute;
-  bottom: 2rem;
+  bottom: calc(50vh + 2rem);
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -1221,7 +1221,8 @@ h1, h2, h3, h4, h5 {
   background: var(--bg);
   padding: 7rem 0;
   position: relative;
-  overflow: hidden;
+  z-index: 1;          /* au-dessus du sticky VoyageReveal */
+  overflow: hidden;    /* clip horizontal pour le slider */
 }
 .testimonials-glow {
   position: absolute;
@@ -1240,12 +1241,67 @@ h1, h2, h3, h4, h5 {
   letter-spacing: 0.04em;
 }
 
-.testimonials-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1rem;
+/* Header row : titre à gauche, flèches à droite */
+.testimonials-header-top {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 2rem;
 }
-@media (max-width: 768px) { .testimonials-grid { grid-template-columns: 1fr; } }
+.testi-nav {
+  display: flex;
+  gap: 0.75rem;
+  flex-shrink: 0;
+  padding-bottom: 0.5rem;
+}
+.testi-nav-btn {
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(200,75,49,0.35);
+  background: transparent;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+}
+.testi-nav-btn svg { width: 20px; height: 20px; }
+.testi-nav-btn:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  background: rgba(200,75,49,0.07);
+}
+
+/* Carousel — déborde à droite, clip via overflow:hidden du parent section */
+.testi-carousel-wrap {
+  padding-left: clamp(2rem, 5vw, 9rem);
+  margin-top: 3.5rem;
+  overflow: visible;   /* laisse les cartes dépasser à droite */
+}
+.testi-carousel {
+  display: flex;
+  gap: 1.5rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  padding-right: clamp(2rem, 9vw, 16rem);
+  cursor: grab;
+}
+.testi-carousel:active { cursor: grabbing; }
+.testi-carousel::-webkit-scrollbar { display: none; }
+
+.testi-card {
+  flex-shrink: 0;
+  width: clamp(260px, 28vw, 340px);
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+@media (max-width: 768px) {
+  .testi-card { width: min(80vw, 300px); }
+}
 
 /* FUTURE: Replace placeholder with <iframe> YouTube/Vimeo embed (portrait 9:16) */
 .testi-card {
@@ -1724,11 +1780,19 @@ h1, h2, h3, h4, h5 {
   letter-spacing: 0.04em;
 }
 .faq-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+.faq-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
   gap: 1rem;
 }
-@media (max-width: 768px) { .faq-grid { grid-template-columns: 1fr; } }
+@media (max-width: 768px) {
+  .faq-grid { flex-direction: column; }
+}
 .faq-item {
   background: var(--surface);
   border-left: 3px solid var(--primary);
@@ -1990,7 +2054,7 @@ h1, h2, h3, h4, h5 {
   height: 100vh;
   overflow: hidden;
   background: #0E0E0E;
-  will-change: clip-path;
+  z-index: 0;
 }
 
 /* Carte couvre toute la hauteur */
