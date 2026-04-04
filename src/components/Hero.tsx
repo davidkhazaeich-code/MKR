@@ -1,6 +1,12 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState, useCallback } from 'react'
+
+const CAMPS = [
+  { label: 'PRINTEMPS 2026', dates: '15 Avril – 6 Mai', price: '2 900 CHF', spots: '4 places restantes', status: 'open' as const },
+  { label: 'ÉTÉ 2026',      dates: '8 Juillet – 29 Juillet', price: '3 200 CHF', spots: '12 places restantes', status: 'open' as const },
+  { label: 'AUTOMNE 2026',   dates: '16 Sept. – 7 Oct.', price: '2 750 CHF', spots: 'Places limitées', status: 'limited' as const },
+]
 
 export default function Hero() {
   const starsCanvasRef = useRef<HTMLCanvasElement>(null)
@@ -470,6 +476,9 @@ export default function Hero() {
         </div>
       </div>
 
+      {/* Camp carousel — bottom right */}
+      <HeroCampCarousel />
+
       {/* Scroll indicator */}
       <div className="scroll-indicator" aria-hidden="true">
         <div className="scroll-line">
@@ -479,5 +488,57 @@ export default function Hero() {
       </div>
 
     </section>
+  )
+}
+
+function HeroCampCarousel() {
+  const [active, setActive] = useState(0)
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
+
+  const startTimer = useCallback(() => {
+    if (timerRef.current) clearInterval(timerRef.current)
+    timerRef.current = setInterval(() => {
+      setActive(prev => (prev + 1) % CAMPS.length)
+    }, 4500)
+  }, [])
+
+  useEffect(() => {
+    startTimer()
+    return () => { if (timerRef.current) clearInterval(timerRef.current) }
+  }, [startTimer])
+
+  const goTo = (i: number) => {
+    setActive(i)
+    startTimer()
+  }
+
+  const camp = CAMPS[active]
+
+  return (
+    <div className="hero-camps" aria-label="Prochaines sessions">
+      <div className="hero-camps-card" key={active}>
+        <div className="hero-camps-top">
+          <span className="hero-camps-label">{camp.label}</span>
+          <span className={`hero-camps-status hero-camps-status--${camp.status}`}>
+            {camp.spots}
+          </span>
+        </div>
+        <div className="hero-camps-dates">{camp.dates}</div>
+        <div className="hero-camps-bottom">
+          <span className="hero-camps-price">{camp.price}</span>
+          <a href="/inscription" className="hero-camps-cta">S&apos;inscrire →</a>
+        </div>
+      </div>
+      <div className="hero-camps-dots">
+        {CAMPS.map((_, i) => (
+          <button
+            key={i}
+            className={`hero-camps-dot${i === active ? ' active' : ''}`}
+            onClick={() => goTo(i)}
+            aria-label={`Session ${i + 1}`}
+          />
+        ))}
+      </div>
+    </div>
   )
 }

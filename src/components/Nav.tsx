@@ -1,18 +1,86 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
+
+const CHEVRON = (
+  <svg className="nav-trigger-arrow" viewBox="0 0 10 10" fill="none"
+    stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+    <polyline points="2,3 5,7 8,3"/>
+  </svg>
+)
+
+const ARROW_RIGHT = (
+  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5"
+    width="13" height="13" aria-hidden="true">
+    <line x1="2" y1="8" x2="14" y2="8"/>
+    <polyline points="9,3 14,8 9,13"/>
+  </svg>
+)
+
+const ARROW_SM = (
+  <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" strokeWidth="1.5"
+    width="10" height="10" aria-hidden="true">
+    <polyline points="3,2 7,5 3,8"/>
+  </svg>
+)
+
+const CHECK_SM = (
+  <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5"
+    width="12" height="12" aria-hidden="true">
+    <polyline points="2,7 6,11 12,3"/>
+  </svg>
+)
+
+const MOBILE_CHEVRON = (
+  <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+    <polyline points="3,6 9,12 15,6"/>
+  </svg>
+)
+
+type PanelId = 'camp' | 'programme' | 'destinations' | 'infos'
+
+function MobAccordion({ title, id, children }: { title: string; id: string; children: React.ReactNode }) {
+  const [open, setOpen] = useState(false)
+  const bodyRef = useRef<HTMLDivElement>(null)
+
+  return (
+    <div className="mob-acc">
+      <button
+        className="mob-acc-trigger"
+        aria-expanded={open}
+        aria-controls={id}
+        onClick={() => setOpen(v => !v)}
+      >
+        {title}
+        {MOBILE_CHEVRON}
+      </button>
+      <div
+        id={id}
+        className="mob-acc-body"
+        aria-hidden={!open}
+        ref={bodyRef}
+        style={{ height: open ? bodyRef.current?.scrollHeight : 0 }}
+      >
+        <div className="mob-acc-body-inner">
+          {children}
+        </div>
+      </div>
+    </div>
+  )
+}
 
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [activePanel, setActivePanel] = useState<PanelId | null>(null)
+  const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
-  // Scroll shrink
   useEffect(() => {
     let ticking = false
     const onScroll = () => {
       if (!ticking) {
         requestAnimationFrame(() => {
-          setScrolled(window.scrollY > 80)
+          setScrolled(window.scrollY > 60)
           ticking = false
         })
         ticking = true
@@ -22,118 +90,310 @@ export default function Nav() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  // Close on Escape
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && menuOpen) closeMenu()
+      if (e.key === 'Escape') {
+        if (activePanel) setActivePanel(null)
+        if (menuOpen) setMenuOpen(false)
+      }
     }
     document.addEventListener('keydown', onKey)
     return () => document.removeEventListener('keydown', onKey)
-  }, [menuOpen])
+  }, [menuOpen, activePanel])
 
-  // Lock body scroll when menu open
   useEffect(() => {
     document.body.style.overflow = menuOpen ? 'hidden' : ''
     return () => { document.body.style.overflow = '' }
   }, [menuOpen])
 
-  const openMenu = useCallback(() => setMenuOpen(true), [])
-  const closeMenu = useCallback(() => setMenuOpen(false), [])
-  const toggleMenu = useCallback(() => setMenuOpen(v => !v), [])
+  const openPanel = useCallback((id: PanelId) => {
+    if (closeTimerRef.current) { clearTimeout(closeTimerRef.current); closeTimerRef.current = null }
+    setActivePanel(id)
+  }, [])
 
-  // Smooth anchor scroll
-  const handleAnchorClick = useCallback(
-    (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-      const targetId = href.replace('#', '')
-      const target = document.getElementById(targetId)
-      if (!target) return
-      e.preventDefault()
-      const nav = document.getElementById('nav')
-      const offset = nav ? nav.offsetHeight : 64
-      const top = target.getBoundingClientRect().top + window.scrollY - offset
-      window.scrollTo({ top, behavior: 'smooth' })
-      closeMenu()
-    },
-    [closeMenu]
-  )
+  const scheduleClose = useCallback(() => {
+    closeTimerRef.current = setTimeout(() => setActivePanel(null), 110)
+  }, [])
 
-  const links = [
-    { href: '#video-section', label: 'Camp' },
-    { href: '#coaches', label: 'Coaches' },
-    { href: '#sessions', label: 'Sessions' },
-    { href: '#contact', label: 'Contact' },
-  ]
+  const cancelClose = useCallback(() => {
+    if (closeTimerRef.current) { clearTimeout(closeTimerRef.current); closeTimerRef.current = null }
+  }, [])
+
+  const togglePanel = useCallback((id: PanelId) => {
+    setActivePanel(cur => cur === id ? null : id)
+  }, [])
 
   return (
     <>
-      <nav id="nav" className={scrolled ? 'scrolled' : ''} aria-label="Navigation principale">
-        <a
-          href="/"
-          className="nav-logo"
-          aria-label="MKR Caucasian Camp · Accueil"
-        >
-          <span className="nav-logo-mkr">MKR</span>
-          <span className="nav-logo-sub">Caucasian Camp</span>
-        </a>
+      <header id="site-header">
+        <nav id="nav" className={scrolled ? 'is-scrolled' : ''} aria-label="Navigation principale">
+          <div className="nav-inner">
 
-        <ul className="nav-links" role="list">
-          {links.map(l => (
-            <li key={l.href}>
-              <a href={l.href} onClick={e => handleAnchorClick(e, l.href)}>
-                {l.label}
+            <a href="/" className="nav-logo" aria-label="MKR Caucasian Camp · Accueil">
+              <span className="nav-logo-mkr">MKR</span>
+              <span className="nav-logo-sub">Caucasian Camp</span>
+            </a>
+
+            <ul className="nav-list" role="list">
+              {(['camp', 'programme', 'destinations', 'infos'] as PanelId[]).map(id => (
+                <li key={id}>
+                  <button
+                    className="nav-trigger"
+                    id={`trigger-${id}`}
+                    aria-expanded={activePanel === id}
+                    aria-controls={`mega-${id}`}
+                    data-mega={id}
+                    onMouseEnter={() => openPanel(id)}
+                    onMouseLeave={scheduleClose}
+                    onClick={() => togglePanel(id)}
+                  >
+                    {id === 'camp' ? 'Le Camp' : id === 'programme' ? 'Programme' : id === 'destinations' ? 'Destinations' : 'Infos'}
+                    {CHEVRON}
+                  </button>
+                </li>
+              ))}
+            </ul>
+
+            <div className="nav-right">
+              <a href="/sessions" className="nav-sessions-link">Sessions 2026</a>
+              <a href="/inscription" className="nav-cta" aria-label="Postuler au camp">POSTULER</a>
+              <button
+                className={`nav-hamburger${menuOpen ? ' open' : ''}`}
+                aria-label={menuOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
+                aria-expanded={menuOpen}
+                aria-controls="mobile-menu"
+                onClick={() => setMenuOpen(v => !v)}
+              >
+                <span/><span/><span/>
+              </button>
+            </div>
+
+          </div>
+        </nav>
+      </header>
+
+      {/* ══ MEGA PANELS ══ */}
+      <div id="mega-wrap" className={activePanel ? 'has-open' : ''} aria-live="polite">
+
+        {/* ── LE CAMP ── */}
+        <div
+          id="mega-camp"
+          className={`mega-panel${activePanel === 'camp' ? ' is-active' : ''}`}
+          role="region"
+          aria-labelledby="trigger-camp"
+          onMouseEnter={cancelClose}
+          onMouseLeave={scheduleClose}
+        >
+          <div className="mega-inner">
+            <span className="mega-section-label">Le Camp MKR</span>
+            <div className="mega-camp-grid">
+              <div>
+                <h2 className="mega-camp-feature-title">IMMERSION<br/>TOTALE.</h2>
+                <p className="mega-camp-feature-body">Deux sessions par jour. Coaches daghestanais. Transport local, hebergement et repas pris en charge. Tu arrives avec ton sac. On s&apos;occupe du reste.</p>
+                <a href="/le-camp" className="mega-arrow-link">Decouvrir le camp {ARROW_RIGHT}</a>
+              </div>
+              <div>
+                <span className="mega-camp-links-label">Avant le camp</span>
+                <ul className="mega-link-list" role="list">
+                  <li><a href="/comment-ca-marche">{ARROW_SM} Comment ca marche</a></li>
+                  <li><a href="/preparer-son-camp">{ARROW_SM} Preparer son camp</a></li>
+                  <li><a href="/logistique">{ARROW_SM} Logistique et visa</a></li>
+                  <li><a href="/le-camp#journee-type">{ARROW_SM} Journee type</a></li>
+                  <li><a href="/sessions">{ARROW_SM} Sessions et tarifs</a></li>
+                </ul>
+              </div>
+              <div className="mega-camp-accent" aria-hidden="true">
+                <h3 className="mega-camp-accent-title">TOUT<br/>COMPRIS.</h3>
+                <span className="mega-camp-accent-sub">Dagestan · Tchetchenie · Georgie</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ── PROGRAMME ── */}
+        <div
+          id="mega-programme"
+          className={`mega-panel${activePanel === 'programme' ? ' is-active' : ''}`}
+          role="region"
+          aria-labelledby="trigger-programme"
+          onMouseEnter={cancelClose}
+          onMouseLeave={scheduleClose}
+        >
+          <div className="mega-inner">
+            <span className="mega-section-label">Disciplines et Programme 2026</span>
+            <div className="mega-prog-grid">
+              <a href="/programme/mma" className="mega-prog-card">
+                <div className="mega-prog-icon" aria-hidden="true">
+                  <svg viewBox="0 0 26 26" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <circle cx="13" cy="9" r="4"/><path d="M5 26c0-5 3.5-8 8-8s8 3 8 8"/>
+                    <line x1="19" y1="5" x2="24" y2="2.5"/><line x1="19" y1="9.5" x2="24" y2="11"/>
+                  </svg>
+                </div>
+                <h3 className="mega-prog-title">MMA</h3>
+                <p className="mega-prog-desc">Striking, clinch, takedowns, submissions. Sparring quotidien avec des combattants locaux. Transitions debout-sol.</p>
+                <span className="mega-arrow-link">Voir le programme {ARROW_RIGHT}</span>
               </a>
-            </li>
-          ))}
-        </ul>
+              <a href="/programme/lutte" className="mega-prog-card">
+                <div className="mega-prog-icon" aria-hidden="true">
+                  <svg viewBox="0 0 26 26" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <path d="M3 19 L8 9 L13 15 L19 5 L23 13"/>
+                    <circle cx="6" cy="20" r="2"/><circle cx="21" cy="14" r="2"/>
+                  </svg>
+                </div>
+                <h3 className="mega-prog-title">LUTTE</h3>
+                <p className="mega-prog-desc">Lutte libre et greco-romaine. Methodes daghestanaises transmises par des champions.</p>
+                <span className="mega-arrow-link">Voir le programme {ARROW_RIGHT}</span>
+              </a>
+              <a href="/programme#conditioning" className="mega-prog-card">
+                <div className="mega-prog-icon" aria-hidden="true">
+                  <svg viewBox="0 0 26 26" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <rect x="1" y="10" width="6" height="6"/><rect x="19" y="10" width="6" height="6"/>
+                    <line x1="7" y1="13" x2="19" y2="13" strokeWidth="2.5"/>
+                    <rect x="10" y="8" width="6" height="10"/>
+                  </svg>
+                </div>
+                <h3 className="mega-prog-title">S&amp;C</h3>
+                <p className="mega-prog-desc">Strength et Conditioning. Seances en montagne, gainage, endurance specifique. Inclus dans chaque session.</p>
+                <span className="mega-arrow-link">Inclus dans le camp {CHECK_SM}</span>
+              </a>
+            </div>
+          </div>
+        </div>
 
-        <a
-          href="/inscription"
-          className="nav-cta"
-          aria-label="S'inscrire au camp"
+        {/* ── DESTINATIONS ── */}
+        <div
+          id="mega-destinations"
+          className={`mega-panel${activePanel === 'destinations' ? ' is-active' : ''}`}
+          role="region"
+          aria-labelledby="trigger-destinations"
+          onMouseEnter={cancelClose}
+          onMouseLeave={scheduleClose}
         >
-          S&apos;INSCRIRE
-        </a>
+          <div className="mega-inner">
+            <span className="mega-section-label">Destinations 2026</span>
+            <div className="mega-dest-grid">
+              <a href="/destinations/dagestan" className="mega-dest-card" aria-label="Explorer le Dagestan">
+                <div className="mega-dest-bg" aria-hidden="true"/>
+                <div className="mega-dest-overlay" aria-hidden="true"/>
+                <div className="mega-dest-content">
+                  <span className="mega-dest-region">Caucase · Russie</span>
+                  <h2 className="mega-dest-name">DAGESTAN</h2>
+                  <p className="mega-dest-tagline">La terre qui a forge les meilleurs combattants de la planete.</p>
+                  <span className="mega-dest-cta">Explorer le Dagestan {ARROW_RIGHT}</span>
+                </div>
+              </a>
+              <a href="/destinations/tchetchenie" className="mega-dest-card" aria-label="Explorer la Tchetchenie">
+                <div className="mega-dest-bg mega-dest-bg--alt" aria-hidden="true"/>
+                <div className="mega-dest-overlay" aria-hidden="true"/>
+                <div className="mega-dest-content">
+                  <span className="mega-dest-region">Caucase · Russie</span>
+                  <h2 className="mega-dest-name">TCHETCHENIE</h2>
+                  <p className="mega-dest-tagline">Grozny, le renouveau. Culture guerriere millenaire et salles de MMA parmi les mieux equipees.</p>
+                  <span className="mega-dest-cta">Explorer la Tchetchenie {ARROW_RIGHT}</span>
+                </div>
+              </a>
+            </div>
+            <div className="mega-dest-security" role="note">
+              <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" width="16" height="16" aria-hidden="true">
+                <polygon points="9,1.5 16.5,5 16.5,13 9,16.5 1.5,13 1.5,5"/>
+                <line x1="9" y1="8" x2="9" y2="12"/><circle cx="9" cy="6" r="0.5" fill="currentColor"/>
+              </svg>
+              <span className="mega-dest-security-text">
+                Chaque destination inclut une section securite avec le niveau d&apos;alerte Quai d&apos;Orsay mis a jour.
+              </span>
+            </div>
+          </div>
+        </div>
 
-        <button
-          className={`nav-hamburger${menuOpen ? ' open' : ''}`}
-          id="hamburger"
-          aria-label={menuOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
-          aria-expanded={menuOpen}
-          aria-controls="mobile-menu"
-          onClick={toggleMenu}
+        {/* ── INFOS ── */}
+        <div
+          id="mega-infos"
+          className={`mega-panel${activePanel === 'infos' ? ' is-active' : ''}`}
+          role="region"
+          aria-labelledby="trigger-infos"
+          onMouseEnter={cancelClose}
+          onMouseLeave={scheduleClose}
         >
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
-      </nav>
+          <div className="mega-inner">
+            <span className="mega-section-label">Informations et Ressources</span>
+            <div className="mega-infos-grid">
+              <div>
+                <span className="mega-infos-col-label">Contenus</span>
+                <ul className="mega-link-list" role="list">
+                  <li><a href="/galerie">{ARROW_SM} Galerie photos et videos</a></li>
+                  <li><a href="/temoignages">{ARROW_SM} Temoignages athletes</a></li>
+                  <li><a href="/blog">{ARROW_SM} Blog et articles</a></li>
+                  <li><a href="/guide-dagestan">{ARROW_SM} Guide Dagestan PDF</a></li>
+                </ul>
+              </div>
+              <div>
+                <span className="mega-infos-col-label">Pratique</span>
+                <ul className="mega-link-list" role="list">
+                  <li><a href="/faq">{ARROW_SM} FAQ</a></li>
+                  <li><a href="/a-propos">{ARROW_SM} A propos de MKR</a></li>
+                  <li><a href="/contact">{ARROW_SM} Contact</a></li>
+                  <li><a href="/inscription">{ARROW_SM} Inscription</a></li>
+                </ul>
+              </div>
+              <div className="mega-testi" aria-label="Temoignage athlete">
+                <span className="mega-testi-quote-mark" aria-hidden="true">&ldquo;</span>
+                <p className="mega-testi-quote">Deux semaines apres le retour, j&apos;ai remporte mon premier titre regional. Ce que j&apos;ai construit la-bas, aucun gym en France ne pouvait me le donner.</p>
+                <span className="mega-testi-name">Thomas B.</span>
+                <span className="mega-testi-meta">Boxe · Lyon · Session Automne 2025</span>
+              </div>
+            </div>
+          </div>
+        </div>
 
-      {/* Mobile fullscreen menu */}
+      </div>
+
+      {/* Backdrop */}
+      <div
+        id="nav-backdrop"
+        className={activePanel ? 'is-visible' : ''}
+        aria-hidden="true"
+        onClick={() => setActivePanel(null)}
+      />
+
+      {/* ══ MOBILE MENU ══ */}
       <div
         id="mobile-menu"
         role="dialog"
+        aria-modal="true"
         aria-label="Menu principal"
         aria-hidden={!menuOpen}
-        className={menuOpen ? 'open' : ''}
+        className={menuOpen ? 'is-open' : ''}
       >
-        <ul className="mobile-menu-links" role="list">
-          {links.map(l => (
-            <li key={l.href}>
-              <a
-                href={l.href}
-                onClick={e => handleAnchorClick(e, l.href)}
-              >
-                {l.label}
-              </a>
-            </li>
-          ))}
-        </ul>
-        <a
-          href="/inscription"
-          className="mobile-menu-cta"
-        >
-          S&apos;INSCRIRE
-        </a>
+        <div className="mobile-inner">
+          <MobAccordion title="Le Camp" id="mob-camp">
+            <a href="/le-camp" className="mob-sub-link">Le Camp</a>
+            <a href="/comment-ca-marche" className="mob-sub-link">Comment ca marche</a>
+            <a href="/preparer-son-camp" className="mob-sub-link">Preparer son camp</a>
+            <a href="/logistique" className="mob-sub-link">Logistique et visa</a>
+          </MobAccordion>
+          <MobAccordion title="Programme" id="mob-prog">
+            <a href="/programme" className="mob-sub-link">Vue d&apos;ensemble</a>
+            <a href="/programme/mma" className="mob-sub-link">MMA</a>
+            <a href="/programme/lutte" className="mob-sub-link">Lutte</a>
+            <a href="/coachs" className="mob-sub-link">Nos coachs</a>
+          </MobAccordion>
+          <MobAccordion title="Destinations" id="mob-dest">
+            <a href="/destinations/dagestan" className="mob-sub-link">Dagestan</a>
+            <a href="/destinations/tchetchenie" className="mob-sub-link">Tchetchenie</a>
+          </MobAccordion>
+          <MobAccordion title="Informations" id="mob-infos">
+            <a href="/galerie" className="mob-sub-link">Galerie</a>
+            <a href="/temoignages" className="mob-sub-link">Temoignages</a>
+            <a href="/faq" className="mob-sub-link">FAQ</a>
+            <a href="/blog" className="mob-sub-link">Blog</a>
+            <a href="/a-propos" className="mob-sub-link">A propos</a>
+            <a href="/contact" className="mob-sub-link">Contact</a>
+          </MobAccordion>
+          <a href="/sessions" className="mob-direct">Sessions 2026</a>
+          <div className="mob-cta-wrap">
+            <a href="/inscription" className="mob-cta">RESERVER MON CAMP</a>
+          </div>
+        </div>
       </div>
     </>
   )

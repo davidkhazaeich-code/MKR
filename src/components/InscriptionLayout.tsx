@@ -70,6 +70,7 @@ function RadioGroup({ name, options, value, onChange }: {
 
 export default function InscriptionLayout() {
   const [step, setStep] = useState(0)
+  const [dir, setDir] = useState<'next' | 'prev'>('next')
   const [form, setForm] = useState<FormData>(INITIAL)
   const [errors, setErrors] = useState<string[]>([])
   const [submitted, setSubmitted] = useState(false)
@@ -127,8 +128,8 @@ export default function InscriptionLayout() {
     return e.length === 0
   }
 
-  const next = () => { if (validate()) setStep(s => s + 1) }
-  const prev = () => { setStep(s => s - 1); setErrors([]) }
+  const next = () => { if (validate()) { setDir('next'); setStep(s => s + 1) } }
+  const prev = () => { setDir('prev'); setStep(s => s - 1); setErrors([]) }
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
@@ -221,7 +222,7 @@ export default function InscriptionLayout() {
       <main className="insc-main">
         <div className="insc-form-wrap">
 
-          <div className="insc-panel-header">
+          <div key={`header-${step}`} className={`insc-panel-header insc-anim-${dir}`}>
             <span className="label-tag" style={{ color: 'var(--primary)' }}>
               ÉTAPE {step + 1} / {STEPS.length}
             </span>
@@ -234,7 +235,7 @@ export default function InscriptionLayout() {
             </h1>
           </div>
 
-          <form className="insc-form" onSubmit={handleSubmit} noValidate>
+          <form key={`form-${step}`} className={`insc-form insc-anim-${dir}`} onSubmit={handleSubmit} noValidate>
 
             {/* ── STEP 1 ── */}
             {step === 0 && (
