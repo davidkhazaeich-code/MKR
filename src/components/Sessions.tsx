@@ -41,7 +41,7 @@ export default function Sessions() {
                 <div className="session-price">2 900 CHF</div>
                 <div className="session-price-sub">Hébergement &amp; repas inclus · Vol non inclus</div>
               </div>
-              <a href="#contact" className="session-cta">POSTULER</a>
+              <a href="/inscription" className="session-cta">POSTULER</a>
             </div>
           </article>
 
@@ -73,7 +73,7 @@ export default function Sessions() {
                 <div className="session-price">3 200 CHF</div>
                 <div className="session-price-sub">Hébergement &amp; repas inclus · Vol non inclus</div>
               </div>
-              <a href="#contact" className="session-cta">POSTULER</a>
+              <a href="/inscription" className="session-cta">POSTULER</a>
             </div>
           </article>
 
@@ -105,7 +105,7 @@ export default function Sessions() {
                 <div className="session-price">2 750 CHF</div>
                 <div className="session-price-sub">Hébergement &amp; repas inclus · Vol non inclus</div>
               </div>
-              <a href="#contact" className="session-cta">POSTULER</a>
+              <a href="/inscription" className="session-cta">POSTULER</a>
             </div>
           </article>
 

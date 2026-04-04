@@ -13,7 +13,7 @@ export default function Philosophie() {
         </div>
 
         <div className="bento-grid">
-          {/* Card 1 — large */}
+          {/* Card 1 -large */}
           <article className="bento-card bento-card--large reveal">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img className="bento-img" src="/images/action/sparring-mma-wall.webp" alt="" aria-hidden="true" />
@@ -26,7 +26,7 @@ export default function Philosophie() {
             </p>
           </article>
 
-          {/* Card 2 — small top right */}
+          {/* Card 2 -small top right */}
           <article className="bento-card bento-card--small reveal" style={{ transitionDelay: '0.1s' }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img className="bento-img" src="/images/environment/gym-interior.webp" alt="" aria-hidden="true" />
@@ -37,7 +37,7 @@ export default function Philosophie() {
             </p>
           </article>
 
-          {/* Card 3 — small bottom right */}
+          {/* Card 3 -small bottom right */}
           <article className="bento-card bento-card--small reveal" style={{ transitionDelay: '0.2s' }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img className="bento-img" src="/images/environment/communal-meal.webp" alt="" aria-hidden="true" />

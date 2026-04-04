@@ -13,7 +13,7 @@ export default function Timeline() {
 
         <div className="timeline-track">
 
-          {/* Step 1 — Candidature (GAUCHE : image à l'extérieur, texte vers la ligne) */}
+          {/* Step 1 -Candidature (GAUCHE : image à l'extérieur, texte vers la ligne) */}
           <div className="timeline-step reveal">
             <div className="timeline-panel">
               <div className="timeline-step-img">
@@ -41,7 +41,7 @@ export default function Timeline() {
             <div className="timeline-empty"></div>
           </div>
 
-          {/* Step 2 — Entretien (DROITE : texte vers la ligne, image à l'extérieur) */}
+          {/* Step 2 -Entretien (DROITE : texte vers la ligne, image à l'extérieur) */}
           <div className="timeline-step timeline-step--reversed reveal" style={{ transitionDelay: '0.1s' }}>
             <div className="timeline-empty"></div>
             <div className="timeline-dot-wrap">
@@ -72,7 +72,7 @@ export default function Timeline() {
             </div>
           </div>
 
-          {/* Step 3 — Confirmation (GAUCHE : image à l'extérieur, texte vers la ligne) */}
+          {/* Step 3 -Confirmation (GAUCHE : image à l'extérieur, texte vers la ligne) */}
           <div className="timeline-step reveal" style={{ transitionDelay: '0.2s' }}>
             <div className="timeline-panel">
               <div className="timeline-step-img">
@@ -98,7 +98,7 @@ export default function Timeline() {
             <div className="timeline-empty"></div>
           </div>
 
-          {/* Step 4 — Préparation (DROITE : texte vers la ligne, image à l'extérieur) */}
+          {/* Step 4 -Préparation (DROITE : texte vers la ligne, image à l'extérieur) */}
           <div className="timeline-step timeline-step--reversed reveal" style={{ transitionDelay: '0.3s' }}>
             <div className="timeline-empty"></div>
             <div className="timeline-dot-wrap">
@@ -120,18 +120,18 @@ export default function Timeline() {
               </div>
               <div className="timeline-step-img">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img className="timeline-step-photo" src="/images/action/conditioning-rope.webp" alt="Conditioning — grimper de corde" />
+                <img className="timeline-step-photo" src="/images/action/conditioning-rope.webp" alt="Conditioning -grimper de corde" />
                 <div className="timeline-step-img-inner"></div>
               </div>
             </div>
           </div>
 
-          {/* Step 5 — Immersion (GAUCHE : image à l'extérieur, texte vers la ligne) */}
+          {/* Step 5 -Immersion (GAUCHE : image à l'extérieur, texte vers la ligne) */}
           <div className="timeline-step reveal" style={{ transitionDelay: '0.4s' }}>
             <div className="timeline-panel">
               <div className="timeline-step-img">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img className="timeline-step-photo" src="/images/environment/mountain-road.webp" alt="Route vers le camp — Caucase" />
+                <img className="timeline-step-photo" src="/images/environment/mountain-road.webp" alt="Route vers le camp -Caucase" />
                 <div className="timeline-step-img-inner"></div>
               </div>
               <div className="timeline-text">

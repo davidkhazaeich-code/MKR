@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /inscription
+Disallow: /merci
+
+Sitemap: https://mkrcaucasiancamp.com/sitemap.xml

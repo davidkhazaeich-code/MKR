@@ -53,7 +53,7 @@ export default function VoyageReveal() {
         {/* Overlay gradient sombre pour lisibilité */}
         <div className="voyage-reveal-overlay" aria-hidden="true" />
 
-        {/* Texte — coin bas gauche, dans le container max-width du site */}
+        {/* Texte -coin bas gauche, dans le container max-width du site */}
         <div className="voyage-reveal-container">
           <motion.div
             className="voyage-reveal-content"

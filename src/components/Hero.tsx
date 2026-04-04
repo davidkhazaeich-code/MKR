@@ -3,9 +3,9 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
 
 const CAMPS = [
-  { label: 'PRINTEMPS 2026', dates: '15 Avril – 6 Mai', price: '2 900 CHF', spots: '4 places restantes', status: 'open' as const },
-  { label: 'ÉTÉ 2026',      dates: '8 Juillet – 29 Juillet', price: '3 200 CHF', spots: '12 places restantes', status: 'open' as const },
-  { label: 'AUTOMNE 2026',   dates: '16 Sept. – 7 Oct.', price: '2 750 CHF', spots: 'Places limitées', status: 'limited' as const },
+  { label: 'PRINTEMPS 2026', dates: '15 Avril -6 Mai', price: '2 900 CHF', spots: '4 places restantes', status: 'open' as const },
+  { label: 'ÉTÉ 2026',      dates: '8 Juillet -29 Juillet', price: '3 200 CHF', spots: '12 places restantes', status: 'open' as const },
+  { label: 'AUTOMNE 2026',   dates: '16 Sept. -7 Oct.', price: '2 750 CHF', spots: 'Places limitées', status: 'limited' as const },
 ]
 
 export default function Hero() {
@@ -100,10 +100,11 @@ export default function Hero() {
       entries.forEach(e => { if (e.isIntersecting) start(); else stop() })
     }, { threshold: 0 })
     if (heroEl) obs.observe(heroEl)
-    start()
+    const deferId = setTimeout(() => start(), 150)
 
     return () => {
       stop()
+      clearTimeout(deferId)
       window.removeEventListener('resize', onResize)
       obs.disconnect()
     }
@@ -142,7 +143,7 @@ export default function Hero() {
       }
     }
 
-    // embers array declared AFTER spawnEmber function — required to avoid animation bug
+    // embers array declared AFTER spawnEmber function -required to avoid animation bug
     const embers: ReturnType<typeof spawnEmber>[] = []
 
     function buildEmbers() {
@@ -203,10 +204,11 @@ export default function Hero() {
       entries.forEach(e => { if (e.isIntersecting) start(); else stop() })
     }, { threshold: 0 })
     if (heroEl) obs.observe(heroEl)
-    start()
+    const deferId = setTimeout(() => start(), 150)
 
     return () => {
       stop()
+      clearTimeout(deferId)
       window.removeEventListener('resize', onResize)
       obs.disconnect()
     }
@@ -232,29 +234,15 @@ export default function Hero() {
       mtnEls[id] = document.getElementById(id)
     })
 
-    const heroEl = document.getElementById('hero')
-    const heroContent = document.querySelector('.hero-content') as HTMLElement | null
-
     let ticking = false
     let scrollY = 0
 
     function updateParallax() {
-      // Montagnes — parallax normal
       Object.keys(MTN_SPEEDS).forEach(id => {
         const el = mtnEls[id]
         if (!el) return
         el.style.transform = `translateY(${scrollY * MTN_SPEEDS[id]}px)`
       })
-
-      // Texte — épinglé jusqu'à 30% viewport, borné pour ne jamais sortir du #hero
-      if (heroContent && heroEl) {
-        const heroHeight = heroEl.offsetHeight
-        const contentHeight = heroContent.offsetHeight
-        const maxSafe = Math.max(0, heroHeight - contentHeight)
-        const stopPoint = Math.min(window.innerHeight * 0.3, maxSafe)
-        const clampedY = Math.min(scrollY, stopPoint)
-        heroContent.style.transform = `translateY(${clampedY}px)`
-      }
 
       ticking = false
     }
@@ -283,22 +271,22 @@ export default function Hero() {
       {/* Summit Mountain Glow */}
       <div className="summit-glow" aria-hidden="true"></div>
 
-      {/* Mountains — 8-layer SVG parallax */}
+      {/* Mountains -8-layer SVG parallax */}
       <div className="mountains-wrap" aria-hidden="true" id="mtn-wrap">
 
-        {/* Layer 8 — grande montagne sombre, visible à droite à l'écran.
+        {/* Layer 8 -grande montagne sombre, visible à droite à l'écran.
              mountains-wrap a scaleX(-1) → pic à x≈110 SVG = x≈1330 à l'écran.
              fill: #1a1715 pour être visible sur fond #0C0C0C (plus sombre que mtn6 #222220) */}
         <div className="mtn-layer" id="mtn8">
           <svg viewBox="0 0 1440 520" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
-            {/* Corps — masse colossale, pic à gauche SVG = droite visuelle après scaleX(-1) */}
+            {/* Corps -masse colossale, pic à gauche SVG = droite visuelle après scaleX(-1) */}
             <polygon fill="#1a1715" points="
               0,520 0,460 8,390 18,310 32,228 52,148 76,78
               96,26 110,4 124,26 148,72 188,132 246,200
               328,272 436,344 572,408 740,460 950,492
               1200,510 1440,518 1440,520
             " />
-            {/* Calotte neigeuse — large et bien marquée */}
+            {/* Calotte neigeuse -large et bien marquée */}
             <polygon fill="rgba(244,240,232,0.52)" points="
               88,50 96,26 110,4 124,26 148,72 168,104
               158,118 142,110 126,118 110,122
@@ -315,7 +303,7 @@ export default function Hero() {
           </svg>
         </div>
 
-        {/* Layer 6 — farthest, lightest */}
+        {/* Layer 6 -farthest, lightest */}
         <div className="mtn-layer" id="mtn6">
           <svg viewBox="0 0 1440 500" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
             <polygon fill="#222220" points="
@@ -358,7 +346,7 @@ export default function Hero() {
           </svg>
         </div>
 
-        {/* Layer 3 — dramatic peaks with snow cap */}
+        {/* Layer 3 -dramatic peaks with snow cap */}
         <div className="mtn-layer" id="mtn3">
           <svg viewBox="0 0 1440 500" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
             <polygon fill="#181614" points="
@@ -383,7 +371,7 @@ export default function Hero() {
           </svg>
         </div>
 
-        {/* Layer 2 — foreground ridge */}
+        {/* Layer 2 -foreground ridge */}
         <div className="mtn-layer" id="mtn2">
           <svg viewBox="0 0 1440 500" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
             <polygon fill="#131110" points="
@@ -398,7 +386,7 @@ export default function Hero() {
               1172,436 1232,446 1295,455 1360,463 1440,472
               1440,500
             " />
-            {/* Neige mtn2 — très discrète, style mtn3 */}
+            {/* Neige mtn2 -très discrète, style mtn3 */}
             <polygon fill="rgba(242,237,228,0.18)" points="
               441,124 450,104 457,86 462,70 469,52
               474,58 478,72 484,90 492,112 500,128
@@ -407,7 +395,7 @@ export default function Hero() {
           </svg>
         </div>
 
-        {/* Layer 1 — closest, darkest base */}
+        {/* Layer 1 -closest, darkest base */}
         <div className="mtn-layer" id="mtn1">
           <svg viewBox="0 0 1440 500" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
             <polygon fill="#0A0A0A" points="
@@ -421,7 +409,7 @@ export default function Hero() {
               1188,366 1234,380 1282,394 1332,408 1386,420
               1440,432 1440,500
             " />
-            {/* Neige mtn1 — calot pic, style mtn3 */}
+            {/* Neige mtn1 -calot pic, style mtn3 */}
             <polygon fill="rgba(242,237,228,0.24)" points="
               694,116 710,92 726,72 740,54 752,40 762,32
               772,38 782,54 794,72 808,96 820,118
@@ -445,7 +433,7 @@ export default function Hero() {
 
       {/* Hero content */}
       <div className="hero-content">
-        <span className="hero-pill">Caucasus Peak</span>
+        <span className="hero-pill">MKR Caucasian Camp · MMA / Lutte</span>
 
         <h1 className="hero-h1">
           ENTRAÎNE-TOI LÀ<br />
@@ -476,7 +464,7 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Camp carousel — bottom right */}
+      {/* Camp carousel -bottom right */}
       <HeroCampCarousel />
 
       {/* Scroll indicator */}

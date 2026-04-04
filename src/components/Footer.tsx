@@ -128,7 +128,7 @@ export default function Footer() {
         {/* Bottom strip */}
         <div className="footer-bottom">
           <div className="footer-bottom-inner">
-            <span className="footer-copy">2026 MKR Caucasian Camp · Tous droits reserves · mkrcaucasiancamp.com</span>
+            <span className="footer-copy">&copy; 2026 MKR Caucasian Camp · Tous droits reserves · mkrcaucasiancamp.com</span>
             <nav className="footer-legal" aria-label="Liens legaux">
               <a href="/mentions-legales">Mentions legales</a>
               <span className="footer-legal-dot" aria-hidden="true">·</span>

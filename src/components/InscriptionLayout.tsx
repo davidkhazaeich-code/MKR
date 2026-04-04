@@ -36,16 +36,14 @@ const INITIAL: FormData = {
 
 /* ─────────────── HELPERS ─────────────── */
 
-function Field({ label, required, hint, children }: {
-  label: string; required?: boolean; hint?: string; children: React.ReactNode
+function Field({ label, hint, children }: {
+  label: string; hint?: string; children: React.ReactNode
 }) {
   return (
     <div className="cand-field">
-      <label className="cand-label">
-        {label}{required && <span className="cand-required">*</span>}
-      </label>
-      {hint && <span className="cand-hint">{hint}</span>}
+      <label className="cand-label">{label}</label>
       {children}
+      {hint && <span className="cand-hint">{hint}</span>}
     </div>
   )
 }
@@ -241,35 +239,35 @@ export default function InscriptionLayout() {
             {step === 0 && (
               <div className="cand-panel">
                 <div className="cand-row">
-                  <Field label="Prénom" required>
+                  <Field label="Prénom">
                     <input className="cand-input" type="text" autoComplete="given-name"
                       placeholder="Ton prénom" value={form.prenom}
                       onChange={e => set('prenom', e.target.value)} />
                   </Field>
-                  <Field label="Nom" required>
+                  <Field label="Nom">
                     <input className="cand-input" type="text" autoComplete="family-name"
                       placeholder="Ton nom" value={form.nom}
                       onChange={e => set('nom', e.target.value)} />
                   </Field>
                 </div>
                 <div className="cand-row">
-                  <Field label="Date de naissance" required hint="Tu dois avoir au moins 18 ans">
+                  <Field label="Date de naissance" hint="Tu dois avoir au moins 18 ans">
                     <input className="cand-input" type="date" value={form.dateNaissance}
                       onChange={e => set('dateNaissance', e.target.value)} />
                   </Field>
-                  <Field label="Pays de résidence" required>
+                  <Field label="Pays de résidence">
                     <input className="cand-input" type="text" autoComplete="country-name"
                       placeholder="France, Suisse, Canada..." value={form.pays}
                       onChange={e => set('pays', e.target.value)} />
                   </Field>
                 </div>
                 <div className="cand-row">
-                  <Field label="Email" required>
+                  <Field label="Email">
                     <input className="cand-input" type="email" autoComplete="email"
                       placeholder="ton@email.com" value={form.email}
                       onChange={e => set('email', e.target.value)} />
                   </Field>
-                  <Field label="Téléphone" hint="optionnel">
+                  <Field label="Téléphone">
                     <input className="cand-input" type="tel" autoComplete="tel"
                       placeholder="+33 6 XX XX XX XX" value={form.telephone}
                       onChange={e => set('telephone', e.target.value)} />
@@ -281,7 +279,7 @@ export default function InscriptionLayout() {
             {/* ── STEP 2 ── */}
             {step === 1 && (
               <div className="cand-panel">
-                <Field label="Discipline principale" required>
+                <Field label="Discipline principale">
                   <select className="cand-select" value={form.disciplinePrincipale}
                     onChange={e => set('disciplinePrincipale', e.target.value)}>
                     <option value="" disabled>Sélectionner</option>
@@ -302,17 +300,17 @@ export default function InscriptionLayout() {
                 </Field>
 
                 <div className="cand-row">
-                  <Field label="Années de pratique" required>
+                  <Field label="Années de pratique">
                     <select className="cand-select" value={form.anneesPratique}
                       onChange={e => set('anneesPratique', e.target.value)}>
                       <option value="" disabled>Sélectionner</option>
-                      <option value="1-2">1 – 2 ans</option>
-                      <option value="2-5">2 – 5 ans</option>
-                      <option value="5-10">5 – 10 ans</option>
+                      <option value="1-2">1 -2 ans</option>
+                      <option value="2-5">2 -5 ans</option>
+                      <option value="5-10">5 -10 ans</option>
                       <option value="10+">10 ans et plus</option>
                     </select>
                   </Field>
-                  <Field label="Niveau actuel" required>
+                  <Field label="Niveau actuel">
                     <select className="cand-select" value={form.niveau}
                       onChange={e => set('niveau', e.target.value)}>
                       <option value="" disabled>Sélectionner</option>
@@ -352,18 +350,18 @@ export default function InscriptionLayout() {
             {/* ── STEP 3 ── */}
             {step === 2 && (
               <div className="cand-panel">
-                <Field label="Comment évalues-tu ta condition physique actuelle ?" required>
+                <Field label="Comment évalues-tu ta condition physique actuelle ?">
                   <RadioGroup name="condition" value={form.conditionPhysique}
                     onChange={v => set('conditionPhysique', v)}
                     options={[
-                      { val: '2', label: 'Moyenne — reprise récente' },
-                      { val: '3', label: 'Bonne — entraînement régulier' },
-                      { val: '4', label: 'Très bonne — entraînement intensif' },
-                      { val: '5', label: 'Excellente — niveau compétition' },
+                      { val: '2', label: 'Moyenne -reprise récente' },
+                      { val: '3', label: 'Bonne -entraînement régulier' },
+                      { val: '4', label: 'Très bonne -entraînement intensif' },
+                      { val: '5', label: 'Excellente -niveau compétition' },
                     ]}
                   />
                 </Field>
-                <Field label="As-tu eu des blessures significatives ces 3 derniers mois ?" required>
+                <Field label="As-tu eu des blessures significatives ces 3 derniers mois ?">
                   <RadioGroup name="blessures" value={form.blessuresRecentes}
                     onChange={v => set('blessuresRecentes', v)}
                     options={[
@@ -379,7 +377,7 @@ export default function InscriptionLayout() {
                       onChange={e => set('blessuresDetail', e.target.value)} />
                   )}
                 </Field>
-                <Field label="As-tu des contre-indications médicales à l'effort intense ?" required>
+                <Field label="As-tu des contre-indications médicales à l'effort intense ?">
                   <RadioGroup name="contre" value={form.contreIndications}
                     onChange={v => set('contreIndications', v)}
                     options={[
@@ -394,7 +392,7 @@ export default function InscriptionLayout() {
                       onChange={e => set('contreIndicationsDetail', e.target.value)} />
                   )}
                 </Field>
-                <Field label="Es-tu capable de t'entraîner deux fois par jour, 6 jours sur 7 ?" required
+                <Field label="Es-tu capable de t'entraîner deux fois par jour, 6 jours sur 7 ?"
                   hint="Les sessions durent 2 à 3h. C'est le rythme standard du camp.">
                   <RadioGroup name="deuxfois" value={form.deuxFoisJour}
                     onChange={v => set('deuxFoisJour', v)}
@@ -412,16 +410,16 @@ export default function InscriptionLayout() {
             {step === 3 && (
               <div className="cand-panel">
                 <div className="cand-row">
-                  <Field label="Session souhaitée" required>
+                  <Field label="Session souhaitée">
                     <select className="cand-select" value={form.session}
                       onChange={e => set('session', e.target.value)}>
                       <option value="" disabled>Sélectionner</option>
-                      <option value="printemps-2026">Printemps 2026 (Mai – Juin)</option>
-                      <option value="ete-2026">Été 2026 (Juillet – Août)</option>
-                      <option value="automne-2026">Automne 2026 (Septembre – Octobre)</option>
+                      <option value="printemps-2026">Printemps 2026 (Mai -Juin)</option>
+                      <option value="ete-2026">Été 2026 (Juillet -Août)</option>
+                      <option value="automne-2026">Automne 2026 (Septembre -Octobre)</option>
                     </select>
                   </Field>
-                  <Field label="Durée souhaitée" required>
+                  <Field label="Durée souhaitée">
                     <select className="cand-select" value={form.duree}
                       onChange={e => set('duree', e.target.value)}>
                       <option value="" disabled>Sélectionner</option>
@@ -432,11 +430,11 @@ export default function InscriptionLayout() {
                     </select>
                   </Field>
                 </div>
-                <Field label="Ville / pays de départ" required hint="Utilisé pour estimer les vols">
+                <Field label="Ville / pays de départ" hint="Utilisé pour estimer les vols">
                   <input className="cand-input" type="text" placeholder="Ex : Paris, Genève, Montréal..."
                     value={form.villeDepart} onChange={e => set('villeDepart', e.target.value)} />
                 </Field>
-                <Field label="Es-tu disponible pour un entretien vidéo de sélection ?" required
+                <Field label="Es-tu disponible pour un entretien vidéo de sélection ?"
                   hint="L'entretien dure 20 min. Il est obligatoire pour valider ta candidature.">
                   <RadioGroup name="entretien" value={form.disponibleEntretien}
                     onChange={v => set('disponibleEntretien', v)}

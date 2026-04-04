@@ -285,9 +285,9 @@ export default function CandidatureForm() {
                 <select className="cand-select" value={form.anneesPratique}
                   onChange={e => set('anneesPratique', e.target.value)}>
                   <option value="" disabled>Sélectionner</option>
-                  <option value="1-2">1 – 2 ans</option>
-                  <option value="2-5">2 – 5 ans</option>
-                  <option value="5-10">5 – 10 ans</option>
+                  <option value="1-2">1 -2 ans</option>
+                  <option value="2-5">2 -5 ans</option>
+                  <option value="5-10">5 -10 ans</option>
                   <option value="10+">10 ans et plus</option>
                 </select>
               </Field>
@@ -321,7 +321,7 @@ export default function CandidatureForm() {
                 value={form.palmares} onChange={e => set('palmares', e.target.value)} />
             </Field>
 
-            <Field label="Lien vidéo" hint="YouTube, Instagram, footage de compétition — fortement recommandé">
+            <Field label="Lien vidéo" hint="YouTube, Instagram, footage de compétition -fortement recommandé">
               <input className="cand-input" type="url"
                 placeholder="https://youtube.com/..."
                 value={form.lienVideo} onChange={e => set('lienVideo', e.target.value)} />
@@ -338,10 +338,10 @@ export default function CandidatureForm() {
               <RadioGroup name="condition" value={form.conditionPhysique}
                 onChange={v => set('conditionPhysique', v)}
                 options={[
-                  { val: '2', label: 'Moyenne — reprise récente' },
-                  { val: '3', label: 'Bonne — entraînement régulier' },
-                  { val: '4', label: 'Très bonne — entraînement intensif' },
-                  { val: '5', label: 'Excellente — niveau compétition' },
+                  { val: '2', label: 'Moyenne -reprise récente' },
+                  { val: '3', label: 'Bonne -entraînement régulier' },
+                  { val: '4', label: 'Très bonne -entraînement intensif' },
+                  { val: '5', label: 'Excellente -niveau compétition' },
                 ]}
               />
             </Field>
@@ -406,9 +406,9 @@ export default function CandidatureForm() {
                 <select className="cand-select" value={form.session}
                   onChange={e => set('session', e.target.value)}>
                   <option value="" disabled>Sélectionner</option>
-                  <option value="printemps-2026">Printemps 2026 (Mai – Juin)</option>
-                  <option value="ete-2026">Été 2026 (Juillet – Août)</option>
-                  <option value="automne-2026">Automne 2026 (Septembre – Octobre)</option>
+                  <option value="printemps-2026">Printemps 2026 (Mai -Juin)</option>
+                  <option value="ete-2026">Été 2026 (Juillet -Août)</option>
+                  <option value="automne-2026">Automne 2026 (Septembre -Octobre)</option>
                 </select>
               </Field>
               <Field label="Durée souhaitée" required>

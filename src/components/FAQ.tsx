@@ -66,9 +66,9 @@ export default function FAQ() {
                     {item.q}
                     <span className={`faq-question-icon${openSet.has(i) ? ' open' : ''}`}>+</span>
                   </button>
-                  {openSet.has(i) && (
-                    <div className="faq-answer-wrap"><p className="faq-answer">{item.a}</p></div>
-                  )}
+                  <div className={`faq-answer-wrap${openSet.has(i) ? ' open' : ''}`} aria-hidden={!openSet.has(i)}>
+                    <p className="faq-answer">{item.a}</p>
+                  </div>
                 </div>
               )
             })}
@@ -82,9 +82,9 @@ export default function FAQ() {
                     {item.q}
                     <span className={`faq-question-icon${openSet.has(i) ? ' open' : ''}`}>+</span>
                   </button>
-                  {openSet.has(i) && (
-                    <div className="faq-answer-wrap"><p className="faq-answer">{item.a}</p></div>
-                  )}
+                  <div className={`faq-answer-wrap${openSet.has(i) ? ' open' : ''}`} aria-hidden={!openSet.has(i)}>
+                    <p className="faq-answer">{item.a}</p>
+                  </div>
                 </div>
               )
             })}
