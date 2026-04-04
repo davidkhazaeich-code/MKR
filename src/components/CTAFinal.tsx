@@ -10,8 +10,8 @@ export default function CTAFinal() {
         <p className="cta-subtitle reveal" style={{ transitionDelay: '0.1s' }}>
           Prochain camp · Printemps 2026 · Caucase, Géorgie
         </p>
-        <a href="#contact" className="cta-btn reveal" style={{ transitionDelay: '0.2s' }}>
-          POSTULER MAINTENANT
+        <a href="/inscription" className="cta-btn reveal" style={{ transitionDelay: '0.2s' }}>
+          DÉPOSER MA CANDIDATURE
         </a>
       </div>
 

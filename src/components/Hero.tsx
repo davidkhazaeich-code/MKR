@@ -450,7 +450,7 @@ export default function Hero() {
         <p className="hero-subtitle">Camp d&apos;entraînement MMA &amp; Lutte , Caucase, Géorgie</p>
 
         <div className="hero-ctas">
-          <a href="#sessions" className="btn-primary">REJOINDRE LE CAMP</a>
+          <a href="#contact" className="btn-primary">POSTULER AU CAMP</a>
           <a href="#video-section" className="btn-ghost">DÉCOUVRIR</a>
         </div>
 
@@ -472,8 +472,10 @@ export default function Hero() {
 
       {/* Scroll indicator */}
       <div className="scroll-indicator" aria-hidden="true">
-        <span>Descends</span>
-        <div className="scroll-arrow"></div>
+        <div className="scroll-line">
+          <div className="scroll-line-fill"></div>
+        </div>
+        <span className="scroll-label">SCROLL</span>
       </div>
 
     </section>

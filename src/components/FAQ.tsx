@@ -36,10 +36,14 @@ const faqData = [
 ]
 
 export default function FAQ() {
-  const [openIndex, setOpenIndex] = useState<number | null>(null)
+  const [openSet, setOpenSet] = useState<Set<number>>(new Set())
 
   const toggle = (i: number) => {
-    setOpenIndex(prev => (prev === i ? null : i))
+    setOpenSet(prev => {
+      const next = new Set(prev)
+      next.has(i) ? next.delete(i) : next.add(i)
+      return next
+    })
   }
 
   return (
@@ -53,36 +57,38 @@ export default function FAQ() {
         </div>
 
         <div className="faq-grid">
-          {[0, 1].map(col => (
-            <div key={col} className="faq-col">
-              {faqData
-                .map((item, i) => ({ item, i }))
-                .filter(({ i }) => i % 2 === col)
-                .map(({ item, i }) => (
-                  <div
-                    key={i}
-                    className="faq-item reveal"
-                    style={{ transitionDelay: item.delay }}
-                  >
-                    <button
-                      className="faq-question"
-                      onClick={() => toggle(i)}
-                      aria-expanded={openIndex === i}
-                    >
-                      {item.q}
-                      <span className={`faq-question-icon${openIndex === i ? ' open' : ''}`}>
-                        +
-                      </span>
-                    </button>
-                    {openIndex === i && (
-                      <div className="faq-answer-wrap">
-                        <p className="faq-answer">{item.a}</p>
-                      </div>
-                    )}
-                  </div>
-                ))}
-            </div>
-          ))}
+          <div className="faq-col">
+            {faqData.filter((_, i) => i % 2 === 0).map((item, idx) => {
+              const i = idx * 2
+              return (
+                <div key={i} className="faq-item reveal" style={{ transitionDelay: item.delay }}>
+                  <button className="faq-question" onClick={() => toggle(i)} aria-expanded={openSet.has(i)}>
+                    {item.q}
+                    <span className={`faq-question-icon${openSet.has(i) ? ' open' : ''}`}>+</span>
+                  </button>
+                  {openSet.has(i) && (
+                    <div className="faq-answer-wrap"><p className="faq-answer">{item.a}</p></div>
+                  )}
+                </div>
+              )
+            })}
+          </div>
+          <div className="faq-col">
+            {faqData.filter((_, i) => i % 2 === 1).map((item, idx) => {
+              const i = idx * 2 + 1
+              return (
+                <div key={i} className="faq-item reveal" style={{ transitionDelay: item.delay }}>
+                  <button className="faq-question" onClick={() => toggle(i)} aria-expanded={openSet.has(i)}>
+                    {item.q}
+                    <span className={`faq-question-icon${openSet.has(i) ? ' open' : ''}`}>+</span>
+                  </button>
+                  {openSet.has(i) && (
+                    <div className="faq-answer-wrap"><p className="faq-answer">{item.a}</p></div>
+                  )}
+                </div>
+              )
+            })}
+          </div>
         </div>
       </div>
     </section>

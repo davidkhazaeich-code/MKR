@@ -87,10 +87,9 @@ export default function Nav() {
         </ul>
 
         <a
-          href="#sessions"
+          href="/inscription"
           className="nav-cta"
           aria-label="S'inscrire au camp"
-          onClick={e => handleAnchorClick(e, '#sessions')}
         >
           S&apos;INSCRIRE
         </a>
@@ -130,9 +129,8 @@ export default function Nav() {
           ))}
         </ul>
         <a
-          href="#sessions"
+          href="/inscription"
           className="mobile-menu-cta"
-          onClick={e => handleAnchorClick(e, '#sessions')}
         >
           S&apos;INSCRIRE
         </a>
