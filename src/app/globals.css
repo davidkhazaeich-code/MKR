@@ -1974,6 +1974,29 @@ h1, h2, h3, h4, h5 {
   text-transform: uppercase;
   color: var(--text-muted);
 }
+.footer-dkdp {
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  vertical-align: middle;
+}
+.footer-dkdp:hover {
+  color: var(--primary);
+}
+.footer-dkdp-logo {
+  display: inline-block;
+  height: 14px;
+  width: auto;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+  vertical-align: middle;
+}
+.footer-dkdp:hover .footer-dkdp-logo {
+  opacity: 1;
+}
 .footer-legal {
   display: flex;
   align-items: center;

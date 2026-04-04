@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 
 export default function Footer() {
   return (
@@ -130,7 +131,7 @@ export default function Footer() {
         {/* Bottom strip */}
         <div className="footer-bottom">
           <div className="footer-bottom-inner">
-            <span className="footer-copy">&copy; 2026 MKR Caucasian Camp · Tous droits reserves · mkrcaucasiancamp.com</span>
+            <span className="footer-copy">&copy; 2026 MKR Caucasian Camp · Tous droits reserves · mkrcaucasiancamp.com · Site concu par <a href="https://dkdp.ch" target="_blank" rel="noopener noreferrer" className="footer-dkdp"><Image src="/images/dkdp-logo.webp" alt="DKDP" width={48} height={16} className="footer-dkdp-logo" /> DKDP</a></span>
             <nav className="footer-legal" aria-label="Liens legaux">
               <Link href="/mentions-legales">Mentions legales</Link>
               <span className="footer-legal-dot" aria-hidden="true">·</span>
