@@ -38,7 +38,23 @@ export default function Home() {
         />
 
         <Philosophie />
+
+        {/* Mountain divider: philosophie -> coaches (next bg: surface-lowest #0E0E0E) */}
+        <MtnDivider
+          fillColor="#0E0E0E"
+          viewBox="0 0 1440 80"
+          points="0,80 0,58 55,44 115,58 185,36 255,52 318,26 372,44 422,18 468,36 508,10 540,28 565,6 588,22 610,4 632,20 655,6 678,22 704,8 730,26 758,10 795,32 835,14 880,38 928,22 985,46 1045,30 1108,52 1165,36 1225,56 1285,42 1348,62 1405,48 1440,62 1440,80"
+        />
+
         <Coaches />
+
+        {/* Mountain divider: coaches -> sessions (next bg: bg #131313) */}
+        <MtnDivider
+          fillColor="#131313"
+          viewBox="0 0 1440 75"
+          points="0,75 0,52 65,38 135,54 210,30 278,48 342,22 398,40 450,14 492,32 530,8 558,26 582,4 604,20 626,2 650,18 674,4 698,20 724,6 752,24 782,8 820,30 862,12 908,36 958,20 1015,44 1075,28 1138,50 1195,34 1255,54 1315,40 1375,58 1440,44 1440,75"
+        />
+
         <Sessions />
 
         {/* Mountain divider: sessions -> timeline (next bg: surface-lowest #0E0E0E) */}
