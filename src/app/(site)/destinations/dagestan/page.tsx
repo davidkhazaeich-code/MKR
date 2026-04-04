@@ -24,8 +24,8 @@ export default function DagestanPage() {
       />
 
       <DestinationReveal
-        image="/images/environment/dagestan-panorama.webp"
-        alt="Vue panoramique des montagnes du Dagestan, Caucase"
+        image="/images/environment/dagestan-horses.webp"
+        alt="Cavaliers sur les montagnes du Dagestan au coucher du soleil"
         label="CAUCASE · RUSSIE"
         title="LES MONTAGNES<br/>DU DAGESTAN"
         facts={[
