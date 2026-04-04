@@ -13,6 +13,7 @@ interface MapDot {
 interface WorldMapProps {
   dots?: MapDot[]
   lineColor?: string
+  mapBg?: string
   animationDuration?: number
   loop?: boolean
 }
@@ -20,6 +21,7 @@ interface WorldMapProps {
 export function WorldMap({
   dots = [],
   lineColor = '#C84B31',
+  mapBg = '#0E0E0E',
   animationDuration = 2.2,
   loop = true,
 }: WorldMapProps) {
@@ -34,9 +36,9 @@ export function WorldMap({
         radius: 0.22,
         color: 'rgba(200,75,49,0.28)',
         shape: 'circle',
-        backgroundColor: '#0E0E0E',
+        backgroundColor: mapBg,
       }),
-    [map]
+    [map, mapBg]
   )
 
   const projectPoint = (lat: number, lng: number) => ({

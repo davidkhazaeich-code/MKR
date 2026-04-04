@@ -5,7 +5,6 @@ import { motion, useMotionTemplate, useScroll, useTransform } from 'framer-motio
 import { WorldMap } from '@/components/WorldMap'
 
 const ROUTES = [
-  { start: { lat: 48.8566, lng: 2.3522,   label: 'Paris'    }, end: { lat: 41.0082, lng: 28.9784, label: 'Istanbul' } },
   { start: { lat: 46.2044, lng: 6.1432,   label: 'Genève'   }, end: { lat: 41.0082, lng: 28.9784, label: 'Istanbul' } },
   { start: { lat: 45.5017, lng: -73.5673, label: 'Montréal' }, end: { lat: 41.0082, lng: 28.9784, label: 'Istanbul' } },
   { start: { lat: 41.0082, lng: 28.9784,  label: 'Istanbul' }, end: { lat: 42.9849, lng: 47.5047, label: 'Dagestan' } },
@@ -47,7 +46,7 @@ export default function VoyageReveal() {
           className="voyage-reveal-map"
           style={{ scale: mapScale, transformOrigin: '50% 26%' }}
         >
-          <WorldMap dots={ROUTES} lineColor="#C84B31" loop animationDuration={2.2} />
+          <WorldMap dots={ROUTES} lineColor="#C84B31" mapBg="transparent" loop animationDuration={2.2} />
         </motion.div>
 
         {/* Overlay gradient sombre pour lisibilité */}
@@ -64,14 +63,14 @@ export default function VoyageReveal() {
             VERS LE <span className="highlight">CAUCASE</span>
           </h2>
           <p>
-            Paris, Genève ou Montréal — une connexion via Istanbul,
+            Genève ou Montréal — une connexion via Istanbul,
             puis l&apos;envol final vers le cœur du Dagestan.
           </p>
 
           <div className="voyage-reveal-steps">
             <div className="voyage-reveal-step">
               <span className="voyage-reveal-num">01</span>
-              <span>Paris / Genève / Montréal → Istanbul</span>
+              <span>Genève ou Montréal → Istanbul</span>
             </div>
             <div className="voyage-reveal-step">
               <span className="voyage-reveal-num">02</span>

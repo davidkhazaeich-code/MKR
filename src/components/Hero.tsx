@@ -226,9 +226,6 @@ export default function Hero() {
       mtnEls[id] = document.getElementById(id)
     })
 
-    const heroContent = document.querySelector('.hero-content') as HTMLElement | null
-    const HERO_TEXT_SPEED = 0.62
-
     let ticking = false
     let scrollY = 0
 
@@ -239,9 +236,6 @@ export default function Hero() {
         // scaleX(-1) est sur le parent wrap — les layers n'ont besoin que du translateY
         el.style.transform = `translateY(${scrollY * MTN_SPEEDS[id]}px)`
       })
-      if (heroContent) {
-        heroContent.style.transform = `translateY(${scrollY * HERO_TEXT_SPEED}px)`
-      }
       ticking = false
     }
 

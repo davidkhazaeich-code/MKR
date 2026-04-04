@@ -3,11 +3,6 @@
 import { WorldMap } from '@/components/WorldMap'
 
 const ROUTES = [
-  // Paris → Istanbul
-  {
-    start: { lat: 48.8566, lng: 2.3522,   label: 'Paris' },
-    end:   { lat: 41.0082, lng: 28.9784,  label: 'Istanbul' },
-  },
   // Genève → Istanbul
   {
     start: { lat: 46.2044, lng: 6.1432,   label: 'Genève' },
@@ -38,14 +33,14 @@ export default function Voyage() {
             VERS LE <span className="highlight">CAUCASE</span>
           </h2>
           <p className="voyage-subtitle">
-            Deux portes d&apos;entrée vers le camp — Paris ou Montréal. Une connexion via Istanbul, puis l&apos;envol final vers le cœur du Dagestan.
+            Deux portes d&apos;entrée vers le camp — Genève ou Montréal. Une connexion via Istanbul, puis l&apos;envol final vers le cœur du Dagestan.
           </p>
         </div>
 
         {/* Carte interactive — zoom sur la zone Europe/Caucase */}
         <div className="voyage-map-wrap reveal">
           <div className="voyage-map-zoom">
-            <WorldMap dots={ROUTES} lineColor="#C84B31" />
+            <WorldMap dots={ROUTES} lineColor="#C84B31" mapBg="transparent" />
           </div>
         </div>
 
@@ -54,8 +49,8 @@ export default function Voyage() {
           <div className="voyage-step">
             <div className="voyage-step-num">01</div>
             <div className="voyage-step-content">
-              <strong>Paris / Genève / Montréal</strong>
-              <span>Vol vers Istanbul (2h–10h selon départ)</span>
+              <strong>Genève ou Montréal</strong>
+              <span>Vol vers Istanbul (2h / 10h selon départ)</span>
             </div>
           </div>
           <div className="voyage-step-arrow" aria-hidden="true">→</div>

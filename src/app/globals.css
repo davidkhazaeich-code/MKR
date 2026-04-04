@@ -389,10 +389,10 @@ h1, h2, h3, h4, h5 {
   will-change: transform;
 }
 
-/* Hero content */
+/* Hero content — épinglé pendant le scroll du hero */
 .hero-content {
-  position: absolute;
-  top: 0; left: 0; right: 0;
+  position: sticky;
+  top: 0;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -1928,7 +1928,38 @@ h1, h2, h3, h4, h5 {
   .world-map-wrap { aspect-ratio: 1.5 / 1; }
 }
 
-/* ── Zoom carte — léger focus Europe/Caucase (−80% de l'excès) ── */
+/* ── Grid hero derrière la carte (v1 Voyage) ── */
+.voyage-map-wrap {
+  position: relative;
+}
+.voyage-map-wrap::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(
+      -45deg,
+      transparent 0px, transparent 22px,
+      rgba(200,75,49,0.06) 22px, rgba(200,75,49,0.06) 23px
+    ),
+    repeating-linear-gradient(
+      45deg,
+      transparent 0px, transparent 22px,
+      rgba(200,75,49,0.03) 22px, rgba(200,75,49,0.03) 23px
+    ),
+    #0C0C0C;
+  z-index: 0;
+  pointer-events: none;
+}
+.voyage-map-wrap .voyage-map-zoom {
+  position: relative;
+  z-index: 1;
+}
+.voyage-map-wrap .world-map-wrap {
+  background: transparent;
+}
+
+/* ── Zoom carte — léger focus Europe/Caucase ── */
 .voyage-map-zoom {
   overflow: hidden;
   position: relative;
@@ -1954,7 +1985,18 @@ h1, h2, h3, h4, h5 {
   width: 100%;
   height: 100vh;
   overflow: hidden;
-  background: #0E0E0E;
+  background:
+    repeating-linear-gradient(
+      -45deg,
+      transparent 0px, transparent 22px,
+      rgba(200,75,49,0.06) 22px, rgba(200,75,49,0.06) 23px
+    ),
+    repeating-linear-gradient(
+      45deg,
+      transparent 0px, transparent 22px,
+      rgba(200,75,49,0.03) 22px, rgba(200,75,49,0.03) 23px
+    ),
+    #0C0C0C;
   will-change: clip-path;
 }
 
@@ -1968,7 +2010,8 @@ h1, h2, h3, h4, h5 {
 .voyage-reveal-map .world-map-wrap {
   width: 100%;
   aspect-ratio: 2 / 1;
-  transform: scale(1.3);
+  background: transparent;
+  transform: scale(1.1);
   transform-origin: 56% 25%;
 }
 
@@ -2037,7 +2080,7 @@ h1, h2, h3, h4, h5 {
   .voyage-reveal-content { padding: 0 1.5rem; max-width: 100%; }
   .voyage-reveal-content h2 { font-size: 2.4rem; }
   .voyage-reveal-map .world-map-wrap {
-    transform: scale(1.3);
+    transform: scale(1.1);
     transform-origin: 56% 26%;
   }
 }
