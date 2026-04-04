@@ -3522,6 +3522,103 @@ h1, h2, h3, h4, h5 {
 }
 
 /* ═══════════════════════════════════════════════
+   DESTINATION REVEAL — clip-path scroll effect
+═══════════════════════════════════════════════ */
+.dest-reveal-outer {
+  position: relative;
+  width: 100%;
+}
+.dest-reveal-sticky {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+.dest-reveal-img-wrap {
+  position: absolute;
+  inset: 0;
+}
+.dest-reveal-img {
+  object-fit: cover;
+  object-position: center 30%;
+  filter: brightness(0.6) contrast(1.05);
+}
+.dest-reveal-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(9,9,7,0.88) 0%,
+    rgba(9,9,7,0.35) 45%,
+    rgba(9,9,7,0.12) 100%
+  );
+}
+.dest-reveal-container {
+  position: absolute;
+  bottom: 3.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: var(--max-w, 1240px);
+  padding: 0 2rem;
+}
+.dest-reveal-content {
+  max-width: 600px;
+}
+.dest-reveal-content .label-tag {
+  color: var(--primary);
+  display: block;
+  margin-bottom: 0.8rem;
+}
+.dest-reveal-content h2 {
+  font-size: clamp(2.2rem, 5vw, 4rem);
+  color: var(--text-primary);
+  letter-spacing: 0.04em;
+  line-height: 0.95;
+  margin-bottom: 1.8rem;
+}
+.dest-reveal-facts {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.8rem 2rem;
+  margin-bottom: 1.5rem;
+}
+.dest-reveal-fact {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+.dest-reveal-fact-label {
+  font-family: var(--font-barlow-condensed), sans-serif;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.dest-reveal-fact-value {
+  font-family: var(--font-teko), sans-serif;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: 0.04em;
+}
+.dest-reveal-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+@media (max-width: 768px) {
+  .dest-reveal-container { bottom: 2rem; padding: 0 1.5rem; }
+  .dest-reveal-content h2 { font-size: 2rem; }
+  .dest-reveal-facts { gap: 0.6rem 1.5rem; }
+  .dest-reveal-fact-value { font-size: 1.1rem; }
+}
+
+/* ═══════════════════════════════════════════════
    UNIFIED VISUAL EFFECTS — crosshatch, glows, reveal-clip
 ═══════════════════════════════════════════════ */
 

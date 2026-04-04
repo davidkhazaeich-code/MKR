@@ -2,6 +2,7 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
+import DestinationReveal from '@/components/DestinationReveal'
 
 export const metadata: Metadata = {
   title: 'Dagestan | MKR Caucasian Camp | Camps MMA au coeur du Caucase',
@@ -22,22 +23,21 @@ export default function DagestanPage() {
         ]}
       />
 
-      {/* Panorama */}
-      <section className="logi-section" style={{ paddingBottom: 0 }}>
-        <div className="inner">
-          <figure className="photo-card reveal">
-            <img
-              src="/images/environment/dagestan-panorama.webp"
-              alt="Vue panoramique des montagnes du Dagestan, Caucase"
-              width={1200}
-              height={600}
-              loading="lazy"
-              className="section-photo-img"
-              style={{ aspectRatio: '2/1', objectFit: 'cover', width: '100%' }}
-            />
-          </figure>
-        </div>
-      </section>
+      <DestinationReveal
+        image="/images/environment/dagestan-panorama.webp"
+        alt="Vue panoramique des montagnes du Dagestan, Caucase"
+        label="CAUCASE · RUSSIE"
+        title="LES MONTAGNES<br/>DU DAGESTAN"
+        facts={[
+          { label: 'Capitale', value: 'Makhachkala' },
+          { label: 'Altitude moyenne', value: '1 000 m' },
+          { label: 'Champions olympiques', value: '30+' },
+          { label: 'Champions UFC', value: '3' },
+          { label: 'Salles de combat', value: '100+' },
+          { label: 'Population', value: '3.1 millions' },
+        ]}
+        badges={['TERRE DU MMA', 'BERCEAU DE LA LUTTE', 'KHABIB NURMAGOMEDOV']}
+      />
 
       {/* Presentation */}
       <section className="logi-section">

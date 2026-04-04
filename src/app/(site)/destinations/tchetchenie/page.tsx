@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
+import DestinationReveal from '@/components/DestinationReveal'
 
 export const metadata: Metadata = {
   title: 'Tchetchenie | MKR Caucasian Camp | Camps MMA a Grozny',
@@ -21,22 +22,21 @@ export default function TchetcheniePage() {
         ]}
       />
 
-      {/* Panorama */}
-      <section className="logi-section" style={{ paddingBottom: 0 }}>
-        <div className="inner">
-          <figure className="photo-card reveal">
-            <img
-              src="/images/environment/grozny-city.webp"
-              alt="Vue de Grozny, capitale de la Tchetchenie"
-              width={1200}
-              height={600}
-              loading="lazy"
-              className="section-photo-img"
-              style={{ aspectRatio: '2/1', objectFit: 'cover', width: '100%' }}
-            />
-          </figure>
-        </div>
-      </section>
+      <DestinationReveal
+        image="/images/environment/grozny-city.webp"
+        alt="Vue de Grozny, capitale de la Tchetchenie"
+        label="CAUCASE · RUSSIE"
+        title="GROZNY,<br/>LE RENOUVEAU"
+        facts={[
+          { label: 'Capitale', value: 'Grozny' },
+          { label: 'Altitude', value: '170 m' },
+          { label: 'Salles de combat', value: '50+' },
+          { label: 'Population', value: '1.5 million' },
+          { label: 'Sport national', value: 'MMA / Lutte' },
+          { label: 'Reconstruction', value: 'Ville moderne' },
+        ]}
+        badges={['INFRASTRUCTURES NEUVES', 'TRADITION GUERRIERE', 'CULTURE MILLENAIRE']}
+      />
 
       {/* Presentation */}
       <section className="logi-section">
