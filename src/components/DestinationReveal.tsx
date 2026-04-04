@@ -18,24 +18,22 @@ export default function DestinationReveal({ image, alt, label, title, facts, bad
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ['start start', 'end end'],
+    offset: ['start end', 'center center'],
   })
 
-  // Reveal clip-path during first 60% of scroll
-  const clipP = useTransform(scrollYProgress, [0, 0.6], [30, 0])
-  const clipQ = useTransform(scrollYProgress, [0, 0.6], [70, 100])
+  const clipP = useTransform(scrollYProgress, [0, 1], [30, 0])
+  const clipQ = useTransform(scrollYProgress, [0, 1], [70, 100])
   const clipPath = useMotionTemplate`polygon(${clipP}% ${clipP}%, ${clipQ}% ${clipP}%, ${clipQ}% ${clipQ}%, ${clipP}% ${clipQ}%)`
 
-  const imgScale = useTransform(scrollYProgress, [0, 0.6], [1.25, 1])
-  // Text appears at 40% and stays visible for the remaining 60%
-  const textOpacity = useTransform(scrollYProgress, [0.35, 0.55], [0, 1])
-  const textY = useTransform(scrollYProgress, [0.35, 0.55], [30, 0])
+  const imgScale = useTransform(scrollYProgress, [0, 1], [1.25, 1])
+  const textOpacity = useTransform(scrollYProgress, [0.5, 1], [0, 1])
+  const textY = useTransform(scrollYProgress, [0.5, 1], [30, 0])
 
   return (
     <div
       ref={containerRef}
       className="dest-reveal-outer"
-      style={{ height: '200vh' }}
+      style={{ height: 'calc(1400px + 100vh)' }}
     >
       <motion.div
         className="dest-reveal-sticky"

@@ -67,7 +67,7 @@
 }
 
 html, body {
-  overflow-x: hidden;
+  overflow-x: clip;
   overscroll-behavior-x: none;
 }
 html {
@@ -3565,6 +3565,18 @@ h1, h2, h3, h4, h5 {
 .dest-reveal-outer {
   position: relative;
   width: 100%;
+  background:
+    repeating-linear-gradient(
+      -45deg,
+      transparent 0px, transparent 22px,
+      rgba(200,75,49,0.06) 22px, rgba(200,75,49,0.06) 23px
+    ),
+    repeating-linear-gradient(
+      45deg,
+      transparent 0px, transparent 22px,
+      rgba(200,75,49,0.03) 22px, rgba(200,75,49,0.03) 23px
+    ),
+    #0C0C0C;
 }
 .dest-reveal-sticky {
   position: sticky;
