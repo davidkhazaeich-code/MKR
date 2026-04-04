@@ -1968,8 +1968,7 @@ h1, h2, h3, h4, h5 {
 .voyage-reveal-map .world-map-wrap {
   width: 100%;
   aspect-ratio: 2 / 1;
-  /* Zoom max sur la zone Europe/Caucase */
-  transform: scale(4.2);
+  transform: scale(1.3);
   transform-origin: 56% 25%;
 }
 
@@ -2038,7 +2037,7 @@ h1, h2, h3, h4, h5 {
   .voyage-reveal-content { padding: 0 1.5rem; max-width: 100%; }
   .voyage-reveal-content h2 { font-size: 2.4rem; }
   .voyage-reveal-map .world-map-wrap {
-    transform: scale(3.2);
+    transform: scale(1.3);
     transform-origin: 56% 26%;
   }
 }
