@@ -204,7 +204,7 @@ export function WorldMap({
                   transition={{ delay: 0.5 * i + 0.8, duration: 0.6 }}
                   style={{ pointerEvents: 'none' }}
                 >
-                  <foreignObject x={midX - 60} y={midY - 1} width="120" height="22">
+                  <foreignObject x={midX - 60} y={midY + 9} width="120" height="22">
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
                       <span className="map-route-label map-route-label--glow" style={{ color: endColor }}>
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="7" height="7" style={{ flexShrink: 0 }}>
