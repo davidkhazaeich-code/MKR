@@ -196,7 +196,7 @@ export function WorldMap({
                 </motion.g>
               )}
 
-              {/* Route label above arc */}
+              {/* Route label below arc */}
               {dot.routeLabel && (
                 <motion.g
                   initial={{ opacity: 0 }}
@@ -204,7 +204,7 @@ export function WorldMap({
                   transition={{ delay: 0.5 * i + 0.8, duration: 0.6 }}
                   style={{ pointerEvents: 'none' }}
                 >
-                  <foreignObject x={midX - 55} y={midY - 24} width="110" height="22">
+                  <foreignObject x={midX - 55} y={midY + 4} width="110" height="22">
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
                       <span className="map-route-label" style={{ color: endColor }}>{dot.routeLabel}</span>
                     </div>

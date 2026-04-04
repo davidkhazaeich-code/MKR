@@ -3340,7 +3340,7 @@ h1, h2, h3, h4, h5 {
 /* Labels sur la carte */
 .map-label {
   font-family: var(--font-barlow-condensed), sans-serif;
-  font-size: 0.31rem;
+  font-size: 0.62rem;
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -3352,11 +3352,16 @@ h1, h2, h3, h4, h5 {
 }
 .map-route-label {
   font-family: var(--font-barlow-condensed), sans-serif;
-  font-size: 0.25rem;
+  font-size: 0.5rem;
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   white-space: nowrap;
+}
+@media (min-width: 1025px) {
+  .map-label { font-size: 0.31rem; padding: 1px 3px; }
+  .map-route-label { font-size: 0.25rem; }
+  .world-map-svg circle { r: 1.5px; }
 }
 
 .map-tooltip {
@@ -3489,7 +3494,11 @@ h1, h2, h3, h4, h5 {
   inset: 0;
   display: flex;
   align-items: center;
-  padding-top: 50px;
+}
+@media (min-width: 1025px) {
+  .voyage-reveal-map {
+    padding-top: 100px;
+  }
 }
 .voyage-reveal-map .world-map-wrap {
   width: 100%;
