@@ -41,7 +41,8 @@ export default function GuideDagestanPage() {
         </div>
       </section>
 
-      <section className="guide-section">
+      <section className="guide-section fx-grid fx-glow fx-stack-1">
+        <div className="fx-glow-orb fx-glow-orb--right" />
         <div className="inner">
           <div className="guide-layout reveal">
             <div>
@@ -50,7 +51,7 @@ export default function GuideDagestanPage() {
               </h2>
               <div className="grid-3x2">
                 {GUIDE_CONTENTS.map((item, i) => (
-                  <div key={i} className="content-card">
+                  <div key={i} className="content-card fx-grain fx-corner-glow">
                     <h3 className="card-title" style={{ fontSize: '0.9rem' }}>{item.title}</h3>
                     <p className="card-body" style={{ fontSize: '0.82rem' }}>{item.desc}</p>
                   </div>

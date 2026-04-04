@@ -40,7 +40,7 @@ export default function DagestanPage() {
       />
 
       {/* Presentation */}
-      <section className="logi-section">
+      <section className="logi-section fx-grid fx-stack-1">
         <div className="inner">
           <div className="layout-split reveal">
             <div>
@@ -69,7 +69,8 @@ export default function DagestanPage() {
       </section>
 
       {/* Section securite */}
-      <section className="dag-security">
+      <section className="dag-security fx-texture-concrete fx-glow fx-glow-breathe fx-mask-b fx-stack-2">
+        <div className="fx-glow-orb" />
         <div className="inner">
           <div className="reveal">
             <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>SECURITE</span>
@@ -110,7 +111,7 @@ export default function DagestanPage() {
       </section>
 
       {/* Lieux d'entrainement */}
-      <section className="logi-section">
+      <section className="logi-section fx-grid fx-stack-3">
         <div className="inner">
           <div className="logi-header reveal">
             <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>SALLES</span>
@@ -144,7 +145,8 @@ export default function DagestanPage() {
       </section>
 
       {/* Culture & excursions */}
-      <section className="logi-section logi-alt">
+      <section className="logi-section fx-texture-basalt fx-mask-c fx-stack-4 fx-glow">
+        <div className="fx-glow-orb fx-glow-orb--right" />
         <div className="inner">
           <div className="logi-header reveal">
             <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>CULTURE</span>
@@ -156,7 +158,7 @@ export default function DagestanPage() {
               { title: 'Dune de Sarykum', desc: "La plus grande dune d'Europe. Paysage surreal a quelques kilometres de Makhachkala.", img: '/images/environment/sarykum-dune.webp' },
               { title: 'Village de Gamsutl', desc: "Village fantome perche dans les montagnes. Temoignage d'un Dagestan ancestral.", img: '/images/environment/gamsutl-village.webp' },
             ].map((exc, i) => (
-              <div key={i} className="content-card reveal" style={{ transitionDelay: `${i * 0.08}s` }}>
+              <div key={i} className="content-card fx-grain fx-corner-glow reveal" style={{ transitionDelay: `${i * 0.08}s` }}>
                 <img
                   src={exc.img}
                   alt={exc.title}
@@ -188,7 +190,7 @@ export default function DagestanPage() {
       </section>
 
       {/* Logistique resume */}
-      <section className="logi-section">
+      <section className="logi-section fx-grid fx-stack-5">
         <div className="inner">
           <div className="group-card reveal">
             <h2>LOGISTIQUE DAGESTAN</h2>

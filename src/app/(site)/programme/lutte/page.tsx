@@ -39,7 +39,8 @@ export default function ProgrammeLuttePage() {
       />
 
       {/* Description */}
-      <section className="logi-section">
+      <section className="logi-section fx-grid fx-stack-1 fx-glow">
+        <div className="fx-glow-orb fx-glow-orb--left" />
         <div className="inner">
           <div className="layout-split reveal">
             <div>
@@ -82,7 +83,7 @@ export default function ProgrammeLuttePage() {
       </section>
 
       {/* Action banner */}
-      <section className="cinematic-banner">
+      <section className="cinematic-banner fx-stack-2">
         <div className="inner">
           <img
             src="/images/action/sambo-throw.webp"
@@ -96,7 +97,7 @@ export default function ProgrammeLuttePage() {
       </section>
 
       {/* Techniques */}
-      <section className="logi-section logi-alt">
+      <section className="logi-section fx-texture-basalt fx-mask-b fx-stack-3">
         <div className="inner">
           <div className="logi-header reveal">
             <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>TECHNIQUES</span>
@@ -104,7 +105,7 @@ export default function ProgrammeLuttePage() {
           </div>
           <div className="grid-3x2">
             {TECHNIQUES.map((t, i) => (
-              <div key={i} className="content-card reveal" style={{ transitionDelay: `${i * 0.06}s` }}>
+              <div key={i} className="content-card fx-grain fx-corner-glow reveal" style={{ transitionDelay: `${i * 0.06}s` }}>
                 <h3 className="card-title" style={{ fontSize: '0.95rem' }}>{t.title}</h3>
                 <p className="card-body" style={{ fontSize: '0.85rem' }}>{t.desc}</p>
               </div>
@@ -114,7 +115,8 @@ export default function ProgrammeLuttePage() {
       </section>
 
       {/* Session type */}
-      <section className="logi-section">
+      <section className="logi-section fx-grid fx-mask-c fx-stack-4 fx-glow">
+        <div className="fx-glow-orb fx-glow-orb--right" />
         <div className="inner">
           <div className="logi-header reveal">
             <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>SESSION TYPE</span>

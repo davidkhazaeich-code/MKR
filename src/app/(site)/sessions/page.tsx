@@ -125,12 +125,13 @@ export default function SessionsPage() {
       />
 
       {/* Sessions grid */}
-      <section className="sessions-page-section" aria-labelledby="sessions-list-heading">
+      <section className="sessions-page-section fx-grid fx-glow fx-mask-a fx-stack-2" aria-labelledby="sessions-list-heading">
+        <div className="fx-glow-orb fx-glow-orb--top fx-glow-breathe" />
         <div className="inner">
           <h2 id="sessions-list-heading" className="sr-only">Prochaines sessions</h2>
           <div className="sessions-grid">
             {SESSIONS.map((s, i) => (
-              <article key={i} className="session-card reveal" style={{ transitionDelay: s.delay }}>
+              <article key={i} className="session-card fx-grain fx-corner-glow reveal" style={{ transitionDelay: s.delay }}>
                 <div className="session-month-bg" aria-hidden="true">{s.month}</div>
                 <div className="session-status-badge" data-status={s.status}>
                   {s.statusLabel}
@@ -183,7 +184,8 @@ export default function SessionsPage() {
       </section>
 
       {/* Ce qui est inclus */}
-      <section className="sessions-includes" aria-labelledby="includes-heading">
+      <section className="sessions-includes fx-texture-concrete fx-glow fx-mask-b fx-stack-4" aria-labelledby="includes-heading">
+        <div className="fx-glow-orb fx-glow-orb--left fx-glow-breathe" />
         <div className="inner">
           <div className="sessions-includes-header reveal">
             <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>
@@ -195,7 +197,7 @@ export default function SessionsPage() {
           </div>
           <div className="include-grid">
             {INCLUDES.map((item, i) => (
-              <div key={i} className="include-card reveal" style={{ transitionDelay: `${i * 0.08}s` }}>
+              <div key={i} className="include-card fx-grain reveal" style={{ transitionDelay: `${i * 0.08}s` }}>
                 {item.icon}
                 <h3>{item.title}</h3>
                 <p>{item.desc}</p>
@@ -206,9 +208,9 @@ export default function SessionsPage() {
       </section>
 
       {/* Tarif groupe */}
-      <section className="sessions-group" aria-labelledby="group-heading">
+      <section className="sessions-group fx-grid fx-stack-5" aria-labelledby="group-heading">
         <div className="inner">
-          <div className="group-card reveal">
+          <div className="group-card fx-grain fx-corner-glow reveal">
             <h2 id="group-heading">TU VIENS AVEC TON CLUB ?</h2>
             <p>Prix degressif a partir de 5 personnes. Contacte-nous directement pour un devis sur mesure.</p>
             <img
@@ -232,7 +234,8 @@ export default function SessionsPage() {
       </section>
 
       {/* Modalites */}
-      <section className="sessions-terms">
+      <section className="sessions-terms fx-texture-basalt fx-glow fx-mask-d fx-stack-6">
+        <div className="fx-glow-orb fx-glow-orb--right fx-glow-breathe" />
         <div className="inner">
           <div className="layout-split layout-split--balanced reveal">
             <div>

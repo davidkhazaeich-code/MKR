@@ -17,7 +17,8 @@ export default function ContactPage() {
         compact
       />
 
-      <section className="contact-page-section">
+      <section className="contact-page-section fx-grid fx-glow fx-glow-breathe fx-stack-1">
+        <div className="fx-glow-orb fx-glow-orb--left" />
         <div className="inner">
           <div className="layout-split layout-split--balanced">
             <div className="reveal">
@@ -26,7 +27,7 @@ export default function ContactPage() {
 
             <div className="reveal" style={{ transitionDelay: '0.1s' }}>
               <div className="grid-3" style={{ gridTemplateColumns: '1fr' }}>
-                <div className="content-card">
+                <div className="content-card fx-grain fx-corner-glow">
                   <svg viewBox="0 0 24 24" fill="none" stroke="var(--primary)" strokeWidth="1.5" width="24" height="24" style={{ marginBottom: '0.8rem' }}>
                     <rect x="2" y="4" width="20" height="16" /><polyline points="2,4 12,13 22,4" />
                   </svg>
@@ -35,7 +36,7 @@ export default function ContactPage() {
                     contact@mkrcaucasiancamp.com
                   </a>
                 </div>
-                <div className="content-card">
+                <div className="content-card fx-grain fx-corner-glow">
                   <svg viewBox="0 0 24 24" fill="none" stroke="var(--primary)" strokeWidth="1.5" width="24" height="24" style={{ marginBottom: '0.8rem' }}>
                     <path d="M3 21l1.65-3.8a9 9 0 1 1 3.4 2.9L3 21" />
                   </svg>
@@ -44,7 +45,7 @@ export default function ContactPage() {
                     Envoyer un message
                   </a>
                 </div>
-                <div className="content-card">
+                <div className="content-card fx-grain fx-corner-glow">
                   <svg viewBox="0 0 24 24" fill="none" stroke="var(--primary)" strokeWidth="1.5" width="24" height="24" style={{ marginBottom: '0.8rem' }}>
                     <rect x="2" y="2" width="20" height="20" rx="5" />
                     <circle cx="12" cy="12" r="4.5" /><circle cx="17.5" cy="6.5" r="1" fill="var(--primary)" stroke="none" />

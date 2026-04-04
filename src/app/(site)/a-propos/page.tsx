@@ -24,7 +24,7 @@ export default function AProposPage() {
       />
 
       {/* L'histoire */}
-      <section className="logi-section">
+      <section className="logi-section fx-grid fx-stack-1">
         <div className="inner">
           <div className="layout-split layout-split--balanced layout-split--center reveal">
             <div>
@@ -73,7 +73,8 @@ export default function AProposPage() {
       </section>
 
       {/* Mission */}
-      <section className="dag-security">
+      <section className="dag-security fx-texture-concrete fx-glow fx-glow-breathe fx-mask-b fx-stack-2">
+        <div className="fx-glow-orb" />
         <div className="inner">
           <div className="reveal" style={{ maxWidth: '700px', textAlign: 'center', margin: '0 auto' }}>
             <p style={{
@@ -91,7 +92,7 @@ export default function AProposPage() {
       </section>
 
       {/* Equipe */}
-      <section className="logi-section">
+      <section className="logi-section fx-grid fx-stack-3">
         <div className="inner">
           <div className="logi-header reveal">
             <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>EQUIPE</span>
@@ -126,7 +127,7 @@ export default function AProposPage() {
       </section>
 
       {/* Partenaires */}
-      <section className="logi-section logi-alt">
+      <section className="logi-section logi-alt fx-texture-basalt fx-stack-4">
         <div className="inner">
           <div className="logi-header reveal">
             <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>PARTENAIRES</span>
@@ -134,7 +135,7 @@ export default function AProposPage() {
           </div>
           <div className="grid-3 reveal">
             {['Salle 1 · Makhachkala', 'Salle 2 · Kaspiysk', 'Salle 3 · Grozny'].map((name, i) => (
-              <div key={i} className="content-card" style={{ textAlign: 'center', padding: '2rem' }}>
+              <div key={i} className="content-card fx-grain fx-corner-glow" style={{ textAlign: 'center', padding: '2rem' }}>
                 <div style={{ width: '80px', height: '80px', background: 'var(--surface-lowest)', margin: '0 auto 1rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   <span style={{ color: 'var(--text-muted)', fontSize: '0.7rem' }}>Logo</span>
                 </div>

@@ -78,7 +78,8 @@ export default function BlogPage() {
         compact
       />
 
-      <section className="blog-section">
+      <section className="blog-section fx-grid fx-glow fx-stack-1">
+        <div className="fx-glow-orb fx-glow-orb--top" />
         <div className="inner">
           {/* Featured */}
           {featured && (

@@ -55,7 +55,8 @@ export default function CoachsPage() {
       />
 
       {/* Grille de coachs */}
-      <section className="coachs-page-section">
+      <section className="coachs-page-section fx-grid fx-glow fx-mask-a fx-stack-2">
+        <div className="fx-glow-orb fx-glow-orb--top fx-glow-breathe" />
         <div className="inner">
           <div className="coachs-grid-extended">
             {COACHES.map((coach, i) => (
@@ -86,7 +87,7 @@ export default function CoachsPage() {
       </section>
 
       {/* Cinematic action banner */}
-      <section className="cinematic-banner">
+      <section className="cinematic-banner fx-grid fx-stack-3">
         <div className="inner">
           <img
             src="/images/action/takedown-wrestling.webp"
@@ -100,7 +101,8 @@ export default function CoachsPage() {
       </section>
 
       {/* Methodologie */}
-      <section className="dag-security">
+      <section className="dag-security fx-texture-concrete fx-glow fx-mask-c fx-stack-4">
+        <div className="fx-glow-orb fx-glow-orb--right fx-glow-breathe" />
         <div className="inner">
           <div className="layout-split layout-split--balanced layout-split--center reveal">
             <div>

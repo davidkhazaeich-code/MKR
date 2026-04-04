@@ -39,7 +39,7 @@ export default function GaleriePage() {
         compact
       />
 
-      <section className="galerie-section">
+      <section className="galerie-section fx-grid fx-stack-1">
         <div className="inner">
           <div className="filter-tabs">
             {FILTERS.map(f => (
@@ -71,7 +71,7 @@ export default function GaleriePage() {
       </section>
 
       {/* Videos */}
-      <section className="logi-section logi-alt">
+      <section className="logi-section logi-alt fx-texture-concrete fx-mask-a fx-stack-2">
         <div className="inner">
           <div className="logi-header reveal">
             <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>VIDEOS</span>

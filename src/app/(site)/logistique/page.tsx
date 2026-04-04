@@ -18,7 +18,8 @@ export default function LogistiquePage() {
       />
 
       {/* Budget total */}
-      <section className="logi-section">
+      <section className="logi-section fx-grid fx-glow">
+        <div className="fx-glow-orb fx-glow-orb--right" />
         <div className="inner">
           <div className="logi-header reveal">
             <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>BUDGET</span>
@@ -40,7 +41,7 @@ export default function LogistiquePage() {
                 Estimations basees sur les departs depuis l&apos;Europe francophone. Prix sujets a variation.
               </p>
             </div>
-            <div className="content-card">
+            <div className="content-card fx-grain fx-corner-glow">
               <h3 className="card-title">CE QUI EST INCLUS</h3>
               <ul className="logi-check-list">
                 <li>Hebergement de camp</li>
@@ -56,7 +57,8 @@ export default function LogistiquePage() {
       </section>
 
       {/* Visa */}
-      <section className="logi-section logi-alt">
+      <section className="logi-section fx-texture-basalt fx-mask-b fx-stack-3">
+        <div className="fx-glow-orb" />
         <div className="inner">
           <div className="logi-header reveal">
             <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>VISA</span>
@@ -83,7 +85,7 @@ export default function LogistiquePage() {
       </section>
 
       {/* Vols */}
-      <section className="logi-section">
+      <section className="logi-section fx-grid fx-mask-c fx-stack-5">
         <div className="inner">
           <div className="logi-header reveal">
             <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>VOLS</span>
@@ -95,7 +97,7 @@ export default function LogistiquePage() {
               { city: 'Geneve / Zurich', connections: 'Via Istanbul ou Dubai. Wizz Air pour Kutaisi.', price: '400 - 650 EUR', duration: '~6-9h avec escale' },
               { city: 'Bruxelles', connections: 'Via Istanbul (Turkish Airlines) ou Munich', price: '380 - 600 EUR', duration: '~7-9h avec escale' },
             ].map((flight, i) => (
-              <div key={i} className="content-card reveal" style={{ transitionDelay: `${i * 0.08}s` }}>
+              <div key={i} className="content-card fx-grain fx-corner-glow reveal" style={{ transitionDelay: `${i * 0.08}s` }}>
                 <h3 className="card-title">{flight.city}</h3>
                 <div className="logi-flight-detail">
                   <span className="logi-flight-label">Connexions</span>
@@ -116,9 +118,10 @@ export default function LogistiquePage() {
       </section>
 
       {/* Assurance */}
-      <section className="logi-section logi-alt">
+      <section className="logi-section fx-texture-concrete fx-glow">
+        <div className="fx-glow-orb fx-glow-orb--left fx-glow-breathe" />
         <div className="inner">
-          <div className="group-card reveal">
+          <div className="group-card fx-grain fx-corner-glow reveal">
             <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>OBLIGATOIRE</span>
             <h2>ASSURANCE VOYAGE</h2>
             <p>L&apos;assurance voyage est obligatoire pour participer au camp. Elle doit couvrir :</p>
@@ -134,7 +137,7 @@ export default function LogistiquePage() {
       </section>
 
       {/* Transferts */}
-      <section className="logi-section">
+      <section className="logi-section fx-grid fx-mask-a fx-stack-2">
         <div className="inner">
           <div className="layout-split layout-split--balanced layout-split--center reveal">
             <div>
@@ -157,7 +160,7 @@ export default function LogistiquePage() {
                 <figcaption>La route vers le camp. Le voyage fait partie de l&apos;experience.</figcaption>
               </figure>
             </div>
-            <div className="content-card">
+            <div className="content-card fx-grain fx-corner-glow">
               <h3 className="card-title">INFOS PRATIQUES</h3>
               <p className="card-body">Aeroport : Tbilissi (TBS) ou Kutaisi (KUT)</p>
               <p className="card-body">Accueil a l&apos;aeroport par l&apos;equipe MKR</p>
@@ -168,7 +171,8 @@ export default function LogistiquePage() {
       </section>
 
       {/* Infos pratiques mini-cards */}
-      <section className="logi-section logi-alt">
+      <section className="logi-section fx-texture-basalt fx-glow fx-mask-d fx-stack-6">
+        <div className="fx-glow-orb fx-glow-orb--top fx-glow-breathe" />
         <div className="inner">
           <div className="logi-header reveal">
             <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>BON A SAVOIR</span>
@@ -183,7 +187,7 @@ export default function LogistiquePage() {
               { title: 'Langue', desc: 'Georgien, russe. Anglais dans les zones touristiques. Interprete MKR sur place.' },
               { title: 'Alimentation', desc: 'Cuisine caucasienne : riche en proteines, viande, legumes, pain. Regime adapte aux athletes.' },
             ].map((info, i) => (
-              <div key={i} className="content-card reveal" style={{ transitionDelay: `${i * 0.06}s` }}>
+              <div key={i} className="content-card fx-grain fx-corner-glow reveal" style={{ transitionDelay: `${i * 0.06}s` }}>
                 <h3 className="card-title" style={{ fontSize: '0.95rem' }}>{info.title}</h3>
                 <p className="card-body" style={{ fontSize: '0.85rem' }}>{info.desc}</p>
               </div>

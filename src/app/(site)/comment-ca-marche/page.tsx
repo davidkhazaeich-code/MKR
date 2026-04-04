@@ -79,7 +79,8 @@ export default function CommentCaMarchePage() {
       </section>
 
       {/* Flow 6 etapes */}
-      <section className="process-section">
+      <section className="process-section fx-grid fx-glow">
+        <div className="fx-glow-orb fx-glow-orb--right" />
         <div className="inner">
           <div className="process-flow">
             {STEPS.map((step, i) => (
@@ -97,7 +98,8 @@ export default function CommentCaMarchePage() {
       </section>
 
       {/* Politique d'annulation */}
-      <section className="logi-section logi-alt">
+      <section className="logi-section fx-texture-basalt fx-mask-b fx-stack-3">
+        <div className="fx-glow-orb" />
         <div className="inner">
           <div className="logi-header reveal">
             <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>ANNULATION</span>
@@ -117,7 +119,8 @@ export default function CommentCaMarchePage() {
       </section>
 
       {/* Moyens de paiement */}
-      <section className="logi-section">
+      <section className="logi-section fx-grid fx-glow fx-mask-a fx-stack-5">
+        <div className="fx-glow-orb fx-glow-orb--left" />
         <div className="inner">
           <div className="logi-header reveal">
             <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>PAIEMENT</span>
@@ -129,7 +132,7 @@ export default function CommentCaMarchePage() {
               { title: 'Carte bancaire', desc: 'Paiement securise via Stripe. Visa, Mastercard, Amex.' },
               { title: 'PayPal', desc: 'Disponible sur demande. Frais PayPal a la charge du participant.' },
             ].map((p, i) => (
-              <div key={i} className="content-card reveal" style={{ transitionDelay: `${i * 0.08}s` }}>
+              <div key={i} className="content-card fx-grain fx-corner-glow reveal" style={{ transitionDelay: `${i * 0.08}s` }}>
                 <h3 className="card-title">{p.title}</h3>
                 <p className="card-body">{p.desc}</p>
               </div>
@@ -139,7 +142,7 @@ export default function CommentCaMarchePage() {
       </section>
 
       {/* FAQ process */}
-      <section className="faq-page-section">
+      <section className="faq-page-section fx-texture-concrete fx-mask-c fx-stack-4">
         <div className="inner">
           <div className="logi-header reveal">
             <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>QUESTIONS</span>

@@ -115,7 +115,8 @@ export default function LeCampPage() {
       </section>
 
       {/* Philosophie / Pourquoi le Caucase */}
-      <section className="camp-section">
+      <section className="camp-section fx-grid fx-glow fx-mask-a fx-stack-2">
+        <div className="fx-glow-orb fx-glow-orb--top fx-glow-breathe" />
         <div className="inner">
           <div className="layout-split layout-split--center">
             <div className="reveal">
@@ -134,15 +135,15 @@ export default function LeCampPage() {
               </p>
             </div>
             <div>
-              <div className="content-card reveal" style={{ transitionDelay: '0.1s' }}>
+              <div className="content-card fx-grain fx-corner-glow reveal" style={{ transitionDelay: '0.1s' }}>
                 <h3 className="card-title">IMMERSION TOTALE</h3>
                 <p className="card-body">Pas de tourisme. Pas de distraction. Pendant 3 semaines, tu vis, manges et t&apos;entraines avec des athletes locaux.</p>
               </div>
-              <div className="content-card reveal" style={{ marginTop: '1.25rem', transitionDelay: '0.18s' }}>
+              <div className="content-card fx-grain fx-corner-glow reveal" style={{ marginTop: '1.25rem', transitionDelay: '0.18s' }}>
                 <h3 className="card-title">HERITAGE DU CAUCASE</h3>
                 <p className="card-body">Des methodes qui ont produit Khabib, Makhachev, et des centaines de champions olympiques de lutte.</p>
               </div>
-              <div className="content-card reveal" style={{ marginTop: '1.25rem', transitionDelay: '0.26s' }}>
+              <div className="content-card fx-grain fx-corner-glow reveal" style={{ marginTop: '1.25rem', transitionDelay: '0.26s' }}>
                 <h3 className="card-title">TOUT COMPRIS</h3>
                 <p className="card-body">Transport, hebergement, repas, entrainement. Tu ne t&apos;occupes de rien d&apos;autre que de progresser.</p>
               </div>
@@ -152,7 +153,8 @@ export default function LeCampPage() {
       </section>
 
       {/* Ce qui est inclus */}
-      <section className="camp-section camp-alt">
+      <section className="camp-section fx-texture-basalt fx-glow fx-stack-3">
+        <div className="fx-glow-orb fx-glow-orb--left fx-glow-breathe" />
         <div className="inner">
           <div className="logi-header reveal">
             <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>INCLUS</span>
@@ -160,7 +162,7 @@ export default function LeCampPage() {
           </div>
           <div className="include-grid">
             {INCLUDES.map((item, i) => (
-              <div key={i} className="include-card reveal" style={{ transitionDelay: `${i * 0.08}s` }}>
+              <div key={i} className="include-card fx-grain reveal" style={{ transitionDelay: `${i * 0.08}s` }}>
                 {item.icon}
                 <h3>{item.title}</h3>
                 <p>{item.desc}</p>
@@ -171,7 +173,7 @@ export default function LeCampPage() {
       </section>
 
       {/* Ce qui n'est PAS inclus */}
-      <section className="exclude-section">
+      <section className="exclude-section fx-grid">
         <div className="inner">
           <div className="logi-header reveal">
             <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>NON INCLUS</span>
@@ -189,7 +191,7 @@ export default function LeCampPage() {
       </section>
 
       {/* Journee type */}
-      <section id="journee-type" className="camp-section">
+      <section id="journee-type" className="camp-section fx-texture-basalt fx-mask-b fx-stack-4">
         <div className="inner">
           <div className="logi-header reveal">
             <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>24 HEURES</span>
@@ -210,7 +212,8 @@ export default function LeCampPage() {
       </section>
 
       {/* Les salles */}
-      <section className="camp-section camp-alt">
+      <section className="camp-section fx-grid fx-glow fx-stack-5">
+        <div className="fx-glow-orb fx-glow-orb--right fx-glow-breathe" />
         <div className="inner">
           <div className="logi-header reveal">
             <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>LIEUX</span>

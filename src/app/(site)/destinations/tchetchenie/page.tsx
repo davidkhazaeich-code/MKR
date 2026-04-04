@@ -39,7 +39,7 @@ export default function TchetcheniePage() {
       />
 
       {/* Presentation */}
-      <section className="logi-section">
+      <section className="logi-section fx-grid fx-stack-1">
         <div className="inner">
           <div className="layout-split reveal">
             <div>
@@ -67,7 +67,8 @@ export default function TchetcheniePage() {
       </section>
 
       {/* Securite */}
-      <section className="dag-security">
+      <section className="dag-security fx-texture-concrete fx-glow fx-glow-breathe fx-mask-b fx-stack-2">
+        <div className="fx-glow-orb" />
         <div className="inner">
           <div className="reveal">
             <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>SECURITE</span>
@@ -95,7 +96,7 @@ export default function TchetcheniePage() {
       </section>
 
       {/* Salles */}
-      <section className="logi-section">
+      <section className="logi-section fx-grid fx-stack-3">
         <div className="inner">
           <div className="logi-header reveal">
             <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>SALLES</span>
@@ -129,7 +130,8 @@ export default function TchetcheniePage() {
       </section>
 
       {/* Culture */}
-      <section className="logi-section logi-alt">
+      <section className="logi-section fx-texture-basalt fx-mask-c fx-stack-4 fx-glow">
+        <div className="fx-glow-orb fx-glow-orb--right" />
         <div className="inner">
           <div className="logi-header reveal">
             <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>CULTURE</span>
@@ -141,7 +143,7 @@ export default function TchetcheniePage() {
               { title: 'Lac Kezenoy-Am', desc: "Le plus grand lac de montagne du Caucase Nord. Cadre exceptionnel pour la recuperation.", img: '/images/environment/lake-kezenoy.webp' },
               { title: 'Tour Vainakh', desc: "Tours medievales de defense perchees dans les montagnes. Temoignage de l'histoire guerriere.", img: '/images/environment/vainakh-towers.webp' },
             ].map((exc, i) => (
-              <div key={i} className="content-card reveal" style={{ transitionDelay: `${i * 0.08}s` }}>
+              <div key={i} className="content-card fx-grain fx-corner-glow reveal" style={{ transitionDelay: `${i * 0.08}s` }}>
                 <img
                   src={exc.img}
                   alt={exc.title}

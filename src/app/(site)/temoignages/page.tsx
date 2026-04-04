@@ -48,7 +48,7 @@ export default function TemoignagesPage() {
       />
 
       {/* Videos placeholder */}
-      <section className="logi-section">
+      <section className="logi-section fx-grid fx-stack-1">
         <div className="inner">
           <div className="logi-header reveal">
             <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>VIDEOS</span>
@@ -71,7 +71,7 @@ export default function TemoignagesPage() {
       </section>
 
       {/* Cinematic break */}
-      <section className="cinematic-banner">
+      <section className="cinematic-banner fx-mask-a fx-stack-2">
         <div className="inner">
           <img
             src="/images/environment/communal-meal.webp"
@@ -85,7 +85,7 @@ export default function TemoignagesPage() {
       </section>
 
       {/* Grid temoignages texte */}
-      <section className="logi-section logi-alt">
+      <section className="logi-section logi-alt fx-texture-concrete fx-stack-3">
         <div className="inner">
           <div className="logi-header reveal">
             <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>ECRITS</span>
@@ -93,7 +93,7 @@ export default function TemoignagesPage() {
           </div>
           <div className="grid-3">
             {TESTIMONIALS.map((t, i) => (
-              <div key={i} className="testi-page-card reveal" style={{ transitionDelay: `${i * 0.06}s` }}>
+              <div key={i} className="testi-page-card fx-grain fx-corner-glow reveal" style={{ transitionDelay: `${i * 0.06}s` }}>
                 <div className="testi-page-header">
                   <img
                     src={t.img}
@@ -117,7 +117,8 @@ export default function TemoignagesPage() {
       </section>
 
       {/* Stats */}
-      <div className="stats-band">
+      <div className="stats-band fx-glow fx-glow-breathe fx-stack-4">
+        <div className="fx-glow-orb" />
         <div className="stat-item">
           <span className="stat-num">240+</span>
           <span className="stat-label">Athletes formes</span>

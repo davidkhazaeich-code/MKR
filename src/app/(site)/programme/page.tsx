@@ -19,7 +19,7 @@ export default function ProgrammePage() {
       />
 
       {/* Stats band */}
-      <div className="stats-band">
+      <div className="stats-band fx-grid fx-stack-1">
         <div className="stat-item">
           <span className="stat-num">2</span>
           <span className="stat-label">Sessions par jour</span>
@@ -35,7 +35,8 @@ export default function ProgrammePage() {
       </div>
 
       {/* MMA card */}
-      <section className="logi-section">
+      <section className="logi-section fx-grid fx-stack-2">
+        <div className="fx-glow-orb fx-glow-orb--right" />
         <div className="inner">
           <Link href="/programme/mma" className="prog-discipline-card reveal">
             <img
@@ -59,7 +60,7 @@ export default function ProgrammePage() {
       </section>
 
       {/* Lutte card */}
-      <section className="logi-section logi-alt">
+      <section className="logi-section fx-texture-basalt fx-mask-b fx-stack-3">
         <div className="inner">
           <Link href="/programme/lutte" className="prog-discipline-card reveal">
             <img
@@ -83,7 +84,7 @@ export default function ProgrammePage() {
       </section>
 
       {/* S&C */}
-      <section id="conditioning" className="logi-section">
+      <section id="conditioning" className="logi-section fx-grid fx-stack-4">
         <div className="inner">
           <div className="layout-split layout-split--balanced layout-split--center reveal">
             <figure className="photo-card">
@@ -96,7 +97,7 @@ export default function ProgrammePage() {
                 className="section-photo-img"
               />
             </figure>
-            <div className="content-card">
+            <div className="content-card fx-grain fx-corner-glow">
               <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.5rem' }}>INCLUS</span>
               <h3 className="card-title" style={{ fontSize: '1.3rem' }}>STRENGTH &amp; CONDITIONING</h3>
               <p className="card-body">
@@ -110,7 +111,8 @@ export default function ProgrammePage() {
       </section>
 
       {/* Niveaux */}
-      <section className="logi-section logi-alt">
+      <section className="logi-section fx-texture-concrete fx-mask-c fx-stack-5 fx-glow">
+        <div className="fx-glow-orb fx-glow-orb--left" />
         <div className="inner">
           <div className="logi-header reveal">
             <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>NIVEAUX</span>
@@ -131,7 +133,7 @@ export default function ProgrammePage() {
                 desc: '2 ans minimum de pratique. Condition physique solide. Motivation et engagement total pendant le camp.',
               },
             ].map((n, i) => (
-              <div key={i} className="content-card reveal" style={{ transitionDelay: `${i * 0.08}s` }}>
+              <div key={i} className="content-card fx-grain fx-corner-glow reveal" style={{ transitionDelay: `${i * 0.08}s` }}>
                 <h3 className="card-title">{n.level}</h3>
                 <p className="card-body">{n.desc}</p>
               </div>

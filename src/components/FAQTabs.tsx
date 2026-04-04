@@ -9,7 +9,8 @@ export default function FAQTabs() {
   const activeCategory = FAQ_CATEGORIES.find(c => c.id === activeTab) ?? FAQ_CATEGORIES[0]
 
   return (
-    <section className="faq-page-section">
+    <section className="faq-page-section fx-grid fx-glow fx-glow-breathe fx-stack-1">
+      <div className="fx-glow-orb fx-glow-orb--top" />
       <div className="inner">
         <div className="filter-tabs">
           {FAQ_CATEGORIES.map(cat => (

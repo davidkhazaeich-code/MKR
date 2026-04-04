@@ -17,7 +17,8 @@ export default function DestinationsPage() {
         subtitle="Deux terres de combat. Un heritage commun."
       />
 
-      <section className="dest-hub">
+      <section className="dest-hub fx-grid fx-glow">
+        <div className="fx-glow-orb" />
         <div className="inner">
           <div className="dest-hub-grid">
             <Link href="/destinations/dagestan" className="dest-hub-card reveal">

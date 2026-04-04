@@ -65,7 +65,8 @@ export default function PreparerSonCampPage() {
       </section>
 
       {/* Niveau minimum */}
-      <section className="logi-section">
+      <section className="logi-section fx-grid fx-glow">
+        <div className="fx-glow-orb fx-glow-orb--right" />
         <div className="inner">
           <div className="layout-split layout-split--balanced">
             <div className="reveal">
@@ -80,7 +81,7 @@ export default function PreparerSonCampPage() {
                 C&apos;est pour ca qu&apos;on te fournit un programme de preparation de 6 semaines.
               </p>
             </div>
-            <div className="content-card reveal" style={{ transitionDelay: '0.1s' }}>
+            <div className="content-card fx-grain fx-corner-glow reveal" style={{ transitionDelay: '0.1s' }}>
               <h3 className="card-title">CHECKLIST AVANT DEPART</h3>
               <ul className="logi-check-list">
                 <li>Courir 5 km sans s&apos;arreter</li>
@@ -96,7 +97,8 @@ export default function PreparerSonCampPage() {
       </section>
 
       {/* Programme 6 semaines */}
-      <section className="logi-section logi-alt">
+      <section className="logi-section fx-texture-basalt fx-mask-b fx-stack-3">
+        <div className="fx-glow-orb fx-glow-orb--left" />
         <div className="inner">
           <div className="logi-header reveal">
             <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>PROGRAMME</span>
@@ -104,7 +106,7 @@ export default function PreparerSonCampPage() {
           </div>
           <div className="grid-3x2">
             {WEEKS.map((w, i) => (
-              <div key={i} className="content-card reveal" style={{ transitionDelay: `${i * 0.06}s` }}>
+              <div key={i} className="content-card fx-grain fx-corner-glow reveal" style={{ transitionDelay: `${i * 0.06}s` }}>
                 <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.3rem', fontSize: '0.6rem' }}>
                   {w.week.toUpperCase()}
                 </span>
@@ -120,7 +122,7 @@ export default function PreparerSonCampPage() {
       </section>
 
       {/* Equipement */}
-      <section className="logi-section">
+      <section className="logi-section fx-grid fx-mask-c fx-stack-5">
         <div className="inner">
           <div className="logi-header reveal">
             <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>EQUIPEMENT</span>
@@ -128,7 +130,7 @@ export default function PreparerSonCampPage() {
           </div>
           <div className="grid-2">
             {Object.entries(EQUIPMENT).map(([category, items], ci) => (
-              <div key={ci} className="content-card reveal" style={{ transitionDelay: `${ci * 0.1}s` }}>
+              <div key={ci} className="content-card fx-grain fx-corner-glow reveal" style={{ transitionDelay: `${ci * 0.1}s` }}>
                 <h3 className="card-title" style={{ fontSize: '0.95rem' }}>{category}</h3>
                 <ul className="equip-list">
                   {items.map((item, i) => (
@@ -145,7 +147,8 @@ export default function PreparerSonCampPage() {
       </section>
 
       {/* Preparation mentale */}
-      <section className="dag-security">
+      <section className="dag-security fx-texture-concrete fx-glow fx-mask-a fx-stack-7">
+        <div className="fx-glow-orb fx-glow-orb--top fx-glow-breathe" />
         <div className="inner">
           <div className="layout-split layout-split--balanced reveal">
             <div>
