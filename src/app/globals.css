@@ -3635,9 +3635,10 @@ h1, h2, h3, h4, h5 {
 }
 
 @media (max-width: 768px) {
-  .dest-reveal-container { bottom: 2rem; padding: 0 1.5rem; }
-  .dest-reveal-content h2 { font-size: 2rem; }
-  .dest-reveal-facts { gap: 0.6rem 1.5rem; }
+  .dest-reveal-container { padding: 0 1.5rem; }
+  .dest-reveal-content { max-width: 100%; }
+  .dest-reveal-content h2 { font-size: 2.4rem; }
+  .dest-reveal-facts { grid-template-columns: repeat(3, 1fr); gap: 0.5rem 1rem; }
   .dest-reveal-fact-value { font-size: 1.1rem; }
 }
 

@@ -13,7 +13,7 @@ interface DestinationRevealProps {
   badges?: string[]
 }
 
-const SCROLL_HEIGHT = 1200
+const SCROLL_HEIGHT = 1400
 
 export default function DestinationReveal({ image, alt, label, title, facts, badges }: DestinationRevealProps) {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -23,13 +23,13 @@ export default function DestinationReveal({ image, alt, label, title, facts, bad
     offset: ['start end', 'center center'],
   })
 
-  const clipP = useTransform(scrollYProgress, [0, 1], [28, 0])
-  const clipQ = useTransform(scrollYProgress, [0, 1], [72, 100])
+  const clipP = useTransform(scrollYProgress, [0, 1], [30, 0])
+  const clipQ = useTransform(scrollYProgress, [0, 1], [70, 100])
   const clipPath = useMotionTemplate`polygon(${clipP}% ${clipP}%, ${clipQ}% ${clipP}%, ${clipQ}% ${clipQ}%, ${clipP}% ${clipQ}%)`
 
-  const imgScale = useTransform(scrollYProgress, [0, 1], [1.2, 1])
-  const textOpacity = useTransform(scrollYProgress, [0.55, 1], [0, 1])
-  const textY = useTransform(scrollYProgress, [0.55, 1], [40, 0])
+  const imgScale = useTransform(scrollYProgress, [0, 1], [1.25, 1])
+  const textOpacity = useTransform(scrollYProgress, [0.5, 1], [0, 1])
+  const textY = useTransform(scrollYProgress, [0.5, 1], [30, 0])
 
   return (
     <div
