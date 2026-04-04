@@ -1,3 +1,5 @@
+import Link from 'next/link'
+
 interface SectionCTAProps {
   primaryHref: string
   primaryLabel: string
@@ -10,9 +12,9 @@ export default function SectionCTA({ primaryHref, primaryLabel, ghostHref, ghost
     <section className="section-cta">
       <div className="inner reveal">
         <div className="section-cta-buttons">
-          <a href={primaryHref} className="btn-primary">{primaryLabel}</a>
+          <Link href={primaryHref} className="btn-primary">{primaryLabel}</Link>
           {ghostHref && ghostLabel && (
-            <a href={ghostHref} className="btn-ghost">{ghostLabel}</a>
+            <Link href={ghostHref} className="btn-ghost">{ghostLabel}</Link>
           )}
         </div>
       </div>

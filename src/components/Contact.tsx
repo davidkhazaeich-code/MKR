@@ -1,6 +1,9 @@
+import Link from 'next/link'
+
 export default function Contact() {
   return (
     <section id="contact" aria-labelledby="contact-heading">
+      <div className="contact-glow" aria-hidden="true" />
       <div className="inner">
         <div className="contact-layout">
 
@@ -16,9 +19,9 @@ export default function Contact() {
               Chaque candidature est étudiée individuellement.
               L&apos;entretien vidéo est obligatoire.
             </p>
-            <a href="/inscription" className="contact-cta-btn">
+            <Link href="/inscription" className="contact-cta-btn">
               DÉPOSER MA CANDIDATURE
-            </a>
+            </Link>
           </div>
 
           <div className="contact-right reveal" style={{ transitionDelay: '0.1s' }}>

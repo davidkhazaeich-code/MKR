@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import type { Metadata } from 'next'
 import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
@@ -113,7 +114,7 @@ export default function PreparerSonCampPage() {
             ))}
           </div>
           <div className="reveal" style={{ marginTop: '2rem' }}>
-            <a href="/guide-dagestan" className="btn-ghost">TELECHARGER LE PROGRAMME PDF</a>
+            <Link href="/guide-dagestan" className="btn-ghost">TELECHARGER LE PROGRAMME PDF</Link>
           </div>
         </div>
       </section>

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
 import PageHero from '@/components/PageHero'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 
@@ -81,7 +82,7 @@ export default function BlogPage() {
         <div className="inner">
           {/* Featured */}
           {featured && (
-            <a href={`/blog/${featured.slug}`} className="blog-featured reveal">
+            <Link href={`/blog/${featured.slug}`} className="blog-featured reveal">
               <div className="blog-featured-img">
                 <img
                   src={featured.img}
@@ -99,13 +100,13 @@ export default function BlogPage() {
                 <p>{featured.excerpt}</p>
                 <span className="blog-read-more">Lire l&apos;article</span>
               </div>
-            </a>
+            </Link>
           )}
 
           {/* Grid */}
           <div className="grid-2" style={{ marginTop: '3rem' }}>
             {rest.map((article, i) => (
-              <a key={i} href={`/blog/${article.slug}`} className="blog-card reveal" style={{ transitionDelay: `${i * 0.06}s` }}>
+              <Link key={i} href={`/blog/${article.slug}`} className="blog-card reveal" style={{ transitionDelay: `${i * 0.06}s` }}>
                 <img
                   src={article.img}
                   alt={article.title}
@@ -119,7 +120,7 @@ export default function BlogPage() {
                 <h3 className="blog-card-title">{article.title}</h3>
                 <p className="blog-card-excerpt">{article.excerpt}</p>
                 <span className="blog-category">{article.category}</span>
-              </a>
+              </Link>
             ))}
           </div>
         </div>

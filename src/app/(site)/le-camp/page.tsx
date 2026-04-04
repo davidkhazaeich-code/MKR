@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import type { Metadata } from 'next'
 import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
@@ -180,9 +181,9 @@ export default function LeCampPage() {
             {NOT_INCLUDED.map((item, i) => (
               <div key={i} className="exclude-item">{item}</div>
             ))}
-            <a href="/logistique" className="btn-ghost" style={{ marginTop: '1.5rem', fontSize: '0.9rem', padding: '0.6rem 1.5rem' }}>
+            <Link href="/logistique" className="btn-ghost" style={{ marginTop: '1.5rem', fontSize: '0.9rem', padding: '0.6rem 1.5rem' }}>
               DETAIL LOGISTIQUE
-            </a>
+            </Link>
           </div>
         </div>
       </section>

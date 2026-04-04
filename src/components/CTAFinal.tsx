@@ -1,3 +1,5 @@
+import Link from 'next/link'
+
 export default function CTAFinal() {
   return (
     <section id="cta-final" aria-labelledby="cta-heading">
@@ -10,9 +12,9 @@ export default function CTAFinal() {
         <p className="cta-subtitle reveal" style={{ transitionDelay: '0.1s' }}>
           Prochain camp · Printemps 2026 · Caucase, Géorgie
         </p>
-        <a href="/inscription" className="cta-btn reveal" style={{ transitionDelay: '0.2s' }}>
+        <Link href="/inscription" className="cta-btn reveal" style={{ transitionDelay: '0.2s' }}>
           DÉPOSER MA CANDIDATURE
-        </a>
+        </Link>
       </div>
 
       {/* Mountain silhouette */}

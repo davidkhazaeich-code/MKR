@@ -1,6 +1,8 @@
 'use client'
 
 import { useState, useEffect, useCallback, useRef } from 'react'
+import Link from 'next/link'
+import Image from 'next/image'
 
 const CHEVRON = (
   <svg className="nav-trigger-arrow" viewBox="0 0 10 10" fill="none"
@@ -129,13 +131,13 @@ export default function Nav() {
         <nav id="nav" className={scrolled ? 'is-scrolled' : ''} aria-label="Navigation principale">
           <div className="nav-inner">
 
-            <a href="/" className="nav-logo" aria-label="MKR Caucasian Camp · Accueil">
-              <img src="/logo-white.webp" alt="" className="nav-logo-img" width="109" height="112" aria-hidden="true" />
+            <Link href="/" className="nav-logo" aria-label="MKR Caucasian Camp · Accueil">
+              <Image src="/logo-white.webp" alt="" className="nav-logo-img" width={109} height={112} aria-hidden="true" priority />
               <div className="nav-logo-text">
                 <span className="nav-logo-mkr">MKR</span>
                 <span className="nav-logo-sub">Caucasian Camp</span>
               </div>
-            </a>
+            </Link>
 
             <ul className="nav-list" role="list">
               {(['camp', 'programme', 'destinations', 'infos'] as PanelId[]).map(id => (
@@ -158,8 +160,8 @@ export default function Nav() {
             </ul>
 
             <div className="nav-right">
-              <a href="/sessions" className="nav-sessions-link">Sessions 2026</a>
-              <a href="/inscription" className="nav-cta" aria-label="Postuler au camp">POSTULER</a>
+              <Link href="/sessions" className="nav-sessions-link">Sessions 2026</Link>
+              <Link href="/inscription" className="nav-cta" aria-label="Postuler au camp">POSTULER</Link>
               <button
                 className={`nav-hamburger${menuOpen ? ' open' : ''}`}
                 aria-label={menuOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
@@ -193,16 +195,16 @@ export default function Nav() {
               <div>
                 <h2 className="mega-camp-feature-title">IMMERSION<br/>TOTALE.</h2>
                 <p className="mega-camp-feature-body">Deux sessions par jour. Coaches daghestanais. Transport local, hebergement et repas pris en charge. Tu arrives avec ton sac. On s&apos;occupe du reste.</p>
-                <a href="/le-camp" className="mega-arrow-link">Decouvrir le camp {ARROW_RIGHT}</a>
+                <Link href="/le-camp" className="mega-arrow-link">Decouvrir le camp {ARROW_RIGHT}</Link>
               </div>
               <div>
                 <span className="mega-camp-links-label">Avant le camp</span>
                 <ul className="mega-link-list" role="list">
-                  <li><a href="/comment-ca-marche">{ARROW_SM} Comment ca marche</a></li>
-                  <li><a href="/preparer-son-camp">{ARROW_SM} Preparer son camp</a></li>
-                  <li><a href="/logistique">{ARROW_SM} Logistique et visa</a></li>
-                  <li><a href="/le-camp#journee-type">{ARROW_SM} Journee type</a></li>
-                  <li><a href="/sessions">{ARROW_SM} Sessions et tarifs</a></li>
+                  <li><Link href="/comment-ca-marche">{ARROW_SM} Comment ca marche</Link></li>
+                  <li><Link href="/preparer-son-camp">{ARROW_SM} Preparer son camp</Link></li>
+                  <li><Link href="/logistique">{ARROW_SM} Logistique et visa</Link></li>
+                  <li><Link href="/le-camp#journee-type">{ARROW_SM} Journee type</Link></li>
+                  <li><Link href="/sessions">{ARROW_SM} Sessions et tarifs</Link></li>
                 </ul>
               </div>
               <div className="mega-camp-accent" aria-hidden="true">
@@ -225,7 +227,7 @@ export default function Nav() {
           <div className="mega-inner">
             <span className="mega-section-label">Disciplines et Programme 2026</span>
             <div className="mega-prog-grid">
-              <a href="/programme/mma" className="mega-prog-card">
+              <Link href="/programme/mma" className="mega-prog-card">
                 <div className="mega-prog-icon" aria-hidden="true">
                   <svg viewBox="0 0 26 26" fill="none" stroke="currentColor" strokeWidth="1.5">
                     <circle cx="13" cy="9" r="4"/><path d="M5 26c0-5 3.5-8 8-8s8 3 8 8"/>
@@ -235,8 +237,8 @@ export default function Nav() {
                 <h3 className="mega-prog-title">MMA</h3>
                 <p className="mega-prog-desc">Striking, clinch, takedowns, submissions. Sparring quotidien avec des combattants locaux. Transitions debout-sol.</p>
                 <span className="mega-arrow-link">Voir le programme {ARROW_RIGHT}</span>
-              </a>
-              <a href="/programme/lutte" className="mega-prog-card">
+              </Link>
+              <Link href="/programme/lutte" className="mega-prog-card">
                 <div className="mega-prog-icon" aria-hidden="true">
                   <svg viewBox="0 0 26 26" fill="none" stroke="currentColor" strokeWidth="1.5">
                     <path d="M3 19 L8 9 L13 15 L19 5 L23 13"/>
@@ -246,8 +248,8 @@ export default function Nav() {
                 <h3 className="mega-prog-title">LUTTE</h3>
                 <p className="mega-prog-desc">Lutte libre et greco-romaine. Methodes daghestanaises transmises par des champions.</p>
                 <span className="mega-arrow-link">Voir le programme {ARROW_RIGHT}</span>
-              </a>
-              <a href="/programme#conditioning" className="mega-prog-card">
+              </Link>
+              <Link href="/programme#conditioning" className="mega-prog-card">
                 <div className="mega-prog-icon" aria-hidden="true">
                   <svg viewBox="0 0 26 26" fill="none" stroke="currentColor" strokeWidth="1.5">
                     <rect x="1" y="10" width="6" height="6"/><rect x="19" y="10" width="6" height="6"/>
@@ -258,7 +260,7 @@ export default function Nav() {
                 <h3 className="mega-prog-title">S&amp;C</h3>
                 <p className="mega-prog-desc">Strength et Conditioning. Seances en montagne, gainage, endurance specifique. Inclus dans chaque session.</p>
                 <span className="mega-arrow-link">Inclus dans le camp {CHECK_SM}</span>
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -275,7 +277,7 @@ export default function Nav() {
           <div className="mega-inner">
             <span className="mega-section-label">Destinations 2026</span>
             <div className="mega-dest-grid">
-              <a href="/destinations/dagestan" className="mega-dest-card" aria-label="Explorer le Dagestan">
+              <Link href="/destinations/dagestan" className="mega-dest-card" aria-label="Explorer le Dagestan">
                 <div className="mega-dest-bg" aria-hidden="true"/>
                 <div className="mega-dest-overlay" aria-hidden="true"/>
                 <div className="mega-dest-content">
@@ -284,8 +286,8 @@ export default function Nav() {
                   <p className="mega-dest-tagline">La terre qui a forge les meilleurs combattants de la planete.</p>
                   <span className="mega-dest-cta">Explorer le Dagestan {ARROW_RIGHT}</span>
                 </div>
-              </a>
-              <a href="/destinations/tchetchenie" className="mega-dest-card" aria-label="Explorer la Tchetchenie">
+              </Link>
+              <Link href="/destinations/tchetchenie" className="mega-dest-card" aria-label="Explorer la Tchetchenie">
                 <div className="mega-dest-bg mega-dest-bg--alt" aria-hidden="true"/>
                 <div className="mega-dest-overlay" aria-hidden="true"/>
                 <div className="mega-dest-content">
@@ -294,7 +296,7 @@ export default function Nav() {
                   <p className="mega-dest-tagline">Grozny, le renouveau. Culture guerriere millenaire et salles de MMA parmi les mieux equipees.</p>
                   <span className="mega-dest-cta">Explorer la Tchetchenie {ARROW_RIGHT}</span>
                 </div>
-              </a>
+              </Link>
             </div>
             <div className="mega-dest-security" role="note">
               <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" width="16" height="16" aria-hidden="true">
@@ -323,19 +325,19 @@ export default function Nav() {
               <div>
                 <span className="mega-infos-col-label">Contenus</span>
                 <ul className="mega-link-list" role="list">
-                  <li><a href="/galerie">{ARROW_SM} Galerie photos et videos</a></li>
-                  <li><a href="/temoignages">{ARROW_SM} Temoignages athletes</a></li>
-                  <li><a href="/blog">{ARROW_SM} Blog et articles</a></li>
-                  <li><a href="/guide-dagestan">{ARROW_SM} Guide Dagestan PDF</a></li>
+                  <li><Link href="/galerie">{ARROW_SM} Galerie photos et videos</Link></li>
+                  <li><Link href="/temoignages">{ARROW_SM} Temoignages athletes</Link></li>
+                  <li><Link href="/blog">{ARROW_SM} Blog et articles</Link></li>
+                  <li><Link href="/guide-dagestan">{ARROW_SM} Guide Dagestan PDF</Link></li>
                 </ul>
               </div>
               <div>
                 <span className="mega-infos-col-label">Pratique</span>
                 <ul className="mega-link-list" role="list">
-                  <li><a href="/faq">{ARROW_SM} FAQ</a></li>
-                  <li><a href="/a-propos">{ARROW_SM} A propos de MKR</a></li>
-                  <li><a href="/contact">{ARROW_SM} Contact</a></li>
-                  <li><a href="/inscription">{ARROW_SM} Inscription</a></li>
+                  <li><Link href="/faq">{ARROW_SM} FAQ</Link></li>
+                  <li><Link href="/a-propos">{ARROW_SM} A propos de MKR</Link></li>
+                  <li><Link href="/contact">{ARROW_SM} Contact</Link></li>
+                  <li><Link href="/inscription">{ARROW_SM} Inscription</Link></li>
                 </ul>
               </div>
               <div className="mega-testi" aria-label="Temoignage athlete">
@@ -369,32 +371,32 @@ export default function Nav() {
       >
         <div className="mobile-inner">
           <MobAccordion title="Le Camp" id="mob-camp">
-            <a href="/le-camp" className="mob-sub-link">Le Camp</a>
-            <a href="/comment-ca-marche" className="mob-sub-link">Comment ca marche</a>
-            <a href="/preparer-son-camp" className="mob-sub-link">Preparer son camp</a>
-            <a href="/logistique" className="mob-sub-link">Logistique et visa</a>
+            <Link href="/le-camp" className="mob-sub-link">Le Camp</Link>
+            <Link href="/comment-ca-marche" className="mob-sub-link">Comment ca marche</Link>
+            <Link href="/preparer-son-camp" className="mob-sub-link">Preparer son camp</Link>
+            <Link href="/logistique" className="mob-sub-link">Logistique et visa</Link>
           </MobAccordion>
           <MobAccordion title="Programme" id="mob-prog">
-            <a href="/programme" className="mob-sub-link">Vue d&apos;ensemble</a>
-            <a href="/programme/mma" className="mob-sub-link">MMA</a>
-            <a href="/programme/lutte" className="mob-sub-link">Lutte</a>
-            <a href="/coachs" className="mob-sub-link">Nos coachs</a>
+            <Link href="/programme" className="mob-sub-link">Vue d&apos;ensemble</Link>
+            <Link href="/programme/mma" className="mob-sub-link">MMA</Link>
+            <Link href="/programme/lutte" className="mob-sub-link">Lutte</Link>
+            <Link href="/coachs" className="mob-sub-link">Nos coachs</Link>
           </MobAccordion>
           <MobAccordion title="Destinations" id="mob-dest">
-            <a href="/destinations/dagestan" className="mob-sub-link">Dagestan</a>
-            <a href="/destinations/tchetchenie" className="mob-sub-link">Tchetchenie</a>
+            <Link href="/destinations/dagestan" className="mob-sub-link">Dagestan</Link>
+            <Link href="/destinations/tchetchenie" className="mob-sub-link">Tchetchenie</Link>
           </MobAccordion>
           <MobAccordion title="Informations" id="mob-infos">
-            <a href="/galerie" className="mob-sub-link">Galerie</a>
-            <a href="/temoignages" className="mob-sub-link">Temoignages</a>
-            <a href="/faq" className="mob-sub-link">FAQ</a>
-            <a href="/blog" className="mob-sub-link">Blog</a>
-            <a href="/a-propos" className="mob-sub-link">A propos</a>
-            <a href="/contact" className="mob-sub-link">Contact</a>
+            <Link href="/galerie" className="mob-sub-link">Galerie</Link>
+            <Link href="/temoignages" className="mob-sub-link">Temoignages</Link>
+            <Link href="/faq" className="mob-sub-link">FAQ</Link>
+            <Link href="/blog" className="mob-sub-link">Blog</Link>
+            <Link href="/a-propos" className="mob-sub-link">A propos</Link>
+            <Link href="/contact" className="mob-sub-link">Contact</Link>
           </MobAccordion>
-          <a href="/sessions" className="mob-direct">Sessions 2026</a>
+          <Link href="/sessions" className="mob-direct">Sessions 2026</Link>
           <div className="mob-cta-wrap">
-            <a href="/inscription" className="mob-cta">RESERVER MON CAMP</a>
+            <Link href="/inscription" className="mob-cta">RESERVER MON CAMP</Link>
           </div>
         </div>
       </div>

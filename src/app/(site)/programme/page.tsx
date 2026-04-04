@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import type { Metadata } from 'next'
 import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
@@ -36,7 +37,7 @@ export default function ProgrammePage() {
       {/* MMA card */}
       <section className="logi-section">
         <div className="inner">
-          <a href="/programme/mma" className="prog-discipline-card reveal">
+          <Link href="/programme/mma" className="prog-discipline-card reveal">
             <img
               src="/images/action/sparring-mma-wall.webp"
               alt="Sparring MMA dans une salle du Caucase"
@@ -53,14 +54,14 @@ export default function ProgrammePage() {
                 VOIR LE PROGRAMME MMA
               </span>
             </div>
-          </a>
+          </Link>
         </div>
       </section>
 
       {/* Lutte card */}
       <section className="logi-section logi-alt">
         <div className="inner">
-          <a href="/programme/lutte" className="prog-discipline-card reveal">
+          <Link href="/programme/lutte" className="prog-discipline-card reveal">
             <img
               src="/images/action/takedown-wrestling.webp"
               alt="Takedown de lutte au Caucase"
@@ -77,7 +78,7 @@ export default function ProgrammePage() {
                 VOIR LE PROGRAMME LUTTE
               </span>
             </div>
-          </a>
+          </Link>
         </div>
       </section>
 

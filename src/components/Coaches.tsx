@@ -1,6 +1,9 @@
+import { COACHES } from '@/data/coaches'
+
 export default function Coaches() {
   return (
     <section id="coaches" aria-labelledby="coaches-heading">
+      <div className="coaches-glow" aria-hidden="true" />
       <div className="inner">
         <div className="coaches-header reveal">
           <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>
@@ -12,79 +15,24 @@ export default function Coaches() {
         </div>
 
         <div className="coaches-grid no-scrollbar">
-
-          {/* Coach 1 */}
-          <article className="coach-card reveal">
-            <div className="coach-photo-wrap">
-              <div
-                className="coach-photo-placeholder"
-                role="img"
-                aria-label="Photo de Zurab Khabelov"
-                style={{ backgroundImage: "url('/images/coaches/zurab-khabelov.webp')" }}
-              ></div>
-              <div className="coach-photo-overlay" aria-hidden="true"></div>
-            </div>
-            <div className="coach-info">
-              <h3 className="coach-name">ZURAB<br />KHABELOV</h3>
-              <p className="coach-discipline">Lutte Gréco-romaine</p>
-              <p className="coach-bio">Champion de Géorgie, 3x médaillé aux championnats d&apos;Europe juniors. 18 ans d&apos;entraînement en salle. Sa méthode : brutalité contrôlée, précision absolue.</p>
-            </div>
-          </article>
-
-          {/* Coach 2 */}
-          <article className="coach-card reveal" style={{ transitionDelay: '0.08s' }}>
-            <div className="coach-photo-wrap">
-              <div
-                className="coach-photo-placeholder"
-                role="img"
-                aria-label="Photo de Giorgi Meladze"
-                style={{ backgroundImage: "url('/images/coaches/giorgi-meladze.webp')" }}
-              ></div>
-              <div className="coach-photo-overlay" aria-hidden="true"></div>
-            </div>
-            <div className="coach-info">
-              <h3 className="coach-name">GIORGI<br />MELADZE</h3>
-              <p className="coach-discipline">MMA</p>
-              <p className="coach-bio">Vétéran du circuit MMA caucasien, 14 victoires professionnelles. Spécialiste des transitions sol-debout. Formé en Géorgie, Caucase, enraciné dans la tradition.</p>
-            </div>
-          </article>
-
-          {/* Coach 3 */}
-          <article className="coach-card reveal" style={{ transitionDelay: '0.16s' }}>
-            <div className="coach-photo-wrap">
-              <div
-                className="coach-photo-placeholder"
-                role="img"
-                aria-label="Photo de Tamaz Kvaratskhelia"
-                style={{ backgroundImage: "url('/images/coaches/tamaz-kvaratskhelia.webp')" }}
-              ></div>
-              <div className="coach-photo-overlay" aria-hidden="true"></div>
-            </div>
-            <div className="coach-info">
-              <h3 className="coach-name">TAMAZ<br />KVARATSKHELIA</h3>
-              <p className="coach-discipline">Boxe</p>
-              <p className="coach-bio">Ex-boxeur professionnel, 22 combats. Aujourd&apos;hui il affûte la précision des poings de la prochaine génération. Son travail aux mitaines est légendaire dans la région.</p>
-            </div>
-          </article>
-
-          {/* Coach 4 */}
-          <article className="coach-card reveal" style={{ transitionDelay: '0.24s' }}>
-            <div className="coach-photo-wrap">
-              <div
-                className="coach-photo-placeholder"
-                role="img"
-                aria-label="Photo de Levan Skhirtladze"
-                style={{ backgroundImage: "url('/images/coaches/levan-skhirtladze.webp')" }}
-              ></div>
-              <div className="coach-photo-overlay" aria-hidden="true"></div>
-            </div>
-            <div className="coach-info">
-              <h3 className="coach-name">LEVAN<br />SKHIRTLADZE</h3>
-              <p className="coach-discipline">Sambo</p>
-              <p className="coach-bio">Maître du Sambo depuis 1998. Projections, soumissions debout et au sol. Il maîtrise les deux dimensions. Disciple de la tradition martiale soviéto-caucasienne.</p>
-            </div>
-          </article>
-
+          {COACHES.map((coach, i) => (
+            <article key={coach.id} className="coach-card reveal" style={i > 0 ? { transitionDelay: `${i * 0.08}s` } : undefined}>
+              <div className="coach-photo-wrap reveal-clip">
+                <div
+                  className="coach-photo-placeholder"
+                  role="img"
+                  aria-label={`Photo de ${coach.firstName} ${coach.lastName}`}
+                  style={{ backgroundImage: `url('${coach.image}')` }}
+                ></div>
+                <div className="coach-photo-overlay" aria-hidden="true"></div>
+              </div>
+              <div className="coach-info">
+                <h3 className="coach-name">{coach.firstName.toUpperCase()}<br />{coach.lastName.toUpperCase()}</h3>
+                <p className="coach-discipline">{coach.discipline}</p>
+                <p className="coach-bio">{coach.bio}</p>
+              </div>
+            </article>
+          ))}
         </div>
       </div>
     </section>

@@ -1,3 +1,5 @@
+import Link from 'next/link'
+
 export default function Footer() {
   return (
     <>
@@ -40,7 +42,7 @@ export default function Footer() {
                 </svg>
                 @mkr.caucasiancamp
               </a>
-              <a href="/inscription" className="footer-contact-cta">POSTULER</a>
+              <Link href="/inscription" className="footer-contact-cta">POSTULER</Link>
             </div>
           </div>
         </div>
@@ -50,10 +52,10 @@ export default function Footer() {
 
           {/* Brand */}
           <div>
-            <a href="/" className="footer-logo-link" aria-label="MKR Caucasian Camp · Accueil">
+            <Link href="/" className="footer-logo-link" aria-label="MKR Caucasian Camp · Accueil">
               <span className="footer-logo-mkr">MKR</span>
               <span className="footer-logo-sub">Caucasian Camp</span>
-            </a>
+            </Link>
             <p className="footer-tagline">Forge dans le Caucase.</p>
             <p className="footer-desc">
               Camps d&apos;entrainement intensifs de MMA et de lutte au coeur du Dagestan et de la Tchetchenie. Coaches locaux. Immersion totale. Zero distraction.
@@ -90,11 +92,11 @@ export default function Footer() {
           <div>
             <span className="footer-col-label">Le Camp</span>
             <ul className="footer-nav-list" role="list">
-              <li><a href="/le-camp">Le Camp</a></li>
-              <li><a href="/comment-ca-marche">Comment ca marche</a></li>
-              <li><a href="/preparer-son-camp">Preparer son camp</a></li>
-              <li><a href="/logistique">Logistique et visa</a></li>
-              <li><a href="/sessions" className="accent">Sessions 2026</a></li>
+              <li><Link href="/le-camp">Le Camp</Link></li>
+              <li><Link href="/comment-ca-marche">Comment ca marche</Link></li>
+              <li><Link href="/preparer-son-camp">Preparer son camp</Link></li>
+              <li><Link href="/logistique">Logistique et visa</Link></li>
+              <li><Link href="/sessions" className="accent">Sessions 2026</Link></li>
             </ul>
           </div>
 
@@ -102,11 +104,11 @@ export default function Footer() {
           <div>
             <span className="footer-col-label">Disciplines</span>
             <ul className="footer-nav-list" role="list">
-              <li><a href="/programme/mma">MMA</a></li>
-              <li><a href="/programme/lutte">Lutte</a></li>
-              <li><a href="/coachs">Nos coachs</a></li>
-              <li><a href="/destinations/dagestan">Dagestan</a></li>
-              <li><a href="/destinations/tchetchenie">Tchetchenie</a></li>
+              <li><Link href="/programme/mma">MMA</Link></li>
+              <li><Link href="/programme/lutte">Lutte</Link></li>
+              <li><Link href="/coachs">Nos coachs</Link></li>
+              <li><Link href="/destinations/dagestan">Dagestan</Link></li>
+              <li><Link href="/destinations/tchetchenie">Tchetchenie</Link></li>
             </ul>
           </div>
 
@@ -114,12 +116,12 @@ export default function Footer() {
           <div>
             <span className="footer-col-label">Informations</span>
             <ul className="footer-nav-list" role="list">
-              <li><a href="/galerie">Galerie</a></li>
-              <li><a href="/temoignages">Temoignages</a></li>
-              <li><a href="/faq">FAQ</a></li>
-              <li><a href="/blog">Blog</a></li>
-              <li><a href="/a-propos">A propos</a></li>
-              <li><a href="/contact">Contact</a></li>
+              <li><Link href="/galerie">Galerie</Link></li>
+              <li><Link href="/temoignages">Temoignages</Link></li>
+              <li><Link href="/faq">FAQ</Link></li>
+              <li><Link href="/blog">Blog</Link></li>
+              <li><Link href="/a-propos">A propos</Link></li>
+              <li><Link href="/contact">Contact</Link></li>
             </ul>
           </div>
 
@@ -130,11 +132,11 @@ export default function Footer() {
           <div className="footer-bottom-inner">
             <span className="footer-copy">&copy; 2026 MKR Caucasian Camp · Tous droits reserves · mkrcaucasiancamp.com</span>
             <nav className="footer-legal" aria-label="Liens legaux">
-              <a href="/mentions-legales">Mentions legales</a>
+              <Link href="/mentions-legales">Mentions legales</Link>
               <span className="footer-legal-dot" aria-hidden="true">·</span>
-              <a href="/cgv">CGV</a>
+              <Link href="/cgv">CGV</Link>
               <span className="footer-legal-dot" aria-hidden="true">·</span>
-              <a href="/politique-de-confidentialite">Confidentialite</a>
+              <Link href="/politique-de-confidentialite">Confidentialite</Link>
             </nav>
           </div>
         </div>

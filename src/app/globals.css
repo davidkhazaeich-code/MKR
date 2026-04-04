@@ -1,5 +1,38 @@
+/*
+ * MKR Caucasian Camp - Global Styles
+ * Design System: Mineral Brutalism "Summit Obsidian"
+ *
+ * TABLE OF CONTENTS
+ * -----------------
+ * 1.  RESET & DESIGN TOKENS .............. :root vars, reset
+ * 2.  TYPOGRAPHY ......................... headings, labels
+ * 3.  REVEAL & ANIMATIONS ............... scroll-reveal, reduced-motion
+ * 4.  SKIP LINK & UTILITIES ............. a11y, .inner, .label-tag
+ * 5.  NAV & MEGA MENU ................... header, mega panels, mobile menu
+ * 6.  HERO .............................. sky, stars, mountains, content, carousel
+ * 7.  VIDEO SECTION ..................... main video, testimonial thumbs
+ * 8.  PHILOSOPHIE (BENTO) ............... bento grid, grain overlay
+ * 9.  COACHES ........................... coach grid, photo effects
+ * 10. SESSIONS .......................... session cards, meta, pricing
+ * 11. TIMELINE .......................... vertical timeline, steps
+ * 12. TESTIMONIALS ...................... carousel, cards, stars
+ * 13. FAQ (HOMEPAGE) .................... accordion, 2-col grid
+ * 14. CONTACT (HOMEPAGE) ................ two-col CTA + info
+ * 15. CTA FINAL ......................... fullwidth CTA, mountain silhouette
+ * 16. FOOTER ............................ mountain divider, columns, legal
+ * 17. CANDIDATURE FORM .................. multi-step form, progress
+ * 18. INSCRIPTION LAYOUT ................ sidebar, mobile header, steps
+ * 19. VOYAGE REVEAL ..................... world map, route animation
+ * 20. SECTION TRANSITIONS ............... overlap, mountain borders
+ * 21. TEXTURES & GLOWS .................. crosshatch, breathing glow
+ * 22. PAGE COMPONENTS ................... PageHero, breadcrumb, grids
+ * 23. PAGE-SPECIFIC ..................... sessions, FAQ, logistique, blog, etc.
+ * 24. IMAGE TREATMENTS .................. grayscale, hover effects
+ * 25. CINEMATIC & MISC .................. banners, bleed images
+ */
+
 /* ═══════════════════════════════════════════════
-   RESET & DESIGN TOKENS
+   1. RESET & DESIGN TOKENS
 ═══════════════════════════════════════════════ */
 *, *::before, *::after {
   box-sizing: border-box;
@@ -3394,6 +3427,128 @@ h1, h2, h3, h4, h5 {
   #coaches, #testimonials, #faq, #video-section {
     background-attachment: scroll;
   }
+}
+
+/* ═══════════════════════════════════════════════
+   UNIFIED VISUAL EFFECTS — crosshatch, glows, reveal-clip
+═══════════════════════════════════════════════ */
+
+/* ── Crosshatch overlay for sections missing it ── */
+#video-section::before,
+#coaches::before,
+#testimonials::before,
+#faq::before,
+#cta-final::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(
+      -45deg,
+      transparent 0px, transparent 22px,
+      rgba(200,75,49,0.04) 22px, rgba(200,75,49,0.04) 23px
+    ),
+    repeating-linear-gradient(
+      45deg,
+      transparent 0px, transparent 22px,
+      rgba(200,75,49,0.02) 22px, rgba(200,75,49,0.02) 23px
+    );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Contact — ajout texture + crosshatch */
+#contact {
+  background:
+    linear-gradient(rgba(26,26,24,0.94), rgba(26,26,24,0.94)),
+    url("/images/textures/concrete-soviet.webp") center / cover fixed;
+}
+#contact::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(
+      -45deg,
+      transparent 0px, transparent 22px,
+      rgba(200,75,49,0.04) 22px, rgba(200,75,49,0.04) 23px
+    ),
+    repeating-linear-gradient(
+      45deg,
+      transparent 0px, transparent 22px,
+      rgba(200,75,49,0.02) 22px, rgba(200,75,49,0.02) 23px
+    );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Breathing glow animation — all section glows ── */
+.video-glow,
+.testimonials-glow,
+.cta-glow,
+.coaches-glow,
+.contact-glow,
+.faq-glow {
+  animation: breathe 5s ease-in-out infinite;
+}
+
+/* ── New glow elements ── */
+.coaches-glow {
+  position: absolute;
+  top: 25%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 65%;
+  height: 55%;
+  background: radial-gradient(ellipse at 50% 50%, rgba(200,75,49,0.08) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.contact-glow {
+  position: absolute;
+  top: 20%;
+  left: 30%;
+  width: 50%;
+  height: 60%;
+  background: radial-gradient(ellipse at 50% 50%, rgba(200,75,49,0.07) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.faq-glow {
+  position: absolute;
+  top: 30%;
+  left: 55%;
+  width: 50%;
+  height: 50%;
+  background: radial-gradient(ellipse at 50% 50%, rgba(200,75,49,0.06) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Scroll-reveal clip-path for images ── */
+.reveal-clip {
+  clip-path: inset(12%);
+  transition: clip-path 1.2s var(--ease-out-expo);
+  overflow: hidden;
+}
+.reveal-clip.visible {
+  clip-path: inset(0%);
+}
+.reveal-clip img,
+.reveal-clip .coach-photo-placeholder {
+  transform: scale(1.1);
+  transition: transform 1.6s var(--ease-out-expo);
+}
+.reveal-clip.visible img,
+.reveal-clip.visible .coach-photo-placeholder {
+  transform: scale(1);
+}
+
+/* Mobile — disable contact texture parallax */
+@media (max-width: 768px) {
+  #contact { background-attachment: scroll; }
 }
 
 /* ═══════════════════════════════════════════════

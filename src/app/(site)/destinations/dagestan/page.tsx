@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import type { Metadata } from 'next'
 import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
@@ -192,9 +193,9 @@ export default function DagestanPage() {
           <div className="group-card reveal">
             <h2>LOGISTIQUE DAGESTAN</h2>
             <p>Aeroport : Makhachkala (MCX). Transfert MKR depuis l&apos;aeroport inclus. Hebergement en logement de camp.</p>
-            <a href="/logistique" className="btn-ghost" style={{ marginTop: '1rem', fontSize: '0.9rem', padding: '0.6rem 1.5rem' }}>
+            <Link href="/logistique" className="btn-ghost" style={{ marginTop: '1rem', fontSize: '0.9rem', padding: '0.6rem 1.5rem' }}>
               DETAIL COMPLET
-            </a>
+            </Link>
           </div>
         </div>
       </section>

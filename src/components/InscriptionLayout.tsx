@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { useState, FormEvent } from 'react'
 
 /* ─────────────── DATA ─────────────── */
@@ -141,7 +142,7 @@ export default function InscriptionLayout() {
     return (
       <div className="insc-wrapper">
         <div className="insc-success-page">
-          <a href="/" className="insc-back-home">← Retour au site</a>
+          <Link href="/" className="insc-back-home">← Retour au site</Link>
           <div className="cand-success">
             <div className="cand-success-icon">
               <svg viewBox="0 0 48 48" fill="none">
@@ -155,7 +156,7 @@ export default function InscriptionLayout() {
               Nous étudions ta candidature et te répondons sous 48h.<br />
               Prépare-toi pour l&apos;entretien vidéo de sélection.
             </p>
-            <a href="/" className="insc-back-btn">RETOUR À L&apos;ACCUEIL</a>
+            <Link href="/" className="insc-back-btn">RETOUR À L&apos;ACCUEIL</Link>
           </div>
         </div>
       </div>
@@ -168,10 +169,10 @@ export default function InscriptionLayout() {
       {/* ── LEFT SIDEBAR ── */}
       <aside className="insc-sidebar">
         <div className="insc-sidebar-top">
-          <a href="/" className="insc-logo" aria-label="Retour à l'accueil">
+          <Link href="/" className="insc-logo" aria-label="Retour à l'accueil">
             <span className="insc-logo-mkr">MKR</span>
             <span className="insc-logo-sub">Caucasian Camp</span>
-          </a>
+          </Link>
         </div>
 
         <div className="insc-sidebar-mid">
@@ -199,15 +200,15 @@ export default function InscriptionLayout() {
             <span className="insc-badge">RÉPONSE SOUS 48H</span>
             <span className="insc-badge">ENTRETIEN VIDÉO</span>
           </div>
-          <a href="/" className="insc-back-link">← Retour au site</a>
+          <Link href="/" className="insc-back-link">← Retour au site</Link>
         </div>
       </aside>
 
       {/* ── MOBILE HEADER ── */}
       <header className="insc-mobile-header">
-        <a href="/" className="insc-logo" aria-label="Retour à l'accueil">
+        <Link href="/" className="insc-logo" aria-label="Retour à l'accueil">
           <span className="insc-logo-mkr">MKR</span>
-        </a>
+        </Link>
         <div className="insc-mobile-progress">
           <span className="insc-mobile-step-label">Étape {step + 1}/{STEPS.length}</span>
           <div className="insc-mobile-bar">

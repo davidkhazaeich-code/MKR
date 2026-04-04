@@ -1,3 +1,5 @@
+import Link from 'next/link'
+
 interface BreadcrumbProps {
   items: { href: string; label: string }[]
 }
@@ -5,14 +7,14 @@ interface BreadcrumbProps {
 export default function Breadcrumb({ items }: BreadcrumbProps) {
   return (
     <nav className="breadcrumb" aria-label="Fil d'Ariane">
-      <a href="/">Accueil</a>
+      <Link href="/">Accueil</Link>
       {items.map((item, i) => (
         <span key={i}>
           <span aria-hidden="true">/</span>
           {i === items.length - 1 ? (
             <span aria-current="page">{item.label}</span>
           ) : (
-            <a href={item.href}>{item.label}</a>
+            <Link href={item.href}>{item.label}</Link>
           )}
         </span>
       ))}

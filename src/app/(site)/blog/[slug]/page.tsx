@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import type { Metadata } from 'next'
 import SectionCTA from '@/components/SectionCTA'
 import Breadcrumb from '@/components/Breadcrumb'
@@ -65,8 +66,8 @@ export default async function BlogArticlePage({ params }: { params: Promise<{ sl
           <div className="group-card reveal" style={{ textAlign: 'center' }}>
             <h2>PRET A PASSER A L&apos;ACTION ?</h2>
             <div style={{ marginTop: '1.5rem', display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-              <a href="/sessions" className="btn-primary">VOIR LES SESSIONS</a>
-              <a href="/inscription" className="btn-ghost">S&apos;INSCRIRE</a>
+              <Link href="/sessions" className="btn-primary">VOIR LES SESSIONS</Link>
+              <Link href="/inscription" className="btn-ghost">S&apos;INSCRIRE</Link>
             </div>
           </div>
         </div>

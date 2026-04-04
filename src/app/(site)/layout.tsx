@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
 import RevealObserver from '@/components/RevealObserver'
@@ -7,7 +8,7 @@ import StickyMobileCTA from '@/components/StickyMobileCTA'
 export default function SiteLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <a href="#main" className="skip-link">Aller au contenu principal</a>
+      <Link href="#main" className="skip-link">Aller au contenu principal</Link>
       <Nav />
       <main id="main">
         {children}

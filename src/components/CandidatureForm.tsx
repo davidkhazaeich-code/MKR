@@ -1,6 +1,8 @@
 'use client'
 
 import { useState, FormEvent } from 'react'
+import { DISCIPLINES } from '@/data/disciplines'
+import { SESSIONS, sessionFormLabel } from '@/data/sessions'
 
 const STEPS = [
   'Identité',
@@ -8,12 +10,6 @@ const STEPS = [
   'Santé',
   'Logistique',
   'Confirmation',
-]
-
-const DISCIPLINES = [
-  'MMA', 'Lutte Libre', 'Lutte Gréco-Romaine', 'Boxe Anglaise',
-  'Kickboxing / K-1', 'Muay Thaï', 'Grappling / No-Gi', 'Sambo',
-  'Jiu-Jitsu Brésilien', 'Judo', 'Autre',
 ]
 
 type FormData = {
@@ -406,9 +402,9 @@ export default function CandidatureForm() {
                 <select className="cand-select" value={form.session}
                   onChange={e => set('session', e.target.value)}>
                   <option value="" disabled>Sélectionner</option>
-                  <option value="printemps-2026">Printemps 2026 (Mai -Juin)</option>
-                  <option value="ete-2026">Été 2026 (Juillet -Août)</option>
-                  <option value="automne-2026">Automne 2026 (Septembre -Octobre)</option>
+                  {SESSIONS.map(s => (
+                    <option key={s.id} value={s.id}>{sessionFormLabel(s)}</option>
+                  ))}
                 </select>
               </Field>
               <Field label="Durée souhaitée" required>

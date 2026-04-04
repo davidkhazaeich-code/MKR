@@ -1,11 +1,9 @@
 'use client'
 
 import { useState } from 'react'
+import type { FAQItem } from '@/data/faq'
 
-export interface FAQItem {
-  question: string
-  answer: string
-}
+export type { FAQItem }
 
 interface FAQAccordionProps {
   items: FAQItem[]

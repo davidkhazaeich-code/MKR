@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -48,8 +49,8 @@ export default function MerciPage() {
           </div>
 
           <div style={{ marginTop: '2.5rem', display: 'flex', gap: '1rem', flexWrap: 'wrap', justifyContent: 'center' }}>
-            <a href="/sessions" className="btn-primary">VOIR LES SESSIONS</a>
-            <a href="/" className="btn-ghost">RETOUR A L&apos;ACCUEIL</a>
+            <Link href="/sessions" className="btn-primary">VOIR LES SESSIONS</Link>
+            <Link href="/" className="btn-ghost">RETOUR A L&apos;ACCUEIL</Link>
           </div>
         </div>
       </div>

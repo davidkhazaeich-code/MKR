@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import type { Metadata } from 'next'
 import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
@@ -159,7 +160,7 @@ export default function SessionsPage() {
                     <div className="session-price">{s.price}</div>
                     <div className="session-price-sub">Hebergement &amp; repas inclus · Vol non inclus</div>
                   </div>
-                  <a href="/inscription" className="session-cta">POSTULER</a>
+                  <Link href="/inscription" className="session-cta">POSTULER</Link>
                 </div>
               </article>
             ))}
@@ -248,8 +249,8 @@ export default function SessionsPage() {
                 <li>Annulation gratuite jusqu&apos;a 60 jours avant le depart</li>
               </ul>
               <div style={{ marginTop: '1.5rem', display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-                <a href="/cgv" className="btn-ghost" style={{ fontSize: '0.9rem', padding: '0.6rem 1.5rem' }}>CGV COMPLETES</a>
-                <a href="/comment-ca-marche" className="btn-ghost" style={{ fontSize: '0.9rem', padding: '0.6rem 1.5rem' }}>COMMENT CA MARCHE</a>
+                <Link href="/cgv" className="btn-ghost" style={{ fontSize: '0.9rem', padding: '0.6rem 1.5rem' }}>CGV COMPLETES</Link>
+                <Link href="/comment-ca-marche" className="btn-ghost" style={{ fontSize: '0.9rem', padding: '0.6rem 1.5rem' }}>COMMENT CA MARCHE</Link>
               </div>
             </div>
             <div>

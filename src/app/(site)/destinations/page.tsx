@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import type { Metadata } from 'next'
 import PageHero from '@/components/PageHero'
 
@@ -19,7 +20,7 @@ export default function DestinationsPage() {
       <section className="dest-hub">
         <div className="inner">
           <div className="dest-hub-grid">
-            <a href="/destinations/dagestan" className="dest-hub-card reveal">
+            <Link href="/destinations/dagestan" className="dest-hub-card reveal">
               <img
                 src="/images/environment/dagestan-panorama.webp"
                 alt="Montagnes du Dagestan"
@@ -37,8 +38,8 @@ export default function DestinationsPage() {
                   EXPLORER LE DAGESTAN
                 </span>
               </div>
-            </a>
-            <a href="/destinations/tchetchenie" className="dest-hub-card reveal" style={{ transitionDelay: '0.12s' }}>
+            </Link>
+            <Link href="/destinations/tchetchenie" className="dest-hub-card reveal" style={{ transitionDelay: '0.12s' }}>
               <img
                 src="/images/environment/grozny-city.webp"
                 alt="Vue de Grozny, Tchetchenie"
@@ -56,7 +57,7 @@ export default function DestinationsPage() {
                   EXPLORER LA TCHETCHENIE
                 </span>
               </div>
-            </a>
+            </Link>
           </div>
         </div>
       </section>
