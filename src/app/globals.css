@@ -2745,6 +2745,7 @@ h1, h2, h3, h4, h5 {
   padding: clamp(3rem, 6vh, 5rem) clamp(2rem, 5vw, 5rem);
   min-height: 100vh;
   min-height: 100dvh;
+  background: var(--bg);
 }
 .insc-form-wrap {
   width: 100%;
@@ -3543,11 +3544,11 @@ h1, h2, h3, h4, h5 {
 }
 
 @media (max-width: 768px) {
-  .voyage-reveal-container { padding: 0 1.5rem; }
+  .voyage-reveal-container { padding: 0 1.5rem; bottom: 8rem; }
   .voyage-reveal-content { max-width: 100%; }
   .voyage-reveal-content h2 { font-size: 2.4rem; }
   .voyage-reveal-map .world-map-wrap {
-    transform: scale(1.1);
+    transform: scale(2) translateX(50px);
     transform-origin: 56% 26%;
   }
 }
@@ -3659,6 +3660,51 @@ h1, h2, h3, h4, h5 {
   flex-wrap: wrap;
   gap: 0.5rem;
   margin-top: 0.5rem;
+}
+
+/* Scroll indicator */
+.dest-reveal-scroll-hint {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  z-index: 10;
+  pointer-events: none;
+}
+.dest-reveal-scroll-text {
+  font-family: var(--font-barlow-condensed), sans-serif;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  color: rgba(248,248,248,0.5);
+}
+.dest-reveal-scroll-line {
+  width: 1px;
+  height: 40px;
+  background: rgba(248,248,248,0.15);
+  position: relative;
+  overflow: hidden;
+}
+.dest-reveal-scroll-dot {
+  width: 3px;
+  height: 10px;
+  border-radius: 2px;
+  background: var(--primary);
+  position: absolute;
+  left: -1px;
+  animation: dest-scroll-bounce 1.8s ease-in-out infinite;
+}
+@keyframes dest-scroll-bounce {
+  0%, 100% { top: 0; opacity: 0.4; }
+  50% { top: 30px; opacity: 1; }
+}
+
+@media (max-width: 1024px) {
+  .dest-reveal-scroll-hint { bottom: 1.5rem; }
 }
 
 @media (max-width: 1024px) {

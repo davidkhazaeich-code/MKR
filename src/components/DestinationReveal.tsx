@@ -29,6 +29,9 @@ export default function DestinationReveal({ image, alt, label, title, facts, bad
   const textOpacity = useTransform(scrollYProgress, [0.5, 1], [0, 1])
   const textY = useTransform(scrollYProgress, [0.5, 1], [30, 0])
 
+  // Scroll indicator fades out as reveal begins
+  const indicatorOpacity = useTransform(scrollYProgress, [0, 0.15], [1, 0])
+
   return (
     <div
       ref={containerRef}
@@ -54,6 +57,18 @@ export default function DestinationReveal({ image, alt, label, title, facts, bad
         </motion.div>
 
         <div className="dest-reveal-overlay" aria-hidden="true" />
+
+        {/* Scroll indicator */}
+        <motion.div
+          className="dest-reveal-scroll-hint"
+          style={{ opacity: indicatorOpacity }}
+          aria-hidden="true"
+        >
+          <span className="dest-reveal-scroll-text">SCROLL</span>
+          <div className="dest-reveal-scroll-line">
+            <div className="dest-reveal-scroll-dot" />
+          </div>
+        </motion.div>
 
         <div className="dest-reveal-container">
           <motion.div
