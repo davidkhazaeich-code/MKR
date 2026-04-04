@@ -121,6 +121,25 @@ export default function ScrollParallax() {
                 },
               )
             })
+
+            /* ── Timeline bar scroll draw ── */
+            const timelineTrack = document.querySelector<HTMLElement>('.timeline-track')
+            if (timelineTrack) {
+              gsap.fromTo(
+                timelineTrack,
+                { '--bar-scale': 0 },
+                {
+                  '--bar-scale': 1,
+                  ease: 'none',
+                  scrollTrigger: {
+                    trigger: timelineTrack,
+                    start: 'top 70%',
+                    end: 'bottom 30%',
+                    scrub: 0.4,
+                  },
+                },
+              )
+            }
           },
         )
       })

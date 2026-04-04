@@ -1251,17 +1251,21 @@ h1, h2, h3, h4, h5 {
 .timeline-track {
   position: relative;
 }
-/* Central vertical line */
+/* Central vertical line — scroll-drawn via GSAP --bar-scale */
+.timeline-track {
+  --bar-scale: 0;
+}
 .timeline-track::before {
   content: '';
   position: absolute;
   left: 50%;
   top: 0;
   bottom: 0;
-  width: 1px;
+  width: 2px;
   background: var(--primary);
-  opacity: 0.35;
-  transform: translateX(-50%);
+  opacity: 0.55;
+  transform: translateX(-50%) scaleY(var(--bar-scale));
+  transform-origin: top center;
 }
 
 .timeline-step {
@@ -1319,7 +1323,7 @@ h1, h2, h3, h4, h5 {
   font-size: 0.88rem;
   line-height: 1.7;
   color: var(--text-secondary);
-  max-width: 340px;
+  max-width: 400px;
   margin-left: auto; /* aligne le bloc texte côté fil conducteur (droite) pour étapes gauche */
 }
 .timeline-step--reversed .timeline-step-body { margin-left: 0; }
@@ -1562,8 +1566,8 @@ h1, h2, h3, h4, h5 {
 ═══════════════════════════════════════════════ */
 .timeline-step-img {
   position: relative;
-  aspect-ratio: 4 / 3;
-  width: 260px;
+  aspect-ratio: 3 / 2;
+  width: clamp(280px, 25vw, 420px);
   flex-shrink: 0;
   background: var(--surface-high);
   overflow: hidden;
