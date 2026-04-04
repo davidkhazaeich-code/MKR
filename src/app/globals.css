@@ -1160,9 +1160,17 @@ h1, h2, h3, h4, h5 {
   padding-top: 0.35rem;
 }
 
-/* Texte toujours a gauche, image toujours a droite */
-.timeline-content-left { text-align: left; }
-.timeline-content-right { display: flex; align-items: center; justify-content: flex-start; }
+/* Panel : image + texte sur le même côté */
+.timeline-panel {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+/* Étapes gauche : numéro à droite du bloc texte (côté fil conducteur) */
+.timeline-text { flex: 1; text-align: right; }
+/* Étapes droite : numéro à gauche du bloc texte (côté fil conducteur) */
+.timeline-step--reversed .timeline-text { text-align: left; }
+.timeline-empty { /* spacer — colonne vide côté opposé */ }
 
 .timeline-num {
   font-family: var(--font-teko), sans-serif;
@@ -1182,40 +1190,28 @@ h1, h2, h3, h4, h5 {
   font-size: 0.88rem;
   line-height: 1.7;
   color: var(--text-secondary);
-  max-width: 380px;
+  max-width: 340px;
+  margin-left: auto; /* aligne le bloc texte côté fil conducteur (droite) pour étapes gauche */
 }
+.timeline-step--reversed .timeline-step-body { margin-left: 0; }
 
-/* Mobile: dot + texte, image masquée */
+/* Mobile: dot à gauche, texte à droite, image masquée */
 @media (max-width: 768px) {
   .timeline-track::before { left: 1.5rem; }
   .timeline-step {
-    grid-template-columns: auto 1fr;
+    display: flex;
+    flex-direction: row;
     gap: 1.5rem;
+    align-items: flex-start;
   }
-  .timeline-dot-wrap { order: 1; }
-  .timeline-content-left { order: 2; }
-  .timeline-content-right { display: none; }
-}
-
-/* Desktop — alternating left/right (pair de steps inversées) */
-@media (min-width: 769px) {
-  .timeline-step--reversed .timeline-content-right {
-    grid-column: 1;
-    grid-row: 1;
-    justify-content: flex-end;
-  }
-  .timeline-step--reversed .timeline-dot-wrap {
-    grid-column: 2;
-    grid-row: 1;
-  }
-  .timeline-step--reversed .timeline-content-left {
-    grid-column: 3;
-    grid-row: 1;
-  }
-  .timeline-step--reversed .timeline-step-img {
-    margin-right: 0;
-    margin-left: auto;
-  }
+  .timeline-dot-wrap { flex-shrink: 0; order: 1; }
+  .timeline-panel { flex: 1; order: 2; flex-direction: column; }
+  .timeline-step-img { display: none; }
+  .timeline-empty { display: none; }
+  .timeline-text { text-align: left; }
+  .timeline-step--reversed .timeline-text { text-align: left; }
+  .timeline-step-body { margin-left: 0; }
+  .timeline-step--reversed .timeline-step-body { margin-left: 0; }
 }
 
 /* ═══════════════════════════════════════════════
@@ -1339,14 +1335,12 @@ h1, h2, h3, h4, h5 {
 .timeline-step-img {
   position: relative;
   aspect-ratio: 4 / 3;
-  max-width: 340px;
-  width: 100%;
+  width: 260px;
+  flex-shrink: 0;
   background: var(--surface-high);
   overflow: hidden;
   align-self: center;
 }
-/* image toujours dans la colonne droite, collee vers le dot */
-.timeline-step-img { margin-right: auto; }
 .timeline-step-img::before {
   content: '';
   position: absolute;
@@ -1932,4 +1926,119 @@ h1, h2, h3, h4, h5 {
   .voyage-steps { flex-direction: column; gap: 1.2rem; }
   .voyage-step-arrow { transform: rotate(90deg); }
   .world-map-wrap { aspect-ratio: 1.5 / 1; }
+}
+
+/* ── Zoom carte — léger focus Europe/Caucase (−80% de l'excès) ── */
+.voyage-map-zoom {
+  overflow: hidden;
+  position: relative;
+}
+.voyage-map-zoom .world-map-wrap {
+  transform: scale(1.45);
+  transform-origin: 56% 26%;
+}
+
+@media (max-width: 768px) {
+  .voyage-map-zoom .world-map-wrap {
+    transform: scale(1.3);
+    transform-origin: 52% 26%;
+  }
+}
+
+/* ═══════════════════════════════════════════════
+   VOYAGE REVEAL (section test — map bg + scroll clip)
+═══════════════════════════════════════════════ */
+.voyage-reveal-sticky {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background: #0E0E0E;
+  will-change: clip-path;
+}
+
+/* Carte couvre toute la hauteur */
+.voyage-reveal-map {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+}
+.voyage-reveal-map .world-map-wrap {
+  width: 100%;
+  aspect-ratio: 2 / 1;
+  /* Zoom axé sur la zone Europe/Caucase */
+  transform: scale(2.5);
+  transform-origin: 47% 25%;
+}
+
+/* Overlay sombre pour contraste texte */
+.voyage-reveal-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to right,
+    rgba(8,8,6,0.88) 0%,
+    rgba(8,8,6,0.72) 40%,
+    rgba(8,8,6,0.18) 75%,
+    rgba(8,8,6,0.05) 100%
+  );
+}
+
+/* Contenu texte */
+.voyage-reveal-content {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  padding: 0 4rem;
+  max-width: 580px;
+  z-index: 10;
+}
+.voyage-reveal-content .label-tag {
+  display: block;
+  margin-bottom: 0.75rem;
+}
+.voyage-reveal-content h2 {
+  font-size: clamp(3rem, 6vw, 5rem);
+  color: var(--text-primary);
+  margin-bottom: 1.2rem;
+}
+.voyage-reveal-content > p {
+  font-family: var(--font-barlow), sans-serif;
+  font-size: 1rem;
+  color: var(--text-secondary);
+  line-height: 1.65;
+  margin-bottom: 2rem;
+}
+
+.voyage-reveal-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+.voyage-reveal-step {
+  display: flex;
+  align-items: baseline;
+  gap: 0.8rem;
+  font-family: var(--font-barlow), sans-serif;
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+}
+.voyage-reveal-num {
+  font-family: var(--font-teko), sans-serif;
+  font-size: 1.3rem;
+  color: var(--primary);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+  .voyage-reveal-content { padding: 0 1.5rem; max-width: 100%; }
+  .voyage-reveal-content h2 { font-size: 2.4rem; }
+  .voyage-reveal-map .world-map-wrap {
+    transform: scale(2);
+    transform-origin: 52% 26%;
+  }
 }

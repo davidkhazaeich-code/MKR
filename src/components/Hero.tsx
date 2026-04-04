@@ -227,7 +227,7 @@ export default function Hero() {
     })
 
     const heroContent = document.querySelector('.hero-content') as HTMLElement | null
-    const HERO_TEXT_SPEED = 0.38
+    const HERO_TEXT_SPEED = 0.62
 
     let ticking = false
     let scrollY = 0
@@ -272,62 +272,31 @@ export default function Hero() {
       {/* Mountains — 8-layer SVG parallax */}
       <div className="mountains-wrap" aria-hidden="true" id="mtn-wrap">
 
-        {/* Layer 8 — géante, collée à droite, tout en arrière-plan */}
+        {/* Layer 8 — grande montagne sombre, visible à droite à l'écran.
+             mountains-wrap a scaleX(-1) → pic à x≈110 SVG = x≈1330 à l'écran.
+             fill: #1a1715 pour être visible sur fond #0C0C0C (plus sombre que mtn6 #222220) */}
         <div className="mtn-layer" id="mtn8">
           <svg viewBox="0 0 1440 520" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
             {/* Corps — masse colossale, pic à gauche SVG = droite visuelle après scaleX(-1) */}
-            <polygon fill="#080705" points="
+            <polygon fill="#1a1715" points="
               0,520 0,460 8,390 18,310 32,228 52,148 76,78
               96,26 110,4 124,26 148,72 188,132 246,200
               328,272 436,344 572,408 740,460 950,492
               1200,510 1440,518 1440,520
             " />
-            {/* Calotte neigeuse — sommet imposant */}
-            <polygon fill="rgba(240,236,228,0.28)" points="
+            {/* Calotte neigeuse — large et bien marquée */}
+            <polygon fill="rgba(244,240,232,0.52)" points="
               88,50 96,26 110,4 124,26 148,72 168,104
               158,118 142,110 126,118 110,122
               96,116 84,106 78,84
             " />
-            {/* Arête secondaire haute */}
-            <polygon fill="rgba(240,236,228,0.16)" points="
+            {/* Arête secondaire haute gauche */}
+            <polygon fill="rgba(244,240,232,0.28)" points="
               60,120 68,98 82,82 90,92 78,114
             " />
-            {/* Arête tertiaire */}
-            <polygon fill="rgba(240,236,228,0.10)" points="
+            {/* Arête tertiaire droite */}
+            <polygon fill="rgba(244,240,232,0.18)" points="
               165,160 176,142 190,128 198,140 184,158
-            " />
-          </svg>
-        </div>
-
-        {/* Layer 7 — grande montagne sombre tout à droite, arrière-plan */}
-        <div className="mtn-layer" id="mtn7">
-          <svg viewBox="0 0 1440 500" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
-            {/* Corps — masse imposante ancrée à droite */}
-            <polygon fill="#0e0c0a" points="
-              860,500 880,480 905,455 935,425 968,392 1004,356
-              1042,318 1082,278 1122,238 1158,200 1188,166
-              1212,136 1228,112 1238,94 1244,80 1248,68
-              1252,56 1255,46 1258,36 1260,26 1262,16
-              1264,8 1266,2 1268,8 1270,18 1273,30
-              1276,44 1280,60 1285,78 1292,98 1300,120
-              1310,144 1322,170 1336,196 1352,222 1368,248
-              1385,272 1400,292 1415,312 1428,330
-              1440,346 1440,500
-            " />
-            {/* Calotte neigeuse — sommet bien enneigé */}
-            <polygon fill="rgba(240,236,228,0.32)" points="
-              1248,68 1252,56 1255,46 1258,36 1260,26
-              1262,16 1264,8 1266,2 1268,8 1270,18
-              1273,30 1276,44 1280,60 1285,78
-              1276,88 1266,96 1256,92 1246,84
-            " />
-            {/* Arête de neige secondaire gauche */}
-            <polygon fill="rgba(240,236,228,0.18)" points="
-              1212,136 1220,120 1232,108 1238,116 1226,132
-            " />
-            {/* Arête secondaire droite */}
-            <polygon fill="rgba(240,236,228,0.14)" points="
-              1310,144 1300,130 1312,118 1322,128 1316,148
             " />
           </svg>
         </div>

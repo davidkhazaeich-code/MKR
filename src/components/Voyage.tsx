@@ -3,20 +3,25 @@
 import { WorldMap } from '@/components/WorldMap'
 
 const ROUTES = [
-  // France → Istanbul (étape 1)
+  // Paris → Istanbul
   {
-    start: { lat: 48.8566, lng: 2.3522, label: 'Paris' },
-    end:   { lat: 41.0082, lng: 28.9784, label: 'Istanbul' },
+    start: { lat: 48.8566, lng: 2.3522,   label: 'Paris' },
+    end:   { lat: 41.0082, lng: 28.9784,  label: 'Istanbul' },
   },
-  // Canada → Istanbul (étape 1)
+  // Genève → Istanbul
+  {
+    start: { lat: 46.2044, lng: 6.1432,   label: 'Genève' },
+    end:   { lat: 41.0082, lng: 28.9784,  label: 'Istanbul' },
+  },
+  // Montréal → Istanbul
   {
     start: { lat: 45.5017, lng: -73.5673, label: 'Montréal' },
-    end:   { lat: 41.0082, lng: 28.9784, label: 'Istanbul' },
+    end:   { lat: 41.0082, lng: 28.9784,  label: 'Istanbul' },
   },
-  // Istanbul → Dagestan (étape finale)
+  // Istanbul → Dagestan (hub final)
   {
-    start: { lat: 41.0082, lng: 28.9784, label: 'Istanbul' },
-    end:   { lat: 42.9849, lng: 47.5047, label: 'Dagestan' },
+    start: { lat: 41.0082, lng: 28.9784,  label: 'Istanbul' },
+    end:   { lat: 42.9849, lng: 47.5047,  label: 'Dagestan' },
   },
 ]
 
@@ -37,9 +42,11 @@ export default function Voyage() {
           </p>
         </div>
 
-        {/* Carte interactive */}
+        {/* Carte interactive — zoom sur la zone Europe/Caucase */}
         <div className="voyage-map-wrap reveal">
-          <WorldMap dots={ROUTES} lineColor="#C84B31" />
+          <div className="voyage-map-zoom">
+            <WorldMap dots={ROUTES} lineColor="#C84B31" />
+          </div>
         </div>
 
         {/* Étapes */}
@@ -47,8 +54,8 @@ export default function Voyage() {
           <div className="voyage-step">
             <div className="voyage-step-num">01</div>
             <div className="voyage-step-content">
-              <strong>Paris ou Montréal</strong>
-              <span>Vol direct vers Istanbul (3h30 / 10h)</span>
+              <strong>Paris / Genève / Montréal</strong>
+              <span>Vol vers Istanbul (2h–10h selon départ)</span>
             </div>
           </div>
           <div className="voyage-step-arrow" aria-hidden="true">→</div>

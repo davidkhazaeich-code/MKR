@@ -7,7 +7,7 @@ export default function Coaches() {
             NOS ENTRAÎNEURS
           </span>
           <h2 id="coaches-heading" className="coaches-title">
-            LES MAÎTRES<br />DE LA FORGE
+            LES MAÎTRES<br />DU COMBAT
           </h2>
         </div>
 
@@ -16,7 +16,12 @@ export default function Coaches() {
           {/* Coach 1 */}
           <article className="coach-card reveal">
             <div className="coach-photo-wrap">
-              <div className="coach-photo-placeholder" role="img" aria-label="Photo de Zurab Khabelov"></div>
+              <div
+                className="coach-photo-placeholder"
+                role="img"
+                aria-label="Photo de Zurab Khabelov"
+                style={{ backgroundImage: "url('/images/coaches/zurab-khabelov.webp')" }}
+              ></div>
               <div className="coach-photo-overlay" aria-hidden="true"></div>
             </div>
             <div className="coach-info">
@@ -29,7 +34,12 @@ export default function Coaches() {
           {/* Coach 2 */}
           <article className="coach-card reveal" style={{ transitionDelay: '0.08s' }}>
             <div className="coach-photo-wrap">
-              <div className="coach-photo-placeholder" role="img" aria-label="Photo de Giorgi Meladze"></div>
+              <div
+                className="coach-photo-placeholder"
+                role="img"
+                aria-label="Photo de Giorgi Meladze"
+                style={{ backgroundImage: "url('/images/coaches/giorgi-meladze.webp')" }}
+              ></div>
               <div className="coach-photo-overlay" aria-hidden="true"></div>
             </div>
             <div className="coach-info">
@@ -42,20 +52,30 @@ export default function Coaches() {
           {/* Coach 3 */}
           <article className="coach-card reveal" style={{ transitionDelay: '0.16s' }}>
             <div className="coach-photo-wrap">
-              <div className="coach-photo-placeholder" role="img" aria-label="Photo de Tamaz Kvaratskhelia"></div>
+              <div
+                className="coach-photo-placeholder"
+                role="img"
+                aria-label="Photo de Tamaz Kvaratskhelia"
+                style={{ backgroundImage: "url('/images/coaches/tamaz-kvaratskhelia.webp')" }}
+              ></div>
               <div className="coach-photo-overlay" aria-hidden="true"></div>
             </div>
             <div className="coach-info">
               <h3 className="coach-name">TAMAZ<br />KVARATSKHELIA</h3>
               <p className="coach-discipline">Boxe</p>
-              <p className="coach-bio">Ex-boxeur professionnel, 22 combats. Aujourd&apos;hui il forge la précision des poings de la prochaine génération. Son travail aux mitaines est légendaire dans la région.</p>
+              <p className="coach-bio">Ex-boxeur professionnel, 22 combats. Aujourd&apos;hui il affûte la précision des poings de la prochaine génération. Son travail aux mitaines est légendaire dans la région.</p>
             </div>
           </article>
 
           {/* Coach 4 */}
           <article className="coach-card reveal" style={{ transitionDelay: '0.24s' }}>
             <div className="coach-photo-wrap">
-              <div className="coach-photo-placeholder" role="img" aria-label="Photo de Levan Skhirtladze"></div>
+              <div
+                className="coach-photo-placeholder"
+                role="img"
+                aria-label="Photo de Levan Skhirtladze"
+                style={{ backgroundImage: "url('/images/coaches/levan-skhirtladze.webp')" }}
+              ></div>
               <div className="coach-photo-overlay" aria-hidden="true"></div>
             </div>
             <div className="coach-info">

@@ -8,7 +8,7 @@ export default function VideoSection() {
             L&apos;EXPÉRIENCE
           </span>
           <h2 id="video-heading" className="video-section-title">
-            L&apos;IMMERSION<br />DANS LA <span>FORGE</span>
+            L&apos;IMMERSION<br />AU CŒUR DU <span>COMBAT</span>
           </h2>
         </div>
 

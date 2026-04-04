@@ -50,7 +50,7 @@ export default function Sessions() {
             <div className="session-month-bg" aria-hidden="true">JUL</div>
             <div className="session-card-body">
               <span className="session-season">Session Été · Juillet 2026</span>
-              <h3 className="session-name">FORGE<br />D&apos;ÉTÉ</h3>
+              <h3 className="session-name">ASSAUT<br />D&apos;ÉTÉ</h3>
               <p className="session-dates">8 JUILLET · 29 JUILLET 2026</p>
             </div>
             <div className="session-meta">

@@ -7,7 +7,7 @@ export default function Philosophie() {
             PHILOSOPHIE
           </span>
           <h2 id="philosophie-heading" className="bento-title">
-            LA VOIE<br />DU FORGERON
+            LA VOIE<br />DU GUERRIER
           </h2>
           <div className="bento-title-line"></div>
         </div>
@@ -15,8 +15,10 @@ export default function Philosophie() {
         <div className="bento-grid">
           {/* Card 1 — large */}
           <article className="bento-card bento-card--large reveal">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img className="bento-img" src="/images/action/sparring-mma-wall.webp" alt="" aria-hidden="true" />
             <span className="bento-card-label">Héritage · Tradition · Combat</span>
-            <h3 className="bento-card-title">LA FORGE<br />DU CHAMPION</h3>
+            <h3 className="bento-card-title">L&apos;ÂME<br />DU GUERRIER</h3>
             <p className="bento-card-body">
               Le Caucase n&apos;est pas une destination. C&apos;est une <strong>confrontation avec soi-même</strong>. Depuis des siècles, ces montagnes taillent des guerriers dans la roche brute. Les traditions de lutte et de combat du Caucase géorgien sont parmi les plus anciennes et les plus éprouvées du monde.<br /><br />
               MKR Caucasian Camp plonge chaque athlète dans cet héritage millénaire. Tu t&apos;entraînes avec des hommes qui ont grandi dans cette discipline, dans ces salles, sur ces tapis. Pas en touriste. En compétiteur.<br /><br />
@@ -26,6 +28,8 @@ export default function Philosophie() {
 
           {/* Card 2 — small top right */}
           <article className="bento-card bento-card--small reveal" style={{ transitionDelay: '0.1s' }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img className="bento-img" src="/images/environment/gym-interior.webp" alt="" aria-hidden="true" />
             <span className="bento-card-label">Méthodes · Protocole</span>
             <h3 className="bento-card-title">MÉTHODES<br />ÉPROUVÉES</h3>
             <p className="bento-card-body">
@@ -35,6 +39,8 @@ export default function Philosophie() {
 
           {/* Card 3 — small bottom right */}
           <article className="bento-card bento-card--small reveal" style={{ transitionDelay: '0.2s' }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img className="bento-img" src="/images/environment/communal-meal.webp" alt="" aria-hidden="true" />
             <span className="bento-card-label">Immersion · Culture · Langue</span>
             <h3 className="bento-card-title">IMMERSION<br />TOTALE</h3>
             <p className="bento-card-body">

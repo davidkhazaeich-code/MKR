@@ -35,6 +35,8 @@ export default function Testimonials() {
           {/* Testimonial 1 */}
           <div className="testi-card reveal">
             <div className="testi-video-wrap" role="button" tabIndex={0} aria-label="Voir le témoignage de Mehdi R.">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img className="testi-photo" src="/images/testimonials/mehdi-r.webp" alt="Mehdi R. — Lutte Libre, Paris" />
               <div className="testi-video-inner">
                 <PlayBtnSm />
               </div>
@@ -52,6 +54,8 @@ export default function Testimonials() {
           {/* Testimonial 2 */}
           <div className="testi-card reveal" style={{ transitionDelay: '0.12s' }}>
             <div className="testi-video-wrap" role="button" tabIndex={0} aria-label="Voir le témoignage de Karim D.">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img className="testi-photo" src="/images/testimonials/karim-d.webp" alt="Karim D. — MMA, Genève" />
               <div className="testi-video-inner">
                 <PlayBtnSm />
               </div>
@@ -69,6 +73,8 @@ export default function Testimonials() {
           {/* Testimonial 3 */}
           <div className="testi-card reveal" style={{ transitionDelay: '0.24s' }}>
             <div className="testi-video-wrap" role="button" tabIndex={0} aria-label="Voir le témoignage de Thomas B.">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img className="testi-photo" src="/images/testimonials/thomas-b.webp" alt="Thomas B. — Boxe, Lyon" />
               <div className="testi-video-inner">
                 <PlayBtnSm />
               </div>

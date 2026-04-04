@@ -8,6 +8,7 @@ import Sessions from '@/components/Sessions'
 import Timeline from '@/components/Timeline'
 import Testimonials from '@/components/Testimonials'
 import Voyage from '@/components/Voyage'
+import VoyageReveal from '@/components/VoyageReveal'
 import Contact from '@/components/Contact'
 import FAQ from '@/components/FAQ'
 import CTAFinal from '@/components/CTAFinal'
@@ -92,9 +93,11 @@ export default function Home() {
 
         <Voyage />
 
+        <VoyageReveal />
+
         {/* Mountain divider: voyage -> contact (next bg: surface #1A1A18) */}
         <MtnDivider
-          bgColor="#1A1A18"
+          bgColor="#0E0E0E"
           fillColor="#131313"
           viewBox="0 0 1440 75"
           points="0,75 0,52 60,38 128,54 202,30 272,48 340,22 398,40 452,14 500,32 542,8 572,26 598,4 622,20 645,2 668,18 692,4 716,20 742,6 770,24 802,8 838,30 880,14 928,36 978,20 1034,42 1090,26 1148,48 1202,34 1258,54 1315,40 1375,58 1440,44 1440,75"
