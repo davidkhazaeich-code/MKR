@@ -4715,32 +4715,32 @@ h1, h2, h3, h4, h5 {
   margin-top: 2.5rem;
 }
 
-/* The card itself: 1080x1920 actual, scaled down to fit viewport */
+/* Clipping container: sets visible size, clips the scaled inner card */
 .story-card {
-  width: 1080px;
-  height: 1920px;
+  --sc: 0.32;
+  width: calc(1080px * var(--sc));
+  height: calc(1920px * var(--sc));
   position: relative;
   overflow: hidden;
-  background: #0E0E0E;
-  transform-origin: top center;
-  /* Scale to fit viewport: min of width-based and height-based scale */
-  --sc-w: min(340px, 85vw);
-  --sc-h: calc(60vh * 1080 / 1920);
-  --sc: min(var(--sc-w), var(--sc-h));
-  transform: scale(calc(var(--sc) / 1080));
-  margin-bottom: calc(-1920px + 1920px * var(--sc) / 1080);
+  border-radius: 8px;
 }
 @media (max-width: 768px) {
-  .story-card {
-    --sc-w: min(320px, 85vw);
-    --sc-h: calc(65vh * 1080 / 1920);
-  }
+  .story-card { --sc: 0.26; }
 }
 @media (max-width: 480px) {
-  .story-card {
-    --sc-w: min(280px, 88vw);
-    --sc-h: calc(65vh * 1080 / 1920);
-  }
+  .story-card { --sc: 0.24; }
+}
+
+/* Inner card: actual 1080x1920 for html2canvas export, scaled to fit container */
+.story-card-inner {
+  width: 1080px;
+  height: 1920px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform-origin: top left;
+  transform: scale(var(--sc));
+  background: #0E0E0E;
 }
 
 .story-card-bg {

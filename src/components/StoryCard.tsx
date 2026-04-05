@@ -34,7 +34,8 @@ export default function StoryCard({ prenom, discipline, session, destination }: 
 
   return (
     <div className="story-card-wrap">
-      <div className="story-card" ref={cardRef}>
+      <div className="story-card">
+      <div className="story-card-inner" ref={cardRef}>
         {/* Background image */}
         <div className="story-card-bg" style={{ backgroundImage: `url(${bgImage})` }} />
 
@@ -68,6 +69,7 @@ export default function StoryCard({ prenom, discipline, session, destination }: 
           </div>
           <div className="story-card-handle">@mkrcaucasiancamp</div>
         </div>
+      </div>
       </div>
 
       <button className="story-card-download" onClick={handleDownload} type="button">
