@@ -3505,7 +3505,7 @@ h1, h2, h3, h4, h5 {
   inset: 0;
   display: flex;
   align-items: flex-start;
-  padding-top: 150px;
+  padding-top: 170px;
 }
 @media (min-width: 1025px) {
   .voyage-reveal-map {
@@ -3622,7 +3622,7 @@ h1, h2, h3, h4, h5 {
   .voyage-reveal-content { max-width: 100%; }
   .voyage-reveal-content h2 { font-size: 2.4rem; }
   .voyage-reveal-map .world-map-wrap {
-    transform: scale(2) translateX(-20px);
+    transform: scale(2) translateX(20px);
     transform-origin: 56% 26%;
   }
 }
@@ -4723,20 +4723,23 @@ h1, h2, h3, h4, h5 {
   overflow: hidden;
   background: #0E0E0E;
   transform-origin: top center;
-  /* Scale down to fit: 360px wide on mobile, 420px on tablet, 480px on desktop */
-  transform: scale(calc(min(480px, 90vw) / 1080));
-  margin-bottom: calc(-1920px + 1920px * min(480px, 90vw) / 1080);
+  /* Scale to fit viewport: min of width-based and height-based scale */
+  --sc-w: min(340px, 85vw);
+  --sc-h: calc(60vh * 1080 / 1920);
+  --sc: min(var(--sc-w), var(--sc-h));
+  transform: scale(calc(var(--sc) / 1080));
+  margin-bottom: calc(-1920px + 1920px * var(--sc) / 1080);
 }
 @media (max-width: 768px) {
   .story-card {
-    transform: scale(calc(min(360px, 85vw) / 1080));
-    margin-bottom: calc(-1920px + 1920px * min(360px, 85vw) / 1080);
+    --sc-w: min(320px, 85vw);
+    --sc-h: calc(65vh * 1080 / 1920);
   }
 }
 @media (max-width: 480px) {
   .story-card {
-    transform: scale(calc(min(320px, 88vw) / 1080));
-    margin-bottom: calc(-1920px + 1920px * min(320px, 88vw) / 1080);
+    --sc-w: min(280px, 88vw);
+    --sc-h: calc(65vh * 1080 / 1920);
   }
 }
 
