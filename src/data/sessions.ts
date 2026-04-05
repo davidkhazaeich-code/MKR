@@ -18,6 +18,7 @@ export interface Session {
   status: SessionStatus
   intensity: string
   duration: string
+  destination: 'Dagestan' | 'Tchétchénie'
 }
 
 export const SESSIONS: Session[] = [
@@ -39,6 +40,7 @@ export const SESSIONS: Session[] = [
     status: 'open',
     intensity: 'Élevée',
     duration: '3 semaines',
+    destination: 'Dagestan',
   },
   {
     id: 'ete-2026',
@@ -58,6 +60,7 @@ export const SESSIONS: Session[] = [
     status: 'open',
     intensity: 'Maximale',
     duration: '3 semaines',
+    destination: 'Tchétchénie',
   },
   {
     id: 'automne-2026',
@@ -77,6 +80,7 @@ export const SESSIONS: Session[] = [
     status: 'limited',
     intensity: 'Élevée',
     duration: '3 semaines',
+    destination: 'Dagestan',
   },
 ]
 

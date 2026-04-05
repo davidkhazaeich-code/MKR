@@ -4700,6 +4700,213 @@ h1, h2, h3, h4, h5 {
   line-height: 1.5;
 }
 
+/* ─── STORY CARD (Instagram Share) ─── */
+.story-card-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  margin-top: 2.5rem;
+}
+
+/* The card itself: 1080x1920 actual, scaled down to fit viewport */
+.story-card {
+  width: 1080px;
+  height: 1920px;
+  position: relative;
+  overflow: hidden;
+  background: #0E0E0E;
+  transform-origin: top center;
+  /* Scale down to fit: 360px wide on mobile, 420px on tablet, 480px on desktop */
+  transform: scale(calc(min(480px, 90vw) / 1080));
+  margin-bottom: calc(-1920px + 1920px * min(480px, 90vw) / 1080);
+}
+@media (max-width: 768px) {
+  .story-card {
+    transform: scale(calc(min(360px, 85vw) / 1080));
+    margin-bottom: calc(-1920px + 1920px * min(360px, 85vw) / 1080);
+  }
+}
+@media (max-width: 480px) {
+  .story-card {
+    transform: scale(calc(min(320px, 88vw) / 1080));
+    margin-bottom: calc(-1920px + 1920px * min(320px, 88vw) / 1080);
+  }
+}
+
+.story-card-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  filter: grayscale(100%) contrast(1.1) brightness(0.35);
+}
+.story-card-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(14,14,14,0.7) 0%,
+    rgba(14,14,14,0.3) 30%,
+    rgba(14,14,14,0.3) 60%,
+    rgba(14,14,14,0.85) 100%
+  );
+}
+
+.story-card-top {
+  position: absolute;
+  top: 80px;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  z-index: 1;
+}
+.story-card-logo {
+  height: 100px;
+  width: auto;
+  filter: brightness(0) invert(1);
+}
+.story-card-badge {
+  font-family: var(--font-barlow-condensed), sans-serif;
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  color: rgba(248,248,248,0.5);
+  text-transform: uppercase;
+}
+
+.story-card-center {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);
+  text-align: center;
+  z-index: 1;
+  padding: 0 60px;
+}
+.story-card-label {
+  display: inline-block;
+  font-family: var(--font-barlow-condensed), sans-serif;
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  color: var(--primary);
+  text-transform: uppercase;
+  margin-bottom: 24px;
+  border: 2px solid var(--primary);
+  padding: 12px 32px;
+}
+.story-card-name {
+  font-family: var(--font-teko), sans-serif;
+  font-size: 200px;
+  font-weight: 700;
+  color: #F8F8F8;
+  line-height: 0.85;
+  letter-spacing: 0.04em;
+  margin: 0;
+  text-transform: uppercase;
+  text-shadow: 0 4px 60px rgba(0,0,0,0.6);
+}
+.story-card-tagline {
+  font-family: var(--font-barlow-condensed), sans-serif;
+  font-size: 48px;
+  font-weight: 400;
+  letter-spacing: 0.15em;
+  color: rgba(248,248,248,0.7);
+  margin-top: 20px;
+  text-transform: uppercase;
+}
+.story-card-tagline span {
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.story-card-bottom {
+  position: absolute;
+  bottom: 80px;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+  z-index: 1;
+}
+.story-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+.story-card-meta-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.story-card-meta-label {
+  font-family: var(--font-barlow-condensed), sans-serif;
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  color: rgba(248,248,248,0.4);
+}
+.story-card-meta-value {
+  font-family: var(--font-teko), sans-serif;
+  font-size: 40px;
+  font-weight: 700;
+  color: #F8F8F8;
+  letter-spacing: 0.06em;
+}
+.story-card-meta-divider {
+  width: 2px;
+  height: 48px;
+  background: rgba(200,75,49,0.4);
+}
+.story-card-handle {
+  font-family: var(--font-barlow-condensed), sans-serif;
+  font-size: 28px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  color: rgba(248,248,248,0.35);
+}
+
+/* Download button */
+.story-card-download {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.9rem 2rem;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-barlow-condensed), sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  transition: background 0.2s linear, transform 0.15s ease;
+}
+.story-card-download:hover {
+  background: #b5412a;
+  transform: translateY(-1px);
+}
+.story-card-download:active {
+  transform: translateY(0);
+}
+@media (max-width: 480px) {
+  .story-card-download {
+    width: 100%;
+    justify-content: center;
+    padding: 1rem;
+  }
+}
+
 /* ─── FAQ PAGE SECTION ─── */
 .faq-page-section {
   padding: clamp(4rem, 8vh, 6rem) 0;

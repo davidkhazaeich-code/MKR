@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { useState, FormEvent } from 'react'
+import StoryCard from './StoryCard'
 
 /* ─────────────── DATA ─────────────── */
 
@@ -139,6 +140,13 @@ export default function InscriptionLayout() {
 
   /* ── Success ── */
   if (submitted) {
+    const SESSION_MAP: Record<string, { name: string; destination: string }> = {
+      'printemps-2026': { name: 'PRINTEMPS GEORGIEN', destination: 'Dagestan' },
+      'ete-2026': { name: "ASSAUT D'ETE", destination: 'Tchétchénie' },
+      'automne-2026': { name: "SOMMET D'AUTOMNE", destination: 'Dagestan' },
+    }
+    const sel = SESSION_MAP[form.session] || { name: form.session, destination: 'Dagestan' }
+
     return (
       <div className="insc-wrapper">
         <div className="insc-success-page">
@@ -150,13 +158,21 @@ export default function InscriptionLayout() {
                 <polyline points="14,24 21,31 34,16" stroke="var(--primary)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </div>
-            <span className="label-tag" style={{ color: 'var(--primary)' }}>CANDIDATURE REÇUE</span>
+            <span className="label-tag" style={{ color: 'var(--primary)' }}>INSCRIPTION RECUE</span>
             <h2 className="cand-success-title">DOSSIER ENVOYÉ</h2>
             <p className="cand-success-sub">
               Nous étudions ta candidature et te répondons sous 48h.<br />
               Prépare-toi pour l&apos;entretien vidéo de sélection.
             </p>
-            <Link href="/" className="insc-back-btn">RETOUR À L&apos;ACCUEIL</Link>
+
+            <StoryCard
+              prenom={form.prenom}
+              discipline={form.disciplinePrincipale}
+              session={sel.name}
+              destination={sel.destination}
+            />
+
+            <Link href="/" className="insc-back-btn" style={{ marginTop: '1.5rem' }}>RETOUR À L&apos;ACCUEIL</Link>
           </div>
         </div>
       </div>

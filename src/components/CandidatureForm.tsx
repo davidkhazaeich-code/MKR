@@ -3,6 +3,7 @@
 import { useState, FormEvent } from 'react'
 import { DISCIPLINES } from '@/data/disciplines'
 import { SESSIONS, sessionFormLabel } from '@/data/sessions'
+import StoryCard from './StoryCard'
 
 const STEPS = [
   'Identité',
@@ -169,6 +170,10 @@ export default function CandidatureForm() {
   }
 
   if (submitted) {
+    const selectedSession = SESSIONS.find(s => s.id === form.session)
+    const sessionLabel = selectedSession?.name || form.session
+    const destination = selectedSession?.destination || 'Dagestan'
+
     return (
       <div className="cand-success">
         <div className="cand-success-icon">
@@ -177,12 +182,19 @@ export default function CandidatureForm() {
             <polyline points="14,24 21,31 34,16" stroke="var(--primary)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </div>
-        <span className="label-tag" style={{ color: 'var(--primary)' }}>CANDIDATURE REÇUE</span>
+        <span className="label-tag" style={{ color: 'var(--primary)' }}>INSCRIPTION RECUE</span>
         <h2 className="cand-success-title">DOSSIER ENVOYÉ</h2>
         <p className="cand-success-sub">
           Nous étudions ta candidature et te répondons sous 48h.<br />
           Prépare-toi pour l&apos;entretien vidéo de sélection.
         </p>
+
+        <StoryCard
+          prenom={form.prenom}
+          discipline={form.disciplinePrincipale}
+          session={sessionLabel}
+          destination={destination}
+        />
       </div>
     )
   }
