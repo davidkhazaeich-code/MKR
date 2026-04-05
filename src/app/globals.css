@@ -3504,10 +3504,11 @@ h1, h2, h3, h4, h5 {
   position: absolute;
   inset: 0;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
 }
 @media (min-width: 1025px) {
   .voyage-reveal-map {
+    align-items: center;
     padding-top: 100px;
   }
 }
