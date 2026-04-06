@@ -358,12 +358,13 @@ h1, h2, h3, h4, h5 {
 /* Hero content -épinglé via JS jusqu'à 150px avant la fin de la section */
 .hero-content {
   position: absolute;
-  bottom: 0; left: 0; right: 0;
+  top: 0; left: 0; right: 0;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   align-items: flex-start;
-  padding-bottom: clamp(8rem, 14vh, 14rem);
+  padding-bottom: clamp(6rem, 10vh, 10rem);
   padding-left: clamp(2rem, 9vw, 16rem);
   padding-right: clamp(2rem, 9vw, 16rem);
   padding-top: 3rem;
@@ -528,7 +529,7 @@ h1, h2, h3, h4, h5 {
 /* ── Hero Camp Carousel -top right ── */
 .hero-camps {
   position: absolute;
-  bottom: clamp(8rem, 14vh, 14rem);
+  top: calc(100vh - clamp(12rem, 22vh, 18rem));
   right: clamp(2rem, 6vw, 10rem);
   z-index: 12;
   display: flex;
