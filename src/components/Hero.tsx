@@ -4,9 +4,26 @@ import Link from 'next/link'
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { SESSIONS, formatPrice } from '@/data/sessions'
 
+const HERO_VIDEOS = [
+  '/videos/hero-mountains.mp4',
+  '/videos/hero-village.mp4',
+]
+const VIDEO_DURATION = 10000 // ms per video before crossfade
+const FADE_DURATION = 1500   // ms crossfade
+
 export default function Hero() {
-  const videoRef = useRef<HTMLVideoElement>(null)
+  const video1Ref = useRef<HTMLVideoElement>(null)
+  const video2Ref = useRef<HTMLVideoElement>(null)
+  const [activeIndex, setActiveIndex] = useState(0)
   const embersCanvasRef = useRef<HTMLCanvasElement>(null)
+
+  // ── Video crossfade ───────────────────────────────────────
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveIndex(prev => (prev + 1) % HERO_VIDEOS.length)
+    }, VIDEO_DURATION)
+    return () => clearInterval(interval)
+  }, [])
 
   // ── Embers canvas ─────────────────────────────────────────
   useEffect(() => {
@@ -113,19 +130,22 @@ export default function Hero() {
   return (
     <section id="hero" aria-label="En-tête héroïque">
 
-      {/* Background video */}
-      <video
-        ref={videoRef}
-        className="hero-video"
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="auto"
-        aria-hidden="true"
-      >
-        <source src="/videos/hero-mountains.mp4" type="video/mp4" />
-      </video>
+      {/* Background videos with crossfade */}
+      {HERO_VIDEOS.map((src, i) => (
+        <video
+          key={src}
+          ref={i === 0 ? video1Ref : video2Ref}
+          className={`hero-video${i === activeIndex ? ' hero-video--active' : ''}`}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload={i === 0 ? 'auto' : 'metadata'}
+          aria-hidden="true"
+        >
+          <source src={src} type="video/mp4" />
+        </video>
+      ))}
 
       {/* Dark overlay on video */}
       <div className="hero-video-overlay" aria-hidden="true" />

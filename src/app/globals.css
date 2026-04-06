@@ -332,16 +332,20 @@ h1, h2, h3, h4, h5 {
   pointer-events: none;
 }
 
-/* Hero background video — low opacity on dark background */
+/* Hero background videos — crossfade */
 .hero-video {
   position: absolute;
   top: 0; left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 0.30;
+  opacity: 0;
   z-index: 1;
   pointer-events: none;
+  transition: opacity 1.5s ease-in-out;
+}
+.hero-video--active {
+  opacity: 0.30;
 }
 
 /* Embers canvas -devant les montagnes (z3), derrière le texte (z10) */
