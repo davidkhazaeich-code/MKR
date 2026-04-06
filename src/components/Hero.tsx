@@ -140,7 +140,7 @@ export default function Hero() {
           muted
           loop
           playsInline
-          preload={i === 0 ? 'auto' : 'metadata'}
+          preload={i === 0 ? 'auto' : 'none'}
           aria-hidden="true"
         >
           <source src={src} type="video/mp4" />

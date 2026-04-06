@@ -23,7 +23,7 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <>
-      <link rel="preload" as="image" href="/images/environment/dagestan-panorama.webp" />
+      <link rel="preload" as="video" href="/videos/hero-mountains.mp4" type="video/mp4" />
       <Hero />
       <VideoSection />
       <Philosophie />
