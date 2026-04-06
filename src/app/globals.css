@@ -537,15 +537,15 @@ h1, h2, h3, h4, h5 {
   gap: 0.5rem;
 }
 .hero-camps-card {
-  width: min(280px, calc(100vw - 4rem));
-  background: rgba(14,14,14,0.5);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(248,248,248,0.06);
-  padding: 1rem 1.2rem;
+  width: min(364px, calc(100vw - 4rem));
+  background: rgba(14,14,14,0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(248,248,248,0.08);
+  padding: 1.4rem 1.6rem;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.8rem;
   animation: hero-camp-in 0.4s var(--ease-out-expo) both;
 }
 @keyframes hero-camp-in {
@@ -561,7 +561,7 @@ h1, h2, h3, h4, h5 {
 .hero-camps-label {
   font-family: var(--font-teko), sans-serif;
   font-weight: 600;
-  font-size: 1.05rem;
+  font-size: 1.3rem;
   letter-spacing: 0.08em;
   color: var(--text-primary);
   line-height: 1;
@@ -586,7 +586,7 @@ h1, h2, h3, h4, h5 {
 }
 .hero-camps-dates {
   font-family: var(--font-barlow), sans-serif;
-  font-size: 0.85rem;
+  font-size: 1.05rem;
   color: var(--text-secondary);
   line-height: 1;
 }
@@ -600,7 +600,7 @@ h1, h2, h3, h4, h5 {
 .hero-camps-price {
   font-family: var(--font-teko), sans-serif;
   font-weight: 600;
-  font-size: 1.15rem;
+  font-size: 1.5rem;
   color: var(--primary);
   letter-spacing: 0.04em;
   line-height: 1;
