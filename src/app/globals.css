@@ -323,8 +323,24 @@ h1, h2, h3, h4, h5 {
   pointer-events: none;
 }
 
-/* Grid texture + dark overlay on video */
+/* Dark overlay on video */
 .hero-video-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(12,12,12,0.65) 0%,
+    rgba(12,12,12,0.5) 40%,
+    rgba(12,12,12,0.7) 75%,
+    rgba(12,12,12,0.95) 100%
+  );
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Grid texture on top of dark overlay */
+.hero-video-overlay::after {
+  content: '';
   position: absolute;
   inset: 0;
   background:
@@ -337,15 +353,7 @@ h1, h2, h3, h4, h5 {
       45deg,
       transparent 0px, transparent 22px,
       rgba(200,75,49,0.03) 22px, rgba(200,75,49,0.03) 23px
-    ),
-    linear-gradient(
-      to bottom,
-      rgba(12,12,12,0.6) 0%,
-      rgba(12,12,12,0.45) 40%,
-      rgba(12,12,12,0.65) 75%,
-      rgba(12,12,12,0.95) 100%
     );
-  z-index: 1;
   pointer-events: none;
 }
 
