@@ -12,12 +12,11 @@ export default function Contact() {
               CANDIDATURE
             </span>
             <h2 id="contact-heading" className="cand-title">
-              PRÊT À<br />POSTULER ?
+              PRÊT À<br />FRANCHIR<br />LE CAP ?
             </h2>
             <p className="cand-subtitle">
-              Les places sont limitées à 15 athlètes par session.
-              Chaque candidature est étudiée individuellement.
-              L&apos;entretien vidéo est obligatoire.
+              15 places max par session. On sélectionne des athlètes motivés de tous niveaux,
+              pas seulement des pros. L&apos;entretien vidéo sert à comprendre tes objectifs.
             </p>
             <Link href="/inscription" className="contact-cta-btn">
               DÉPOSER MA CANDIDATURE

@@ -5,9 +5,9 @@ export default function CTAFinal() {
     <section id="cta-final" aria-labelledby="cta-heading">
       <div className="cta-glow" aria-hidden="true"></div>
       <div className="cta-inner">
-        <span className="cta-label reveal">Les places sont limitées. L&apos;engagement est total.</span>
+        <span className="cta-label reveal">15 places par session. Sélection sur dossier.</span>
         <h2 id="cta-heading" className="cta-title reveal">
-          LE SOMMET<br /><span>T&apos;ATTEND</span>
+          PRÊT À PASSER<br /><span>AU NIVEAU SUPÉRIEUR ?</span>
         </h2>
         <p className="cta-subtitle reveal" style={{ transitionDelay: '0.1s' }}>
           Prochain camp · Printemps 2026 · Caucase, Géorgie

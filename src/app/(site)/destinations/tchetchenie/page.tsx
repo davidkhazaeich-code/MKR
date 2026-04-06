@@ -171,6 +171,12 @@ export default function TchetcheniePage() {
             loading="lazy"
             className="section-photo-img"
           />
+          <div className="cinematic-overlay" />
+          <div className="cinematic-content">
+            <span className="cinematic-label">ENTRAINEMENT</span>
+            <h3 className="cinematic-title">L&apos;INTENSITE DU GROUPE</h3>
+            <p className="cinematic-tagline">Shadowboxing collectif, energie du groupe. Quand tout le monde pousse, personne ne lache.</p>
+          </div>
         </div>
       </section>
 

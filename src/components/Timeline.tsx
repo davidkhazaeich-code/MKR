@@ -7,7 +7,7 @@ export default function Timeline() {
             LE PROCESSUS
           </span>
           <h2 id="timeline-heading" className="timeline-title">
-            VOTRE<br />PARCOURS
+            DE L&apos;INSCRIPTION<br />AU TAPIS
           </h2>
         </div>
 
@@ -143,7 +143,7 @@ export default function Timeline() {
                 </div>
                 <div className="timeline-num" style={{ color: 'var(--cta)' }}>05</div>
                 <h3 className="timeline-step-title">IMMERSION</h3>
-                <p className="timeline-step-body">Tu montes au sommet. Trois semaines dans le Caucase géorgien. Entraînements biquotidiens, sparring avec des combattants locaux, vie en communauté. Ce que tu reviens, ce n&apos;est plus la même personne.</p>
+                <p className="timeline-step-body">Trois semaines dans le Caucase géorgien. Entraînements biquotidiens, sparring avec des combattants locaux, vie en communauté. Tu reviens avec un niveau que tu n&apos;aurais jamais atteint autrement.</p>
               </div>
             </div>
             <div className="timeline-dot-wrap">

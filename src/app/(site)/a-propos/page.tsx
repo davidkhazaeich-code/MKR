@@ -19,8 +19,8 @@ export default function AProposPage() {
 
       <PageHero
         label="A PROPOS"
-        title="FORGE DANS LE CAUCASE"
-        subtitle="L'histoire derriere MKR Caucasian Camp."
+        title="NOTRE HISTOIRE"
+        subtitle="Comment MKR Caucasian Camp est ne, et pourquoi on fait ca."
       />
 
       {/* L'histoire */}
@@ -69,6 +69,12 @@ export default function AProposPage() {
             loading="lazy"
             className="section-photo-img"
           />
+          <div className="cinematic-overlay" />
+          <div className="cinematic-content">
+            <span className="cinematic-label">COMMUNAUTE</span>
+            <h3 className="cinematic-title">PLUS QU&apos;UN CAMP</h3>
+            <p className="cinematic-tagline">Repas partages, liens forges sur le tapis. Une fraternite entre athletes qui depasse les frontieres.</p>
+          </div>
         </div>
       </section>
 
@@ -85,7 +91,7 @@ export default function AProposPage() {
               textTransform: 'uppercase',
             }}>
               &laquo; Notre mission : donner aux athletes francophones acces aux methodes de combat
-              les plus efficaces au monde. Sans filtre, sans compromis. &raquo;
+              d&apos;entrainement les plus efficaces au monde, dans un cadre authentique et encadre. &raquo;
             </p>
           </div>
         </div>

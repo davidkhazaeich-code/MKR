@@ -10,7 +10,7 @@ export default function Coaches() {
             NOS ENTRAÎNEURS
           </span>
           <h2 id="coaches-heading" className="coaches-title">
-            LES MAÎTRES<br />DU COMBAT
+            TES<br />COACHS
           </h2>
         </div>
 

@@ -9,6 +9,13 @@ export const metadata: Metadata = {
   alternates: { canonical: 'https://mkrcaucasiancamp.com/temoignages' },
 }
 
+const VIDEO_TESTIMONIALS = [
+  { img: '/images/testimonials/video-thumb-1.webp', name: 'Mehdi R.', discipline: 'Lutte Libre · Paris', label: 'Interview post-camp' },
+  { img: '/images/testimonials/video-thumb-2.webp', name: 'Thomas B. & Karim D.', discipline: 'Boxe · MMA', label: 'Retour de session' },
+  { img: '/images/testimonials/video-thumb-3.webp', name: 'Yassine K.', discipline: 'Grappling · Bruxelles', label: 'Coulisses du camp' },
+  { img: '/images/testimonials/video-thumb-4.webp', name: 'Le groupe', discipline: 'Session Automne 2025', label: 'Bilan collectif' },
+]
+
 const TESTIMONIALS = [
   { name: 'Mehdi R.', discipline: 'Lutte Libre · Paris', quote: "Trois semaines qui ont change ma facon de me battre. La durete des entrainements m'a oblige a aller chercher ce que je n'avais jamais touche.", img: '/images/testimonials/mehdi-r.webp' },
   { name: 'Karim D.', discipline: 'MMA · Geneve', quote: "Le niveau des coachs est inegalable. Zurab t'apprend des prises que tu ne verras nulle part en Europe. J'y retourne l'annee prochaine.", img: '/images/testimonials/karim-d.webp' },
@@ -47,7 +54,7 @@ export default function TemoignagesPage() {
         subtitle="Des athletes de toute l'Europe. Un seul verdict."
       />
 
-      {/* Videos placeholder */}
+      {/* Videos */}
       <section className="logi-section fx-grid fx-stack-1">
         <div className="inner">
           <div className="logi-header reveal">
@@ -55,15 +62,28 @@ export default function TemoignagesPage() {
             <h2>TEMOIGNAGES VIDEO</h2>
           </div>
           <div className="grid-2">
-            {[1, 2, 3, 4].map(i => (
+            {VIDEO_TESTIMONIALS.map((v, i) => (
               <div key={i} className="content-card reveal" style={{ transitionDelay: `${i * 0.08}s` }}>
-                <div style={{ aspectRatio: '16/9', background: 'var(--surface-lowest)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1rem' }}>
-                  <svg viewBox="0 0 40 40" width="40" height="40" fill="none" style={{ opacity: 0.3 }}>
-                    <circle cx="20" cy="20" r="18" stroke="currentColor" strokeWidth="1.5" />
-                    <polygon points="16,12 30,20 16,28" fill="currentColor" />
-                  </svg>
+                <div style={{ position: 'relative', marginBottom: '1rem' }}>
+                  <img
+                    src={v.img}
+                    alt={`Temoignage video de ${v.name}`}
+                    width={800}
+                    height={450}
+                    loading="lazy"
+                    className="section-photo-img"
+                    style={{ aspectRatio: '16/9', objectFit: 'cover', width: '100%' }}
+                  />
+                  <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(0,0,0,0.3)' }}>
+                    <svg viewBox="0 0 40 40" width="48" height="48" fill="none">
+                      <circle cx="20" cy="20" r="18" stroke="#F8F8F8" strokeWidth="1.5" />
+                      <polygon points="16,12 30,20 16,28" fill="#F8F8F8" />
+                    </svg>
+                  </div>
+                  <span style={{ position: 'absolute', top: '0.6rem', left: '0.6rem', background: 'var(--primary)', color: '#fff', fontSize: '0.65rem', fontFamily: 'var(--font-barlow-condensed)', textTransform: 'uppercase', letterSpacing: '0.08em', padding: '0.2em 0.6em', fontWeight: 600 }}>{v.label}</span>
                 </div>
-                <span style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>Video temoignage a venir</span>
+                <span className="testi-name">{v.name}</span>
+                <span className="testi-discipline">{v.discipline}</span>
               </div>
             ))}
           </div>

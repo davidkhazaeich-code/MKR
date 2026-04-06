@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import PageHero from '@/components/PageHero'
 import ContactForm from '@/components/ContactForm'
+import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 
 export const metadata: Metadata = {
   title: 'Contact | MKR Caucasian Camp',
@@ -11,6 +12,10 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <>
+      <BreadcrumbJsonLd items={[
+        { name: 'Accueil', url: 'https://mkrcaucasiancamp.com/' },
+        { name: 'Contact', url: 'https://mkrcaucasiancamp.com/contact' },
+      ]} />
       <PageHero
         label="CONTACT"
         title="PARLE-NOUS"

@@ -27,7 +27,7 @@ const INCLUDES = [
       </svg>
     ),
     title: 'Hebergement',
-    desc: 'Logement de camp partage. Propre, fonctionnel, sans distraction.',
+    desc: 'Logement de camp partage, propre et confortable. Tu te concentres sur l&apos;entrainement.',
   },
   {
     icon: (
@@ -76,7 +76,7 @@ const NOT_INCLUDED = [
 ]
 
 const DAILY_SCHEDULE = [
-  { time: '06:00', activity: 'Reveil', desc: 'Pas de grasse matinee au Caucase.' },
+  { time: '06:00', activity: 'Reveil', desc: 'La journee commence tot. Le Caucase se merite.' },
   { time: '07:00', activity: 'Petit-dejeuner', desc: 'Repas copieux, proteines, energie pour la matinee.' },
   { time: '08:00 - 10:00', activity: 'Session Lutte', desc: 'Technique, drills, sparring. Coachs daghestanais.' },
   { time: '12:00', activity: 'Dejeuner', desc: 'Recuperation et nutrition.' },
@@ -96,7 +96,7 @@ export default function LeCampPage() {
 
       <PageHero
         label="LE CAMP"
-        title="DEUX SEMAINES QUI CHANGENT<br/>TA MANIERE DE COMBATTRE."
+        title="3 SEMAINES QUI CHANGENT<br/>TA MANIERE DE COMBATTRE."
         subtitle="Immersion totale au Caucase georgien. Coaching, hebergement, repas. Toi, tu combats."
       />
 
@@ -111,6 +111,12 @@ export default function LeCampPage() {
             loading="lazy"
             className="section-photo-img"
           />
+          <div className="cinematic-overlay" />
+          <div className="cinematic-content">
+            <span className="cinematic-label">IMMERSION</span>
+            <h3 className="cinematic-title">LE CAUCASE SUR LE TAPIS</h3>
+            <p className="cinematic-tagline">Sparring quotidien avec des combattants locaux. Methodes transmises de generation en generation.</p>
+          </div>
         </div>
       </section>
 
@@ -125,19 +131,19 @@ export default function LeCampPage() {
                 POURQUOI LE CAUCASE
               </h2>
               <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1.5rem' }}>
-                Le Caucase n&apos;est pas une destination de vacances. C&apos;est l&apos;endroit ou les methodes de combat
-                se transmettent de pere en fils depuis des siecles. Pas de salle de luxe, pas de decor Instagram.
-                Des tapis, de la sueur, et des coachs qui ont forme des champions du monde.
+                Les meilleurs combattants de la planete sortent tous du meme endroit. Le Caucase. Ici, les methodes
+                de combat se transmettent de pere en fils depuis des siecles. Des tapis, de la sueur, et des coachs
+                qui ont forme des champions du monde.
               </p>
               <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1rem' }}>
-                MKR est ne de ce constat : les meilleurs combattants de la planete sortent tous du meme endroit.
-                On t&apos;y emmene.
+                MKR t&apos;ouvre les portes de cet univers. Que tu sois competiteur confirme ou passionné qui veut
+                vivre une experience unique, tu t&apos;entraines dans les memes conditions que l&apos;elite.
               </p>
             </div>
             <div>
               <div className="content-card fx-grain fx-corner-glow reveal" style={{ transitionDelay: '0.1s' }}>
                 <h3 className="card-title">IMMERSION TOTALE</h3>
-                <p className="card-body">Pas de tourisme. Pas de distraction. Pendant 3 semaines, tu vis, manges et t&apos;entraines avec des athletes locaux.</p>
+                <p className="card-body">Pendant 3 semaines, tu vis, manges et t&apos;entraines avec des athletes locaux. Une immersion complete dans la culture du combat caucasien.</p>
               </div>
               <div className="content-card fx-grain fx-corner-glow reveal" style={{ marginTop: '1.25rem', transitionDelay: '0.18s' }}>
                 <h3 className="card-title">HERITAGE DU CAUCASE</h3>

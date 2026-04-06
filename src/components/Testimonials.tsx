@@ -40,10 +40,10 @@ export default function Testimonials() {
             TÉMOIGNAGES
           </span>
           <h2 id="testimonials-heading" className="testimonials-title">
-            ILS ONT<br />GRAVI LE<br />SOMMET
+            ILS EN<br />SONT<br />REVENUS<br />CHANGÉS
           </h2>
           <p className="testi-left-sub">
-            Des athlètes de toute l&apos;Europe. Un seul verdict.
+            Des athlètes de toute l&apos;Europe. Tous transformés.
           </p>
           <div className="testi-nav" aria-label="Navigation du carousel">
             <button className="testi-nav-btn" onClick={() => scrollBy('prev')} aria-label="Témoignage précédent">

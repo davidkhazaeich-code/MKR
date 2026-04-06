@@ -4,7 +4,6 @@ import { SITE_URL, SITE_NAME, SITE_EMAIL, SITE_DESCRIPTION, SOCIALS, GEO } from 
 import { SESSIONS } from '@/data/sessions'
 import { COACHES } from '@/data/coaches'
 import { TESTIMONIALS } from '@/data/testimonials'
-import { getAllFaqItems } from '@/data/faq'
 import './globals.css'
 
 const teko = Teko({
@@ -92,7 +91,7 @@ const jsonLdMain = {
       name: SITE_NAME,
       url: `${SITE_URL}/`,
       logo: { '@type': 'ImageObject', url: `${SITE_URL}/images/logo-mkr.png`, width: 512, height: 512 },
-      image: `${SITE_URL}/images/og-image.jpg`,
+      image: `${SITE_URL}/images/social/og-image.webp`,
       description: SITE_DESCRIPTION,
       email: SITE_EMAIL,
       contactPoint: { '@type': 'ContactPoint', contactType: 'customer service', email: SITE_EMAIL, availableLanguage: ['French', 'English'] },
@@ -117,6 +116,20 @@ const jsonLdMain = {
         { '@type': 'LocationFeatureSpecification', name: '3 repas/jour', value: true },
         { '@type': 'LocationFeatureSpecification', name: 'Transfert aéroport', value: true },
       ],
+      aggregateRating: {
+        '@type': 'AggregateRating',
+        ratingValue: '5',
+        bestRating: '5',
+        worstRating: '1',
+        ratingCount: String(TESTIMONIALS.length),
+        reviewCount: String(TESTIMONIALS.length),
+      },
+      review: TESTIMONIALS.map(t => ({
+        '@type': 'Review',
+        author: { '@type': 'Person', name: t.name },
+        reviewRating: { '@type': 'Rating', ratingValue: '5', bestRating: '5' },
+        reviewBody: t.quote,
+      })),
     },
     ...SESSIONS.map(s => ({
       '@type': 'Event',
@@ -127,8 +140,8 @@ const jsonLdMain = {
       endDate: s.endDate,
       eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
       eventStatus: 'https://schema.org/EventScheduled',
-      location: { '@type': 'Place', name: `${SITE_NAME}, ${GEO.region}`, address: { '@type': 'PostalAddress', addressCountry: GEO.country, addressRegion: GEO.region } },
-      image: `${SITE_URL}/images/og-image.jpg`,
+      location: { '@id': `${SITE_URL}/#location` },
+      image: `${SITE_URL}/images/social/og-image.webp`,
       url: `${SITE_URL}/sessions`,
       organizer: { '@id': `${SITE_URL}/#organization` },
       performer: coachPerformers,
@@ -155,51 +168,7 @@ const jsonLdMain = {
       worksFor: { '@id': `${SITE_URL}/#organization` },
       knowsAbout: c.knowsAbout,
     })),
-    {
-      '@type': 'SportsActivityLocation',
-      '@id': `${SITE_URL}/#location-rated`,
-      name: SITE_NAME,
-      url: `${SITE_URL}/temoignages`,
-      aggregateRating: {
-        '@type': 'AggregateRating',
-        ratingValue: '5',
-        bestRating: '5',
-        worstRating: '1',
-        ratingCount: String(TESTIMONIALS.length),
-        reviewCount: String(TESTIMONIALS.length),
-      },
-    },
   ],
-}
-
-// ---------------------------------------------------------------------------
-// 3. FAQPage - generated from data layer
-// ---------------------------------------------------------------------------
-const allFaqItems = getAllFaqItems()
-const jsonLdFaq = {
-  '@context': 'https://schema.org',
-  '@type': 'FAQPage',
-  mainEntity: allFaqItems.map(item => ({
-    '@type': 'Question',
-    name: item.question,
-    acceptedAnswer: { '@type': 'Answer', text: item.answer },
-  })),
-}
-
-// ---------------------------------------------------------------------------
-// 4. Review markup - generated from data layer
-// ---------------------------------------------------------------------------
-const jsonLdReviews = {
-  '@context': 'https://schema.org',
-  '@type': 'SportsActivityLocation',
-  name: SITE_NAME,
-  url: `${SITE_URL}/`,
-  review: TESTIMONIALS.map(t => ({
-    '@type': 'Review',
-    author: { '@type': 'Person', name: t.name },
-    reviewRating: { '@type': 'Rating', ratingValue: '5', bestRating: '5' },
-    reviewBody: t.quote,
-  })),
 }
 
 export default function RootLayout({
@@ -220,14 +189,6 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdMain) }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdFaq) }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdReviews) }}
         />
       </head>
       <body>{children}</body>

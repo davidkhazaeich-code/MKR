@@ -437,7 +437,7 @@ export default function Hero() {
           LES <span className="highlight">CHAMPIONS</span>
         </h1>
 
-        <p className="hero-subtitle">Camp d&apos;entraînement MMA &amp; Lutte , Caucase, Géorgie</p>
+        <p className="hero-subtitle">Camp d&apos;entraînement MMA &amp; Lutte au coeur du Caucase, Géorgie</p>
 
         <div className="hero-ctas">
           <Link href="#contact" className="btn-primary">POSTULER AU CAMP</Link>

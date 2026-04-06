@@ -47,7 +47,7 @@ export const SESSIONS: Session[] = [
     season: 'Été',
     seasonLabel: 'Session Été · Juillet 2026',
     label: 'ÉTÉ 2026',
-    name: "ASSAUT D'ÉTÉ",
+    name: "CAMP D'ÉTÉ",
     monthAbbr: 'JUL',
     dates: '8 Juillet - 29 Juillet',
     datesFull: '8 JUILLET · 29 JUILLET 2026',

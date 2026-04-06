@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import PageHero from '@/components/PageHero'
+import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 
 export const metadata: Metadata = {
   title: 'Destinations | MKR Caucasian Camp | Dagestan & Tchetchenie',
@@ -11,6 +12,10 @@ export const metadata: Metadata = {
 export default function DestinationsPage() {
   return (
     <>
+      <BreadcrumbJsonLd items={[
+        { name: 'Accueil', url: 'https://mkrcaucasiancamp.com/' },
+        { name: 'Destinations', url: 'https://mkrcaucasiancamp.com/destinations' },
+      ]} />
       <PageHero
         label="DESTINATIONS"
         title="LE CAUCASE T'ATTEND"

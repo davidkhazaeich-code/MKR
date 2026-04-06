@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import PageHero from '@/components/PageHero'
 import GuideForm from '@/components/GuideForm'
+import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 
 export const metadata: Metadata = {
   title: 'Guide Dagestan | MKR Caucasian Camp | Telecharger gratuitement',
@@ -20,6 +21,10 @@ const GUIDE_CONTENTS = [
 export default function GuideDagestanPage() {
   return (
     <>
+      <BreadcrumbJsonLd items={[
+        { name: 'Accueil', url: 'https://mkrcaucasiancamp.com/' },
+        { name: 'Guide Dagestan', url: 'https://mkrcaucasiancamp.com/guide-dagestan' },
+      ]} />
       <PageHero
         label="GUIDE GRATUIT"
         title="PARTIR S'ENTRAINER<br/>AU DAGESTAN"

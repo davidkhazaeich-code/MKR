@@ -72,6 +72,7 @@ export default function BlogPage() {
         { name: 'Blog', url: 'https://mkrcaucasiancamp.com/blog' },
       ]} />
 
+
       <PageHero
         label="BLOG"
         title="LE JOURNAL DU CAMP"
@@ -94,6 +95,8 @@ export default function BlogPage() {
                   className="section-photo-img"
                   style={{ aspectRatio: '21/9', objectFit: 'cover', width: '100%' }}
                 />
+                <div className="blog-featured-overlay" />
+                <span className="blog-featured-img-label">{featured.category}</span>
               </div>
               <div className="blog-featured-content">
                 <span className="blog-date">{featured.date}</span>

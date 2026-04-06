@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
+import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 
 export const metadata: Metadata = {
   title: 'Programme MMA | MKR Caucasian Camp | Entrainement MMA au Caucase',
@@ -28,6 +29,11 @@ const SESSION_FLOW = [
 export default function ProgrammeMMAPage() {
   return (
     <>
+      <BreadcrumbJsonLd items={[
+        { name: 'Accueil', url: 'https://mkrcaucasiancamp.com/' },
+        { name: 'Programme', url: 'https://mkrcaucasiancamp.com/programme' },
+        { name: 'MMA', url: 'https://mkrcaucasiancamp.com/programme/mma' },
+      ]} />
       <PageHero
         label="MMA"
         title="FRAPPE. PROJETTE.<br/>SOUMETS."

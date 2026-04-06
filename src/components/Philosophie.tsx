@@ -7,7 +7,7 @@ export default function Philosophie() {
             PHILOSOPHIE
           </span>
           <h2 id="philosophie-heading" className="bento-title">
-            LA VOIE<br />DU GUERRIER
+            POURQUOI<br />LE CAUCASE
           </h2>
           <div className="bento-title-line"></div>
         </div>
@@ -18,11 +18,11 @@ export default function Philosophie() {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img className="bento-img" src="/images/action/sparring-mma-wall.webp" alt="" aria-hidden="true" />
             <span className="bento-card-label">Héritage · Tradition · Combat</span>
-            <h3 className="bento-card-title">L&apos;ÂME<br />DU GUERRIER</h3>
+            <h3 className="bento-card-title">LÀ OÙ TOUT<br />A COMMENCÉ</h3>
             <p className="bento-card-body">
-              Le Caucase n&apos;est pas une destination. C&apos;est une <strong>confrontation avec soi-même</strong>. Depuis des siècles, ces montagnes taillent des guerriers dans la roche brute. Les traditions de lutte et de combat du Caucase géorgien sont parmi les plus anciennes et les plus éprouvées du monde.<br /><br />
-              MKR Caucasian Camp plonge chaque athlète dans cet héritage millénaire. Tu t&apos;entraînes avec des hommes qui ont grandi dans cette discipline, dans ces salles, sur ces tapis. Pas en touriste. En compétiteur.<br /><br />
-              La souffrance est le premier professeur. La discipline, le deuxième. <strong>Le reste est une question de volonté.</strong>
+              Les meilleurs combattants de la planète sortent tous du même endroit. Le Caucase. Khabib, Makhachev, des centaines de champions olympiques de lutte. Ce n&apos;est pas un hasard : les traditions de combat ici se transmettent <strong>de père en fils depuis des siècles</strong>.<br /><br />
+              MKR Caucasian Camp te donne accès à cet héritage. Tu t&apos;entraînes dans les mêmes salles, avec les mêmes coachs, selon les mêmes méthodes. Pas en touriste. En athlète qui veut <strong>franchir un cap</strong>.<br /><br />
+              Quand tu reviens de ces trois semaines, ta façon de combattre, de t&apos;entraîner et de te voir <strong>n&apos;est plus la même</strong>.
             </p>
           </article>
 
@@ -30,10 +30,10 @@ export default function Philosophie() {
           <article className="bento-card bento-card--small reveal" style={{ transitionDelay: '0.1s' }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img className="bento-img" src="/images/environment/gym-interior.webp" alt="" aria-hidden="true" />
-            <span className="bento-card-label">Méthodes · Protocole</span>
-            <h3 className="bento-card-title">MÉTHODES<br />ÉPROUVÉES</h3>
+            <span className="bento-card-label">Coaching · Méthodes · Progression</span>
+            <h3 className="bento-card-title">LE MEILLEUR<br />NIVEAU</h3>
             <p className="bento-card-body">
-              Sparring quotidien, drills de haute intensité, récupération guidée. Chaque session est construite sur des décennies de pédagogie martiale caucasienne. Ici, les méthodes ne s&apos;inventent pas. Elles <strong>se transmettent</strong>.
+              Sparring quotidien avec des combattants locaux. Drills d&apos;intensité, récupération guidée. Les méthodes qui ont produit des champions du monde <strong>appliquées à ta progression</strong>.
             </p>
           </article>
 
@@ -41,10 +41,10 @@ export default function Philosophie() {
           <article className="bento-card bento-card--small reveal" style={{ transitionDelay: '0.2s' }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img className="bento-img" src="/images/environment/communal-meal.webp" alt="" aria-hidden="true" />
-            <span className="bento-card-label">Immersion · Culture · Langue</span>
-            <h3 className="bento-card-title">IMMERSION<br />TOTALE</h3>
+            <span className="bento-card-label">Immersion · Culture · Vie de camp</span>
+            <h3 className="bento-card-title">UNE EXPÉRIENCE<br />UNIQUE</h3>
             <p className="bento-card-body">
-              Tu vis avec eux. Tu manges avec eux. Tu apprends leur langue, tu découvres leur culture. L&apos;immersion n&apos;est pas optionnelle : elle est <strong>le cœur du programme</strong>. C&apos;est ce qui transforme un stage en expérience fondatrice.
+              Tu vis avec eux, tu manges avec eux. Zéro distraction, zéro confort superflu. Juste l&apos;entraînement, la culture locale, et une <strong>connexion humaine</strong> que tu ne trouveras dans aucun gym en Europe.
             </p>
           </article>
         </div>

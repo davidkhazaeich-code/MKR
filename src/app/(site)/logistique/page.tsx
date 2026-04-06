@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
+import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 
 export const metadata: Metadata = {
   title: 'Logistique | MKR Caucasian Camp | Visa, Vol, Budget Dagestan',
@@ -11,6 +12,10 @@ export const metadata: Metadata = {
 export default function LogistiquePage() {
   return (
     <>
+      <BreadcrumbJsonLd items={[
+        { name: 'Accueil', url: 'https://mkrcaucasiancamp.com/' },
+        { name: 'Logistique', url: 'https://mkrcaucasiancamp.com/logistique' },
+      ]} />
       <PageHero
         label="LOGISTIQUE"
         title="TOUT CE QUE TU DOIS<br/>SAVOIR AVANT DE PARTIR"

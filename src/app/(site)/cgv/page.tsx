@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'CGV | MKR Caucasian Camp | Conditions Generales de Vente',
+  description: "Conditions generales de vente de MKR Caucasian Camp. Modalites d'inscription, paiement, annulation et remboursement.",
   alternates: { canonical: 'https://mkrcaucasiancamp.com/cgv' },
 }
 

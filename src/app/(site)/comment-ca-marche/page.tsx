@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import PageHero from '@/components/PageHero'
 import FAQAccordion from '@/components/FAQAccordion'
 import SectionCTA from '@/components/SectionCTA'
+import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 
 export const metadata: Metadata = {
   title: "Comment ca marche | MKR Caucasian Camp | Processus d'inscription",
@@ -43,7 +44,7 @@ const STEPS = [
   {
     num: '06',
     title: 'LE CAMP',
-    desc: "3 semaines d'entrainement intensif. 2 sessions par jour. Coachs locaux. Hebergement, repas, excursions. Tu ne t'occupes de rien d'autre que de combattre.",
+    desc: "3 semaines d'entrainement intensif. 2 sessions par jour. Coachs locaux. Hebergement, repas, excursions. Tu ne t'occupes de rien d'autre que de progresser.",
     detail: '3 semaines',
   },
 ]
@@ -58,6 +59,10 @@ const PROCESS_FAQ = [
 export default function CommentCaMarchePage() {
   return (
     <>
+      <BreadcrumbJsonLd items={[
+        { name: 'Accueil', url: 'https://mkrcaucasiancamp.com/' },
+        { name: 'Comment ca marche', url: 'https://mkrcaucasiancamp.com/comment-ca-marche' },
+      ]} />
       <PageHero
         label="LE PROCESSUS"
         title="DE L'INSCRIPTION<br/>AU PREMIER TAPIS"
@@ -75,6 +80,12 @@ export default function CommentCaMarchePage() {
             loading="lazy"
             className="section-photo-img"
           />
+          <div className="cinematic-overlay" />
+          <div className="cinematic-content">
+            <span className="cinematic-label">LES SALLES</span>
+            <h3 className="cinematic-title">EQUIPEMENT PRO, AME CAUCASIENNE</h3>
+            <p className="cinematic-tagline">Tapis olympiques, cage MMA, sacs lourds. L&apos;essentiel pour progresser, rien de superflu.</p>
+          </div>
         </div>
       </section>
 

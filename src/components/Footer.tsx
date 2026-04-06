@@ -3,17 +3,9 @@ import Link from 'next/link'
 export default function Footer() {
   return (
     <>
-      {/* Mountain divider */}
-      <div className="footer-mtn" aria-hidden="true">
-        <svg viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-          <polygon fill="#0E0E0E" points="
-            0,80 0,54 44,42 108,56 178,34 248,50 312,22 368,40
-            418,12 464,30 508,6 540,24 568,2 592,18 618,0 644,16
-            670,2 696,18 724,4 752,22 784,6 820,28 862,10 908,34
-            958,16 1014,40 1072,22 1132,46 1192,30 1254,52 1318,36
-            1382,58 1440,44 1440,80
-          "/>
-        </svg>
+      {/* Transition line */}
+      <div className="footer-transition" aria-hidden="true">
+        <div className="footer-transition-line"></div>
       </div>
 
       <footer id="footer" aria-label="Pied de page">
@@ -23,7 +15,7 @@ export default function Footer() {
           <div className="footer-contact-inner">
             <div className="footer-contact-left">
               <span className="footer-contact-eyebrow">Rejoins le prochain camp</span>
-              <h2 className="footer-contact-heading">FORGE DANS LE CAUCASE.</h2>
+              <h2 className="footer-contact-heading">TON PROCHAIN NIVEAU EST AU CAUCASE.</h2>
             </div>
             <div className="footer-contact-right">
               <a href="mailto:contact@mkrcaucasiancamp.com" className="footer-contact-link">
@@ -56,7 +48,7 @@ export default function Footer() {
               <span className="footer-logo-mkr">MKR</span>
               <span className="footer-logo-sub">Caucasian Camp</span>
             </Link>
-            <p className="footer-tagline">Forge dans le Caucase.</p>
+            <p className="footer-tagline">Camp d&apos;entraînement au Caucase.</p>
             <p className="footer-desc">
               Camps d&apos;entrainement intensifs de MMA et de lutte au coeur du Dagestan et de la Tchetchenie. Coaches locaux. Immersion totale. Zero distraction.
             </p>

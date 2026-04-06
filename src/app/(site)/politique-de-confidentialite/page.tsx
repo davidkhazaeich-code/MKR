@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Politique de confidentialite | MKR Caucasian Camp',
+  description: "Politique de confidentialite de MKR Caucasian Camp. Collecte, utilisation et protection de vos donnees personnelles.",
   alternates: { canonical: 'https://mkrcaucasiancamp.com/politique-de-confidentialite' },
 }
 

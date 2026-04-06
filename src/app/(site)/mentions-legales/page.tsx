@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Mentions legales | MKR Caucasian Camp',
+  description: "Mentions legales du site mkrcaucasiancamp.com. Editeur, hebergeur, responsable de publication, droits d'auteur.",
   alternates: { canonical: 'https://mkrcaucasiancamp.com/mentions-legales' },
 }
 

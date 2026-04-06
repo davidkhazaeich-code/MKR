@@ -2,6 +2,7 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
+import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 
 export const metadata: Metadata = {
   title: 'Preparer son camp | MKR Caucasian Camp | Guide de preparation MMA',
@@ -44,6 +45,10 @@ const EQUIPMENT = {
 export default function PreparerSonCampPage() {
   return (
     <>
+      <BreadcrumbJsonLd items={[
+        { name: 'Accueil', url: 'https://mkrcaucasiancamp.com/' },
+        { name: 'Preparer son camp', url: 'https://mkrcaucasiancamp.com/preparer-son-camp' },
+      ]} />
       <PageHero
         label="PREPARATION"
         title="ARRIVES PRET.<br/>REPARS TRANSFORME."

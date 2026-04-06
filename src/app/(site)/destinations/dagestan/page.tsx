@@ -186,6 +186,12 @@ export default function DagestanPage() {
             loading="lazy"
             className="section-photo-img"
           />
+          <div className="cinematic-overlay" />
+          <div className="cinematic-content">
+            <span className="cinematic-label">DAGESTAN</span>
+            <h3 className="cinematic-title">LA ROUTE DU CHAMPION</h3>
+            <p className="cinematic-tagline">Des montagnes qui forgent le caractere. Chaque virage rapproche du camp.</p>
+          </div>
         </div>
       </section>
 
