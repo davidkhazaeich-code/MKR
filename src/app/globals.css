@@ -644,22 +644,48 @@ h1, h2, h3, h4, h5 {
 }
 
 @media (max-width: 768px) {
+  .hero-content {
+    justify-content: flex-start;
+    padding-top: clamp(5rem, 10vh, 7rem);
+    padding-bottom: 2rem;
+  }
   .hero-camps {
     position: relative;
-    bottom: auto;
+    top: auto;
     right: auto;
     left: auto;
     width: 100%;
-    padding: 0 1.25rem;
-    margin-top: 1.5rem;
+    order: -1;
+    margin-bottom: 1.5rem;
     align-items: stretch;
   }
-  .hero-camps-card { width: 100%; }
+  .hero-camps-card {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    gap: 0.4rem;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+  .hero-camps-top { gap: 0.4rem; }
+  .hero-camps-label { font-size: 0.95rem; }
+  .hero-camps-status { font-size: 0.6rem; padding: 0.15rem 0.4rem; }
+  .hero-camps-dates { font-size: 0.8rem; }
+  .hero-camps-bottom { padding-top: 0; border-top: none; gap: 0.8rem; }
+  .hero-camps-price { font-size: 1.1rem; }
+  .hero-camps-cta { font-size: 0.7rem; }
   .hero-camps-dots { justify-content: center; }
+  .hero-camps-dot { width: 6px; height: 6px; }
+  .hero-camps-dot.active { width: 20px; }
+  .hero-stats { gap: 1.5rem; }
 }
 @media (max-width: 480px) {
-  .hero-content { padding-top: clamp(5.5rem, 12vh, 8rem); padding-left: 1.5rem; padding-right: 1.5rem; padding-bottom: 1.5rem; }
-  .hero-stats { gap: 1.5rem; }
+  .hero-content { padding-top: clamp(4.5rem, 9vh, 6rem); padding-left: 1.5rem; padding-right: 1.5rem; padding-bottom: 1.5rem; }
+  .hero-camps-card { padding: 0.6rem 0.8rem; }
+  .hero-camps-label { font-size: 0.85rem; }
+  .hero-camps-dates { display: none; }
+  .hero-camps-bottom { border-top: none; padding-top: 0; }
   .scroll-indicator { display: none; }
 }
 

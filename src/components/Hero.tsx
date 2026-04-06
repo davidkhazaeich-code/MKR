@@ -186,10 +186,10 @@ export default function Hero() {
             <span className="hero-stat-label">Semaines d&apos;immersion</span>
           </div>
         </div>
-      </div>
 
-      {/* Camp carousel -bottom right */}
-      <HeroCampCarousel />
+        {/* Camp carousel - inline on mobile, absolute on desktop */}
+        <HeroCampCarousel />
+      </div>
 
       {/* Scroll indicator */}
       <div className="scroll-indicator" aria-hidden="true">
