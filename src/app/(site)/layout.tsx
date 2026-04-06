@@ -1,9 +1,11 @@
 import Link from 'next/link'
+import dynamic from 'next/dynamic'
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
-import RevealObserver from '@/components/RevealObserver'
-import ScrollParallax from '@/components/ScrollParallax'
-import StickyMobileCTA from '@/components/StickyMobileCTA'
+
+const RevealObserver = dynamic(() => import('@/components/RevealObserver'))
+const ScrollParallax = dynamic(() => import('@/components/ScrollParallax'))
+const StickyMobileCTA = dynamic(() => import('@/components/StickyMobileCTA'))
 
 export default function SiteLayout({ children }: { children: React.ReactNode }) {
   return (

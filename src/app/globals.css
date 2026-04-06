@@ -57,7 +57,7 @@
   /* Text */
   --text-primary:      #F8F8F8;
   --text-secondary:    #A8A8A4;
-  --text-muted:        #6B6B66;
+  --text-muted:        #8A8A84;
 
   /* Ghost border */
   --ghost-border:      rgba(248,248,248,0.15);
@@ -2119,7 +2119,8 @@ h1, h2, h3, h4, h5 {
 }
 .footer-dkdp {
   color: var(--text-secondary);
-  text-decoration: none;
+  text-decoration: underline;
+  text-underline-offset: 2px;
   transition: color 0.2s;
 }
 .footer-dkdp:hover {

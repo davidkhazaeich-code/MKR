@@ -1,9 +1,11 @@
 'use client'
 
 import { useState, FormEvent } from 'react'
+import dynamic from 'next/dynamic'
 import { DISCIPLINES } from '@/data/disciplines'
 import { SESSIONS, sessionFormLabel } from '@/data/sessions'
-import StoryCard from './StoryCard'
+
+const StoryCard = dynamic(() => import('./StoryCard'))
 
 const STEPS = [
   'Identité',

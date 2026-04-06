@@ -2,7 +2,9 @@
 
 import Link from 'next/link'
 import { useState, FormEvent } from 'react'
-import StoryCard from './StoryCard'
+import dynamic from 'next/dynamic'
+
+const StoryCard = dynamic(() => import('./StoryCard'))
 
 /* ─────────────── DATA ─────────────── */
 

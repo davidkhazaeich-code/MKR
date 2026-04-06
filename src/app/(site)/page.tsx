@@ -1,17 +1,17 @@
 import type { Metadata } from 'next'
 import dynamic from 'next/dynamic'
 import Hero from '@/components/Hero'
-import VideoSection from '@/components/VideoSection'
-import Philosophie from '@/components/Philosophie'
-import DestinationShowcase from '@/components/DestinationShowcase'
-import Coaches from '@/components/Coaches'
-import Sessions from '@/components/Sessions'
-import Timeline from '@/components/Timeline'
-import Testimonials from '@/components/Testimonials'
-import Contact from '@/components/Contact'
-import FAQ from '@/components/FAQ'
-import CTAFinal from '@/components/CTAFinal'
 
+const VideoSection = dynamic(() => import('@/components/VideoSection'), { ssr: true })
+const Philosophie = dynamic(() => import('@/components/Philosophie'), { ssr: true })
+const DestinationShowcase = dynamic(() => import('@/components/DestinationShowcase'), { ssr: true })
+const Coaches = dynamic(() => import('@/components/Coaches'), { ssr: true })
+const Sessions = dynamic(() => import('@/components/Sessions'), { ssr: true })
+const Timeline = dynamic(() => import('@/components/Timeline'), { ssr: true })
+const Testimonials = dynamic(() => import('@/components/Testimonials'), { ssr: true })
+const Contact = dynamic(() => import('@/components/Contact'), { ssr: true })
+const FAQ = dynamic(() => import('@/components/FAQ'), { ssr: true })
+const CTAFinal = dynamic(() => import('@/components/CTAFinal'), { ssr: true })
 const VoyageReveal = dynamic(() => import('@/components/VoyageReveal'))
 
 export const metadata: Metadata = {

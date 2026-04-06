@@ -1,7 +1,6 @@
 'use client'
 
 import { useRef, useCallback } from 'react'
-import html2canvas from 'html2canvas'
 
 interface StoryCardProps {
   prenom: string
@@ -19,6 +18,7 @@ export default function StoryCard({ prenom, discipline, session, destination }: 
 
   const handleDownload = useCallback(async () => {
     if (!cardRef.current) return
+    const { default: html2canvas } = await import('html2canvas')
     const canvas = await html2canvas(cardRef.current, {
       width: 1080,
       height: 1920,
