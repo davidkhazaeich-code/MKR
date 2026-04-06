@@ -312,35 +312,8 @@ h1, h2, h3, h4, h5 {
   overflow: hidden;
 }
 
-/* Hero background video */
-.hero-video {
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: 0;
-  pointer-events: none;
-}
-
-/* Dark overlay on video */
+/* Dark background + grid (same as old hero-sky) */
 .hero-video-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to bottom,
-    rgba(12,12,12,0.65) 0%,
-    rgba(12,12,12,0.5) 40%,
-    rgba(12,12,12,0.7) 75%,
-    rgba(12,12,12,0.95) 100%
-  );
-  z-index: 1;
-  pointer-events: none;
-}
-
-/* Grid texture on top of dark overlay */
-.hero-video-overlay::after {
-  content: '';
   position: absolute;
   inset: 0;
   background:
@@ -353,7 +326,21 @@ h1, h2, h3, h4, h5 {
       45deg,
       transparent 0px, transparent 22px,
       rgba(200,75,49,0.03) 22px, rgba(200,75,49,0.03) 23px
-    );
+    ),
+    #0C0C0C;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Hero background video — low opacity on dark background */
+.hero-video {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.18;
+  z-index: 1;
   pointer-events: none;
 }
 
