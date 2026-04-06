@@ -8,6 +8,7 @@ const HERO_VIDEOS = [
   '/videos/hero-mountains.mp4',
   '/videos/hero-village.mp4',
   '/videos/hero-forest.mp4',
+  '/videos/hero-clouds.mp4',
 ]
 const VIDEO_DURATION = 10000 // ms per video before crossfade
 const FADE_DURATION = 1500   // ms crossfade
