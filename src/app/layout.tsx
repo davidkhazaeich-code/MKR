@@ -191,11 +191,14 @@ export default function RootLayout({
           '.mkr-half--bot{top:50%}',
           '.mkr-half.open.mkr-half--top{transform:translateY(-100%)}',
           '.mkr-half.open.mkr-half--bot{transform:translateY(100%)}',
-          '.mkr-center{position:absolute;z-index:2;top:50%;left:50%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:16px;opacity:1;transition:opacity .25s ease}',
-          '.mkr-center.hide{opacity:0}',
-          '.mkr-center img{width:clamp(40px,10vw,60px);height:auto}',
-          '.mkr-track{width:clamp(80px,25vw,140px);height:2px;background:rgba(255,255,255,.1);border-radius:2px;overflow:hidden}',
+          '.mkr-center{position:absolute;z-index:2;top:50%;left:50%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:16px;opacity:0;animation:mkrFadeUp .6s ease-out .1s forwards}',
+          '.mkr-center.hide{opacity:0!important;transform:translate(-50%,-50%) scale(.92);transition:opacity .25s ease,transform .3s ease;animation:none}',
+          '.mkr-center img{width:clamp(40px,10vw,60px);height:auto;opacity:0;animation:mkrLogoIn .6s cubic-bezier(.16,1,.3,1) .2s forwards}',
+          '.mkr-track{width:clamp(80px,25vw,140px);height:2px;background:rgba(255,255,255,.1);border-radius:2px;overflow:hidden;opacity:0;animation:mkrFadeIn .4s ease-out .5s forwards}',
           '.mkr-fill{height:100%;width:0%;background:#C84B31;border-radius:2px;transition:width .6s cubic-bezier(.4,0,.2,1)}',
+          '@keyframes mkrLogoIn{0%{opacity:0;transform:scale(.8);filter:blur(6px)}100%{opacity:1;transform:scale(1);filter:blur(0)}}',
+          '@keyframes mkrFadeUp{from{opacity:0;transform:translate(-50%,-50%) translateY(12px)}to{opacity:1;transform:translate(-50%,-50%) translateY(0)}}',
+          '@keyframes mkrFadeIn{from{opacity:0}to{opacity:1}}',
         ].join('') }} />
         <script
           type="application/ld+json"
