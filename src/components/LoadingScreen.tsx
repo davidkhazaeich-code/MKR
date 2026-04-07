@@ -2,27 +2,13 @@
 
 import { useEffect, useState, useRef, useCallback } from 'react'
 
-const QUOTES = [
-  'Le combat commence avant le premier round.',
-  'La montagne ne vient pas a toi. Tu montes.',
-  'On ne nait pas champion. On le devient.',
-  'Le Caucase forge ceux qui osent.',
-  'La discipline est le pont entre tes objectifs et tes resultats.',
-  'Chaque goutte de sueur est un pas vers la victoire.',
-  'Seuls ceux qui risquent de tomber apprennent a se relever.',
-  'Le tapis ne ment jamais.',
-  'La douleur est temporaire. La fierte est eternelle.',
-  'Ici, on ne s\'entraine pas pour le spectacle. On s\'entraine pour la guerre.',
-]
-
-const MIN_DISPLAY_MS = 1400
+const MIN_DISPLAY_MS = 1000
 const EXIT_DURATION_MS = 700
 
 export default function LoadingScreen() {
   const [visible, setVisible] = useState(false)
   const [exiting, setExiting] = useState(false)
   const [progress, setProgress] = useState(0)
-  const [quote] = useState(() => QUOTES[Math.floor(Math.random() * QUOTES.length)])
   const startTime = useRef(0)
   const dismissed = useRef(false)
 
@@ -127,7 +113,6 @@ export default function LoadingScreen() {
             style={{ width: `${progress}%` }}
           />
         </div>
-        <p className="loading-quote">&laquo; {quote} &raquo;</p>
       </div>
     </div>
   )
