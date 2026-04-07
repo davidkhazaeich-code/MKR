@@ -15,8 +15,14 @@
   ].join('');
   (d.head || d.documentElement).appendChild(s);
 
-  /* --- 2. Create loader HTML --- */
-  var html = '<div id="mkr-loader" aria-hidden="true"><div class="h ht"></div><div class="h hb"></div><div class="ct"><img src="/logo-white.webp" width="180" height="180" alt=""><div class="tr"><div class="fl" id="mkr-f"></div></div></div></div>';
+  /* --- 2. Preload logo + create loader HTML --- */
+  var link = d.createElement('link');
+  link.rel = 'preload';
+  link.as = 'image';
+  link.href = '/logo-white.webp';
+  (d.head || d.documentElement).appendChild(link);
+
+  var html = '<div id="mkr-loader" aria-hidden="true"><div class="h ht"></div><div class="h hb"></div><div class="ct"><img src="/logo-white.webp" alt=""><div class="tr"><div class="fl" id="mkr-f"></div></div></div></div>';
 
   function init() {
     d.body.insertAdjacentHTML('afterbegin', html);
