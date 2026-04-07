@@ -6184,70 +6184,63 @@ div:has(+ .fx-mask-d) {
   justify-content: center;
 }
 .loading-screen--exit {
-  animation: loading-fade-out 0.8s ease-in-out forwards;
+  animation: loading-fade-out 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 @keyframes loading-fade-out {
-  0%   { opacity: 1; }
-  100% { opacity: 0; pointer-events: none; }
+  0%   { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1.02); pointer-events: none; }
 }
 
 .loading-inner {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2rem;
-  animation: loading-content-in 0.6s ease-out both;
+  gap: 1.8rem;
+  animation: loading-content-in 0.5s ease-out both;
 }
 @keyframes loading-content-in {
-  from { opacity: 0; transform: translateY(16px); }
+  from { opacity: 0; transform: translateY(12px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
 .loading-logo {
-  width: 80px;
+  width: 72px;
   height: auto;
   opacity: 0;
-  animation: loading-logo-in 1s ease-out 0.2s forwards;
+  animation: loading-logo-in 0.8s ease-out 0.1s forwards;
 }
 @keyframes loading-logo-in {
-  0%   { opacity: 0; transform: scale(0.8); filter: blur(8px); }
-  100% { opacity: 1; transform: scale(1);   filter: blur(0); }
+  0%   { opacity: 0; transform: scale(0.85); filter: blur(6px); }
+  100% { opacity: 1; transform: scale(1);    filter: blur(0); }
 }
 
 .loading-bar-track {
-  width: 180px;
-  height: 2px;
-  background: rgba(248,248,248,0.08);
+  width: 160px;
+  height: 1.5px;
+  background: rgba(248,248,248,0.06);
   border-radius: 1px;
   overflow: hidden;
 }
 .loading-bar-fill {
-  width: 0;
   height: 100%;
   background: var(--primary);
   border-radius: 1px;
-  animation: loading-bar 2.6s ease-in-out forwards;
-}
-@keyframes loading-bar {
-  0%   { width: 0; }
-  30%  { width: 40%; }
-  70%  { width: 75%; }
-  100% { width: 100%; }
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .loading-quote {
   font-family: var(--font-barlow-condensed), sans-serif;
-  font-size: 0.75rem;
-  letter-spacing: 0.12em;
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--text-muted);
   text-align: center;
-  max-width: 320px;
+  max-width: 300px;
   line-height: 1.6;
   opacity: 0;
-  animation: loading-quote-in 0.8s ease-out 0.8s forwards;
+  animation: loading-quote-in 0.6s ease-out 0.4s forwards;
 }
 @keyframes loading-quote-in {
-  from { opacity: 0; transform: translateY(8px); }
-  to   { opacity: 0.7; transform: translateY(0); }
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 0.6; transform: translateY(0); }
 }
