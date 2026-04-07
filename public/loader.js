@@ -1,32 +1,30 @@
 (function () {
   var d = document;
 
-  /* --- 1. Inject styles immediately (head always exists) --- */
+  /* --- 1. Inject styles immediately --- */
   var s = d.createElement('style');
   s.textContent = [
     '#mkr-loader{position:fixed;top:0;left:0;width:100%;height:100%;z-index:99999;overflow:hidden;pointer-events:none}',
     '#mkr-loader .h{position:absolute;left:0;width:100%;height:50%;background:#0A0A0A}',
     '#mkr-loader .ht{top:0}',
     '#mkr-loader .hb{top:50%}',
-    '#mkr-loader .ct{position:absolute;z-index:2;top:50%;left:50%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:14px;opacity:0}',
-    '#mkr-loader .ct img{width:clamp(40px,10vw,56px);height:auto}',
-    '#mkr-loader .tr{width:clamp(80px,25vw,140px);height:2px;background:rgba(255,255,255,.08);border-radius:2px;overflow:hidden}',
+    '#mkr-loader .ct{position:absolute;z-index:2;top:50%;left:50%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:clamp(20px,4vh,32px);opacity:0}',
+    '#mkr-loader .ct img{width:clamp(120px,28vw,180px);height:auto}',
+    '#mkr-loader .tr{width:clamp(160px,50vw,280px);height:2px;background:rgba(255,255,255,.08);border-radius:2px;overflow:hidden}',
     '#mkr-loader .fl{height:100%;width:0%;background:#C84B31;border-radius:2px}'
   ].join('');
   (d.head || d.documentElement).appendChild(s);
 
-  /* --- 2. Create loader HTML string --- */
-  var html = '<div id="mkr-loader" aria-hidden="true"><div class="h ht"></div><div class="h hb"></div><div class="ct"><img src="/logo-white.webp" width="56" height="56" alt=""><div class="tr"><div class="fl" id="mkr-f"></div></div></div></div>';
+  /* --- 2. Create loader HTML --- */
+  var html = '<div id="mkr-loader" aria-hidden="true"><div class="h ht"></div><div class="h hb"></div><div class="ct"><img src="/logo-white.webp" width="180" height="180" alt=""><div class="tr"><div class="fl" id="mkr-f"></div></div></div></div>';
 
   function init() {
-    /* Insert loader as first child of body */
     d.body.insertAdjacentHTML('afterbegin', html);
 
     var w = d.getElementById('mkr-loader');
     var f = d.getElementById('mkr-f');
     var ct = w.querySelector('.ct');
 
-    /* Force paint */
     void w.offsetHeight;
 
     /* --- 3s timeline --- */
@@ -72,7 +70,6 @@
     }, 3200);
   }
 
-  /* Ensure body exists before inserting */
   if (d.body) {
     init();
   } else {
