@@ -10,8 +10,8 @@
     '#mkr-loader .hb{top:50%}',
     '#mkr-loader .ct{position:absolute;z-index:2;top:50%;left:50%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:clamp(20px,4vh,32px);opacity:0}',
     '#mkr-loader .ct img{width:clamp(120px,28vw,180px);height:auto}',
-    '#mkr-loader .tr{width:clamp(160px,50vw,280px);height:2px;background:rgba(255,255,255,.08);border-radius:2px;overflow:hidden}',
-    '#mkr-loader .fl{height:100%;width:0%;background:#C84B31;border-radius:2px}'
+    '#mkr-loader .tr{width:clamp(160px,50vw,280px);height:3px;background:rgba(255,255,255,.12);border-radius:3px;overflow:hidden}',
+    '#mkr-loader .fl{height:100%;width:0%;background:#C84B31;border-radius:3px;box-shadow:0 0 8px rgba(200,75,49,.5)}'
   ].join('');
   (d.head || d.documentElement).appendChild(s);
 
