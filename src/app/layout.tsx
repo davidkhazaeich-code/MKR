@@ -203,7 +203,7 @@ export default function RootLayout({
           (function(){
             var l=document.getElementById('mkr-loader');
             if(!l)return;
-            try{if(sessionStorage.getItem('mkr-loaded')){l.remove();return}}catch(e){}
+            try{if(sessionStorage.getItem('mkr-loaded')){l.style.display='none';return}}catch(e){}
             document.body.style.overflow='hidden';
             var bar=document.getElementById('mkr-loader-bar');
             var done=false;
@@ -212,17 +212,17 @@ export default function RootLayout({
               if(bar)bar.style.width='100%';
               setTimeout(function(){
                 l.style.opacity='0';
-                l.style.transition='opacity 0.5s ease';
+                l.style.transform='scale(1.03)';
                 setTimeout(function(){
-                  l.remove();
+                  l.style.display='none';
                   document.body.style.overflow='';
                   try{sessionStorage.setItem('mkr-loaded','1')}catch(e){}
-                },600);
-              },200);
+                },800);
+              },250);
             }
             if(bar){bar.style.width='0';setTimeout(function(){bar.style.width='80%'},50);}
-            if(document.readyState==='complete'){setTimeout(dismiss,400);}
-            else{window.addEventListener('load',function(){setTimeout(dismiss,300)},{once:true});}
+            if(document.readyState==='complete'){setTimeout(dismiss,500);}
+            else{window.addEventListener('load',function(){setTimeout(dismiss,400)},{once:true});}
             setTimeout(dismiss,3500);
           })();
         `}} />

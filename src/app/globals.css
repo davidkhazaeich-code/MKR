@@ -6183,6 +6183,8 @@ div:has(+ .fx-mask-d) {
   align-items: center;
   justify-content: center;
   opacity: 1;
+  transform: scale(1);
+  transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1), transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .loading-inner {
@@ -6190,11 +6192,21 @@ div:has(+ .fx-mask-d) {
   flex-direction: column;
   align-items: center;
   gap: 1.4rem;
+  animation: loader-fade-in 0.5s ease-out both;
+}
+@keyframes loader-fade-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 .loading-logo {
   width: clamp(48px, 12vw, 72px);
   height: auto;
+  animation: loader-logo-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@keyframes loader-logo-in {
+  0%   { opacity: 0; transform: scale(0.85); filter: blur(6px); }
+  100% { opacity: 1; transform: scale(1);    filter: blur(0); }
 }
 
 .loading-bar-track {
@@ -6203,11 +6215,16 @@ div:has(+ .fx-mask-d) {
   background: rgba(248,248,248,0.08);
   border-radius: 1px;
   overflow: hidden;
+  animation: loader-bar-in 0.4s ease-out 0.2s both;
+}
+@keyframes loader-bar-in {
+  from { opacity: 0; width: 0; }
+  to   { opacity: 1; width: clamp(100px, 30vw, 160px); }
 }
 .loading-bar-fill {
   width: 0%;
   height: 100%;
   background: var(--primary);
   border-radius: 1px;
-  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
