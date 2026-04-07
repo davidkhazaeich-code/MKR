@@ -194,7 +194,7 @@ export default function RootLayout({
       </head>
       <body>
         {/* eslint-disable-next-line @next/next/no-sync-scripts */}
-        <script src="/loader.js" defer></script>
+        <script src="/loader.js"></script>
         {children}
       </body>
     </html>
