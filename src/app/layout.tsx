@@ -182,6 +182,14 @@ export default function RootLayout({
       className={`${teko.variable} ${barlow.variable} ${barlowCondensed.variable}`}
     >
       <head>
+        {/* Critical loader styles — must load before body renders */}
+        <style dangerouslySetInnerHTML={{ __html: `
+          #mkr-loader{position:fixed;inset:0;z-index:9999;background:#0A0A0A;display:flex;align-items:center;justify-content:center;opacity:1;transition:opacity .6s ease,transform .6s ease}
+          #mkr-loader .l-inner{display:flex;flex-direction:column;align-items:center;gap:1.2rem}
+          #mkr-loader .l-logo{width:clamp(44px,10vw,64px);height:auto}
+          #mkr-loader .l-track{width:clamp(90px,28vw,150px);height:2px;background:rgba(255,255,255,.06);border-radius:1px;overflow:hidden}
+          #mkr-loader .l-bar{width:0%;height:100%;background:#C84B31;border-radius:1px;transition:width .7s cubic-bezier(.4,0,.2,1)}
+        `}} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebSite) }}
@@ -192,20 +200,15 @@ export default function RootLayout({
         />
       </head>
       <body>
-        {/* Inline loading screen — renders before any JS */}
-        <div id="mkr-loader" aria-hidden="true">
-          <div className="loading-inner">
-            <img src="/logo-white.webp" alt="" className="loading-logo" width={64} height={64} />
-            <div className="loading-bar-track"><div id="mkr-loader-bar" className="loading-bar-fill" /></div>
-          </div>
-        </div>
+        {/* Loader created via script — outside React's tree so hydration can't touch it */}
         <script dangerouslySetInnerHTML={{ __html: `
           (function(){
-            var l=document.getElementById('mkr-loader');
-            if(!l)return;
-            try{if(sessionStorage.getItem('mkr-loaded')){l.style.display='none';return}}catch(e){}
+            try{if(sessionStorage.getItem('mkr-loaded'))return}catch(e){}
+            var l=document.createElement('div');l.id='mkr-loader';l.setAttribute('aria-hidden','true');
+            l.innerHTML='<div class="l-inner"><img src="/logo-white.webp" alt="" class="l-logo" width="64" height="64"><div class="l-track"><div class="l-bar" id="mkr-bar"></div></div></div>';
+            document.body.insertBefore(l,document.body.firstChild);
             document.body.style.overflow='hidden';
-            var bar=document.getElementById('mkr-loader-bar');
+            var bar=document.getElementById('mkr-bar');
             var done=false;
             function dismiss(){
               if(done)return;done=true;
@@ -214,16 +217,16 @@ export default function RootLayout({
                 l.style.opacity='0';
                 l.style.transform='scale(1.03)';
                 setTimeout(function(){
-                  l.style.display='none';
+                  l.remove();
                   document.body.style.overflow='';
                   try{sessionStorage.setItem('mkr-loaded','1')}catch(e){}
-                },800);
-              },250);
+                },700);
+              },300);
             }
-            if(bar){bar.style.width='0';setTimeout(function(){bar.style.width='80%'},50);}
+            setTimeout(function(){if(bar)bar.style.width='85%'},60);
             if(document.readyState==='complete'){setTimeout(dismiss,500);}
             else{window.addEventListener('load',function(){setTimeout(dismiss,400)},{once:true});}
-            setTimeout(dismiss,3500);
+            setTimeout(dismiss,4000);
           })();
         `}} />
         {children}
