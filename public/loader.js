@@ -1,7 +1,7 @@
 (function () {
-  var d = document, b = d.body;
+  var d = document;
 
-  /* --- 1. Inject critical styles --- */
+  /* --- 1. Inject styles immediately (head always exists) --- */
   var s = d.createElement('style');
   s.textContent = [
     '#mkr-loader{position:fixed;top:0;left:0;width:100%;height:100%;z-index:99999;overflow:hidden;pointer-events:none}',
@@ -15,67 +15,67 @@
   ].join('');
   (d.head || d.documentElement).appendChild(s);
 
-  /* --- 2. Create loader DOM --- */
-  var w = d.createElement('div');
-  w.id = 'mkr-loader';
-  w.setAttribute('aria-hidden', 'true');
-  w.innerHTML = [
-    '<div class="h ht"></div>',
-    '<div class="h hb"></div>',
-    '<div class="ct">',
-      '<img src="/logo-white.webp" width="56" height="56" alt="">',
-      '<div class="tr"><div class="fl" id="mkr-f"></div></div>',
-    '</div>'
-  ].join('');
-  b.appendChild(w);
+  /* --- 2. Create loader HTML string --- */
+  var html = '<div id="mkr-loader" aria-hidden="true"><div class="h ht"></div><div class="h hb"></div><div class="ct"><img src="/logo-white.webp" width="56" height="56" alt=""><div class="tr"><div class="fl" id="mkr-f"></div></div></div></div>';
 
-  var f = d.getElementById('mkr-f');
-  var ct = w.querySelector('.ct');
+  function init() {
+    /* Insert loader as first child of body */
+    d.body.insertAdjacentHTML('afterbegin', html);
 
-  /* --- 3. Animation timeline (3s total) --- */
-  void w.offsetHeight;
+    var w = d.getElementById('mkr-loader');
+    var f = d.getElementById('mkr-f');
+    var ct = w.querySelector('.ct');
 
-  // 0ms: Fade in logo + bar
-  ct.style.transition = 'opacity .5s ease-out';
-  ct.style.opacity = '1';
+    /* Force paint */
+    void w.offsetHeight;
 
-  // 150ms: Bar → 75%
-  setTimeout(function () {
-    if (f) {
+    /* --- 3s timeline --- */
+
+    /* 0ms: Fade in center */
+    ct.style.transition = 'opacity .5s ease-out';
+    ct.style.opacity = '1';
+
+    /* 150ms: Bar → 75% */
+    setTimeout(function () {
       f.style.transition = 'width 1.5s cubic-bezier(.25,.46,.45,.94)';
       f.style.width = '75%';
-    }
-  }, 150);
+    }, 150);
 
-  // 1700ms: Bar → 100%
-  setTimeout(function () {
-    if (f) {
+    /* 1700ms: Bar → 100% */
+    setTimeout(function () {
       f.style.transition = 'width .5s ease-out';
       f.style.width = '100%';
-    }
-  }, 1700);
+    }, 1700);
 
-  // 2200ms: Fade out center
-  setTimeout(function () {
-    ct.style.transition = 'opacity .2s ease, transform .2s ease';
-    ct.style.opacity = '0';
-    ct.style.transform = 'translate(-50%,-50%) scale(.92)';
-  }, 2200);
+    /* 2200ms: Fade out center */
+    setTimeout(function () {
+      ct.style.transition = 'opacity .2s ease, transform .2s ease';
+      ct.style.opacity = '0';
+      ct.style.transform = 'translate(-50%,-50%) scale(.92)';
+    }, 2200);
 
-  // 2400ms: Split open
-  setTimeout(function () {
-    var halves = w.querySelectorAll('.h');
-    for (var i = 0; i < halves.length; i++) {
-      halves[i].style.transition = 'transform .8s cubic-bezier(.76,0,.24,1)';
-    }
-    void halves[0].offsetHeight;
-    halves[0].style.transform = 'translateY(-100%)';
-    halves[1].style.transform = 'translateY(100%)';
-  }, 2400);
+    /* 2400ms: Split open */
+    setTimeout(function () {
+      var ht = w.querySelector('.ht');
+      var hb = w.querySelector('.hb');
+      ht.style.transition = 'transform .8s cubic-bezier(.76,0,.24,1)';
+      hb.style.transition = 'transform .8s cubic-bezier(.76,0,.24,1)';
+      void ht.offsetHeight;
+      ht.style.transform = 'translateY(-100%)';
+      hb.style.transform = 'translateY(100%)';
+    }, 2400);
 
-  // 3200ms: Cleanup
-  setTimeout(function () {
-    w.remove();
-    s.remove();
-  }, 3200);
+    /* 3200ms: Cleanup */
+    setTimeout(function () {
+      w.remove();
+      s.remove();
+    }, 3200);
+  }
+
+  /* Ensure body exists before inserting */
+  if (d.body) {
+    init();
+  } else {
+    d.addEventListener('DOMContentLoaded', init);
+  }
 })();
