@@ -212,7 +212,7 @@ export default function RootLayout({
       <body>
         {/* Loader — created via JS, outside React tree */}
         <script dangerouslySetInnerHTML={{ __html: `(function(){
-  try{if(sessionStorage.getItem('mkr-v'))return}catch(e){}
+  /* loader runs every visit */
   var d=document,b=d.body;
   var w=d.createElement('div');w.id='mkr-loader';
   w.innerHTML='<div class="mkr-half mkr-half--top"></div><div class="mkr-half mkr-half--bot"></div><div class="mkr-center"><img src="/logo-white.webp" width="60" height="60" alt=""><div class="mkr-track"><div class="mkr-fill" id="mkr-f"></div></div></div>';
@@ -226,7 +226,7 @@ export default function RootLayout({
     setTimeout(function(){
       var tops=w.querySelectorAll('.mkr-half');
       for(var i=0;i<tops.length;i++)tops[i].classList.add('open');
-      setTimeout(function(){w.remove();b.style.overflow='';try{sessionStorage.setItem('mkr-v','1')}catch(e){}},950);
+      setTimeout(function(){w.remove();b.style.overflow=''},950);
     },200);
   },2100);
 })()` }} />
