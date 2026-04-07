@@ -184,17 +184,18 @@ export default function RootLayout({
       <head>
         {/* Critical loader styles — must load before body renders */}
         <style dangerouslySetInnerHTML={{ __html: `
-          #mkr-loader{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;pointer-events:all}
-          #mkr-loader .l-top,#mkr-loader .l-bot{position:fixed;left:0;right:0;background:#0A0A0A;z-index:9998;transition:transform .8s cubic-bezier(.76,0,.24,1)}
-          #mkr-loader .l-top{top:0;bottom:50%}
-          #mkr-loader .l-bot{top:50%;bottom:0}
+          #mkr-loader{position:fixed;inset:0;z-index:9999;background:#0A0A0A;pointer-events:all}
+          #mkr-loader .l-top,#mkr-loader .l-bot{position:fixed;left:0;width:100%;height:50vh;height:50dvh;background:#0A0A0A;z-index:9998;will-change:transform;transition:transform .85s cubic-bezier(.76,0,.24,1)}
+          #mkr-loader .l-top{top:0}
+          #mkr-loader .l-bot{bottom:0}
           #mkr-loader.split .l-top{transform:translateY(-100%)}
           #mkr-loader.split .l-bot{transform:translateY(100%)}
-          #mkr-loader .l-center{position:fixed;z-index:9999;display:flex;flex-direction:column;align-items:center;gap:1.2rem;top:50%;left:50%;transform:translate(-50%,-50%)}
+          #mkr-loader.split{background:transparent;pointer-events:none}
+          #mkr-loader .l-center{position:fixed;z-index:9999;display:flex;flex-direction:column;align-items:center;gap:1.2rem;top:50%;left:50%;transform:translate(-50%,-50%);transition:opacity .2s ease,transform .3s ease}
+          #mkr-loader.split .l-center{opacity:0;transform:translate(-50%,-50%) scale(.95)}
           #mkr-loader .l-logo{width:clamp(44px,10vw,64px);height:auto;opacity:0;animation:lLogoIn .5s ease-out .1s forwards}
-          #mkr-loader .l-track{width:clamp(90px,28vw,150px);height:2px;background:rgba(255,255,255,.06);border-radius:1px;overflow:hidden;opacity:0;animation:lFadeIn .3s ease-out .3s forwards}
+          #mkr-loader .l-track{width:clamp(90px,28vw,150px);height:2px;background:rgba(255,255,255,.08);border-radius:1px;overflow:hidden;opacity:0;animation:lFadeIn .3s ease-out .3s forwards}
           #mkr-loader .l-bar{width:0%;height:100%;background:#C84B31;border-radius:1px;transition:width .7s cubic-bezier(.4,0,.2,1)}
-          #mkr-loader.split .l-center{opacity:0;transition:opacity .25s ease}
           @keyframes lLogoIn{0%{opacity:0;transform:scale(.85);filter:blur(4px)}100%{opacity:1;transform:scale(1);filter:blur(0)}}
           @keyframes lFadeIn{from{opacity:0}to{opacity:1}}
         `}} />
@@ -227,13 +228,13 @@ export default function RootLayout({
                   l.remove();
                   document.body.style.overflow='';
                   try{sessionStorage.setItem('mkr-loaded','1')}catch(e){}
-                },900);
-              },350);
+                },1000);
+              },400);
             }
             setTimeout(function(){if(bar)bar.style.width='85%'},80);
             if(document.readyState==='complete'){setTimeout(dismiss,600);}
             else{window.addEventListener('load',function(){setTimeout(dismiss,400)},{once:true});}
-            setTimeout(dismiss,4000);
+            setTimeout(dismiss,4500);
           })();
         `}} />
         {children}
