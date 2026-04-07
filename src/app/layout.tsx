@@ -206,7 +206,7 @@ export default function RootLayout({
             if(sessionStorage.getItem('mkr-loaded')){l.remove();return}
             document.body.style.overflow='hidden';
             var bar=document.getElementById('mkr-loader-bar');
-            var start=Date.now(),loaded=0,total=3,done=false;
+            var start=Date.now(),loaded=0,total=2,done=false;
             function tick(){
               loaded++;
               if(bar)bar.style.width=Math.min(95,Math.round(loaded/total*95))+'%';
@@ -215,7 +215,7 @@ export default function RootLayout({
             function finish(){
               if(done)return;done=true;
               var elapsed=Date.now()-start;
-              var wait=Math.max(0,1000-elapsed);
+              var wait=Math.max(0,800-elapsed);
               setTimeout(function(){
                 if(bar)bar.style.width='100%';
                 setTimeout(function(){
@@ -231,12 +231,7 @@ export default function RootLayout({
             if(document.fonts&&document.fonts.ready)document.fonts.ready.then(tick);else tick();
             if(document.readyState==='complete')tick();
             else window.addEventListener('load',tick,{once:true});
-            requestAnimationFrame(function(){
-              var v=document.querySelector('.hero-video');
-              if(v&&v.readyState<3)v.addEventListener('canplay',tick,{once:true});
-              else tick();
-            });
-            setTimeout(function(){if(!done)finish()},5000);
+            setTimeout(function(){if(!done)finish()},3000);
           })();
         `}} />
         {children}
