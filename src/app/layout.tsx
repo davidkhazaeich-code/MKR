@@ -203,35 +203,27 @@ export default function RootLayout({
           (function(){
             var l=document.getElementById('mkr-loader');
             if(!l)return;
-            if(sessionStorage.getItem('mkr-loaded')){l.remove();return}
+            try{if(sessionStorage.getItem('mkr-loaded')){l.remove();return}}catch(e){}
             document.body.style.overflow='hidden';
             var bar=document.getElementById('mkr-loader-bar');
-            var start=Date.now(),loaded=0,total=2,done=false;
-            function tick(){
-              loaded++;
-              if(bar)bar.style.width=Math.min(95,Math.round(loaded/total*95))+'%';
-              if(loaded>=total)finish();
-            }
-            function finish(){
+            var done=false;
+            function dismiss(){
               if(done)return;done=true;
-              var elapsed=Date.now()-start;
-              var wait=Math.max(0,800-elapsed);
+              if(bar)bar.style.width='100%';
               setTimeout(function(){
-                if(bar)bar.style.width='100%';
+                l.style.opacity='0';
+                l.style.transition='opacity 0.5s ease';
                 setTimeout(function(){
-                  l.classList.add('loading-screen--exit');
-                  setTimeout(function(){
-                    l.remove();
-                    document.body.style.overflow='';
-                    sessionStorage.setItem('mkr-loaded','1');
-                  },700);
-                },150);
-              },wait);
+                  l.remove();
+                  document.body.style.overflow='';
+                  try{sessionStorage.setItem('mkr-loaded','1')}catch(e){}
+                },600);
+              },200);
             }
-            if(document.fonts&&document.fonts.ready)document.fonts.ready.then(tick);else tick();
-            if(document.readyState==='complete')tick();
-            else window.addEventListener('load',tick,{once:true});
-            setTimeout(function(){if(!done)finish()},3000);
+            if(bar){bar.style.width='0';setTimeout(function(){bar.style.width='80%'},50);}
+            if(document.readyState==='complete'){setTimeout(dismiss,400);}
+            else{window.addEventListener('load',function(){setTimeout(dismiss,300)},{once:true});}
+            setTimeout(dismiss,3500);
           })();
         `}} />
         {children}

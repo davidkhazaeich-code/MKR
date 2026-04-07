@@ -6182,13 +6182,7 @@ div:has(+ .fx-mask-d) {
   display: flex;
   align-items: center;
   justify-content: center;
-}
-#mkr-loader.loading-screen--exit {
-  animation: loading-fade-out 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-}
-@keyframes loading-fade-out {
-  0%   { opacity: 1; transform: scale(1); }
-  100% { opacity: 0; transform: scale(1.02); pointer-events: none; }
+  opacity: 1;
 }
 
 .loading-inner {
@@ -6196,34 +6190,24 @@ div:has(+ .fx-mask-d) {
   flex-direction: column;
   align-items: center;
   gap: 1.4rem;
-  animation: loading-content-in 0.3s ease-out both;
-}
-@keyframes loading-content-in {
-  from { opacity: 0; transform: translateY(8px); }
-  to   { opacity: 1; transform: translateY(0); }
 }
 
 .loading-logo {
   width: clamp(48px, 12vw, 72px);
   height: auto;
-  opacity: 0;
-  animation: loading-logo-in 0.4s ease-out forwards;
-}
-@keyframes loading-logo-in {
-  0%   { opacity: 0; transform: scale(0.9); filter: blur(4px); }
-  100% { opacity: 1; transform: scale(1);   filter: blur(0); }
 }
 
 .loading-bar-track {
   width: clamp(100px, 30vw, 160px);
-  height: 1.5px;
-  background: rgba(248,248,248,0.06);
+  height: 2px;
+  background: rgba(248,248,248,0.08);
   border-radius: 1px;
   overflow: hidden;
 }
 .loading-bar-fill {
+  width: 0%;
   height: 100%;
   background: var(--primary);
   border-radius: 1px;
-  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
