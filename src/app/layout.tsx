@@ -182,7 +182,6 @@ export default function RootLayout({
       className={`${teko.variable} ${barlow.variable} ${barlowCondensed.variable}`}
     >
       <head>
-        {/* Loader script loaded in body below */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebSite) }}
@@ -193,8 +192,6 @@ export default function RootLayout({
         />
       </head>
       <body>
-        {/* eslint-disable-next-line @next/next/no-sync-scripts */}
-        <script src="/loader.js?v=6"></script>
         {children}
       </body>
     </html>
