@@ -182,7 +182,7 @@ export default function RootLayout({
       className={`${teko.variable} ${barlow.variable} ${barlowCondensed.variable}`}
     >
       <head>
-        {/* Loader styles + logic injected purely via JS in body script */}
+        {/* Loader script loaded in body below */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebSite) }}
@@ -193,29 +193,8 @@ export default function RootLayout({
         />
       </head>
       <body>
-        {/* Loader — created via JS, outside React tree */}
-        <script dangerouslySetInnerHTML={{ __html: `(function(){
-  var d=document,h=d.head||d.documentElement,b=d.body;
-  /* 1. Inject styles */
-  var s=d.createElement('style');
-  s.textContent='#mkr-loader{position:fixed;top:0;left:0;width:100%;height:100%;z-index:99999;overflow:hidden}#mkr-loader .h{position:absolute;left:0;width:100%;height:50%;background:#0A0A0A;will-change:transform;transition:transform .9s cubic-bezier(.76,0,.24,1)}#mkr-loader .ht{top:0}#mkr-loader .hb{top:50%}#mkr-loader .h.go.ht{transform:translateY(-100%)}#mkr-loader .h.go.hb{transform:translateY(100%)}#mkr-loader .ct{position:absolute;z-index:2;top:50%;left:50%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:16px;transition:opacity .3s ease,transform .3s ease}#mkr-loader .ct.out{opacity:0;transform:translate(-50%,-50%) scale(.9)}#mkr-loader .ct img{width:clamp(40px,10vw,60px);height:auto}#mkr-loader .tr{width:clamp(80px,25vw,140px);height:2px;background:rgba(255,255,255,.1);border-radius:2px;overflow:hidden}#mkr-loader .fl{height:100%;width:0%;background:#C84B31;border-radius:2px;transition:width 1.2s cubic-bezier(.25,.46,.45,.94)}';
-  h.appendChild(s);
-  /* 2. Create loader */
-  var w=d.createElement('div');w.id='mkr-loader';
-  w.innerHTML='<div class="h ht"></div><div class="h hb"></div><div class="ct"><img src="/logo-white.webp" width="60" height="60" alt=""><div class="tr"><div class="fl" id="mkr-f"></div></div></div>';
-  b.insertBefore(w,b.firstChild);
-  b.style.overflow='hidden';
-  var f=d.getElementById('mkr-f');
-  /* 3. Force paint then animate */
-  void w.offsetHeight;
-  requestAnimationFrame(function(){requestAnimationFrame(function(){
-    if(f)f.style.width='70%';
-    setTimeout(function(){if(f)f.style.width='100%'},1300);
-    setTimeout(function(){var c=w.querySelector('.ct');if(c)c.classList.add('out')},1900);
-    setTimeout(function(){var a=w.querySelectorAll('.h');for(var i=0;i<a.length;i++)a[i].classList.add('go')},2200);
-    setTimeout(function(){w.remove();s.remove();b.style.overflow=''},3200);
-  })});
-})()` }} />
+        {/* eslint-disable-next-line @next/next/no-sync-scripts */}
+        <script src="/loader.js"></script>
         {children}
       </body>
     </html>
