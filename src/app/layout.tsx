@@ -4,7 +4,6 @@ import { SITE_URL, SITE_NAME, SITE_EMAIL, SITE_DESCRIPTION, SOCIALS, GEO } from 
 import { SESSIONS } from '@/data/sessions'
 import { COACHES } from '@/data/coaches'
 import { TESTIMONIALS } from '@/data/testimonials'
-import LoadingScreen from '@/components/LoadingScreen'
 import './globals.css'
 
 const teko = Teko({
@@ -193,7 +192,53 @@ export default function RootLayout({
         />
       </head>
       <body>
-        <LoadingScreen />
+        {/* Inline loading screen — renders before any JS */}
+        <div id="mkr-loader" aria-hidden="true">
+          <div className="loading-inner">
+            <img src="/logo-white.webp" alt="" className="loading-logo" width={64} height={64} />
+            <div className="loading-bar-track"><div id="mkr-loader-bar" className="loading-bar-fill" /></div>
+          </div>
+        </div>
+        <script dangerouslySetInnerHTML={{ __html: `
+          (function(){
+            var l=document.getElementById('mkr-loader');
+            if(!l)return;
+            if(sessionStorage.getItem('mkr-loaded')){l.remove();return}
+            document.body.style.overflow='hidden';
+            var bar=document.getElementById('mkr-loader-bar');
+            var start=Date.now(),loaded=0,total=3,done=false;
+            function tick(){
+              loaded++;
+              if(bar)bar.style.width=Math.min(95,Math.round(loaded/total*95))+'%';
+              if(loaded>=total)finish();
+            }
+            function finish(){
+              if(done)return;done=true;
+              var elapsed=Date.now()-start;
+              var wait=Math.max(0,1000-elapsed);
+              setTimeout(function(){
+                if(bar)bar.style.width='100%';
+                setTimeout(function(){
+                  l.classList.add('loading-screen--exit');
+                  setTimeout(function(){
+                    l.remove();
+                    document.body.style.overflow='';
+                    sessionStorage.setItem('mkr-loaded','1');
+                  },700);
+                },150);
+              },wait);
+            }
+            if(document.fonts&&document.fonts.ready)document.fonts.ready.then(tick);else tick();
+            if(document.readyState==='complete')tick();
+            else window.addEventListener('load',tick,{once:true});
+            requestAnimationFrame(function(){
+              var v=document.querySelector('.hero-video');
+              if(v&&v.readyState<3)v.addEventListener('canplay',tick,{once:true});
+              else tick();
+            });
+            setTimeout(function(){if(!done)finish()},5000);
+          })();
+        `}} />
         {children}
       </body>
     </html>

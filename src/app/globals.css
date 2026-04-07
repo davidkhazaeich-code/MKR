@@ -6174,7 +6174,7 @@ div:has(+ .fx-mask-d) {
 /* ═══════════════════════════════════════════════
    LOADING SCREEN
 ═══════════════════════════════════════════════ */
-.loading-screen {
+#mkr-loader {
   position: fixed;
   inset: 0;
   z-index: 9999;
@@ -6183,7 +6183,7 @@ div:has(+ .fx-mask-d) {
   align-items: center;
   justify-content: center;
 }
-.loading-screen--exit {
+#mkr-loader.loading-screen--exit {
   animation: loading-fade-out 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 @keyframes loading-fade-out {
