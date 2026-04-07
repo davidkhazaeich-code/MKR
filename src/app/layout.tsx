@@ -4,6 +4,7 @@ import { SITE_URL, SITE_NAME, SITE_EMAIL, SITE_DESCRIPTION, SOCIALS, GEO } from 
 import { SESSIONS } from '@/data/sessions'
 import { COACHES } from '@/data/coaches'
 import { TESTIMONIALS } from '@/data/testimonials'
+import LoadingScreen from '@/components/LoadingScreen'
 import './globals.css'
 
 const teko = Teko({
@@ -191,7 +192,10 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdMain) }}
         />
       </head>
-      <body>{children}</body>
+      <body>
+        <LoadingScreen />
+        {children}
+      </body>
     </html>
   )
 }
