@@ -218,23 +218,15 @@ export default function RootLayout({
             document.body.insertBefore(l,document.body.firstChild);
             document.body.style.overflow='hidden';
             var bar=document.getElementById('mkr-bar');
-            var done=false;
-            function dismiss(){
-              if(done)return;done=true;
-              if(bar)bar.style.width='100%';
+            if(bar){bar.style.width='0%';setTimeout(function(){bar.style.width='60%'},100);setTimeout(function(){bar.style.width='100%'},1400);}
+            setTimeout(function(){
+              l.classList.add('split');
               setTimeout(function(){
-                l.classList.add('split');
-                setTimeout(function(){
-                  l.remove();
-                  document.body.style.overflow='';
-                  try{sessionStorage.setItem('mkr-loaded','1')}catch(e){}
-                },1000);
-              },400);
-            }
-            setTimeout(function(){if(bar)bar.style.width='85%'},80);
-            if(document.readyState==='complete'){setTimeout(dismiss,600);}
-            else{window.addEventListener('load',function(){setTimeout(dismiss,400)},{once:true});}
-            setTimeout(dismiss,4500);
+                l.remove();
+                document.body.style.overflow='';
+                try{sessionStorage.setItem('mkr-loaded','1')}catch(e){}
+              },1000);
+            },2000);
           })();
         `}} />
         {children}
