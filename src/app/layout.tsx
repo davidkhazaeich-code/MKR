@@ -195,7 +195,7 @@ export default function RootLayout({
           '.mkr-center.hide{opacity:0!important;transform:translate(-50%,-50%) scale(.92);transition:opacity .25s ease,transform .3s ease;animation:none}',
           '.mkr-center img{width:clamp(40px,10vw,60px);height:auto;opacity:0;animation:mkrLogoIn .6s cubic-bezier(.16,1,.3,1) .2s forwards}',
           '.mkr-track{width:clamp(80px,25vw,140px);height:2px;background:rgba(255,255,255,.1);border-radius:2px;overflow:hidden;opacity:0;animation:mkrFadeIn .4s ease-out .5s forwards}',
-          '.mkr-fill{height:100%;width:0%;background:#C84B31;border-radius:2px;transition:width .6s cubic-bezier(.4,0,.2,1)}',
+          '.mkr-fill{height:100%;width:0%;background:#C84B31;border-radius:2px;transition:width 1s cubic-bezier(.25,.46,.45,.94)}',
           '@keyframes mkrLogoIn{0%{opacity:0;transform:scale(.8);filter:blur(6px)}100%{opacity:1;transform:scale(1);filter:blur(0)}}',
           '@keyframes mkrFadeUp{from{opacity:0;transform:translate(-50%,-50%) translateY(12px)}to{opacity:1;transform:translate(-50%,-50%) translateY(0)}}',
           '@keyframes mkrFadeIn{from{opacity:0}to{opacity:1}}',
@@ -212,23 +212,33 @@ export default function RootLayout({
       <body>
         {/* Loader — created via JS, outside React tree */}
         <script dangerouslySetInnerHTML={{ __html: `(function(){
-  /* loader runs every visit */
   var d=document,b=d.body;
   var w=d.createElement('div');w.id='mkr-loader';
   w.innerHTML='<div class="mkr-half mkr-half--top"></div><div class="mkr-half mkr-half--bot"></div><div class="mkr-center"><img src="/logo-white.webp" width="60" height="60" alt=""><div class="mkr-track"><div class="mkr-fill" id="mkr-f"></div></div></div>';
   b.insertBefore(w,b.firstChild);
   b.style.overflow='hidden';
   var f=d.getElementById('mkr-f');
-  setTimeout(function(){if(f)f.style.width='70%'},120);
-  setTimeout(function(){if(f)f.style.width='100%'},1500);
-  setTimeout(function(){
-    var c=w.querySelector('.mkr-center');if(c)c.classList.add('hide');
-    setTimeout(function(){
-      var tops=w.querySelectorAll('.mkr-half');
-      for(var i=0;i<tops.length;i++)tops[i].classList.add('open');
-      setTimeout(function(){w.remove();b.style.overflow=''},950);
-    },200);
-  },2100);
+  /* Force browser to paint the initial state before animating */
+  w.offsetHeight;
+  requestAnimationFrame(function(){
+    requestAnimationFrame(function(){
+      /* Bar: 0 → 70% (smooth) */
+      if(f)f.style.width='70%';
+      /* Bar: 70% → 100% */
+      setTimeout(function(){if(f)f.style.width='100%'},1200);
+      /* Fade out center content */
+      setTimeout(function(){
+        var c=w.querySelector('.mkr-center');if(c)c.classList.add('hide');
+      },1800);
+      /* Split open */
+      setTimeout(function(){
+        var halves=w.querySelectorAll('.mkr-half');
+        for(var i=0;i<halves.length;i++)halves[i].classList.add('open');
+      },2050);
+      /* Cleanup */
+      setTimeout(function(){w.remove();b.style.overflow=''},3000);
+    });
+  });
 })()` }} />
         {children}
       </body>
