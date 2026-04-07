@@ -182,24 +182,7 @@ export default function RootLayout({
       className={`${teko.variable} ${barlow.variable} ${barlowCondensed.variable}`}
     >
       <head>
-        {/* Critical loader styles — inline for instant rendering */}
-        <style dangerouslySetInnerHTML={{ __html: [
-          '#mkr-loader{position:fixed;top:0;left:0;width:100%;height:100%;z-index:99999;overflow:hidden}',
-          '#mkr-loader *{margin:0;padding:0;box-sizing:border-box}',
-          '.mkr-half{position:absolute;left:0;width:100%;height:50%;background:#0A0A0A;will-change:transform;transition:transform .9s cubic-bezier(.76,0,.24,1)}',
-          '.mkr-half--top{top:0}',
-          '.mkr-half--bot{top:50%}',
-          '.mkr-half.open.mkr-half--top{transform:translateY(-100%)}',
-          '.mkr-half.open.mkr-half--bot{transform:translateY(100%)}',
-          '.mkr-center{position:absolute;z-index:2;top:50%;left:50%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:16px;opacity:0;animation:mkrFadeUp .6s ease-out .1s forwards}',
-          '.mkr-center.hide{opacity:0!important;transform:translate(-50%,-50%) scale(.92);transition:opacity .25s ease,transform .3s ease;animation:none}',
-          '.mkr-center img{width:clamp(40px,10vw,60px);height:auto;opacity:0;animation:mkrLogoIn .6s cubic-bezier(.16,1,.3,1) .2s forwards}',
-          '.mkr-track{width:clamp(80px,25vw,140px);height:2px;background:rgba(255,255,255,.1);border-radius:2px;overflow:hidden;opacity:0;animation:mkrFadeIn .4s ease-out .5s forwards}',
-          '.mkr-fill{height:100%;width:0%;background:#C84B31;border-radius:2px;transition:width 1s cubic-bezier(.25,.46,.45,.94)}',
-          '@keyframes mkrLogoIn{0%{opacity:0;transform:scale(.8);filter:blur(6px)}100%{opacity:1;transform:scale(1);filter:blur(0)}}',
-          '@keyframes mkrFadeUp{from{opacity:0;transform:translate(-50%,-50%) translateY(12px)}to{opacity:1;transform:translate(-50%,-50%) translateY(0)}}',
-          '@keyframes mkrFadeIn{from{opacity:0}to{opacity:1}}',
-        ].join('') }} />
+        {/* Loader styles + logic injected purely via JS in body script */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebSite) }}
@@ -212,33 +195,26 @@ export default function RootLayout({
       <body>
         {/* Loader — created via JS, outside React tree */}
         <script dangerouslySetInnerHTML={{ __html: `(function(){
-  var d=document,b=d.body;
+  var d=document,h=d.head||d.documentElement,b=d.body;
+  /* 1. Inject styles */
+  var s=d.createElement('style');
+  s.textContent='#mkr-loader{position:fixed;top:0;left:0;width:100%;height:100%;z-index:99999;overflow:hidden}#mkr-loader .h{position:absolute;left:0;width:100%;height:50%;background:#0A0A0A;will-change:transform;transition:transform .9s cubic-bezier(.76,0,.24,1)}#mkr-loader .ht{top:0}#mkr-loader .hb{top:50%}#mkr-loader .h.go.ht{transform:translateY(-100%)}#mkr-loader .h.go.hb{transform:translateY(100%)}#mkr-loader .ct{position:absolute;z-index:2;top:50%;left:50%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:16px;transition:opacity .3s ease,transform .3s ease}#mkr-loader .ct.out{opacity:0;transform:translate(-50%,-50%) scale(.9)}#mkr-loader .ct img{width:clamp(40px,10vw,60px);height:auto}#mkr-loader .tr{width:clamp(80px,25vw,140px);height:2px;background:rgba(255,255,255,.1);border-radius:2px;overflow:hidden}#mkr-loader .fl{height:100%;width:0%;background:#C84B31;border-radius:2px;transition:width 1.2s cubic-bezier(.25,.46,.45,.94)}';
+  h.appendChild(s);
+  /* 2. Create loader */
   var w=d.createElement('div');w.id='mkr-loader';
-  w.innerHTML='<div class="mkr-half mkr-half--top"></div><div class="mkr-half mkr-half--bot"></div><div class="mkr-center"><img src="/logo-white.webp" width="60" height="60" alt=""><div class="mkr-track"><div class="mkr-fill" id="mkr-f"></div></div></div>';
+  w.innerHTML='<div class="h ht"></div><div class="h hb"></div><div class="ct"><img src="/logo-white.webp" width="60" height="60" alt=""><div class="tr"><div class="fl" id="mkr-f"></div></div></div>';
   b.insertBefore(w,b.firstChild);
   b.style.overflow='hidden';
   var f=d.getElementById('mkr-f');
-  /* Force browser to paint the initial state before animating */
-  w.offsetHeight;
-  requestAnimationFrame(function(){
-    requestAnimationFrame(function(){
-      /* Bar: 0 → 70% (smooth) */
-      if(f)f.style.width='70%';
-      /* Bar: 70% → 100% */
-      setTimeout(function(){if(f)f.style.width='100%'},1200);
-      /* Fade out center content */
-      setTimeout(function(){
-        var c=w.querySelector('.mkr-center');if(c)c.classList.add('hide');
-      },1800);
-      /* Split open */
-      setTimeout(function(){
-        var halves=w.querySelectorAll('.mkr-half');
-        for(var i=0;i<halves.length;i++)halves[i].classList.add('open');
-      },2050);
-      /* Cleanup */
-      setTimeout(function(){w.remove();b.style.overflow=''},3000);
-    });
-  });
+  /* 3. Force paint then animate */
+  void w.offsetHeight;
+  requestAnimationFrame(function(){requestAnimationFrame(function(){
+    if(f)f.style.width='70%';
+    setTimeout(function(){if(f)f.style.width='100%'},1300);
+    setTimeout(function(){var c=w.querySelector('.ct');if(c)c.classList.add('out')},1900);
+    setTimeout(function(){var a=w.querySelectorAll('.h');for(var i=0;i<a.length;i++)a[i].classList.add('go')},2200);
+    setTimeout(function(){w.remove();s.remove();b.style.overflow=''},3200);
+  })});
 })()` }} />
         {children}
       </body>
