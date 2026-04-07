@@ -193,9 +193,10 @@ export default function RootLayout({
         />
       </head>
       <body>
-        {/* eslint-disable-next-line @next/next/no-sync-scripts */}
-        <script src="/loader.js?v=3"></script>
+        <div id="mkr-loader-init" aria-hidden="true" />
         {children}
+        {/* eslint-disable-next-line @next/next/no-sync-scripts */}
+        <script src="/loader.js?v=5"></script>
       </body>
     </html>
   )
