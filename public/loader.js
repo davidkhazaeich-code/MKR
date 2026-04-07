@@ -32,52 +32,50 @@
   var f = d.getElementById('mkr-f');
   var ct = w.querySelector('.ct');
 
-  /* --- 3. Animation timeline (2.5s total) --- */
-  // Force initial paint
+  /* --- 3. Animation timeline (3s total) --- */
   void w.offsetHeight;
 
-  // Phase 1: Fade in logo + bar (0-400ms)
-  ct.style.transition = 'opacity .4s ease-out';
+  // 0ms: Fade in logo + bar
+  ct.style.transition = 'opacity .5s ease-out';
   ct.style.opacity = '1';
 
-  // Phase 2: Bar fills (100ms-1400ms)
+  // 150ms: Bar → 75%
   setTimeout(function () {
     if (f) {
-      f.style.transition = 'width 1.2s cubic-bezier(.25,.46,.45,.94)';
+      f.style.transition = 'width 1.5s cubic-bezier(.25,.46,.45,.94)';
       f.style.width = '75%';
     }
-  }, 100);
+  }, 150);
 
-  // Phase 3: Bar completes (1400ms)
+  // 1700ms: Bar → 100%
   setTimeout(function () {
     if (f) {
-      f.style.transition = 'width .4s ease-out';
+      f.style.transition = 'width .5s ease-out';
       f.style.width = '100%';
     }
-  }, 1400);
+  }, 1700);
 
-  // Phase 4: Fade out center (1800ms)
+  // 2200ms: Fade out center
   setTimeout(function () {
     ct.style.transition = 'opacity .2s ease, transform .2s ease';
     ct.style.opacity = '0';
     ct.style.transform = 'translate(-50%,-50%) scale(.92)';
-  }, 1800);
+  }, 2200);
 
-  // Phase 5: Split open (2000ms)
+  // 2400ms: Split open
   setTimeout(function () {
     var halves = w.querySelectorAll('.h');
     for (var i = 0; i < halves.length; i++) {
-      halves[i].style.transition = 'transform .7s cubic-bezier(.76,0,.24,1)';
+      halves[i].style.transition = 'transform .8s cubic-bezier(.76,0,.24,1)';
     }
-    // Force reflow before applying transform
     void halves[0].offsetHeight;
     halves[0].style.transform = 'translateY(-100%)';
     halves[1].style.transform = 'translateY(100%)';
-  }, 2000);
+  }, 2400);
 
-  // Phase 6: Cleanup (2700ms)
+  // 3200ms: Cleanup
   setTimeout(function () {
     w.remove();
     s.remove();
-  }, 2700);
+  }, 3200);
 })();
