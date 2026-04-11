@@ -37,6 +37,10 @@ const PHOTOS = [
   { category: 'Entrainement', alt: 'Echauffement de groupe au tapis', img: '/images/galerie/group-stretching.webp' },
   { category: 'Culture', alt: 'Ceremonie du the apres entrainement', img: '/images/galerie/tea-ceremony.webp' },
   { category: 'Montagnes', alt: 'Sentier de montagne dans la brume, Caucase', img: '/images/galerie/mountain-mist-trail.webp' },
+  { category: 'Entrainement', alt: 'Clinch debout - drilling MMA', img: '/images/galerie/clinch-drilling.webp' },
+  { category: 'Entrainement', alt: 'Grimpe a la corde', img: '/images/galerie/rope-climb.webp' },
+  { category: 'Entrainement', alt: 'Takedown de lutte - high crotch', img: '/images/galerie/wrestling-takedown.webp' },
+  { category: 'Entrainement', alt: 'Coude rotatif sur paos', img: '/images/galerie/elbow-pads.webp' },
 ]
 
 export default function GalerieContent() {
