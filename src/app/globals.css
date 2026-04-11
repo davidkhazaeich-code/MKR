@@ -181,6 +181,8 @@ h1, h2, h3, h4, h5 {
 .nav-trigger:hover { color: var(--text-primary); }
 .nav-trigger[aria-expanded="true"] { color: var(--text-primary); }
 .nav-trigger[aria-expanded="true"]::after { transform: scaleX(1); }
+.nav-trigger > svg:first-child { width: 15px; height: 15px; flex-shrink: 0; color: var(--primary); opacity: .7; }
+.nav-trigger:hover > svg:first-child { opacity: 1; }
 .nav-trigger-arrow { width: 10px; height: 10px; transition: transform 200ms var(--ease-out-expo); flex-shrink: 0; }
 .nav-trigger[aria-expanded="true"] .nav-trigger-arrow { transform: rotate(180deg); }
 .nav-right { display: flex; align-items: center; gap: 1rem; flex-shrink: 0; margin-left: auto; }
@@ -210,6 +212,7 @@ h1, h2, h3, h4, h5 {
 .mega-link-list li:last-child a { border-bottom: none; }
 .mega-link-list a:hover { color: var(--text-primary); padding-left: .35rem; }
 .mega-link-list a svg { flex-shrink: 0; color: var(--primary); }
+.mega-link-list a svg:last-child { margin-left: auto; opacity: .4; }
 
 /* Panel: Le Camp */
 .mega-camp-grid { display: grid; grid-template-columns: 2fr 1.4fr 1.1fr; gap: 3.5rem; align-items: start; }
@@ -290,10 +293,12 @@ h1, h2, h3, h4, h5 {
 .mob-acc-trigger[aria-expanded="true"] svg { transform: rotate(180deg); }
 .mob-acc-body { height: 0; overflow: hidden; transition: height 280ms var(--ease-out-expo); }
 .mob-acc-body-inner { padding: .15rem 0 .75rem 1rem; }
-.mob-sub-link { display: block; font-family: var(--font-barlow-condensed), sans-serif; font-weight: 500; font-size: .88rem; letter-spacing: .1em; text-transform: uppercase; color: var(--text-secondary); text-decoration: none; padding: .45rem 0; border-bottom: 1px solid rgba(248,248,248,0.04); transition: color 200ms linear, padding-left 200ms var(--ease-out-expo); }
+.mob-sub-link { display: flex; align-items: center; gap: .6rem; font-family: var(--font-barlow-condensed), sans-serif; font-weight: 500; font-size: .88rem; letter-spacing: .1em; text-transform: uppercase; color: var(--text-secondary); text-decoration: none; padding: .45rem 0; border-bottom: 1px solid rgba(248,248,248,0.04); transition: color 200ms linear, padding-left 200ms var(--ease-out-expo); }
+.mob-sub-link svg { flex-shrink: 0; color: var(--primary); opacity: .7; }
 .mob-sub-link:last-child { border-bottom: none; }
 .mob-sub-link:hover { color: var(--primary); padding-left: .35rem; }
-.mob-direct { display: block; font-family: var(--font-teko), sans-serif; font-weight: 700; font-size: clamp(1.7rem, 5.5vw, 2.4rem); text-transform: uppercase; letter-spacing: .04em; color: var(--text-secondary); text-decoration: none; padding: .9rem 0; border-bottom: 1px solid rgba(248,248,248,0.05); transition: color 200ms linear; }
+.mob-direct { display: flex; align-items: center; gap: .6rem; font-family: var(--font-teko), sans-serif; font-weight: 700; font-size: clamp(1.7rem, 5.5vw, 2.4rem); text-transform: uppercase; letter-spacing: .04em; color: var(--text-secondary); text-decoration: none; padding: .9rem 0; border-bottom: 1px solid rgba(248,248,248,0.05); transition: color 200ms linear; }
+.mob-direct svg { flex-shrink: 0; color: var(--primary); opacity: .7; }
 .mob-direct:hover { color: var(--text-primary); }
 .mob-cta-wrap { margin-top: 2rem; }
 .mob-cta { display: flex; align-items: center; justify-content: center; font-family: var(--font-barlow-condensed), sans-serif; font-weight: 700; font-size: .9rem; letter-spacing: .2em; text-transform: uppercase; color: #fff; background: var(--cta); padding: 1.1rem 2rem; text-decoration: none; min-height: 52px; transition: background 200ms linear; }

@@ -40,6 +40,31 @@ const MOBILE_CHEVRON = (
   </svg>
 )
 
+/* ── Mobile & mega menu link icons ── */
+const ICO = {
+  camp: <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" width="18" height="18" aria-hidden="true"><path d="M10 2L2 18h16L10 2z"/><line x1="10" y1="10" x2="10" y2="14"/><circle cx="10" cy="16" r=".5" fill="currentColor"/></svg>,
+  howItWorks: <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" width="18" height="18" aria-hidden="true"><circle cx="10" cy="10" r="8"/><polyline points="10,5 10,10 14,12"/></svg>,
+  prepare: <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" width="18" height="18" aria-hidden="true"><rect x="5" y="2" width="10" height="16" rx="1"/><line x1="8" y1="6" x2="12" y2="6"/><line x1="8" y1="9" x2="12" y2="9"/><line x1="8" y1="12" x2="12" y2="12"/></svg>,
+  logistics: <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" width="18" height="18" aria-hidden="true"><path d="M2 14l4-10h8l4 10"/><circle cx="6" cy="14" r="2"/><circle cx="14" cy="14" r="2"/><line x1="8" y1="14" x2="12" y2="14"/></svg>,
+  dayType: <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" width="18" height="18" aria-hidden="true"><circle cx="10" cy="10" r="8"/><circle cx="10" cy="10" r="2" fill="currentColor"/><line x1="10" y1="2" x2="10" y2="4"/><line x1="10" y1="16" x2="10" y2="18"/><line x1="2" y1="10" x2="4" y2="10"/><line x1="16" y1="10" x2="18" y2="10"/></svg>,
+  sessions: <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" width="18" height="18" aria-hidden="true"><rect x="3" y="4" width="14" height="13" rx="1.5"/><line x1="3" y1="8" x2="17" y2="8"/><line x1="7" y1="2" x2="7" y2="5"/><line x1="13" y1="2" x2="13" y2="5"/></svg>,
+  overview: <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" width="18" height="18" aria-hidden="true"><rect x="2" y="2" width="7" height="7" rx="1"/><rect x="11" y="2" width="7" height="7" rx="1"/><rect x="2" y="11" width="7" height="7" rx="1"/><rect x="11" y="11" width="7" height="7" rx="1"/></svg>,
+  mma: <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" width="18" height="18" aria-hidden="true"><path d="M5 16V11C5 8.5 6.5 6 9 5.5C11 5 13.5 5.5 15 7.5C16 9 16.5 10.5 16 12.5L15 15.5C14.5 16.5 13.5 17 12 17H5Z"/><line x1="5" y1="11" x2="16" y2="11"/></svg>,
+  lutte: <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" width="18" height="18" aria-hidden="true"><circle cx="7" cy="4" r="2"/><circle cx="14" cy="4" r="2"/><path d="M4 17L6 12L8.5 10L10 11L11.5 10L14 12L16 17" strokeLinejoin="round"/></svg>,
+  coaches: <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" width="18" height="18" aria-hidden="true"><circle cx="10" cy="6" r="3.5"/><path d="M3 18c0-4 3.5-7 7-7s7 3 7 7"/></svg>,
+  dagestan: <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" width="18" height="18" aria-hidden="true"><path d="M2 16L6 6l4 5 4-8 4 13"/><circle cx="15" cy="5" r="2"/></svg>,
+  tchetchenie: <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" width="18" height="18" aria-hidden="true"><path d="M10 2C6 2 4 5 4 8c0 5 6 10 6 10s6-5 6-10c0-3-2-6-6-6z"/><circle cx="10" cy="8" r="2.5"/></svg>,
+  gallery: <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" width="18" height="18" aria-hidden="true"><rect x="2" y="3" width="16" height="14" rx="1.5"/><circle cx="7" cy="8" r="2"/><path d="M2 14l4-4 3 3 4-5 5 6"/></svg>,
+  testimonials: <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" width="18" height="18" aria-hidden="true"><path d="M3 3h14v10H8L3 17V3z" strokeLinejoin="round"/><line x1="7" y1="7" x2="13" y2="7"/><line x1="7" y1="10" x2="11" y2="10"/></svg>,
+  faq: <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" width="18" height="18" aria-hidden="true"><circle cx="10" cy="10" r="8"/><path d="M7.5 7.5C7.5 6 9 5 10.5 5.5S12.5 7 12 8.5C11.5 10 10 10 10 11.5"/><circle cx="10" cy="14" r=".7" fill="currentColor"/></svg>,
+  blog: <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" width="18" height="18" aria-hidden="true"><path d="M3 17L13 7l4 4L7 21H3v-4z" transform="translate(0,-2)"/><line x1="11" y1="7" x2="15" y2="3" transform="translate(0,-2)"/></svg>,
+  about: <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" width="18" height="18" aria-hidden="true"><circle cx="10" cy="10" r="8"/><line x1="10" y1="9" x2="10" y2="14"/><circle cx="10" cy="6.5" r=".7" fill="currentColor"/></svg>,
+  contact: <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" width="18" height="18" aria-hidden="true"><rect x="2" y="4" width="16" height="12" rx="1.5"/><polyline points="2,4 10,11 18,4"/></svg>,
+  inscription: <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" width="18" height="18" aria-hidden="true"><path d="M14 2l4 4-9 9H5v-4L14 2z"/><line x1="12" y1="4" x2="16" y2="8"/></svg>,
+  guide: <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" width="18" height="18" aria-hidden="true"><path d="M4 2h9l5 5v11a1 1 0 01-1 1H4a1 1 0 01-1-1V3a1 1 0 011-1z"/><polyline points="13,2 13,7 18,7"/><line x1="6" y1="11" x2="14" y2="11"/><line x1="6" y1="14" x2="11" y2="14"/></svg>,
+  calendar: <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" width="18" height="18" aria-hidden="true"><rect x="3" y="4" width="14" height="13" rx="1.5"/><line x1="3" y1="8" x2="17" y2="8"/><line x1="7" y1="2" x2="7" y2="5"/><line x1="13" y1="2" x2="13" y2="5"/><circle cx="7" cy="12" r="1" fill="currentColor"/><circle cx="10" cy="12" r="1" fill="currentColor"/></svg>,
+}
+
 type PanelId = 'camp' | 'programme' | 'destinations' | 'infos'
 
 function MobAccordion({ title, id, children }: { title: string; id: string; children: React.ReactNode }) {
@@ -163,6 +188,10 @@ export default function Nav() {
                     onMouseLeave={scheduleClose}
                     onClick={() => togglePanel(id)}
                   >
+                    {id === 'camp' && ICO.camp}
+                    {id === 'programme' && ICO.mma}
+                    {id === 'destinations' && ICO.dagestan}
+                    {id === 'infos' && ICO.about}
                     {id === 'camp' ? 'Le Camp' : id === 'programme' ? 'Programme' : id === 'destinations' ? 'Destinations' : 'Infos'}
                     {CHEVRON}
                   </button>
@@ -216,11 +245,11 @@ export default function Nav() {
               <div>
                 <span className="mega-camp-links-label">Avant le camp</span>
                 <ul className="mega-link-list" role="list">
-                  <li><Link href="/comment-ca-marche">{ARROW_SM} Comment ca marche</Link></li>
-                  <li><Link href="/preparer-son-camp">{ARROW_SM} Preparer son camp</Link></li>
-                  <li><Link href="/logistique">{ARROW_SM} Logistique et visa</Link></li>
-                  <li><Link href="/le-camp#journee-type">{ARROW_SM} Journee type</Link></li>
-                  <li><Link href="/sessions">{ARROW_SM} Sessions et tarifs</Link></li>
+                  <li><Link href="/comment-ca-marche">{ICO.howItWorks} Comment ca marche {ARROW_SM}</Link></li>
+                  <li><Link href="/preparer-son-camp">{ICO.prepare} Preparer son camp {ARROW_SM}</Link></li>
+                  <li><Link href="/logistique">{ICO.logistics} Logistique et visa {ARROW_SM}</Link></li>
+                  <li><Link href="/le-camp#journee-type">{ICO.dayType} Journee type {ARROW_SM}</Link></li>
+                  <li><Link href="/sessions">{ICO.sessions} Sessions et tarifs {ARROW_SM}</Link></li>
                 </ul>
               </div>
               <div className="mega-camp-accent" aria-hidden="true">
@@ -355,19 +384,19 @@ export default function Nav() {
               <div>
                 <span className="mega-infos-col-label">Contenus</span>
                 <ul className="mega-link-list" role="list">
-                  <li><Link href="/galerie">{ARROW_SM} Galerie photos et videos</Link></li>
-                  <li><Link href="/temoignages">{ARROW_SM} Temoignages athletes</Link></li>
-                  <li><Link href="/blog">{ARROW_SM} Blog et articles</Link></li>
-                  <li><Link href="/guide-dagestan">{ARROW_SM} Guide Dagestan PDF</Link></li>
+                  <li><Link href="/galerie">{ICO.gallery} Galerie photos et videos {ARROW_SM}</Link></li>
+                  <li><Link href="/temoignages">{ICO.testimonials} Temoignages athletes {ARROW_SM}</Link></li>
+                  <li><Link href="/blog">{ICO.blog} Blog et articles {ARROW_SM}</Link></li>
+                  <li><Link href="/guide-dagestan">{ICO.guide} Guide Dagestan PDF {ARROW_SM}</Link></li>
                 </ul>
               </div>
               <div>
                 <span className="mega-infos-col-label">Pratique</span>
                 <ul className="mega-link-list" role="list">
-                  <li><Link href="/faq">{ARROW_SM} FAQ</Link></li>
-                  <li><Link href="/a-propos">{ARROW_SM} A propos de MKR</Link></li>
-                  <li><Link href="/contact">{ARROW_SM} Contact</Link></li>
-                  <li><Link href="/inscription">{ARROW_SM} Inscription</Link></li>
+                  <li><Link href="/faq">{ICO.faq} FAQ {ARROW_SM}</Link></li>
+                  <li><Link href="/a-propos">{ICO.about} A propos de MKR {ARROW_SM}</Link></li>
+                  <li><Link href="/contact">{ICO.contact} Contact {ARROW_SM}</Link></li>
+                  <li><Link href="/inscription">{ICO.inscription} Inscription {ARROW_SM}</Link></li>
                 </ul>
               </div>
               <div className="mega-testi" aria-label="Temoignage athlete">
@@ -402,30 +431,30 @@ export default function Nav() {
       >
         <div className="mobile-inner">
           <MobAccordion title="Le Camp" id="mob-camp">
-            <Link href="/le-camp" className="mob-sub-link">Le Camp</Link>
-            <Link href="/comment-ca-marche" className="mob-sub-link">Comment ca marche</Link>
-            <Link href="/preparer-son-camp" className="mob-sub-link">Preparer son camp</Link>
-            <Link href="/logistique" className="mob-sub-link">Logistique et visa</Link>
+            <Link href="/le-camp" className="mob-sub-link">{ICO.camp} Le Camp</Link>
+            <Link href="/comment-ca-marche" className="mob-sub-link">{ICO.howItWorks} Comment ca marche</Link>
+            <Link href="/preparer-son-camp" className="mob-sub-link">{ICO.prepare} Preparer son camp</Link>
+            <Link href="/logistique" className="mob-sub-link">{ICO.logistics} Logistique et visa</Link>
           </MobAccordion>
           <MobAccordion title="Programme" id="mob-prog">
-            <Link href="/programme" className="mob-sub-link">Vue d&apos;ensemble</Link>
-            <Link href="/programme/mma" className="mob-sub-link">MMA</Link>
-            <Link href="/programme/lutte" className="mob-sub-link">Lutte</Link>
-            <Link href="/coachs" className="mob-sub-link">Nos coachs</Link>
+            <Link href="/programme" className="mob-sub-link">{ICO.overview} Vue d&apos;ensemble</Link>
+            <Link href="/programme/mma" className="mob-sub-link">{ICO.mma} MMA</Link>
+            <Link href="/programme/lutte" className="mob-sub-link">{ICO.lutte} Lutte</Link>
+            <Link href="/coachs" className="mob-sub-link">{ICO.coaches} Nos coachs</Link>
           </MobAccordion>
           <MobAccordion title="Destinations" id="mob-dest">
-            <Link href="/destinations/dagestan" className="mob-sub-link">Dagestan</Link>
-            <Link href="/destinations/tchetchenie" className="mob-sub-link">Tchetchenie</Link>
+            <Link href="/destinations/dagestan" className="mob-sub-link">{ICO.dagestan} Dagestan</Link>
+            <Link href="/destinations/tchetchenie" className="mob-sub-link">{ICO.tchetchenie} Tchetchenie</Link>
           </MobAccordion>
           <MobAccordion title="Informations" id="mob-infos">
-            <Link href="/galerie" className="mob-sub-link">Galerie</Link>
-            <Link href="/temoignages" className="mob-sub-link">Temoignages</Link>
-            <Link href="/faq" className="mob-sub-link">FAQ</Link>
-            <Link href="/blog" className="mob-sub-link">Blog</Link>
-            <Link href="/a-propos" className="mob-sub-link">A propos</Link>
-            <Link href="/contact" className="mob-sub-link">Contact</Link>
+            <Link href="/galerie" className="mob-sub-link">{ICO.gallery} Galerie</Link>
+            <Link href="/temoignages" className="mob-sub-link">{ICO.testimonials} Temoignages</Link>
+            <Link href="/faq" className="mob-sub-link">{ICO.faq} FAQ</Link>
+            <Link href="/blog" className="mob-sub-link">{ICO.blog} Blog</Link>
+            <Link href="/a-propos" className="mob-sub-link">{ICO.about} A propos</Link>
+            <Link href="/contact" className="mob-sub-link">{ICO.contact} Contact</Link>
           </MobAccordion>
-          <Link href="/sessions" className="mob-direct">Sessions 2026</Link>
+          <Link href="/sessions" className="mob-direct">{ICO.calendar} Sessions 2026</Link>
           <div className="mob-cta-wrap">
             <Link href="/inscription" className="mob-cta">RESERVER MON CAMP</Link>
           </div>
