@@ -33,6 +33,10 @@ const PHOTOS = [
   { category: 'Entrainement', alt: 'Projection de Sambo', img: '/images/action/sambo-throw.webp' },
   { category: 'Culture', alt: 'Tours Vainakh', img: '/images/environment/vainakh-towers.webp' },
   { category: 'Entrainement', alt: 'Shadowboxing de groupe', img: '/images/action/shadowboxing-group.webp' },
+  { category: 'Coachs', alt: 'Coach Levan Skhirtladze dans la salle', img: '/images/galerie/coach-levan-gym.webp' },
+  { category: 'Entrainement', alt: 'Echauffement de groupe au tapis', img: '/images/galerie/group-stretching.webp' },
+  { category: 'Culture', alt: 'Ceremonie du the apres entrainement', img: '/images/galerie/tea-ceremony.webp' },
+  { category: 'Montagnes', alt: 'Sentier de montagne dans la brume, Caucase', img: '/images/galerie/mountain-mist-trail.webp' },
 ]
 
 export default function GalerieContent() {
