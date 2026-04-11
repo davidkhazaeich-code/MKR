@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
+import CinematicReveal from '@/components/CinematicReveal'
 
 export const metadata: Metadata = {
   title: 'Preparer son camp | MKR Caucasian Camp | Guide de preparation MMA',
@@ -55,19 +56,14 @@ export default function PreparerSonCampPage() {
         subtitle="Le camp commence 6 semaines avant ton depart."
       />
 
-      {/* Cinematic banner */}
-      <section className="cinematic-banner">
-        <div className="inner">
-          <img
-            src="/images/action/conditioning-rope.webp"
-            alt="Athlete grimpant a la corde dans un gym sovietique du Caucase"
-            width={1200}
-            height={514}
-            loading="lazy"
-            className="section-photo-img"
-          />
-        </div>
-      </section>
+      {/* Cinematic reveal */}
+      <CinematicReveal
+        image="/images/action/conditioning-rope.webp"
+        alt="Athlete grimpant a la corde dans un gym sovietique du Caucase"
+        label="PREPARATION"
+        title="LE TRAVAIL COMMENCE AVANT LE DEPART"
+        tagline="Conditioning, endurance, mental. Arrive pret, progresse plus vite."
+      />
 
       {/* Niveau minimum */}
       <section className="logi-section fx-grid fx-glow">

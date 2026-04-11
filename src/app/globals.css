@@ -5825,7 +5825,105 @@ h1, h2, h3, h4, h5 {
   margin: calc(-1 * clamp(1.5rem, 3vw, 2rem)) 0 1rem calc(-1 * clamp(1.5rem, 3vw, 2rem));
 }
 
-/* ─── CINEMATIC BANNER ─── */
+/* ─── CINEMATIC REVEAL (scroll mask effect) ─── */
+.cine-reveal-outer {
+  position: relative;
+  width: 100%;
+  height: calc(1000px + 100vh);
+  background:
+    repeating-linear-gradient(
+      -45deg,
+      transparent 0px, transparent 22px,
+      rgba(200,75,49,0.06) 22px, rgba(200,75,49,0.06) 23px
+    ),
+    repeating-linear-gradient(
+      45deg,
+      transparent 0px, transparent 22px,
+      rgba(200,75,49,0.03) 22px, rgba(200,75,49,0.03) 23px
+    ),
+    #0C0C0C;
+}
+.cine-reveal-sticky {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+.cine-reveal-img-wrap {
+  position: absolute;
+  inset: 0;
+}
+.cine-reveal-img {
+  object-fit: cover;
+  object-position: center 30%;
+  filter: brightness(0.6) contrast(1.05);
+}
+.cine-reveal-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(9,9,7,0.88) 0%,
+    rgba(9,9,7,0.35) 45%,
+    rgba(9,9,7,0.12) 100%
+  );
+}
+.cine-reveal-container {
+  position: absolute;
+  bottom: 3.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: var(--max-w, 1240px);
+  padding: 0 2rem;
+}
+.cine-reveal-content {
+  max-width: 600px;
+}
+.cine-reveal-content .label-tag {
+  color: var(--primary);
+  display: block;
+  margin-bottom: 0.6rem;
+}
+.cine-reveal-content h3 {
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  color: var(--text-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  line-height: 0.95;
+  margin-bottom: 0.8rem;
+}
+.cine-reveal-tagline {
+  font-size: clamp(0.82rem, 1.2vw, 0.95rem);
+  color: var(--text-secondary);
+  max-width: 480px;
+  line-height: 1.55;
+}
+@media (max-width: 1024px) {
+  .cine-reveal-container {
+    bottom: auto;
+    top: clamp(4rem, 10vh, 6rem);
+    padding: 0 1.5rem;
+  }
+  .cine-reveal-overlay {
+    background: linear-gradient(
+      to bottom,
+      rgba(9,9,7,0.88) 0%,
+      rgba(9,9,7,0.45) 50%,
+      rgba(9,9,7,0.12) 100%
+    );
+  }
+  .cine-reveal-content { max-width: 100%; }
+  .cine-reveal-content h3 { font-size: 2rem; }
+
+}
+@media (max-width: 480px) {
+  .cine-reveal-content h3 { font-size: 1.6rem; }
+  .cine-reveal-tagline { display: none; }
+}
+
+/* ─── CINEMATIC BANNER (legacy static) ─── */
 .cinematic-banner {
   padding: 0;
   position: relative;

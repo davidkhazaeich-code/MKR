@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
+import CinematicReveal from '@/components/CinematicReveal'
 
 export const metadata: Metadata = {
   title: 'A Propos | MKR Caucasian Camp | Notre Histoire',
@@ -58,25 +59,14 @@ export default function AProposPage() {
         </div>
       </section>
 
-      {/* Cinematic immersion */}
-      <section className="cinematic-banner">
-        <div className="inner">
-          <img
-            src="/images/environment/communal-meal.webp"
-            alt="Repas communautaire au camp MKR au Caucase"
-            width={1200}
-            height={514}
-            loading="lazy"
-            className="section-photo-img"
-          />
-          <div className="cinematic-overlay" />
-          <div className="cinematic-content">
-            <span className="cinematic-label">COMMUNAUTE</span>
-            <h3 className="cinematic-title">PLUS QU&apos;UN CAMP</h3>
-            <p className="cinematic-tagline">Repas partages, liens forges sur le tapis. Une fraternite entre athletes qui depasse les frontieres.</p>
-          </div>
-        </div>
-      </section>
+      {/* Cinematic reveal */}
+      <CinematicReveal
+        image="/images/environment/communal-meal.webp"
+        alt="Repas communautaire au camp MKR au Caucase"
+        label="COMMUNAUTE"
+        title="PLUS QU'UN CAMP"
+        tagline="Repas partages, liens forges sur le tapis. Une fraternite entre athletes qui depasse les frontieres."
+      />
 
       {/* Mission */}
       <section className="dag-security fx-texture-concrete fx-glow fx-glow-breathe fx-mask-b fx-stack-2">

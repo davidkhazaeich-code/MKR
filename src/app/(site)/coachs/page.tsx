@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
+import CinematicReveal from '@/components/CinematicReveal'
 
 export const metadata: Metadata = {
   title: 'Nos Coachs | MKR Caucasian Camp | Entraineurs MMA & Lutte du Caucase',
@@ -86,19 +87,14 @@ export default function CoachsPage() {
         </div>
       </section>
 
-      {/* Cinematic action banner */}
-      <section className="cinematic-banner fx-grid fx-stack-3">
-        <div className="inner">
-          <img
-            src="/images/action/takedown-wrestling.webp"
-            alt="Takedown de lutte au Caucase"
-            width={1200}
-            height={514}
-            loading="lazy"
-            className="section-photo-img"
-          />
-        </div>
-      </section>
+      {/* Cinematic reveal */}
+      <CinematicReveal
+        image="/images/action/takedown-wrestling.webp"
+        alt="Takedown de lutte au Caucase"
+        label="TECHNIQUE"
+        title="LA LUTTE DANS LE SANG"
+        tagline="Des coachs formes dans la tradition caucasienne. Chaque takedown raconte une histoire."
+      />
 
       {/* Methodologie */}
       <section className="dag-security fx-texture-concrete fx-glow fx-mask-c fx-stack-4">

@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
 import DestinationReveal from '@/components/DestinationReveal'
+import CinematicReveal from '@/components/CinematicReveal'
 
 export const metadata: Metadata = {
   title: 'Dagestan | MKR Caucasian Camp | Camps MMA au coeur du Caucase',
@@ -175,25 +176,14 @@ export default function DagestanPage() {
         </div>
       </section>
 
-      {/* Atmospheric banner */}
-      <section className="cinematic-banner">
-        <div className="inner">
-          <img
-            src="/images/environment/mountain-road.webp"
-            alt="Route de montagne au Dagestan"
-            width={1200}
-            height={514}
-            loading="lazy"
-            className="section-photo-img"
-          />
-          <div className="cinematic-overlay" />
-          <div className="cinematic-content">
-            <span className="cinematic-label">DAGESTAN</span>
-            <h3 className="cinematic-title">LA ROUTE DU CHAMPION</h3>
-            <p className="cinematic-tagline">Des montagnes qui forgent le caractere. Chaque virage rapproche du camp.</p>
-          </div>
-        </div>
-      </section>
+      {/* Cinematic reveal */}
+      <CinematicReveal
+        image="/images/environment/mountain-road.webp"
+        alt="Route de montagne au Dagestan"
+        label="DAGESTAN"
+        title="LA ROUTE DU CHAMPION"
+        tagline="Des montagnes qui forgent le caractere. Chaque virage rapproche du camp."
+      />
 
       {/* Logistique resume */}
       <section className="logi-section fx-grid fx-stack-5">

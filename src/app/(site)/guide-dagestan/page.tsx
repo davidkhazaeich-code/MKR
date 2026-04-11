@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import PageHero from '@/components/PageHero'
 import GuideForm from '@/components/GuideForm'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
+import CinematicReveal from '@/components/CinematicReveal'
 
 export const metadata: Metadata = {
   title: 'Guide Dagestan | MKR Caucasian Camp | Telecharger gratuitement',
@@ -32,19 +33,14 @@ export default function GuideDagestanPage() {
         compact
       />
 
-      {/* Cinematic banner */}
-      <section className="cinematic-banner">
-        <div className="inner">
-          <img
-            src="/images/environment/dagestan-panorama.webp"
-            alt="Montagnes du Dagestan, vue panoramique"
-            width={1200}
-            height={514}
-            loading="lazy"
-            className="section-photo-img"
-          />
-        </div>
-      </section>
+      {/* Cinematic reveal */}
+      <CinematicReveal
+        image="/images/environment/dagestan-panorama.webp"
+        alt="Montagnes du Dagestan, vue panoramique"
+        label="DAGESTAN"
+        title="TERRE DE CHAMPIONS"
+        tagline="Le Dagestan a produit plus de champions de lutte que n'importe quelle region au monde."
+      />
 
       <section className="guide-section fx-grid fx-glow fx-stack-1">
         <div className="fx-glow-orb fx-glow-orb--right" />

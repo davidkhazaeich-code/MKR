@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
+import CinematicReveal from '@/components/CinematicReveal'
 
 export const metadata: Metadata = {
   title: 'Temoignages | MKR Caucasian Camp | Avis Athletes',
@@ -90,19 +91,14 @@ export default function TemoignagesPage() {
         </div>
       </section>
 
-      {/* Cinematic break */}
-      <section className="cinematic-banner fx-mask-a fx-stack-2">
-        <div className="inner">
-          <img
-            src="/images/environment/communal-meal.webp"
-            alt="Athletes et coachs reunis autour d'un repas au camp"
-            width={1200}
-            height={514}
-            loading="lazy"
-            className="section-photo-img"
-          />
-        </div>
-      </section>
+      {/* Cinematic reveal */}
+      <CinematicReveal
+        image="/images/environment/communal-meal.webp"
+        alt="Athletes et coachs reunis autour d'un repas au camp"
+        label="FRATERNITE"
+        title="CE QU&apos;ILS EN DISENT"
+        tagline="Des liens forges sur le tapis et autour de la table. Une experience qui marque."
+      />
 
       {/* Grid temoignages texte */}
       <section className="logi-section logi-alt fx-texture-concrete fx-stack-3">

@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
+import CinematicReveal from '@/components/CinematicReveal'
 
 export const metadata: Metadata = {
   title: 'Le Camp | MKR Caucasian Camp | MMA & Lutte au Caucase',
@@ -100,25 +101,14 @@ export default function LeCampPage() {
         subtitle="Immersion totale au Caucase georgien. Coaching, hebergement, repas. Toi, tu combats."
       />
 
-      {/* Cinematic banner */}
-      <section className="cinematic-banner">
-        <div className="inner">
-          <img
-            src="/images/action/sparring-mma-wall.webp"
-            alt="Sparring MMA dans une salle du Caucase"
-            width={1200}
-            height={514}
-            loading="lazy"
-            className="section-photo-img"
-          />
-          <div className="cinematic-overlay" />
-          <div className="cinematic-content">
-            <span className="cinematic-label">IMMERSION</span>
-            <h3 className="cinematic-title">LE CAUCASE SUR LE TAPIS</h3>
-            <p className="cinematic-tagline">Sparring quotidien avec des combattants locaux. Methodes transmises de generation en generation.</p>
-          </div>
-        </div>
-      </section>
+      {/* Cinematic reveal */}
+      <CinematicReveal
+        image="/images/action/sparring-mma-wall.webp"
+        alt="Sparring MMA dans une salle du Caucase"
+        label="IMMERSION"
+        title="LE CAUCASE SUR LE TAPIS"
+        tagline="Sparring quotidien avec des combattants locaux. Methodes transmises de generation en generation."
+      />
 
       {/* Philosophie / Pourquoi le Caucase */}
       <section className="camp-section fx-grid fx-glow fx-mask-a fx-stack-2">

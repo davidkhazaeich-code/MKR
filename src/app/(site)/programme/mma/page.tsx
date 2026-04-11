@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
+import CinematicReveal from '@/components/CinematicReveal'
 
 export const metadata: Metadata = {
   title: 'Programme MMA | MKR Caucasian Camp | Entrainement MMA au Caucase',
@@ -88,19 +89,14 @@ export default function ProgrammeMMAPage() {
         </div>
       </section>
 
-      {/* Action banner */}
-      <section className="cinematic-banner fx-stack-2">
-        <div className="inner">
-          <img
-            src="/images/action/ground-control.webp"
-            alt="Controle au sol MMA dans une salle du Caucase"
-            width={1200}
-            height={514}
-            loading="lazy"
-            className="section-photo-img"
-          />
-        </div>
-      </section>
+      {/* Cinematic reveal */}
+      <CinematicReveal
+        image="/images/action/ground-control.webp"
+        alt="Controle au sol MMA dans une salle du Caucase"
+        label="GROUND GAME"
+        title="LE CONTROLE AU SOL"
+        tagline="Position dominante, soumissions, transitions. Le MMA caucasien commence par le sol."
+      />
 
       {/* Techniques grid */}
       <section className="logi-section fx-texture-basalt fx-mask-b fx-stack-3">

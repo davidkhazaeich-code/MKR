@@ -1,8 +1,9 @@
 'use client'
 
-import { useRef } from 'react'
-import { motion, useMotionTemplate, useScroll, useTransform } from 'framer-motion'
+import { motion } from 'framer-motion'
 import Image from 'next/image'
+import { useScrollReveal } from '@/hooks/useScrollReveal'
+import ScrollIndicator from '@/components/ScrollIndicator'
 
 interface DestinationRevealProps {
   image: string
@@ -14,23 +15,7 @@ interface DestinationRevealProps {
 }
 
 export default function DestinationReveal({ image, alt, label, title, facts, badges }: DestinationRevealProps) {
-  const containerRef = useRef<HTMLDivElement>(null)
-
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ['start end', 'center center'],
-  })
-
-  const clipP = useTransform(scrollYProgress, [0, 1], [30, 0])
-  const clipQ = useTransform(scrollYProgress, [0, 1], [70, 100])
-  const clipPath = useMotionTemplate`polygon(${clipP}% ${clipP}%, ${clipQ}% ${clipP}%, ${clipQ}% ${clipQ}%, ${clipP}% ${clipQ}%)`
-
-  const imgScale = useTransform(scrollYProgress, [0, 1], [1.25, 1])
-  const textOpacity = useTransform(scrollYProgress, [0.5, 1], [0, 1])
-  const textY = useTransform(scrollYProgress, [0.5, 1], [30, 0])
-
-  // Scroll indicator fades out as reveal begins
-  const indicatorOpacity = useTransform(scrollYProgress, [0, 0.15], [1, 0])
+  const { containerRef, clipPath, imgScale, textOpacity, textY, indicatorOpacity } = useScrollReveal()
 
   return (
     <div
@@ -58,17 +43,7 @@ export default function DestinationReveal({ image, alt, label, title, facts, bad
 
         <div className="dest-reveal-overlay" aria-hidden="true" />
 
-        {/* Scroll indicator */}
-        <motion.div
-          className="dest-reveal-scroll-hint"
-          style={{ opacity: indicatorOpacity }}
-          aria-hidden="true"
-        >
-          <span className="dest-reveal-scroll-text">SCROLL</span>
-          <div className="dest-reveal-scroll-line">
-            <div className="dest-reveal-scroll-dot" />
-          </div>
-        </motion.div>
+        <ScrollIndicator opacity={indicatorOpacity} />
 
         <div className="dest-reveal-container">
           <motion.div

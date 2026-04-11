@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
+import CinematicReveal from '@/components/CinematicReveal'
 
 export const metadata: Metadata = {
   title: 'Sessions & Tarifs | MKR Caucasian Camp | Prix Camps MMA Dagestan',
@@ -169,19 +170,14 @@ export default function SessionsPage() {
         </div>
       </section>
 
-      {/* Image ambiance */}
-      <section className="cinematic-banner">
-        <div className="inner">
-          <img
-            src="/images/action/shadowboxing-group.webp"
-            alt="Groupe d'athletes en shadowboxing dans une salle du Caucase"
-            width={1200}
-            height={514}
-            loading="lazy"
-            className="section-photo-img"
-          />
-        </div>
-      </section>
+      {/* Cinematic reveal */}
+      <CinematicReveal
+        image="/images/action/shadowboxing-group.webp"
+        alt="Groupe d'athletes en shadowboxing dans une salle du Caucase"
+        label="INTENSITE"
+        title="CHAQUE SESSION COMPTE"
+        tagline="Groupe reduit, coaching personnalise. L'energie collective pousse chacun au-dela de ses limites."
+      />
 
       {/* Ce qui est inclus */}
       <section className="sessions-includes fx-texture-concrete fx-glow fx-mask-b fx-stack-4" aria-labelledby="includes-heading">

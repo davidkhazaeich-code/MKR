@@ -3,6 +3,7 @@ import PageHero from '@/components/PageHero'
 import FAQAccordion from '@/components/FAQAccordion'
 import SectionCTA from '@/components/SectionCTA'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
+import CinematicReveal from '@/components/CinematicReveal'
 
 export const metadata: Metadata = {
   title: "Comment ca marche | MKR Caucasian Camp | Processus d'inscription",
@@ -69,25 +70,14 @@ export default function CommentCaMarchePage() {
         subtitle="Processus clair, transparent, sans surprise. 6 etapes simples."
       />
 
-      {/* Cinematic banner */}
-      <section className="cinematic-banner">
-        <div className="inner">
-          <img
-            src="/images/environment/gym-interior.webp"
-            alt="Interieur de la salle d'entrainement au Caucase"
-            width={1200}
-            height={514}
-            loading="lazy"
-            className="section-photo-img"
-          />
-          <div className="cinematic-overlay" />
-          <div className="cinematic-content">
-            <span className="cinematic-label">LES SALLES</span>
-            <h3 className="cinematic-title">EQUIPEMENT PRO, AME CAUCASIENNE</h3>
-            <p className="cinematic-tagline">Tapis olympiques, cage MMA, sacs lourds. L&apos;essentiel pour progresser, rien de superflu.</p>
-          </div>
-        </div>
-      </section>
+      {/* Cinematic reveal */}
+      <CinematicReveal
+        image="/images/environment/gym-interior.webp"
+        alt="Interieur de la salle d'entrainement au Caucase"
+        label="LES SALLES"
+        title="EQUIPEMENT PRO, AME CAUCASIENNE"
+        tagline="Tapis olympiques, cage MMA, sacs lourds. L'essentiel pour progresser, rien de superflu."
+      />
 
       {/* Flow 6 etapes */}
       <section className="process-section fx-grid fx-glow">

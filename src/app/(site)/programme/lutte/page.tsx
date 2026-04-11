@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
+import CinematicReveal from '@/components/CinematicReveal'
 
 export const metadata: Metadata = {
   title: 'Programme Lutte | MKR Caucasian Camp | Lutte libre & greco au Caucase',
@@ -88,19 +89,14 @@ export default function ProgrammeLuttePage() {
         </div>
       </section>
 
-      {/* Action banner */}
-      <section className="cinematic-banner fx-stack-2">
-        <div className="inner">
-          <img
-            src="/images/action/sambo-throw.webp"
-            alt="Projection de Sambo en entrainement au Caucase"
-            width={1200}
-            height={514}
-            loading="lazy"
-            className="section-photo-img"
-          />
-        </div>
-      </section>
+      {/* Cinematic reveal */}
+      <CinematicReveal
+        image="/images/action/sambo-throw.webp"
+        alt="Projection de Sambo en entrainement au Caucase"
+        label="PROJECTION"
+        title="L'ART DU TAKEDOWN"
+        tagline="Sambo, lutte libre, greco-romaine. Les techniques qui ont forge les champions du Caucase."
+      />
 
       {/* Techniques */}
       <section className="logi-section fx-texture-basalt fx-mask-b fx-stack-3">

@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
 import DestinationReveal from '@/components/DestinationReveal'
+import CinematicReveal from '@/components/CinematicReveal'
 
 export const metadata: Metadata = {
   title: 'Tchetchenie | MKR Caucasian Camp | Camps MMA a Grozny',
@@ -160,25 +161,14 @@ export default function TchetcheniePage() {
         </div>
       </section>
 
-      {/* Atmospheric banner */}
-      <section className="cinematic-banner">
-        <div className="inner">
-          <img
-            src="/images/action/shadowboxing-group.webp"
-            alt="Groupe d'athletes en shadowboxing"
-            width={1200}
-            height={514}
-            loading="lazy"
-            className="section-photo-img"
-          />
-          <div className="cinematic-overlay" />
-          <div className="cinematic-content">
-            <span className="cinematic-label">ENTRAINEMENT</span>
-            <h3 className="cinematic-title">L&apos;INTENSITE DU GROUPE</h3>
-            <p className="cinematic-tagline">Shadowboxing collectif, energie du groupe. Quand tout le monde pousse, personne ne lache.</p>
-          </div>
-        </div>
-      </section>
+      {/* Cinematic reveal */}
+      <CinematicReveal
+        image="/images/action/shadowboxing-group.webp"
+        alt="Groupe d'athletes en shadowboxing"
+        label="ENTRAINEMENT"
+        title="L'INTENSITE DU GROUPE"
+        tagline="Shadowboxing collectif, energie du groupe. Quand tout le monde pousse, personne ne lache."
+      />
 
       <SectionCTA
         primaryHref="/sessions"
