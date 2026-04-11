@@ -189,7 +189,7 @@ export default function Nav() {
                     onClick={() => togglePanel(id)}
                   >
                     {id === 'camp' && ICO.camp}
-                    {id === 'programme' && ICO.mma}
+                    {id === 'programme' && ICO.overview}
                     {id === 'destinations' && ICO.dagestan}
                     {id === 'infos' && ICO.about}
                     {id === 'camp' ? 'Le Camp' : id === 'programme' ? 'Programme' : id === 'destinations' ? 'Destinations' : 'Infos'}
