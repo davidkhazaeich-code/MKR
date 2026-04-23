@@ -4,6 +4,7 @@ import { SITE_URL, SITE_NAME, SITE_EMAIL, SITE_DESCRIPTION, SOCIALS, GEO } from 
 import { SESSIONS } from '@/data/sessions'
 import { COACHES } from '@/data/coaches'
 import { TESTIMONIALS } from '@/data/testimonials'
+import SiteLoader from '@/components/SiteLoader'
 import './globals.css'
 
 const teko = Teko({
@@ -192,6 +193,7 @@ export default function RootLayout({
         />
       </head>
       <body>
+        <SiteLoader />
         {children}
       </body>
     </html>
