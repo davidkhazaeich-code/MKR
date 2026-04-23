@@ -18,7 +18,7 @@ export default function Timeline() {
             <div className="timeline-panel">
               <div className="timeline-step-img reveal-clip">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img className="timeline-step-photo" src="/images/action/shadowboxing-group.webp" alt="Shadowboxing collectif au camp" />
+                <img className="timeline-step-photo" src="/images/action/solo-readiness.webp" alt="Combattant seul dans la salle du camp" />
                 <div className="timeline-step-img-inner"></div>
               </div>
               <div className="timeline-text">
@@ -74,7 +74,7 @@ export default function Timeline() {
             <div className="timeline-panel">
               <div className="timeline-step-img reveal-clip">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img className="timeline-step-photo" src="/images/action/takedown-wrestling.webp" alt="Travail de takedown sur le tapis" />
+                <img className="timeline-step-photo" src="/images/action/hand-wraps.webp" alt="Bandes de mains avant l'entrainement" />
                 <div className="timeline-step-img-inner"></div>
               </div>
               <div className="timeline-text">
