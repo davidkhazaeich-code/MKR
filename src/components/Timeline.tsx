@@ -63,7 +63,7 @@ export default function Timeline() {
               </div>
               <div className="timeline-step-img reveal-clip">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img className="timeline-step-photo" src="/images/action/coach-briefing.webp" alt="Briefing coach avec candidat" />
+                <img className="timeline-step-photo" src="/images/action/candidate-interview.webp" alt="Candidat en entretien visio depuis son espace" />
                 <div className="timeline-step-img-inner"></div>
               </div>
             </div>
