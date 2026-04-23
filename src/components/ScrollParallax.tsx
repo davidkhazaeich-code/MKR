@@ -1,8 +1,11 @@
 'use client'
 
 import { useEffect } from 'react'
+import { usePathname } from 'next/navigation'
 
 export default function ScrollParallax() {
+  const pathname = usePathname()
+
   useEffect(() => {
     let ctx: ReturnType<typeof import('gsap')['gsap']['context']> | undefined
 
@@ -10,6 +13,7 @@ export default function ScrollParallax() {
       const { gsap } = await import('gsap')
       const { ScrollTrigger } = await import('gsap/ScrollTrigger')
       gsap.registerPlugin(ScrollTrigger)
+      ;(window as unknown as { ScrollTrigger: typeof ScrollTrigger }).ScrollTrigger = ScrollTrigger
 
       ctx = gsap.context(() => {
         const mm = gsap.matchMedia()
@@ -147,7 +151,7 @@ export default function ScrollParallax() {
 
     init()
     return () => { ctx?.revert() }
-  }, [])
+  }, [pathname])
 
   return null
 }

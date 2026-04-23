@@ -6,6 +6,7 @@ import Footer from '@/components/Footer'
 const RevealObserver = dynamic(() => import('@/components/RevealObserver'))
 const ScrollParallax = dynamic(() => import('@/components/ScrollParallax'))
 const StickyMobileCTA = dynamic(() => import('@/components/StickyMobileCTA'))
+const RouteScrollReset = dynamic(() => import('@/components/RouteScrollReset'))
 
 export default function SiteLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -19,6 +20,7 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
       <StickyMobileCTA />
       <RevealObserver />
       <ScrollParallax />
+      <RouteScrollReset />
     </>
   )
 }
