@@ -18,7 +18,7 @@ export default function Timeline() {
             <div className="timeline-panel">
               <div className="timeline-step-img reveal-clip">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img className="timeline-step-photo" src="/images/textures/concrete-soviet.webp" alt="Béton soviétique" />
+                <img className="timeline-step-photo" src="/images/action/shadowboxing-group.webp" alt="Shadowboxing collectif au camp" />
                 <div className="timeline-step-img-inner"></div>
               </div>
               <div className="timeline-text">
@@ -62,12 +62,9 @@ export default function Timeline() {
                 <p className="timeline-step-body">Un échange vidéo avec notre équipe. Pas un interrogatoire, une conversation. Nous voulons comprendre tes motivations et t&apos;expliquer ce qui t&apos;attend vraiment.</p>
               </div>
               <div className="timeline-step-img reveal-clip">
-                <div className="timeline-step-img-inner">
-                  <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style={{ width: '40px', height: '40px', opacity: 0.4 }}>
-                    <rect x="3" y="8" width="24" height="20" stroke="#C84B31" strokeWidth="2" />
-                    <polygon points="27,14 37,8 37,28 27,22" stroke="#C84B31" strokeWidth="2" fill="none" />
-                  </svg>
-                </div>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img className="timeline-step-photo" src="/images/action/coach-briefing.webp" alt="Briefing coach avec candidat" />
+                <div className="timeline-step-img-inner"></div>
               </div>
             </div>
           </div>
@@ -77,7 +74,7 @@ export default function Timeline() {
             <div className="timeline-panel">
               <div className="timeline-step-img reveal-clip">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img className="timeline-step-photo" src="/images/textures/basalt-rock.webp" alt="Roche volcanique" />
+                <img className="timeline-step-photo" src="/images/action/takedown-wrestling.webp" alt="Travail de takedown sur le tapis" />
                 <div className="timeline-step-img-inner"></div>
               </div>
               <div className="timeline-text">
