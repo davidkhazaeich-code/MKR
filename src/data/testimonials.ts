@@ -8,6 +8,13 @@ export interface Testimonial {
 
 export const TESTIMONIALS: Testimonial[] = [
   {
+    img: '/images/galerie-real/antoine-petit-jean.webp',
+    alt: 'Antoine Petit-Jean - MMA, Genève',
+    name: 'Antoine Petit-Jean',
+    discipline: 'MMA · Genève',
+    quote: "Trois semaines au Daghestan. J'ai dormi quatre heures par nuit, je me suis fait broyer par des gars qui ne lâchent rien. Le rythme est brutal, l'accueil chaleureux. Je suis rentré avec une mentalité que je n'aurais trouvée nulle part en Europe.",
+  },
+  {
     img: '/images/testimonials/mehdi-r.webp',
     alt: 'Mehdi R. - Lutte Libre, Paris',
     name: 'Mehdi R.',

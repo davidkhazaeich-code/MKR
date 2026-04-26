@@ -5,6 +5,17 @@ import { useState } from 'react'
 const FILTERS = ['Tout', 'Entrainement', 'Montagnes', 'Coachs', 'Culture']
 
 const PHOTOS = [
+  // Vraies photos terrain (Ruslan + Antoine au camp)
+  { category: 'Entrainement', alt: 'Cercle d\'entrainement - demonstration grappling au tapis rouge', img: '/images/galerie-real/mma-cercle-session.webp' },
+  { category: 'Entrainement', alt: 'Controle au sol - side mount', img: '/images/galerie-real/mma-side-mount.webp' },
+  { category: 'Entrainement', alt: 'Soumission - rear naked choke', img: '/images/galerie-real/mma-choke.webp' },
+  { category: 'Coachs', alt: 'Coachs caucasiens dans la salle', img: '/images/galerie-real/coachs-salle.webp' },
+  { category: 'Culture', alt: 'Combattants reunis sur le tapis avant la session', img: '/images/galerie-real/mma-team-cluster.webp' },
+  { category: 'Culture', alt: 'Priere collective sur le tapis - aube au camp', img: '/images/galerie-real/priere-collective.webp' },
+  { category: 'Culture', alt: 'Antoine Petit-Jean au camp - combattant MMA invite', img: '/images/galerie-real/antoine-petit-jean.webp' },
+  { category: 'Montagnes', alt: 'Coucher de soleil sur les montagnes du Caucase - quad au sommet', img: '/images/galerie-real/quad-golden-hour.webp' },
+  { category: 'Montagnes', alt: 'Canyon de Sulak depuis la terrasse - pont suspendu', img: '/images/galerie-real/canyon-sulak-overlook.webp' },
+  // Images d'ambiance (generees)
   { category: 'Entrainement', alt: 'Sparring MMA contre le mur', img: '/images/action/sparring-mma-wall.webp' },
   { category: 'Montagnes', alt: 'Vue panoramique du Dagestan', img: '/images/environment/dagestan-panorama.webp' },
   { category: 'Culture', alt: 'Photo de groupe - fin de camp', img: '/images/galerie/group-photo.webp' },
