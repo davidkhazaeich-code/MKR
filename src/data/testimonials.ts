@@ -12,7 +12,7 @@ export const TESTIMONIALS: Testimonial[] = [
     alt: 'Antoine Petit-Jean - MMA, Genève',
     name: 'Antoine Petit-Jean',
     discipline: 'MMA · Genève',
-    quote: "Trois semaines au Daghestan. J'ai dormi quatre heures par nuit, je me suis fait broyer par des gars qui ne lâchent rien. Le rythme est brutal, l'accueil chaleureux. Je suis rentré avec une mentalité que je n'aurais trouvée nulle part en Europe.",
+    quote: "Avant MKR, je plafonnais sur mes patterns. Trois semaines au Daghestan ont fait sauter le verrou. Le niveau te tire vers le haut, chaque session te force à chercher plus loin. On dort bien, on mange bien, et sur le tapis c'est plein régime du matin au soir. Mon MMA d'avant et celui d'aujourd'hui, ce sont deux athlètes différents.",
   },
   {
     img: '/images/testimonials/mehdi-r.webp',
