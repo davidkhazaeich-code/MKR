@@ -255,7 +255,7 @@ export default function Nav() {
               <div className="mega-camp-accent" aria-hidden="true">
                 <Image src="/images/environment/gym-interior.webp" alt="" className="mega-camp-accent-img" fill sizes="280px" />
                 <h3 className="mega-camp-accent-title">TOUT<br/>COMPRIS.</h3>
-                <span className="mega-camp-accent-sub">Dagestan · Tchetchenie · Georgie</span>
+                <span className="mega-camp-accent-sub">Daghestan · Tchetchenie</span>
               </div>
             </div>
           </div>

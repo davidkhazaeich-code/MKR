@@ -72,8 +72,8 @@ export default function LogistiquePage() {
           <div className="logi-visa-steps reveal">
             {[
               { num: '01', title: 'Verifier ton passeport', desc: 'Passeport valide au moins 6 mois apres la date de retour.' },
-              { num: '02', title: 'Ressortissants UE/CH/CA', desc: "Pas de visa necessaire pour la Georgie (sejour < 365 jours). Entree avec le passeport uniquement." },
-              { num: '03', title: 'Autres nationalites', desc: "Consulter le site du Ministere des Affaires Etrangeres de Georgie pour les conditions de visa." },
+              { num: '02', title: 'Visa Russie obligatoire', desc: "Le camp se deroule au Daghestan et en Tchetchenie (Federation de Russie). Un visa russe est necessaire pour la majorite des nationalites." },
+              { num: '03', title: 'Lettre d&apos;invitation MKR', desc: "MKR fournit la lettre d&apos;invitation officielle apres confirmation de ta candidature. C&apos;est le document central du dossier visa." },
               { num: '04', title: 'Documents a emporter', desc: "Passeport, confirmation de reservation MKR, attestation d'assurance, billet retour." },
             ].map((step) => (
               <div key={step.num} className="logi-step">
@@ -98,9 +98,9 @@ export default function LogistiquePage() {
           </div>
           <div className="grid-3">
             {[
-              { city: 'Paris CDG', connections: 'Via Istanbul (Turkish Airlines) ou Tbilissi direct', price: '350 - 550 EUR', duration: '~6-8h avec escale' },
-              { city: 'Geneve / Zurich', connections: 'Via Istanbul ou Dubai. Wizz Air pour Kutaisi.', price: '400 - 650 EUR', duration: '~6-9h avec escale' },
-              { city: 'Bruxelles', connections: 'Via Istanbul (Turkish Airlines) ou Munich', price: '380 - 600 EUR', duration: '~7-9h avec escale' },
+              { city: 'Paris CDG', connections: 'Via Istanbul (Turkish Airlines) vers Makhachkala (MCX) ou Grozny (GRV)', price: '450 - 700 EUR', duration: '~7-9h avec escale' },
+              { city: 'Geneve / Zurich', connections: 'Via Istanbul (Turkish Airlines) ou Dubai vers Makhachkala / Grozny', price: '500 - 750 EUR', duration: '~8-10h avec escale' },
+              { city: 'Bruxelles', connections: 'Via Istanbul (Turkish Airlines) vers Makhachkala / Grozny', price: '480 - 720 EUR', duration: '~8-10h avec escale' },
             ].map((flight, i) => (
               <div key={i} className="content-card fx-grain fx-corner-glow reveal" style={{ transitionDelay: `${i * 0.08}s` }}>
                 <h3 className="card-title">{flight.city}</h3>
@@ -167,7 +167,7 @@ export default function LogistiquePage() {
             </div>
             <div className="content-card fx-grain fx-corner-glow">
               <h3 className="card-title">INFOS PRATIQUES</h3>
-              <p className="card-body">Aeroport : Tbilissi (TBS) ou Kutaisi (KUT)</p>
+              <p className="card-body">Aeroport : Makhachkala (MCX) ou Grozny (GRV)</p>
               <p className="card-body">Accueil a l&apos;aeroport par l&apos;equipe MKR</p>
               <p className="card-body">Vehicule prive camp &lt;&gt; salle</p>
             </div>
@@ -185,11 +185,11 @@ export default function LogistiquePage() {
           </div>
           <div className="grid-3x2">
             {[
-              { title: 'Decalage horaire', desc: 'GMT+4 (Georgie). +3h par rapport a Paris.' },
-              { title: 'Monnaie', desc: 'Lari georgien (GEL). 1 EUR ≈ 2.9 GEL. CB acceptees en ville.' },
-              { title: 'Internet', desc: 'Wi-Fi au logement. Carte SIM locale recommandee (~5 EUR).' },
-              { title: 'Climat', desc: 'Continental. Printemps 15-22°C, ete 25-35°C, automne 12-20°C.' },
-              { title: 'Langue', desc: 'Georgien, russe. Anglais dans les zones touristiques. Interprete MKR sur place.' },
+              { title: 'Decalage horaire', desc: 'GMT+3 (heure de Moscou). +2h par rapport a Paris.' },
+              { title: 'Monnaie', desc: 'Rouble russe (RUB). 1 EUR ≈ 100 RUB. Especes recommandees, CB internationales souvent inutilisables.' },
+              { title: 'Internet', desc: 'Wi-Fi au logement. Carte SIM locale Russie recommandee (~5 EUR).' },
+              { title: 'Climat', desc: 'Continental. Printemps 12-20°C, ete 25-35°C, automne 10-18°C.' },
+              { title: 'Langue', desc: 'Russe principal. Avar (Daghestan) ou tchetchene selon la salle. Interprete MKR francophone sur place.' },
               { title: 'Alimentation', desc: 'Cuisine caucasienne : riche en proteines, viande, legumes, pain. Regime adapte aux athletes.' },
             ].map((info, i) => (
               <div key={i} className="content-card fx-grain fx-corner-glow reveal" style={{ transitionDelay: `${i * 0.06}s` }}>

@@ -19,7 +19,7 @@ const VIDEO_TESTIMONIALS = [
 
 const TESTIMONIALS = [
   { name: 'Mehdi R.', discipline: 'Lutte Libre · Paris', quote: "Trois semaines qui ont change ma facon de me battre. La durete des entrainements m'a oblige a aller chercher ce que je n'avais jamais touche.", img: '/images/testimonials/mehdi-r.webp' },
-  { name: 'Karim D.', discipline: 'MMA · Geneve', quote: "Le niveau des coachs est inegalable. Zurab t'apprend des prises que tu ne verras nulle part en Europe. J'y retourne l'annee prochaine.", img: '/images/testimonials/karim-d.webp' },
+  { name: 'Karim D.', discipline: 'MMA · Geneve', quote: "Le niveau des coachs est inegalable. Magomed t'apprend des prises que tu ne verras nulle part en Europe. J'y retourne l'annee prochaine.", img: '/images/testimonials/karim-d.webp' },
   { name: 'Thomas B.', discipline: 'Boxe · Lyon', quote: "Deux semaines apres le retour, j'ai remporte mon premier titre regional. Ce que j'ai construit la-bas, aucun gym en France ne pouvait me donner.", img: '/images/testimonials/thomas-b.webp' },
   { name: 'Yassine K.', discipline: 'Grappling · Bruxelles', quote: "Un mois de camp qui vaut deux ans de salle. Les Dagestanais t'apprennent a souffrir avec le sourire. Je suis revenu transforme.", img: '/images/testimonials/yassine-k.webp' },
   { name: 'Romain V.', discipline: 'Sambo · Toulouse', quote: "Je suis parti seul, sans parler russe. L'accueil est incroyable. Sur le tapis, le niveau est brutal. Exactement ce que je cherchais.", img: '/images/testimonials/romain-v.webp' },

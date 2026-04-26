@@ -12,31 +12,31 @@ export const metadata: Metadata = {
 
 const COACHES = [
   {
-    name: 'Zurab Khabelov',
-    role: 'Coach Lutte Greco-romaine',
+    name: 'Magomed Magomedov',
+    role: 'Coach Lutte libre',
     experience: '18 ans',
-    bio: "Champion national de lutte greco-romaine. Forme dans les academies de Makhachkala, Zurab enseigne les techniques ancestrales du Caucase. Sa methode se concentre sur le controle au corps-a-corps et les projections de hanche qui ont fait la reputation du Dagestan.",
-    palmares: 'Champion national lutte, Formateur equipe olympique junior',
+    bio: "Champion du Daghestan en lutte libre. Forme dans les academies de Makhachkala, Magomed enseigne les techniques ancestrales du Caucase. Sa methode se concentre sur le controle au corps-a-corps et les projections de hanche qui ont fait la reputation du Daghestan.",
+    palmares: 'Champion du Daghestan en lutte libre, Formateur equipe junior',
   },
   {
-    name: 'Giorgi Meladze',
+    name: 'Khasan Akhmedov',
     role: 'Coach MMA',
     experience: '14 ans',
-    bio: "Veteran du circuit MMA professionnel georgien. Giorgi combine une expertise en striking et en grappling. Sa philosophie : chaque combattant doit etre dangereux debout et au sol. Il dirige les sessions de sparring avec une attention particuliere a l'intelligence tactique.",
+    bio: "Veteran du circuit MMA caucasien. Khasan combine une expertise en striking et en grappling. Sa philosophie : chaque combattant doit etre dangereux debout et au sol. Il dirige les sessions de sparring depuis Grozny avec une attention particuliere a l'intelligence tactique.",
     palmares: '22 combats pro, Formateur fighters Eagle FC',
   },
   {
-    name: 'Tamaz Kvaratskhelia',
+    name: 'Akhmed Bashaev',
     role: 'Coach Boxe',
     experience: '20 ans',
-    bio: "Ancien boxeur professionnel, Tamaz est respecte dans tout le Caucase pour sa technique de frappe pure. Il travaille les fondamentaux : placement, timing, gestion de la distance. Ses sessions de pads sont redoutees et adulees en parts egales.",
+    bio: "Ancien boxeur professionnel, Akhmed est respecte dans tout le Caucase pour sa technique de frappe pure. Il travaille les fondamentaux : placement, timing, gestion de la distance. Ses sessions de pads a Grozny sont redoutees et adulees en parts egales.",
     palmares: 'Champion regional boxe, 30+ combats pro',
   },
   {
-    name: 'Levan Skhirtladze',
+    name: 'Shamil Khalilov',
     role: 'Coach Sambo',
     experience: '16 ans',
-    bio: "Maitre de Sambo sportif et combat, Levan apporte une dimension unique au programme MKR. Ses techniques de soumission debout et ses transitions sol-debout sont un avantage competitif pour tout fighter. Forme a Tbilissi et perfectionne au Dagestan.",
+    bio: "Maitre de Sambo sportif et combat, Shamil apporte une dimension unique au programme MKR. Ses techniques de soumission debout et ses transitions sol-debout sont un avantage competitif pour tout fighter. Heritier de la grande ecole de Sambo daghestanaise.",
     palmares: 'Multiple medaille Sambo, Instructeur federal',
   },
 ]
@@ -116,7 +116,7 @@ export default function CoachsPage() {
                 de generation en generation. C&apos;est ce savoir que nos coachs partagent avec toi.
               </p>
               <p className="pull-quote">
-                &laquo; Zurab t&apos;apprend des prises que tu ne verras nulle part en Europe. &raquo;
+                &laquo; Magomed t&apos;apprend des prises que tu ne verras nulle part en Europe. &raquo;
               </p>
               <span style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>Karim D. · MMA · Geneve</span>
             </div>

@@ -106,7 +106,7 @@ const jsonLdMain = {
       '@id': `${SITE_URL}/#location`,
       name: SITE_NAME,
       url: `${SITE_URL}/le-camp`,
-      description: "Camp d'entraînement MMA, Lutte et Sambo au cœur du Caucase, Géorgie. Salles d'entraînement avec tapis olympiques, cage MMA et équipement de frappe.",
+      description: "Camp d'entraînement MMA, Lutte et Sambo au cœur du Caucase, Daghestan & Tchétchénie. Salles d'entraînement avec tapis olympiques, cage MMA et équipement de frappe.",
       image: `${SITE_URL}/images/environment/gym-interior.webp`,
       address: { '@type': 'PostalAddress', addressCountry: GEO.country, addressRegion: GEO.region },
       geo: { '@type': 'GeoCoordinates', latitude: GEO.latitude, longitude: GEO.longitude },

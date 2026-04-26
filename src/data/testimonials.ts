@@ -26,7 +26,7 @@ export const TESTIMONIALS: Testimonial[] = [
     alt: 'Karim D. - MMA, Genève',
     name: 'Karim D.',
     discipline: 'MMA · Genève',
-    quote: "Le niveau des coachs est inégalable. Zurab t'apprend des prises que tu ne verras nulle part en Europe. J'y retourne l'année prochaine.",
+    quote: "Le niveau des coachs est inégalable. Magomed t'apprend des prises que tu ne verras nulle part en Europe. J'y retourne l'année prochaine.",
   },
   {
     img: '/images/testimonials/thomas-b.webp',

@@ -16,8 +16,8 @@ export const FAQ_HOMEPAGE: FAQItem[] = [
     answer: "Le camp est ouvert aux pratiquants intermédiaires et avancés. Une pratique régulière d'au moins 2 ans en MMA, lutte ou art martial de combat est requise. Le niveau est évalué lors de l'entretien vidéo.",
   },
   {
-    question: 'Le visa est-il nécessaire pour la Géorgie ?',
-    answer: "Les ressortissants de l'UE, Suisse, France et Canada n'ont pas besoin de visa pour la Géorgie pour des séjours inférieurs à 365 jours. L'entrée se fait avec le passeport.",
+    question: 'Le visa est-il nécessaire ?',
+    answer: "Le camp se déroule au Daghestan et en Tchétchénie (Fédération de Russie). Un visa est nécessaire pour la majorité des nationalités. MKR t'accompagne dans la procédure (lettre d'invitation, dossier) après confirmation de ta candidature.",
   },
   {
     question: "Qu'est-ce qui est inclus dans le prix ?",
@@ -25,7 +25,7 @@ export const FAQ_HOMEPAGE: FAQItem[] = [
   },
   {
     question: "Quelle est la langue d'entraînement ?",
-    answer: "Les entraînements se déroulent principalement en géorgien et en russe. Un interprète est présent pour le français et l'anglais. L'immersion linguistique fait partie de l'expérience.",
+    answer: "Les entraînements se déroulent principalement en russe (et quelques mots d'avar ou tchétchène selon la salle). Un interprète est présent pour le français et l'anglais. L'immersion linguistique fait partie de l'expérience.",
   },
   {
     question: 'Quel équipement dois-je apporter ?',
@@ -62,8 +62,8 @@ export const FAQ_CATEGORIES: FAQCategory[] = [
     label: 'Logistique',
     items: [
       {
-        question: 'Le visa est-il necessaire pour la Georgie ?',
-        answer: "Les ressortissants de l'UE, Suisse, France et Canada n'ont pas besoin de visa pour la Georgie pour des sejours inferieurs a 365 jours. L'entree se fait avec le passeport.",
+        question: 'Le visa est-il necessaire ?',
+        answer: "Le camp se deroule au Daghestan et en Tchetchenie (Federation de Russie). Un visa est necessaire pour la majorite des nationalites. MKR t'accompagne dans la procedure (lettre d'invitation, dossier) apres confirmation de ta candidature.",
       },
       {
         question: "Qu'est-ce qui est inclus dans le prix ?",
@@ -89,7 +89,7 @@ export const FAQ_CATEGORIES: FAQCategory[] = [
       },
       {
         question: "Quelle est la langue d'entrainement ?",
-        answer: "Les entrainements se deroulent principalement en georgien et en russe. Un interprete est present pour le francais et l'anglais. L'immersion linguistique fait partie de l'experience.",
+        answer: "Les entrainements se deroulent principalement en russe (et quelques mots d'avar ou tchetchene selon la salle). Un interprete est present pour le francais et l'anglais. L'immersion linguistique fait partie de l'experience.",
       },
       {
         question: 'Combien de participants par session ?',

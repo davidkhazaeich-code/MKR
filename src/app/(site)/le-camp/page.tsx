@@ -7,7 +7,7 @@ import CinematicReveal from '@/components/CinematicReveal'
 
 export const metadata: Metadata = {
   title: 'Le Camp | MKR Caucasian Camp | MMA & Lutte au Caucase',
-  description: "Decouvrez le concept MKR : immersion totale de 3 semaines au coeur du Caucase georgien. Coaching de haut niveau, hebergement, repas inclus. Zero distraction.",
+  description: "Decouvrez le concept MKR : immersion totale de 3 semaines au coeur du Caucase, Daghestan & Tchetchenie. Coaching de haut niveau, hebergement, repas inclus. Zero distraction.",
   alternates: { canonical: 'https://mkrcaucasiancamp.com/le-camp' },
 }
 
@@ -98,7 +98,7 @@ export default function LeCampPage() {
       <PageHero
         label="LE CAMP"
         title="3 SEMAINES QUI CHANGENT<br/>TA MANIERE DE COMBATTRE."
-        subtitle="Immersion totale au Caucase georgien. Coaching, hebergement, repas. Toi, tu combats."
+        subtitle="Immersion totale au Caucase, Daghestan & Tchetchenie. Coaching, hebergement, repas. Toi, tu combats."
       />
 
       {/* Cinematic reveal */}

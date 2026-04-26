@@ -2,7 +2,7 @@ export const SITE_URL = 'https://mkrcaucasiancamp.com'
 export const SITE_NAME = 'MKR Caucasian Camp'
 export const SITE_EMAIL = 'contact@mkrcaucasiancamp.com'
 export const SITE_DESCRIPTION =
-  "Camp d'entraînement MMA, Lutte et Arts Martiaux au cœur du Caucase, Géorgie. Méthodes d'élite, coaches champions, immersion totale."
+  "Camp d'entraînement MMA, Lutte et Arts Martiaux au cœur du Caucase, Daghestan & Tchétchénie. Méthodes d'élite, coaches champions, immersion totale."
 
 export const SOCIALS = {
   instagram: 'https://instagram.com/mkr.caucasiancamp',
@@ -11,8 +11,8 @@ export const SOCIALS = {
 } as const
 
 export const GEO = {
-  latitude: 42.2679,
-  longitude: 43.3569,
-  country: 'GE',
-  region: 'Géorgie',
+  latitude: 42.9849,
+  longitude: 47.5047,
+  country: 'RU',
+  region: 'Daghestan',
 } as const

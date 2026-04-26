@@ -88,7 +88,7 @@ const INCLUDES = [
       </svg>
     ),
     title: 'Coachs locaux',
-    desc: 'Entraineurs daghestanais et georgiens, champions et veterans.',
+    desc: 'Entraineurs daghestanais et tchetchenes, champions et veterans.',
   },
   {
     icon: (

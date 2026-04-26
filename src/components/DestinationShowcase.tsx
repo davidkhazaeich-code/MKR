@@ -17,9 +17,9 @@ const LANDSCAPES = [
   },
   {
     src: '/images/environment/mountain-road.webp',
-    alt: 'Route de montagne dans le Caucase georgien',
-    label: 'GEORGIE',
-    caption: 'Route du Caucase',
+    alt: 'Route de montagne au Caucase russe',
+    label: 'CAUCASE',
+    caption: 'Route du camp',
     text: 'Les routes qui menent au camp traversent les plus beaux paysages.',
   },
   {
