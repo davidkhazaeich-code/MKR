@@ -15,7 +15,10 @@ export interface RegistrationType {
   description: string
   longDescription: string
   cta: string
+  /** URL d'entrée principale (page produit). AudienceSwitcher pointe ici. */
   href: string
+  /** URL du formulaire d'inscription (depuis la page produit). */
+  formHref: string
   dates: string
   duration: string
   minPersons: number
@@ -34,8 +37,9 @@ export const REGISTRATION_TYPES: RegistrationType[] = [
     badge: 'Session officielle · Adultes',
     description: 'Rejoins la session de 3 semaines au Daghestan. Adultes uniquement, groupe constitué par MKR, esprit collectif.',
     longDescription: "Tu rejoins notre session officielle du 17 août au 5 septembre 2026. Tu fais partie d'un groupe constitué d'athlètes adultes du monde entier. MKR organise tout : visa, vol intérieur, transferts, hébergement, repas, programme, encadrement. Pour venir en famille avec un enfant, choisis le tunnel Famille.",
-    cta: "M'inscrire au MKR Camp 2026",
-    href: '/inscription?type=session',
+    cta: 'Découvrir le MKR Camp 2026',
+    href: '/mkr-camp-2026',
+    formHref: '/inscription?type=session',
     dates: '17 août - 5 sept 2026',
     duration: '3 semaines',
     minPersons: 1,
@@ -52,8 +56,9 @@ export const REGISTRATION_TYPES: RegistrationType[] = [
     badge: 'Tes dates · 1 à 4 adultes',
     description: 'Camp individuel ou en petit groupe d\'amis (1 à 4 adultes). Tu choisis tes dates, ta durée. MKR coordonne tout.',
     longDescription: "Tu pars quand tu veux, pour la durée que tu veux (1, 2 ou 3 semaines), seul ou avec 2 à 3 amis adultes (max 4 personnes). MKR coordonne tout sur place : coachs disponibles, hébergement, repas, transferts, vol intérieur Istanbul-Makhachkala. Pour venir en famille avec un enfant, choisis le tunnel Famille. Pour un club/groupe organisé de 5+ personnes, choisis Club & Groupe.",
-    cta: 'Organiser mon aventure',
-    href: '/inscription?type=custom',
+    cta: 'Découvrir le Sur Mesure',
+    href: '/sur-mesure',
+    formHref: '/inscription?type=custom',
     dates: 'Dates au choix',
     duration: '1, 2 ou 3 semaines',
     minPersons: 1,
@@ -69,8 +74,9 @@ export const REGISTRATION_TYPES: RegistrationType[] = [
     badge: 'Parent + enfant 8-17',
     description: 'Camp en famille au Daghestan. Parent et enfant 8-17 ans côte à côte, encadrement jeunesse spécialisé.',
     longDescription: "Tu pars en famille avec tes enfants (8-17 ans avec parent participant obligatoire). Programme parallèle : sessions adultes pour le parent, programme Lutte enfants pour l'ado. Tu peux rejoindre la session officielle 17 août, ou choisir tes propres dates (90 jours minimum).",
-    cta: 'Inscrire ma famille',
-    href: '/inscription?type=famille',
+    cta: 'Découvrir le Camp Famille',
+    href: '/familles',
+    formHref: '/inscription?type=famille',
     dates: 'Session ou tes dates',
     duration: '1, 2 ou 3 semaines',
     minPersons: 2,
@@ -86,8 +92,9 @@ export const REGISTRATION_TYPES: RegistrationType[] = [
     badge: 'Devis sur mesure · 5 à 20',
     description: 'Tu viens avec ton club ou un groupe organisé ? 5 à 20 personnes. Camp dédié à tes dates, hébergement bloc.',
     longDescription: "Tu fédères ton club ou un groupe d'au moins 5 personnes autour d'un objectif commun. MKR organise un camp dédié : dates choisies, hébergement bloc, transferts groupés, programme adapté au niveau collectif. Tarif par tête identique au tarif individuel. Si tu es 1 à 4 adultes amis, prends Sur Mesure. Si tu pars en famille, prends Famille.",
-    cta: 'Demander un devis groupe',
-    href: '/inscription?type=groupe',
+    cta: 'Découvrir Club & Groupe',
+    href: '/clubs-groupes',
+    formHref: '/inscription?type=groupe',
     dates: 'Dates au choix',
     duration: '1, 2 ou 3 semaines',
     minPersons: 5,

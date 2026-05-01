@@ -242,12 +242,12 @@ export default function Nav() {
                 <Link href="/sessions" className="mega-arrow-link">Voir les tarifs publics {ARROW_RIGHT}</Link>
               </div>
               <div>
-                <span className="mega-camp-links-label">4 inscriptions disponibles</span>
+                <span className="mega-camp-links-label">4 camps disponibles</span>
                 <ul className="mega-link-list" role="list">
-                  <li><Link href="/inscription?type=session">{ICO.sessions} MKR Camp 2026 (session officielle) {ARROW_SM}</Link></li>
-                  <li><Link href="/inscription?type=custom">{ICO.calendar} Sur Mesure (tes dates, ton aventure) {ARROW_SM}</Link></li>
-                  <li><Link href="/inscription?type=famille">{ICO.coaches} Famille (parent + enfant 8-17) {ARROW_SM}</Link></li>
-                  <li><Link href="/inscription?type=groupe">{ICO.coaches} Club &amp; Groupe (devis sur mesure) {ARROW_SM}</Link></li>
+                  <li><Link href="/mkr-camp-2026">{ICO.sessions} MKR Camp 2026 (session officielle) {ARROW_SM}</Link></li>
+                  <li><Link href="/sur-mesure">{ICO.calendar} Sur Mesure (tes dates, ton aventure) {ARROW_SM}</Link></li>
+                  <li><Link href="/familles">{ICO.coaches} Famille (parent + enfant 8-17) {ARROW_SM}</Link></li>
+                  <li><Link href="/clubs-groupes">{ICO.coaches} Club &amp; Groupe (5 à 20 personnes) {ARROW_SM}</Link></li>
                   <li><Link href="/le-camp">{ICO.camp} Découvrir le camp {ARROW_SM}</Link></li>
                   <li><Link href="/comment-ca-marche">{ICO.howItWorks} Comment ça marche {ARROW_SM}</Link></li>
                   <li><Link href="/preparer-son-camp">{ICO.prepare} Préparer son camp {ARROW_SM}</Link></li>
@@ -444,11 +444,11 @@ export default function Nav() {
             <Link href="/a-propos" className="mob-sub-link">{ICO.about} A propos</Link>
             <Link href="/contact" className="mob-sub-link">{ICO.contact} Contact</Link>
           </MobAccordion>
-          <MobAccordion title="S'inscrire" id="mob-insc">
-            <Link href="/inscription?type=session" className="mob-sub-link">{ICO.sessions} MKR Camp 2026</Link>
-            <Link href="/inscription?type=custom" className="mob-sub-link">{ICO.calendar} Sur Mesure</Link>
-            <Link href="/inscription?type=famille" className="mob-sub-link">{ICO.coaches} Famille</Link>
-            <Link href="/inscription?type=groupe" className="mob-sub-link">{ICO.coaches} Club &amp; Groupe</Link>
+          <MobAccordion title="Nos Camps" id="mob-camps">
+            <Link href="/mkr-camp-2026" className="mob-sub-link">{ICO.sessions} MKR Camp 2026</Link>
+            <Link href="/sur-mesure" className="mob-sub-link">{ICO.calendar} Sur Mesure</Link>
+            <Link href="/familles" className="mob-sub-link">{ICO.coaches} Famille</Link>
+            <Link href="/clubs-groupes" className="mob-sub-link">{ICO.coaches} Club &amp; Groupe</Link>
             <Link href="/sessions" className="mob-sub-link">{ICO.sessions} Tarifs publics</Link>
           </MobAccordion>
           <a href="https://wa.me/33666177691" target="_blank" rel="noopener noreferrer" className="mob-direct">

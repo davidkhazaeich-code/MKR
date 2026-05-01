@@ -1,0 +1,174 @@
+import Link from 'next/link'
+import type { Metadata } from 'next'
+import PageHero from '@/components/PageHero'
+import SectionCTA from '@/components/SectionCTA'
+import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
+import CinematicReveal from '@/components/CinematicReveal'
+import PricingTable from '@/components/PricingTable'
+import FacilitatorBand from '@/components/FacilitatorBand'
+
+export const metadata: Metadata = {
+  title: 'MKR Camp 2026 | Session officielle 17 août - 5 sept | MKR Caucasian Camp',
+  description: 'Rejoins le MKR Camp 2026, session officielle du 17 août au 5 septembre 2026 au Daghestan. 3 semaines, adultes uniquement, 15 places max. Tarif fixe 2 900 CHF tout inclus.',
+  alternates: { canonical: 'https://mkrcaucasiancamp.com/mkr-camp-2026' },
+}
+
+const REASONS = [
+  {
+    title: 'Esprit collectif',
+    desc: "Tu intègres un groupe d'athlètes adultes du monde entier. La dynamique de groupe pousse chacun au-delà de ses limites. La fraternité du tapis se construit en 48h.",
+  },
+  {
+    title: 'Dates fixes, organisation rodée',
+    desc: "Du 17 août au 5 septembre 2026, 3 semaines pleines. Tu n'as rien à arbitrer : MKR a calé tous les détails. Tu profites du programme dans sa version complète.",
+  },
+  {
+    title: 'Le format historique MKR',
+    desc: "Notre format phare depuis le début. C'est sur cette session que se créent les souvenirs forts, les amitiés durables, les moments de bascule. La majorité des athlètes reviennent l'année suivante.",
+  },
+]
+
+const TIMELINE = [
+  { time: 'J-90', label: 'Inscription', desc: 'Tu remplis le formulaire. Réponse sous 48h.' },
+  { time: 'J-60', label: 'Acompte 30%', desc: 'Lettre d\'invitation visa Russie. Acompte versé.' },
+  { time: 'J-45', label: 'Programme prep 6 sem', desc: 'Tu reçois le programme prep physique à distance.' },
+  { time: 'J-30', label: 'Solde', desc: 'Tu verses le solde. Visa russe finalisé.' },
+  { time: 'J-7', label: 'Briefing final', desc: 'Brief logistique, vol, transferts, packing list confirmée.' },
+  { time: 'JOUR J', label: 'Départ', desc: 'Vol intl à charge. Vol intérieur Istanbul-Makhachkala inclus. Véhicule MKR à l\'aéroport.' },
+]
+
+export default function MkrCamp2026Page() {
+  return (
+    <>
+      <BreadcrumbJsonLd items={[
+        { name: 'Accueil', url: 'https://mkrcaucasiancamp.com/' },
+        { name: 'MKR Camp 2026', url: 'https://mkrcaucasiancamp.com/mkr-camp-2026' },
+      ]} />
+
+      <PageHero
+        label="SESSION OFFICIELLE 2026"
+        title="LE MKR CAMP 2026<br/>T&apos;ATTEND."
+        subtitle="17 août - 5 septembre 2026. 3 semaines au Daghestan. Adultes uniquement, 15 places max, esprit collectif. Inscriptions ouvertes."
+        image="/images/ruslan/action/mma-cercle-session-demo-mkr.webp"
+        imageAlt="Cercle de combattants au MKR Camp 2026, démonstration grappling"
+      />
+
+      {/* Stats clés */}
+      <section className="parents-stats-band reveal">
+        <div className="parents-stats-grid">
+          <div>
+            <span className="parents-stat-num">3</span>
+            <span className="parents-stat-label">Semaines · 17 août - 5 sept</span>
+          </div>
+          <div>
+            <span className="parents-stat-num">15</span>
+            <span className="parents-stat-label">Places maximum (sélection sur dossier)</span>
+          </div>
+          <div>
+            <span className="parents-stat-num">9</span>
+            <span className="parents-stat-label">Coachs expérimentés</span>
+          </div>
+          <div>
+            <span className="parents-stat-num">2 900</span>
+            <span className="parents-stat-label">CHF · Tarif fixe tout inclus</span>
+          </div>
+        </div>
+      </section>
+
+      {/* Cinematic reveal */}
+      <CinematicReveal
+        image="/images/ruslan/action/mma-adultes-cercle.webp"
+        alt="Groupe d'athlètes en formation au MKR Camp"
+        label="LA SESSION HISTORIQUE"
+        title="UN CAMP, UN GROUPE,<br/>UNE TRANSFORMATION."
+        tagline="3 semaines au cœur du Caucase. Avec des athlètes adultes du monde entier. Tu rentres avec un niveau et une famille de combat."
+      />
+
+      {/* Pourquoi rejoindre */}
+      <section className="logi-section fx-grid fx-stack-2 fx-glow">
+        <div className="fx-glow-orb fx-glow-orb--left" />
+        <div className="inner">
+          <div className="logi-header reveal">
+            <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>
+              POURQUOI LA SESSION OFFICIELLE
+            </span>
+            <h2>3 RAISONS DE REJOINDRE LE GROUPE</h2>
+          </div>
+          <div className="grid-3" style={{ gap: '1.5rem' }}>
+            {REASONS.map((r, i) => (
+              <div key={i} className="content-card fx-grain fx-corner-glow reveal" style={{ transitionDelay: `${i * 0.08}s` }}>
+                <h3 className="card-title">{r.title}</h3>
+                <p className="card-body">{r.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* MKR organise tout */}
+      <FacilitatorBand withHeader={true} />
+
+      {/* Pricing */}
+      <PricingTable withHeader={true} />
+
+      {/* Timeline réservation */}
+      <section className="logi-section fx-texture-concrete fx-mask-b fx-stack-5">
+        <div className="inner">
+          <div className="logi-header reveal">
+            <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>
+              CALENDRIER D&apos;INSCRIPTION
+            </span>
+            <h2>DE J-90 AU JOUR J</h2>
+          </div>
+          <div className="daily-timeline">
+            {TIMELINE.map((slot, i) => (
+              <div key={i} className="daily-step reveal" style={{ transitionDelay: `${i * 0.06}s` }}>
+                <span className="daily-time">{slot.time}</span>
+                <div className="daily-step-content">
+                  <h3>{slot.label}</h3>
+                  <p>{slot.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Cross-sell autres tunnels */}
+      <section className="logi-section fx-grid fx-stack-6">
+        <div className="inner">
+          <div className="logi-header reveal">
+            <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>
+              LES DATES NE TE CONVIENNENT PAS ?
+            </span>
+            <h2>EXPLORE LES AUTRES FORMATS</h2>
+          </div>
+          <div className="grid-3 reveal" style={{ gap: '1.5rem' }}>
+            <Link href="/sur-mesure" className="content-card fx-grain fx-corner-glow" style={{ textDecoration: 'none', display: 'block' }}>
+              <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.5rem', fontSize: '0.65rem' }}>SUR MESURE</span>
+              <h3 className="card-title">Tes propres dates</h3>
+              <p className="card-body">Tu veux choisir tes dates ? 1 à 4 adultes, durée au choix, délai 90 jours minimum.</p>
+            </Link>
+            <Link href="/familles" className="content-card fx-grain fx-corner-glow" style={{ textDecoration: 'none', display: 'block' }}>
+              <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.5rem', fontSize: '0.65rem' }}>FAMILLE</span>
+              <h3 className="card-title">Camp Famille</h3>
+              <p className="card-body">Tu pars avec un enfant 8-17 ans ? Programme parent + enfant adapté.</p>
+            </Link>
+            <Link href="/clubs-groupes" className="content-card fx-grain fx-corner-glow" style={{ textDecoration: 'none', display: 'block' }}>
+              <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.5rem', fontSize: '0.65rem' }}>CLUB & GROUPE</span>
+              <h3 className="card-title">Ton club au Daghestan</h3>
+              <p className="card-body">Tu fédères 5+ personnes (club ou groupe organisé) ? Camp dédié.</p>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <SectionCTA
+        primaryHref="/inscription?type=session"
+        primaryLabel="M'INSCRIRE AU MKR CAMP 2026"
+        ghostHref="/contact"
+        ghostLabel="POSER UNE QUESTION"
+      />
+    </>
+  )
+}

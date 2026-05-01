@@ -89,12 +89,12 @@ export default function Footer() {
 
           {/* Inscriptions */}
           <div>
-            <span className="footer-col-label">Inscriptions</span>
+            <span className="footer-col-label">Nos Camps</span>
             <ul className="footer-nav-list" role="list">
-              <li><Link href="/inscription?type=session" className="accent">MKR Camp 2026</Link></li>
-              <li><Link href="/inscription?type=custom">Sur Mesure</Link></li>
-              <li><Link href="/inscription?type=famille">Famille</Link></li>
-              <li><Link href="/inscription?type=groupe">Club &amp; Groupe</Link></li>
+              <li><Link href="/mkr-camp-2026" className="accent">MKR Camp 2026</Link></li>
+              <li><Link href="/sur-mesure">Sur Mesure</Link></li>
+              <li><Link href="/familles">Famille</Link></li>
+              <li><Link href="/clubs-groupes">Club &amp; Groupe</Link></li>
               <li><Link href="/sessions">Tarifs publics</Link></li>
               <li><Link href="/comment-ca-marche">Comment ca marche</Link></li>
             </ul>

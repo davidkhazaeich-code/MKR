@@ -1,0 +1,186 @@
+import Link from 'next/link'
+import type { Metadata } from 'next'
+import PageHero from '@/components/PageHero'
+import SectionCTA from '@/components/SectionCTA'
+import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
+import CinematicReveal from '@/components/CinematicReveal'
+import PricingTable from '@/components/PricingTable'
+import FacilitatorBand from '@/components/FacilitatorBand'
+
+export const metadata: Metadata = {
+  title: 'Clubs et Groupes | MKR Caucasian Camp | Camp dédié 5 à 20 personnes',
+  description: 'Camp dédié pour ton club ou groupe organisé (5 à 20 personnes). Dates au choix, hébergement bloc, transferts groupés, programme adapté au niveau collectif. Devis sur mesure.',
+  alternates: { canonical: 'https://mkrcaucasiancamp.com/clubs-groupes' },
+}
+
+const ADVANTAGES = [
+  {
+    title: 'Hébergement bloc',
+    desc: "Ton groupe est logé ensemble (chambres adjacentes ou bâtiment dédié selon taille). Pas de mélange avec d'autres camps.",
+  },
+  {
+    title: 'Transferts groupés',
+    desc: "Un seul véhicule pour ton groupe. Pas d'attente à l'aéroport, pas de fragmentation logistique.",
+  },
+  {
+    title: 'Programme adapté niveau',
+    desc: "Le coaching s'ajuste au niveau collectif de ton groupe (débutant, intermédiaire, avancé, mixte). Pas de programme générique.",
+  },
+  {
+    title: 'Coach dédié',
+    desc: "Un coach principal MKR est attribué à ton groupe pour la durée du camp. Continuité pédagogique sur les 1 à 3 semaines.",
+  },
+  {
+    title: 'Tarif par tête fixe',
+    desc: "Pas de réduction marketing : chaque membre paie le tarif individuel public. Mais les coûts logistiques sont mutualisés.",
+  },
+  {
+    title: 'Bilan groupe',
+    desc: "Compte-rendu collectif fin de camp + bilan individuel pour chaque membre. Tu repars avec un livrable structuré.",
+  },
+]
+
+const PROCESS = [
+  { num: '01', title: 'Demande de devis', desc: 'Tu remplis le formulaire : nom du club, nombre de participants (5 à 20), niveau collectif, dates souhaitées, durée.' },
+  { num: '02', title: 'Appel de cadrage', desc: 'On organise un appel avec le responsable du groupe pour cadrer le programme, les attentes, la logistique.' },
+  { num: '03', title: 'Devis détaillé', desc: 'Tu reçois un devis ferme : tarif par tête × nombre de membres + détail des prestations.' },
+  { num: '04', title: 'Acompte 30%', desc: 'À la signature, acompte 30% du total. Lettres d\'invitation visa pour chaque membre.' },
+  { num: '05', title: 'Préparation', desc: 'Programme prep physique 6 semaines transmis à chaque membre. Solde 30 jours avant le départ.' },
+  { num: '06', title: 'Camp dédié', desc: 'Ton groupe arrive ensemble, vit ensemble, s\'entraîne ensemble. Coach dédié, programme adapté.' },
+]
+
+export default function ClubsGroupesPage() {
+  return (
+    <>
+      <BreadcrumbJsonLd items={[
+        { name: 'Accueil', url: 'https://mkrcaucasiancamp.com/' },
+        { name: 'Clubs et Groupes', url: 'https://mkrcaucasiancamp.com/clubs-groupes' },
+      ]} />
+
+      <PageHero
+        label="CLUBS ET GROUPES · 5 À 20 PERSONNES"
+        title="TON CLUB<br/>AU DAGHESTAN."
+        subtitle="Camp dédié pour ton club ou groupe organisé (5 à 20 personnes). Hébergement bloc, transferts groupés, programme adapté au niveau."
+        image="/images/ruslan/action/mma-adultes-cercle.webp"
+        imageAlt="Cercle de fighters caucasiens en formation, équipe et fraternité du tapis"
+      />
+
+      {/* Stats clés */}
+      <section className="parents-stats-band reveal">
+        <div className="parents-stats-grid">
+          <div>
+            <span className="parents-stat-num">5-20</span>
+            <span className="parents-stat-label">Personnes par groupe</span>
+          </div>
+          <div>
+            <span className="parents-stat-num">90j</span>
+            <span className="parents-stat-label">Délai minimum réservation</span>
+          </div>
+          <div>
+            <span className="parents-stat-num">1/2/3</span>
+            <span className="parents-stat-label">Semaines au choix</span>
+          </div>
+          <div>
+            <span className="parents-stat-num">Devis</span>
+            <span className="parents-stat-label">Sur mesure selon configuration</span>
+          </div>
+        </div>
+      </section>
+
+      {/* Cinematic reveal */}
+      <CinematicReveal
+        image="/images/ruslan/heritage/priere-collective-mkr.webp"
+        alt="Athletes alignés sur le tapis, fraternité collective au camp MKR"
+        label="CAMP DÉDIÉ"
+        title="TON GROUPE,<br/>TON RYTHME."
+        tagline="Vous êtes 5, 10, 20. Vous avez un objectif commun. MKR organise un camp 100% conçu pour votre niveau et vos dates."
+      />
+
+      {/* Avantages */}
+      <section className="logi-section fx-grid fx-stack-2 fx-glow">
+        <div className="fx-glow-orb fx-glow-orb--right" />
+        <div className="inner">
+          <div className="logi-header reveal">
+            <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>
+              CE QUI CHANGE EN GROUPE
+            </span>
+            <h2>6 AVANTAGES LOGISTIQUES</h2>
+          </div>
+          <div className="grid-3x2">
+            {ADVANTAGES.map((a, i) => (
+              <div key={i} className="content-card fx-grain fx-corner-glow reveal" style={{ transitionDelay: `${i * 0.06}s` }}>
+                <h3 className="card-title" style={{ fontSize: '0.95rem' }}>{a.title}</h3>
+                <p className="card-body" style={{ fontSize: '0.85rem' }}>{a.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* MKR organise tout */}
+      <FacilitatorBand withHeader={true} />
+
+      {/* Pricing */}
+      <PricingTable withHeader={true} />
+
+      {/* Processus devis */}
+      <section className="logi-section fx-texture-basalt fx-mask-c fx-stack-5">
+        <div className="inner">
+          <div className="logi-header reveal">
+            <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>
+              PROCESSUS DEVIS GROUPE
+            </span>
+            <h2>6 ÉTAPES, 90 JOURS</h2>
+          </div>
+          <div className="logi-visa-steps reveal">
+            {PROCESS.map((step) => (
+              <div key={step.num} className="logi-step">
+                <span className="logi-step-num">{step.num}</span>
+                <div>
+                  <h3>{step.title}</h3>
+                  <p>{step.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Cross-sell autres tunnels */}
+      <section className="logi-section fx-grid fx-stack-6">
+        <div className="inner">
+          <div className="logi-header reveal">
+            <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>
+              MOINS DE 5 PERSONNES ?
+            </span>
+            <h2>EXPLORE LES AUTRES FORMATS</h2>
+          </div>
+          <div className="grid-3 reveal" style={{ gap: '1.5rem' }}>
+            <Link href="/sur-mesure" className="content-card fx-grain fx-corner-glow" style={{ textDecoration: 'none', display: 'block' }}>
+              <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.5rem', fontSize: '0.65rem' }}>1 À 4 ADULTES</span>
+              <h3 className="card-title">Sur Mesure</h3>
+              <p className="card-body">Vous êtes 1 à 4 amis adultes ? Sur Mesure est le bon tunnel : tes dates, durée au choix.</p>
+            </Link>
+            <Link href="/mkr-camp-2026" className="content-card fx-grain fx-corner-glow" style={{ textDecoration: 'none', display: 'block' }}>
+              <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.5rem', fontSize: '0.65rem' }}>SESSION OFFICIELLE</span>
+              <h3 className="card-title">MKR Camp 2026</h3>
+              <p className="card-body">Tu veux rejoindre un groupe constitué par MKR ? 17 août - 5 sept 2026, esprit collectif.</p>
+            </Link>
+            <Link href="/familles" className="content-card fx-grain fx-corner-glow" style={{ textDecoration: 'none', display: 'block' }}>
+              <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.5rem', fontSize: '0.65rem' }}>FAMILLE</span>
+              <h3 className="card-title">Camp Famille</h3>
+              <p className="card-body">Tu pars avec un enfant 8-17 ans ? Programme parent + enfant adapté.</p>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <SectionCTA
+        primaryHref="/inscription?type=groupe"
+        primaryLabel="DEMANDER UN DEVIS GROUPE"
+        ghostHref="/contact"
+        ghostLabel="POSER UNE QUESTION"
+      />
+    </>
+  )
+}
