@@ -166,6 +166,7 @@ export default function InscriptionLayout({ initialAudience }: InscriptionLayout
           if (diffDays < 90) e.push('La date de début doit être au moins 90 jours après aujourd\'hui')
         }
         if (!form.duree) e.push('Durée requise')
+        if (!form.nombreParticipants) e.push('Composition requise (1 à 4 adultes)')
       }
       if (audience === 'famille') {
         if (!form.duree) e.push('Durée requise')
@@ -648,11 +649,10 @@ export default function InscriptionLayout({ initialAudience }: InscriptionLayout
                           value={form.nomClub}
                           onChange={e => set('nomClub', e.target.value)} />
                       </Field>
-                      <Field label="Nombre de participants" hint="Adultes et enfants confondus">
+                      <Field label="Nombre de participants" hint="5 à 20 personnes (adultes et/ou ados, club ou groupe organisé)">
                         <select className="cand-select" value={form.nombreParticipants}
                           onChange={e => set('nombreParticipants', e.target.value)}>
                           <option value="" disabled>Sélectionner</option>
-                          <option value="2-4">2 à 4 personnes</option>
                           <option value="5-9">5 à 9 personnes</option>
                           <option value="10-15">10 à 15 personnes</option>
                           <option value="16-20">16 à 20 personnes</option>
@@ -760,41 +760,25 @@ export default function InscriptionLayout({ initialAudience }: InscriptionLayout
                   </>
                 )}
 
-                {/* Famille (option pour session ou custom, pas pour groupe ni famille tunnel) */}
-                {(audience === 'session' || audience === 'custom') && (
-                  <Field label="Tu viens avec ta famille ?" hint="Enfants 8-17 ans avec parent obligatoire (1 900 CHF / 3 sem par enfant)">
-                    <div className="cand-radios">
-                      <label className={`cand-radio${!form.vientAvecFamille ? ' selected' : ''}`}>
-                        <input type="radio" name="famille" checked={!form.vientAvecFamille}
-                          onChange={() => set('vientAvecFamille', false)} />
-                        Non, je viens seul(e)
-                      </label>
-                      <label className={`cand-radio${form.vientAvecFamille ? ' selected' : ''}`}>
-                        <input type="radio" name="famille" checked={form.vientAvecFamille}
-                          onChange={() => set('vientAvecFamille', true)} />
-                        Oui, avec mon/mes enfant(s)
-                      </label>
-                    </div>
-                    {form.vientAvecFamille && (
-                      <div className="cand-row" style={{ marginTop: '1rem' }}>
-                        <Field label="Nombre d'enfants">
-                          <select className="cand-select" value={form.nombreEnfants}
-                            onChange={e => set('nombreEnfants', e.target.value)}>
-                            <option value="" disabled>Sélectionner</option>
-                            <option value="1">1 enfant</option>
-                            <option value="2">2 enfants</option>
-                            <option value="3">3 enfants</option>
-                          </select>
-                        </Field>
-                        <Field label="Âges des enfants" hint="Entre 8 et 17 ans">
-                          <input className="cand-input" type="text"
-                            placeholder="Ex : 10, 13"
-                            value={form.enfantsAges}
-                            onChange={e => set('enfantsAges', e.target.value)} />
-                        </Field>
-                      </div>
-                    )}
+                {/* Composition Sur Mesure (1 à 4 adultes) */}
+                {audience === 'custom' && (
+                  <Field label="Composition de ton inscription" hint="1 à 4 adultes uniquement (solo, duo, trio, quatuor). Pour 5+ : Club & Groupe. Pour partir avec un enfant : Famille.">
+                    <select className="cand-select" value={form.nombreParticipants}
+                      onChange={e => set('nombreParticipants', e.target.value)}>
+                      <option value="" disabled>Sélectionner</option>
+                      <option value="1">Solo (1 adulte)</option>
+                      <option value="2">Duo (2 adultes)</option>
+                      <option value="3">Trio (3 adultes)</option>
+                      <option value="4">Quatuor (4 adultes)</option>
+                    </select>
                   </Field>
+                )}
+
+                {/* Note redirection pour Session : pas de famille ici */}
+                {audience === 'session' && (
+                  <p className="logi-updated" style={{ background: 'rgba(255,255,255,0.03)', padding: '0.85rem 1rem', borderRadius: '3px', textAlign: 'left' }}>
+                    Tu viens avec ton enfant 8-17 ans ? <Link href="/inscription?type=famille" style={{ color: 'var(--primary)', textDecoration: 'underline' }}>Choisis le tunnel Famille</Link> à la place — le formulaire est adapté (tarif enfant 1 900 CHF / 3 sem inclus).
+                  </p>
                 )}
 
                 <Field label="Ville / pays de départ" hint="Utilisé pour estimer les vols">
@@ -870,9 +854,10 @@ export default function InscriptionLayout({ initialAudience }: InscriptionLayout
                     if (audience === 'famille') {
                       adults = 1
                       enfants = parseInt(form.nombreEnfants || '0', 10)
-                    } else if (audience === 'session' || audience === 'custom') {
+                    } else if (audience === 'session') {
                       adults = 1
-                      enfants = form.vientAvecFamille ? parseInt(form.nombreEnfants || '0', 10) : 0
+                    } else if (audience === 'custom') {
+                      adults = parseInt(form.nombreParticipants || '1', 10)
                     }
                     if (audience !== 'groupe' && weeks && adults > 0) {
                       const total = calculatePrice({ adults, children: enfants, weeks: weeks as Duration })

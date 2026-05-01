@@ -123,11 +123,11 @@ export const FAQ_CATEGORIES: FAQCategory[] = [
       },
       {
         question: 'Je viens avec mon club, y a-t-il un tarif groupe ?',
-        answer: "Le tarif par tete reste identique au tarif individuel : pas de reduction. L'avantage du groupe : reservation simultanee, hebergement bloc, transferts groupes, programme adapte au niveau collectif. Inscription via le tunnel 'Clubs et groupes' (2 a 20 personnes).",
+        answer: "Le tarif par tete reste identique au tarif individuel : pas de reduction. L'avantage du groupe : reservation simultanee, hebergement bloc, transferts groupes, programme adapte au niveau collectif. Le tunnel 'Club & Groupe' est reserve aux groupes organises de 5 a 20 personnes. Pour 1 a 4 amis adultes, prends 'Sur Mesure'.",
       },
       {
-        question: "Quels sont les 3 types d'inscription ?",
-        answer: "1. Rejoindre la session officielle (17 aout - 5 sept 2026, groupe constitue par MKR, 3 semaines fixes). 2. Camp sur mesure (tes dates, 1/2/3 semaines, delai 90 jours minimum). 3. Clubs et groupes (2 a 20 personnes, dates au choix, programme adapte). Tarifs publics fixes identiques pour les 3 formats.",
+        question: "Quels sont les 4 types d'inscription ?",
+        answer: "1. MKR Camp 2026 (session officielle 17 aout - 5 sept, adultes uniquement, groupe constitue par MKR, 3 semaines fixes). 2. Sur Mesure (tes dates, 1 a 4 adultes, 1/2/3 semaines, delai 90 jours minimum). 3. Famille (parent + enfant 8-17 ans, choix entre rejoindre la session ou sur mesure). 4. Club & Groupe (5 a 20 personnes, club ou groupe organise, dates au choix, devis sur mesure). Tarifs publics fixes identiques pour les 4 tunnels.",
       },
       {
         question: 'Quel est le delai minimum pour reserver un camp sur mesure ?',
