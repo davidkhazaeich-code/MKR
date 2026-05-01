@@ -3,17 +3,26 @@
 > **Fichier de référence pour Claude Code.** Mise à jour : 2026-04-30 (post-Sprint 2 facilitateur).
 > Lis ce fichier en priorité avant toute intervention sur le site MKR. Il évite de re-explorer.
 
-## 🆕 Changements 2026-04-30 (post-pivot facilitateur)
+## 🆕 Changements 2026-04-30 (post-pivot facilitateur, logique 4 tunnels nettoyée)
 
-- **3 tunnels d'inscription** : `/inscription?type=session|custom|groupe` (hybride)
+- **4 tunnels d'inscription** : `/inscription?type=session|custom|famille|groupe`
+  - **MKR Camp 2026** : adultes uniquement, 17/08-05/09 verrouillé
+  - **Sur Mesure** : 1 à 4 adultes (Solo/Duo/Trio/Quatuor), tes dates, 90j min
+  - **Famille** : parent + enfant 8-17 obligatoire, sub-choix session ou sur mesure
+  - **Club & Groupe** : 5 à 20 personnes, devis sur mesure
+- **Pas de duplication famille** : le tunnel Famille est obligatoire pour partir avec un enfant
 - **Nouvelle page** : `/familles` (camp parent + enfant)
-- **Nouveaux data files** : `data/pricing.ts` (grille fixe), `data/registration-types.ts` (3 types)
-- **Nouveaux composants** : `<AudienceSwitcher />`, `<PricingTable />`
-- **Photos kids Ruslan** intégrées dans `public/images/ruslan/kids/` (4 fichiers WebP)
-- **InscriptionLayout** refactor : Step 0 sélecteur + Step 3 adaptatif (date verrouillée / picker custom / champs groupe)
-- **Footer** : col "Disciplines" → "Programmes" enrichie + nouvelle col "Inscriptions"
-- **Mega menu Le Camp** : refonte autour des 3 inscriptions
-- **Menu mobile** : nouvel accordion "S'inscrire"
+- **Nouveaux data files** : `data/pricing.ts` (grille fixe), `data/registration-types.ts` (4 types)
+- **Nouveaux composants** : `<AudienceSwitcher />`, `<PricingTable />`, `<FacilitatorBand />` (homepage)
+- **Photos kids** : 4 HEIC convertis + 3 nouvelles Nanobanana (kids-coach-cercle, parent-enfant-tapis, kids-sparring-encadre)
+- **InscriptionLayout** refactor : Step 0 sélecteur + Step 3 adaptatif par tunnel + tarif live
+- **Footer** : col "Inscriptions" 4 liens + col "Programmes" enrichie
+- **Mega menu Le Camp** : 4 inscriptions affichées
+- **Menu mobile** : accordion "S'inscrire" 4 liens
+- **Page `/programme`** : section S&C remplacée par section Jeunesse 8-17
+- **Mega menu Programme** : 3e card S&C remplacée par card JEUNESSE
+- **Hero subtitle** : élargi "Solo, en famille ou en club. MKR organise tout"
+- **CGV** : Article 10 nouveau "Mineurs et autorisation parentale"
 
 ---
 
@@ -322,6 +331,8 @@ mkrcaucasiancamp.com/
 |---|---|---|
 | `Hero.tsx` | Hero vidéos + carousel sessions | `data/sessions.ts` |
 | `VideoSection.tsx` | "1 À 3 SEMAINES QUI CHANGENT TOUT" | hardcoded |
+| `AudienceSwitcher.tsx` | 4 cards "Pour qui ?" — entre VideoSection et FacilitatorBand | `data/registration-types.ts` |
+| `FacilitatorBand.tsx` | "MKR organise tout" — 6 prestations (visa, vol, transferts, héberg., repas, encadrement) | hardcoded FACILITATOR_ITEMS |
 | `Philosophie.tsx` | Bento "POURQUOI LE CAUCASE" | hardcoded |
 | `DestinationShowcase.tsx` | Grid 4 paysages | hardcoded `LANDSCAPES` |
 | `Coaches.tsx` | Grille coachs | `data/coaches.ts` |
@@ -668,19 +679,50 @@ GEO = { latitude: 42.9849, longitude: 47.5047, country: 'RU', region: 'Daghestan
 | `app/(site)/programme/lutte-enfants/page.tsx` | section "Pour les parents" mentionne 1000/1400/1900 |
 **⚠️** Si on change un tarif : modifier UNIQUEMENT `data/pricing.ts`. Tous les autres endroits propagent automatiquement.
 
-### 3 types d'inscription (session / custom / groupe)
+### 4 types d'inscription (session / custom / famille / groupe)
 **Source unique** : `data/registration-types.ts` (REGISTRATION_TYPES)
+**Logique nettoyée 2026-04-30** : pas de duplication famille — chaque tunnel a sa cible précise.
+
+| Tunnel | Cible | Composition | Dates |
+|---|---|---|---|
+| `session` MKR Camp 2026 | Adultes uniquement (recommandé) | 1 à 15 adultes | 17/08-05/09 verrouillé |
+| `custom` Sur Mesure | Adultes uniquement | 1 à 4 (Solo/Duo/Trio/Quatuor) | Tes dates, 90j min |
+| `famille` Famille | Parent + enfant 8-17 obligatoire | 1+ parent + 1+ enfant (max 6) | Sub-choix session OU sur mesure |
+| `groupe` Club & Groupe | Club/groupe organisé | 5 à 20 personnes | Tes dates, 90j min |
+
 | Fichier | Forme |
 |---|---|
-| `data/registration-types.ts` | 3 objets RegistrationType avec id, label, badge, description, image, etc. |
-| `components/AudienceSwitcher.tsx` | composant avec 3 cards photo (lit registration-types) |
-| `components/InscriptionLayout.tsx` | sélecteur Step 0 + state `audience` + adaptations Step 3 |
-| `app/inscription/page.tsx` | parse `?type=` et passe `initialAudience` à InscriptionLayout |
-| `app/(site)/page.tsx` (homepage) | `<AudienceSwitcher />` entre VideoSection et Philosophie |
+| `data/registration-types.ts` | 4 objets RegistrationType avec id, label, badge, description, image, etc. |
+| `components/AudienceSwitcher.tsx` | composant avec 4 cards photo (grid 4 col desktop / 2x2 tablet / 1 col mobile) |
+| `components/InscriptionLayout.tsx` | sélecteur Step 0 + state `audience` + step 3 adaptatif par tunnel |
+| `app/inscription/page.tsx` | parse `?type=session\|custom\|famille\|groupe` et passe `initialAudience` |
+| `app/(site)/page.tsx` (homepage) | `<AudienceSwitcher />` entre VideoSection et FacilitatorBand |
 | `app/(site)/sessions/page.tsx` | `<AudienceSwitcher withHeader={false} />` après PageHero |
-| `components/Nav.tsx` | mega-camp panel + menu mobile "S'inscrire" accordion (3 liens) |
-| `components/Footer.tsx` | colonne "Inscriptions" (3 liens) |
+| `components/Nav.tsx` | mega-camp panel (4 liens) + menu mobile "S'inscrire" accordion (4 liens) |
+| `components/Footer.tsx` | colonne "Inscriptions" (4 liens) |
 **⚠️** Si on change un wording : modifier UNIQUEMENT `data/registration-types.ts`. Le reste propage.
+
+**Spécificités tunnel `famille`** :
+- Pré-remplissage automatique : `vientAvecFamille=true`, `session='aout-2026'`, `duree='3-semaines'`
+- Sub-choix radio en step 3 : "Rejoindre MKR Camp 2026" OU "Camp famille sur mesure"
+- Si sur mesure : date picker + durée libres
+- Champs `nombreEnfants` et `enfantsAges` obligatoires
+- Tarif calculé : 1 parent (2900) + N enfants (1900) pour 3 sem
+
+**Spécificités tunnel `custom`** :
+- Sélecteur "Composition" obligatoire : Solo (1) / Duo (2) / Trio (3) / Quatuor (4)
+- Tarif calculé : composition × tarif durée
+- Si user veut venir avec enfant : note redirection vers Famille (pas d'option famille ici)
+
+**Spécificités tunnel `session`** :
+- Date verrouillée 17/08 - 05/09
+- Durée verrouillée 3 semaines
+- Note redirection vers Famille si user a un enfant à inscrire (pas d'option famille ici)
+
+**Spécificités tunnel `groupe`** :
+- Nombre participants min 5 (les 2-4 sont basculés sur Sur Mesure)
+- Champs : nom club, nombre participants, niveau groupe, date début, durée
+- Pas de calcul tarif (devis sur mesure)
 
 ### Camp Famille (parent + enfant 8-17)
 | Fichier | Rôle |

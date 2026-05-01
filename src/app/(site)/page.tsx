@@ -4,6 +4,7 @@ import Hero from '@/components/Hero'
 
 const VideoSection = dynamic(() => import('@/components/VideoSection'), { ssr: true })
 const AudienceSwitcher = dynamic(() => import('@/components/AudienceSwitcher'), { ssr: true })
+const FacilitatorBand = dynamic(() => import('@/components/FacilitatorBand'), { ssr: true })
 const Philosophie = dynamic(() => import('@/components/Philosophie'), { ssr: true })
 const DestinationShowcase = dynamic(() => import('@/components/DestinationShowcase'), { ssr: true })
 const Coaches = dynamic(() => import('@/components/Coaches'), { ssr: true })
@@ -28,6 +29,7 @@ export default function Home() {
       <Hero />
       <VideoSection />
       <AudienceSwitcher />
+      <FacilitatorBand />
       <Philosophie />
       <DestinationShowcase />
       <Testimonials />
