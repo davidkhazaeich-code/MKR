@@ -36,14 +36,38 @@ export default function ProgrammeLutteEnfantsPage() {
         { name: 'Lutte enfants', url: 'https://mkrcaucasiancamp.com/programme/lutte-enfants' },
       ]} />
       <PageHero
-        label="LUTTE ENFANTS"
-        title="LA NOUVELLE GENERATION<br/>DU CAUCASE"
-        subtitle="Programme jeunesse adapte. Pedagogie progressive, encadrement specialise."
+        label="JEUNESSE 8-17 ANS"
+        title="FORME TON ENFANT<br/>À LA SOURCE."
+        subtitle="Programme jeunesse au Daghestan. Encadrement spécialisé, pédagogie progressive, parent participant obligatoire."
         breadcrumb={[
           { href: '/programme', label: 'Programme' },
-          { href: '/programme/lutte-enfants', label: 'Lutte enfants' },
+          { href: '/programme/lutte-enfants', label: 'Jeunesse' },
         ]}
+        image="/images/ruslan/kids/kids-coach-cercle-mkr.webp"
+        imageAlt="Cercle de jeunes lutteurs autour d'un coach daghestanais"
       />
+
+      {/* Stats parents — bande de réassurance */}
+      <section className="parents-stats-band reveal">
+        <div className="parents-stats-grid">
+          <div>
+            <span className="parents-stat-num">8-17</span>
+            <span className="parents-stat-label">Ans · Avec parent obligatoire</span>
+          </div>
+          <div>
+            <span className="parents-stat-num">1:5</span>
+            <span className="parents-stat-label">Ratio coach jeunesse / enfants</span>
+          </div>
+          <div>
+            <span className="parents-stat-num">2</span>
+            <span className="parents-stat-label">Sessions/jour à 10h30 et 17h30</span>
+          </div>
+          <div>
+            <span className="parents-stat-num">1 900</span>
+            <span className="parents-stat-label">CHF · 3 semaines · tarif fixe enfant</span>
+          </div>
+        </div>
+      </section>
 
       {/* Description */}
       <section className="logi-section fx-grid fx-stack-1 fx-glow">
@@ -189,10 +213,10 @@ export default function ProgrammeLutteEnfantsPage() {
       </section>
 
       <SectionCTA
-        primaryHref="/inscription?type=session"
-        primaryLabel="INSCRIRE MON ENFANT"
-        ghostHref="/contact"
-        ghostLabel="POSER UNE QUESTION"
+        primaryHref="/inscription?type=famille"
+        primaryLabel="INSCRIRE MA FAMILLE"
+        ghostHref="/familles"
+        ghostLabel="DÉCOUVRIR LE CAMP FAMILLE"
       />
     </>
   )
