@@ -90,10 +90,10 @@ export default function ProgrammeLutteEnfantsPage() {
         </div>
       </section>
 
-      {/* Cinematic reveal — kid lutteur Rossiya */}
+      {/* Cinematic reveal — coach + cercle d'enfants */}
       <CinematicReveal
-        image="/images/ruslan/kids/kid-lutteur-rouge-rossiya.webp"
-        alt="Jeune lutteur en kimono rouge, ecole daghestanaise"
+        image="/images/ruslan/kids/kids-coach-cercle-mkr.webp"
+        alt="Cercle de jeunes lutteurs autour d'un coach daghestanais, transmission technique"
         label="TRANSMISSION"
         title="LE GESTE JUSTE,<br/>AVANT TOUT"
         tagline="Fondamentaux d&apos;abord. Confiance, technique, respect du tapis. Tout commence la."
@@ -175,8 +175,8 @@ export default function ProgrammeLutteEnfantsPage() {
             <div>
               <figure className="photo-card">
                 <img
-                  src="/images/ruslan/kids/kids-course-flou-1.webp"
-                  alt="Jeunes lutteurs en course d'echauffement, dynamique du groupe"
+                  src="/images/ruslan/kids/kids-sparring-encadre-mkr.webp"
+                  alt="Sparring contrôlé entre jeunes lutteurs, supervision constante du coach"
                   width={800}
                   height={600}
                   loading="lazy"

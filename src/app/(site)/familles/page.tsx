@@ -74,10 +74,10 @@ export default function FamillesPage() {
         subtitle="Parent et enfant 8-17 ans côte à côte sur le tapis. Une expérience qui se transmet."
       />
 
-      {/* Cinematic reveal */}
+      {/* Cinematic reveal — parent-enfant tapis */}
       <CinematicReveal
-        image="/images/ruslan/heritage/priere-collective-mkr.webp"
-        alt="Athletes alignés sur le tapis, transmission au camp MKR"
+        image="/images/ruslan/kids/parent-enfant-tapis-mkr.webp"
+        alt="Père et fils côte à côte sur le tapis du camp MKR, transmission générationnelle"
         label="HÉRITAGE"
         title="L'HÉRITAGE<br/>SE TRANSMET"
         tagline="Au Daghestan, la lutte est une affaire de famille depuis des générations. Tu viens t'inscrire dans cette tradition avec ton enfant."
@@ -164,8 +164,8 @@ export default function FamillesPage() {
             <div>
               <figure className="photo-card">
                 <img
-                  src="/images/ruslan/kids/kids-course-flou-1.webp"
-                  alt="Jeunes lutteurs en course d'échauffement collectif"
+                  src="/images/ruslan/kids/kids-sparring-encadre-mkr.webp"
+                  alt="Jeunes lutteurs en sparring contrôlé sous supervision du coach"
                   width={800}
                   height={600}
                   loading="lazy"

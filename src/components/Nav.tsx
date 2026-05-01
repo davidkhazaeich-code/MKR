@@ -306,7 +306,7 @@ export default function Nav() {
                 <span className="mega-arrow-link">Voir le programme {ARROW_RIGHT}</span>
               </Link>
               <Link href="/programme/lutte-enfants" className="mega-prog-card">
-                <Image src="/images/ruslan/kids/kids-alignes-tapis-vertical.webp" alt="" className="mega-prog-bg" fill sizes="(max-width: 768px) 100vw, 33vw" aria-hidden="true" />
+                <Image src="/images/ruslan/kids/kids-coach-cercle-mkr.webp" alt="" className="mega-prog-bg" fill sizes="(max-width: 768px) 100vw, 33vw" aria-hidden="true" />
                 <div className="mega-prog-icon" aria-hidden="true">
                   {/* Wrestler kid */}
                   <svg viewBox="0 0 26 26" fill="none" stroke="currentColor" strokeWidth="1.5">

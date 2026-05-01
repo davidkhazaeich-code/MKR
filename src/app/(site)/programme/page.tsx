@@ -118,8 +118,8 @@ export default function ProgrammePage() {
           <div className="layout-split layout-split--balanced layout-split--center reveal">
             <figure className="photo-card">
               <img
-                src="/images/ruslan/kids/kids-alignes-tapis-vertical.webp"
-                alt="Jeunes lutteurs alignés sur le tapis, école de lutte daghestanaise"
+                src="/images/ruslan/kids/kids-coach-cercle-mkr.webp"
+                alt="Cercle de jeunes lutteurs autour d'un coach daghestanais, programme jeunesse MKR"
                 width={800}
                 height={600}
                 loading="lazy"
