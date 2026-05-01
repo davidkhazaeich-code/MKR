@@ -50,10 +50,10 @@ export default function LogistiquePage() {
               <h3 className="card-title">CE QUI EST INCLUS</h3>
               <ul className="logi-check-list">
                 <li>Hebergement de camp</li>
-                <li>3 repas par jour</li>
+                <li>2 repas par jour</li>
                 <li>2 sessions d&apos;entrainement/jour</li>
                 <li>Transferts aeroport-camp</li>
-                <li>Excursions culturelles</li>
+                <li>Excursions culturelles (en option)</li>
                 <li>Suivi preparatoire a distance</li>
               </ul>
             </div>
@@ -72,7 +72,7 @@ export default function LogistiquePage() {
           <div className="logi-visa-steps reveal">
             {[
               { num: '01', title: 'Verifier ton passeport', desc: 'Passeport valide au moins 6 mois apres la date de retour.' },
-              { num: '02', title: 'Visa Russie obligatoire', desc: "Le camp se deroule au Daghestan et en Tchetchenie (Federation de Russie). Un visa russe est necessaire pour la majorite des nationalites." },
+              { num: '02', title: 'Visa Russie obligatoire', desc: "Le camp se deroule au Daghestan (Federation de Russie). Un visa russe est necessaire pour la majorite des nationalites. Pour les ressortissants UE, MKR fournit un questionnaire visa a remplir avec ton passeport (validite 6 mois minimum)." },
               { num: '03', title: 'Lettre d&apos;invitation MKR', desc: "MKR fournit la lettre d&apos;invitation officielle apres confirmation de ta candidature. C&apos;est le document central du dossier visa." },
               { num: '04', title: 'Documents a emporter', desc: "Passeport, confirmation de reservation MKR, attestation d'assurance, billet retour." },
             ].map((step) => (
@@ -98,9 +98,9 @@ export default function LogistiquePage() {
           </div>
           <div className="grid-3">
             {[
-              { city: 'Paris CDG', connections: 'Via Istanbul (Turkish Airlines) vers Makhachkala (MCX) ou Grozny (GRV)', price: '450 - 700 EUR', duration: '~7-9h avec escale' },
-              { city: 'Geneve / Zurich', connections: 'Via Istanbul (Turkish Airlines) ou Dubai vers Makhachkala / Grozny', price: '500 - 750 EUR', duration: '~8-10h avec escale' },
-              { city: 'Bruxelles', connections: 'Via Istanbul (Turkish Airlines) vers Makhachkala / Grozny', price: '480 - 720 EUR', duration: '~8-10h avec escale' },
+              { city: 'Paris CDG', connections: 'Via Istanbul (Turkish Airlines) vers Makhachkala (MCX). Vol interieur Istanbul-Makhachkala inclus dans le package MKR.', price: '450 - 700 EUR', duration: '~7-9h avec escale' },
+              { city: 'Geneve / Zurich', connections: 'Via Istanbul (Turkish Airlines) vers Makhachkala (MCX). Vol interieur Istanbul-Makhachkala inclus dans le package MKR.', price: '500 - 750 EUR', duration: '~8-10h avec escale' },
+              { city: 'Bruxelles', connections: 'Via Istanbul (Turkish Airlines) vers Makhachkala (MCX). Vol interieur Istanbul-Makhachkala inclus dans le package MKR.', price: '480 - 720 EUR', duration: '~8-10h avec escale' },
             ].map((flight, i) => (
               <div key={i} className="content-card fx-grain fx-corner-glow reveal" style={{ transitionDelay: `${i * 0.08}s` }}>
                 <h3 className="card-title">{flight.city}</h3>
@@ -150,8 +150,8 @@ export default function LogistiquePage() {
               <h2>TRANSFERTS</h2>
               <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1rem' }}>
                 Le transfert depuis l&apos;aeroport est inclus dans le package. Un vehicule MKR t&apos;attend a ton arrivee.
-                Le trajet vers le lieu d&apos;entrainement dure 2 a 3 heures selon la destination. Tous les deplacements
-                pendant le camp sont pris en charge.
+                Le trajet entre l&apos;aeroport de Makhachkala et le lieu d&apos;entrainement dure environ 1h30. Tous
+                les deplacements pendant le camp sont pris en charge.
               </p>
               <figure className="photo-card" style={{ marginTop: '1.5rem' }}>
                 <img
@@ -167,7 +167,7 @@ export default function LogistiquePage() {
             </div>
             <div className="content-card fx-grain fx-corner-glow">
               <h3 className="card-title">INFOS PRATIQUES</h3>
-              <p className="card-body">Aeroport : Makhachkala (MCX) ou Grozny (GRV)</p>
+              <p className="card-body">Aeroport : Makhachkala (MCX)</p>
               <p className="card-body">Accueil a l&apos;aeroport par l&apos;equipe MKR</p>
               <p className="card-body">Vehicule prive camp &lt;&gt; salle</p>
             </div>
@@ -189,7 +189,7 @@ export default function LogistiquePage() {
               { title: 'Monnaie', desc: 'Rouble russe (RUB). 1 EUR ≈ 100 RUB. Especes recommandees, CB internationales souvent inutilisables.' },
               { title: 'Internet', desc: 'Wi-Fi au logement. Carte SIM locale Russie recommandee (~5 EUR).' },
               { title: 'Climat', desc: 'Continental. Printemps 12-20°C, ete 25-35°C, automne 10-18°C.' },
-              { title: 'Langue', desc: 'Russe principal. Avar (Daghestan) ou tchetchene selon la salle. Interprete MKR francophone sur place.' },
+              { title: 'Langue', desc: 'Russe principal. Avar et autres langues du Daghestan selon la salle. Interprete MKR francophone sur place.' },
               { title: 'Alimentation', desc: 'Cuisine caucasienne : riche en proteines, viande, legumes, pain. Regime adapte aux athletes.' },
             ].map((info, i) => (
               <div key={i} className="content-card fx-grain fx-corner-glow reveal" style={{ transitionDelay: `${i * 0.06}s` }}>

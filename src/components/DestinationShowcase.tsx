@@ -10,10 +10,10 @@ const LANDSCAPES = [
   },
   {
     src: '/images/environment/lake-kezenoy.webp',
-    alt: 'Lac Kezenoy-Am, Caucase',
-    label: 'TCHETCHENIE',
-    caption: 'Lac Kezenoy-Am',
-    text: 'Plus grand lac de montagne du Caucase Nord.',
+    alt: 'Lac de montagne au Caucase, Dagestan',
+    label: 'DAGESTAN',
+    caption: 'Lacs de montagne',
+    text: 'Excursion en option dans les hauteurs du Caucase Nord.',
   },
   {
     src: '/images/environment/mountain-road.webp',

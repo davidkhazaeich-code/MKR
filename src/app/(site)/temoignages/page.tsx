@@ -136,12 +136,12 @@ export default function TemoignagesPage() {
       <div className="stats-band fx-glow fx-glow-breathe fx-stack-4">
         <div className="fx-glow-orb" />
         <div className="stat-item">
-          <span className="stat-num">240+</span>
-          <span className="stat-label">Athletes formes</span>
+          <span className="stat-num">8</span>
+          <span className="stat-label">Athletes haut niveau</span>
         </div>
         <div className="stat-item">
-          <span className="stat-num">12</span>
-          <span className="stat-label">Pays representes</span>
+          <span className="stat-num">9</span>
+          <span className="stat-label">Coachs experimentes</span>
         </div>
         <div className="stat-item">
           <span className="stat-num">87%</span>

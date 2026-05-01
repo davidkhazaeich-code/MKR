@@ -5,8 +5,8 @@ import SectionCTA from '@/components/SectionCTA'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 
 export const metadata: Metadata = {
-  title: 'Programme MMA & Lutte | MKR Caucasian Camp | Entrainement au Caucase',
-  description: "Programme d'entrainement complet : MMA, lutte libre, lutte greco-romaine, strength & conditioning. Decouvre les methodes du Caucase.",
+  title: 'Programme MMA & Lutte | MKR Caucasian Camp | Entrainement au Daghestan',
+  description: "Programme d'entrainement complet : MMA, Lutte adultes, Lutte enfants. Methodes daghestanaises ancestrales, sparring quotidien, coaching de haut niveau au Caucase.",
   alternates: { canonical: 'https://mkrcaucasiancamp.com/programme' },
 }
 
@@ -19,8 +19,8 @@ export default function ProgrammePage() {
       ]} />
       <PageHero
         label="PROGRAMME"
-        title="DEUX DISCIPLINES.<br/>UN OBJECTIF : PROGRESSER."
-        subtitle="MMA, lutte, strength & conditioning. Chaque session te rapproche du sommet."
+        title="TROIS DISCIPLINES.<br/>UN OBJECTIF : PROGRESSER."
+        subtitle="MMA, Lutte adultes, Lutte enfants. Chaque session te rapproche du sommet."
       />
 
       {/* Stats band */}
@@ -34,7 +34,7 @@ export default function ProgrammePage() {
           <span className="stat-label">Jours par semaine</span>
         </div>
         <div className="stat-item">
-          <span className="stat-num">4</span>
+          <span className="stat-num">3</span>
           <span className="stat-label">Disciplines</span>
         </div>
       </div>
@@ -64,13 +64,13 @@ export default function ProgrammePage() {
         </div>
       </section>
 
-      {/* Lutte card */}
+      {/* Lutte adultes card */}
       <section className="logi-section fx-texture-basalt fx-mask-b fx-stack-3">
         <div className="inner">
           <Link href="/programme/lutte" className="prog-discipline-card reveal">
             <img
               src="/images/action/takedown-wrestling.webp"
-              alt="Takedown de lutte au Caucase"
+              alt="Takedown de lutte libre au Caucase"
               width={800}
               height={600}
               loading="lazy"
@@ -78,8 +78,8 @@ export default function ProgrammePage() {
             />
             <div className="prog-disc-content">
               <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.5rem' }}>DISCIPLINE</span>
-              <h2>LUTTE</h2>
-              <p>Lutte libre et greco-romaine. Methodes daghestanaises transmises par des champions. Projections, controle au sol, scrambles. La discipline fondatrice du combat au Caucase.</p>
+              <h2>LUTTE ADULTES</h2>
+              <p>Lutte libre exclusivement. Methodes daghestanaises transmises par des champions. Projections, controle au sol, scrambles. La discipline fondatrice du combat au Caucase.</p>
               <span className="btn-ghost" style={{ marginTop: '1.5rem', fontSize: '0.9rem', padding: '0.6rem 1.5rem' }}>
                 VOIR LE PROGRAMME LUTTE
               </span>
@@ -88,14 +88,38 @@ export default function ProgrammePage() {
         </div>
       </section>
 
-      {/* S&C */}
-      <section id="conditioning" className="logi-section fx-grid fx-stack-4">
+      {/* Lutte enfants card */}
+      <section className="logi-section fx-grid fx-stack-3b">
+        <div className="inner">
+          <Link href="/programme/lutte-enfants" className="prog-discipline-card reveal">
+            <img
+              src="/images/action/ground-control.webp"
+              alt="Lutte adaptee aux jeunes athletes au Caucase"
+              width={800}
+              height={600}
+              loading="lazy"
+              className="prog-disc-bg"
+            />
+            <div className="prog-disc-content">
+              <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.5rem' }}>DISCIPLINE</span>
+              <h2>LUTTE ENFANTS</h2>
+              <p>Programme jeunesse. Pedagogie progressive, encadrement specialise. Les fondamentaux daghestanais transmis aux nouvelles generations dans un cadre adapte et securisant.</p>
+              <span className="btn-ghost" style={{ marginTop: '1.5rem', fontSize: '0.9rem', padding: '0.6rem 1.5rem' }}>
+                VOIR LE PROGRAMME LUTTE ENFANTS
+              </span>
+            </div>
+          </Link>
+        </div>
+      </section>
+
+      {/* Jeunesse — remplace S&C */}
+      <section id="jeunesse" className="logi-section fx-grid fx-stack-4">
         <div className="inner">
           <div className="layout-split layout-split--balanced layout-split--center reveal">
             <figure className="photo-card">
               <img
-                src="/images/action/conditioning-rope.webp"
-                alt="Athlete grimpant a la corde dans un gym sovietique"
+                src="/images/ruslan/kids/kids-alignes-tapis-vertical.webp"
+                alt="Jeunes lutteurs alignés sur le tapis, école de lutte daghestanaise"
                 width={800}
                 height={600}
                 loading="lazy"
@@ -103,13 +127,21 @@ export default function ProgrammePage() {
               />
             </figure>
             <div className="content-card fx-grain fx-corner-glow">
-              <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.5rem' }}>INCLUS</span>
-              <h3 className="card-title" style={{ fontSize: '1.3rem' }}>STRENGTH &amp; CONDITIONING</h3>
+              <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.5rem' }}>JEUNESSE</span>
+              <h3 className="card-title" style={{ fontSize: '1.3rem' }}>PROGRAMME 8-17 ANS</h3>
               <p className="card-body">
-                Sessions complementaires integrees au programme : course en montagne, exercices au poids du corps,
-                gainage fonctionnel, endurance specifique au combat. Pas de salle de muscu clinquante.
-                Le Caucase est ta salle.
+                Au Daghestan, on commence la lutte tres jeune. MKR ouvre cet acces aux 8-17 ans dans un cadre
+                adapte : coach jeunesse dedie, ratio 1 pour 5, securite renforcee. Enfant 8-17 ans toujours
+                accompagne d&apos;un parent participant. Tarif fixe 1 900 CHF / 3 semaines.
               </p>
+              <div style={{ marginTop: '1.25rem', display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+                <Link href="/programme/lutte-enfants" className="btn-ghost" style={{ fontSize: '0.8rem', padding: '0.55rem 1.25rem' }}>
+                  PROGRAMME LUTTE ENFANTS
+                </Link>
+                <Link href="/familles" className="btn-ghost" style={{ fontSize: '0.8rem', padding: '0.55rem 1.25rem' }}>
+                  CAMP FAMILLE
+                </Link>
+              </div>
             </div>
           </div>
         </div>

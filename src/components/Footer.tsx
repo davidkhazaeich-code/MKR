@@ -18,6 +18,13 @@ export default function Footer() {
               <h2 className="footer-contact-heading">TON PROCHAIN NIVEAU EST AU CAUCASE.</h2>
             </div>
             <div className="footer-contact-right">
+              <a href="https://wa.me/33666177691" target="_blank" rel="noopener noreferrer"
+                className="footer-contact-link" aria-label="WhatsApp MKR Caucasian Camp">
+                <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+                  <path d="M2.5 15.5l1.3-3.2a7 7 0 1 1 2.7 2.4L2.5 15.5"/>
+                </svg>
+                +33 6 66 17 76 91
+              </a>
               <a href="mailto:contact@mkrcaucasiancamp.com" className="footer-contact-link">
                 <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
                   <rect x="1.5" y="3.5" width="15" height="11"/>
@@ -50,7 +57,7 @@ export default function Footer() {
             </Link>
             <p className="footer-tagline">Camp d&apos;entraînement au Caucase.</p>
             <p className="footer-desc">
-              Camps d&apos;entrainement intensifs de MMA et de lutte au coeur du Dagestan et de la Tchetchenie. Coaches locaux. Immersion totale. Zero distraction.
+              Camps d&apos;entrainement intensifs de MMA et de lutte (adultes et enfants) au coeur du Dagestan. Coachs locaux. Immersion totale. Zero distraction.
             </p>
             <div className="footer-socials">
               <a href="https://instagram.com/mkr.caucasiancamp" target="_blank" rel="noopener noreferrer"
@@ -80,27 +87,31 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Le Camp */}
+          {/* Inscriptions */}
           <div>
-            <span className="footer-col-label">Le Camp</span>
+            <span className="footer-col-label">Inscriptions</span>
             <ul className="footer-nav-list" role="list">
-              <li><Link href="/le-camp">Le Camp</Link></li>
+              <li><Link href="/inscription?type=session" className="accent">Rejoindre la session 2026</Link></li>
+              <li><Link href="/inscription?type=custom">Camp sur mesure</Link></li>
+              <li><Link href="/inscription?type=groupe">Clubs et groupes</Link></li>
+              <li><Link href="/sessions">Tarifs publics</Link></li>
               <li><Link href="/comment-ca-marche">Comment ca marche</Link></li>
-              <li><Link href="/preparer-son-camp">Preparer son camp</Link></li>
-              <li><Link href="/logistique">Logistique et visa</Link></li>
-              <li><Link href="/sessions" className="accent">Sessions 2026</Link></li>
             </ul>
           </div>
 
-          {/* Disciplines */}
+          {/* Programmes */}
           <div>
-            <span className="footer-col-label">Disciplines</span>
+            <span className="footer-col-label">Programmes</span>
             <ul className="footer-nav-list" role="list">
               <li><Link href="/programme/mma">MMA</Link></li>
-              <li><Link href="/programme/lutte">Lutte</Link></li>
+              <li><Link href="/programme/lutte">Lutte adultes</Link></li>
+              <li><Link href="/programme/lutte-enfants">Lutte enfants</Link></li>
+              <li><Link href="/familles">Camp Famille</Link></li>
               <li><Link href="/coachs">Nos coachs</Link></li>
               <li><Link href="/destinations/dagestan">Dagestan</Link></li>
-              <li><Link href="/destinations/tchetchenie">Tchetchenie</Link></li>
+              <li><Link href="/le-camp">Le Camp</Link></li>
+              <li><Link href="/preparer-son-camp">Preparer son camp</Link></li>
+              <li><Link href="/logistique">Logistique et visa</Link></li>
             </ul>
           </div>
 

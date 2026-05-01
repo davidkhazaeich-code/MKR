@@ -135,6 +135,9 @@ export default function ProgrammeMMAPage() {
               </div>
             ))}
           </div>
+          <p className="logi-updated" style={{ marginTop: '1.5rem', textAlign: 'center' }}>
+            Horaires officiels MMA : <strong>matin 11h00</strong> et <strong>apres-midi 18h00</strong>. Pas de chevauchement avec les sessions Lutte.
+          </p>
         </div>
       </section>
 

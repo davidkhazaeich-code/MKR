@@ -46,8 +46,8 @@ export default function Contact() {
                 </svg>
                 <div>
                   <span className="contact-info-label">WhatsApp</span>
-                  <a href="https://wa.me/41000000000" target="_blank" rel="noopener noreferrer" className="contact-info-value">
-                    +41 XX XXX XX XX
+                  <a href="https://wa.me/33666177691" target="_blank" rel="noopener noreferrer" className="contact-info-value">
+                    +33 6 66 17 76 91
                   </a>
                 </div>
               </div>

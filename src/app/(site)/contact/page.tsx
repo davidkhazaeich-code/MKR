@@ -46,8 +46,8 @@ export default function ContactPage() {
                     <path d="M3 21l1.65-3.8a9 9 0 1 1 3.4 2.9L3 21" />
                   </svg>
                   <h3 className="card-title" style={{ fontSize: '0.9rem' }}>WhatsApp</h3>
-                  <a href="https://wa.me/41XXXXXXXXX" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
-                    Envoyer un message
+                  <a href="https://wa.me/33666177691" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
+                    +33 6 66 17 76 91
                   </a>
                 </div>
                 <div className="content-card fx-grain fx-corner-glow">

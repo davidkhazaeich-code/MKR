@@ -22,7 +22,7 @@ export default function Philosophie() {
             <p className="bento-card-body">
               Les meilleurs combattants de la planète sortent tous du même endroit. Le Caucase. Khabib, Makhachev, des centaines de champions olympiques de lutte. Ce n&apos;est pas un hasard : les traditions de combat ici se transmettent <strong>de père en fils depuis des siècles</strong>.<br /><br />
               MKR Caucasian Camp te donne accès à cet héritage. Tu t&apos;entraînes dans les mêmes salles, avec les mêmes coachs, selon les mêmes méthodes. Pas en touriste. En athlète qui veut <strong>franchir un cap</strong>.<br /><br />
-              Quand tu reviens de ces trois semaines, ta façon de combattre, de t&apos;entraîner et de te voir <strong>n&apos;est plus la même</strong>.
+              Quand tu reviens de ce séjour au Daghestan (1 à 3 semaines), ta façon de combattre, de t&apos;entraîner et de te voir <strong>n&apos;est plus la même</strong>.
             </p>
           </article>
 

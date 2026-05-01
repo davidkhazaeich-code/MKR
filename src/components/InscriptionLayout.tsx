@@ -3,6 +3,8 @@
 import Link from 'next/link'
 import { useState, FormEvent } from 'react'
 import dynamic from 'next/dynamic'
+import { REGISTRATION_TYPES, type RegistrationTypeId, getRegistrationType } from '@/data/registration-types'
+import { calculatePrice, formatCHF, type Duration } from '@/data/pricing'
 
 const StoryCard = dynamic(() => import('./StoryCard'))
 
@@ -25,6 +27,16 @@ type FormData = {
   session: string; duree: string; villeDepart: string; disponibleEntretien: string
   sourceDecouverte: string; message: string
   certifMedical: boolean; accepteConditions: boolean; pret: boolean
+  // Champs camp sur mesure (audience='custom' ou 'groupe')
+  dateDebutSouhaitee: string
+  // Champs famille (tous tunnels)
+  vientAvecFamille: boolean
+  nombreEnfants: string
+  enfantsAges: string
+  // Champs groupe (audience='groupe')
+  nomClub: string
+  nombreParticipants: string
+  niveauGroupe: string
 }
 
 const INITIAL: FormData = {
@@ -36,6 +48,9 @@ const INITIAL: FormData = {
   session: '', duree: '', villeDepart: '', disponibleEntretien: '',
   sourceDecouverte: '', message: '',
   certifMedical: false, accepteConditions: false, pret: false,
+  dateDebutSouhaitee: '',
+  vientAvecFamille: false, nombreEnfants: '', enfantsAges: '',
+  nomClub: '', nombreParticipants: '', niveauGroupe: '',
 }
 
 /* ─────────────── HELPERS ─────────────── */
@@ -70,12 +85,27 @@ function RadioGroup({ name, options, value, onChange }: {
 
 /* ─────────────── COMPONENT ─────────────── */
 
-export default function InscriptionLayout() {
+interface InscriptionLayoutProps {
+  initialAudience: RegistrationTypeId | null
+}
+
+export default function InscriptionLayout({ initialAudience }: InscriptionLayoutProps) {
+  const [audience, setAudience] = useState<RegistrationTypeId | null>(initialAudience)
   const [step, setStep] = useState(0)
   const [dir, setDir] = useState<'next' | 'prev'>('next')
-  const [form, setForm] = useState<FormData>(INITIAL)
+  const [form, setForm] = useState<FormData>(() => {
+    const init = { ...INITIAL }
+    // Si on rejoint la session, pré-remplir
+    if (initialAudience === 'session') {
+      init.session = 'aout-2026'
+      init.duree = '3-semaines'
+    }
+    return init
+  })
   const [errors, setErrors] = useState<string[]>([])
   const [submitted, setSubmitted] = useState(false)
+
+  const audienceConfig = audience ? getRegistrationType(audience) : null
 
   const set = (field: keyof FormData, value: FormData[keyof FormData]) => {
     setForm(prev => ({ ...prev, [field]: value }))
@@ -116,8 +146,34 @@ export default function InscriptionLayout() {
       if (!form.deuxFoisJour) e.push('Confirme ta disponibilité pour les doubles séances')
     }
     if (step === 3) {
-      if (!form.session) e.push('Session souhaitée requise')
-      if (!form.duree) e.push('Durée requise')
+      if (audience === 'session') {
+        if (!form.duree) e.push('Durée requise')
+      }
+      if (audience === 'custom') {
+        if (!form.dateDebutSouhaitee) {
+          e.push('Date de début souhaitée requise')
+        } else {
+          // Vérifier délai minimum 90 jours
+          const target = new Date(form.dateDebutSouhaitee)
+          const now = new Date()
+          const diffDays = Math.floor((target.getTime() - now.getTime()) / (1000 * 60 * 60 * 24))
+          if (diffDays < 90) e.push('La date de début doit être au moins 90 jours après aujourd\'hui')
+        }
+        if (!form.duree) e.push('Durée requise')
+      }
+      if (audience === 'groupe') {
+        if (!form.nomClub.trim()) e.push('Nom du club / groupe requis')
+        if (!form.nombreParticipants) e.push('Nombre de participants requis')
+        if (!form.dateDebutSouhaitee) {
+          e.push('Date de début souhaitée requise')
+        } else {
+          const target = new Date(form.dateDebutSouhaitee)
+          const now = new Date()
+          const diffDays = Math.floor((target.getTime() - now.getTime()) / (1000 * 60 * 60 * 24))
+          if (diffDays < 90) e.push('La date de début doit être au moins 90 jours après aujourd\'hui')
+        }
+        if (!form.duree) e.push('Durée requise')
+      }
       if (!form.villeDepart.trim()) e.push('Ville de départ requise')
       if (!form.disponibleEntretien) e.push('Disponibilité pour l\'entretien requise')
     }
@@ -140,12 +196,82 @@ export default function InscriptionLayout() {
     setSubmitted(true)
   }
 
+  /* ── Audience Selector (avant les steps) ── */
+  if (!audience) {
+    return (
+      <div className="insc-wrapper">
+        <div className="insc-success-page" style={{ paddingTop: '4rem' }}>
+          <Link href="/" className="insc-back-home">← Retour au site</Link>
+          <div className="insc-audience-selector">
+            <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>
+              ÉTAPE PRÉLIMINAIRE
+            </span>
+            <h1 className="cand-success-title">CHOISIS TON INSCRIPTION</h1>
+            <p className="cand-success-sub">
+              MKR organise tout. Sélectionne le format qui te correspond et on adapte le formulaire.
+            </p>
+            <div className="audience-grid" style={{ marginTop: '2.5rem' }}>
+              {REGISTRATION_TYPES.map((type, i) => (
+                <button
+                  key={type.id}
+                  type="button"
+                  onClick={() => setAudience(type.id)}
+                  className={`audience-card audience-card--clickable audience-card--photo${type.recommended ? ' audience-card--recommended' : ''}`}
+                  style={{ transitionDelay: `${i * 0.06}s`, textAlign: 'left' }}
+                >
+                  <div className="audience-card-photo" aria-hidden="true">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={type.image}
+                      alt={type.imageAlt}
+                      className="audience-card-photo-img"
+                      loading="lazy"
+                      style={{ width: '100%', height: '100%', objectFit: 'cover', position: 'absolute', inset: 0 }}
+                    />
+                    <div className="audience-card-photo-overlay" />
+                  </div>
+                  {type.recommended && (
+                    <span className="audience-card-flag">RECOMMANDÉ</span>
+                  )}
+                  <span className="audience-card-badge">{type.badge}</span>
+                  <h3 className="audience-card-title">{type.label}</h3>
+                  <p className="audience-card-desc">{type.description}</p>
+                  <ul className="audience-card-meta">
+                    <li>
+                      <span className="audience-card-meta-label">Dates</span>
+                      <span className="audience-card-meta-value">{type.dates}</span>
+                    </li>
+                    <li>
+                      <span className="audience-card-meta-label">Durée</span>
+                      <span className="audience-card-meta-value">{type.duration}</span>
+                    </li>
+                    <li>
+                      <span className="audience-card-meta-label">À partir de</span>
+                      <span className="audience-card-meta-value">
+                        {type.minPersons === 1 ? '1 personne' : `${type.minPersons} personnes`}
+                      </span>
+                    </li>
+                  </ul>
+                  <span className="audience-card-cta" style={{ width: '100%', justifyContent: 'center' }}>
+                    {type.cta}
+                    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" width="14" height="14" aria-hidden="true">
+                      <line x1="3" y1="8" x2="13" y2="8" strokeLinecap="round" />
+                      <polyline points="9,4 13,8 9,12" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </span>
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   /* ── Success ── */
   if (submitted) {
     const SESSION_MAP: Record<string, { name: string; destination: string }> = {
-      'printemps-2026': { name: 'PRINTEMPS GEORGIEN', destination: 'Dagestan' },
-      'ete-2026': { name: "ASSAUT D'ETE", destination: 'Tchétchénie' },
-      'automne-2026': { name: "SOMMET D'AUTOMNE", destination: 'Dagestan' },
+      'aout-2026': { name: 'CAMP DAGHESTANAIS', destination: 'Dagestan' },
     }
     const sel = SESSION_MAP[form.session] || { name: form.session, destination: 'Dagestan' }
 
@@ -191,6 +317,17 @@ export default function InscriptionLayout() {
             <span className="insc-logo-mkr">MKR</span>
             <span className="insc-logo-sub">Caucasian Camp</span>
           </Link>
+          {audienceConfig && (
+            <button
+              type="button"
+              onClick={() => { setAudience(null); setStep(0); setErrors([]) }}
+              className="insc-audience-tag"
+              aria-label="Changer le type d'inscription"
+            >
+              <span className="insc-audience-tag-label">{audienceConfig.shortLabel}</span>
+              <span className="insc-audience-tag-change">Changer</span>
+            </button>
+          )}
         </div>
 
         <div className="insc-sidebar-mid">
@@ -425,30 +562,152 @@ export default function InscriptionLayout() {
               </div>
             )}
 
-            {/* ── STEP 4 ── */}
+            {/* ── STEP 4 ── adapté par audience ── */}
             {step === 3 && (
               <div className="cand-panel">
-                <div className="cand-row">
-                  <Field label="Session souhaitée">
-                    <select className="cand-select" value={form.session}
-                      onChange={e => set('session', e.target.value)}>
-                      <option value="" disabled>Sélectionner</option>
-                      <option value="printemps-2026">Printemps 2026 (Mai -Juin)</option>
-                      <option value="ete-2026">Été 2026 (Juillet -Août)</option>
-                      <option value="automne-2026">Automne 2026 (Septembre -Octobre)</option>
-                    </select>
+
+                {/* Bandeau audience active */}
+                {audienceConfig && (
+                  <div className="insc-audience-banner">
+                    <span className="insc-audience-banner-label">{audienceConfig.badge}</span>
+                    <strong>{audienceConfig.label}</strong>
+                    <span>{audienceConfig.longDescription}</span>
+                  </div>
+                )}
+
+                {/* Audience: SESSION GROUPE — date verrouillée */}
+                {audience === 'session' && (
+                  <div className="cand-row">
+                    <Field label="Session" hint="Camp officiel 2026 (3 semaines fixes)">
+                      <input className="cand-input" type="text" disabled
+                        value="17 Août - 5 Septembre 2026 · 3 semaines" />
+                    </Field>
+                    <Field label="Tarif" hint="Adulte 3 semaines">
+                      <input className="cand-input" type="text" disabled
+                        value="2 900 CHF" />
+                    </Field>
+                  </div>
+                )}
+
+                {/* Audience: CAMP SUR MESURE — date + durée libres */}
+                {audience === 'custom' && (
+                  <>
+                    <div className="cand-row">
+                      <Field label="Date de début souhaitée" hint="Réservation 90 jours minimum avant">
+                        <input className="cand-input" type="date"
+                          min={(() => {
+                            const d = new Date()
+                            d.setDate(d.getDate() + 90)
+                            return d.toISOString().split('T')[0]
+                          })()}
+                          value={form.dateDebutSouhaitee}
+                          onChange={e => set('dateDebutSouhaitee', e.target.value)} />
+                      </Field>
+                      <Field label="Durée souhaitée">
+                        <select className="cand-select" value={form.duree}
+                          onChange={e => set('duree', e.target.value)}>
+                          <option value="" disabled>Sélectionner</option>
+                          <option value="1-semaine">1 semaine · 1 500 CHF</option>
+                          <option value="2-semaines">2 semaines · 2 200 CHF</option>
+                          <option value="3-semaines">3 semaines · 2 900 CHF</option>
+                        </select>
+                      </Field>
+                    </div>
+                  </>
+                )}
+
+                {/* Audience: GROUPE / CLUB — données collectives */}
+                {audience === 'groupe' && (
+                  <>
+                    <div className="cand-row">
+                      <Field label="Nom du club / groupe">
+                        <input className="cand-input" type="text"
+                          placeholder="Ex : Geneva Fight Club"
+                          value={form.nomClub}
+                          onChange={e => set('nomClub', e.target.value)} />
+                      </Field>
+                      <Field label="Nombre de participants" hint="Adultes et enfants confondus">
+                        <select className="cand-select" value={form.nombreParticipants}
+                          onChange={e => set('nombreParticipants', e.target.value)}>
+                          <option value="" disabled>Sélectionner</option>
+                          <option value="2-4">2 à 4 personnes</option>
+                          <option value="5-9">5 à 9 personnes</option>
+                          <option value="10-15">10 à 15 personnes</option>
+                          <option value="16-20">16 à 20 personnes</option>
+                        </select>
+                      </Field>
+                    </div>
+                    <div className="cand-row">
+                      <Field label="Date de début souhaitée" hint="Réservation 90 jours minimum avant">
+                        <input className="cand-input" type="date"
+                          min={(() => {
+                            const d = new Date()
+                            d.setDate(d.getDate() + 90)
+                            return d.toISOString().split('T')[0]
+                          })()}
+                          value={form.dateDebutSouhaitee}
+                          onChange={e => set('dateDebutSouhaitee', e.target.value)} />
+                      </Field>
+                      <Field label="Durée souhaitée">
+                        <select className="cand-select" value={form.duree}
+                          onChange={e => set('duree', e.target.value)}>
+                          <option value="" disabled>Sélectionner</option>
+                          <option value="1-semaine">1 semaine</option>
+                          <option value="2-semaines">2 semaines</option>
+                          <option value="3-semaines">3 semaines (recommandé)</option>
+                        </select>
+                      </Field>
+                    </div>
+                    <Field label="Niveau global du groupe">
+                      <select className="cand-select" value={form.niveauGroupe}
+                        onChange={e => set('niveauGroupe', e.target.value)}>
+                        <option value="" disabled>Sélectionner</option>
+                        <option value="debutant">Mixte débutant / intermédiaire</option>
+                        <option value="intermediaire">Intermédiaire homogène</option>
+                        <option value="avance">Avancé / compétiteurs</option>
+                        <option value="mixte">Mixte (à préciser dans message)</option>
+                      </select>
+                    </Field>
+                  </>
+                )}
+
+                {/* Famille (option pour session ou custom, pas pour groupe) */}
+                {audience !== 'groupe' && (
+                  <Field label="Tu viens avec ta famille ?" hint="Enfants 8-17 ans avec parent obligatoire (1 900 CHF / 3 sem par enfant)">
+                    <div className="cand-radios">
+                      <label className={`cand-radio${!form.vientAvecFamille ? ' selected' : ''}`}>
+                        <input type="radio" name="famille" checked={!form.vientAvecFamille}
+                          onChange={() => set('vientAvecFamille', false)} />
+                        Non, je viens seul(e)
+                      </label>
+                      <label className={`cand-radio${form.vientAvecFamille ? ' selected' : ''}`}>
+                        <input type="radio" name="famille" checked={form.vientAvecFamille}
+                          onChange={() => set('vientAvecFamille', true)} />
+                        Oui, avec mon/mes enfant(s)
+                      </label>
+                    </div>
+                    {form.vientAvecFamille && (
+                      <div className="cand-row" style={{ marginTop: '1rem' }}>
+                        <Field label="Nombre d'enfants">
+                          <select className="cand-select" value={form.nombreEnfants}
+                            onChange={e => set('nombreEnfants', e.target.value)}>
+                            <option value="" disabled>Sélectionner</option>
+                            <option value="1">1 enfant</option>
+                            <option value="2">2 enfants</option>
+                            <option value="3">3 enfants</option>
+                          </select>
+                        </Field>
+                        <Field label="Âges des enfants" hint="Entre 8 et 17 ans">
+                          <input className="cand-input" type="text"
+                            placeholder="Ex : 10, 13"
+                            value={form.enfantsAges}
+                            onChange={e => set('enfantsAges', e.target.value)} />
+                        </Field>
+                      </div>
+                    )}
                   </Field>
-                  <Field label="Durée souhaitée">
-                    <select className="cand-select" value={form.duree}
-                      onChange={e => set('duree', e.target.value)}>
-                      <option value="" disabled>Sélectionner</option>
-                      <option value="1-semaine">1 semaine</option>
-                      <option value="2-semaines">2 semaines</option>
-                      <option value="3-semaines">3 semaines (recommandé)</option>
-                      <option value="1-mois">1 mois</option>
-                    </select>
-                  </Field>
-                </div>
+                )}
+
                 <Field label="Ville / pays de départ" hint="Utilisé pour estimer les vols">
                   <input className="cand-input" type="text" placeholder="Ex : Paris, Genève, Montréal..."
                     value={form.villeDepart} onChange={e => set('villeDepart', e.target.value)} />
@@ -488,15 +747,43 @@ export default function InscriptionLayout() {
             {step === 4 && (
               <div className="cand-panel">
                 <div className="cand-recap">
+                  <div className="cand-recap-row"><span>Type</span><strong>{audienceConfig?.label}</strong></div>
                   <div className="cand-recap-row"><span>Candidat</span><strong>{form.prenom} {form.nom}</strong></div>
                   <div className="cand-recap-row"><span>Pays</span><strong>{form.pays}</strong></div>
                   <div className="cand-recap-row"><span>Email</span><strong>{form.email}</strong></div>
                   <div className="cand-recap-row"><span>Discipline</span><strong>{form.disciplinePrincipale}</strong></div>
                   <div className="cand-recap-row"><span>Niveau</span><strong>{form.niveau}</strong></div>
                   <div className="cand-recap-row"><span>Pratique</span><strong>{form.anneesPratique} ans</strong></div>
-                  <div className="cand-recap-row"><span>Session</span><strong>{form.session}</strong></div>
-                  <div className="cand-recap-row"><span>Durée</span><strong>{form.duree}</strong></div>
+                  {audience === 'session' && (
+                    <div className="cand-recap-row"><span>Session</span><strong>17 Août - 5 Septembre 2026 (3 sem)</strong></div>
+                  )}
+                  {(audience === 'custom' || audience === 'groupe') && form.dateDebutSouhaitee && (
+                    <div className="cand-recap-row"><span>Date début</span><strong>{form.dateDebutSouhaitee}</strong></div>
+                  )}
+                  {form.duree && (
+                    <div className="cand-recap-row"><span>Durée</span><strong>{form.duree.replace('-', ' ')}</strong></div>
+                  )}
+                  {audience === 'groupe' && form.nomClub && (
+                    <div className="cand-recap-row"><span>Club</span><strong>{form.nomClub}</strong></div>
+                  )}
+                  {audience === 'groupe' && form.nombreParticipants && (
+                    <div className="cand-recap-row"><span>Participants</span><strong>{form.nombreParticipants}</strong></div>
+                  )}
+                  {form.vientAvecFamille && form.nombreEnfants && (
+                    <div className="cand-recap-row"><span>Famille</span><strong>{form.nombreEnfants} enfant(s) — {form.enfantsAges}</strong></div>
+                  )}
                   <div className="cand-recap-row"><span>Départ</span><strong>{form.villeDepart}</strong></div>
+                  {(() => {
+                    // Calcul prix indicatif
+                    const weeks = form.duree === '1-semaine' ? 1 : form.duree === '2-semaines' ? 2 : 3
+                    const enfants = form.vientAvecFamille ? parseInt(form.nombreEnfants || '0', 10) : 0
+                    const adults = audience === 'groupe' ? 0 : 1
+                    if (audience !== 'groupe' && weeks) {
+                      const total = calculatePrice({ adults, children: enfants, weeks: weeks as Duration })
+                      return <div className="cand-recap-row"><span>Tarif estimé</span><strong style={{ color: 'var(--primary)' }}>{formatCHF(total)}</strong></div>
+                    }
+                    return null
+                  })()}
                 </div>
 
                 <div className="cand-confirms">

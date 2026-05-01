@@ -201,8 +201,8 @@ export default function DagestanPage() {
       <SectionCTA
         primaryHref="/sessions"
         primaryLabel="VOIR LES SESSIONS DAGESTAN"
-        ghostHref="/destinations/tchetchenie"
-        ghostLabel="VOIR AUSSI : TCHETCHENIE"
+        ghostHref="/programme"
+        ghostLabel="DECOUVRIR LE PROGRAMME"
       />
     </>
   )

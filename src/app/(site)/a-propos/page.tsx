@@ -38,7 +38,7 @@ export default function AProposPage() {
                 mais personne ne propose un acces structure a ces methodes d&apos;entrainement pour les athletes europeens.
               </p>
               <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1rem' }}>
-                Apres des annees de voyages au Dagestan et en Tchetchenie, des relations construites avec les coachs locaux,
+                Apres des annees de voyages au Dagestan, des relations construites avec les coachs locaux,
                 et des dizaines d&apos;athletes accompagnes, MKR Caucasian Camp est devenu le pont entre l&apos;Europe
                 francophone et les salles du Caucase.
               </p>
@@ -130,7 +130,7 @@ export default function AProposPage() {
             <h2>SALLES PARTENAIRES</h2>
           </div>
           <div className="grid-3 reveal">
-            {['Salle 1 · Makhachkala', 'Salle 2 · Kaspiysk', 'Salle 3 · Grozny'].map((name, i) => (
+            {['Salle 1 · Makhachkala', 'Salle 2 · Kaspiysk', 'Salle 3 · Khasavyourt'].map((name, i) => (
               <div key={i} className="content-card fx-grain fx-corner-glow" style={{ textAlign: 'center', padding: '2rem' }}>
                 <div style={{ width: '80px', height: '80px', background: 'var(--surface-lowest)', margin: '0 auto 1rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   <span style={{ color: 'var(--text-muted)', fontSize: '0.7rem' }}>Logo</span>

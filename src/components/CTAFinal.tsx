@@ -10,7 +10,7 @@ export default function CTAFinal() {
           PRÊT À PASSER<br /><span>AU NIVEAU SUPÉRIEUR ?</span>
         </h2>
         <p className="cta-subtitle reveal" style={{ transitionDelay: '0.1s' }}>
-          Prochain camp · Printemps 2026 · Daghestan &amp; Tchétchénie
+          Prochain camp · 17 août - 5 septembre 2026 · Daghestan
         </p>
         <Link href="/inscription" className="cta-btn reveal" style={{ transitionDelay: '0.2s' }}>
           DÉPOSER MA CANDIDATURE

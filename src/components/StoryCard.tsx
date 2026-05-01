@@ -12,9 +12,7 @@ interface StoryCardProps {
 export default function StoryCard({ prenom, discipline, session, destination }: StoryCardProps) {
   const cardRef = useRef<HTMLDivElement>(null)
 
-  const bgImage = destination === 'Tchétchénie'
-    ? '/images/environment/grozny-city.webp'
-    : '/images/environment/dagestan-panorama.webp'
+  const bgImage = '/images/environment/dagestan-panorama.webp'
 
   const handleDownload = useCallback(async () => {
     if (!cardRef.current) return
@@ -50,7 +48,7 @@ export default function StoryCard({ prenom, discipline, session, destination }: 
           <span className="story-card-label">INSCRIPTION RECUE</span>
           <h2 className="story-card-name">{prenom.toUpperCase()}</h2>
           <p className="story-card-tagline">
-            PART {destination === 'Tchétchénie' ? 'EN' : 'AU'} <span>{destination.toUpperCase()}</span>
+            PART AU <span>{destination.toUpperCase()}</span>
           </p>
         </div>
 

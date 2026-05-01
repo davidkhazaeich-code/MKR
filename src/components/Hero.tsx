@@ -165,7 +165,7 @@ export default function Hero() {
           LES <span className="highlight">CHAMPIONS</span>
         </h1>
 
-        <p className="hero-subtitle">Camp d&apos;entraînement MMA &amp; Lutte au coeur du Caucase, Daghestan &amp; Tchétchénie</p>
+        <p className="hero-subtitle">Camp d&apos;entraînement MMA et Lutte (adultes et enfants) au coeur du Caucase, au Daghestan</p>
 
         <div className="hero-ctas">
           <Link href="#contact" className="btn-primary">POSTULER AU CAMP</Link>
@@ -174,15 +174,15 @@ export default function Hero() {
 
         <div className="hero-stats">
           <div className="hero-stat-item">
-            <span className="hero-stat-num">240+</span>
-            <span className="hero-stat-label">Athlètes formés</span>
+            <span className="hero-stat-num">9</span>
+            <span className="hero-stat-label">Coachs expérimentés</span>
           </div>
           <div className="hero-stat-item">
-            <span className="hero-stat-num">12</span>
-            <span className="hero-stat-label">Disciplines</span>
+            <span className="hero-stat-num">8</span>
+            <span className="hero-stat-label">Athlètes haut niveau</span>
           </div>
           <div className="hero-stat-item">
-            <span className="hero-stat-num">3</span>
+            <span className="hero-stat-num">1-3</span>
             <span className="hero-stat-label">Semaines d&apos;immersion</span>
           </div>
         </div>
@@ -241,16 +241,18 @@ function HeroCampCarousel() {
           <Link href="/inscription" className="hero-camps-cta">S&apos;inscrire →</Link>
         </div>
       </div>
-      <div className="hero-camps-dots">
-        {SESSIONS.map((_, i) => (
-          <button
-            key={i}
-            className={`hero-camps-dot${i === active ? ' active' : ''}`}
-            onClick={() => goTo(i)}
-            aria-label={`Session ${i + 1}`}
-          />
-        ))}
-      </div>
+      {SESSIONS.length > 1 && (
+        <div className="hero-camps-dots">
+          {SESSIONS.map((_, i) => (
+            <button
+              key={i}
+              className={`hero-camps-dot${i === active ? ' active' : ''}`}
+              onClick={() => goTo(i)}
+              aria-label={`Session ${i + 1}`}
+            />
+          ))}
+        </div>
+      )}
     </div>
   )
 }

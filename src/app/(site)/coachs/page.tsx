@@ -6,7 +6,7 @@ import CinematicReveal from '@/components/CinematicReveal'
 
 export const metadata: Metadata = {
   title: 'Nos Coachs | MKR Caucasian Camp | Entraineurs MMA & Lutte du Caucase',
-  description: "Formes dans les salles du Caucase. Nos coachs enseignent ce qu'ils vivent. Champions de lutte, veterans MMA, maitres du Sambo.",
+  description: "Formes dans les salles du Caucase. Nos coachs enseignent ce qu'ils vivent. Champions de lutte libre, veterans MMA, et un staff complet de 9 coachs experimentes.",
   alternates: { canonical: 'https://mkrcaucasiancamp.com/coachs' },
 }
 
@@ -22,14 +22,14 @@ const COACHES = [
     name: 'Khasan Akhmedov',
     role: 'Coach MMA',
     experience: '14 ans',
-    bio: "Veteran du circuit MMA caucasien. Khasan combine une expertise en striking et en grappling. Sa philosophie : chaque combattant doit etre dangereux debout et au sol. Il dirige les sessions de sparring depuis Grozny avec une attention particuliere a l'intelligence tactique.",
+    bio: "Veteran du circuit MMA caucasien. Khasan combine une expertise en striking et en grappling. Sa philosophie : chaque combattant doit etre dangereux debout et au sol. Il dirige les sessions de sparring au Daghestan avec une attention particuliere a l'intelligence tactique.",
     palmares: '22 combats pro, Formateur fighters Eagle FC',
   },
   {
     name: 'Akhmed Bashaev',
     role: 'Coach Boxe',
     experience: '20 ans',
-    bio: "Ancien boxeur professionnel, Akhmed est respecte dans tout le Caucase pour sa technique de frappe pure. Il travaille les fondamentaux : placement, timing, gestion de la distance. Ses sessions de pads a Grozny sont redoutees et adulees en parts egales.",
+    bio: "Ancien boxeur professionnel, Akhmed est respecte dans tout le Caucase pour sa technique de frappe pure. Il travaille les fondamentaux : placement, timing, gestion de la distance. Ses sessions de pads au Daghestan sont redoutees et adulees en parts egales.",
     palmares: 'Champion regional boxe, 30+ combats pro',
   },
   {

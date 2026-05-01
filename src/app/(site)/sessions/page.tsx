@@ -4,6 +4,8 @@ import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 import CinematicReveal from '@/components/CinematicReveal'
+import AudienceSwitcher from '@/components/AudienceSwitcher'
+import PricingTable from '@/components/PricingTable'
 
 export const metadata: Metadata = {
   title: 'Sessions & Tarifs | MKR Caucasian Camp | Prix Camps MMA Dagestan',
@@ -13,43 +15,17 @@ export const metadata: Metadata = {
 
 const SESSIONS = [
   {
-    month: 'AVR',
-    season: 'Session Printemps · Avril 2026',
-    name: 'PRINTEMPS\nGEORGIEN',
-    dates: '15 AVRIL · 6 MAI 2026',
-    intensity: 'Elevee',
-    places: '14 max.',
+    month: 'AOÛ',
+    season: 'Session Été · Août 2026',
+    name: 'CAMP\nDAGHESTANAIS',
+    dates: '17 AOÛT · 5 SEPTEMBRE 2026',
+    intensity: 'Maximale',
+    places: '15 max.',
     duration: '3 semaines',
     price: '2 900 CHF',
     status: 'open' as const,
     statusLabel: 'Places disponibles',
     delay: '0s',
-  },
-  {
-    month: 'JUL',
-    season: 'Session Ete · Juillet 2026',
-    name: 'ASSAUT\nD\'ETE',
-    dates: '8 JUILLET · 29 JUILLET 2026',
-    intensity: 'Maximale',
-    places: '12 max.',
-    duration: '3 semaines',
-    price: '3 200 CHF',
-    status: 'open' as const,
-    statusLabel: 'Places disponibles',
-    delay: '0.12s',
-  },
-  {
-    month: 'SEP',
-    season: 'Session Automne · Septembre 2026',
-    name: 'SOMMET\nD\'AUTOMNE',
-    dates: '16 SEPT · 7 OCTOBRE 2026',
-    intensity: 'Elevee',
-    places: '10 restantes',
-    duration: '3 semaines',
-    price: '2 750 CHF',
-    status: 'limited' as const,
-    statusLabel: 'Places limitees',
-    delay: '0.24s',
   },
 ]
 
@@ -88,7 +64,7 @@ const INCLUDES = [
       </svg>
     ),
     title: 'Coachs locaux',
-    desc: 'Entraineurs daghestanais et tchetchenes, champions et veterans.',
+    desc: 'Entraineurs daghestanais, champions et veterans. Equipe complete de 9 coachs experimentes.',
   },
   {
     icon: (
@@ -96,8 +72,8 @@ const INCLUDES = [
         <path d="M4 24 L10 14 L16 20 L22 10 L28 18" /><circle cx="6" cy="8" r="2" />
       </svg>
     ),
-    title: 'Excursions',
-    desc: 'Sorties culturelles et randonnees en montagne le jour de repos.',
+    title: 'Excursions (en option)',
+    desc: 'Sorties culturelles et randonnees en montagne le jour de repos, en option.',
   },
   {
     icon: (
@@ -106,8 +82,8 @@ const INCLUDES = [
         <line x1="14" y1="14" x2="14" y2="26" />
       </svg>
     ),
-    title: '3 repas/jour',
-    desc: 'Nutrition adaptee a l\'effort. Cuisine locale et proteines.',
+    title: '2 repas/jour',
+    desc: 'Petit-dejeuner et dejeuner pris en charge. Nutrition adaptee a l\'effort, cuisine locale.',
   },
 ]
 
@@ -120,16 +96,24 @@ export default function SessionsPage() {
       ]} />
 
       <PageHero
-        label="PROGRAMME 2026"
-        title="CHOISIS TA SESSION.<br/>ON S'OCCUPE DU RESTE."
-        subtitle="Trois sessions par an. Maximum 15 athletes par camp. Selection reelle."
+        label="SESSIONS & TARIFS"
+        title="CHOISIS TON FORMAT.<br/>NOUS ORGANISONS TOUT."
+        subtitle="Rejoindre la session groupe, organiser ton camp sur mesure ou venir avec ton club. Tarifs publics fixes."
       />
 
-      {/* Sessions grid */}
+      {/* Audience Switcher : 3 types d'inscription */}
+      <AudienceSwitcher withHeader={false} />
+
+      {/* Session officielle : carte mise en avant */}
       <section className="sessions-page-section fx-grid fx-glow fx-mask-a fx-stack-2" aria-labelledby="sessions-list-heading">
         <div className="fx-glow-orb fx-glow-orb--top fx-glow-breathe" />
         <div className="inner">
-          <h2 id="sessions-list-heading" className="sr-only">Prochaines sessions</h2>
+          <div className="logi-header reveal">
+            <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>
+              SESSION OFFICIELLE 2026
+            </span>
+            <h2 id="sessions-list-heading">UN GROUPE, UNE DATE, UN OBJECTIF</h2>
+          </div>
           <div className="sessions-grid">
             {SESSIONS.map((s, i) => (
               <article key={i} className="session-card fx-grain fx-corner-glow reveal" style={{ transitionDelay: s.delay }}>
@@ -160,15 +144,25 @@ export default function SessionsPage() {
                 <div className="session-card-footer">
                   <div>
                     <div className="session-price">{s.price}</div>
-                    <div className="session-price-sub">Hebergement &amp; repas inclus · Vol non inclus</div>
+                    <div className="session-price-sub">Tarif adulte. Enfant 8-17 (avec parent) : 1 900 CHF / 3 sem.</div>
                   </div>
-                  <Link href="/inscription" className="session-cta">POSTULER</Link>
+                  <Link href="/inscription?type=session" className="session-cta">POSTULER</Link>
                 </div>
               </article>
             ))}
           </div>
+          <p className="logi-updated" style={{ marginTop: '2rem', textAlign: 'center' }}>
+            Tes dates ne correspondent pas ?{' '}
+            <Link href="/inscription?type=custom" style={{ color: 'var(--primary)', textDecoration: 'underline' }}>
+              Découvre le camp sur mesure
+            </Link>
+            {' '}(délai 90 jours minimum).
+          </p>
         </div>
       </section>
+
+      {/* Pricing Table : grille tarifaire publique */}
+      <PricingTable />
 
       {/* Cinematic reveal */}
       <CinematicReveal
@@ -218,7 +212,7 @@ export default function SessionsPage() {
               className="group-card-img"
             />
             <div className="group-card-cta">
-              <a href="https://wa.me/41XXXXXXXXX" target="_blank" rel="noopener noreferrer" className="btn-primary">
+              <a href="https://wa.me/33666177691" target="_blank" rel="noopener noreferrer" className="btn-primary">
                 CONTACTER PAR WHATSAPP
               </a>
               <a href="mailto:contact@mkrcaucasiancamp.com" className="btn-ghost">

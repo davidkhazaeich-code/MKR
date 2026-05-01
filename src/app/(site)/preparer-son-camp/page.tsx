@@ -22,7 +22,6 @@ const WEEKS = [
 
 const EQUIPMENT = {
   'Vetements & Protection': [
-    'Kimono de lutte (si applicable)',
     'Gants de boxe 16 oz',
     'Protege-tibias',
     'Protege-dents (moule)',
@@ -35,10 +34,7 @@ const EQUIPMENT = {
     'Passeport (valide 6+ mois)',
     'Copie confirmation MKR',
     'Attestation assurance',
-    'Trousse de premiers soins',
-    'Creme solaire SPF 50',
     'Anti-moustique',
-    'Adaptateur prise (type C/F)',
     'Cadenas valise',
   ],
 }

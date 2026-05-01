@@ -52,11 +52,11 @@ export default function VoyageReveal() {
               </div>
               <div className="voyage-reveal-step">
                 <span className="voyage-reveal-num">02</span>
-                <span>Istanbul → Makhachkala (2h30)</span>
+                <span>Istanbul → Makhachkala (vol intérieur inclus)</span>
               </div>
               <div className="voyage-reveal-step">
                 <span className="voyage-reveal-num">03</span>
-                <span>Transfert au camp</span>
+                <span>Transfert au camp (1h30, inclus)</span>
               </div>
             </div>
 

@@ -45,7 +45,7 @@ export default function Sessions() {
               <div className="session-card-footer">
                 <div>
                   <div className="session-price">{formatPrice(session)}</div>
-                  <div className="session-price-sub">Hébergement &amp; repas inclus · Vol non inclus</div>
+                  <div className="session-price-sub">Hébergement, 2 repas/jour, vol intérieur Istanbul-Makhachkala inclus · Vol international à charge</div>
                 </div>
                 <Link href="/inscription" className="session-cta">POSTULER</Link>
               </div>

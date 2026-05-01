@@ -45,8 +45,8 @@ const STEPS = [
   {
     num: '06',
     title: 'LE CAMP',
-    desc: "3 semaines d'entrainement intensif. 2 sessions par jour. Coachs locaux. Hebergement, repas, excursions. Tu ne t'occupes de rien d'autre que de progresser.",
-    detail: '3 semaines',
+    desc: "1 a 3 semaines d'entrainement intensif. 2 sessions par jour. Coachs locaux. Hebergement, repas, excursions en option. Tu ne t'occupes de rien d'autre que de progresser.",
+    detail: '1 a 3 semaines',
   },
 ]
 

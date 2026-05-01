@@ -5,18 +5,18 @@ import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 import CinematicReveal from '@/components/CinematicReveal'
 
 export const metadata: Metadata = {
-  title: 'Programme Lutte | MKR Caucasian Camp | Lutte libre & greco au Caucase',
-  description: "Programme de lutte libre et greco-romaine. Methodes daghestanaises ancestrales, sparring quotidien, coaching de haut niveau au Caucase.",
+  title: 'Programme Lutte | MKR Caucasian Camp | Lutte libre au Caucase',
+  description: "Programme de lutte libre. Methodes daghestanaises ancestrales, sparring quotidien, coaching de haut niveau au Caucase.",
   alternates: { canonical: 'https://mkrcaucasiancamp.com/programme/lutte' },
 }
 
 const TECHNIQUES = [
   { title: 'Lutte libre', desc: 'Takedowns explosifs, controle des jambes, scrambles. La base du combat au Dagestan.' },
-  { title: 'Greco-romaine', desc: 'Projections de hanche, suplex, controle au corps-a-corps. Pas de prise de jambes : tout passe par le haut.' },
   { title: 'Leg rides', desc: 'Specialite daghestanaise. Controle au sol avec les jambes. Technique introuvable en Europe.' },
   { title: 'Chain wrestling', desc: 'Enchainement de takedowns. Si le premier echoue, le deuxieme est deja en route.' },
   { title: 'Funk rolls', desc: 'Reprises de position acrobatiques. Transformer une situation defensive en attaque.' },
   { title: 'Mat returns', desc: 'Ramener l\'adversaire au sol depuis la position debout. Technique de controle.' },
+  { title: 'Defense de takedown', desc: 'Sprawl, underhooks, contre-attaques. Annuler l\'attaque adverse et reprendre l\'initiative.' },
 ]
 
 const SESSION_FLOW = [
@@ -38,7 +38,7 @@ export default function ProgrammeLuttePage() {
       <PageHero
         label="LUTTE"
         title="LA DISCIPLINE QUI A<br/>FORGE LE CAUCASE"
-        subtitle="Lutte libre et greco-romaine. Les methodes ancestrales du Dagestan."
+        subtitle="Lutte libre uniquement. Les methodes ancestrales du Dagestan."
         breadcrumb={[
           { href: '/programme', label: 'Programme' },
           { href: '/programme/lutte', label: 'Lutte' },
@@ -59,7 +59,7 @@ export default function ProgrammeLuttePage() {
                 olympiques de lutte par habitant que n&apos;importe quel autre endroit au monde.
               </p>
               <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1rem' }}>
-                Le programme MKR te donne acces a ce savoir. Lutte libre, greco-romaine, et les techniques
+                Le programme MKR te donne acces a ce savoir : lutte libre exclusivement, et les techniques
                 specifiques du Caucase que tu ne trouveras dans aucune academie europeenne.
               </p>
             </div>
@@ -91,11 +91,11 @@ export default function ProgrammeLuttePage() {
 
       {/* Cinematic reveal */}
       <CinematicReveal
-        image="/images/action/sambo-throw.webp"
-        alt="Projection de Sambo en entrainement au Caucase"
+        image="/images/action/takedown-wrestling.webp"
+        alt="Takedown de lutte libre en entrainement au Caucase"
         label="PROJECTION"
         title="L'ART DU TAKEDOWN"
-        tagline="Sambo, lutte libre, greco-romaine. Les techniques qui ont forge les champions du Caucase."
+        tagline="Lutte libre. Les techniques qui ont forge les champions du Caucase."
       />
 
       {/* Techniques */}
@@ -135,6 +135,9 @@ export default function ProgrammeLuttePage() {
               </div>
             ))}
           </div>
+          <p className="logi-updated" style={{ marginTop: '1.5rem', textAlign: 'center' }}>
+            Horaires officiels Lutte adultes : <strong>matin 10h30</strong> et <strong>apres-midi 17h30</strong>. Pas de chevauchement avec les sessions MMA.
+          </p>
         </div>
       </section>
 

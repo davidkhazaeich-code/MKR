@@ -29,7 +29,7 @@ const PHOTOS = [
   { category: 'Entrainement', alt: 'Conditioning a la corde', img: '/images/action/conditioning-rope.webp' },
   { category: 'Montagnes', alt: 'Canyon de Sulak', img: '/images/environment/canyon-sulak.webp' },
   { category: 'Entrainement', alt: 'Lutte au tapis', img: '/images/galerie/wrestling-action.webp' },
-  { category: 'Culture', alt: 'Mosquee de Grozny', img: '/images/environment/mosque-grozny.webp' },
+  { category: 'Culture', alt: 'Mosquee Djouma de Makhachkala, Daghestan', img: '/images/environment/mosque-grozny.webp' },
   { category: 'Entrainement', alt: 'Kick au sac de frappe', img: '/images/galerie/kick-heavybag.webp' },
   { category: 'Coachs', alt: 'Coach Khasan Akhmedov', img: '/images/coaches/khasan-akhmedov.webp' },
   { category: 'Montagnes', alt: 'Lac de montagne, Caucase', img: '/images/galerie/mountain-lake.webp' },

@@ -140,7 +140,7 @@ export default function Timeline() {
                 </div>
                 <div className="timeline-num" style={{ color: 'var(--cta)' }}>05</div>
                 <h3 className="timeline-step-title">IMMERSION</h3>
-                <p className="timeline-step-body">Trois semaines au Daghestan ou en Tchétchénie. Entraînements biquotidiens, sparring avec des combattants locaux, vie en communauté. Tu reviens avec un niveau que tu n&apos;aurais jamais atteint autrement.</p>
+                <p className="timeline-step-body">Une à trois semaines au Daghestan. Entraînements biquotidiens, sparring avec des combattants locaux, vie en communauté. Tu reviens avec un niveau que tu n&apos;aurais jamais atteint autrement.</p>
               </div>
             </div>
             <div className="timeline-dot-wrap">

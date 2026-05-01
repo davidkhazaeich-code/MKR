@@ -17,19 +17,19 @@ export const FAQ_HOMEPAGE: FAQItem[] = [
   },
   {
     question: 'Le visa est-il nécessaire ?',
-    answer: "Le camp se déroule au Daghestan et en Tchétchénie (Fédération de Russie). Un visa est nécessaire pour la majorité des nationalités. MKR t'accompagne dans la procédure (lettre d'invitation, dossier) après confirmation de ta candidature.",
+    answer: "Le camp se déroule au Daghestan (Fédération de Russie). Un visa russe est nécessaire pour la majorité des nationalités. Pour les ressortissants UE, MKR fournit un questionnaire visa à compléter avec ton passeport (validité 6 mois minimum) et t'accompagne dans toute la procédure après confirmation de ta candidature.",
   },
   {
     question: "Qu'est-ce qui est inclus dans le prix ?",
-    answer: "Le tarif comprend l'hébergement en logement de camp, les repas (3 repas/jour), les séances d'entraînement biquotidiennes, les transferts aéroport-camp, et le suivi préparatoire à distance. Le vol international n'est pas inclus.",
+    answer: "Le tarif comprend l'hébergement en logement de camp, les repas (2 repas/jour), les séances d'entraînement biquotidiennes, le vol intérieur Istanbul-Makhachkala, les transferts aéroport-camp et le suivi préparatoire à distance. Le vol international n'est pas inclus.",
   },
   {
     question: "Quelle est la langue d'entraînement ?",
-    answer: "Les entraînements se déroulent principalement en russe (et quelques mots d'avar ou tchétchène selon la salle). Un interprète est présent pour le français et l'anglais. L'immersion linguistique fait partie de l'expérience.",
+    answer: "Les entraînements se déroulent principalement en russe (et quelques mots d'avar selon la salle). Un interprète est présent pour le français et l'anglais. L'immersion linguistique fait partie de l'expérience.",
   },
   {
     question: 'Quel équipement dois-je apporter ?',
-    answer: "Kimono (si tu pratiques la lutte), gants de boxe (16 oz), protège-tibias, protège-dents et coquille. Un guide complet de préparation est envoyé après confirmation de ta candidature.",
+    answer: "Gants de boxe (16 oz), protège-tibias, protège-dents et coquille. Un guide complet de préparation est envoyé après confirmation de ta candidature.",
   },
   {
     question: 'Combien de participants par session ?',
@@ -63,19 +63,19 @@ export const FAQ_CATEGORIES: FAQCategory[] = [
     items: [
       {
         question: 'Le visa est-il necessaire ?',
-        answer: "Le camp se deroule au Daghestan et en Tchetchenie (Federation de Russie). Un visa est necessaire pour la majorite des nationalites. MKR t'accompagne dans la procedure (lettre d'invitation, dossier) apres confirmation de ta candidature.",
+        answer: "Le camp se deroule au Daghestan (Federation de Russie). Un visa russe est necessaire pour la majorite des nationalites. Pour les ressortissants UE, MKR fournit un questionnaire visa a completer avec ton passeport (validite 6 mois minimum) et t'accompagne dans toute la procedure apres confirmation de ta candidature.",
       },
       {
         question: "Qu'est-ce qui est inclus dans le prix ?",
-        answer: "Le tarif comprend l'hebergement en logement de camp, les repas (3 repas/jour), les seances d'entrainement biquotidiennes, les transferts aeroport-camp, et le suivi preparatoire a distance. Le vol international n'est pas inclus.",
+        answer: "Le tarif comprend l'hebergement en logement de camp, les repas (2 repas/jour), les seances d'entrainement biquotidiennes, le vol interieur Istanbul-Makhachkala, les transferts aeroport-camp et le suivi preparatoire a distance. Le vol international n'est pas inclus.",
       },
       {
         question: 'Quel equipement dois-je apporter ?',
-        answer: "Kimono (si tu pratiques la lutte), gants de boxe (16 oz), protege-tibias, protege-dents et coquille. Un guide complet de preparation est envoye apres confirmation de ta candidature.",
+        answer: "Gants de boxe (16 oz), protege-tibias, protege-dents et coquille. Un guide complet de preparation est envoye apres confirmation de ta candidature.",
       },
       {
         question: "Comment se passe le transfert depuis l'aeroport ?",
-        answer: "Le transfert aeroport-camp est inclus dans le prix. Un vehicule MKR t'attend a l'arrivee. Le trajet dure environ 2-3 heures selon la destination.",
+        answer: "Le transfert aeroport-camp est inclus dans le prix. Un vehicule MKR t'attend a l'arrivee. Le trajet entre Makhachkala et le lieu d'entrainement dure environ 1h30.",
       },
     ],
   },
@@ -89,15 +89,15 @@ export const FAQ_CATEGORIES: FAQCategory[] = [
       },
       {
         question: "Quelle est la langue d'entrainement ?",
-        answer: "Les entrainements se deroulent principalement en russe (et quelques mots d'avar ou tchetchene selon la salle). Un interprete est present pour le francais et l'anglais. L'immersion linguistique fait partie de l'experience.",
+        answer: "Les entrainements se deroulent principalement en russe (et quelques mots d'avar selon la salle). Un interprete est present pour le francais et l'anglais. L'immersion linguistique fait partie de l'experience.",
       },
       {
         question: 'Combien de participants par session ?',
         answer: 'Maximum 15 participants par session pour garantir un suivi individualise. Les places sont limitees volontairement. La selection est reelle.',
       },
       {
-        question: 'Puis-je choisir entre MMA et lutte ?',
-        answer: "Le programme inclut les deux disciplines. Tu participes aux sessions de MMA et de lutte selon le planning. C'est la polyvalence qui forge les meilleurs combattants.",
+        question: 'Puis-je choisir entre MMA, lutte adultes et lutte enfants ?',
+        answer: "Oui. Le camp propose 3 disciplines : Lutte adultes, Lutte enfants et MMA. Tu choisis ta discipline a l'inscription. Lutte adultes et enfants : sessions a 10h30 et 17h30. MMA : sessions a 11h00 et 18h00.",
       },
       {
         question: 'Y a-t-il des jours de repos ?',

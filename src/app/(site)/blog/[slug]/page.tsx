@@ -108,7 +108,7 @@ const ARTICLES_MAP: Record<string, Article> = {
     <p>Agneau, poulet, produits laitiers, pain frais, legumes du jardin. Les repas sont prepares sur place, en grande quantite, avec des produits locaux.</p>
 
     <h2>PENDANT LE CAMP</h2>
-    <p>3 repas par jour, plus des collations entre les sessions. L'hydratation est cruciale en altitude. L'equipe MKR adapte les portions et le timing des repas au programme d'entrainement.</p>
+    <p>2 repas principaux par jour pris en charge par MKR (petit-dejeuner copieux et dejeuner), plus des collations entre les sessions. L'hydratation est cruciale en altitude. L'equipe MKR adapte les portions et le timing des repas au programme d'entrainement.</p>
   `,
   },
   'khabib-methode-entrainement': {

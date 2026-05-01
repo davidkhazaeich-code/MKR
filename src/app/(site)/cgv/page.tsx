@@ -38,10 +38,11 @@ export default function CGVPage() {
           <p>Le tarif du camp comprend :</p>
           <ul>
             <li>Hebergement en logement de camp</li>
-            <li>3 repas par jour</li>
+            <li>2 repas par jour (petit-dejeuner et dejeuner)</li>
             <li>Sessions d&apos;entrainement biquotidiennes (6 jours/semaine)</li>
+            <li>Vol interieur Istanbul-Makhachkala</li>
             <li>Transferts aeroport-camp</li>
-            <li>Excursions culturelles prevues au programme</li>
+            <li>Excursions culturelles (en option)</li>
             <li>Suivi preparatoire a distance avant le depart</li>
           </ul>
 

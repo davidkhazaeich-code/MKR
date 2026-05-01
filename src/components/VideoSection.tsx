@@ -8,7 +8,7 @@ export default function VideoSection() {
             L&apos;EXPÉRIENCE
           </span>
           <h2 id="video-heading" className="video-section-title">
-            3 SEMAINES QUI<br />CHANGENT <span>TOUT</span>
+            1 À 3 SEMAINES<br />QUI CHANGENT <span>TOUT</span>
           </h2>
         </div>
 
@@ -43,8 +43,8 @@ export default function VideoSection() {
             <span className="video-highlight-label">Entraînements par jour</span>
           </div>
           <div className="video-highlight-item">
-            <span className="video-highlight-num">4</span>
-            <span className="video-highlight-label">Coachs champions</span>
+            <span className="video-highlight-num">9</span>
+            <span className="video-highlight-label">Coachs experimentes</span>
           </div>
           <div className="video-highlight-item">
             <span className="video-highlight-num">15</span>

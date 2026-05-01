@@ -7,7 +7,7 @@ import CinematicReveal from '@/components/CinematicReveal'
 
 export const metadata: Metadata = {
   title: 'Le Camp | MKR Caucasian Camp | MMA & Lutte au Caucase',
-  description: "Decouvrez le concept MKR : immersion totale de 3 semaines au coeur du Caucase, Daghestan & Tchetchenie. Coaching de haut niveau, hebergement, repas inclus. Zero distraction.",
+  description: "Decouvrez le concept MKR : immersion totale de 1 a 3 semaines au coeur du Caucase, au Daghestan. Coaching de haut niveau, hebergement, 2 repas par jour, vol interieur Istanbul-Makhachkala inclus.",
   alternates: { canonical: 'https://mkrcaucasiancamp.com/le-camp' },
 }
 
@@ -37,7 +37,7 @@ const INCLUDES = [
       </svg>
     ),
     title: '2 sessions/jour',
-    desc: 'Entrainement biquotidien : matin lutte, apres-midi MMA.',
+    desc: 'Entrainement biquotidien dans ta discipline : matin et fin d’apres-midi.',
   },
   {
     icon: (
@@ -64,7 +64,7 @@ const INCLUDES = [
         <line x1="14" y1="14" x2="14" y2="26" />
       </svg>
     ),
-    title: '3 repas/jour',
+    title: '2 repas/jour',
     desc: 'Cuisine caucasienne riche en proteines. Regime adapte aux athletes.',
   },
 ]
@@ -77,14 +77,14 @@ const NOT_INCLUDED = [
 ]
 
 const DAILY_SCHEDULE = [
-  { time: '06:00', activity: 'Reveil', desc: 'La journee commence tot. Le Caucase se merite.' },
-  { time: '07:00', activity: 'Petit-dejeuner', desc: 'Repas copieux, proteines, energie pour la matinee.' },
-  { time: '08:00 - 10:00', activity: 'Session Lutte', desc: 'Technique, drills, sparring. Coachs daghestanais.' },
-  { time: '12:00', activity: 'Dejeuner', desc: 'Recuperation et nutrition.' },
-  { time: '14:00', activity: 'Recuperation', desc: 'Repos, etirements, soins si necessaire.' },
-  { time: '16:00 - 18:00', activity: 'Session MMA', desc: 'Striking, clinch, ground, sparring dirige.' },
-  { time: '19:00', activity: 'Diner', desc: 'Repas complet. Debrief de la journee.' },
-  { time: '21:00', activity: 'Repos', desc: 'Sommeil. Le corps se reconstruit.' },
+  { time: '07:30', activity: 'Reveil', desc: 'Le matin appartient a ceux qui se levent tot.' },
+  { time: '08:30', activity: 'Petit-dejeuner', desc: 'Repas copieux, proteines, energie pour la matinee.' },
+  { time: '10:30 / 11:00', activity: 'Session matin', desc: 'Lutte (adultes ou enfants) a 10h30. MMA a 11h00. Sparring, technique, drills.' },
+  { time: '13:00', activity: 'Dejeuner', desc: 'Recuperation et nutrition.' },
+  { time: '14:30', activity: 'Recuperation', desc: 'Repos, etirements, soins si necessaire.' },
+  { time: '17:30 / 18:00', activity: 'Session apres-midi', desc: 'Lutte a 17h30. MMA a 18h00. Intensite competition, sparring dirige.' },
+  { time: '20:00', activity: 'Diner', desc: 'Repas du soir libre selon ton plan personnel.' },
+  { time: '22:00', activity: 'Repos', desc: 'Sommeil. Le corps se reconstruit.' },
 ]
 
 export default function LeCampPage() {
@@ -97,8 +97,8 @@ export default function LeCampPage() {
 
       <PageHero
         label="LE CAMP"
-        title="3 SEMAINES QUI CHANGENT<br/>TA MANIERE DE COMBATTRE."
-        subtitle="Immersion totale au Caucase, Daghestan & Tchetchenie. Coaching, hebergement, repas. Toi, tu combats."
+        title="1 A 3 SEMAINES QUI CHANGENT<br/>TA MANIERE DE COMBATTRE."
+        subtitle="Immersion totale au Caucase, au Daghestan. Coaching, hebergement, repas. Toi, tu combats."
       />
 
       {/* Cinematic reveal */}
@@ -133,7 +133,7 @@ export default function LeCampPage() {
             <div>
               <div className="content-card fx-grain fx-corner-glow reveal" style={{ transitionDelay: '0.1s' }}>
                 <h3 className="card-title">IMMERSION TOTALE</h3>
-                <p className="card-body">Pendant 3 semaines, tu vis, manges et t&apos;entraines avec des athletes locaux. Une immersion complete dans la culture du combat caucasien.</p>
+                <p className="card-body">Pendant 1 a 3 semaines, tu vis, manges et t&apos;entraines avec des athletes locaux. Une immersion complete dans la culture du combat caucasien.</p>
               </div>
               <div className="content-card fx-grain fx-corner-glow reveal" style={{ marginTop: '1.25rem', transitionDelay: '0.18s' }}>
                 <h3 className="card-title">HERITAGE DU CAUCASE</h3>
