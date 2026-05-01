@@ -123,7 +123,45 @@ export const FAQ_CATEGORIES: FAQCategory[] = [
       },
       {
         question: 'Je viens avec mon club, y a-t-il un tarif groupe ?',
-        answer: "Oui, tarif degressif a partir de 5 personnes. Contacte-nous directement par WhatsApp ou email pour un devis personnalise.",
+        answer: "Le tarif par tete reste identique au tarif individuel : pas de reduction. L'avantage du groupe : reservation simultanee, hebergement bloc, transferts groupes, programme adapte au niveau collectif. Inscription via le tunnel 'Clubs et groupes' (2 a 20 personnes).",
+      },
+      {
+        question: "Quels sont les 3 types d'inscription ?",
+        answer: "1. Rejoindre la session officielle (17 aout - 5 sept 2026, groupe constitue par MKR, 3 semaines fixes). 2. Camp sur mesure (tes dates, 1/2/3 semaines, delai 90 jours minimum). 3. Clubs et groupes (2 a 20 personnes, dates au choix, programme adapte). Tarifs publics fixes identiques pour les 3 formats.",
+      },
+      {
+        question: 'Quel est le delai minimum pour reserver un camp sur mesure ?',
+        answer: "90 jours minimum avant la date de debut souhaitee. Ce delai permet de gerer le visa russe (3-4 semaines), reserver un vol intl pas cher, et completer la preparation physique de 6 semaines. Pour les camps sur dates fixes (session officielle), inscription jusqu'a 30 jours avant le depart.",
+      },
+    ],
+  },
+  {
+    id: 'familles',
+    label: 'Familles & Jeunesse',
+    items: [
+      {
+        question: 'Mon enfant peut-il venir au camp ?',
+        answer: "Oui, des 8 ans, mais il doit obligatoirement etre accompagne d'un parent participant au camp. C'est notre regle de securite : pas de prise en charge enfant seul. Tarif enfant 8-17 ans fixe : 1 000 CHF / 1 sem, 1 400 CHF / 2 sem, 1 900 CHF / 3 sem.",
+      },
+      {
+        question: 'Comment s\'inscrire en famille ?',
+        answer: "Sur le tunnel 'Rejoindre la session' ou 'Camp sur mesure', tu trouves une option 'Tu viens avec ta famille ?'. Coche oui, indique le nombre d'enfants (1, 2 ou 3) et leurs ages. Le tarif total se calcule automatiquement (parent au tarif adulte + chaque enfant au tarif enfant).",
+      },
+      {
+        question: "Comment l'enfant est-il encadre pendant les sessions ?",
+        answer: "Un coach jeunesse forme a la pedagogie sportive des plus jeunes encadre les sessions enfants (Lutte enfants a 10h30 et 17h30). Ratio 1 coach pour 5 enfants maximum. Tapis olympiques homologues, salle dediee, pas de KO autorise, sparring controle. Briefing parents chaque fin de session, photos quotidiennes.",
+      },
+      {
+        question: 'Le programme parent et le programme enfant sont-ils en parallele ?',
+        answer: "Oui. Tu suis les sessions adultes (Lutte 10h30/17h30 ou MMA 11h00/18h00) pendant que ton enfant suit le programme Lutte enfants (10h30/17h30). Vous vous retrouvez aux repas, excursions et moments libres. Tu peux aussi assister aux sessions de ton enfant si tu le souhaites.",
+      },
+      {
+        question: 'Quel age minimum/maximum pour les enfants ?',
+        answer: "Minimum 8 ans, maximum 17 ans. En dessous de 8 ans, le camp est physiquement et culturellement trop intense. A partir de 18 ans, ton ado est inscrit comme adulte au tarif adulte (1 500 / 2 200 / 2 900 CHF selon duree).",
+      },
+      {
+        question: 'Faut-il un certificat medical pour les enfants ?',
+        answer: "Oui, certificat medical d'aptitude a la pratique sportive intensive obligatoire pour chaque enfant, etabli par le medecin traitant et date de moins de 6 mois avant le depart. Une autorisation parentale signee par le responsable legal est egalement requise.",
       },
     ],
   },

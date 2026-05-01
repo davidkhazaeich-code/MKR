@@ -62,9 +62,21 @@ export default function CGVPage() {
           <p>Le Participant reconnait participer au camp de sa propre initiative et en pleine connaissance des risques lies a la pratique de sports de combat. L&apos;Organisateur decline toute responsabilite en cas de blessure survenue lors des entrainements ou activites annexes.</p>
 
           <h2>Article 9 : Droit a l&apos;image</h2>
-          <p>Le Participant autorise l&apos;Organisateur a utiliser les photos et videos prises pendant le camp a des fins de communication et de promotion, sauf opposition ecrite prealable.</p>
+          <p>Le Participant autorise l&apos;Organisateur a utiliser les photos et videos prises pendant le camp a des fins de communication et de promotion, sauf opposition ecrite prealable. Pour les mineurs, l&apos;autorisation est donnee par le responsable legal lors de l&apos;inscription.</p>
 
-          <h2>Article 10 : Droit applicable</h2>
+          <h2>Article 10 : Mineurs et autorisation parentale</h2>
+          <p>Les enfants et adolescents de 8 a 17 ans sont admis au camp <strong>uniquement accompagnes d&apos;un parent ou responsable legal participant lui-meme au camp</strong>. L&apos;Organisateur n&apos;assure pas la prise en charge d&apos;un mineur seul.</p>
+          <p>L&apos;inscription d&apos;un mineur necessite :</p>
+          <ul>
+            <li>Une autorisation parentale signee par le responsable legal au moment de l&apos;inscription</li>
+            <li>Un certificat medical d&apos;aptitude a la pratique sportive intensive datant de moins de 6 mois avant le depart, etabli par le medecin traitant</li>
+            <li>Une copie du passeport du mineur (validite minimum 6 mois apres la date de retour)</li>
+            <li>Une procuration medicale autorisant l&apos;Organisateur et son equipe medicale locale a prendre les mesures d&apos;urgence necessaires</li>
+            <li>L&apos;assurance voyage doit explicitement couvrir le mineur, le rapatriement medical et la pratique de sports de contact pour mineurs</li>
+          </ul>
+          <p>Le parent ou responsable legal accompagnant demeure pleinement responsable du mineur pendant toute la duree du sejour, y compris en dehors des sessions d&apos;entrainement encadrees par MKR. L&apos;Organisateur fournit un encadrement specialise pendant les sessions Lutte enfants (coach jeunesse dedie, ratio 1 coach pour 5 enfants maximum, supervision constante).</p>
+
+          <h2>Article 11 : Droit applicable</h2>
           <p>Les presentes CGV sont soumises au droit suisse. Tout litige sera porte devant les juridictions competentes du canton de [A completer], Suisse.</p>
 
           <p style={{ marginTop: '2rem', fontStyle: 'italic' }}>Derniere mise a jour : avril 2026</p>

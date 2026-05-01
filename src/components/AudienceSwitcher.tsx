@@ -53,13 +53,14 @@ export default function AudienceSwitcher({ withHeader = true, compact = false }:
         {withHeader && (
           <div className="audience-switcher-header reveal">
             <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>
-              POUR QUI ?
+              MKR ORGANISE TOUT
             </span>
             <h2 id="audiences-heading" className="audience-switcher-title">
               CHOISIS COMMENT<br/>TU VIENS AU CAMP
             </h2>
             <p className="audience-switcher-sub">
-              MKR organise tout. Tu rejoins notre session, tu pars sur tes dates, ou tu viens avec ton club.
+              Visa, vol intérieur Istanbul-Makhachkala, transferts, hébergement, encadrement, repas. Tu choisis ton format,
+              MKR coordonne tout sur place. Solo, famille ou club : 3 tunnels d&apos;inscription dédiés.
             </p>
           </div>
         )}

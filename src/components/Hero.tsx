@@ -165,7 +165,7 @@ export default function Hero() {
           LES <span className="highlight">CHAMPIONS</span>
         </h1>
 
-        <p className="hero-subtitle">Camp d&apos;entraînement MMA et Lutte (adultes et enfants) au coeur du Caucase, au Daghestan</p>
+        <p className="hero-subtitle">Camp d&apos;entraînement MMA et Lutte au Daghestan. Solo, en famille ou en club. MKR organise tout.</p>
 
         <div className="hero-ctas">
           <Link href="#contact" className="btn-primary">POSTULER AU CAMP</Link>
