@@ -5,7 +5,7 @@
  * transferts, hébergement, encadrement, repas, programme).
  */
 
-export type RegistrationTypeId = 'session' | 'custom' | 'groupe'
+export type RegistrationTypeId = 'session' | 'custom' | 'famille' | 'groupe'
 
 export interface RegistrationType {
   id: RegistrationTypeId
@@ -29,12 +29,12 @@ export interface RegistrationType {
 export const REGISTRATION_TYPES: RegistrationType[] = [
   {
     id: 'session',
-    label: 'Rejoindre la session groupe',
-    shortLabel: 'Session groupe',
-    badge: 'Session officielle 2026',
-    description: 'Camp de 3 semaines au Daghestan. Esprit collectif, dates fixées, groupe constitué par MKR.',
+    label: 'MKR Camp 2026',
+    shortLabel: 'MKR Camp',
+    badge: 'Session officielle',
+    description: 'Rejoins la session de 3 semaines au Daghestan. Groupe constitué par MKR, esprit collectif, dates fixées.',
     longDescription: "Tu rejoins notre session officielle du 17 août au 5 septembre 2026. Tu fais partie d'un groupe constitué d'athlètes du monde entier. MKR organise tout : visa, vol intérieur, transferts, hébergement, repas, programme, encadrement.",
-    cta: "M'inscrire à la session",
+    cta: "M'inscrire au MKR Camp 2026",
     href: '/inscription?type=session',
     dates: '17 août - 5 sept 2026',
     duration: '3 semaines',
@@ -43,16 +43,16 @@ export const REGISTRATION_TYPES: RegistrationType[] = [
     leadTime: 'Inscriptions ouvertes',
     recommended: true,
     image: '/images/ruslan/action/mma-cercle-session-demo-mkr.webp',
-    imageAlt: 'Cercle de combattants autour d\'une démonstration grappling au camp MKR',
+    imageAlt: 'Cercle de combattants autour d\'une démonstration grappling au MKR Camp 2026',
   },
   {
     id: 'custom',
-    label: 'Camp sur mesure',
-    shortLabel: 'Sur mesure',
-    badge: 'Tes dates, ta durée',
-    description: 'Tu choisis tes dates et ta durée (1, 2 ou 3 semaines). MKR organise tout pour toi, seul ou en famille.',
-    longDescription: "Tu pars quand tu veux, pour la durée que tu veux. MKR coordonne tout sur place : coachs disponibles, hébergement, repas, transferts. Solo ou en famille avec tes enfants (8-17 ans avec parent obligatoire).",
-    cta: 'Organiser mon camp',
+    label: 'Sur Mesure',
+    shortLabel: 'Sur Mesure',
+    badge: 'Tes dates, ton aventure',
+    description: 'Camp individuel sur mesure. Tu choisis tes dates, ta durée. MKR coordonne tout sur place pour toi seul.',
+    longDescription: "Tu pars quand tu veux, pour la durée que tu veux (1, 2 ou 3 semaines). MKR coordonne tout sur place : coachs disponibles, hébergement, repas, transferts, vol intérieur Istanbul-Makhachkala. Format vraiment solo accepté (1 personne).",
+    cta: 'Organiser mon aventure',
     href: '/inscription?type=custom',
     dates: 'Dates au choix',
     duration: '1, 2 ou 3 semaines',
@@ -62,13 +62,30 @@ export const REGISTRATION_TYPES: RegistrationType[] = [
     imageAlt: 'Portrait d\'Antoine Petit-Jean, athlète MMA solo en immersion à Makhachkala',
   },
   {
+    id: 'famille',
+    label: 'Famille',
+    shortLabel: 'Famille',
+    badge: 'Parent + enfant 8-17',
+    description: 'Camp en famille au Daghestan. Parent et enfant 8-17 ans côte à côte, encadrement jeunesse spécialisé.',
+    longDescription: "Tu pars en famille avec tes enfants (8-17 ans avec parent participant obligatoire). Programme parallèle : sessions adultes pour le parent, programme Lutte enfants pour l'ado. Tu peux rejoindre la session officielle 17 août, ou choisir tes propres dates (90 jours minimum).",
+    cta: 'Inscrire ma famille',
+    href: '/inscription?type=famille',
+    dates: 'Session ou tes dates',
+    duration: '1, 2 ou 3 semaines',
+    minPersons: 2,
+    maxPersons: 6,
+    leadTime: 'Inscriptions ouvertes (session) ou 90j (sur mesure)',
+    image: '/images/ruslan/kids/parent-enfant-tapis-mkr.webp',
+    imageAlt: 'Père et fils côte à côte sur le tapis du camp MKR, transmission familiale',
+  },
+  {
     id: 'groupe',
-    label: 'Clubs et groupes',
-    shortLabel: 'Clubs / groupes',
-    badge: 'Petits ou grands groupes',
-    description: 'Tu viens avec ton club ? Camp dédié à tes dates, hébergement bloc, programme adapté au niveau.',
-    longDescription: "Tu fédères ton club autour d'un objectif commun. MKR organise un camp dédié à ton groupe : dates choisies, hébergement bloc, transferts groupés, programme adapté au niveau collectif. Idéal de 2 à 20 personnes.",
-    cta: 'Demander un camp groupe',
+    label: 'Club & Groupe',
+    shortLabel: 'Club & Groupe',
+    badge: 'Devis sur mesure',
+    description: 'Tu viens avec ton club ? Camp dédié à tes dates, hébergement bloc, programme adapté. 2 à 20 personnes.',
+    longDescription: "Tu fédères ton club autour d'un objectif commun. MKR organise un camp dédié : dates choisies, hébergement bloc, transferts groupés, programme adapté au niveau collectif. Tarif par tête identique au tarif individuel, avantage logistique.",
+    cta: 'Demander un devis groupe',
     href: '/inscription?type=groupe',
     dates: 'Dates au choix',
     duration: '1, 2 ou 3 semaines',

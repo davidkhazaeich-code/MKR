@@ -242,15 +242,15 @@ export default function Nav() {
                 <Link href="/sessions" className="mega-arrow-link">Voir les tarifs publics {ARROW_RIGHT}</Link>
               </div>
               <div>
-                <span className="mega-camp-links-label">3 inscriptions disponibles</span>
+                <span className="mega-camp-links-label">4 inscriptions disponibles</span>
                 <ul className="mega-link-list" role="list">
-                  <li><Link href="/inscription?type=session">{ICO.sessions} Rejoindre la session 2026 {ARROW_SM}</Link></li>
-                  <li><Link href="/inscription?type=custom">{ICO.calendar} Camp sur mesure (tes dates) {ARROW_SM}</Link></li>
-                  <li><Link href="/inscription?type=groupe">{ICO.coaches} Clubs et groupes {ARROW_SM}</Link></li>
+                  <li><Link href="/inscription?type=session">{ICO.sessions} MKR Camp 2026 (session officielle) {ARROW_SM}</Link></li>
+                  <li><Link href="/inscription?type=custom">{ICO.calendar} Sur Mesure (tes dates, ton aventure) {ARROW_SM}</Link></li>
+                  <li><Link href="/inscription?type=famille">{ICO.coaches} Famille (parent + enfant 8-17) {ARROW_SM}</Link></li>
+                  <li><Link href="/inscription?type=groupe">{ICO.coaches} Club &amp; Groupe (devis sur mesure) {ARROW_SM}</Link></li>
                   <li><Link href="/le-camp">{ICO.camp} Découvrir le camp {ARROW_SM}</Link></li>
                   <li><Link href="/comment-ca-marche">{ICO.howItWorks} Comment ça marche {ARROW_SM}</Link></li>
                   <li><Link href="/preparer-son-camp">{ICO.prepare} Préparer son camp {ARROW_SM}</Link></li>
-                  <li><Link href="/logistique">{ICO.logistics} Logistique et visa {ARROW_SM}</Link></li>
                 </ul>
               </div>
               <div className="mega-camp-accent" aria-hidden="true">
@@ -445,9 +445,10 @@ export default function Nav() {
             <Link href="/contact" className="mob-sub-link">{ICO.contact} Contact</Link>
           </MobAccordion>
           <MobAccordion title="S'inscrire" id="mob-insc">
-            <Link href="/inscription?type=session" className="mob-sub-link">{ICO.sessions} Rejoindre la session 2026</Link>
-            <Link href="/inscription?type=custom" className="mob-sub-link">{ICO.calendar} Camp sur mesure</Link>
-            <Link href="/inscription?type=groupe" className="mob-sub-link">{ICO.coaches} Clubs et groupes</Link>
+            <Link href="/inscription?type=session" className="mob-sub-link">{ICO.sessions} MKR Camp 2026</Link>
+            <Link href="/inscription?type=custom" className="mob-sub-link">{ICO.calendar} Sur Mesure</Link>
+            <Link href="/inscription?type=famille" className="mob-sub-link">{ICO.coaches} Famille</Link>
+            <Link href="/inscription?type=groupe" className="mob-sub-link">{ICO.coaches} Club &amp; Groupe</Link>
             <Link href="/sessions" className="mob-sub-link">{ICO.sessions} Tarifs publics</Link>
           </MobAccordion>
           <a href="https://wa.me/33666177691" target="_blank" rel="noopener noreferrer" className="mob-direct">

@@ -100,6 +100,12 @@ export default function InscriptionLayout({ initialAudience }: InscriptionLayout
       init.session = 'aout-2026'
       init.duree = '3-semaines'
     }
+    // Si famille : checkbox famille pré-coché, par défaut sur la session officielle
+    if (initialAudience === 'famille') {
+      init.vientAvecFamille = true
+      init.session = 'aout-2026'
+      init.duree = '3-semaines'
+    }
     return init
   })
   const [errors, setErrors] = useState<string[]>([])
@@ -160,6 +166,22 @@ export default function InscriptionLayout({ initialAudience }: InscriptionLayout
           if (diffDays < 90) e.push('La date de début doit être au moins 90 jours après aujourd\'hui')
         }
         if (!form.duree) e.push('Durée requise')
+      }
+      if (audience === 'famille') {
+        if (!form.duree) e.push('Durée requise')
+        if (!form.nombreEnfants) e.push('Nombre d\'enfants requis')
+        if (!form.enfantsAges.trim()) e.push('Âges des enfants requis')
+        // Si on choisit camp sur mesure pour la famille (pas la session)
+        if (form.session === 'sur-mesure') {
+          if (!form.dateDebutSouhaitee) {
+            e.push('Date de début souhaitée requise')
+          } else {
+            const target = new Date(form.dateDebutSouhaitee)
+            const now = new Date()
+            const diffDays = Math.floor((target.getTime() - now.getTime()) / (1000 * 60 * 60 * 24))
+            if (diffDays < 90) e.push('La date de début doit être au moins 90 jours après aujourd\'hui')
+          }
+        }
       }
       if (audience === 'groupe') {
         if (!form.nomClub.trim()) e.push('Nom du club / groupe requis')
@@ -671,8 +693,75 @@ export default function InscriptionLayout({ initialAudience }: InscriptionLayout
                   </>
                 )}
 
-                {/* Famille (option pour session ou custom, pas pour groupe) */}
-                {audience !== 'groupe' && (
+                {/* Audience: FAMILLE — sub-choix session vs sur mesure + enfants obligatoire */}
+                {audience === 'famille' && (
+                  <>
+                    <Field label="Format de ton camp famille" hint="Tu peux rejoindre la session officielle ou choisir tes propres dates">
+                      <RadioGroup name="formatFamille" value={form.session === 'sur-mesure' ? 'sur-mesure' : 'aout-2026'}
+                        onChange={v => {
+                          if (v === 'aout-2026') {
+                            set('session', 'aout-2026')
+                            set('duree', '3-semaines')
+                            set('dateDebutSouhaitee', '')
+                          } else {
+                            set('session', 'sur-mesure')
+                            set('duree', '')
+                          }
+                        }}
+                        options={[
+                          { val: 'aout-2026', label: 'Rejoindre le MKR Camp 2026 (17 août - 5 sept, 3 semaines)' },
+                          { val: 'sur-mesure', label: 'Camp famille sur mesure (vos dates, durée au choix, 90j minimum)' },
+                        ]}
+                      />
+                    </Field>
+
+                    {form.session === 'sur-mesure' && (
+                      <div className="cand-row">
+                        <Field label="Date de début souhaitée" hint="Réservation 90 jours minimum avant">
+                          <input className="cand-input" type="date"
+                            min={(() => {
+                              const d = new Date()
+                              d.setDate(d.getDate() + 90)
+                              return d.toISOString().split('T')[0]
+                            })()}
+                            value={form.dateDebutSouhaitee}
+                            onChange={e => set('dateDebutSouhaitee', e.target.value)} />
+                        </Field>
+                        <Field label="Durée souhaitée">
+                          <select className="cand-select" value={form.duree}
+                            onChange={e => set('duree', e.target.value)}>
+                            <option value="" disabled>Sélectionner</option>
+                            <option value="1-semaine">1 semaine</option>
+                            <option value="2-semaines">2 semaines</option>
+                            <option value="3-semaines">3 semaines (recommandé)</option>
+                          </select>
+                        </Field>
+                      </div>
+                    )}
+
+                    <div className="cand-row">
+                      <Field label="Nombre d'enfants" hint="8-17 ans avec parent participant obligatoire">
+                        <select className="cand-select" value={form.nombreEnfants}
+                          onChange={e => set('nombreEnfants', e.target.value)}>
+                          <option value="" disabled>Sélectionner</option>
+                          <option value="1">1 enfant</option>
+                          <option value="2">2 enfants</option>
+                          <option value="3">3 enfants</option>
+                          <option value="4">4 enfants</option>
+                        </select>
+                      </Field>
+                      <Field label="Âges des enfants" hint="Entre 8 et 17 ans">
+                        <input className="cand-input" type="text"
+                          placeholder="Ex : 10, 13"
+                          value={form.enfantsAges}
+                          onChange={e => set('enfantsAges', e.target.value)} />
+                      </Field>
+                    </div>
+                  </>
+                )}
+
+                {/* Famille (option pour session ou custom, pas pour groupe ni famille tunnel) */}
+                {(audience === 'session' || audience === 'custom') && (
                   <Field label="Tu viens avec ta famille ?" hint="Enfants 8-17 ans avec parent obligatoire (1 900 CHF / 3 sem par enfant)">
                     <div className="cand-radios">
                       <label className={`cand-radio${!form.vientAvecFamille ? ' selected' : ''}`}>
@@ -776,9 +865,16 @@ export default function InscriptionLayout({ initialAudience }: InscriptionLayout
                   {(() => {
                     // Calcul prix indicatif
                     const weeks = form.duree === '1-semaine' ? 1 : form.duree === '2-semaines' ? 2 : 3
-                    const enfants = form.vientAvecFamille ? parseInt(form.nombreEnfants || '0', 10) : 0
-                    const adults = audience === 'groupe' ? 0 : 1
-                    if (audience !== 'groupe' && weeks) {
+                    let enfants = 0
+                    let adults = 0
+                    if (audience === 'famille') {
+                      adults = 1
+                      enfants = parseInt(form.nombreEnfants || '0', 10)
+                    } else if (audience === 'session' || audience === 'custom') {
+                      adults = 1
+                      enfants = form.vientAvecFamille ? parseInt(form.nombreEnfants || '0', 10) : 0
+                    }
+                    if (audience !== 'groupe' && weeks && adults > 0) {
                       const total = calculatePrice({ adults, children: enfants, weeks: weeks as Duration })
                       return <div className="cand-recap-row"><span>Tarif estimé</span><strong style={{ color: 'var(--primary)' }}>{formatCHF(total)}</strong></div>
                     }
