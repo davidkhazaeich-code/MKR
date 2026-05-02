@@ -4,13 +4,18 @@ import { notFound } from 'next/navigation'
 import { getSupabaseAdmin } from '@/lib/supabase-admin'
 import { STATUS_LABEL, type Status } from '@/lib/admin-transitions'
 import AdminActions from '@/components/admin/AdminActions'
+import Avatar from '@/components/admin/ui/Avatar'
+import Badge from '@/components/admin/ui/Badge'
+import Icon from '@/components/admin/ui/Icon'
+import Progress from '@/components/admin/ui/Progress'
+import Topbar from '@/components/admin/ui/Topbar'
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
 
 export const metadata: Metadata = {
   robots: { index: false, follow: false },
-  title: 'Dossier candidature MKR',
+  title: 'Dossier · MKR Admin',
 }
 
 type TunnelType = 'session' | 'custom' | 'famille' | 'groupe'
@@ -23,20 +28,20 @@ const TUNNEL_LABEL: Record<TunnelType, string> = {
 }
 
 const TUNNEL_COLOR: Record<TunnelType, string> = {
-  session: '#FF6B00',
-  custom: '#60a5fa',
-  famille: '#4ade80',
-  groupe: '#a78bfa',
+  session: 'var(--adm-tunnel-session)',
+  custom: 'var(--adm-tunnel-custom)',
+  famille: 'var(--adm-tunnel-famille)',
+  groupe: 'var(--adm-tunnel-groupe)',
 }
 
 const STATUS_COLOR: Record<Status, string> = {
-  recue: '#FF8C00',
-  validee: '#4ade80',
-  refusee: '#fca5a5',
-  soldee: '#60a5fa',
-  camp_fait: '#a78bfa',
-  annulee: '#71717a',
-  reportee: '#fbbf24',
+  recue: 'var(--adm-status-recue)',
+  validee: 'var(--adm-status-validee)',
+  refusee: 'var(--adm-status-refusee)',
+  soldee: 'var(--adm-status-soldee)',
+  camp_fait: 'var(--adm-status-camp_fait)',
+  annulee: 'var(--adm-status-annulee)',
+  reportee: 'var(--adm-status-reportee)',
 }
 
 interface CandidatureRow {
@@ -105,7 +110,7 @@ const FIELD_LABELS: Record<string, string> = {
   blessures_detail: 'Détail blessures',
   contre_indications: 'Contre-indications',
   contre_indications_detail: 'Détail contre-indications',
-  deux_fois_jour: 'Peut s\'entraîner 2× par jour',
+  deux_fois_jour: "S'entraîner 2× par jour",
   nom_club: 'Nom du club',
   nombre_participants: 'Nombre de participants',
   niveau_groupe: 'Niveau du groupe',
@@ -213,10 +218,12 @@ export default async function CandidatureDetailPage({
 
   if (configError) {
     return (
-      <div style={{ minHeight: '100vh', background: '#0A0A0A', color: '#fff', padding: '2rem' }}>
-        <h1>Dossier candidature</h1>
-        <p style={{ color: '#fca5a5' }}>Configuration manquante : {configError}</p>
-      </div>
+      <>
+        <Topbar />
+        <div className="adm-container">
+          <p style={{ color: 'var(--adm-status-refusee)' }}>Configuration manquante : {configError}</p>
+        </div>
+      </>
     )
   }
 
@@ -230,251 +237,251 @@ export default async function CandidatureDetailPage({
   const packageEur = candidature.package_amount_cents
     ? (candidature.package_amount_cents / 100).toFixed(2)
     : null
+  const phoneTel = c?.telephone?.replace(/[^+0-9]/g, '') ?? ''
 
   return (
-    <div style={{ minHeight: '100vh', background: '#0A0A0A', color: '#fff', padding: '2rem 1rem' }}>
-      <div style={{ maxWidth: 980, margin: '0 auto' }}>
-        {/* Back link */}
-        <div style={{ marginBottom: '1.5rem' }}>
-          <Link
-            href="/admin/inscriptions"
-            style={{ color: '#FF8C00', fontSize: '0.85rem', textDecoration: 'none' }}
-          >
-            ← Retour à la liste
-          </Link>
-        </div>
+    <>
+      <Topbar subtitle="Dossier" />
+      <main className="adm-container" style={{ paddingBottom: '6rem' }}>
+        <Link href="/admin/inscriptions" className="adm-back-link">
+          <Icon name="arrow-left" size={15} />
+          Retour à la liste
+        </Link>
 
-        {/* Header */}
-        <header
-          style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            gap: '1rem',
-            justifyContent: 'space-between',
-            alignItems: 'flex-start',
-            marginBottom: '2rem',
-            paddingBottom: '1.5rem',
-            borderBottom: '1px solid rgba(255,255,255,0.08)',
-          }}
+        {/* Hero */}
+        <section
+          className="adm-card adm-card--hero adm-hero"
+          style={{ ['--adm-status-color' as string]: statusColor }}
         >
-          <div>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', marginBottom: '0.6rem' }}>
-              <Badge color={tunnelColor}>{TUNNEL_LABEL[candidature.tunnel_type]}</Badge>
-              <Badge color={statusColor}>{STATUS_LABEL[candidature.status]}</Badge>
+          <Avatar prenom={c?.prenom} nom={c?.nom} seed={candidature.id} size="lg" />
+          <div className="adm-hero-main">
+            <div className="adm-hero-badges">
+              <Badge color={tunnelColor} dot size="lg">
+                {TUNNEL_LABEL[candidature.tunnel_type]}
+              </Badge>
+              <Badge
+                color={statusColor}
+                dot
+                pulse={candidature.status === 'recue'}
+                size="lg"
+              >
+                {STATUS_LABEL[candidature.status]}
+              </Badge>
             </div>
-            <h1 style={{ fontSize: '1.6rem', fontWeight: 600, margin: 0 }}>{fullName}</h1>
-            <p style={{ color: '#9CA3AF', fontSize: '0.85rem', margin: '0.4rem 0 0' }}>
+            <h1 className="adm-hero-name">{fullName}</h1>
+            <p className="adm-hero-meta">
               Reçue {formatRelative(candidature.created_at)} · {formatDateTime(candidature.created_at)}
             </p>
           </div>
-        </header>
-
-        {/* Identité + Logistique */}
-        <section style={card}>
-          <h2 style={cardTitle}>Identité</h2>
           {c && (
-            <DefList
-              items={[
-                ['Prénom', c.prenom],
-                ['Nom', c.nom],
-                ['Email', <a key="e" href={`mailto:${c.email}`} style={linkStyle}>{c.email}</a>],
-                ['Téléphone', c.telephone ? (
-                  <a key="t" href={`tel:${c.telephone.replace(/[^+0-9]/g, '')}`} style={linkStyle}>
-                    {c.telephone}
+            <div className="adm-hero-quick">
+              <a href={`mailto:${c.email}`} className="adm-quick-btn" aria-label="Envoyer un email">
+                <Icon name="mail" size={15} />
+                <span className="adm-hide-mobile">Email</span>
+              </a>
+              {c.telephone && (
+                <>
+                  <a href={`tel:${phoneTel}`} className="adm-quick-btn" aria-label="Appeler">
+                    <Icon name="phone" size={15} />
+                    <span className="adm-hide-mobile">Appeler</span>
                   </a>
-                ) : '—'],
-                ['Date de naissance', c.date_naissance ?? '—'],
-                ['Pays', c.pays ?? '—'],
-                ['Ville de départ', c.ville_depart ?? '—'],
-              ]}
-            />
+                  <a
+                    href={`https://wa.me/${phoneTel.replace('+', '')}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="adm-quick-btn adm-quick-btn--whatsapp"
+                    aria-label="Ouvrir WhatsApp"
+                  >
+                    <Icon name="whatsapp" size={15} />
+                    <span className="adm-hide-mobile">WhatsApp</span>
+                  </a>
+                </>
+              )}
+            </div>
           )}
         </section>
 
-        <section style={card}>
-          <h2 style={cardTitle}>Logistique demandée</h2>
-          <DefList
-            items={[
-              ['Tunnel', TUNNEL_LABEL[candidature.tunnel_type]],
-              ['Session', candidature.session_id ?? '—'],
-              ['Durée souhaitée', candidature.duree_semaines ? `${candidature.duree_semaines} semaine(s)` : '—'],
-              ['Date début souhaitée', candidature.date_debut_souhaitee ?? '—'],
-            ]}
-          />
+        <section className="adm-card" style={{ marginBottom: '1.25rem' }}>
+          <h2 className="adm-card-title">
+            <Icon name="check-circle" size={14} />
+            Progression du dossier
+          </h2>
+          <Progress status={candidature.status} />
         </section>
 
-        {/* form_data sections */}
-        {Object.entries(formData).map(([sectionKey, sectionValue]) => {
-          if (sectionValue === null || sectionValue === undefined) return null
-          if (typeof sectionValue !== 'object') return null
-          const label = SECTION_LABELS[sectionKey] ?? sectionKey
-          const entries = Object.entries(sectionValue as Record<string, unknown>)
-          if (entries.length === 0) return null
-          return (
-            <section key={sectionKey} style={card}>
-              <h2 style={cardTitle}>{label}</h2>
+        {/* 2-col desktop / stack mobile */}
+        <div className="adm-card-grid adm-card-grid--detail">
+          {/* LEFT : infos */}
+          <div className="adm-card-stack">
+            <section className="adm-card">
+              <h2 className="adm-card-title">Identité</h2>
+              {c && (
+                <DefList
+                  items={[
+                    ['Prénom', c.prenom],
+                    ['Nom', c.nom],
+                    ['Email', <a key="e" href={`mailto:${c.email}`}>{c.email}</a>],
+                    [
+                      'Téléphone',
+                      c.telephone ? (
+                        <a key="t" href={`tel:${phoneTel}`}>
+                          {c.telephone}
+                        </a>
+                      ) : (
+                        '—'
+                      ),
+                    ],
+                    ['Date de naissance', c.date_naissance ?? '—'],
+                    ['Pays', c.pays ?? '—'],
+                    ['Ville de départ', c.ville_depart ?? '—'],
+                  ]}
+                />
+              )}
+            </section>
+
+            <section className="adm-card">
+              <h2 className="adm-card-title">Logistique demandée</h2>
               <DefList
-                items={entries.map(([k, v]) => [
-                  FIELD_LABELS[k] ?? k,
-                  renderValue(v),
-                ])}
+                items={[
+                  ['Tunnel', TUNNEL_LABEL[candidature.tunnel_type]],
+                  ['Session', candidature.session_id ?? '—'],
+                  [
+                    'Durée souhaitée',
+                    candidature.duree_semaines ? `${candidature.duree_semaines} semaine(s)` : '—',
+                  ],
+                  ['Date début souhaitée', candidature.date_debut_souhaitee ?? '—'],
+                ]}
               />
             </section>
-          )
-        })}
 
-        {/* group_members */}
-        {candidature.group_members ? (
-          <section style={card}>
-            <h2 style={cardTitle}>Membres du groupe</h2>
-            <pre style={preStyle}>{JSON.stringify(candidature.group_members, null, 2)}</pre>
-          </section>
-        ) : null}
+            {Object.entries(formData).map(([sectionKey, sectionValue]) => {
+              if (sectionValue === null || sectionValue === undefined) return null
+              if (typeof sectionValue !== 'object') return null
+              const label = SECTION_LABELS[sectionKey] ?? sectionKey
+              const entries = Object.entries(sectionValue as Record<string, unknown>)
+              if (entries.length === 0) return null
+              return (
+                <section key={sectionKey} className="adm-card">
+                  <h2 className="adm-card-title">{label}</h2>
+                  <DefList
+                    items={entries.map(([k, v]) => [FIELD_LABELS[k] ?? k, renderValue(v)])}
+                  />
+                </section>
+              )
+            })}
 
-        {/* Paiement état */}
-        <section style={card}>
-          <h2 style={cardTitle}>État paiement</h2>
-          <DefList
-            items={[
-              [
-                "Frais d'inscription 100€",
-                candidature.registration_fee_paid_at
-                  ? `Payés le ${formatDateTime(candidature.registration_fee_paid_at)}`
-                  : 'Non payés',
-              ],
-              ['Montant package', packageEur ? `${packageEur} €` : '—'],
-              [
-                'Package soldé',
-                candidature.package_paid_at
-                  ? `Soldé le ${formatDateTime(candidature.package_paid_at)}`
-                  : 'Non soldé',
-              ],
-            ]}
-          />
-        </section>
+            {candidature.group_members ? (
+              <section className="adm-card">
+                <h2 className="adm-card-title">Membres du groupe</h2>
+                <pre className="adm-pre">{JSON.stringify(candidature.group_members, null, 2)}</pre>
+              </section>
+            ) : null}
 
-        {/* Actions admin (client) */}
-        <section style={{ ...card, borderColor: 'rgba(255,140,0,0.25)' }}>
-          <h2 style={cardTitle}>Actions admin</h2>
-          <AdminActions
-            candidatureId={candidature.id}
-            currentStatus={candidature.status}
-            registrationFeePaidAt={candidature.registration_fee_paid_at}
-            packagePaidAt={candidature.package_paid_at}
-            packageAmountCents={candidature.package_amount_cents}
-            notesAdmin={candidature.notes_admin ?? ''}
-            notesVisio={candidature.notes_visio ?? ''}
-          />
-        </section>
+            <section className="adm-card">
+              <h2 className="adm-card-title">État paiement</h2>
+              <DefList
+                items={[
+                  [
+                    "Frais d'inscription 100€",
+                    candidature.registration_fee_paid_at ? (
+                      <span style={{ color: 'var(--adm-status-validee)' }}>
+                        ✓ Payés le {formatDateTime(candidature.registration_fee_paid_at)}
+                      </span>
+                    ) : (
+                      <span className="adm-def-val--muted">Non payés</span>
+                    ),
+                  ],
+                  ['Montant package', packageEur ? `${packageEur} €` : '—'],
+                  [
+                    'Package soldé',
+                    candidature.package_paid_at ? (
+                      <span style={{ color: 'var(--adm-status-validee)' }}>
+                        ✓ Soldé le {formatDateTime(candidature.package_paid_at)}
+                      </span>
+                    ) : (
+                      <span className="adm-def-val--muted">Non soldé</span>
+                    ),
+                  ],
+                ]}
+              />
+            </section>
 
-        {/* Audit log */}
-        <section style={card}>
-          <h2 style={cardTitle}>Historique</h2>
-          {auditEntries.length === 0 ? (
-            <p style={{ color: '#71717a', fontSize: '0.85rem', margin: 0 }}>Aucune entrée.</p>
-          ) : (
-            <ol style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-              {auditEntries.map((e) => (
-                <li
-                  key={e.id}
-                  style={{
-                    paddingLeft: '0.9rem',
-                    borderLeft: '2px solid rgba(255,255,255,0.08)',
-                  }}
-                >
-                  <div style={{ fontSize: '0.85rem', color: '#e4e4e7', fontWeight: 600 }}>
-                    {EVENT_LABEL[e.event] ?? e.event}
-                  </div>
-                  <div style={{ fontSize: '0.75rem', color: '#71717a' }}>
-                    {formatDateTime(e.at)} · {e.actor_email}
-                  </div>
-                  {e.event === 'status_change' && e.from_value && e.to_value && (
-                    <div style={{ fontSize: '0.8rem', color: '#9CA3AF', marginTop: '0.25rem' }}>
-                      {STATUS_LABEL[e.from_value.status as Status]} → {STATUS_LABEL[e.to_value.status as Status]}
-                    </div>
-                  )}
-                  {e.data && typeof e.data === 'object' && 'reminder' in e.data && (
-                    <div style={{ fontSize: '0.8rem', color: '#fbbf24', marginTop: '0.25rem' }}>
-                      ⚠️ {String((e.data as Record<string, unknown>).reminder)}
-                    </div>
-                  )}
-                </li>
-              ))}
-            </ol>
-          )}
-        </section>
-      </div>
-    </div>
-  )
-}
+            <section className="adm-card">
+              <h2 className="adm-card-title">
+                <Icon name="history" size={14} />
+                Historique
+              </h2>
+              {auditEntries.length === 0 ? (
+                <p className="adm-action-empty">Aucune entrée.</p>
+              ) : (
+                <ol className="adm-timeline">
+                  {auditEntries.map((e, idx) => {
+                    const reminderText =
+                      e.data && typeof e.data === 'object' && 'reminder' in e.data
+                        ? String((e.data as Record<string, unknown>).reminder)
+                        : null
+                    return (
+                      <li key={e.id} className="adm-timeline-item">
+                        <span
+                          className={
+                            idx === 0
+                              ? 'adm-timeline-dot adm-timeline-dot--accent'
+                              : 'adm-timeline-dot'
+                          }
+                          aria-hidden="true"
+                        />
+                        <div className="adm-timeline-event">
+                          {EVENT_LABEL[e.event] ?? e.event}
+                        </div>
+                        <div className="adm-timeline-time">
+                          {formatDateTime(e.at)} · {e.actor_email}
+                        </div>
+                        {e.event === 'status_change' && e.from_value && e.to_value && (
+                          <div className="adm-timeline-detail">
+                            {STATUS_LABEL[e.from_value.status as Status]} →{' '}
+                            <span style={{ color: 'var(--adm-text-primary)', fontWeight: 600 }}>
+                              {STATUS_LABEL[e.to_value.status as Status]}
+                            </span>
+                          </div>
+                        )}
+                        {reminderText && (
+                          <div className="adm-timeline-reminder">⚠️ {reminderText}</div>
+                        )}
+                      </li>
+                    )
+                  })}
+                </ol>
+              )}
+            </section>
+          </div>
 
-// --- Petits composants utilitaires inline ---
-
-function Badge({ color, children }: { color: string; children: React.ReactNode }) {
-  return (
-    <span
-      style={{
-        padding: '0.25rem 0.6rem',
-        borderRadius: '999px',
-        fontSize: '0.7rem',
-        fontWeight: 700,
-        color,
-        background: `${color}1a`,
-        border: `1px solid ${color}40`,
-        textTransform: 'uppercase',
-        letterSpacing: '0.05em',
-      }}
-    >
-      {children}
-    </span>
+          {/* RIGHT : actions admin (sticky desktop) */}
+          <div style={{ position: 'sticky', top: '78px' }}>
+            <AdminActions
+              candidatureId={candidature.id}
+              currentStatus={candidature.status}
+              registrationFeePaidAt={candidature.registration_fee_paid_at}
+              packagePaidAt={candidature.package_paid_at}
+              packageAmountCents={candidature.package_amount_cents}
+              notesAdmin={candidature.notes_admin ?? ''}
+              notesVisio={candidature.notes_visio ?? ''}
+            />
+          </div>
+        </div>
+      </main>
+    </>
   )
 }
 
 function DefList({ items }: { items: Array<[string, React.ReactNode]> }) {
   return (
-    <dl
-      style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
-        gap: '0.6rem 1.2rem',
-        margin: 0,
-      }}
-    >
+    <dl className="adm-defs">
       {items.map(([k, v], i) => (
-        <div key={i}>
-          <dt style={{ fontSize: '0.7rem', color: '#71717a', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.2rem' }}>{k}</dt>
-          <dd style={{ margin: 0, fontSize: '0.9rem', color: '#e4e4e7' }}>{v}</dd>
+        <div key={i} className="adm-def">
+          <dt className="adm-def-key">{k}</dt>
+          <dd className="adm-def-val">{v}</dd>
         </div>
       ))}
     </dl>
   )
-}
-
-const card: React.CSSProperties = {
-  marginBottom: '1.25rem',
-  padding: '1.25rem',
-  borderRadius: '14px',
-  background: 'rgba(255,255,255,0.02)',
-  border: '1px solid rgba(255,255,255,0.06)',
-}
-
-const cardTitle: React.CSSProperties = {
-  fontSize: '0.7rem',
-  fontWeight: 700,
-  textTransform: 'uppercase',
-  letterSpacing: '0.1em',
-  color: '#71717a',
-  margin: '0 0 0.9rem',
-}
-
-const linkStyle: React.CSSProperties = { color: '#FF8C00', textDecoration: 'none' }
-
-const preStyle: React.CSSProperties = {
-  margin: 0,
-  padding: '0.75rem',
-  background: 'rgba(0,0,0,0.4)',
-  borderRadius: '8px',
-  fontSize: '0.75rem',
-  overflowX: 'auto',
-  color: '#e4e4e7',
 }

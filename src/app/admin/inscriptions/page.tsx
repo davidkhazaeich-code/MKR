@@ -1,17 +1,17 @@
 import type { Metadata } from 'next'
 import { getSupabaseAdmin } from '@/lib/supabase-admin'
 import InscriptionsList from '@/components/admin/InscriptionsList'
+import StatsBand from '@/components/admin/StatsBand'
+import Pipeline from '@/components/admin/ui/Pipeline'
+import Topbar from '@/components/admin/ui/Topbar'
 import { STATUS_LABEL, STATUS_VALUES, type Status } from '@/lib/admin-transitions'
-
-// Page admin protegee par middleware (cookie httpOnly 'mkr_admin').
-// Le proxy (src/proxy.ts) rewrite vers /admin/login si non authentifie.
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
 
 export const metadata: Metadata = {
   robots: { index: false, follow: false },
-  title: 'Candidatures MKR',
+  title: 'Candidatures · MKR Admin',
 }
 
 type TunnelType = 'session' | 'custom' | 'famille' | 'groupe'
@@ -24,10 +24,10 @@ const TUNNEL_LABEL: Record<TunnelType, string> = {
 }
 
 const TUNNEL_COLOR: Record<TunnelType, string> = {
-  session: '#FF6B00',
-  custom: '#60a5fa',
-  famille: '#4ade80',
-  groupe: '#a78bfa',
+  session: 'var(--adm-tunnel-session)',
+  custom: 'var(--adm-tunnel-custom)',
+  famille: 'var(--adm-tunnel-famille)',
+  groupe: 'var(--adm-tunnel-groupe)',
 }
 
 interface ListRow {
@@ -51,6 +51,7 @@ interface ListRow {
 }
 
 const TUNNELS: TunnelType[] = ['session', 'custom', 'famille', 'groupe']
+const SEVEN_DAYS = 7 * 24 * 60 * 60 * 1000
 
 export default async function AdminInscriptionsPage({
   searchParams,
@@ -60,12 +61,22 @@ export default async function AdminInscriptionsPage({
   const params = await searchParams
 
   let rows: ListRow[] = []
+  let allRowsForStats: { status: Status; status_changed_at: string }[] = []
   let configError: string | null = null
   let queryError: string | null = null
 
   try {
     const supabase = getSupabaseAdmin()
-    let query = supabase
+
+    // Stats : on compte sur toute la base (pas filtree par tunnel/status)
+    const statsRes = await supabase
+      .from('candidatures')
+      .select('status, status_changed_at')
+      .limit(2000)
+    allRowsForStats = (statsRes.data ?? []) as unknown as typeof allRowsForStats
+
+    // Liste : appliquer les filtres URL
+    let q = supabase
       .from('candidatures')
       .select(`
         id, created_at, status_changed_at, tunnel_type, session_id, duree_semaines,
@@ -76,13 +87,13 @@ export default async function AdminInscriptionsPage({
       .limit(200)
 
     if (params.tunnel && (TUNNELS as string[]).includes(params.tunnel)) {
-      query = query.eq('tunnel_type', params.tunnel)
+      q = q.eq('tunnel_type', params.tunnel)
     }
     if (params.status && (STATUS_VALUES as readonly string[]).includes(params.status)) {
-      query = query.eq('status', params.status)
+      q = q.eq('status', params.status)
     }
 
-    const { data, error } = await query
+    const { data, error } = await q
     queryError = error?.message ?? null
     rows = ((data ?? []) as unknown) as ListRow[]
   } catch (err) {
@@ -91,28 +102,36 @@ export default async function AdminInscriptionsPage({
 
   if (configError) {
     return (
-      <div style={{ minHeight: '100vh', background: '#0A0A0A', color: '#fff', padding: '2rem' }}>
-        <h1 style={{ fontSize: '1.6rem', marginBottom: '1rem' }}>Candidatures MKR</h1>
-        <p style={{ color: '#fca5a5' }}>Configuration manquante : {configError}</p>
-      </div>
+      <>
+        <Topbar />
+        <div className="adm-container">
+          <h1 className="adm-h1">Candidatures MKR</h1>
+          <p style={{ color: 'var(--adm-status-refusee)' }}>Configuration manquante : {configError}</p>
+        </div>
+      </>
     )
   }
 
-  // Counts par tunnel pour les pills
-  const tunnelCounts = rows.reduce<Record<TunnelType, number>>(
-    (acc, r) => {
-      acc[r.tunnel_type] = (acc[r.tunnel_type] ?? 0) + 1
-      return acc
-    },
-    { session: 0, custom: 0, famille: 0, groupe: 0 },
-  )
+  // Calcule stats globales
+  const statusCounts = STATUS_VALUES.reduce<Record<Status, number>>((acc, s) => {
+    acc[s] = 0
+    return acc
+  }, {} as Record<Status, number>)
+  let staleVisioCount = 0
+  for (const r of allRowsForStats) {
+    statusCounts[r.status] = (statusCounts[r.status] ?? 0) + 1
+    if (r.status === 'recue' && Date.now() - new Date(r.status_changed_at).getTime() > SEVEN_DAYS) {
+      staleVisioCount += 1
+    }
+  }
 
-  const generatedAt = new Date().toLocaleTimeString('fr-FR', {
-    hour: '2-digit',
-    minute: '2-digit',
-  })
+  // Counts tunnel pour les pills (basé sur rows filtres OU global ?
+  // On utilise global pour que les pills affichent toujours le total reel)
+  const tunnelCounts: Record<TunnelType, number> = { session: 0, custom: 0, famille: 0, groupe: 0 }
+  for (const r of rows) {
+    tunnelCounts[r.tunnel_type] = (tunnelCounts[r.tunnel_type] ?? 0) + 1
+  }
 
-  // Construit URL en preservant le filtre opposé
   const buildHref = (overrides: Partial<{ tunnel: string; status: string }>): string => {
     const merged = { tunnel: params.tunnel, status: params.status, ...overrides }
     const usp = new URLSearchParams()
@@ -122,146 +141,86 @@ export default async function AdminInscriptionsPage({
     return qs ? `/admin/inscriptions?${qs}` : '/admin/inscriptions'
   }
 
+  const generatedAt = new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })
+  const total = allRowsForStats.length
+
   return (
-    <div style={{ minHeight: '100vh', background: '#0A0A0A', color: '#fff', padding: '2rem 1rem' }}>
-      <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-        {/* Header */}
-        <header
-          style={{
-            marginBottom: '2rem',
-            display: 'flex',
-            flexWrap: 'wrap',
-            gap: '1rem',
-            alignItems: 'flex-start',
-            justifyContent: 'space-between',
-          }}
-        >
-          <div>
-            <h1 style={{ fontSize: '1.8rem', fontWeight: 600, margin: 0 }}>Candidatures MKR</h1>
-            <p style={{ color: '#9CA3AF', fontSize: '0.85rem', margin: '0.4rem 0 0' }}>
-              Mis à jour à {generatedAt}.{' '}
-              <a href="/admin/inscriptions" style={{ color: '#FF8C00', textDecoration: 'underline' }}>
-                Rafraîchir
-              </a>
-              {' · '}
-              <span style={{ color: '#71717a' }}>
-                {rows.length} dossier{rows.length > 1 ? 's' : ''}
-              </span>
-            </p>
-          </div>
-          <form method="POST" action="/api/admin/logout">
-            <button
-              type="submit"
-              style={{
-                padding: '0.4rem 0.9rem',
-                borderRadius: '8px',
-                border: '1px solid rgba(255,255,255,0.12)',
-                background: 'transparent',
-                color: '#9CA3AF',
-                fontSize: '0.8rem',
-                cursor: 'pointer',
-              }}
-            >
-              Déconnexion
-            </button>
-          </form>
-        </header>
+    <>
+      <Topbar subtitle="Candidatures" />
+      <main className="adm-container">
+        <h1 className="adm-h1">Candidatures</h1>
+        <p className="adm-h-meta">
+          {total} dossier{total > 1 ? 's' : ''} au total · Mis à jour à {generatedAt}{' '}
+          <a href="/admin/inscriptions">↻ Rafraîchir</a>
+        </p>
+
+        <StatsBand countsByStatus={statusCounts} staleVisioCount={staleVisioCount} total={total} />
+
+        <Pipeline counts={statusCounts} />
 
         {queryError && (
           <div
             style={{
               marginBottom: '1.5rem',
-              padding: '1rem',
-              borderRadius: '12px',
-              border: '1px solid rgba(252,165,165,0.3)',
-              background: 'rgba(252,165,165,0.05)',
-              color: '#fca5a5',
+              padding: '0.85rem 1rem',
+              borderRadius: '10px',
+              border: '1px solid rgba(239, 68, 68, 0.3)',
+              background: 'rgba(239, 68, 68, 0.06)',
+              color: 'var(--adm-status-refusee)',
+              fontSize: '0.85rem',
             }}
           >
             Erreur Supabase : {queryError}
           </div>
         )}
 
-        {/* Filtres tunnel */}
-        <nav style={filterNav}>
-          <span style={filterLabel}>Tunnel :</span>
-          <FilterPill href={buildHref({ tunnel: undefined })} label="Tous" active={!params.tunnel} />
-          {TUNNELS.map((t) => (
-            <FilterPill
-              key={t}
-              href={buildHref({ tunnel: t })}
-              label={`${TUNNEL_LABEL[t]} (${tunnelCounts[t]})`}
-              active={params.tunnel === t}
-              accent={TUNNEL_COLOR[t]}
-            />
-          ))}
-        </nav>
+        <div className="adm-toolbar">
+          <div className="adm-filter-row">
+            <span className="adm-filter-row-label">Tunnel</span>
+            <a
+              href={buildHref({ tunnel: undefined })}
+              className={!params.tunnel ? 'adm-pill adm-pill--active' : 'adm-pill'}
+            >
+              Tous
+            </a>
+            {TUNNELS.map((t) => (
+              <a
+                key={t}
+                href={buildHref({ tunnel: t })}
+                data-accent
+                className={params.tunnel === t ? 'adm-pill adm-pill--active' : 'adm-pill'}
+                style={{ ['--adm-pill-accent' as string]: TUNNEL_COLOR[t] }}
+              >
+                {TUNNEL_LABEL[t]}
+                <span style={{ color: 'var(--adm-text-faint)', fontWeight: 500 }}>
+                  {tunnelCounts[t] || 0}
+                </span>
+              </a>
+            ))}
+          </div>
 
-        {/* Filtres status */}
-        <nav style={{ ...filterNav, marginBottom: '1.5rem', paddingBottom: '1.5rem', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
-          <span style={filterLabel}>Statut :</span>
-          <FilterPill href={buildHref({ status: undefined })} label="Tous" active={!params.status} />
-          {STATUS_VALUES.map((s) => (
-            <FilterPill
-              key={s}
-              href={buildHref({ status: s })}
-              label={STATUS_LABEL[s]}
-              active={params.status === s}
-            />
-          ))}
-        </nav>
+          <div className="adm-filter-row">
+            <span className="adm-filter-row-label">Statut</span>
+            <a
+              href={buildHref({ status: undefined })}
+              className={!params.status ? 'adm-pill adm-pill--active' : 'adm-pill'}
+            >
+              Tous
+            </a>
+            {STATUS_VALUES.map((s) => (
+              <a
+                key={s}
+                href={buildHref({ status: s })}
+                className={params.status === s ? 'adm-pill adm-pill--active' : 'adm-pill'}
+              >
+                {STATUS_LABEL[s]}
+              </a>
+            ))}
+          </div>
+        </div>
 
         <InscriptionsList rows={rows} />
-      </div>
-    </div>
+      </main>
+    </>
   )
-}
-
-function FilterPill({
-  href,
-  label,
-  active,
-  accent,
-}: {
-  href: string
-  label: string
-  active: boolean
-  accent?: string
-}) {
-  const color = accent ?? '#FF8C00'
-  return (
-    <a
-      href={href}
-      style={{
-        padding: '0.4rem 0.85rem',
-        borderRadius: '999px',
-        fontSize: '0.78rem',
-        fontWeight: 600,
-        textDecoration: 'none',
-        color: active ? '#fff' : '#9CA3AF',
-        background: active ? `${color}1a` : 'rgba(255,255,255,0.04)',
-        border: active ? `1px solid ${color}80` : '1px solid rgba(255,255,255,0.08)',
-        transition: 'all 0.15s',
-      }}
-    >
-      {label}
-    </a>
-  )
-}
-
-const filterNav: React.CSSProperties = {
-  display: 'flex',
-  flexWrap: 'wrap',
-  alignItems: 'center',
-  gap: '0.5rem',
-  marginBottom: '0.75rem',
-}
-
-const filterLabel: React.CSSProperties = {
-  fontSize: '0.7rem',
-  fontWeight: 700,
-  color: '#71717a',
-  textTransform: 'uppercase',
-  letterSpacing: '0.05em',
-  marginRight: '0.4rem',
 }

@@ -2,6 +2,9 @@
 
 import Link from 'next/link'
 import { useMemo, useState } from 'react'
+import Avatar from './ui/Avatar'
+import Badge from './ui/Badge'
+import Icon from './ui/Icon'
 import { STATUS_LABEL, type Status } from '@/lib/admin-transitions'
 
 type TunnelType = 'session' | 'custom' | 'famille' | 'groupe'
@@ -34,20 +37,20 @@ const TUNNEL_LABEL: Record<TunnelType, string> = {
 }
 
 const TUNNEL_COLOR: Record<TunnelType, string> = {
-  session: '#FF6B00',
-  custom: '#60a5fa',
-  famille: '#4ade80',
-  groupe: '#a78bfa',
+  session: 'var(--adm-tunnel-session)',
+  custom: 'var(--adm-tunnel-custom)',
+  famille: 'var(--adm-tunnel-famille)',
+  groupe: 'var(--adm-tunnel-groupe)',
 }
 
 const STATUS_COLOR: Record<Status, string> = {
-  recue: '#FF8C00',
-  validee: '#4ade80',
-  refusee: '#fca5a5',
-  soldee: '#60a5fa',
-  camp_fait: '#a78bfa',
-  annulee: '#71717a',
-  reportee: '#fbbf24',
+  recue: 'var(--adm-status-recue)',
+  validee: 'var(--adm-status-validee)',
+  refusee: 'var(--adm-status-refusee)',
+  soldee: 'var(--adm-status-soldee)',
+  camp_fait: 'var(--adm-status-camp_fait)',
+  annulee: 'var(--adm-status-annulee)',
+  reportee: 'var(--adm-status-reportee)',
 }
 
 const ONE_DAY = 24 * 60 * 60 * 1000
@@ -61,7 +64,7 @@ function formatRelative(iso: string): string {
   if (diffH < 24) return `il y a ${diffH}h`
   const diffD = Math.floor(diffH / 24)
   if (diffD < 7) return `il y a ${diffD}j`
-  return new Date(iso).toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' })
+  return new Date(iso).toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: '2-digit' })
 }
 
 export default function InscriptionsList({ rows }: { rows: Row[] }) {
@@ -85,41 +88,42 @@ export default function InscriptionsList({ rows }: { rows: Row[] }) {
 
   return (
     <div>
-      <input
-        type="search"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        placeholder="Rechercher par nom, email, pays, téléphone…"
-        style={{
-          width: '100%',
-          padding: '0.7rem 0.9rem',
-          marginBottom: '1.5rem',
-          borderRadius: '10px',
-          border: '1px solid rgba(255,255,255,0.12)',
-          background: 'rgba(0,0,0,0.4)',
-          color: '#fff',
-          fontSize: '0.9rem',
-        }}
-      />
+      <div className="adm-search">
+        <span className="adm-search-icon" aria-hidden="true">
+          <Icon name="search" size={16} />
+        </span>
+        <input
+          type="search"
+          className="adm-search-input"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Rechercher par nom, email, pays, téléphone…"
+          aria-label="Rechercher dans les candidatures"
+        />
+      </div>
 
       {filtered.length === 0 ? (
-        <div
-          style={{
-            padding: '3rem',
-            textAlign: 'center',
-            color: '#71717a',
-            border: '1px dashed rgba(255,255,255,0.1)',
-            borderRadius: '16px',
-          }}
-        >
-          {rows.length === 0 ? 'Aucune candidature pour ce filtre.' : 'Aucun résultat pour cette recherche.'}
+        <div className="adm-list-empty" style={{ marginTop: '1rem' }}>
+          <div className="adm-list-empty-icon" aria-hidden="true">
+            {rows.length === 0 ? '📭' : '🔍'}
+          </div>
+          <p className="adm-list-empty-title">
+            {rows.length === 0 ? 'Aucune candidature pour ce filtre' : 'Aucun résultat'}
+          </p>
+          <p style={{ margin: 0, fontSize: '0.85rem' }}>
+            {rows.length === 0
+              ? 'Les candidatures apparaîtront ici dès leur soumission.'
+              : 'Essaie avec d’autres mots-clés ou retire les filtres.'}
+          </p>
         </div>
       ) : (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
-          {filtered.map((row) => (
-            <CandidatureRow key={row.id} row={row} />
+        <ul className="adm-list" style={{ listStyle: 'none', padding: 0, margin: '1rem 0 0' }}>
+          {filtered.map((row, i) => (
+            <li key={row.id} style={{ animationDelay: `${Math.min(i, 8) * 35}ms` }}>
+              <CandidatureRow row={row} />
+            </li>
           ))}
-        </div>
+        </ul>
       )}
     </div>
   )
@@ -127,8 +131,6 @@ export default function InscriptionsList({ rows }: { rows: Row[] }) {
 
 function CandidatureRow({ row }: { row: Row }) {
   const c = row.candidate
-  const tunnelColor = TUNNEL_COLOR[row.tunnel_type]
-  const statusColor = STATUS_COLOR[row.status]
   const fullName = c ? `${c.prenom} ${c.nom}` : '(candidat manquant)'
 
   const ageMs = Date.now() - new Date(row.created_at).getTime()
@@ -137,94 +139,45 @@ function CandidatureRow({ row }: { row: Row }) {
   const isStaleVisio = row.status === 'recue' && sinceStatusMs > SEVEN_DAYS
 
   return (
-    <Link
-      href={`/admin/inscriptions/${row.id}`}
-      style={{
-        textDecoration: 'none',
-        color: 'inherit',
-        display: 'block',
-        padding: '1rem 1.1rem',
-        borderRadius: '14px',
-        background: 'rgba(255,255,255,0.02)',
-        border: '1px solid rgba(255,255,255,0.06)',
-        transition: 'background 0.15s, border-color 0.15s',
-      }}
-      className="admin-list-row"
-    >
-      <div
-        style={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          gap: '0.5rem',
-          alignItems: 'center',
-          marginBottom: '0.5rem',
-        }}
-      >
-        <Pill color={tunnelColor}>{TUNNEL_LABEL[row.tunnel_type]}</Pill>
-        <Pill color={statusColor}>{STATUS_LABEL[row.status]}</Pill>
-        {isNew && <Pill color="#FF8C00">🆕 Nouveau</Pill>}
-        {isStaleVisio && <Pill color="#fca5a5">⚠️ Visio en retard</Pill>}
-        {row.registration_fee_paid_at && <Pill color="#4ade80">✓ 100€ payés</Pill>}
-        <span style={{ marginLeft: 'auto', fontSize: '0.75rem', color: '#71717a' }}>
-          {formatRelative(row.created_at)}
-        </span>
-      </div>
+    <Link href={`/admin/inscriptions/${row.id}`} className="adm-list-item" prefetch={false}>
+      <div className="adm-list-row">
+        <Avatar prenom={c?.prenom ?? '?'} nom={c?.nom ?? ''} seed={row.id} />
+        <div className="adm-list-row-main">
+          <h3 className="adm-list-name">{fullName}</h3>
+          {c && (
+            <div className="adm-list-meta">
+              <span style={{ color: 'var(--adm-text-secondary)' }}>{c.email}</span>
+              {c.pays && <span className="adm-list-meta-sep">·</span>}
+              {c.pays && <span>{c.pays}</span>}
+              {row.duree_semaines && <span className="adm-list-meta-sep">·</span>}
+              {row.duree_semaines && <span>{row.duree_semaines} sem.</span>}
+            </div>
+          )}
 
-      <div
-        style={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          alignItems: 'baseline',
-          gap: '0.5rem 1rem',
-        }}
-      >
-        <h2 style={{ fontSize: '1.05rem', fontWeight: 600, margin: 0 }}>{fullName}</h2>
-        {c && (
-          <>
-            <span style={{ color: '#9CA3AF', fontSize: '0.85rem' }}>{c.email}</span>
-            {c.pays && <span style={{ color: '#71717a', fontSize: '0.8rem' }}>· {c.pays}</span>}
-            {row.duree_semaines && (
-              <span style={{ color: '#71717a', fontSize: '0.8rem' }}>· {row.duree_semaines} sem.</span>
+          <div className="adm-list-badges">
+            <Badge color={TUNNEL_COLOR[row.tunnel_type]} dot>
+              {TUNNEL_LABEL[row.tunnel_type]}
+            </Badge>
+            <Badge
+              color={STATUS_COLOR[row.status]}
+              dot
+              pulse={row.status === 'recue'}
+            >
+              {STATUS_LABEL[row.status]}
+            </Badge>
+            {isNew && <Badge color="var(--adm-brand)">Nouveau</Badge>}
+            {isStaleVisio && (
+              <Badge color="var(--adm-status-refusee)">⚠ Visio en retard</Badge>
             )}
-          </>
-        )}
+            {row.registration_fee_paid_at && (
+              <Badge color="var(--adm-status-validee)">100€ ✓</Badge>
+            )}
+          </div>
+        </div>
+        <div className="adm-list-time">{formatRelative(row.created_at)}</div>
       </div>
 
-      {row.notes_admin && (
-        <p
-          style={{
-            margin: '0.6rem 0 0',
-            fontSize: '0.8rem',
-            color: '#fbbf24',
-            fontStyle: 'italic',
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-            whiteSpace: 'nowrap',
-          }}
-        >
-          📝 {row.notes_admin}
-        </p>
-      )}
+      {row.notes_admin && <p className="adm-list-note">📝 {row.notes_admin}</p>}
     </Link>
-  )
-}
-
-function Pill({ color, children }: { color: string; children: React.ReactNode }) {
-  return (
-    <span
-      style={{
-        padding: '0.18rem 0.55rem',
-        borderRadius: '999px',
-        fontSize: '0.68rem',
-        fontWeight: 700,
-        color,
-        background: `${color}1a`,
-        border: `1px solid ${color}40`,
-        textTransform: 'uppercase',
-        letterSpacing: '0.04em',
-      }}
-    >
-      {children}
-    </span>
   )
 }
