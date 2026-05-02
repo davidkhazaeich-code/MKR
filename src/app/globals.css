@@ -5914,6 +5914,26 @@ h1, h2, h3, h4, h5 {
   .cine-reveal-content h3 { font-size: 1.6rem; }
   .cine-reveal-tagline { display: none; }
 }
+/* Mobile : désactive le scroll-mask (clip-path + scale + sticky) qui scroll-jacke trop */
+@media (max-width: 768px) {
+  .cine-reveal-outer {
+    height: auto !important;
+    min-height: 70vh;
+  }
+  .cine-reveal-sticky {
+    position: relative !important;
+    height: 70vh;
+    min-height: 460px;
+    clip-path: none !important;
+  }
+  .cine-reveal-img-wrap {
+    transform: none !important;
+  }
+  .cine-reveal-content {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
 
 /* ─── CINEMATIC BANNER (legacy static) ─── */
 .cinematic-banner {
