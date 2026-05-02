@@ -58,6 +58,8 @@ interface StatsRow {
   tunnel_type: TunnelType
 }
 
+const CONSUMING_STATUSES: Status[] = ['recue', 'validee', 'soldee']
+
 const TUNNELS: TunnelType[] = ['session', 'custom', 'famille', 'groupe']
 const SEVEN_DAYS = 7 * 24 * 60 * 60 * 1000
 
@@ -153,8 +155,10 @@ export default async function AdminInscriptionsPage({
     }
   }
 
-  // Counts par session_id (toutes sessions connues + orphans + null)
+  // Counts par session_id (toutes statuts confondus, pour l'affichage de la pile)
   const sessionCounts: Record<string, number> = {}
+  // Counts qui consomment des places (status recue/validee/soldee + tunnel session)
+  const sessionPlacesPrises: Record<string, number> = {}
   let nullSessionCount = 0
   let upcomingCount = 0
   for (const r of allRowsForStats) {
@@ -163,6 +167,9 @@ export default async function AdminInscriptionsPage({
     } else {
       sessionCounts[r.session_id] = (sessionCounts[r.session_id] ?? 0) + 1
       if (upcomingIds.includes(r.session_id)) upcomingCount += 1
+      if (r.tunnel_type === 'session' && CONSUMING_STATUSES.includes(r.status)) {
+        sessionPlacesPrises[r.session_id] = (sessionPlacesPrises[r.session_id] ?? 0) + 1
+      }
     }
   }
   const orphanSessionIds = Object.keys(sessionCounts).filter((id) => !knownSessionIds.includes(id))
@@ -240,6 +247,15 @@ export default async function AdminInscriptionsPage({
             )}
             {sortedSessions.map((s) => {
               const isUpcoming = upcomingIds.includes(s.id)
+              const prises = sessionPlacesPrises[s.id] ?? 0
+              const restantes = Math.max(0, s.maxCapacity - prises)
+              const isFull = restantes === 0
+              const isLimited = restantes > 0 && restantes <= 3
+              const placesColor = isFull
+                ? 'var(--adm-status-refusee)'
+                : isLimited
+                  ? 'var(--adm-status-reportee)'
+                  : 'var(--adm-status-validee)'
               return (
                 <a
                   key={s.id}
@@ -251,14 +267,25 @@ export default async function AdminInscriptionsPage({
                       ? 'var(--adm-tunnel-session)'
                       : 'var(--adm-text-muted)',
                   }}
-                  title={`${s.seasonLabel} (${s.dates}) · capacité ${s.maxCapacity}`}
+                  title={`${s.seasonLabel} (${s.dates}) · ${prises}/${s.maxCapacity} places prises (${restantes} restantes)`}
                 >
                   {s.label}
                   <span style={{ fontSize: '0.7rem', opacity: 0.7, marginLeft: '0.1rem' }}>
                     · {s.dates.split(' - ')[0]}
                   </span>
-                  <span style={{ color: 'var(--adm-text-faint)', fontWeight: 500 }}>
-                    {sessionCounts[s.id] ?? 0}
+                  <span
+                    style={{
+                      color: placesColor,
+                      fontWeight: 700,
+                      fontSize: '0.72rem',
+                      padding: '0.05rem 0.45rem',
+                      borderRadius: 999,
+                      background: `color-mix(in srgb, ${placesColor} 14%, transparent)`,
+                      border: `1px solid color-mix(in srgb, ${placesColor} 35%, transparent)`,
+                      marginLeft: '0.25rem',
+                    }}
+                  >
+                    {prises}/{s.maxCapacity}
                   </span>
                 </a>
               )

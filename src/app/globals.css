@@ -7193,3 +7193,15 @@ html.is-loading body {
   letter-spacing: 0.04em;
   line-height: 1.35;
 }
+
+/* Animation pulse-dot pour le compteur live de places restantes (PlacesRestantes badge variant) */
+@keyframes pulse-dot {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.55;
+    transform: scale(1.18);
+  }
+}

@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { SESSIONS, formatPrice } from '@/data/sessions'
+import PlacesRestantes from '@/components/PlacesRestantes'
 
 export default function Sessions() {
   return (
@@ -34,7 +35,13 @@ export default function Sessions() {
                 </div>
                 <div className="session-meta-item">
                   <span className="session-meta-label">Places</span>
-                  <span className="session-meta-value">{session.maxCapacity} max.</span>
+                  <span className="session-meta-value">
+                    <PlacesRestantes
+                      sessionId={session.id}
+                      fallbackMax={session.maxCapacity}
+                      variant="compact"
+                    />
+                  </span>
                 </div>
                 <div className="session-meta-item">
                   <span className="session-meta-label">Durée</span>

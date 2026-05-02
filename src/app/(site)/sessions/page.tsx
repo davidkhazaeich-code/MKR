@@ -6,6 +6,7 @@ import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 import CinematicReveal from '@/components/CinematicReveal'
 import AudienceSwitcher from '@/components/AudienceSwitcher'
 import PricingTable from '@/components/PricingTable'
+import PlacesRestantes from '@/components/PlacesRestantes'
 
 export const metadata: Metadata = {
   title: 'Sessions et Tarifs 2026 | MKR Caucasian Camp au Daghestan',
@@ -15,12 +16,13 @@ export const metadata: Metadata = {
 
 const SESSIONS = [
   {
+    id: 'aout-2026',
     month: 'AOÛ',
     season: 'Session Été · Août 2026',
     name: 'CAMP\nDAGHESTANAIS',
     dates: '17 AOÛT · 5 SEPTEMBRE 2026',
     intensity: 'Maximale',
-    places: '15 max.',
+    maxCapacity: 15,
     duration: '3 semaines',
     price: '2 900 €',
     status: 'open' as const,
@@ -119,7 +121,11 @@ export default function SessionsPage() {
               <article key={i} className="session-card fx-grain fx-corner-glow reveal" style={{ transitionDelay: s.delay }}>
                 <div className="session-month-bg" aria-hidden="true">{s.month}</div>
                 <div className="session-status-badge" data-status={s.status}>
-                  {s.statusLabel}
+                  <PlacesRestantes
+                    sessionId={s.id}
+                    fallbackMax={s.maxCapacity}
+                    variant="badge"
+                  />
                 </div>
                 <div className="session-card-body">
                   <span className="session-season">{s.season}</span>
@@ -133,7 +139,13 @@ export default function SessionsPage() {
                   </div>
                   <div className="session-meta-item">
                     <span className="session-meta-label">Places</span>
-                    <span className="session-meta-value">{s.places}</span>
+                    <span className="session-meta-value">
+                      <PlacesRestantes
+                        sessionId={s.id}
+                        fallbackMax={s.maxCapacity}
+                        variant="compact"
+                      />
+                    </span>
                   </div>
                   <div className="session-meta-item">
                     <span className="session-meta-label">Durée</span>

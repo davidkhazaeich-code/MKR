@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { SESSIONS, formatPrice } from '@/data/sessions'
+import PlacesRestantes from '@/components/PlacesRestantes'
 
 const HERO_VIDEOS = [
   '/videos/hero-mountains.mp4',
@@ -232,7 +233,11 @@ function HeroCampCarousel() {
         <div className="hero-camps-top">
           <span className="hero-camps-label">{session.label}</span>
           <span className={`hero-camps-status hero-camps-status--${session.status}`}>
-            {session.spotsLabel}
+            <PlacesRestantes
+              sessionId={session.id}
+              fallbackMax={session.maxCapacity}
+              variant="compact"
+            />
           </span>
         </div>
         <div className="hero-camps-dates">{session.dates}</div>
