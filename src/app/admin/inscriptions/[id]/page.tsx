@@ -281,6 +281,22 @@ export default async function CandidatureDetailPage({
   const packageEur = candidature.package_amount_cents
     ? (candidature.package_amount_cents / 100).toFixed(2)
     : null
+
+  // Calcul du restant à payer (centimes), même logique que la liste
+  const totalCents = candidature.package_amount_cents
+  const feeCents = candidature.registration_fee_cents ?? 10000
+  const feePaid = !!candidature.registration_fee_paid_at
+  const packagePaid = !!candidature.package_paid_at
+  const remainingCents = packagePaid
+    ? 0
+    : totalCents
+      ? Math.max(0, totalCents - (feePaid ? feeCents : 0))
+      : null
+  const remainingEur = remainingCents !== null ? (remainingCents / 100).toFixed(2) : null
+  const paidCents =
+    (feePaid ? feeCents : 0) + (packagePaid && totalCents ? totalCents - feeCents : 0)
+  const totalToCollect = totalCents ?? 0
+  const progressPct = totalToCollect > 0 ? Math.min(100, Math.round((paidCents / totalToCollect) * 100)) : 0
   const phoneTel = c?.telephone?.replace(/[^+0-9]/g, '') ?? ''
 
   return (
@@ -426,7 +442,81 @@ export default async function CandidatureDetailPage({
             ) : null}
 
             <section className="adm-card">
-              <h2 className="adm-card-title">État paiement</h2>
+              <h2 className="adm-card-title">
+                <Icon name="euro" size={14} />
+                État paiement
+              </h2>
+
+              {/* Récap visuel : reste à payer en grand + barre de progression */}
+              <div
+                style={{
+                  marginBottom: '1.25rem',
+                  padding: '1rem 1.1rem',
+                  borderRadius: '12px',
+                  border: '1px solid var(--adm-border-subtle)',
+                  background: packagePaid
+                    ? 'rgba(34, 197, 94, 0.06)'
+                    : remainingCents && remainingCents > 0
+                      ? 'rgba(251, 191, 36, 0.05)'
+                      : 'rgba(255, 255, 255, 0.02)',
+                }}
+              >
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '0.6rem', flexWrap: 'wrap', gap: '0.5rem' }}>
+                  <span style={{ fontSize: '0.7rem', textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--adm-text-muted)', fontWeight: 700 }}>
+                    {packagePaid ? 'Tout est payé' : 'Reste à payer'}
+                  </span>
+                  {totalCents && totalCents > 0 && (
+                    <span style={{ fontSize: '0.78rem', color: 'var(--adm-text-secondary)', fontVariantNumeric: 'tabular-nums' }}>
+                      {(paidCents / 100).toFixed(2)} € sur {(totalCents / 100).toFixed(2)} €
+                    </span>
+                  )}
+                </div>
+                <div
+                  style={{
+                    fontSize: '2rem',
+                    fontWeight: 700,
+                    letterSpacing: '-0.02em',
+                    color: packagePaid
+                      ? 'var(--adm-status-validee)'
+                      : remainingCents && remainingCents > 0
+                        ? 'var(--adm-status-reportee)'
+                        : 'var(--adm-text-secondary)',
+                    fontVariantNumeric: 'tabular-nums',
+                    marginBottom: '0.75rem',
+                  }}
+                >
+                  {packagePaid
+                    ? '✓ Soldé'
+                    : remainingEur !== null
+                      ? `${remainingEur} €`
+                      : '— € (montant à définir)'}
+                </div>
+                {totalCents && totalCents > 0 && (
+                  <div
+                    style={{
+                      height: 6,
+                      borderRadius: 999,
+                      background: 'var(--adm-bg-base)',
+                      overflow: 'hidden',
+                      border: '1px solid var(--adm-border-subtle)',
+                    }}
+                    aria-label={`${progressPct}% encaissé`}
+                  >
+                    <div
+                      style={{
+                        height: '100%',
+                        width: `${progressPct}%`,
+                        background: packagePaid
+                          ? 'var(--adm-status-validee)'
+                          : 'linear-gradient(90deg, var(--adm-status-validee), var(--adm-status-reportee))',
+                        borderRadius: 999,
+                        transition: 'width 0.4s ease',
+                      }}
+                    />
+                  </div>
+                )}
+              </div>
+
               <DefList
                 items={[
                   [
@@ -439,7 +529,7 @@ export default async function CandidatureDetailPage({
                       <span className="adm-def-val--muted">Non payés</span>
                     ),
                   ],
-                  ['Montant package', packageEur ? `${packageEur} €` : '—'],
+                  ['Montant package total', packageEur ? `${packageEur} €` : '—'],
                   [
                     'Package soldé',
                     candidature.package_paid_at ? (
