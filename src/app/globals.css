@@ -4908,17 +4908,10 @@ h1, h2, h3, h4, h5 {
   z-index: 1;
 }
 .story-card-logo {
-  height: 100px;
+  height: 220px;
   width: auto;
-  filter: brightness(0) invert(1);
-}
-.story-card-badge {
-  font-family: var(--font-barlow-condensed), sans-serif;
-  font-size: 28px;
-  font-weight: 600;
-  letter-spacing: 0.3em;
-  color: rgba(248,248,248,0.5);
-  text-transform: uppercase;
+  display: block;
+  filter: drop-shadow(0 6px 24px rgba(0,0,0,0.55));
 }
 
 .story-card-center {

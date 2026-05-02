@@ -37,10 +37,9 @@ export default function StoryCard({ prenom, discipline, session, destination }: 
         {/* Background image */}
         <div className="story-card-bg" style={{ backgroundImage: `url(${bgImage})` }} />
 
-        {/* Top: logo + label */}
+        {/* Top: logo */}
         <div className="story-card-top">
-          <img src="/logo-white.webp" alt="" className="story-card-logo" />
-          <span className="story-card-badge">CAUCASIAN CAMP</span>
+          <img src="/logo-white.webp" alt="MKR Caucasian Camp" className="story-card-logo" />
         </div>
 
         {/* Center: name + destination */}
