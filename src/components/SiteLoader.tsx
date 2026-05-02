@@ -119,8 +119,8 @@ export default function SiteLoader() {
             <img
               src="/logo-white.webp"
               alt=""
-              width={132}
-              height={136}
+              width={180}
+              height={109}
               className="site-loader-logo"
               aria-hidden="true"
             />

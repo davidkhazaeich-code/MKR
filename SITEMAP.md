@@ -519,7 +519,7 @@ GEO = { latitude: 42.9849, longitude: 47.5047, country: 'RU', region: 'Daghestan
 
 | Je veux changer… | Fichier(s) à modifier |
 |---|---|
-| **Logo** | `public/images/dkdp-logo.webp` (à remplacer) + références Nav/Footer |
+| **Logo** | `public/logo-white.webp` (Nav, SiteLoader, StoryCard) · `public/logo-{dark,light,transparent,white}.png` haute-res · `public/images/logo-mkr.png` (JSON-LD Organization). Source : `brand-identity/LOGO/mkr-cmc-{fullcolor,white}.png`. Anciens logos loup+aigle dans `public/_old-logos-loup-aigle/` |
 | **Coordonnées contact (téléphone, email)** | `components/Contact.tsx` (homepage) + `app/(site)/contact/page.tsx` + `app/(site)/sessions/page.tsx:195` (WhatsApp groupes) + `data/site.ts` (SITE_EMAIL) |
 | **Hero homepage (titre/subtitle)** | `components/Hero.tsx` lignes 160-170 |
 | **Hero stats (9 coachs / 8 athlètes / 1-3 semaines)** | `components/Hero.tsx` l.175-188 |

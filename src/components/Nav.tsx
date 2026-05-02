@@ -167,7 +167,7 @@ export default function Nav() {
           <div className="nav-inner">
 
             <Link href="/" className="nav-logo" aria-label="MKR Caucasian Camp · Accueil">
-              <Image src="/logo-white.webp" alt="" className="nav-logo-img" width={109} height={112} aria-hidden="true" priority />
+              <Image src="/logo-white.webp" alt="" className="nav-logo-img" width={320} height={193} aria-hidden="true" priority />
               <div className="nav-logo-text">
                 <span className="nav-logo-mkr">MKR</span>
                 <span className="nav-logo-sub">Caucasian Camp</span>
