@@ -234,7 +234,7 @@ export default function Nav() {
           onMouseLeave={scheduleClose}
         >
           <div className="mega-inner">
-            <span className="mega-section-label">Le Camp MKR — 3 façons de venir</span>
+            <span className="mega-section-label">Le Camp MKR, 4 façons de venir</span>
             <div className="mega-camp-grid">
               <div>
                 <h2 className="mega-camp-feature-title">CHOISIS<br/>TON FORMAT.</h2>
@@ -256,7 +256,7 @@ export default function Nav() {
               <div className="mega-camp-accent" aria-hidden="true">
                 <Image src="/images/environment/gym-interior.webp" alt="" className="mega-camp-accent-img" fill sizes="280px" />
                 <h3 className="mega-camp-accent-title">SESSION<br/>OFFICIELLE.</h3>
-                <span className="mega-camp-accent-sub">17 août - 5 septembre 2026 · 2 900 CHF</span>
+                <span className="mega-camp-accent-sub">17 août - 5 septembre 2026 · 2 900 €</span>
               </div>
             </div>
           </div>

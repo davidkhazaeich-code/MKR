@@ -15,16 +15,16 @@ export const metadata: Metadata = {
 
 const PROFILES = [
   {
-    title: 'Pro / semi-pro en prep compétition',
-    desc: "Tu prépares un combat ou un tournoi. Tu cibles des dates précises de prep. Le sur mesure te donne le calage parfait.",
+    title: 'Pro ou semi-pro en préparation',
+    desc: "Tu prépares un combat ou un tournoi à une date précise. Le sur mesure te permet de caler le camp pile dans ta fenêtre de prep, sans compromis sur le calendrier.",
   },
   {
     title: 'Athlète au planning serré',
-    desc: "La session officielle ne te convient pas (vacances, contraintes pro). Tu choisis 1, 2 ou 3 semaines aux dates qui te vont.",
+    desc: "Les dates de la session officielle ne tombent pas bien (vacances, boulot, école des enfants). Tu choisis 1, 2 ou 3 semaines au moment qui marche pour toi.",
   },
   {
-    title: 'Duo, trio, quatuor d\'amis',
-    desc: "Tu pars avec 1 à 3 amis adultes. Vous choisissez ensemble les dates, vivez l'expérience à plusieurs sans être un club entier.",
+    title: 'Duo, trio ou quatuor d\'amis',
+    desc: "Vous êtes 2 à 4 adultes qui voulez partir ensemble. Vous choisissez les dates, vous vivez le camp à plusieurs sans avoir à constituer un club entier.",
   },
 ]
 
@@ -69,7 +69,7 @@ export default function SurMesurePage() {
           </div>
           <div>
             <span className="parents-stat-num">1 500</span>
-            <span className="parents-stat-label">CHF · 1 sem · à partir de</span>
+            <span className="parents-stat-label">€ · 1 sem · à partir de</span>
           </div>
         </div>
       </section>
@@ -79,8 +79,8 @@ export default function SurMesurePage() {
         image="/images/ruslan/action/mma-cercle-session-demo-mkr.webp"
         alt="Cercle de combattants en démonstration grappling au Daghestan"
         label="POUR QUI"
-        title="LE TUNNEL FAIT POUR TOI<br/>SI TU VEUX MAÎTRISER TES DATES."
-        tagline="Tu connais déjà ton objectif. Tu sais quand tu peux partir. MKR adapte tout autour de ton agenda."
+        title="QUAND TU SAIS<br/>QUAND TU PEUX PARTIR."
+        tagline="Tu as un objectif clair, et un créneau précis. On adapte le camp à ton agenda, pas l'inverse."
       />
 
       {/* Profils */}

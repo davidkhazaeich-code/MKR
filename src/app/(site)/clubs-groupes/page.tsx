@@ -16,27 +16,27 @@ export const metadata: Metadata = {
 const ADVANTAGES = [
   {
     title: 'Hébergement bloc',
-    desc: "Ton groupe est logé ensemble (chambres adjacentes ou bâtiment dédié selon taille). Pas de mélange avec d'autres camps.",
+    desc: "Ton groupe est logé ensemble : chambres adjacentes ou bâtiment dédié selon la taille. Tu dors et tu manges avec ton équipe, pas avec d'autres camps en parallèle.",
   },
   {
     title: 'Transferts groupés',
-    desc: "Un seul véhicule pour ton groupe. Pas d'attente à l'aéroport, pas de fragmentation logistique.",
+    desc: "Un seul véhicule MKR pour tout le groupe à l'aéroport de Makhachkala. Pas d'attente, pas de logistique éclatée.",
   },
   {
-    title: 'Programme adapté niveau',
-    desc: "Le coaching s'ajuste au niveau collectif de ton groupe (débutant, intermédiaire, avancé, mixte). Pas de programme générique.",
+    title: 'Programme adapté au niveau',
+    desc: "Le coaching s'ajuste au niveau collectif (débutant, intermédiaire, avancé, mixte). Pas de séance générique calée sur la moyenne du groupe.",
   },
   {
     title: 'Coach dédié',
-    desc: "Un coach principal MKR est attribué à ton groupe pour la durée du camp. Continuité pédagogique sur les 1 à 3 semaines.",
+    desc: "Un coach principal MKR est attribué à ton groupe pour toute la durée du camp. Tu gardes le même interlocuteur de la première à la dernière session.",
   },
   {
     title: 'Tarif par tête fixe',
-    desc: "Pas de réduction marketing : chaque membre paie le tarif individuel public. Mais les coûts logistiques sont mutualisés.",
+    desc: "Chaque membre paie le tarif individuel public. Pas de remise affichée, mais les coûts logistiques (transferts, hébergement bloc) sont mutualisés.",
   },
   {
     title: 'Bilan groupe',
-    desc: "Compte-rendu collectif fin de camp + bilan individuel pour chaque membre. Tu repars avec un livrable structuré.",
+    desc: "Compte-rendu collectif en fin de camp et bilan individuel pour chaque membre. Tu repars avec un livrable structuré pour la suite.",
   },
 ]
 
@@ -90,10 +90,10 @@ export default function ClubsGroupesPage() {
       {/* Cinematic reveal */}
       <CinematicReveal
         image="/images/ruslan/heritage/priere-collective-mkr.webp"
-        alt="Athletes alignés sur le tapis, fraternité collective au camp MKR"
+        alt="Athlètes alignés sur le tapis, fraternité collective au camp MKR"
         label="CAMP DÉDIÉ"
-        title="TON GROUPE,<br/>TON RYTHME."
-        tagline="Vous êtes 5, 10, 20. Vous avez un objectif commun. MKR organise un camp 100% conçu pour votre niveau et vos dates."
+        title="TON GROUPE.<br/>TON RYTHME."
+        tagline="Vous êtes 5, 10 ou 20, avec un objectif commun. On organise un camp pensé pour votre niveau et vos dates."
       />
 
       {/* Avantages */}

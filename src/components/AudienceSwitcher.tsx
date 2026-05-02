@@ -60,7 +60,7 @@ export default function AudienceSwitcher({ withHeader = true, compact = false }:
             </h2>
             <p className="audience-switcher-sub">
               Visa, vol intérieur Istanbul-Makhachkala, transferts, hébergement, encadrement, repas. Tu choisis ton format,
-              MKR coordonne tout sur place. Solo, famille ou club : 3 tunnels d&apos;inscription dédiés.
+              on coordonne tout sur place. 4 tunnels d&apos;inscription pensés pour chaque profil : MKR Camp, sur mesure, famille, club.
             </p>
           </div>
         )}

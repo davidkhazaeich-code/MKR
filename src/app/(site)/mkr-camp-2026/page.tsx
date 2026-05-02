@@ -9,22 +9,22 @@ import FacilitatorBand from '@/components/FacilitatorBand'
 
 export const metadata: Metadata = {
   title: 'MKR Camp 2026 | Session officielle 17 août - 5 sept | MKR Caucasian Camp',
-  description: 'Rejoins le MKR Camp 2026, session officielle du 17 août au 5 septembre 2026 au Daghestan. 3 semaines, adultes uniquement, 15 places max. Tarif fixe 2 900 CHF tout inclus.',
+  description: 'Rejoins le MKR Camp 2026, session officielle du 17 août au 5 septembre 2026 au Daghestan. 3 semaines, adultes uniquement, 15 places max. Tarif fixe 2 900 € tout inclus.',
   alternates: { canonical: 'https://mkrcaucasiancamp.com/mkr-camp-2026' },
 }
 
 const REASONS = [
   {
     title: 'Esprit collectif',
-    desc: "Tu intègres un groupe d'athlètes adultes du monde entier. La dynamique de groupe pousse chacun au-delà de ses limites. La fraternité du tapis se construit en 48h.",
+    desc: "Tu intègres un groupe d'athlètes adultes venus de France, Suisse, Belgique et plus loin. En 48h, on s'entraîne, on mange et on récupère ensemble. La camaraderie du tapis fait le reste.",
   },
   {
     title: 'Dates fixes, organisation rodée',
-    desc: "Du 17 août au 5 septembre 2026, 3 semaines pleines. Tu n'as rien à arbitrer : MKR a calé tous les détails. Tu profites du programme dans sa version complète.",
+    desc: "Du 17 août au 5 septembre 2026, 3 semaines pleines. Tu n'as rien à arbitrer côté planning. MKR a calé visa, vols, hébergement, programme et coachs il y a déjà plusieurs mois.",
   },
   {
-    title: 'Le format historique MKR',
-    desc: "Notre format phare depuis le début. C'est sur cette session que se créent les souvenirs forts, les amitiés durables, les moments de bascule. La majorité des athlètes reviennent l'année suivante.",
+    title: 'Le format historique',
+    desc: "C'est notre session phare depuis le début. La plupart des anciens reviennent l'année suivante, parfois avec un ami, parfois avec leur ado. Quand quelqu'un dit qu'il a fait MKR, c'est en général ce camp.",
   },
 ]
 
@@ -48,7 +48,7 @@ export default function MkrCamp2026Page() {
       <PageHero
         label="SESSION OFFICIELLE 2026"
         title="LE MKR CAMP 2026<br/>T&apos;ATTEND."
-        subtitle="17 août - 5 septembre 2026. 3 semaines au Daghestan. Adultes uniquement, 15 places max, esprit collectif. Inscriptions ouvertes."
+        subtitle="Du 17 août au 5 septembre 2026, 3 semaines au Daghestan. Adultes uniquement, 15 places, esprit collectif. Les inscriptions sont ouvertes."
         image="/images/ruslan/action/mma-cercle-session-demo-mkr.webp"
         imageAlt="Cercle de combattants au MKR Camp 2026, démonstration grappling"
       />
@@ -70,7 +70,7 @@ export default function MkrCamp2026Page() {
           </div>
           <div>
             <span className="parents-stat-num">2 900</span>
-            <span className="parents-stat-label">CHF · Tarif fixe tout inclus</span>
+            <span className="parents-stat-label">€ · Tarif fixe tout inclus</span>
           </div>
         </div>
       </section>
@@ -80,8 +80,8 @@ export default function MkrCamp2026Page() {
         image="/images/ruslan/action/mma-adultes-cercle.webp"
         alt="Groupe d'athlètes en formation au MKR Camp"
         label="LA SESSION HISTORIQUE"
-        title="UN CAMP, UN GROUPE,<br/>UNE TRANSFORMATION."
-        tagline="3 semaines au cœur du Caucase. Avec des athlètes adultes du monde entier. Tu rentres avec un niveau et une famille de combat."
+        title="UN CAMP. UN GROUPE.<br/>3 SEMAINES."
+        tagline="Tu pars avec des athlètes adultes du monde entier. Tu rentres avec un niveau et une famille de combat."
       />
 
       {/* Pourquoi rejoindre */}

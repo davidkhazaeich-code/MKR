@@ -1,5 +1,5 @@
 /**
- * MKR Caucasian Camp — 3 types d'inscription / produits
+ * MKR Caucasian Camp - 4 types d'inscription / produits
  *
  * MKR = facilitateur total. On organise tout (visa, vol intérieur Istanbul-Makhachkala,
  * transferts, hébergement, encadrement, repas, programme).
@@ -35,8 +35,8 @@ export const REGISTRATION_TYPES: RegistrationType[] = [
     label: 'MKR Camp 2026',
     shortLabel: 'MKR Camp',
     badge: 'Session officielle · Adultes',
-    description: 'Rejoins la session de 3 semaines au Daghestan. Adultes uniquement, groupe constitué par MKR, esprit collectif.',
-    longDescription: "Tu rejoins notre session officielle du 17 août au 5 septembre 2026. Tu fais partie d'un groupe constitué d'athlètes adultes du monde entier. MKR organise tout : visa, vol intérieur, transferts, hébergement, repas, programme, encadrement. Pour venir en famille avec un enfant, choisis le tunnel Famille.",
+    description: '3 semaines au Daghestan dans un groupe constitué par MKR. Adultes uniquement, esprit collectif, dates fixes.',
+    longDescription: "Tu rejoins la session officielle du 17 août au 5 septembre 2026, avec des athlètes adultes venus du monde entier. On gère le visa, le vol intérieur Istanbul-Makhachkala, les transferts, l'hébergement, les repas, le programme et l'encadrement. Si tu pars avec un enfant 8-17 ans, choisis plutôt le tunnel Famille.",
     cta: 'Découvrir le MKR Camp 2026',
     href: '/mkr-camp-2026',
     formHref: '/inscription?type=session',
@@ -54,8 +54,8 @@ export const REGISTRATION_TYPES: RegistrationType[] = [
     label: 'Sur Mesure',
     shortLabel: 'Sur Mesure',
     badge: 'Tes dates · 1 à 4 adultes',
-    description: 'Camp individuel ou en petit groupe d\'amis (1 à 4 adultes). Tu choisis tes dates, ta durée. MKR coordonne tout.',
-    longDescription: "Tu pars quand tu veux, pour la durée que tu veux (1, 2 ou 3 semaines), seul ou avec 2 à 3 amis adultes (max 4 personnes). MKR coordonne tout sur place : coachs disponibles, hébergement, repas, transferts, vol intérieur Istanbul-Makhachkala. Pour venir en famille avec un enfant, choisis le tunnel Famille. Pour un club/groupe organisé de 5+ personnes, choisis Club & Groupe.",
+    description: 'Camp individuel ou en petit groupe d\'amis (1 à 4 adultes). Tu choisis tes dates et ta durée, on coordonne tout.',
+    longDescription: "Tu pars quand tu veux, pour la durée que tu veux (1, 2 ou 3 semaines), seul ou avec 2 à 3 amis adultes (max 4 personnes). On gère sur place les coachs disponibles, l'hébergement, les repas, les transferts et le vol intérieur Istanbul-Makhachkala. Si tu viens avec un enfant 8-17 ans, prends Famille. Si vous êtes un club ou un groupe organisé de 5 personnes ou plus, prends Club & Groupe.",
     cta: 'Découvrir le Sur Mesure',
     href: '/sur-mesure',
     formHref: '/inscription?type=custom',
@@ -72,8 +72,8 @@ export const REGISTRATION_TYPES: RegistrationType[] = [
     label: 'Famille',
     shortLabel: 'Famille',
     badge: 'Parent + enfant 8-17',
-    description: 'Camp en famille au Daghestan. Parent et enfant 8-17 ans côte à côte, encadrement jeunesse spécialisé.',
-    longDescription: "Tu pars en famille avec tes enfants (8-17 ans avec parent participant obligatoire). Programme parallèle : sessions adultes pour le parent, programme Lutte enfants pour l'ado. Tu peux rejoindre la session officielle 17 août, ou choisir tes propres dates (90 jours minimum).",
+    description: 'Camp en famille au Daghestan. Parent et enfant 8-17 ans côte à côte, encadrement jeunesse dédié.',
+    longDescription: "Tu pars en famille avec tes enfants 8-17 ans (parent participant obligatoire, c'est notre règle de sécurité). Programme parallèle : sessions adultes pour toi, programme Lutte enfants pour l'ado. Tu peux rejoindre la session officielle d'août, ou choisir tes propres dates (90 jours minimum).",
     cta: 'Découvrir le Camp Famille',
     href: '/familles',
     formHref: '/inscription?type=famille',
@@ -90,8 +90,8 @@ export const REGISTRATION_TYPES: RegistrationType[] = [
     label: 'Club & Groupe',
     shortLabel: 'Club & Groupe',
     badge: 'Devis sur mesure · 5 à 20',
-    description: 'Tu viens avec ton club ou un groupe organisé ? 5 à 20 personnes. Camp dédié à tes dates, hébergement bloc.',
-    longDescription: "Tu fédères ton club ou un groupe d'au moins 5 personnes autour d'un objectif commun. MKR organise un camp dédié : dates choisies, hébergement bloc, transferts groupés, programme adapté au niveau collectif. Tarif par tête identique au tarif individuel. Si tu es 1 à 4 adultes amis, prends Sur Mesure. Si tu pars en famille, prends Famille.",
+    description: 'Tu viens avec ton club ou un groupe organisé de 5 à 20 personnes ? Camp dédié à vos dates, hébergement bloc.',
+    longDescription: "Tu fédères ton club (ou un groupe d'au moins 5 personnes) autour d'un objectif commun. On organise un camp dédié : dates choisies, hébergement bloc, transferts groupés, programme adapté au niveau collectif. Le tarif par tête reste identique au tarif individuel. Si vous êtes 1 à 4 amis adultes, prenez plutôt Sur Mesure. Si tu pars en famille, c'est le tunnel Famille.",
     cta: 'Découvrir Club & Groupe',
     href: '/clubs-groupes',
     formHref: '/inscription?type=groupe',

@@ -15,7 +15,7 @@ const FACILITATOR_ITEMS = [
   },
   {
     title: 'Vol intérieur',
-    desc: 'Istanbul → Makhachkala inclus dans le package. Tu n\'organises que ton vol intl.',
+    desc: 'Istanbul vers Makhachkala inclus dans le package. Tu n\'organises que le vol international jusqu\'à Istanbul.',
     icon: (
       <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
         <path d="M3 18l11-3 5-9 2 1-3 9 9 3-1 2-10-1-2 6-2 1-1-5-6-1-1-2 1-1z" />
@@ -24,7 +24,7 @@ const FACILITATOR_ITEMS = [
   },
   {
     title: 'Transferts',
-    desc: 'Aéroport Makhachkala → camp en 1h30. Véhicule MKR à ton arrivée. Tous déplacements inclus.',
+    desc: 'Aéroport Makhachkala vers camp en 1h30. Véhicule MKR à ton arrivée. Tous les déplacements sont inclus.',
     icon: (
       <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
         <path d="M4 22V14l3-7h18l3 7v8" />
@@ -37,7 +37,7 @@ const FACILITATOR_ITEMS = [
   },
   {
     title: 'Hébergement',
-    desc: 'Logement de camp confortable. Chambre famille disponible. Espaces communs partagés.',
+    desc: 'Logement de camp confortable, chambre famille disponible. Tu dors et tu manges avec ton groupe.',
     icon: (
       <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
         <path d="M4 14L16 4l12 10" />
@@ -47,8 +47,8 @@ const FACILITATOR_ITEMS = [
     ),
   },
   {
-    title: '2 repas / jour',
-    desc: 'Petit-déjeuner et déjeuner inclus. Cuisine caucasienne adaptée aux athlètes (protéines, légumes).',
+    title: '2 repas par jour',
+    desc: 'Petit-déjeuner et déjeuner inclus. Cuisine caucasienne adaptée aux athlètes : protéines, légumes, pain frais.',
     icon: (
       <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
         <circle cx="16" cy="16" r="11" />
@@ -62,7 +62,7 @@ const FACILITATOR_ITEMS = [
   },
   {
     title: 'Encadrement',
-    desc: '9 coachs expérimentés. Sessions Lutte adultes, Lutte enfants et MMA. Coach jeunesse dédié 8-17 ans.',
+    desc: '9 coachs expérimentés sur place. Sessions Lutte adultes, Lutte enfants et MMA. Un coach jeunesse dédié pour les 8-17 ans.',
     icon: (
       <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
         <circle cx="16" cy="10" r="4" />
