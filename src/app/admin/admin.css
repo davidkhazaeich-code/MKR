@@ -709,10 +709,23 @@
   font-size: 0.8rem;
   color: rgba(251, 191, 36, 0.92);
   font-style: italic;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.45rem;
+}
+
+.adm-list-note > span {
+  flex: 1;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  min-width: 0;
+}
+
+.adm-list-note > svg {
+  flex-shrink: 0;
+  margin-top: 0.15rem;
 }
 
 .adm-list-empty {

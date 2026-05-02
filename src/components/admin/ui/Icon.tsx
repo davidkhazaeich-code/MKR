@@ -1,5 +1,6 @@
-// SVG icons inline cohérentes (Lucide-like, stroke 2).
-// Pas d'emojis pour les éléments fonctionnels.
+// Icones SVG inline style Lucide (stroke-based, 24x24, currentColor).
+// Toutes les paths sont dessines avec stroke + fill: none pour pouvoir
+// recevoir n'importe quelle couleur via currentColor.
 
 type IconName =
   | 'search'
@@ -8,6 +9,7 @@ type IconName =
   | 'arrow-left'
   | 'phone'
   | 'mail'
+  | 'message-circle'
   | 'whatsapp'
   | 'log-out'
   | 'inbox'
@@ -20,6 +22,9 @@ type IconName =
   | 'sparkles'
   | 'history'
   | 'edit'
+  | 'calendar'
+  | 'trash'
+  | 'flame'
 
 const PATHS: Record<IconName, React.ReactNode> = {
   search: (
@@ -46,12 +51,26 @@ const PATHS: Record<IconName, React.ReactNode> = {
   ),
   mail: (
     <>
-      <path d="M2 4h20v16H2z" />
+      <rect x="2" y="4" width="20" height="16" rx="2" />
       <path d="m22 6-10 7L2 6" />
     </>
   ),
+  // Bulle de chat avec 3 points (cohesion Lucide). Utilise pour WhatsApp.
+  'message-circle': (
+    <>
+      <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+      <circle cx="9" cy="12" r="0.6" fill="currentColor" />
+      <circle cx="12" cy="12" r="0.6" fill="currentColor" />
+      <circle cx="15" cy="12" r="0.6" fill="currentColor" />
+    </>
+  ),
   whatsapp: (
-    <path d="M3.516 3.515a11.952 11.952 0 0 1 17.014 16.7l1.47 5.285-5.285-1.47A11.952 11.952 0 0 1 3.516 3.515zm5.06 5.215c-.13.298-.504.95-.504 1.62 0 .67.51 1.337.71 1.55a8 8 0 0 0 4.297 3.067c.595.166.992.156 1.36-.067.396-.225.62-.49.81-.79.19-.3.19-.59.13-.79-.06-.2-.27-.32-.55-.46-.28-.14-1.6-.79-1.85-.88-.25-.09-.43-.13-.61.13-.18.26-.7.88-.85 1.05-.16.18-.31.2-.59.07-.28-.13-1.18-.43-2.24-1.39-.83-.74-1.39-1.65-1.55-1.93-.16-.28-.02-.43.12-.57.13-.13.29-.34.43-.51.14-.17.18-.29.27-.48.09-.18.05-.34-.02-.48-.07-.13-.62-1.49-.85-2.04-.22-.53-.45-.46-.62-.46l-.53-.01c-.18 0-.49.07-.74.34-.25.27-.97.95-.97 2.31 0 1.36 1 2.68 1.13 2.86z" fillRule="evenodd" clipRule="evenodd" />
+    <>
+      <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+      <circle cx="9" cy="12" r="0.6" fill="currentColor" />
+      <circle cx="12" cy="12" r="0.6" fill="currentColor" />
+      <circle cx="15" cy="12" r="0.6" fill="currentColor" />
+    </>
   ),
   'log-out': (
     <>
@@ -100,16 +119,21 @@ const PATHS: Record<IconName, React.ReactNode> = {
   ),
   pause: (
     <>
-      <rect x="6" y="4" width="4" height="16" />
-      <rect x="14" y="4" width="4" height="16" />
+      <rect x="6" y="4" width="4" height="16" rx="1" />
+      <rect x="14" y="4" width="4" height="16" rx="1" />
     </>
   ),
+  // Etoile a 4 branches simple
   sparkles: (
     <>
-      <path d="M12 3v18" />
-      <path d="M3 12h18" />
-      <path d="m18.36 5.64-12.72 12.72" />
-      <path d="m5.64 5.64 12.72 12.72" />
+      <path d="M12 3v4" />
+      <path d="M12 17v4" />
+      <path d="M3 12h4" />
+      <path d="M17 12h4" />
+      <path d="m5.6 5.6 2.8 2.8" />
+      <path d="m15.6 15.6 2.8 2.8" />
+      <path d="m18.4 5.6-2.8 2.8" />
+      <path d="m8.4 15.6-2.8 2.8" />
     </>
   ),
   history: (
@@ -124,6 +148,25 @@ const PATHS: Record<IconName, React.ReactNode> = {
       <path d="M12 20h9" />
       <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4Z" />
     </>
+  ),
+  calendar: (
+    <>
+      <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+      <line x1="16" x2="16" y1="2" y2="6" />
+      <line x1="8" x2="8" y1="2" y2="6" />
+      <line x1="3" x2="21" y1="10" y2="10" />
+    </>
+  ),
+  trash: (
+    <>
+      <polyline points="3 6 5 6 21 6" />
+      <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+      <line x1="10" x2="10" y1="11" y2="17" />
+      <line x1="14" x2="14" y1="11" y2="17" />
+    </>
+  ),
+  flame: (
+    <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z" />
   ),
 }
 

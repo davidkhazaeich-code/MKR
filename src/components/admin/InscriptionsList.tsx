@@ -271,8 +271,8 @@ export default function InscriptionsList({ rows }: { rows: Row[] }) {
 
       {filtered.length === 0 ? (
         <div className="adm-list-empty" style={{ marginTop: '1rem' }}>
-          <div className="adm-list-empty-icon" aria-hidden="true">
-            {rows.length === 0 ? '📭' : '🔍'}
+          <div className="adm-list-empty-icon" aria-hidden="true" style={{ color: 'var(--adm-text-muted)', fontSize: 'inherit' }}>
+            <Icon name={rows.length === 0 ? 'inbox' : 'search'} size={40} strokeWidth={1.6} />
           </div>
           <p className="adm-list-empty-title">
             {rows.length === 0 ? 'Aucune candidature pour ce filtre' : 'Aucun résultat'}
@@ -348,23 +348,31 @@ function CandidatureRow({
             </div>
           )}
           {/* Session info — visible et scannable */}
-          <div className="adm-list-meta" style={{ marginTop: '0.25rem' }}>
+          <div className="adm-list-meta" style={{ marginTop: '0.25rem', alignItems: 'center' }}>
             {row.session_id && SESSION_LOOKUP[row.session_id] ? (
-              <span style={{ color: 'var(--adm-tunnel-session)', fontWeight: 600 }}>
-                📅 {SESSION_LOOKUP[row.session_id].label}
+              <span style={{ color: 'var(--adm-tunnel-session)', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}>
+                <Icon name="calendar" size={13} strokeWidth={2.2} />
+                {SESSION_LOOKUP[row.session_id].label}
                 <span style={{ color: 'var(--adm-text-muted)', fontWeight: 400 }}>
                   {' · '}
                   {SESSION_LOOKUP[row.session_id].dates}
                 </span>
               </span>
             ) : row.session_id ? (
-              <span style={{ color: 'var(--adm-text-muted)' }}>📅 {row.session_id}</span>
+              <span style={{ color: 'var(--adm-text-muted)', display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}>
+                <Icon name="calendar" size={13} strokeWidth={2.2} />
+                {row.session_id}
+              </span>
             ) : row.date_debut_souhaitee ? (
-              <span style={{ color: 'var(--adm-text-muted)' }}>
-                📅 Sur mesure · début {formatDateShort(row.date_debut_souhaitee)}
+              <span style={{ color: 'var(--adm-text-muted)', display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}>
+                <Icon name="calendar" size={13} strokeWidth={2.2} />
+                Sur mesure · début {formatDateShort(row.date_debut_souhaitee)}
               </span>
             ) : (
-              <span style={{ color: 'var(--adm-text-faint)' }}>📅 Sur mesure (date à définir)</span>
+              <span style={{ color: 'var(--adm-text-faint)', display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}>
+                <Icon name="calendar" size={13} strokeWidth={2.2} />
+                Sur mesure (date à définir)
+              </span>
             )}
           </div>
 
@@ -381,10 +389,16 @@ function CandidatureRow({
             </Badge>
             {isNew && <Badge color="var(--adm-brand)">Nouveau</Badge>}
             {isStaleVisio && (
-              <Badge color="var(--adm-status-refusee)">⚠ Visio en retard</Badge>
+              <Badge color="var(--adm-status-refusee)">
+                <Icon name="alert-triangle" size={11} strokeWidth={2.5} />
+                Visio en retard
+              </Badge>
             )}
             {row.registration_fee_paid_at && (
-              <Badge color="var(--adm-status-validee)">100€ ✓</Badge>
+              <Badge color="var(--adm-status-validee)">
+                <Icon name="check" size={11} strokeWidth={3} />
+                100€ payés
+              </Badge>
             )}
           </div>
         </div>
@@ -393,7 +407,12 @@ function CandidatureRow({
         </div>
       </div>
 
-      {row.notes_admin && <p className="adm-list-note">📝 {row.notes_admin}</p>}
+      {row.notes_admin && (
+        <p className="adm-list-note">
+          <Icon name="edit" size={12} strokeWidth={2.2} />
+          <span>{row.notes_admin}</span>
+        </p>
+      )}
     </Link>
   )
 }

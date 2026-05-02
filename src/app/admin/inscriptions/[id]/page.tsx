@@ -490,7 +490,10 @@ export default async function CandidatureDetailPage({
                           </div>
                         )}
                         {reminderText && (
-                          <div className="adm-timeline-reminder">⚠️ {reminderText}</div>
+                          <div className="adm-timeline-reminder" style={{ display: 'inline-flex', alignItems: 'flex-start', gap: '0.4rem' }}>
+                            <Icon name="alert-triangle" size={13} strokeWidth={2.2} />
+                            <span>{reminderText}</span>
+                          </div>
                         )}
                       </li>
                     )
