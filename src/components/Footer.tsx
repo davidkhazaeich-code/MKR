@@ -26,12 +26,12 @@ export default function Footer() {
                 </svg>
                 +33 6 66 17 76 91
               </a>
-              <a href="mailto:contact@mkrcaucasiancamp.com" className="footer-contact-link">
+              <a href="mailto:contact@mkrcamp.com" className="footer-contact-link">
                 <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
                   <rect x="1.5" y="3.5" width="15" height="11"/>
                   <polyline points="1.5,3.5 9,10 16.5,3.5"/>
                 </svg>
-                contact@mkrcaucasiancamp.com
+                contact@mkrcamp.com
               </a>
               <a href="https://instagram.com/mkr.caucasiancamp" target="_blank" rel="noopener noreferrer"
                 className="footer-contact-link" aria-label="Instagram MKR Caucasian Camp">
@@ -134,7 +134,7 @@ export default function Footer() {
         {/* Bottom strip */}
         <div className="footer-bottom">
           <div className="footer-bottom-inner">
-            <span className="footer-copy">&copy; 2026 MKR Caucasian Camp · Tous droits réservés · mkrcaucasiancamp.com · Site conçu par <a href="https://dkdp.ch" target="_blank" rel="noopener noreferrer" className="footer-dkdp">DKDP</a></span>
+            <span className="footer-copy">&copy; 2026 MKR Caucasian Camp · Tous droits réservés · mkrcamp.com · Site conçu par <a href="https://dkdp.ch" target="_blank" rel="noopener noreferrer" className="footer-dkdp">DKDP</a></span>
             <nav className="footer-legal" aria-label="Liens légaux">
               <Link href="/mentions-legales">Mentions légales</Link>
               <span className="footer-legal-dot" aria-hidden="true">·</span>

@@ -7,7 +7,7 @@ import CinematicReveal from '@/components/CinematicReveal'
 export const metadata: Metadata = {
   title: 'Coachs MMA et Lutte au Daghestan | MKR Caucasian Camp',
   description: "Formés dans les salles du Caucase. Nos coachs enseignent ce qu'ils vivent. Champions de lutte libre, vétérans MMA et un staff complet de 9 coachs expérimentés.",
-  alternates: { canonical: 'https://mkrcaucasiancamp.com/coachs' },
+  alternates: { canonical: 'https://mkrcamp.com/coachs' },
 }
 
 const COACHES = [
@@ -45,8 +45,8 @@ export default function CoachsPage() {
   return (
     <>
       <BreadcrumbJsonLd items={[
-        { name: 'Accueil', url: 'https://mkrcaucasiancamp.com/' },
-        { name: 'Nos Coachs', url: 'https://mkrcaucasiancamp.com/coachs' },
+        { name: 'Accueil', url: 'https://mkrcamp.com/' },
+        { name: 'Nos Coachs', url: 'https://mkrcamp.com/coachs' },
       ]} />
 
       <PageHero

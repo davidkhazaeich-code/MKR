@@ -8,7 +8,7 @@ import CinematicReveal from '@/components/CinematicReveal'
 export const metadata: Metadata = {
   title: "Comment ça marche : 6 étapes pour rejoindre le camp | MKR",
   description: "De l'inscription au premier tapis : découvre les 6 étapes pour rejoindre le camp MKR au Daghestan. Processus clair, transparent, sans surprise.",
-  alternates: { canonical: 'https://mkrcaucasiancamp.com/comment-ca-marche' },
+  alternates: { canonical: 'https://mkrcamp.com/comment-ca-marche' },
 }
 
 const STEPS = [
@@ -61,8 +61,8 @@ export default function CommentCaMarchePage() {
   return (
     <>
       <BreadcrumbJsonLd items={[
-        { name: 'Accueil', url: 'https://mkrcaucasiancamp.com/' },
-        { name: 'Comment ça marche', url: 'https://mkrcaucasiancamp.com/comment-ca-marche' },
+        { name: 'Accueil', url: 'https://mkrcamp.com/' },
+        { name: 'Comment ça marche', url: 'https://mkrcamp.com/comment-ca-marche' },
       ]} />
       <PageHero
         label="LE PROCESSUS"

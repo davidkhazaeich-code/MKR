@@ -3,7 +3,7 @@ import type { Metadata } from 'next'
 export const metadata: Metadata = {
   title: 'CGV | MKR Caucasian Camp | Conditions Générales de Vente',
   description: "Conditions générales de vente de MKR Caucasian Camp. Modalités d'inscription, paiement, annulation et remboursement.",
-  alternates: { canonical: 'https://mkrcaucasiancamp.com/cgv' },
+  alternates: { canonical: 'https://mkrcamp.com/cgv' },
 }
 
 export default function CGVPage() {
@@ -16,7 +16,7 @@ export default function CGVPage() {
           <p>Les présentes conditions générales de vente (CGV) régissent les relations contractuelles entre MKR Caucasian Camp (ci-après &laquo; l&apos;Organisateur &raquo;) et toute personne physique (ci-après &laquo; le Participant &raquo;) souhaitant participer à un camp d&apos;entraînement organisé par MKR Caucasian Camp.</p>
 
           <h2>Article 2 : Inscription et validation</h2>
-          <p>L&apos;inscription se fait via le formulaire en ligne sur mkrcaucasiancamp.com. Toute candidature est soumise à validation par l&apos;équipe MKR lors d&apos;un entretien téléphonique ou vidéo. L&apos;Organisateur se réserve le droit de refuser toute candidature sans justification.</p>
+          <p>L&apos;inscription se fait via le formulaire en ligne sur mkrcamp.com. Toute candidature est soumise à validation par l&apos;équipe MKR lors d&apos;un entretien téléphonique ou vidéo. L&apos;Organisateur se réserve le droit de refuser toute candidature sans justification.</p>
 
           <h2>Article 3 : Tarifs et paiement</h2>
           <p>Les tarifs sont indiqués en euros (EUR) sur la page Sessions du site. Le paiement s&apos;effectue en deux temps :</p>

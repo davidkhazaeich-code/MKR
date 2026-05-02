@@ -27,7 +27,7 @@
 # User-agent: anthropic-ai
 # Disallow: /
 #
-# Sitemap: https://mkrcaucasiancamp.com/sitemap.xml
+# Sitemap: https://mkrcamp.com/sitemap.xml
 # --- END LAUNCH VERSION ---
 
 User-agent: *

@@ -8,7 +8,7 @@ import CinematicReveal from '@/components/CinematicReveal'
 export const metadata: Metadata = {
   title: 'Préparer son camp MMA au Daghestan : guide 6 semaines | MKR',
   description: "Tout ce qu'il faut savoir pour arriver prêt au camp MKR. Niveau minimum, programme de préparation 6 semaines, équipement, préparation mentale.",
-  alternates: { canonical: 'https://mkrcaucasiancamp.com/preparer-son-camp' },
+  alternates: { canonical: 'https://mkrcamp.com/preparer-son-camp' },
 }
 
 const WEEKS = [
@@ -43,8 +43,8 @@ export default function PreparerSonCampPage() {
   return (
     <>
       <BreadcrumbJsonLd items={[
-        { name: 'Accueil', url: 'https://mkrcaucasiancamp.com/' },
-        { name: 'Préparer son camp', url: 'https://mkrcaucasiancamp.com/preparer-son-camp' },
+        { name: 'Accueil', url: 'https://mkrcamp.com/' },
+        { name: 'Préparer son camp', url: 'https://mkrcamp.com/preparer-son-camp' },
       ]} />
       <PageHero
         label="PRÉPARATION"

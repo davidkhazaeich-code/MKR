@@ -62,7 +62,7 @@ Ce plan étend l'offre MKR à 2 nouveaux publics :
 
 ### 2.1 `/camp-prive` — Camp privé sur mesure
 
-**URL canonique** : https://mkrcaucasiancamp.com/camp-prive
+**URL canonique** : https://mkrcamp.com/camp-prive
 **Métadonnées** :
 - Title: `Camp privé sur mesure | MKR | Coaching 1-on-1 au Daghestan`
 - Description: `Programme personnalisé au Daghestan. Coaching 1-on-1 ou petit groupe. Tes dates, ton focus, ton niveau. Tarif premium, places limitées.`
@@ -85,7 +85,7 @@ Ce plan étend l'offre MKR à 2 nouveaux publics :
 
 ### 2.2 `/familles` — Camp Famille
 
-**URL canonique** : https://mkrcaucasiancamp.com/familles
+**URL canonique** : https://mkrcamp.com/familles
 **Métadonnées** :
 - Title: `Camp Famille | MKR Caucasian Camp | MMA & Lutte parent-enfant`
 - Description: `Viens t'entraîner en famille au Daghestan. Parent et enfant côte à côte. Programme adapté aux 8-15 ans, hébergement famille, tarif famille.`
@@ -106,7 +106,7 @@ Ce plan étend l'offre MKR à 2 nouveaux publics :
 
 ### 2.3 `/programme/jeunesse` — Camp Jeunesse 12-17 ans
 
-**URL canonique** : https://mkrcaucasiancamp.com/programme/jeunesse
+**URL canonique** : https://mkrcamp.com/programme/jeunesse
 **Métadonnées** :
 - Title: `Programme Jeunesse | MKR | Camp MMA & Lutte 12-17 ans au Daghestan`
 - Description: `Programme jeunesse 12-17 ans au Daghestan. Encadrement spécialisé, sécurité renforcée, autorisation parentale. Forge ton caractère au Caucase.`

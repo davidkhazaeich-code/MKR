@@ -34,8 +34,8 @@ export default function Contact() {
                 </svg>
                 <div>
                   <span className="contact-info-label">Email</span>
-                  <a href="mailto:contact@mkrcaucasiancamp.com" className="contact-info-value">
-                    contact@mkrcaucasiancamp.com
+                  <a href="mailto:contact@mkrcamp.com" className="contact-info-value">
+                    contact@mkrcamp.com
                   </a>
                 </div>
               </div>

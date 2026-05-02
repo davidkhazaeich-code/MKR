@@ -7,15 +7,15 @@ import CinematicReveal from '@/components/CinematicReveal'
 export const metadata: Metadata = {
   title: 'À propos de MKR Caucasian Camp : notre histoire et notre mission',
   description: "L'histoire de MKR Caucasian Camp. Pourquoi le Caucase, notre mission, notre équipe, nos partenaires.",
-  alternates: { canonical: 'https://mkrcaucasiancamp.com/a-propos' },
+  alternates: { canonical: 'https://mkrcamp.com/a-propos' },
 }
 
 export default function AProposPage() {
   return (
     <>
       <BreadcrumbJsonLd items={[
-        { name: 'Accueil', url: 'https://mkrcaucasiancamp.com/' },
-        { name: 'À Propos', url: 'https://mkrcaucasiancamp.com/a-propos' },
+        { name: 'Accueil', url: 'https://mkrcamp.com/' },
+        { name: 'À Propos', url: 'https://mkrcamp.com/a-propos' },
       ]} />
 
       <PageHero

@@ -8,7 +8,7 @@ import CinematicReveal from '@/components/CinematicReveal'
 export const metadata: Metadata = {
   title: 'Daghestan : Camps MMA et Lutte au cœur du Caucase | MKR',
   description: "Tout savoir sur le Daghestan : salles d'entraînement, sécurité, culture, excursions. La terre qui forge les champions du MMA et de la lutte mondiale.",
-  alternates: { canonical: 'https://mkrcaucasiancamp.com/destinations/dagestan' },
+  alternates: { canonical: 'https://mkrcamp.com/destinations/dagestan' },
 }
 
 export default function DagestanPage() {

@@ -3,7 +3,6 @@ import { Teko, Barlow, Barlow_Condensed } from 'next/font/google'
 import { SITE_URL, SITE_NAME, SITE_EMAIL, SITE_DESCRIPTION, SOCIALS, GEO } from '@/data/site'
 import { SESSIONS } from '@/data/sessions'
 import { COACHES } from '@/data/coaches'
-import { TESTIMONIALS } from '@/data/testimonials'
 import SiteLoader from '@/components/SiteLoader'
 import './globals.css'
 
@@ -118,20 +117,6 @@ const jsonLdMain = {
         { '@type': 'LocationFeatureSpecification', name: 'Transfert aéroport', value: true },
         { '@type': 'LocationFeatureSpecification', name: 'Vol intérieur Istanbul-Makhachkala', value: true },
       ],
-      aggregateRating: {
-        '@type': 'AggregateRating',
-        ratingValue: '5',
-        bestRating: '5',
-        worstRating: '1',
-        ratingCount: String(TESTIMONIALS.length),
-        reviewCount: String(TESTIMONIALS.length),
-      },
-      review: TESTIMONIALS.map(t => ({
-        '@type': 'Review',
-        author: { '@type': 'Person', name: t.name },
-        reviewRating: { '@type': 'Rating', ratingValue: '5', bestRating: '5' },
-        reviewBody: t.quote,
-      })),
     },
     ...SESSIONS.map(s => ({
       '@type': 'Event',

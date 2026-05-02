@@ -454,7 +454,7 @@ Fichiers à toucher :
 - Test mode pendant P1+P2, live mode P3
 
 ### 7.2 Resend
-- Domaine `noreply@mkrcaucasiancamp.com` (DNS SPF + DKIM + DMARC à configurer)
+- Domaine `noreply@mkrcamp.com` (DNS SPF + DKIM + DMARC à configurer)
 - Templates @react-email/components
 - 8 emails au total (voir 7.4)
 
@@ -573,7 +573,7 @@ Ajouter Stripe et Supabase comme sous-traitants RGPD. Mentionner Resend pour les
 | # | Question | Note |
 |---|---|---|
 | 1 | Compte Stripe : nouveau au nom de Ruslan, ou utiliser un compte DKDP existant ? | Impact juridique |
-| 2 | Domaine email d'envoi (`noreply@mkrcaucasiancamp.com` vs `inscription@`) ? | Préférence Ruslan |
+| 2 | Domaine email d'envoi (`noreply@mkrcamp.com` vs `inscription@`) ? | Préférence Ruslan |
 | 3 | RIB de Ruslan disponible immédiatement (pour template PDF) ? | Bloque P2 si non |
 | 4 | Logo MKR haute résolution pour PDF facture ? | À récupérer auprès du brand-identity |
 | 5 | Stripe Pro (5 USD/mois) pour bypasser les frais 25 cents par dispute ? | À voir au volume |

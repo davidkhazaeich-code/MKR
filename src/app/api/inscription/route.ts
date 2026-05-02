@@ -228,7 +228,7 @@ async function notifySlack(p: SlackPayload): Promise<void> {
     famille: 'Famille',
     groupe: 'Club & Groupe',
   }
-  const adminBase = process.env.NEXT_PUBLIC_SITE_URL || 'https://mkrcaucasiancamp.com'
+  const adminBase = process.env.NEXT_PUBLIC_SITE_URL || 'https://mkrcamp.com'
   const text = [
     `🆕 *Nouvelle candidature MKR* (${tunnelLabel[p.tunnel] ?? p.tunnel})`,
     `*${p.prenom} ${p.nom}* — ${p.email}${p.pays ? ` — ${p.pays}` : ''}${p.duree_semaines ? ` — ${p.duree_semaines} sem.` : ''}`,

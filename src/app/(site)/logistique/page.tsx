@@ -6,15 +6,15 @@ import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 export const metadata: Metadata = {
   title: 'Logistique Camp Daghestan : Visa, Vol, Budget | MKR Caucasian Camp',
   description: "Guide pratique complet : visa Russie, vols depuis Paris, Bruxelles ou Genève, budget total, assurance voyage. Tout pour partir au Daghestan en confiance.",
-  alternates: { canonical: 'https://mkrcaucasiancamp.com/logistique' },
+  alternates: { canonical: 'https://mkrcamp.com/logistique' },
 }
 
 export default function LogistiquePage() {
   return (
     <>
       <BreadcrumbJsonLd items={[
-        { name: 'Accueil', url: 'https://mkrcaucasiancamp.com/' },
-        { name: 'Logistique', url: 'https://mkrcaucasiancamp.com/logistique' },
+        { name: 'Accueil', url: 'https://mkrcamp.com/' },
+        { name: 'Logistique', url: 'https://mkrcamp.com/logistique' },
       ]} />
       <PageHero
         label="LOGISTIQUE"

@@ -7,15 +7,15 @@ import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 export const metadata: Metadata = {
   title: 'Programme MMA et Lutte au Daghestan | MKR Caucasian Camp',
   description: "Programme d'entraînement complet : MMA, Lutte adultes, Lutte enfants. Méthodes daghestanaises, sparring quotidien, coaching d'élite au cœur du Caucase.",
-  alternates: { canonical: 'https://mkrcaucasiancamp.com/programme' },
+  alternates: { canonical: 'https://mkrcamp.com/programme' },
 }
 
 export default function ProgrammePage() {
   return (
     <>
       <BreadcrumbJsonLd items={[
-        { name: 'Accueil', url: 'https://mkrcaucasiancamp.com/' },
-        { name: 'Programme', url: 'https://mkrcaucasiancamp.com/programme' },
+        { name: 'Accueil', url: 'https://mkrcamp.com/' },
+        { name: 'Programme', url: 'https://mkrcamp.com/programme' },
       ]} />
       <PageHero
         label="PROGRAMME"

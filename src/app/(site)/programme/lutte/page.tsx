@@ -7,7 +7,7 @@ import CinematicReveal from '@/components/CinematicReveal'
 export const metadata: Metadata = {
   title: 'Programme Lutte libre au Daghestan | MKR Caucasian Camp',
   description: "Programme de lutte libre au Caucase. Méthodes daghestanaises ancestrales, leg rides, chain wrestling, sparring quotidien, coachs champions du monde.",
-  alternates: { canonical: 'https://mkrcaucasiancamp.com/programme/lutte' },
+  alternates: { canonical: 'https://mkrcamp.com/programme/lutte' },
 }
 
 const TECHNIQUES = [
@@ -31,9 +31,9 @@ export default function ProgrammeLuttePage() {
   return (
     <>
       <BreadcrumbJsonLd items={[
-        { name: 'Accueil', url: 'https://mkrcaucasiancamp.com/' },
-        { name: 'Programme', url: 'https://mkrcaucasiancamp.com/programme' },
-        { name: 'Lutte', url: 'https://mkrcaucasiancamp.com/programme/lutte' },
+        { name: 'Accueil', url: 'https://mkrcamp.com/' },
+        { name: 'Programme', url: 'https://mkrcamp.com/programme' },
+        { name: 'Lutte', url: 'https://mkrcamp.com/programme/lutte' },
       ]} />
       <PageHero
         label="LUTTE"

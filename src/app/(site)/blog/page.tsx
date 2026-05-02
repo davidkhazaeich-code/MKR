@@ -6,7 +6,7 @@ import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 export const metadata: Metadata = {
   title: 'Blog MKR Caucasian Camp : MMA, Lutte et Caucase',
   description: "Articles sur le MMA, la lutte, le Daghestan, la préparation et la culture du combat. Par MKR Caucasian Camp.",
-  alternates: { canonical: 'https://mkrcaucasiancamp.com/blog' },
+  alternates: { canonical: 'https://mkrcamp.com/blog' },
 }
 
 const ARTICLES = [
@@ -68,8 +68,8 @@ export default function BlogPage() {
   return (
     <>
       <BreadcrumbJsonLd items={[
-        { name: 'Accueil', url: 'https://mkrcaucasiancamp.com/' },
-        { name: 'Blog', url: 'https://mkrcaucasiancamp.com/blog' },
+        { name: 'Accueil', url: 'https://mkrcamp.com/' },
+        { name: 'Blog', url: 'https://mkrcamp.com/blog' },
       ]} />
 
 

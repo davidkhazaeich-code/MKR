@@ -5,8 +5,8 @@
  *   import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
  *
  *   <BreadcrumbJsonLd items={[
- *     { name: 'Accueil', url: 'https://mkrcaucasiancamp.com/' },
- *     { name: 'Sessions', url: 'https://mkrcaucasiancamp.com/sessions' },
+ *     { name: 'Accueil', url: 'https://mkrcamp.com/' },
+ *     { name: 'Sessions', url: 'https://mkrcamp.com/sessions' },
  *   ]} />
  */
 

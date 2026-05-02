@@ -3,7 +3,7 @@ import type { Metadata } from 'next'
 export const metadata: Metadata = {
   title: 'Politique de confidentialité | MKR Caucasian Camp',
   description: "Politique de confidentialité de MKR Caucasian Camp. Collecte, utilisation et protection de tes données personnelles.",
-  alternates: { canonical: 'https://mkrcaucasiancamp.com/politique-de-confidentialite' },
+  alternates: { canonical: 'https://mkrcamp.com/politique-de-confidentialite' },
 }
 
 export default function PolitiqueConfidentialitePage() {
@@ -66,7 +66,7 @@ export default function PolitiqueConfidentialitePage() {
             <li>Droit à la portabilité</li>
             <li>Droit d&apos;opposition au traitement</li>
           </ul>
-          <p>Pour exercer ces droits, contacte-nous à contact@mkrcaucasiancamp.com.</p>
+          <p>Pour exercer ces droits, contacte-nous à contact@mkrcamp.com.</p>
 
           <h2>Sécurité</h2>
           <p>Nous mettons en œuvre des mesures techniques et organisationnelles appropriées pour protéger tes données contre tout accès non autorisé, modification, divulgation ou destruction.</p>

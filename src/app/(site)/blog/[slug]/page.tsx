@@ -150,7 +150,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return {
     title: `${article.title} | MKR Caucasian Camp`,
     description: article.content.replace(/<[^>]*>/g, '').substring(0, 160),
-    alternates: { canonical: `https://mkrcaucasiancamp.com/blog/${slug}` },
+    alternates: { canonical: `https://mkrcamp.com/blog/${slug}` },
   }
 }
 
@@ -163,10 +163,10 @@ export default async function BlogArticlePage({ params }: { params: Promise<{ sl
     '@type': 'BlogPosting',
     headline: article.title,
     datePublished: article.dateISO,
-    author: { '@id': 'https://mkrcaucasiancamp.com/#organization' },
-    publisher: { '@id': 'https://mkrcaucasiancamp.com/#organization' },
-    image: `https://mkrcaucasiancamp.com${article.img}`,
-    mainEntityOfPage: `https://mkrcaucasiancamp.com/blog/${slug}`,
+    author: { '@id': 'https://mkrcamp.com/#organization' },
+    publisher: { '@id': 'https://mkrcamp.com/#organization' },
+    image: `https://mkrcamp.com${article.img}`,
+    mainEntityOfPage: `https://mkrcamp.com/blog/${slug}`,
     inLanguage: 'fr',
   }
 
@@ -177,9 +177,9 @@ export default async function BlogArticlePage({ params }: { params: Promise<{ sl
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdArticle) }}
       />
       <BreadcrumbJsonLd items={[
-        { name: 'Accueil', url: 'https://mkrcaucasiancamp.com/' },
-        { name: 'Blog', url: 'https://mkrcaucasiancamp.com/blog' },
-        { name: article.title, url: `https://mkrcaucasiancamp.com/blog/${slug}` },
+        { name: 'Accueil', url: 'https://mkrcamp.com/' },
+        { name: 'Blog', url: 'https://mkrcamp.com/blog' },
+        { name: article.title, url: `https://mkrcamp.com/blog/${slug}` },
       ]} />
       <article className="blog-article">
         <div className="inner">

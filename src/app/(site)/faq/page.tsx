@@ -8,7 +8,7 @@ import { getAllFaqItems } from '@/data/faq'
 export const metadata: Metadata = {
   title: 'FAQ Camp MMA Daghestan | MKR Caucasian Camp',
   description: "Toutes les réponses à tes questions : sécurité, visa Russie, niveau requis, prix, équipement, inscription. FAQ complète du camp MKR.",
-  alternates: { canonical: 'https://mkrcaucasiancamp.com/faq' },
+  alternates: { canonical: 'https://mkrcamp.com/faq' },
 }
 
 const allFaqItems = getAllFaqItems()
@@ -30,8 +30,8 @@ export default function FAQPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdFaq) }}
       />
       <BreadcrumbJsonLd items={[
-        { name: 'Accueil', url: 'https://mkrcaucasiancamp.com/' },
-        { name: 'FAQ', url: 'https://mkrcaucasiancamp.com/faq' },
+        { name: 'Accueil', url: 'https://mkrcamp.com/' },
+        { name: 'FAQ', url: 'https://mkrcamp.com/faq' },
       ]} />
 
       <PageHero

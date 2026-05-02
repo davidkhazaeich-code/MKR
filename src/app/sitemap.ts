@@ -9,8 +9,9 @@ const BLOG_SLUGS = [
   'khabib-methode-entrainement',
 ]
 
+
 export default function sitemap(): MetadataRoute.Sitemap {
-  const base = 'https://mkrcaucasiancamp.com'
+  const base = 'https://mkrcamp.com'
 
   const blogEntries = BLOG_SLUGS.map(slug => ({
     url: `${base}/blog/${slug}`,

@@ -7,15 +7,15 @@ import GalerieContent from '@/components/GalerieContent'
 export const metadata: Metadata = {
   title: 'Galerie photos du camp MMA au Daghestan | MKR Caucasian Camp',
   description: "Photos et vidéos du camp MKR au Caucase. Entraînements, montagnes, coachs, culture. Découvre le camp en images.",
-  alternates: { canonical: 'https://mkrcaucasiancamp.com/galerie' },
+  alternates: { canonical: 'https://mkrcamp.com/galerie' },
 }
 
 export default function GaleriePage() {
   return (
     <>
       <BreadcrumbJsonLd items={[
-        { name: 'Accueil', url: 'https://mkrcaucasiancamp.com/' },
-        { name: 'Galerie', url: 'https://mkrcaucasiancamp.com/galerie' },
+        { name: 'Accueil', url: 'https://mkrcamp.com/' },
+        { name: 'Galerie', url: 'https://mkrcamp.com/galerie' },
       ]} />
 
       <PageHero

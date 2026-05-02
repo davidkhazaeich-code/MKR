@@ -7,7 +7,7 @@ import CinematicReveal from '@/components/CinematicReveal'
 export const metadata: Metadata = {
   title: 'Témoignages athlètes | Camp MKR au Daghestan',
   description: "Ils sont venus, ils racontent. Témoignages vidéo et écrits d'athlètes qui ont vécu l'expérience MKR au Caucase.",
-  alternates: { canonical: 'https://mkrcaucasiancamp.com/temoignages' },
+  alternates: { canonical: 'https://mkrcamp.com/temoignages' },
 }
 
 const VIDEO_TESTIMONIALS = [
@@ -45,8 +45,8 @@ export default function TemoignagesPage() {
   return (
     <>
       <BreadcrumbJsonLd items={[
-        { name: 'Accueil', url: 'https://mkrcaucasiancamp.com/' },
-        { name: 'Témoignages', url: 'https://mkrcaucasiancamp.com/temoignages' },
+        { name: 'Accueil', url: 'https://mkrcamp.com/' },
+        { name: 'Témoignages', url: 'https://mkrcamp.com/temoignages' },
       ]} />
 
       <PageHero

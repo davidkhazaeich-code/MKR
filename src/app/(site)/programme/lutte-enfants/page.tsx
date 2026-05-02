@@ -7,7 +7,7 @@ import CinematicReveal from '@/components/CinematicReveal'
 export const metadata: Metadata = {
   title: 'Programme Lutte Enfants | MKR Caucasian Camp | Lutte jeunesse au Daghestan',
   description: "Programme de lutte adapté aux jeunes athlètes (8-17 ans avec parent). Pédagogie progressive, encadrement spécialisé, fondamentaux daghestanais transmis dans un cadre adapté.",
-  alternates: { canonical: 'https://mkrcaucasiancamp.com/programme/lutte-enfants' },
+  alternates: { canonical: 'https://mkrcamp.com/programme/lutte-enfants' },
 }
 
 const PILLARS = [
@@ -31,9 +31,9 @@ export default function ProgrammeLutteEnfantsPage() {
   return (
     <>
       <BreadcrumbJsonLd items={[
-        { name: 'Accueil', url: 'https://mkrcaucasiancamp.com/' },
-        { name: 'Programme', url: 'https://mkrcaucasiancamp.com/programme' },
-        { name: 'Lutte enfants', url: 'https://mkrcaucasiancamp.com/programme/lutte-enfants' },
+        { name: 'Accueil', url: 'https://mkrcamp.com/' },
+        { name: 'Programme', url: 'https://mkrcamp.com/programme' },
+        { name: 'Lutte enfants', url: 'https://mkrcamp.com/programme/lutte-enfants' },
       ]} />
       <PageHero
         label="JEUNESSE 8-17 ANS"

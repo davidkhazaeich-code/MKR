@@ -18,7 +18,7 @@ const VoyageReveal = dynamic(() => import('@/components/VoyageReveal'))
 
 export const metadata: Metadata = {
   title: "Camp MMA et Lutte au Daghestan | MKR Caucasian Camp",
-  description: "Entraîne-toi là où naissent les champions. Camp MMA et Lutte (adultes et enfants) de 1 à 3 semaines au Daghestan. 9 coachs expérimentés, vol intérieur Istanbul-Makhachkala inclus. Sessions 2026.",
+  description: "Entraîne-toi là où naissent les champions. Camp MMA et Lutte (adultes et enfants) de 1 à 3 semaines au Daghestan. 9 coachs expérimentés, vol intérieur Istanbul-Makhachkala inclus. 4 sessions par an calées sur les vacances scolaires francophones (2026 / 2027).",
   alternates: { canonical: 'https://mkrcamp.com/' },
 }
 

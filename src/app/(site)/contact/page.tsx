@@ -6,15 +6,15 @@ import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 export const metadata: Metadata = {
   title: 'Contact | MKR Caucasian Camp',
   description: "Contacte MKR Caucasian Camp. Question générale, partenariat, clubs, presse. Réponse sous 48h.",
-  alternates: { canonical: 'https://mkrcaucasiancamp.com/contact' },
+  alternates: { canonical: 'https://mkrcamp.com/contact' },
 }
 
 export default function ContactPage() {
   return (
     <>
       <BreadcrumbJsonLd items={[
-        { name: 'Accueil', url: 'https://mkrcaucasiancamp.com/' },
-        { name: 'Contact', url: 'https://mkrcaucasiancamp.com/contact' },
+        { name: 'Accueil', url: 'https://mkrcamp.com/' },
+        { name: 'Contact', url: 'https://mkrcamp.com/contact' },
       ]} />
       <PageHero
         label="CONTACT"
@@ -37,8 +37,8 @@ export default function ContactPage() {
                     <rect x="2" y="4" width="20" height="16" /><polyline points="2,4 12,13 22,4" />
                   </svg>
                   <h3 className="card-title" style={{ fontSize: '0.9rem' }}>Email</h3>
-                  <a href="mailto:contact@mkrcaucasiancamp.com" style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
-                    contact@mkrcaucasiancamp.com
+                  <a href="mailto:contact@mkrcamp.com" style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
+                    contact@mkrcamp.com
                   </a>
                 </div>
                 <div className="content-card fx-grain fx-corner-glow">

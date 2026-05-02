@@ -7,7 +7,7 @@ import CinematicReveal from '@/components/CinematicReveal'
 export const metadata: Metadata = {
   title: 'Programme MMA au Daghestan | MKR Caucasian Camp',
   description: "Programme MMA complet au Caucase : techniques debout, clinch, takedowns, soumissions, transitions. Sparring quotidien et coaching d'élite au Daghestan.",
-  alternates: { canonical: 'https://mkrcaucasiancamp.com/programme/mma' },
+  alternates: { canonical: 'https://mkrcamp.com/programme/mma' },
 }
 
 const TECHNIQUES = [
@@ -31,9 +31,9 @@ export default function ProgrammeMMAPage() {
   return (
     <>
       <BreadcrumbJsonLd items={[
-        { name: 'Accueil', url: 'https://mkrcaucasiancamp.com/' },
-        { name: 'Programme', url: 'https://mkrcaucasiancamp.com/programme' },
-        { name: 'MMA', url: 'https://mkrcaucasiancamp.com/programme/mma' },
+        { name: 'Accueil', url: 'https://mkrcamp.com/' },
+        { name: 'Programme', url: 'https://mkrcamp.com/programme' },
+        { name: 'MMA', url: 'https://mkrcamp.com/programme/mma' },
       ]} />
       <PageHero
         label="MMA"

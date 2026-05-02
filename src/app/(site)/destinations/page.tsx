@@ -6,15 +6,15 @@ import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 export const metadata: Metadata = {
   title: 'Destinations Daghestan | MKR Caucasian Camp',
   description: "Notre destination unique : le Daghestan, terre des champions du Caucase. Découvre les lieux d'entraînement, la culture, la logistique.",
-  alternates: { canonical: 'https://mkrcaucasiancamp.com/destinations' },
+  alternates: { canonical: 'https://mkrcamp.com/destinations' },
 }
 
 export default function DestinationsPage() {
   return (
     <>
       <BreadcrumbJsonLd items={[
-        { name: 'Accueil', url: 'https://mkrcaucasiancamp.com/' },
-        { name: 'Destinations', url: 'https://mkrcaucasiancamp.com/destinations' },
+        { name: 'Accueil', url: 'https://mkrcamp.com/' },
+        { name: 'Destinations', url: 'https://mkrcamp.com/destinations' },
       ]} />
       <PageHero
         label="DESTINATION"

@@ -7,7 +7,7 @@ import CinematicReveal from '@/components/CinematicReveal'
 export const metadata: Metadata = {
   title: 'Guide gratuit : partir s\'entraîner au Daghestan | MKR',
   description: "Guide complet pour partir s'entraîner au Daghestan. Visa, vols, budget, préparation physique, équipement. Téléchargement gratuit.",
-  alternates: { canonical: 'https://mkrcaucasiancamp.com/guide-dagestan' },
+  alternates: { canonical: 'https://mkrcamp.com/guide-dagestan' },
 }
 
 const GUIDE_CONTENTS = [
@@ -23,8 +23,8 @@ export default function GuideDagestanPage() {
   return (
     <>
       <BreadcrumbJsonLd items={[
-        { name: 'Accueil', url: 'https://mkrcaucasiancamp.com/' },
-        { name: 'Guide Daghestan', url: 'https://mkrcaucasiancamp.com/guide-dagestan' },
+        { name: 'Accueil', url: 'https://mkrcamp.com/' },
+        { name: 'Guide Daghestan', url: 'https://mkrcamp.com/guide-dagestan' },
       ]} />
       <PageHero
         label="GUIDE GRATUIT"
