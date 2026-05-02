@@ -29,6 +29,13 @@ const LANDSCAPES = [
     caption: 'Gamsutl',
     text: 'Village fantôme perché à 1 500 m. Daghestan ancestral.',
   },
+  {
+    src: '/images/environment/vainakh-towers.webp',
+    alt: 'Tours médiévales Vainakh dans les montagnes du Caucase',
+    label: 'CAUCASE',
+    caption: 'Tours Vainakh',
+    text: "Forteresses de pierre dressées il y a 800 ans, gardiennes silencieuses des cols de montagne.",
+  },
 ]
 
 export default function DestinationShowcase() {
