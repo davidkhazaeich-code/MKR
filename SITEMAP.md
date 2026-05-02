@@ -758,12 +758,12 @@ GEO = { latitude: 42.9849, longitude: 47.5047, country: 'RU', region: 'Daghestan
 **Source unique** : `data/registration-types.ts` (REGISTRATION_TYPES)
 **Logique nettoyée 2026-04-30** : pas de duplication famille — chaque tunnel a sa cible précise.
 
-| Tunnel | Cible | Composition | Dates |
-|---|---|---|---|
-| `session` MKR Camp 2026 | Adultes uniquement (recommandé) | 1 à 15 adultes | 17/08-05/09 verrouillé |
-| `custom` Sur Mesure | Adultes uniquement | 1 à 4 (Solo/Duo/Trio/Quatuor) | Tes dates, 90j min |
-| `famille` Famille | Parent + enfant 8-17 obligatoire | 1+ parent + 1+ enfant (max 6) | Sub-choix session OU sur mesure |
-| `groupe` Club & Groupe | Club/groupe organisé | 5 à 20 personnes | Tes dates, 90j min |
+| Tunnel | Cible | Composition | Dates | Durée |
+|---|---|---|---|---|
+| `session` MKR Camp 2026 | Adultes uniquement (recommandé) | 1 à 15 adultes | Fenêtre session officielle (4 par an) | 1, 2 ou 3 sem au choix |
+| `custom` Sur Mesure | Adultes uniquement | 1 à 4 (Solo/Duo/Trio/Quatuor) | Tes dates, 90j min | 1, 2 ou 3 sem au choix |
+| `famille` Famille | Parent + enfant 8-17 obligatoire | 1+ parent + 1+ enfant (max 6) | Sub-choix session OU sur mesure | 1, 2 ou 3 sem au choix |
+| `groupe` Club & Groupe | Club/groupe organisé | 5 à 20 personnes | Tes dates, 90j min | 1, 2 ou 3 sem au choix |
 
 | Fichier | Forme |
 |---|---|
@@ -778,11 +778,12 @@ GEO = { latitude: 42.9849, longitude: 47.5047, country: 'RU', region: 'Daghestan
 **⚠️** Si on change un wording : modifier UNIQUEMENT `data/registration-types.ts`. Le reste propage.
 
 **Spécificités tunnel `famille`** :
-- Pré-remplissage automatique : `vientAvecFamille=true`, `session='aout-2026'`, `duree='3-semaines'`
-- Sub-choix radio en step 3 : "Rejoindre MKR Camp 2026" OU "Camp famille sur mesure"
+- Pré-remplissage automatique : `vientAvecFamille=true`, `session=<prochaine session>`, `duree='3-semaines'` (modifiable)
+- Sub-choix radio en step 3 : "Rejoindre une session officielle" OU "Camp famille sur mesure"
+- Durée au choix dans tous les cas : 1, 2 ou 3 semaines (select dédié). Plus de durée fixe pour la sous-option "session officielle".
 - Si sur mesure : date picker + durée libres
 - Champs `nombreEnfants` et `enfantsAges` obligatoires
-- Tarif calculé : 1 parent (2900) + N enfants (1900) pour 3 sem
+- Tarif calculé live : 1 parent (1500/2200/2900 selon durée) + N enfants (1000/1400/1900 selon durée)
 
 **Spécificités tunnel `custom`** :
 - Sélecteur "Composition" obligatoire : Solo (1) / Duo (2) / Trio (3) / Quatuor (4)
@@ -790,8 +791,8 @@ GEO = { latitude: 42.9849, longitude: 47.5047, country: 'RU', region: 'Daghestan
 - Si user veut venir avec enfant : note redirection vers Famille (pas d'option famille ici)
 
 **Spécificités tunnel `session`** :
-- Date verrouillée 17/08 - 05/09
-- Durée verrouillée 3 semaines
+- Date verrouillée sur la fenêtre de session officielle choisie (Été 2026, Toussaint 2026, Hiver 2027 ou Pâques 2027)
+- Durée au choix : 1, 2 ou 3 semaines (au sein de la fenêtre de 3 semaines de la session). Plus de durée verrouillée. Tarif live (1500/2200/2900 EUR adulte) affiché dans le select.
 - Note redirection vers Famille si user a un enfant à inscrire (pas d'option famille ici)
 
 **Spécificités tunnel `groupe`** :

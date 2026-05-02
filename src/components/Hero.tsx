@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useEffect, useRef, useState, useCallback } from 'react'
-import { SESSIONS, formatPrice } from '@/data/sessions'
+import { SESSIONS, formatPriceFrom } from '@/data/sessions'
 import PlacesRestantes from '@/components/PlacesRestantes'
 
 const HERO_VIDEOS = [
@@ -234,7 +234,7 @@ function HeroCampCarousel() {
         </div>
         <div className="hero-camps-dates">{session.dates}</div>
         <div className="hero-camps-bottom">
-          <span className="hero-camps-price">{formatPrice(session)}</span>
+          <span className="hero-camps-price">{formatPriceFrom(session)}</span>
           <Link href={`/inscription?type=session&session=${session.id}`} className="hero-camps-cta">S&apos;inscrire →</Link>
         </div>
       </div>

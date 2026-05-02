@@ -68,7 +68,7 @@ export default function PricingTable({ withHeader = true, compact = false }: Pri
 
         {!compact && (
           <div className="pricing-family reveal" style={{ transitionDelay: '0.2s' }}>
-            <h3 className="pricing-family-title">EXEMPLES FAMILLE / GROUPE (3 SEMAINES)</h3>
+            <h3 className="pricing-family-title">EXEMPLES FAMILLE / GROUPE (BASE 3 SEMAINES, AJUSTABLE 1 OU 2 SEM)</h3>
             <div className="pricing-family-grid">
               {FAMILY_EXAMPLES.map(ex => {
                 const total = calculatePrice({ adults: ex.adults, children: ex.children, weeks: 3 })

@@ -9,7 +9,7 @@ import FacilitatorBand from '@/components/FacilitatorBand'
 
 export const metadata: Metadata = {
   title: 'MKR Camp 2026 | Session officielle 17 août - 5 sept | MKR Caucasian Camp',
-  description: 'Rejoins le MKR Camp 2026, session officielle du 17 août au 5 septembre 2026 au Daghestan. 3 semaines, adultes uniquement, 15 places max. Tarif fixe 2 900 € tout inclus.',
+  description: 'Rejoins le MKR Camp 2026, session officielle du 17 août au 5 septembre 2026 au Daghestan. Fenêtre de 3 semaines, tu choisis 1, 2 ou 3 semaines. Adultes uniquement, 15 places max. À partir de 1 500 € tout inclus.',
   alternates: { canonical: 'https://mkrcamp.com/mkr-camp-2026' },
 }
 
@@ -20,7 +20,7 @@ const REASONS = [
   },
   {
     title: 'Dates fixes, organisation rodée',
-    desc: "Du 17 août au 5 septembre 2026, 3 semaines pleines. Tu n'as rien à arbitrer côté planning. MKR a calé visa, vols, hébergement, programme et coachs il y a déjà plusieurs mois.",
+    desc: "Du 17 août au 5 septembre 2026, fenêtre de 3 semaines. Tu choisis ta durée (1, 2 ou 3 semaines) selon tes contraintes. MKR a calé visa, vols, hébergement, programme et coachs il y a déjà plusieurs mois.",
   },
   {
     title: 'Le format historique',
@@ -48,7 +48,7 @@ export default function MkrCamp2026Page() {
       <PageHero
         label="SESSION OFFICIELLE 2026"
         title="LE MKR CAMP 2026<br/>T&apos;ATTEND."
-        subtitle="Du 17 août au 5 septembre 2026, 3 semaines au Daghestan. Adultes uniquement, 15 places, esprit collectif. Les inscriptions sont ouvertes."
+        subtitle="Du 17 août au 5 septembre 2026 au Daghestan. Tu choisis 1, 2 ou 3 semaines au sein de la fenêtre. Adultes uniquement, 15 places, esprit collectif. Les inscriptions sont ouvertes."
         image="/images/ruslan/action/mma-cercle-session-demo-mkr.webp"
         imageAlt="Cercle de combattants au MKR Camp 2026, démonstration grappling"
       />
@@ -57,8 +57,8 @@ export default function MkrCamp2026Page() {
       <section className="parents-stats-band reveal">
         <div className="parents-stats-grid">
           <div>
-            <span className="parents-stat-num">3</span>
-            <span className="parents-stat-label">Semaines · 17 août - 5 sept</span>
+            <span className="parents-stat-num">1-3</span>
+            <span className="parents-stat-label">Semaines au choix · 17 août - 5 sept</span>
           </div>
           <div>
             <span className="parents-stat-num">15</span>
@@ -69,8 +69,8 @@ export default function MkrCamp2026Page() {
             <span className="parents-stat-label">Coachs expérimentés</span>
           </div>
           <div>
-            <span className="parents-stat-num">2 900</span>
-            <span className="parents-stat-label">€ · Tarif fixe tout inclus</span>
+            <span className="parents-stat-num">1 500</span>
+            <span className="parents-stat-label">€ minimum · à partir de (1 sem)</span>
           </div>
         </div>
       </section>
@@ -80,8 +80,8 @@ export default function MkrCamp2026Page() {
         image="/images/ruslan/action/mma-adultes-cercle.webp"
         alt="Groupe d'athlètes en formation au MKR Camp"
         label="LA SESSION HISTORIQUE"
-        title="UN CAMP. UN GROUPE.<br/>3 SEMAINES."
-        tagline="Tu pars avec des athlètes adultes du monde entier. Tu rentres avec un niveau et une famille de combat."
+        title="UN CAMP. UN GROUPE.<br/>1 À 3 SEMAINES."
+        tagline="Tu pars avec des athlètes adultes du monde entier. Tu choisis 1, 2 ou 3 semaines. Tu rentres avec un niveau et une famille de combat."
       />
 
       {/* Pourquoi rejoindre */}

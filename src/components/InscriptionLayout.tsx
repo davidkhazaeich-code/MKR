@@ -1085,10 +1085,10 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                   </div>
                 )}
 
-                {/* Audience: SESSION GROUPE — choix parmi les 4 sessions officielles */}
+                {/* Audience: SESSION GROUPE — choix parmi les 4 sessions officielles + durée libre 1/2/3 sem */}
                 {audience === 'session' && (
                   <>
-                    <Field label="Session officielle" hint="Quatre sessions par an, calées sur les vacances scolaires francophones. Durée fixe 3 semaines.">
+                    <Field label="Session officielle" hint="Quatre sessions par an, calées sur les vacances scolaires francophones. Tu choisis ta durée (1, 2 ou 3 semaines) au sein de la fenêtre de session.">
                       <select className="cand-select" value={form.session}
                         onChange={e => set('session', e.target.value)}>
                         {SESSIONS.map(s => (
@@ -1098,14 +1098,15 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                         ))}
                       </select>
                     </Field>
-                    <div className="cand-row">
-                      <Field label="Durée" hint="Toutes les sessions officielles durent 3 semaines">
-                        <input className="cand-input" type="text" disabled value="3 semaines" />
-                      </Field>
-                      <Field label="Tarif" hint="Adulte 3 semaines">
-                        <input className="cand-input" type="text" disabled value="2 900 €" />
-                      </Field>
-                    </div>
+                    <Field label="Durée souhaitée" hint="Tu choisis 1, 2 ou 3 semaines au sein de la fenêtre de session officielle">
+                      <select className="cand-select" value={form.duree}
+                        onChange={e => set('duree', e.target.value)}>
+                        <option value="" disabled>Sélectionner</option>
+                        <option value="1-semaine">1 semaine · 1 500 € / adulte</option>
+                        <option value="2-semaines">2 semaines · 2 200 € / adulte</option>
+                        <option value="3-semaines">3 semaines · 2 900 € / adulte (immersion complète)</option>
+                      </select>
+                    </Field>
                   </>
                 )}
 
@@ -1211,7 +1212,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                           <option value="" disabled>Sélectionner</option>
                           <option value="1-semaine">1 semaine</option>
                           <option value="2-semaines">2 semaines</option>
-                          <option value="3-semaines">3 semaines (recommandé)</option>
+                          <option value="3-semaines">3 semaines (immersion complète)</option>
                         </select>
                       </Field>
                     </div>
@@ -1221,7 +1222,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                 {/* Audience: FAMILLE — sub-choix parmi les 4 sessions ou sur mesure (enfants déjà collectés en step 2) */}
                 {audience === 'famille' && (
                   <>
-                    <Field label="Format de ton camp famille" hint="Tu peux rejoindre une de nos sessions officielles (calées sur les vacances scolaires) ou choisir tes propres dates">
+                    <Field label="Format de ton camp famille" hint="Tu peux rejoindre une de nos sessions officielles (calées sur les vacances scolaires) ou choisir tes propres dates. Durée 1, 2 ou 3 semaines dans tous les cas.">
                       <RadioGroup
                         name="formatFamille"
                         value={form.session === 'sur-mesure' ? 'sur-mesure' : (SESSION_IDS.includes(form.session) ? form.session : DEFAULT_SESSION_ID)}
@@ -1231,19 +1232,32 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                             set('duree', '')
                           } else {
                             set('session', v)
-                            set('duree', '3-semaines')
+                            // Garder le choix de durée existant ou défaut 3-semaines
+                            if (!form.duree) set('duree', '3-semaines')
                             set('dateDebutSouhaitee', '')
                           }
                         }}
                         options={[
                           ...SESSIONS.map(s => ({
                             val: s.id,
-                            label: `Rejoindre la session ${s.season} (${s.dates}, 3 semaines)`,
+                            label: `Rejoindre la session ${s.season} (${s.dates}, 1 à 3 semaines au choix)`,
                           })),
                           { val: 'sur-mesure', label: 'Camp famille sur mesure (vos dates, durée au choix, 90j minimum)' },
                         ]}
                       />
                     </Field>
+
+                    {SESSION_IDS.includes(form.session) && (
+                      <Field label="Durée souhaitée" hint="Tu choisis 1, 2 ou 3 semaines au sein de la fenêtre de session officielle">
+                        <select className="cand-select" value={form.duree}
+                          onChange={e => set('duree', e.target.value)}>
+                          <option value="" disabled>Sélectionner</option>
+                          <option value="1-semaine">1 semaine</option>
+                          <option value="2-semaines">2 semaines</option>
+                          <option value="3-semaines">3 semaines (immersion complète)</option>
+                        </select>
+                      </Field>
+                    )}
 
                     {form.session === 'sur-mesure' && (
                       <div className="cand-row">
@@ -1263,7 +1277,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                             <option value="" disabled>Sélectionner</option>
                             <option value="1-semaine">1 semaine</option>
                             <option value="2-semaines">2 semaines</option>
-                            <option value="3-semaines">3 semaines (recommandé)</option>
+                            <option value="3-semaines">3 semaines (immersion complète)</option>
                           </select>
                         </Field>
                       </div>
@@ -1397,13 +1411,13 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                   {audience === 'famille' && SESSION_IDS.includes(form.session) && (() => {
                     const sel = SESSIONS.find(s => s.id === form.session)
                     return sel ? (
-                      <div className="cand-recap-row"><span>Format</span><strong>Session {sel.season} ({sel.dates}, 3 sem)</strong></div>
+                      <div className="cand-recap-row"><span>Format</span><strong>Session {sel.season} ({sel.dates})</strong></div>
                     ) : null
                   })()}
                   {(audience === 'custom' || audience === 'groupe' || (audience === 'famille' && form.session === 'sur-mesure')) && form.dateDebutSouhaitee && (
                     <div className="cand-recap-row"><span>Date début</span><strong>{form.dateDebutSouhaitee}</strong></div>
                   )}
-                  {form.duree && audience !== 'session' && !(audience === 'famille' && SESSION_IDS.includes(form.session)) && (
+                  {form.duree && (
                     <div className="cand-recap-row"><span>Durée</span><strong>{form.duree.replace('-', ' ')}</strong></div>
                   )}
 

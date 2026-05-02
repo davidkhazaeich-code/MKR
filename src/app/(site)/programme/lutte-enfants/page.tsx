@@ -63,8 +63,8 @@ export default function ProgrammeLutteEnfantsPage() {
             <span className="parents-stat-label">Sessions/jour à 10h30 et 17h30</span>
           </div>
           <div>
-            <span className="parents-stat-num">1 900</span>
-            <span className="parents-stat-label">€ · 3 semaines · tarif fixe enfant</span>
+            <span className="parents-stat-num">1 000</span>
+            <span className="parents-stat-label">€ minimum · à partir de (enfant 1 sem)</span>
           </div>
         </div>
       </section>
@@ -188,7 +188,7 @@ export default function ProgrammeLutteEnfantsPage() {
                 <li><strong>Ratio sécurité</strong> : 1 coach pour 5 enfants maximum</li>
                 <li><strong>Communication parents</strong> : briefing chaque fin de session, photos quotidiennes</li>
                 <li><strong>Cadre adapté</strong> : tapis olympiques homologués, salle dédiée, surveillance permanente</li>
-                <li><strong>Tarif enfant fixe</strong> : 1 900 € / 3 semaines, 1 400 € / 2 sem, 1 000 € / 1 sem</li>
+                <li><strong>Tarif enfant selon durée</strong> : 1 000 € / 1 sem · 1 400 € / 2 sem · 1 900 € / 3 sem (au choix)</li>
               </ul>
               <p className="pull-quote" style={{ marginTop: '1.5rem' }}>
                 &laquo; Mon fils est revenu transformé. Plus discipliné, plus confiant. Et il a appris des choses

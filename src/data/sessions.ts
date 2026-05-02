@@ -39,7 +39,7 @@ export const SESSIONS: Session[] = [
     spotsLabel: 'Places disponibles',
     status: 'open',
     intensity: 'Maximale',
-    duration: '3 semaines',
+    duration: '1 à 3 semaines',
     destination: 'Dagestan',
   },
   {
@@ -59,7 +59,7 @@ export const SESSIONS: Session[] = [
     spotsLabel: 'Places disponibles',
     status: 'open',
     intensity: 'Élevée',
-    duration: '3 semaines',
+    duration: '1 à 3 semaines',
     destination: 'Dagestan',
   },
   {
@@ -79,7 +79,7 @@ export const SESSIONS: Session[] = [
     spotsLabel: 'Places disponibles',
     status: 'open',
     intensity: 'Maximale',
-    duration: '3 semaines',
+    duration: '1 à 3 semaines',
     destination: 'Dagestan',
   },
   {
@@ -99,7 +99,7 @@ export const SESSIONS: Session[] = [
     spotsLabel: 'Places disponibles',
     status: 'open',
     intensity: 'Élevée',
-    duration: '3 semaines',
+    duration: '1 à 3 semaines',
     destination: 'Dagestan',
   },
 ]
@@ -107,6 +107,16 @@ export const SESSIONS: Session[] = [
 export function formatPrice(session: Session): string {
   const symbol = session.priceCurrency === 'EUR' ? '€' : session.priceCurrency
   return `${session.price.toLocaleString('fr-FR')} ${symbol}`
+}
+
+/**
+ * Prix "à partir de" pour une session officielle (1 sem adulte = 1 500 €).
+ * Utiliser ce helper sur les pages publiques où la durée est variable (1 à 3 sem).
+ */
+export function formatPriceFrom(session: Session): string {
+  const symbol = session.priceCurrency === 'EUR' ? '€' : session.priceCurrency
+  // Min adulte = 1 500 € (1 sem). Voir ADULT_PRICING dans data/pricing.ts.
+  return `À partir de 1 500 ${symbol}`
 }
 
 export function sessionFormLabel(session: Session): string {

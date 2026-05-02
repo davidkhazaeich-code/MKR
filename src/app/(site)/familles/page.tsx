@@ -260,7 +260,7 @@ export default function FamillesPage() {
               <h3 className="card-title" style={{ fontSize: '0.95rem' }}>Indique tes enfants</h3>
               <p className="card-body" style={{ fontSize: '0.85rem' }}>
                 Précise le nombre d&apos;enfants (1, 2 ou 3) et leurs âges (entre 8 et 17 ans).
-                Tarif enfant fixe : 1 900 € / 3 semaines.
+                Tarif enfant selon durée : 1 000 € / 1 sem · 1 400 € / 2 sem · 1 900 € / 3 sem.
               </p>
             </div>
             <div className="content-card fx-grain fx-corner-glow reveal" style={{ transitionDelay: '0.16s' }}>

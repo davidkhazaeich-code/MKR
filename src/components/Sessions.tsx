@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { SESSIONS, formatPrice } from '@/data/sessions'
+import { SESSIONS, formatPriceFrom } from '@/data/sessions'
 import PlacesRestantes from '@/components/PlacesRestantes'
 
 export default function Sessions() {
@@ -54,8 +54,8 @@ export default function Sessions() {
               <div className="session-divider"></div>
               <div className="session-card-footer">
                 <div>
-                  <div className="session-price">{formatPrice(session)}</div>
-                  <div className="session-price-sub">Hébergement, 2 repas/jour, vol intérieur Istanbul-Makhachkala inclus · Vol international à charge</div>
+                  <div className="session-price">{formatPriceFrom(session)}</div>
+                  <div className="session-price-sub">Tarif adulte selon durée (1 500 € / 1 sem · 2 200 € / 2 sem · 2 900 € / 3 sem). Hébergement, 2 repas/jour, vol Istanbul-Makhachkala inclus.</div>
                 </div>
                 <Link href={`/inscription?type=session&session=${session.id}`} className="session-cta">POSTULER</Link>
               </div>

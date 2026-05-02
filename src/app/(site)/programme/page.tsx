@@ -132,7 +132,7 @@ export default function ProgrammePage() {
               <p className="card-body">
                 Au Daghestan, on commence la lutte très jeune. MKR ouvre cet accès aux 8-17 ans dans un cadre
                 adapté : coach jeunesse dédié, ratio 1 pour 5, sécurité renforcée. Enfant 8-17 ans toujours
-                accompagné d&apos;un parent participant. Tarif fixe 1 900 € / 3 semaines.
+                accompagné d&apos;un parent participant. Tarif enfant 1 000 € / 1 sem · 1 400 € / 2 sem · 1 900 € / 3 sem.
               </p>
               <div style={{ marginTop: '1.25rem', display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
                 <Link href="/programme/lutte-enfants" className="btn-ghost" style={{ fontSize: '0.8rem', padding: '0.55rem 1.25rem' }}>

@@ -23,8 +23,8 @@ const SESSIONS = [
     dates: '17 AOÛT · 5 SEPTEMBRE 2026',
     intensity: 'Maximale',
     maxCapacity: 15,
-    duration: '3 semaines',
-    price: '2 900 €',
+    duration: '1 à 3 semaines',
+    price: 'à partir de 1 500 €',
     status: 'open' as const,
     statusLabel: 'Places disponibles',
     delay: '0s',
@@ -37,8 +37,8 @@ const SESSIONS = [
     dates: '17 OCTOBRE · 7 NOVEMBRE 2026',
     intensity: 'Élevée',
     maxCapacity: 15,
-    duration: '3 semaines',
-    price: '2 900 €',
+    duration: '1 à 3 semaines',
+    price: 'à partir de 1 500 €',
     status: 'open' as const,
     statusLabel: 'Places disponibles',
     delay: '0.08s',
@@ -51,8 +51,8 @@ const SESSIONS = [
     dates: '13 FÉVRIER · 6 MARS 2027',
     intensity: 'Maximale',
     maxCapacity: 15,
-    duration: '3 semaines',
-    price: '2 900 €',
+    duration: '1 à 3 semaines',
+    price: 'à partir de 1 500 €',
     status: 'open' as const,
     statusLabel: 'Places disponibles',
     delay: '0.16s',
@@ -65,8 +65,8 @@ const SESSIONS = [
     dates: '3 · 24 AVRIL 2027',
     intensity: 'Élevée',
     maxCapacity: 15,
-    duration: '3 semaines',
-    price: '2 900 €',
+    duration: '1 à 3 semaines',
+    price: 'à partir de 1 500 €',
     status: 'open' as const,
     statusLabel: 'Places disponibles',
     delay: '0.24s',
@@ -156,7 +156,7 @@ export default function SessionsPage() {
             <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>
               SESSIONS OFFICIELLES 2026 / 2027
             </span>
-            <h2 id="sessions-list-heading">QUATRE SESSIONS, UN OBJECTIF</h2>
+            <h2 id="sessions-list-heading" style={{ scrollMarginTop: '120px' }}>QUATRE SESSIONS, UN OBJECTIF</h2>
             <p style={{ color: 'var(--text-secondary)', marginTop: '0.8rem', maxWidth: '720px' }}>
               Une session par saison, calées sur les vacances scolaires des trois zones françaises, suisses romandes et belges. Choisis celle qui colle à ton calendrier.
             </p>
@@ -201,7 +201,7 @@ export default function SessionsPage() {
                 <div className="session-card-footer">
                   <div>
                     <div className="session-price">{s.price}</div>
-                    <div className="session-price-sub">Tarif adulte. Enfant 8-17 (avec parent) : 1 900 € / 3 sem.</div>
+                    <div className="session-price-sub">Tarif adulte selon durée choisie (1 500 € / 1 sem · 2 200 € / 2 sem · 2 900 € / 3 sem). Enfant 8-17 (avec parent) à partir de 1 000 €.</div>
                   </div>
                   <Link href={`/inscription?type=session&session=${s.id}`} className="session-cta">POSTULER</Link>
                 </div>

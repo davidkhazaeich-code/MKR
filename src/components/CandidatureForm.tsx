@@ -427,7 +427,7 @@ export default function CandidatureForm() {
                   <option value="" disabled>Sélectionner</option>
                   <option value="1-semaine">1 semaine</option>
                   <option value="2-semaines">2 semaines</option>
-                  <option value="3-semaines">3 semaines (recommandé)</option>
+                  <option value="3-semaines">3 semaines (immersion complète)</option>
                 </select>
               </Field>
             </div>

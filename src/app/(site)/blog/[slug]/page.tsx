@@ -38,7 +38,7 @@ const ARTICLES_MAP: Record<string, Article> = {
     <p>Au Dagestan, le sparring n'est pas un exercice de style. C'est un combat controle mais intense. Les partenaires ne font pas semblant, et c'est cette intensite qui forge des combattants capables de gerer la pression en compétition.</p>
 
     <h2>CE QUE MKR T'APPORTE</h2>
-    <p>Le camp MKR te donne acces a ces méthodes. Pendant 3 semaines, tu t'entraînes avec les mêmes coachs, dans les mêmes salles, avec les mêmes méthodes qui ont produit les champions. C'est un raccourci que tu ne trouveras nulle part ailleurs.</p>
+    <p>Le camp MKR te donne acces a ces méthodes. Pendant 1 a 3 semaines (selon ton choix), tu t'entraînes avec les mêmes coachs, dans les mêmes salles, avec les mêmes méthodes qui ont produit les champions. C'est un raccourci que tu ne trouveras nulle part ailleurs.</p>
   `,
   },
   'preparer-son-premier-camp': {
@@ -51,7 +51,7 @@ const ARTICLES_MAP: Record<string, Article> = {
     <p>Tu as reserve ta place pour un camp MKR. Maintenant, il faut te préparer. Voici le guide complet pour arriver dans les meilleures conditions.</p>
 
     <h2>CONDITION PHYSIQUE</h2>
-    <p>6 semaines avant le depart, commence un programme spécifique : cardio haute intensite (HIIT), gainage fonctionnel, course a intervalles. L'objectif : tenir 2 sessions par jour pendant 3 semaines.</p>
+    <p>6 semaines avant le depart, commence un programme spécifique : cardio haute intensite (HIIT), gainage fonctionnel, course a intervalles. L'objectif : tenir 2 sessions par jour pendant toute la duree de ton camp (1, 2 ou 3 semaines au choix).</p>
 
     <h2>EQUIPEMENT</h2>
     <p>Gants de MMA (4oz et 16oz), protege-tibias, protege-dents, coquille. Rashguard et short de grappling. Chaussures de lutte optionnelles mais recommandees.</p>
