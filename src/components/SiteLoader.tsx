@@ -1,14 +1,18 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import { usePathname } from 'next/navigation'
 
 const MIN_DURATION = 1700
 
 export default function SiteLoader() {
+  const pathname = usePathname()
+  const skip = pathname?.startsWith('/admin') ?? false
   const [mounted, setMounted] = useState(true)
   const rootRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    if (skip) return
     document.documentElement.classList.add('is-loading')
 
     const reducedMotion =
@@ -88,9 +92,9 @@ export default function SiteLoader() {
       cancelled = true
       document.documentElement.classList.remove('is-loading')
     }
-  }, [])
+  }, [skip])
 
-  if (!mounted) return null
+  if (skip || !mounted) return null
 
   return (
     <div
