@@ -71,7 +71,6 @@ html, body {
   overscroll-behavior-x: none;
 }
 html {
-  scroll-behavior: smooth;
   font-size: max(16px, 1rem);
 }
 

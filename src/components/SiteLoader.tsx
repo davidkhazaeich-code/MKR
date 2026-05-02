@@ -7,7 +7,7 @@ const MIN_DURATION = 1700
 
 export default function SiteLoader() {
   const pathname = usePathname()
-  const skip = pathname?.startsWith('/admin') ?? false
+  const skip = pathname !== '/'
   const [mounted, setMounted] = useState(true)
   const rootRef = useRef<HTMLDivElement>(null)
 
