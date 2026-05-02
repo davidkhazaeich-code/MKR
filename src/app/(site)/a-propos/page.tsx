@@ -35,11 +35,11 @@ export default function AProposPage() {
               </h2>
               <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1rem' }}>
                 MKR est ne d&apos;un constat simple : les meilleurs combattants de la planete viennent tous du meme endroit,
-                mais personne ne propose un acces structure a ces methodes d&apos;entrainement pour les athletes europeens.
+                mais personne ne propose un acces structure a ces méthodes d&apos;entraînement pour les athlètes européens.
               </p>
               <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1rem' }}>
                 Apres des annees de voyages au Dagestan, des relations construites avec les coachs locaux,
-                et des dizaines d&apos;athletes accompagnes, MKR Caucasian Camp est devenu le pont entre l&apos;Europe
+                et des dizaines d&apos;athlètes accompagnes, MKR Caucasian Camp est devenu le pont entre l&apos;Europe
                 francophone et les salles du Caucase.
               </p>
             </div>
@@ -65,7 +65,7 @@ export default function AProposPage() {
         alt="Repas communautaire au camp MKR au Caucase"
         label="COMMUNAUTE"
         title="PLUS QU'UN CAMP"
-        tagline="Repas partages, liens forges sur le tapis. Une fraternite entre athletes qui depasse les frontieres."
+        tagline="Repas partages, liens forges sur le tapis. Une fraternite entre athlètes qui depasse les frontieres."
       />
 
       {/* Mission */}
@@ -80,8 +80,8 @@ export default function AProposPage() {
               lineHeight: 1.2,
               textTransform: 'uppercase',
             }}>
-              &laquo; Notre mission : donner aux athletes francophones acces aux methodes de combat
-              d&apos;entrainement les plus efficaces au monde, dans un cadre authentique et encadre. &raquo;
+              &laquo; Notre mission : donner aux athlètes francophones acces aux méthodes de combat
+              d&apos;entraînement les plus efficaces au monde, dans un cadre authentique et encadre. &raquo;
             </p>
           </div>
         </div>

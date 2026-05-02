@@ -74,7 +74,7 @@ export default function Timeline() {
             <div className="timeline-panel">
               <div className="timeline-step-img reveal-clip">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img className="timeline-step-photo" src="/images/action/hand-wraps.webp" alt="Bandes de mains avant l'entrainement" />
+                <img className="timeline-step-photo" src="/images/action/hand-wraps.webp" alt="Bandes de mains avant l'entraînement" />
                 <div className="timeline-step-img-inner"></div>
               </div>
               <div className="timeline-text">

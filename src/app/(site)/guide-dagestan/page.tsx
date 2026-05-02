@@ -6,7 +6,7 @@ import CinematicReveal from '@/components/CinematicReveal'
 
 export const metadata: Metadata = {
   title: 'Guide Dagestan | MKR Caucasian Camp | Telecharger gratuitement',
-  description: "Guide complet : partir s'entrainer au Dagestan. Visa, vols, budget, preparation physique, equipement. Telechargement gratuit.",
+  description: "Guide complet : partir s'entraîner au Dagestan. Visa, vols, budget, préparation physique, equipement. Telechargement gratuit.",
   alternates: { canonical: 'https://mkrcaucasiancamp.com/guide-dagestan' },
 }
 
@@ -16,7 +16,7 @@ const GUIDE_CONTENTS = [
   { title: 'Budget realiste', desc: 'Cout total detaille : camp, vol, visa, assurance, equipement.' },
   { title: 'Programme prep 6 semaines', desc: 'Cardio, force, mobilite. Semaine par semaine.' },
   { title: 'Equipement complet', desc: 'Liste exhaustive : vetements, protection, hygiene, admin.' },
-  { title: 'Conseils anciens participants', desc: "Retours d'experience et astuces de ceux qui y sont alles." },
+  { title: 'Conseils anciens participants', desc: "Retours d'expérience et astuces de ceux qui y sont alles." },
 ]
 
 export default function GuideDagestanPage() {
@@ -29,7 +29,7 @@ export default function GuideDagestanPage() {
       <PageHero
         label="GUIDE GRATUIT"
         title="PARTIR S'ENTRAINER<br/>AU DAGESTAN"
-        subtitle="Visa, vols, budget, preparation. Tout dans un guide de 20 pages."
+        subtitle="Visa, vols, budget, préparation. Tout dans un guide de 20 pages."
         compact
       />
 

@@ -5,7 +5,7 @@ import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 
 export const metadata: Metadata = {
   title: 'Blog | MKR Caucasian Camp | MMA, Lutte & Caucase',
-  description: "Articles sur le MMA, la lutte, le Dagestan, la preparation et la culture du combat. Par MKR Caucasian Camp.",
+  description: "Articles sur le MMA, la lutte, le Dagestan, la préparation et la culture du combat. Par MKR Caucasian Camp.",
   alternates: { canonical: 'https://mkrcaucasiancamp.com/blog' },
 }
 
@@ -13,15 +13,15 @@ const ARTICLES = [
   {
     slug: 'pourquoi-le-dagestan-domine-le-mma',
     title: 'Pourquoi le Dagestan domine le MMA mondial',
-    excerpt: "Analyse des methodes d'entrainement, de la culture et du systeme qui produit les meilleurs fighters de la planete.",
+    excerpt: "Analyse des méthodes d'entraînement, de la culture et du systeme qui produit les meilleurs fighters de la planete.",
     date: '15 mars 2026',
     category: 'Culture',
     featured: true,
     img: '/images/blog/dagestan-mma.webp',
   },
   {
-    slug: 'preparer-son-premier-camp',
-    title: 'Comment preparer son premier camp au Caucase',
+    slug: 'préparer-son-premier-camp',
+    title: 'Comment préparer son premier camp au Caucase',
     excerpt: "Guide pratique : condition physique, equipement, mindset. Tout ce qu'il faut savoir avant de partir.",
     date: '28 fevrier 2026',
     category: 'Preparation',
@@ -30,34 +30,34 @@ const ARTICLES = [
   {
     slug: 'lutte-daghestanaise-guide-complet',
     title: 'La lutte daghestanaise : guide complet',
-    excerpt: "Techniques, histoire et philosophie de la lutte au Dagestan. Pourquoi ces methodes sont superieures.",
+    excerpt: "Techniques, histoire et philosophie de la lutte au Dagestan. Pourquoi ces méthodes sont superieures.",
     date: '10 fevrier 2026',
     category: 'Technique',
     img: '/images/blog/lutte-guide.webp',
   },
   {
-    slug: 'securite-dagestan-2026',
+    slug: 'sécurité-dagestan-2026',
     title: 'Securite au Dagestan en 2026 : la realite du terrain',
-    excerpt: "Etat des lieux factuel. Ce que disent les autorites, ce que vivent les athletes sur place.",
+    excerpt: "Etat des lieux factuel. Ce que disent les autorites, ce que vivent les athlètes sur place.",
     date: '25 janvier 2026',
     category: 'Logistique',
-    img: '/images/blog/securite-dagestan.webp',
+    img: '/images/blog/sécurité-dagestan.webp',
   },
   {
-    slug: 'nutrition-athlete-combat',
-    title: 'Nutrition d\'un athlete de combat au Caucase',
-    excerpt: "Ce qu'on mange pendant le camp. Cuisine caucasienne, proteines, et regime adapte a l'effort.",
+    slug: 'nutrition-athlète-combat',
+    title: 'Nutrition d\'un athlète de combat au Caucase',
+    excerpt: "Ce qu'on mange pendant le camp. Cuisine caucasienne, protéines, et régime adapte a l'effort.",
     date: '8 janvier 2026',
     category: 'Preparation',
     img: '/images/blog/nutrition.webp',
   },
   {
-    slug: 'khabib-methode-entrainement',
-    title: 'La methode d\'entrainement de Khabib',
-    excerpt: "Analyse de la preparation de Khabib Nurmagomedov. Ce que le camp MKR partage avec ses methodes.",
+    slug: 'khabib-méthode-entraînement',
+    title: 'La méthode d\'entraînement de Khabib',
+    excerpt: "Analyse de la préparation de Khabib Nurmagomedov. Ce que le camp MKR partage avec ses méthodes.",
     date: '20 decembre 2025',
     category: 'Culture',
-    img: '/images/blog/khabib-methode.webp',
+    img: '/images/blog/khabib-méthode.webp',
   },
 ]
 

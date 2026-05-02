@@ -77,7 +77,7 @@ export default function Contact() {
             <div className="contact-step">
               <span className="contact-step-num">01</span>
               <h4 className="contact-step-label">Formulaire</h4>
-              <p className="contact-step-desc">Remplis le formulaire de candidature en ligne. Niveau, objectifs, experience.</p>
+              <p className="contact-step-desc">Remplis le formulaire de candidature en ligne. Niveau, objectifs, expérience.</p>
             </div>
             <div className="contact-step">
               <span className="contact-step-num">02</span>
@@ -87,12 +87,12 @@ export default function Contact() {
             <div className="contact-step">
               <span className="contact-step-num">03</span>
               <h4 className="contact-step-label">Confirmation</h4>
-              <p className="contact-step-desc">Reponse sous 72h. Si accepte, tu recois le guide de preparation complet.</p>
+              <p className="contact-step-desc">Reponse sous 72h. Si accepte, tu recois le guide de préparation complet.</p>
             </div>
             <div className="contact-step">
               <span className="contact-step-num">04</span>
               <h4 className="contact-step-label">Depart</h4>
-              <p className="contact-step-desc">Transfert aeroport inclus. On te recupere a l&apos;arrivee, tu n&apos;as rien a gerer.</p>
+              <p className="contact-step-desc">Transfert aéroport inclus. On te récupère a l&apos;arrivee, tu n&apos;as rien a gerer.</p>
             </div>
           </div>
         </div>

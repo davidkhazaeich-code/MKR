@@ -6,7 +6,7 @@ const FILTERS = ['Tout', 'Entrainement', 'Montagnes', 'Coachs', 'Culture']
 
 const PHOTOS = [
   // Vraies photos terrain (Ruslan + Antoine au camp)
-  { category: 'Entrainement', alt: 'Cercle d\'entrainement - demonstration grappling au tapis rouge', img: '/images/galerie-real/mma-cercle-session.webp' },
+  { category: 'Entrainement', alt: 'Cercle d\'entraînement - démonstration grappling au tapis rouge', img: '/images/galerie-real/mma-cercle-session.webp' },
   { category: 'Entrainement', alt: 'Controle au sol - side mount', img: '/images/galerie-real/mma-side-mount.webp' },
   { category: 'Entrainement', alt: 'Soumission - rear naked choke', img: '/images/galerie-real/mma-choke.webp' },
   { category: 'Coachs', alt: 'Coachs caucasiens dans la salle', img: '/images/galerie-real/coachs-salle.webp' },
@@ -46,7 +46,7 @@ const PHOTOS = [
   { category: 'Entrainement', alt: 'Shadowboxing de groupe', img: '/images/action/shadowboxing-group.webp' },
   { category: 'Coachs', alt: 'Coach Shamil Khalilov dans la salle', img: '/images/galerie/coach-shamil-gym.webp' },
   { category: 'Entrainement', alt: 'Echauffement de groupe au tapis', img: '/images/galerie/group-stretching.webp' },
-  { category: 'Culture', alt: 'Ceremonie du the apres entrainement', img: '/images/galerie/tea-ceremony.webp' },
+  { category: 'Culture', alt: 'Ceremonie du the après entraînement', img: '/images/galerie/tea-ceremony.webp' },
   { category: 'Montagnes', alt: 'Sentier de montagne dans la brume, Caucase', img: '/images/galerie/mountain-mist-trail.webp' },
   { category: 'Entrainement', alt: 'Clinch debout - drilling MMA', img: '/images/galerie/clinch-drilling.webp' },
   { category: 'Entrainement', alt: 'Grimpe a la corde', img: '/images/galerie/rope-climb.webp' },

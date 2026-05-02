@@ -80,8 +80,8 @@ export const FAQ_CATEGORIES: FAQCategory[] = [
     ],
   },
   {
-    id: 'entraînement',
-    label: 'Entrainement',
+    id: 'entrainement',
+    label: 'Entraînement',
     items: [
       {
         question: 'Quel niveau est requis pour participer ?',

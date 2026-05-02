@@ -7,7 +7,7 @@ import { getAllFaqItems } from '@/data/faq'
 
 export const metadata: Metadata = {
   title: 'FAQ | MKR Caucasian Camp | Questions Frequentes',
-  description: "Toutes les reponses a vos questions : securite, visa, niveau requis, prix, equipement, inscription. FAQ complete.",
+  description: "Toutes les reponses a vos questions : sécurité, visa, niveau requis, prix, equipement, inscription. FAQ complete.",
   alternates: { canonical: 'https://mkrcaucasiancamp.com/faq' },
 }
 

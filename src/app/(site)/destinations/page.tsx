@@ -5,7 +5,7 @@ import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 
 export const metadata: Metadata = {
   title: 'Destinations | MKR Caucasian Camp | Dagestan',
-  description: "Notre destination unique : le Dagestan, terre des champions du Caucase. Decouvre les lieux d'entrainement, la culture, la logistique.",
+  description: "Notre destination unique : le Dagestan, terre des champions du Caucase. Decouvre les lieux d'entraînement, la culture, la logistique.",
   alternates: { canonical: 'https://mkrcaucasiancamp.com/destinations' },
 }
 

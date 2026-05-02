@@ -316,7 +316,7 @@ export default function Nav() {
                   </svg>
                 </div>
                 <h3 className="mega-prog-title">JEUNESSE</h3>
-                <p className="mega-prog-desc">Programme 8-17 ans avec parent participant. Pedagogie progressive, ratio 1 coach pour 5 enfants, securite renforcee.</p>
+                <p className="mega-prog-desc">Programme 8-17 ans avec parent participant. Pedagogie progressive, ratio 1 coach pour 5 enfants, sécurité renforcée.</p>
                 <span className="mega-arrow-link">Voir le programme {ARROW_RIGHT}</span>
               </Link>
             </div>
@@ -352,7 +352,7 @@ export default function Nav() {
                 <line x1="9" y1="8" x2="9" y2="12"/><circle cx="9" cy="6" r="0.5" fill="currentColor"/>
               </svg>
               <span className="mega-dest-security-text">
-                Chaque destination inclut une section securite avec le niveau d&apos;alerte Quai d&apos;Orsay mis a jour.
+                Chaque destination inclut une section sécurité avec le niveau d&apos;alerte Quai d&apos;Orsay mis a jour.
               </span>
             </div>
           </div>
@@ -374,7 +374,7 @@ export default function Nav() {
                 <span className="mega-infos-col-label">Contenus</span>
                 <ul className="mega-link-list" role="list">
                   <li><Link href="/galerie">{ICO.gallery} Galerie photos et videos {ARROW_SM}</Link></li>
-                  <li><Link href="/temoignages">{ICO.testimonials} Temoignages athletes {ARROW_SM}</Link></li>
+                  <li><Link href="/temoignages">{ICO.testimonials} Temoignages athlètes {ARROW_SM}</Link></li>
                   <li><Link href="/blog">{ICO.blog} Blog et articles {ARROW_SM}</Link></li>
                   <li><Link href="/guide-dagestan">{ICO.guide} Guide Dagestan PDF {ARROW_SM}</Link></li>
                 </ul>
@@ -388,10 +388,10 @@ export default function Nav() {
                   <li><Link href="/inscription">{ICO.inscription} Inscription {ARROW_SM}</Link></li>
                 </ul>
               </div>
-              <div className="mega-testi" aria-label="Temoignage athlete">
+              <div className="mega-testi" aria-label="Temoignage athlète">
                 <Image src="/images/testimonials/thomas-b.webp" alt="" className="mega-testi-avatar" width={40} height={40} aria-hidden="true" />
                 <span className="mega-testi-quote-mark" aria-hidden="true">&ldquo;</span>
-                <p className="mega-testi-quote">Deux semaines apres le retour, j&apos;ai remporte mon premier titre regional. Ce que j&apos;ai construit la-bas, aucun gym en France ne pouvait me le donner.</p>
+                <p className="mega-testi-quote">Deux semaines après le retour, j&apos;ai remporte mon premier titre regional. Ce que j&apos;ai construit la-bas, aucun gym en France ne pouvait me le donner.</p>
                 <span className="mega-testi-name">Thomas B.</span>
                 <span className="mega-testi-meta">Boxe · Lyon · Session Automne 2025</span>
               </div>

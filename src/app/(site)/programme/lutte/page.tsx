@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 const TECHNIQUES = [
   { title: 'Lutte libre', desc: 'Takedowns explosifs, controle des jambes, scrambles. La base du combat au Dagestan.' },
   { title: 'Leg rides', desc: 'Specialite daghestanaise. Controle au sol avec les jambes. Technique introuvable en Europe.' },
-  { title: 'Chain wrestling', desc: 'Enchainement de takedowns. Si le premier echoue, le deuxieme est deja en route.' },
+  { title: 'Chain wrestling', desc: 'Enchainement de takedowns. Si le premier echoue, le deuxieme est déjà en route.' },
   { title: 'Funk rolls', desc: 'Reprises de position acrobatiques. Transformer une situation defensive en attaque.' },
   { title: 'Mat returns', desc: 'Ramener l\'adversaire au sol depuis la position debout. Technique de controle.' },
   { title: 'Defense de takedown', desc: 'Sprawl, underhooks, contre-attaques. Annuler l\'attaque adverse et reprendre l\'initiative.' },
@@ -23,7 +23,7 @@ const SESSION_FLOW = [
   { time: '15 min', activity: 'Echauffement', desc: 'Course, exercices au sol, mobilite des hanches.' },
   { time: '30 min', activity: 'Technique', desc: 'Demonstration par le coach. Repetition par paires. Corrections individuelles.' },
   { time: '20 min', activity: 'Situations', desc: 'Positions de depart imposees. Attaque-defense chronometree.' },
-  { time: '30 min', activity: 'Sparring', desc: 'Rounds de 6 minutes (rythme competition). Rotation partenaires.' },
+  { time: '30 min', activity: 'Sparring', desc: 'Rounds de 6 minutes (rythme compétition). Rotation partenaires.' },
   { time: '10 min', activity: 'Conditioning', desc: 'Circuit final : pompes, squats, pont de lutte, gainage.' },
 ]
 
@@ -38,7 +38,7 @@ export default function ProgrammeLuttePage() {
       <PageHero
         label="LUTTE"
         title="LA DISCIPLINE QUI A<br/>FORGE LE CAUCASE"
-        subtitle="Lutte libre uniquement. Les methodes ancestrales du Dagestan."
+        subtitle="Lutte libre uniquement. Les méthodes ancestrales du Dagestan."
         breadcrumb={[
           { href: '/programme', label: 'Programme' },
           { href: '/programme/lutte', label: 'Lutte' },
@@ -54,20 +54,20 @@ export default function ProgrammeLuttePage() {
               <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>LE PROGRAMME</span>
               <h2 style={{ fontSize: 'clamp(1.5rem, 3vw, 2rem)', textTransform: 'uppercase' }}>LUTTE AU DAGESTAN</h2>
               <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1rem' }}>
-                Au Dagestan, la lutte n&apos;est pas un sport. C&apos;est une identite. Chaque village a son champion,
-                chaque famille transmet ses techniques. Les methodes daghestanaises ont produit plus de champions
+                Au Dagestan, la lutte n&apos;est pas un sport. C&apos;est une identité. Chaque village a son champion,
+                chaque famille transmet ses techniques. Les méthodes daghestanaises ont produit plus de champions
                 olympiques de lutte par habitant que n&apos;importe quel autre endroit au monde.
               </p>
               <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1rem' }}>
                 Le programme MKR te donne acces a ce savoir : lutte libre exclusivement, et les techniques
-                specifiques du Caucase que tu ne trouveras dans aucune academie europeenne.
+                spécifiques du Caucase que tu ne trouveras dans aucune academie européenne.
               </p>
             </div>
             <div>
               <figure className="photo-card">
                 <img
                   src="/images/action/takedown-wrestling.webp"
-                  alt="Takedown de lutte, entrainement au Caucase"
+                  alt="Takedown de lutte, entraînement au Caucase"
                   width={800}
                   height={600}
                   loading="lazy"
@@ -92,7 +92,7 @@ export default function ProgrammeLuttePage() {
       {/* Cinematic reveal */}
       <CinematicReveal
         image="/images/action/takedown-wrestling.webp"
-        alt="Takedown de lutte libre en entrainement au Caucase"
+        alt="Takedown de lutte libre en entraînement au Caucase"
         label="PROJECTION"
         title="L'ART DU TAKEDOWN"
         tagline="Lutte libre. Les techniques qui ont forge les champions du Caucase."
@@ -136,7 +136,7 @@ export default function ProgrammeLuttePage() {
             ))}
           </div>
           <p className="logi-updated" style={{ marginTop: '1.5rem', textAlign: 'center' }}>
-            Horaires officiels Lutte adultes : <strong>matin 10h30</strong> et <strong>apres-midi 17h30</strong>. Pas de chevauchement avec les sessions MMA.
+            Horaires officiels Lutte adultes : <strong>matin 10h30</strong> et <strong>après-midi 17h30</strong>. Pas de chevauchement avec les sessions MMA.
           </p>
         </div>
       </section>

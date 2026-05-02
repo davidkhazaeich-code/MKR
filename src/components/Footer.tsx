@@ -57,7 +57,7 @@ export default function Footer() {
             </Link>
             <p className="footer-tagline">Camp d&apos;entraînement au Caucase.</p>
             <p className="footer-desc">
-              Camps d&apos;entrainement intensifs de MMA et de lutte (adultes et enfants) au coeur du Dagestan. Coachs locaux. Immersion totale. Zero distraction.
+              Camps d&apos;entraînement intensifs de MMA et de lutte (adultes et enfants) au coeur du Dagestan. Coachs locaux. Immersion totale. Zero distraction.
             </p>
             <div className="footer-socials">
               <a href="https://instagram.com/mkr.caucasiancamp" target="_blank" rel="noopener noreferrer"

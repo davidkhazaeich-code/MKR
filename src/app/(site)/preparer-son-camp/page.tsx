@@ -6,8 +6,8 @@ import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 import CinematicReveal from '@/components/CinematicReveal'
 
 export const metadata: Metadata = {
-  title: 'Preparer son camp | MKR Caucasian Camp | Guide de preparation MMA',
-  description: "Tout ce qu'il faut savoir pour arriver pret au camp MKR. Niveau minimum, programme de preparation 6 semaines, equipement, preparation mentale.",
+  title: 'Preparer son camp | MKR Caucasian Camp | Guide de préparation MMA',
+  description: "Tout ce qu'il faut savoir pour arriver pret au camp MKR. Niveau minimum, programme de préparation 6 semaines, equipement, préparation mentale.",
   alternates: { canonical: 'https://mkrcaucasiancamp.com/preparer-son-camp' },
 }
 
@@ -15,7 +15,7 @@ const WEEKS = [
   { week: 'Semaine 1', focus: 'Cardio', desc: 'Base aerobique. Course 30-45 min, natation, velo. Test de Cooper initial.' },
   { week: 'Semaine 2', focus: 'Force', desc: 'Squats, tractions, pompes, deadlifts. Circuits fonctionnels.' },
   { week: 'Semaine 3', focus: 'Mobilite', desc: 'Yoga, stretching dynamique, travail de hanches et epaules.' },
-  { week: 'Semaine 4', focus: 'Endurance specifique', desc: 'Sparring simule, rounds de 5 min, HIIT combat.' },
+  { week: 'Semaine 4', focus: 'Endurance spécifique', desc: 'Sparring simule, rounds de 5 min, HIIT combat.' },
   { week: 'Semaine 5', focus: 'Intensite', desc: 'Combinaison force-cardio. Circuits de 45 min. Sparring reel.' },
   { week: 'Semaine 6', focus: 'Affutage', desc: 'Volume reduit, intensite maintenue. Repos actif. Preparation mentale.' },
 ]
@@ -74,8 +74,8 @@ export default function PreparerSonCampPage() {
                 avec au moins 2 ans de pratique reguliere en sport de combat.
               </p>
               <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1rem' }}>
-                Le camp est intense. Si tu arrives sans preparation, tu ne tiendras pas la premiere semaine.
-                C&apos;est pour ca qu&apos;on te fournit un programme de preparation de 6 semaines.
+                Le camp est intense. Si tu arrives sans préparation, tu ne tiendras pas la premiere semaine.
+                C&apos;est pour ca qu&apos;on te fournit un programme de préparation de 6 semaines.
               </p>
             </div>
             <div className="content-card fx-grain fx-corner-glow reveal" style={{ transitionDelay: '0.1s' }}>
@@ -155,7 +155,7 @@ export default function PreparerSonCampPage() {
               </h2>
               <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1.5rem' }}>
                 La barriere de la langue, le choc culturel, l&apos;inconfort physique : le camp va te pousser
-                hors de ta zone de confort. C&apos;est le but. Les meilleurs combattants du monde s&apos;entrainent
+                hors de ta zone de confort. C&apos;est le but. Les meilleurs combattants du monde s&apos;entraînent
                 dans ces conditions depuis l&apos;enfance.
               </p>
               <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1rem' }}>
@@ -172,7 +172,7 @@ export default function PreparerSonCampPage() {
               <figure className="photo-card">
                 <img
                   src="/images/action/recovery.webp"
-                  alt="Athlete en recuperation apres un entrainement intensif"
+                  alt="Athlete en récupération après un entraînement intensif"
                   width={800}
                   height={600}
                   loading="lazy"

@@ -6,7 +6,7 @@ import CinematicReveal from '@/components/CinematicReveal'
 
 export const metadata: Metadata = {
   title: 'Temoignages | MKR Caucasian Camp | Avis Athletes',
-  description: "Ils sont venus, ils racontent. Temoignages video et ecrits d'athletes qui ont vecu l'experience MKR au Caucase.",
+  description: "Ils sont venus, ils racontent. Temoignages video et ecrits d'athlètes qui ont vecu l'expérience MKR au Caucase.",
   alternates: { canonical: 'https://mkrcaucasiancamp.com/temoignages' },
 }
 
@@ -18,14 +18,14 @@ const VIDEO_TESTIMONIALS = [
 ]
 
 const TESTIMONIALS = [
-  { name: 'Mehdi R.', discipline: 'Lutte Libre · Paris', quote: "Trois semaines qui ont change ma facon de me battre. La durete des entrainements m'a oblige a aller chercher ce que je n'avais jamais touche.", img: '/images/testimonials/mehdi-r.webp' },
+  { name: 'Mehdi R.', discipline: 'Lutte Libre · Paris', quote: "Trois semaines qui ont change ma facon de me battre. La durete des entraînements m'a oblige a aller chercher ce que je n'avais jamais touche.", img: '/images/testimonials/mehdi-r.webp' },
   { name: 'Karim D.', discipline: 'MMA · Geneve', quote: "Le niveau des coachs est inegalable. Magomed t'apprend des prises que tu ne verras nulle part en Europe. J'y retourne l'annee prochaine.", img: '/images/testimonials/karim-d.webp' },
-  { name: 'Thomas B.', discipline: 'Boxe · Lyon', quote: "Deux semaines apres le retour, j'ai remporte mon premier titre regional. Ce que j'ai construit la-bas, aucun gym en France ne pouvait me donner.", img: '/images/testimonials/thomas-b.webp' },
+  { name: 'Thomas B.', discipline: 'Boxe · Lyon', quote: "Deux semaines après le retour, j'ai remporte mon premier titre regional. Ce que j'ai construit la-bas, aucun gym en France ne pouvait me donner.", img: '/images/testimonials/thomas-b.webp' },
   { name: 'Yassine K.', discipline: 'Grappling · Bruxelles', quote: "Un mois de camp qui vaut deux ans de salle. Les Dagestanais t'apprennent a souffrir avec le sourire. Je suis revenu transforme.", img: '/images/testimonials/yassine-k.webp' },
   { name: 'Romain V.', discipline: 'Sambo · Toulouse', quote: "Je suis parti seul, sans parler russe. L'accueil est incroyable. Sur le tapis, le niveau est brutal. Exactement ce que je cherchais.", img: '/images/testimonials/romain-v.webp' },
-  { name: 'Adam S.', discipline: 'Lutte · Montreal', quote: "Le Caucase, c'est une autre planete. Les entrainements du matin a 6h t'apprennent ce que c'est que la discipline. Je repars l'ete prochain.", img: '/images/testimonials/adam-s.webp' },
-  { name: 'Lucas M.', discipline: 'MMA · Zurich', quote: "Trois semaines, six kilos de transpiration et une vision du combat totalement differente. Ce camp m'a redonne faim de competition.", img: '/images/testimonials/lucas-m.webp' },
-  { name: 'Amine B.', discipline: 'Jiu-Jitsu · Lyon', quote: "Les coachs du camp connaissent des techniques que tu ne trouveras dans aucun livre. Une experience sportive et humaine que je conseille a tout competiteur.", img: '/images/testimonials/amine-b.webp' },
+  { name: 'Adam S.', discipline: 'Lutte · Montreal', quote: "Le Caucase, c'est une autre planete. Les entraînements du matin a 6h t'apprennent ce que c'est que la discipline. Je repars l'ete prochain.", img: '/images/testimonials/adam-s.webp' },
+  { name: 'Lucas M.', discipline: 'MMA · Zurich', quote: "Trois semaines, six kilos de transpiration et une vision du combat totalement differente. Ce camp m'a redonne faim de compétition.", img: '/images/testimonials/lucas-m.webp' },
+  { name: 'Amine B.', discipline: 'Jiu-Jitsu · Lyon', quote: "Les coachs du camp connaissent des techniques que tu ne trouveras dans aucun livre. Une expérience sportive et humaine que je conseille a tout compétiteur.", img: '/images/testimonials/amine-b.webp' },
   { name: 'Pierre L.', discipline: 'Kickboxing · Nantes', quote: "Le groupe, l'ambiance, les montagnes en fond de tapis. On touche quelque chose de rare. Revenu avec une medaille et des souvenirs pour la vie.", img: '/images/testimonials/pierre-l.webp' },
 ]
 
@@ -52,7 +52,7 @@ export default function TemoignagesPage() {
       <PageHero
         label="TEMOIGNAGES"
         title="ILS SONT VENUS.<br/>ILS RACONTENT."
-        subtitle="Des athletes de toute l'Europe. Un seul verdict."
+        subtitle="Des athlètes de toute l'Europe. Un seul verdict."
       />
 
       {/* Videos */}
@@ -97,7 +97,7 @@ export default function TemoignagesPage() {
         alt="Athletes et coachs reunis autour d'un repas au camp"
         label="FRATERNITE"
         title="CE QU&apos;ILS EN DISENT"
-        tagline="Des liens forges sur le tapis et autour de la table. Une experience qui marque."
+        tagline="Des liens forges sur le tapis et autour de la table. Une expérience qui marque."
       />
 
       {/* Grid temoignages texte */}

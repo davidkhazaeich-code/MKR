@@ -21,7 +21,7 @@ const TECHNIQUES = [
 
 const SESSION_FLOW = [
   { time: '15 min', activity: 'Echauffement', desc: 'Mobilite, activation, shadow boxing.' },
-  { time: '30 min', activity: 'Technique', desc: 'Demonstration et repetition par paires. Focus du jour.' },
+  { time: '30 min', activity: 'Technique', desc: 'Demonstration et répétition par paires. Focus du jour.' },
   { time: '20 min', activity: 'Drills', desc: 'Situations de combat, enchainements, timing.' },
   { time: '30 min', activity: 'Sparring', desc: 'Rounds de 5 minutes. Intensite adaptee au niveau.' },
   { time: '10 min', activity: 'Debrief', desc: 'Retour du coach, points cles, feedback individuel.' },
@@ -38,7 +38,7 @@ export default function ProgrammeMMAPage() {
       <PageHero
         label="MMA"
         title="FRAPPE. PROJETTE.<br/>SOUMETS."
-        subtitle="Programme MMA complet. Des methodes forgees dans les salles du Caucase."
+        subtitle="Programme MMA complet. Des méthodes forgees dans les salles du Caucase."
         breadcrumb={[
           { href: '/programme', label: 'Programme' },
           { href: '/programme/mma', label: 'MMA' },
@@ -55,7 +55,7 @@ export default function ProgrammeMMAPage() {
               <h2 style={{ fontSize: 'clamp(1.5rem, 3vw, 2rem)', textTransform: 'uppercase' }}>MMA AU CAUCASE</h2>
               <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1rem' }}>
                 Le MMA au Caucase n&apos;est pas un sport de salle climatisee. C&apos;est une discipline forgee dans
-                la tradition de la lutte, enrichie par des decennies de competition internationale. Les coachs MKR
+                la tradition de la lutte, enrichie par des decennies de compétition internationale. Les coachs MKR
                 enseignent un MMA complet, avec un accent particulier sur les transitions et le controle.
               </p>
               <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1rem' }}>
@@ -136,7 +136,7 @@ export default function ProgrammeMMAPage() {
             ))}
           </div>
           <p className="logi-updated" style={{ marginTop: '1.5rem', textAlign: 'center' }}>
-            Horaires officiels MMA : <strong>matin 11h00</strong> et <strong>apres-midi 18h00</strong>. Pas de chevauchement avec les sessions Lutte.
+            Horaires officiels MMA : <strong>matin 11h00</strong> et <strong>après-midi 18h00</strong>. Pas de chevauchement avec les sessions Lutte.
           </p>
         </div>
       </section>

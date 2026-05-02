@@ -7,7 +7,7 @@ import CinematicReveal from '@/components/CinematicReveal'
 
 export const metadata: Metadata = {
   title: 'Le Camp | MKR Caucasian Camp | MMA & Lutte au Caucase',
-  description: "Decouvrez le concept MKR : immersion totale de 1 a 3 semaines au coeur du Caucase, au Daghestan. Coaching de haut niveau, hebergement, 2 repas par jour, vol interieur Istanbul-Makhachkala inclus.",
+  description: "Decouvrez le concept MKR : immersion totale de 1 a 3 semaines au coeur du Caucase, au Daghestan. Coaching de haut niveau, hebergement, 2 repas par jour, vol intérieur Istanbul-Makhachkala inclus.",
   alternates: { canonical: 'https://mkrcaucasiancamp.com/le-camp' },
 }
 
@@ -19,7 +19,7 @@ const INCLUDES = [
       </svg>
     ),
     title: 'Transport local',
-    desc: 'Transferts aeroport-camp et tous les deplacements sur place.',
+    desc: 'Transferts aéroport-camp et tous les deplacements sur place.',
   },
   {
     icon: (
@@ -28,7 +28,7 @@ const INCLUDES = [
       </svg>
     ),
     title: 'Hebergement',
-    desc: 'Logement de camp partage, propre et confortable. Tu te concentres sur l&apos;entrainement.',
+    desc: 'Logement de camp partage, propre et confortable. Tu te concentres sur l&apos;entraînement.',
   },
   {
     icon: (
@@ -37,7 +37,7 @@ const INCLUDES = [
       </svg>
     ),
     title: '2 sessions/jour',
-    desc: 'Entrainement biquotidien dans ta discipline : matin et fin d’apres-midi.',
+    desc: 'Entrainement biquotidien dans ta discipline : matin et fin d’après-midi.',
   },
   {
     icon: (
@@ -46,7 +46,7 @@ const INCLUDES = [
       </svg>
     ),
     title: 'Coachs locaux',
-    desc: 'Champions et veterans du Caucase. Methodes transmises de generation en generation.',
+    desc: 'Champions et veterans du Caucase. Methodes transmises de génération en génération.',
   },
   {
     icon: (
@@ -65,7 +65,7 @@ const INCLUDES = [
       </svg>
     ),
     title: '2 repas/jour',
-    desc: 'Cuisine caucasienne riche en proteines. Regime adapte aux athletes.',
+    desc: 'Cuisine caucasienne riche en protéines. Regime adapte aux athlètes.',
   },
 ]
 
@@ -78,11 +78,11 @@ const NOT_INCLUDED = [
 
 const DAILY_SCHEDULE = [
   { time: '07:30', activity: 'Reveil', desc: 'Le matin appartient a ceux qui se levent tot.' },
-  { time: '08:30', activity: 'Petit-dejeuner', desc: 'Repas copieux, proteines, energie pour la matinee.' },
+  { time: '08:30', activity: 'Petit-dejeuner', desc: 'Repas copieux, protéines, energie pour la matinee.' },
   { time: '10:30 / 11:00', activity: 'Session matin', desc: 'Lutte (adultes ou enfants) a 10h30. MMA a 11h00. Sparring, technique, drills.' },
   { time: '13:00', activity: 'Dejeuner', desc: 'Recuperation et nutrition.' },
-  { time: '14:30', activity: 'Recuperation', desc: 'Repos, etirements, soins si necessaire.' },
-  { time: '17:30 / 18:00', activity: 'Session apres-midi', desc: 'Lutte a 17h30. MMA a 18h00. Intensite competition, sparring dirige.' },
+  { time: '14:30', activity: 'Recuperation', desc: 'Repos, étirements, soins si necessaire.' },
+  { time: '17:30 / 18:00', activity: 'Session après-midi', desc: 'Lutte a 17h30. MMA a 18h00. Intensite compétition, sparring dirige.' },
   { time: '20:00', activity: 'Diner', desc: 'Repas du soir libre selon ton plan personnel.' },
   { time: '22:00', activity: 'Repos', desc: 'Sommeil. Le corps se reconstruit.' },
 ]
@@ -107,7 +107,7 @@ export default function LeCampPage() {
         alt="Sparring MMA dans une salle du Caucase"
         label="IMMERSION"
         title="LE CAUCASE SUR LE TAPIS"
-        tagline="Sparring quotidien avec des combattants locaux. Methodes transmises de generation en generation."
+        tagline="Sparring quotidien avec des combattants locaux. Methodes transmises de génération en génération."
       />
 
       {/* Philosophie / Pourquoi le Caucase */}
@@ -121,27 +121,27 @@ export default function LeCampPage() {
                 POURQUOI LE CAUCASE
               </h2>
               <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1.5rem' }}>
-                Les meilleurs combattants de la planete sortent tous du meme endroit. Le Caucase. Ici, les methodes
+                Les meilleurs combattants de la planete sortent tous du meme endroit. Le Caucase. Ici, les méthodes
                 de combat se transmettent de pere en fils depuis des siecles. Des tapis, de la sueur, et des coachs
                 qui ont forme des champions du monde.
               </p>
               <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1rem' }}>
-                MKR t&apos;ouvre les portes de cet univers. Que tu sois competiteur confirme ou passionné qui veut
-                vivre une experience unique, tu t&apos;entraines dans les memes conditions que l&apos;elite.
+                MKR t&apos;ouvre les portes de cet univers. Que tu sois compétiteur confirme ou passionné qui veut
+                vivre une expérience unique, tu t&apos;entraînes dans les mêmes conditions que l&apos;élite.
               </p>
             </div>
             <div>
               <div className="content-card fx-grain fx-corner-glow reveal" style={{ transitionDelay: '0.1s' }}>
                 <h3 className="card-title">IMMERSION TOTALE</h3>
-                <p className="card-body">Pendant 1 a 3 semaines, tu vis, manges et t&apos;entraines avec des athletes locaux. Une immersion complete dans la culture du combat caucasien.</p>
+                <p className="card-body">Pendant 1 a 3 semaines, tu vis, manges et t&apos;entraînes avec des athlètes locaux. Une immersion complete dans la culture du combat caucasien.</p>
               </div>
               <div className="content-card fx-grain fx-corner-glow reveal" style={{ marginTop: '1.25rem', transitionDelay: '0.18s' }}>
                 <h3 className="card-title">HERITAGE DU CAUCASE</h3>
-                <p className="card-body">Des methodes qui ont produit Khabib, Makhachev, et des centaines de champions olympiques de lutte.</p>
+                <p className="card-body">Des méthodes qui ont produit Khabib, Makhachev, et des centaines de champions olympiques de lutte.</p>
               </div>
               <div className="content-card fx-grain fx-corner-glow reveal" style={{ marginTop: '1.25rem', transitionDelay: '0.26s' }}>
                 <h3 className="card-title">TOUT COMPRIS</h3>
-                <p className="card-body">Transport, hebergement, repas, entrainement. Tu ne t&apos;occupes de rien d&apos;autre que de progresser.</p>
+                <p className="card-body">Transport, hebergement, repas, entraînement. Tu ne t&apos;occupes de rien d&apos;autre que de progresser.</p>
               </div>
             </div>
           </div>
@@ -219,13 +219,13 @@ export default function LeCampPage() {
             <figure className="photo-card reveal">
               <img
                 src="/images/environment/gym-interior.webp"
-                alt="Salle d'entrainement principale au Caucase, tapis olympiques"
+                alt="Salle d'entraînement principale au Caucase, tapis olympiques"
                 width={800}
                 height={600}
                 loading="lazy"
                 className="section-photo-img"
               />
-              <figcaption>Salle principale. Tapis olympiques, climat controle. Capacite 30 athletes.</figcaption>
+              <figcaption>Salle principale. Tapis olympiques, climat controle. Capacite 30 athlètes.</figcaption>
             </figure>
             <figure className="photo-card reveal" style={{ transitionDelay: '0.1s' }}>
               <img
@@ -256,13 +256,13 @@ export default function LeCampPage() {
             <figure className="photo-card reveal" style={{ transitionDelay: '0.1s' }}>
               <img
                 src="/images/environment/communal-meal.webp"
-                alt="Repas communautaire entre athletes et coachs"
+                alt="Repas communautaire entre athlètes et coachs"
                 width={800}
                 height={600}
                 loading="lazy"
                 className="section-photo-img"
               />
-              <figcaption>Repas communautaire. Cuisine caucasienne, proteines, fraternite.</figcaption>
+              <figcaption>Repas communautaire. Cuisine caucasienne, protéines, fraternite.</figcaption>
             </figure>
           </div>
         </div>

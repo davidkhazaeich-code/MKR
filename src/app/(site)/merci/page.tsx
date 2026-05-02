@@ -42,8 +42,8 @@ export default function MerciPage() {
             <div className="merci-step">
               <span className="merci-step-num">03</span>
               <div>
-                <h3>Guide de preparation</h3>
-                <p>Un guide complet t&apos;est envoye : programme de preparation, equipement, logistique.</p>
+                <h3>Guide de préparation</h3>
+                <p>Un guide complet t&apos;est envoye : programme de préparation, equipement, logistique.</p>
               </div>
             </div>
           </div>

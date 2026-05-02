@@ -7,7 +7,7 @@ import CinematicReveal from '@/components/CinematicReveal'
 
 export const metadata: Metadata = {
   title: 'Dagestan | MKR Caucasian Camp | Camps MMA au coeur du Caucase',
-  description: "Tout savoir sur le Dagestan : salles d'entrainement, securite, culture, excursions. La terre qui forge les champions du MMA.",
+  description: "Tout savoir sur le Dagestan : salles d'entraînement, sécurité, culture, excursions. La terre qui forge les champions du MMA.",
   alternates: { canonical: 'https://mkrcaucasiancamp.com/destinations/dagestan' },
 }
 
@@ -53,8 +53,8 @@ export default function DagestanPage() {
                 ont produit plus de champions olympiques par habitant que n&apos;importe quel autre endroit sur Terre.
               </p>
               <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1rem' }}>
-                Makhachkala, la capitale, abrite des dizaines de salles de combat ou s&apos;entrainent quotidiennement
-                des centaines d&apos;athletes de niveau international. C&apos;est dans ces salles que MKR t&apos;emmene.
+                Makhachkala, la capitale, abrite des dizaines de salles de combat ou s&apos;entraînent quotidiennement
+                des centaines d&apos;athlètes de niveau international. C&apos;est dans ces salles que MKR t&apos;emmene.
               </p>
             </div>
             <div className="content-card">
@@ -69,7 +69,7 @@ export default function DagestanPage() {
         </div>
       </section>
 
-      {/* Section securite */}
+      {/* Section sécurité */}
       <section className="dag-security fx-texture-concrete fx-glow fx-glow-breathe fx-mask-b fx-stack-2">
         <div className="fx-glow-orb" />
         <div className="inner">
@@ -83,8 +83,8 @@ export default function DagestanPage() {
             <div>
               <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6' }}>
                 On ne va pas te rassurer avec des formules creuses. La realite du terrain en 2026 :
-                la region ou se deroule le camp est stable et frequentee par des athletes du monde entier.
-                Les villes d&apos;entrainement (Makhachkala, Kaspiysk) sont des zones urbanisees normales.
+                la region ou se déroule le camp est stable et frequentee par des athlètes du monde entier.
+                Les villes d&apos;entraînement (Makhachkala, Kaspiysk) sont des zones urbanisees normales.
               </p>
               <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1rem' }}>
                 Le Quai d&apos;Orsay deconseille certaines zones frontalieres, pas les zones urbaines ou nous operons.
@@ -102,7 +102,7 @@ export default function DagestanPage() {
                   <li>Contact d&apos;urgence 24/7 sur place</li>
                   <li>Equipe francophone permanente</li>
                   <li>Assurance rapatriement obligatoire</li>
-                  <li>Briefing securite avant depart</li>
+                  <li>Briefing sécurité avant depart</li>
                   <li>Suivi Quai d&apos;Orsay en continu</li>
                 </ul>
               </div>
@@ -111,7 +111,7 @@ export default function DagestanPage() {
         </div>
       </section>
 
-      {/* Lieux d'entrainement */}
+      {/* Lieux d'entraînement */}
       <section className="logi-section fx-grid fx-stack-3">
         <div className="inner">
           <div className="logi-header reveal">
@@ -122,7 +122,7 @@ export default function DagestanPage() {
             <figure className="photo-card reveal">
               <img
                 src="/images/environment/gym-interior.webp"
-                alt="Salle d'entrainement principale a Makhachkala, Dagestan"
+                alt="Salle d'entraînement principale a Makhachkala, Dagestan"
                 width={800}
                 height={600}
                 loading="lazy"
@@ -182,7 +182,7 @@ export default function DagestanPage() {
         alt="Route de montagne au Dagestan"
         label="DAGESTAN"
         title="LA ROUTE DU CHAMPION"
-        tagline="Des montagnes qui forgent le caractere. Chaque virage rapproche du camp."
+        tagline="Des montagnes qui forgent le caractère. Chaque virage rapproche du camp."
       />
 
       {/* Logistique resume */}
@@ -190,7 +190,7 @@ export default function DagestanPage() {
         <div className="inner">
           <div className="group-card reveal">
             <h2>LOGISTIQUE DAGESTAN</h2>
-            <p>Aeroport : Makhachkala (MCX). Transfert MKR depuis l&apos;aeroport inclus. Hebergement en logement de camp.</p>
+            <p>Aeroport : Makhachkala (MCX). Transfert MKR depuis l&apos;aéroport inclus. Hebergement en logement de camp.</p>
             <Link href="/logistique" className="btn-ghost" style={{ marginTop: '1rem', fontSize: '0.9rem', padding: '0.6rem 1.5rem' }}>
               DETAIL COMPLET
             </Link>

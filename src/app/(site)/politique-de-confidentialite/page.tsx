@@ -20,7 +20,7 @@ export default function PolitiqueConfidentialitePage() {
           <ul>
             <li>Nom, prenom, date de naissance</li>
             <li>Adresse email, numero de telephone</li>
-            <li>Informations sportives (discipline, niveau, experience)</li>
+            <li>Informations sportives (discipline, niveau, expérience)</li>
             <li>Informations de sante pertinentes pour la pratique sportive</li>
             <li>Preferences logistiques (session, dates)</li>
           </ul>
@@ -35,7 +35,7 @@ export default function PolitiqueConfidentialitePage() {
           </ul>
 
           <h2>Conservation des donnees</h2>
-          <p>Vos donnees sont conservees pendant la duree necessaire au traitement de votre candidature, et au maximum 3 ans apres votre dernier contact avec MKR Caucasian Camp.</p>
+          <p>Vos donnees sont conservees pendant la duree necessaire au traitement de votre candidature, et au maximum 3 ans après votre dernier contact avec MKR Caucasian Camp.</p>
 
           <h2>Partage des donnees</h2>
           <p>Vos donnees ne sont jamais vendues a des tiers. Elles peuvent etre partagees avec nos partenaires logistiques (hebergement, transport) dans le strict cadre de l&apos;organisation de votre sejour.</p>

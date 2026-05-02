@@ -24,40 +24,40 @@ const ARTICLES_MAP: Record<string, Article> = {
     <p>Le Dagestan, petite republique du Caucase russe, a produit plus de champions de combat par habitant que n'importe quel autre endroit sur Terre. Ce n'est pas un hasard.</p>
 
     <h2>UNE CULTURE DU COMBAT</h2>
-    <p>Dans les villages de montagne du Dagestan, la lutte n'est pas un sport. C'est un rite de passage. Des l'age de 5-6 ans, les garcons sont inscrits dans les salles locales. La competition commence tot, et seuls les plus determines progressent.</p>
+    <p>Dans les villages de montagne du Dagestan, la lutte n'est pas un sport. C'est un rite de passage. Des l'age de 5-6 ans, les garcons sont inscrits dans les salles locales. La compétition commence tot, et seuls les plus determines progressent.</p>
 
-    <blockquote><p>La difference entre un athlete occidental et un athlete daghestanais, c'est que le Daghestanais s'entraine comme s'il se battait pour sa vie. Parce que historiquement, c'etait le cas.</p></blockquote>
+    <blockquote><p>La difference entre un athlète occidental et un athlète daghestanais, c'est que le Daghestanais s'entraîne comme s'il se battait pour sa vie. Parce que historiquement, c'etait le cas.</p></blockquote>
 
     <h2>LE SYSTEME D'ENTRAINEMENT</h2>
-    <p>Le systeme d'entrainement daghestanais repose sur trois piliers : la repetition, le sparring reel, et la competition permanente. Pas de simulation, pas de drills vides. Chaque session est une mise en situation reelle.</p>
+    <p>Le systeme d'entraînement daghestanais repose sur trois piliers : la répétition, le sparring reel, et la compétition permanente. Pas de simulation, pas de drills vides. Chaque session est une mise en situation reelle.</p>
 
     <h3>LA REPETITION</h3>
-    <p>Une technique n'est consideree comme acquise qu'apres des milliers de repetitions. Les coachs locaux ne passent a la suite que lorsque le geste est devenu un reflexe.</p>
+    <p>Une technique n'est consideree comme acquise qu'après des milliers de répétitions. Les coachs locaux ne passent a la suite que lorsque le geste est devenu un reflexe.</p>
 
     <h3>LE SPARRING REEL</h3>
-    <p>Au Dagestan, le sparring n'est pas un exercice de style. C'est un combat controle mais intense. Les partenaires ne font pas semblant, et c'est cette intensite qui forge des combattants capables de gerer la pression en competition.</p>
+    <p>Au Dagestan, le sparring n'est pas un exercice de style. C'est un combat controle mais intense. Les partenaires ne font pas semblant, et c'est cette intensite qui forge des combattants capables de gerer la pression en compétition.</p>
 
     <h2>CE QUE MKR T'APPORTE</h2>
-    <p>Le camp MKR te donne acces a ces methodes. Pendant 3 semaines, tu t'entraines avec les memes coachs, dans les memes salles, avec les memes methodes qui ont produit les champions. C'est un raccourci que tu ne trouveras nulle part ailleurs.</p>
+    <p>Le camp MKR te donne acces a ces méthodes. Pendant 3 semaines, tu t'entraînes avec les mêmes coachs, dans les mêmes salles, avec les mêmes méthodes qui ont produit les champions. C'est un raccourci que tu ne trouveras nulle part ailleurs.</p>
   `,
   },
   'preparer-son-premier-camp': {
-    title: 'Comment preparer son premier camp au Caucase',
+    title: 'Comment préparer son premier camp au Caucase',
     date: '28 fevrier 2026',
     dateISO: '2026-02-28',
     readTime: '6 min',
     img: '/images/blog/prep-camp.webp',
     content: `
-    <p>Tu as reserve ta place pour un camp MKR. Maintenant, il faut te preparer. Voici le guide complet pour arriver dans les meilleures conditions.</p>
+    <p>Tu as reserve ta place pour un camp MKR. Maintenant, il faut te préparer. Voici le guide complet pour arriver dans les meilleures conditions.</p>
 
     <h2>CONDITION PHYSIQUE</h2>
-    <p>6 semaines avant le depart, commence un programme specifique : cardio haute intensite (HIIT), gainage fonctionnel, course a intervalles. L'objectif : tenir 2 sessions par jour pendant 3 semaines.</p>
+    <p>6 semaines avant le depart, commence un programme spécifique : cardio haute intensite (HIIT), gainage fonctionnel, course a intervalles. L'objectif : tenir 2 sessions par jour pendant 3 semaines.</p>
 
     <h2>EQUIPEMENT</h2>
     <p>Gants de MMA (4oz et 16oz), protege-tibias, protege-dents, coquille. Rashguard et short de grappling. Chaussures de lutte optionnelles mais recommandees.</p>
 
     <h2>MINDSET</h2>
-    <p>Viens avec l'humilite d'un debutant, meme si tu as 10 ans de pratique. Le niveau au Caucase est different. Accepte de te faire dominer les premiers jours. C'est la que l'apprentissage commence.</p>
+    <p>Viens avec l'humilite d'un débutant, meme si tu as 10 ans de pratique. Le niveau au Caucase est different. Accepte de te faire dominer les premiers jours. C'est la que l'apprentissage commence.</p>
   `,
   },
   'lutte-daghestanaise-guide-complet': {
@@ -67,16 +67,16 @@ const ARTICLES_MAP: Record<string, Article> = {
     readTime: '10 min',
     img: '/images/blog/lutte-guide.webp',
     content: `
-    <p>La lutte au Dagestan n'est pas simplement un sport. C'est une institution culturelle, un systeme educatif et une voie de vie. Ce guide explore les methodes, l'histoire et la philosophie de la lutte daghestanaise.</p>
+    <p>La lutte au Dagestan n'est pas simplement un sport. C'est une institution culturelle, un systeme educatif et une voie de vie. Ce guide explore les méthodes, l'histoire et la philosophie de la lutte daghestanaise.</p>
 
     <h2>L'HISTOIRE</h2>
-    <p>La lutte au Dagestan remonte a des siecles. Chaque village possedait sa propre tradition de combat. Les tournaments inter-villages etaient des evenements majeurs, et le meilleur lutteur du village etait respecte comme un heros.</p>
+    <p>La lutte au Dagestan remonte a des siecles. Chaque village possedait sa propre tradition de combat. Les tournaments inter-villages etaient des événements majeurs, et le meilleur lutteur du village etait respecte comme un heros.</p>
 
     <h2>LES METHODES</h2>
-    <p>L'entrainement daghestanais met l'accent sur le sparring reel des les premieres annees. Les jeunes lutteurs affrontent des partenaires plus experimentes quotidiennement. Cette exposition constante a des niveaux superieurs accelere la progression.</p>
+    <p>L'entraînement daghestanais met l'accent sur le sparring reel dès les premieres annees. Les jeunes lutteurs affrontent des partenaires plus experimentes quotidiennement. Cette exposition constante a des niveaux superieurs accelere la progression.</p>
 
     <h2>POURQUOI CES METHODES FONCTIONNENT</h2>
-    <p>Le volume d'entrainement, la qualite des partenaires de sparring, et la culture de competition permanente creent un environnement ou seuls les plus adaptes progressent. C'est la selection naturelle appliquee au sport de combat.</p>
+    <p>Le volume d'entraînement, la qualite des partenaires de sparring, et la culture de compétition permanente creent un environnement ou seuls les plus adaptes progressent. C'est la selection naturelle appliquee au sport de combat.</p>
   `,
   },
   'securite-dagestan-2026': {
@@ -86,45 +86,45 @@ const ARTICLES_MAP: Record<string, Article> = {
     readTime: '7 min',
     img: '/images/blog/securite-dagestan.webp',
     content: `
-    <p>La question de la securite au Dagestan revient systematiquement. Voici un etat des lieux factuel, base sur notre experience sur le terrain depuis 2018.</p>
+    <p>La question de la sécurité au Dagestan revient systematiquement. Voici un etat des lieux factuel, base sur notre expérience sur le terrain depuis 2018.</p>
 
     <h2>LA SITUATION ACTUELLE</h2>
-    <p>Les zones urbaines ou se deroulent nos camps (Makhachkala, Kaspiysk) sont stables et frequentees par des athletes internationaux. Le tourisme sportif est en croissance depuis plusieurs annees.</p>
+    <p>Les zones urbaines ou se déroulent nos camps (Makhachkala, Kaspiysk) sont stables et frequentees par des athlètes internationaux. Le tourisme sportif est en croissance depuis plusieurs annees.</p>
 
     <h2>LE PROTOCOLE MKR</h2>
-    <p>Equipe francophone presente en permanence, contact d'urgence 24/7, briefing securite avant depart, suivi des recommandations du Quai d'Orsay. Assurance rapatriement obligatoire pour chaque participant.</p>
+    <p>Equipe francophone presente en permanence, contact d'urgence 24/7, briefing sécurité avant depart, suivi des recommandations du Quai d'Orsay. Assurance rapatriement obligatoire pour chaque participant.</p>
   `,
   },
   'nutrition-athlete-combat': {
-    title: "Nutrition d'un athlete de combat au Caucase",
+    title: "Nutrition d'un athlète de combat au Caucase",
     date: '8 janvier 2026',
     dateISO: '2026-01-08',
     readTime: '5 min',
     img: '/images/blog/nutrition.webp',
     content: `
-    <p>La cuisine caucasienne est naturellement adaptee aux athletes de combat. Riche en proteines, en graisses saines et en glucides complexes, elle fournit l'energie necessaire pour 2 sessions d'entrainement par jour.</p>
+    <p>La cuisine caucasienne est naturellement adaptee aux athlètes de combat. Riche en protéines, en graisses saines et en glucides complexes, elle fournit l'energie necessaire pour 2 sessions d'entraînement par jour.</p>
 
     <h2>LES BASES</h2>
-    <p>Agneau, poulet, produits laitiers, pain frais, legumes du jardin. Les repas sont prepares sur place, en grande quantite, avec des produits locaux.</p>
+    <p>Agneau, poulet, produits laitiers, pain frais, legumes du jardin. Les repas sont prépares sur place, en grande quantite, avec des produits locaux.</p>
 
     <h2>PENDANT LE CAMP</h2>
-    <p>2 repas principaux par jour pris en charge par MKR (petit-dejeuner copieux et dejeuner), plus des collations entre les sessions. L'hydratation est cruciale en altitude. L'equipe MKR adapte les portions et le timing des repas au programme d'entrainement.</p>
+    <p>2 repas principaux par jour pris en charge par MKR (petit-dejeuner copieux et dejeuner), plus des collations entre les sessions. L'hydratation est cruciale en altitude. L'equipe MKR adapte les portions et le timing des repas au programme d'entraînement.</p>
   `,
   },
   'khabib-methode-entrainement': {
-    title: "La methode d'entrainement de Khabib",
+    title: "La méthode d'entraînement de Khabib",
     date: '20 decembre 2025',
     dateISO: '2025-12-20',
     readTime: '9 min',
     img: '/images/blog/khabib-methode.webp',
     content: `
-    <p>Khabib Nurmagomedov, 29-0, considere comme l'un des plus grands combattants de l'histoire du MMA. Sa methode d'entrainement est directement liee a son environnement : le Dagestan.</p>
+    <p>Khabib Nurmagomedov, 29-0, considere comme l'un des plus grands combattants de l'histoire du MMA. Sa méthode d'entraînement est directement liee a son environnement : le Dagestan.</p>
 
     <h2>LES FONDAMENTAUX</h2>
-    <p>Lutte depuis l'age de 5 ans, sparring quotidien avec les meilleurs, courses en montagne, entrainement en altitude. Khabib n'a jamais eu besoin d'une salle high-tech. Les montagnes du Dagestan etaient son terrain d'entrainement.</p>
+    <p>Lutte depuis l'age de 5 ans, sparring quotidien avec les meilleurs, courses en montagne, entraînement en altitude. Khabib n'a jamais eu besoin d'une salle high-tech. Les montagnes du Dagestan etaient son terrain d'entraînement.</p>
 
     <h2>CE QUE LE CAMP MKR PARTAGE AVEC SES METHODES</h2>
-    <p>Les coachs MKR utilisent les memes fondamentaux : repetition, sparring reel, conditioning naturel. Tu t'entraines dans les memes conditions, avec des coachs qui ont cotoye le meme systeme.</p>
+    <p>Les coachs MKR utilisent les mêmes fondamentaux : répétition, sparring reel, conditioning naturel. Tu t'entraînes dans les mêmes conditions, avec des coachs qui ont cotoye le meme systeme.</p>
   `,
   },
 }

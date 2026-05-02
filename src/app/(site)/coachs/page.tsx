@@ -15,7 +15,7 @@ const COACHES = [
     name: 'Magomed Magomedov',
     role: 'Coach Lutte libre',
     experience: '18 ans',
-    bio: "Champion du Daghestan en lutte libre. Forme dans les academies de Makhachkala, Magomed enseigne les techniques ancestrales du Caucase. Sa methode se concentre sur le controle au corps-a-corps et les projections de hanche qui ont fait la reputation du Daghestan.",
+    bio: "Champion du Daghestan en lutte libre. Forme dans les academies de Makhachkala, Magomed enseigne les techniques ancestrales du Caucase. Sa méthode se concentre sur le controle au corps-a-corps et les projections de hanche qui ont fait la reputation du Daghestan.",
     palmares: 'Champion du Daghestan en lutte libre, Formateur equipe junior',
   },
   {
@@ -77,7 +77,7 @@ export default function CoachsPage() {
                     {coach.role.toUpperCase()}
                   </span>
                   <h3>{coach.name}</h3>
-                  <span className="coach-ext-exp">{coach.experience} d&apos;experience</span>
+                  <span className="coach-ext-exp">{coach.experience} d&apos;expérience</span>
                   <p className="coach-ext-bio">{coach.bio}</p>
                   <span className="coach-ext-palmares">{coach.palmares}</span>
                 </div>
@@ -93,7 +93,7 @@ export default function CoachsPage() {
         alt="Takedown de lutte au Caucase"
         label="TECHNIQUE"
         title="LA LUTTE DANS LE SANG"
-        tagline="Des coachs formes dans la tradition caucasienne. Chaque takedown raconte une histoire."
+        tagline="Des coachs formés dans la tradition caucasienne. Chaque takedown raconte une histoire."
       />
 
       {/* Methodologie */}
@@ -107,13 +107,13 @@ export default function CoachsPage() {
                 LA METHODE DAGHESTANAISE
               </h2>
               <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1.5rem' }}>
-                En Occident, on forme des athletes. Au Caucase, on forge des combattants. La difference est dans la methode :
-                repetition jusqu&apos;a l&apos;automatisme, sparring quotidien contre des adversaires qui ne font pas semblant,
+                En Occident, on forme des athlètes. Au Caucase, on forge des combattants. La difference est dans la méthode :
+                répétition jusqu&apos;a l&apos;automatisme, sparring quotidien contre des adversaires qui ne font pas semblant,
                 et une culture ou abandonner n&apos;est tout simplement pas une option.
               </p>
               <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1rem' }}>
                 Les techniques transmises ici n&apos;existent dans aucun manuel occidental. Elles se transmettent sur le tapis,
-                de generation en generation. C&apos;est ce savoir que nos coachs partagent avec toi.
+                de génération en génération. C&apos;est ce savoir que nos coachs partagent avec toi.
               </p>
               <p className="pull-quote">
                 &laquo; Magomed t&apos;apprend des prises que tu ne verras nulle part en Europe. &raquo;

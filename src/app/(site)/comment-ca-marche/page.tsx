@@ -7,7 +7,7 @@ import CinematicReveal from '@/components/CinematicReveal'
 
 export const metadata: Metadata = {
   title: "Comment ca marche | MKR Caucasian Camp | Processus d'inscription",
-  description: "De l'inscription au premier tapis : decouvre les 6 etapes pour rejoindre le camp MKR au Caucase. Processus clair, transparent, sans surprise.",
+  description: "De l'inscription au premier tapis : découvre les 6 etapes pour rejoindre le camp MKR au Caucase. Processus clair, transparent, sans surprise.",
   alternates: { canonical: 'https://mkrcaucasiancamp.com/comment-ca-marche' },
 }
 
@@ -33,26 +33,26 @@ const STEPS = [
   {
     num: '04',
     title: 'GUIDE DE PREPARATION',
-    desc: "Tu recois un guide complet : programme de preparation physique sur 6 semaines, liste d'equipement, informations logistiques, conseils pratiques.",
-    detail: 'Envoye apres confirmation',
+    desc: "Tu recois un guide complet : programme de préparation physique sur 6 semaines, liste d'equipement, informations logistiques, conseils pratiques.",
+    detail: 'Envoye après confirmation',
   },
   {
     num: '05',
     title: 'DEPART',
-    desc: "Vol a ta charge. Un vehicule MKR t'attend a l'aeroport. Le transfert vers le camp est inclus. Tu n'as plus qu'a embarquer.",
+    desc: "Vol a ta charge. Un vehicule MKR t'attend a l'aéroport. Le transfert vers le camp est inclus. Tu n'as plus qu'a embarquer.",
     detail: 'Transfert inclus',
   },
   {
     num: '06',
     title: 'LE CAMP',
-    desc: "1 a 3 semaines d'entrainement intensif. 2 sessions par jour. Coachs locaux. Hebergement, repas, excursions en option. Tu ne t'occupes de rien d'autre que de progresser.",
+    desc: "1 a 3 semaines d'entraînement intensif. 2 sessions par jour. Coachs locaux. Hebergement, repas, excursions en option. Tu ne t'occupes de rien d'autre que de progresser.",
     detail: '1 a 3 semaines',
   },
 ]
 
 const PROCESS_FAQ = [
-  { question: "Combien de temps dure le processus d'inscription ?", answer: "De l'envoi du formulaire a la confirmation, le processus prend 3 a 5 jours en moyenne. L'appel de validation a lieu sous 48h apres reception de ta candidature." },
-  { question: "Que se passe-t-il si ma candidature est refusee ?", answer: "On t'explique les raisons et on te donne des pistes pour te preparer a une prochaine session. Le refus est souvent lie au niveau sportif : on te recommande un programme de preparation." },
+  { question: "Combien de temps dure le processus d'inscription ?", answer: "De l'envoi du formulaire a la confirmation, le processus prend 3 a 5 jours en moyenne. L'appel de validation a lieu sous 48h après reception de ta candidature." },
+  { question: "Que se passe-t-il si ma candidature est refusee ?", answer: "On t'explique les raisons et on te donne des pistes pour te préparer a une prochaine session. Le refus est souvent lie au niveau sportif : on te recommande un programme de préparation." },
   { question: "Puis-je reporter ma session ?", answer: "Oui, sous certaines conditions. Report gratuit si demande faite plus de 60 jours avant le debut du camp. Soumis a disponibilite sur la session suivante." },
   { question: "Le solde est du quand ?", answer: "Le solde (70% restant) est du 30 jours avant le debut du camp. Tu recois un rappel automatique." },
 ]
@@ -73,7 +73,7 @@ export default function CommentCaMarchePage() {
       {/* Cinematic reveal */}
       <CinematicReveal
         image="/images/environment/gym-interior.webp"
-        alt="Interieur de la salle d'entrainement au Caucase"
+        alt="Interieur de la salle d'entraînement au Caucase"
         label="LES SALLES"
         title="EQUIPEMENT PRO, AME CAUCASIENNE"
         tagline="Tapis olympiques, cage MMA, sacs lourds. L'essentiel pour progresser, rien de superflu."
@@ -129,8 +129,8 @@ export default function CommentCaMarchePage() {
           </div>
           <div className="grid-3">
             {[
-              { title: 'Virement bancaire', desc: 'IBAN suisse. Pas de frais supplementaires. Coordonnees envoyees apres validation.' },
-              { title: 'Carte bancaire', desc: 'Paiement securise via Stripe. Visa, Mastercard, Amex.' },
+              { title: 'Virement bancaire', desc: 'IBAN suisse. Pas de frais supplementaires. Coordonnees envoyées après validation.' },
+              { title: 'Carte bancaire', desc: 'Paiement sécurise via Stripe. Visa, Mastercard, Amex.' },
               { title: 'PayPal', desc: 'Disponible sur demande. Frais PayPal a la charge du participant.' },
             ].map((p, i) => (
               <div key={i} className="content-card fx-grain fx-corner-glow reveal" style={{ transitionDelay: `${i * 0.08}s` }}>
