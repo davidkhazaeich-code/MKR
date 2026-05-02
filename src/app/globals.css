@@ -2016,6 +2016,15 @@ h1, h2, h3, h4, h5 {
   text-decoration: none;
   margin-bottom: 1rem;
 }
+.footer-logo-img {
+  height: 84px;
+  width: auto;
+  object-fit: contain;
+  margin-bottom: 0.85rem;
+}
+@media (max-width: 720px) {
+  .footer-logo-img { height: 64px; margin-bottom: 0.65rem; }
+}
 .footer-logo-mkr {
   font-family: var(--font-teko), sans-serif;
   font-weight: 700;

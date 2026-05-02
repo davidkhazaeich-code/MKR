@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 
 export default function Footer() {
   return (
@@ -52,6 +53,7 @@ export default function Footer() {
           {/* Brand */}
           <div>
             <Link href="/" className="footer-logo-link" aria-label="MKR Caucasian Camp · Accueil">
+              <Image src="/logo-white.webp" alt="" className="footer-logo-img" width={320} height={193} aria-hidden="true" />
               <span className="footer-logo-mkr">MKR</span>
               <span className="footer-logo-sub">Caucasian Camp</span>
             </Link>
