@@ -5,6 +5,7 @@ import { getSupabaseAdmin } from '@/lib/supabase-admin'
 import { STATUS_LABEL, type Status } from '@/lib/admin-transitions'
 import AdminActions from '@/components/admin/AdminActions'
 import Avatar from '@/components/admin/ui/Avatar'
+import BackShortcut from '@/components/admin/ui/BackShortcut'
 import Badge from '@/components/admin/ui/Badge'
 import Icon from '@/components/admin/ui/Icon'
 import Progress from '@/components/admin/ui/Progress'
@@ -242,10 +243,14 @@ export default async function CandidatureDetailPage({
   return (
     <>
       <Topbar subtitle="Dossier" />
+      <BackShortcut to="/admin/inscriptions" />
       <main className="adm-container" style={{ paddingBottom: '6rem' }}>
         <Link href="/admin/inscriptions" className="adm-back-link">
           <Icon name="arrow-left" size={15} />
           Retour à la liste
+          <span className="adm-hide-mobile" style={{ marginLeft: '0.4rem', fontSize: '0.7rem', color: 'var(--adm-text-muted)' }}>
+            <kbd className="adm-kbd">Esc</kbd>
+          </span>
         </Link>
 
         {/* Hero */}

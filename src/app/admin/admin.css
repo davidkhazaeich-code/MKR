@@ -1580,6 +1580,128 @@
 }
 
 /* ========================================================================
+   Toasts
+   ======================================================================== */
+
+.adm-toast-container {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  left: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.5rem;
+  z-index: 200;
+  pointer-events: none;
+}
+
+@media (min-width: 640px) {
+  .adm-toast-container {
+    left: auto;
+    bottom: 1.5rem;
+    right: 1.5rem;
+  }
+}
+
+.adm-toast {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.7rem 0.85rem 0.7rem 0.75rem;
+  border-radius: var(--adm-r-md);
+  background: var(--adm-bg-elevated);
+  border: 1px solid var(--adm-border-default);
+  border-left: 3px solid var(--adm-toast-color, var(--adm-brand));
+  box-shadow: var(--adm-shadow-lg);
+  font-size: 0.88rem;
+  color: var(--adm-text-primary);
+  max-width: 380px;
+  width: 100%;
+  animation: adm-toast-in 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes adm-toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.adm-toast-icon {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--adm-toast-color) 16%, transparent);
+  color: var(--adm-toast-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.adm-toast-message {
+  flex: 1;
+  line-height: 1.4;
+}
+
+.adm-toast-close {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: transparent;
+  border: none;
+  color: var(--adm-text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--adm-tr-fast);
+}
+
+.adm-toast-close:hover {
+  background: var(--adm-bg-hover);
+  color: var(--adm-text-primary);
+}
+
+/* ========================================================================
+   Keyboard hint (kbd)
+   ======================================================================== */
+
+.adm-kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 0.3rem;
+  border-radius: 4px;
+  border: 1px solid var(--adm-border-strong);
+  background: var(--adm-bg-base);
+  color: var(--adm-text-secondary);
+  font-family: var(--adm-font-mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  line-height: 1;
+  margin: 0 0.15rem;
+}
+
+/* ========================================================================
+   List item focused (keyboard nav)
+   ======================================================================== */
+
+.adm-list-item--focused {
+  border-color: var(--adm-brand);
+  background: var(--adm-bg-elevated);
+  box-shadow: 0 0 0 2px var(--adm-brand-soft), var(--adm-shadow-md);
+}
+
+/* ========================================================================
    Sticky bottom action (mobile detail)
    ======================================================================== */
 

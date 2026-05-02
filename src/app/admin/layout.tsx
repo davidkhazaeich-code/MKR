@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from 'next'
+import { ToastProvider } from '@/components/admin/ui/Toast'
 import './admin.css'
 
 export const metadata: Metadata = {
@@ -13,5 +14,9 @@ export const viewport: Viewport = {
 }
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
-  return <div className="adm-root">{children}</div>
+  return (
+    <div className="adm-root">
+      <ToastProvider>{children}</ToastProvider>
+    </div>
+  )
 }
