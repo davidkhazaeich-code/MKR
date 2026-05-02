@@ -134,14 +134,56 @@ const FIELD_LABELS: Record<string, string> = {
   ua: 'User-Agent',
 }
 
-const EVENT_LABEL: Record<string, string> = {
-  created: 'Candidature reçue',
-  status_change: 'Changement de statut',
-  fee_paid_change: 'Frais 100€',
-  package_paid_change: 'Package',
-  package_amount_change: 'Montant package',
-  notes_admin_update: 'Notes admin éditées',
-  notes_visio_update: 'Compte-rendu visio édité',
+// Decrit un evenement audit en label explicite + detail optionnel.
+// Le label change selon la direction du change (set vs unset).
+function describeEvent(e: AuditRow): { label: string; detail: string | null; accent?: string } {
+  switch (e.event) {
+    case 'created':
+      return { label: 'Candidature reçue', detail: null, accent: 'var(--adm-status-recue)' }
+    case 'status_change': {
+      const from = e.from_value?.status as Status | undefined
+      const to = e.to_value?.status as Status | undefined
+      return {
+        label: 'Changement de statut',
+        detail: from && to ? `${STATUS_LABEL[from]} → ${STATUS_LABEL[to]}` : null,
+        accent: to ? `var(--adm-status-${to})` : undefined,
+      }
+    }
+    case 'fee_paid_change': {
+      const wasPaid = !!e.from_value?.registration_fee_paid_at
+      const isPaid = !!e.to_value?.registration_fee_paid_at
+      return {
+        label: isPaid
+          ? "Frais d'inscription 100 € marqués payés"
+          : "Frais d'inscription 100 € retirés (revenus à non payés)",
+        detail: null,
+        accent: isPaid ? 'var(--adm-status-validee)' : 'var(--adm-text-muted)',
+      }
+    }
+    case 'package_paid_change': {
+      const isPaid = !!e.to_value?.package_paid_at
+      return {
+        label: isPaid
+          ? 'Package soldé (virement reçu)'
+          : 'Package retiré du soldé',
+        detail: null,
+        accent: isPaid ? 'var(--adm-status-soldee)' : 'var(--adm-text-muted)',
+      }
+    }
+    case 'package_amount_change': {
+      const fromCents = e.from_value?.package_amount_cents as number | null | undefined
+      const toCents = e.to_value?.package_amount_cents as number | null | undefined
+      const fromEur = fromCents ? `${(fromCents / 100).toFixed(2)} €` : '—'
+      const toEur = toCents ? `${(toCents / 100).toFixed(2)} €` : '—'
+      return { label: 'Montant package mis à jour', detail: `${fromEur} → ${toEur}` }
+    }
+    case 'notes_admin_update':
+      return { label: 'Notes admin éditées', detail: null }
+    case 'notes_visio_update':
+      return { label: 'Compte-rendu visio édité', detail: null }
+    default:
+      return { label: e.event, detail: null }
+  }
 }
 
 function formatDateTime(iso: string): string {
@@ -422,31 +464,28 @@ export default async function CandidatureDetailPage({
               ) : (
                 <ol className="adm-timeline">
                   {auditEntries.map((e, idx) => {
+                    const described = describeEvent(e)
                     const reminderText =
                       e.data && typeof e.data === 'object' && 'reminder' in e.data
                         ? String((e.data as Record<string, unknown>).reminder)
                         : null
+                    const dotClass = idx === 0 || described.accent
+                      ? 'adm-timeline-dot adm-timeline-dot--accent'
+                      : 'adm-timeline-dot'
+                    const dotStyle: React.CSSProperties | undefined = described.accent
+                      ? { background: described.accent, borderColor: described.accent, boxShadow: `0 0 0 3px color-mix(in srgb, ${described.accent} 24%, transparent)` }
+                      : undefined
                     return (
                       <li key={e.id} className="adm-timeline-item">
-                        <span
-                          className={
-                            idx === 0
-                              ? 'adm-timeline-dot adm-timeline-dot--accent'
-                              : 'adm-timeline-dot'
-                          }
-                          aria-hidden="true"
-                        />
-                        <div className="adm-timeline-event">
-                          {EVENT_LABEL[e.event] ?? e.event}
-                        </div>
+                        <span className={dotClass} style={dotStyle} aria-hidden="true" />
+                        <div className="adm-timeline-event">{described.label}</div>
                         <div className="adm-timeline-time">
                           {formatDateTime(e.at)} · {e.actor_email}
                         </div>
-                        {e.event === 'status_change' && e.from_value && e.to_value && (
+                        {described.detail && (
                           <div className="adm-timeline-detail">
-                            {STATUS_LABEL[e.from_value.status as Status]} →{' '}
                             <span style={{ color: 'var(--adm-text-primary)', fontWeight: 600 }}>
-                              {STATUS_LABEL[e.to_value.status as Status]}
+                              {described.detail}
                             </span>
                           </div>
                         )}
