@@ -219,7 +219,7 @@ export default function ScrollNav() {
         /* ───── Desktop : dots verticaux ───── */
         .hs-dots {
           position: fixed;
-          right: 24px;
+          left: 24px;
           top: 50%;
           transform: translateY(-50%);
           z-index: 40;
@@ -264,7 +264,7 @@ export default function ScrollNav() {
         }
         .hs-dot-tooltip {
           position: absolute;
-          right: calc(100% + 14px);
+          left: calc(100% + 14px);
           top: 50%;
           transform: translateY(-50%);
           background: rgba(0, 0, 0, 0.85);
