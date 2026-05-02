@@ -1,31 +1,113 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import { usePathname } from 'next/navigation'
 
-export type ScrollSection = {
-  id: string
-  label: string
+type Section = { id: string; label: string }
+
+const HIDE_BELOW = 3 // si < 3 sections détectées, on cache complètement
+const LABEL_MAX = 32
+
+function truncate(s: string, n: number) {
+  return s.length > n ? s.slice(0, n - 1) + '…' : s
 }
 
-interface HomeScrollerProps {
-  sections: ScrollSection[]
+function deriveLabel(el: HTMLElement, fallbackIdx: number): string {
+  const explicit = el.getAttribute('data-scroll-label')
+  if (explicit) return truncate(explicit, LABEL_MAX)
+  const heading = el.querySelector('h1, h2, .label-tag, .insc-panel-title') as HTMLElement | null
+  if (heading?.textContent) return truncate(heading.textContent.trim(), LABEL_MAX)
+  return `Section ${fallbackIdx + 1}`
 }
 
-export default function HomeScroller({ sections }: HomeScrollerProps) {
+export default function ScrollNav() {
+  const pathname = usePathname()
+  const [sections, setSections] = useState<Section[]>([])
   const [activeIdx, setActiveIdx] = useState(0)
   const [progress, setProgress] = useState(0)
   const [scrolled, setScrolled] = useState(false)
   const ratioMap = useRef<Map<string, number>>(new Map())
+  const intersectionRef = useRef<IntersectionObserver | null>(null)
 
-  // IntersectionObserver pour la section active
+  // ─── Discover sections + watch DOM mutations ───
   useEffect(() => {
+    const main = document.getElementById('main') || document.querySelector('main') || document.body
+    let rescanTimer: ReturnType<typeof setTimeout> | null = null
+
+    const discover = () => {
+      // 1) Sources explicites (data-scroll-section)
+      const tagged = Array.from(main.querySelectorAll<HTMLElement>('[data-scroll-section]'))
+      // 2) Fallback : <section> directes filles de main avec un titre détectable
+      //    (couvre les pages qui n'ont pas encore migré vers data-scroll-section)
+      const inlineSections = Array.from(main.querySelectorAll<HTMLElement>(':scope > section, :scope > div > section'))
+        .filter(s => !s.hasAttribute('data-scroll-section'))
+        .filter(s => s.querySelector('h1, h2, .label-tag'))
+
+      // Combine + retire les sections imbriquées dans une autre déjà retenue
+      const all = [...tagged, ...inlineSections]
+      const top = all.filter(el => {
+        return !all.some(other => other !== el && other.contains(el))
+      })
+      // Trie par ordre d'apparition dans le DOM
+      top.sort((a, b) => {
+        if (a === b) return 0
+        const pos = a.compareDocumentPosition(b)
+        if (pos & Node.DOCUMENT_POSITION_FOLLOWING) return -1
+        if (pos & Node.DOCUMENT_POSITION_PRECEDING) return 1
+        return 0
+      })
+
+      const found: Section[] = []
+      top.forEach((el, i) => {
+        if (!el.id) el.id = `scrollsec-${i}`
+        found.push({ id: el.id, label: deriveLabel(el, i) })
+      })
+      setSections(prev => {
+        // Évite les renders inutiles si rien n'a changé
+        if (prev.length === found.length && prev.every((s, i) => s.id === found[i].id && s.label === found[i].label)) {
+          return prev
+        }
+        return found
+      })
+    }
+
+    // Première détection après mount (laisse le temps aux dynamic imports)
+    const initialT = setTimeout(discover, 80)
+    // Re-scan sur changements DOM (debounced)
+    const observer = new MutationObserver(() => {
+      if (rescanTimer) clearTimeout(rescanTimer)
+      rescanTimer = setTimeout(discover, 200)
+    })
+    observer.observe(main, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      attributeFilter: ['data-scroll-section', 'data-scroll-label'],
+    })
+
+    return () => {
+      clearTimeout(initialT)
+      if (rescanTimer) clearTimeout(rescanTimer)
+      observer.disconnect()
+    }
+  }, [pathname])
+
+  // ─── IntersectionObserver pour la section active (recréé quand sections changent) ───
+  useEffect(() => {
+    if (intersectionRef.current) {
+      intersectionRef.current.disconnect()
+      intersectionRef.current = null
+    }
+    if (sections.length < HIDE_BELOW) return
+
+    ratioMap.current.clear()
     const observer = new IntersectionObserver(
       entries => {
         entries.forEach(e => {
           ratioMap.current.set(e.target.id, e.intersectionRatio)
         })
         let bestIdx = 0
-        let best = 0
+        let best = -1
         sections.forEach((s, i) => {
           const r = ratioMap.current.get(s.id) ?? 0
           if (r > best) { best = r; bestIdx = i }
@@ -38,10 +120,11 @@ export default function HomeScroller({ sections }: HomeScrollerProps) {
       const el = document.getElementById(s.id)
       if (el) observer.observe(el)
     })
-    return () => observer.disconnect()
+    intersectionRef.current = observer
+    return () => { observer.disconnect() }
   }, [sections])
 
-  // Progression scroll + état "scrolled" (fade chevron)
+  // ─── Scroll progression + chevron fade ───
   useEffect(() => {
     const onScroll = () => {
       const h = document.documentElement
@@ -53,7 +136,9 @@ export default function HomeScroller({ sections }: HomeScrollerProps) {
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
-  }, [])
+  }, [pathname])
+
+  if (sections.length < HIDE_BELOW) return null
 
   const scrollTo = (id: string) => {
     const el = document.getElementById(id)
@@ -89,7 +174,7 @@ export default function HomeScroller({ sections }: HomeScrollerProps) {
         ))}
       </nav>
 
-      {/* Chevron animé bas du hero (visible uniquement avant scroll) */}
+      {/* Chevron animé en bas, visible au top de la page (avant scroll) */}
       <button
         type="button"
         onClick={next}
@@ -103,6 +188,11 @@ export default function HomeScroller({ sections }: HomeScrollerProps) {
           </svg>
         </span>
       </button>
+
+      <style jsx global>{`
+        /* Toute section navigable : compense la nav sticky (~72px) */
+        [data-scroll-section] { scroll-margin-top: 72px; }
+      `}</style>
 
       <style jsx>{`
         /* ───── Mobile : progress bar top ───── */
@@ -126,7 +216,7 @@ export default function HomeScroller({ sections }: HomeScrollerProps) {
           .hs-progress-mobile { display: none; }
         }
 
-        /* ───── Desktop : dots verticaux à droite ───── */
+        /* ───── Desktop : dots verticaux ───── */
         .hs-dots {
           position: fixed;
           right: 24px;
@@ -142,7 +232,10 @@ export default function HomeScroller({ sections }: HomeScrollerProps) {
           -webkit-backdrop-filter: blur(8px);
           border-radius: 999px;
           border: 1px solid rgba(255, 255, 255, 0.08);
+          max-height: 80vh;
+          overflow-y: auto;
         }
+        .hs-dots::-webkit-scrollbar { display: none; }
         @media (max-width: 1024px) {
           .hs-dots { display: none; }
         }
@@ -157,6 +250,7 @@ export default function HomeScroller({ sections }: HomeScrollerProps) {
           cursor: pointer;
           transition: all 0.3s ease;
           display: block;
+          flex-shrink: 0;
         }
         .hs-dot:hover {
           background: rgba(255, 255, 255, 0.7);
@@ -242,7 +336,7 @@ export default function HomeScroller({ sections }: HomeScrollerProps) {
           50% { transform: translateY(8px); }
         }
         @media (max-width: 600px) {
-          .hs-chevron { bottom: 90px; } /* laisse de la place pour StickyMobileCTA */
+          .hs-chevron { bottom: 90px; }
           .hs-chevron-label { font-size: 0.65rem; }
         }
         @media (prefers-reduced-motion: reduce) {

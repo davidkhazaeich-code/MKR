@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import dynamic from 'next/dynamic'
 import Hero from '@/components/Hero'
-import HomeScroller, { type ScrollSection } from '@/components/HomeScroller'
 
 const VideoSection = dynamic(() => import('@/components/VideoSection'), { ssr: true })
 const AudienceSwitcher = dynamic(() => import('@/components/AudienceSwitcher'), { ssr: true })
@@ -23,42 +22,24 @@ export const metadata: Metadata = {
   alternates: { canonical: 'https://mkrcamp.com/' },
 }
 
-const SECTIONS: ScrollSection[] = [
-  { id: 'hero', label: 'Accueil' },
-  { id: 'video', label: 'Le concept' },
-  { id: 'audience', label: 'Pour qui' },
-  { id: 'facilitator', label: 'On organise tout' },
-  { id: 'philosophie', label: 'Pourquoi le Caucase' },
-  { id: 'destinations', label: 'Le Daghestan' },
-  { id: 'testimonials', label: 'Témoignages' },
-  { id: 'sessions', label: 'Sessions' },
-  { id: 'timeline', label: 'Le parcours' },
-  { id: 'coaches', label: 'Coachs' },
-  { id: 'voyage', label: 'Voyage' },
-  { id: 'contact-home', label: 'Contact' },
-  { id: 'faq', label: 'FAQ' },
-  { id: 'cta-final', label: 'Prochain camp' },
-]
-
 export default function Home() {
   return (
     <>
       <link rel="preload" as="video" href="/videos/hero-mountains.mp4" type="video/mp4" />
-      <HomeScroller sections={SECTIONS} />
-      <div id="hero" className="hs-anchor"><Hero /></div>
-      <div id="video" className="hs-anchor"><VideoSection /></div>
-      <div id="audience" className="hs-anchor"><AudienceSwitcher /></div>
-      <div id="facilitator" className="hs-anchor"><FacilitatorBand /></div>
-      <div id="philosophie" className="hs-anchor"><Philosophie /></div>
-      <div id="destinations" className="hs-anchor"><DestinationShowcase /></div>
-      <div id="testimonials" className="hs-anchor"><Testimonials /></div>
-      <div id="sessions" className="hs-anchor"><Sessions /></div>
-      <div id="timeline" className="hs-anchor"><Timeline /></div>
-      <div id="coaches" className="hs-anchor"><Coaches /></div>
-      <div id="voyage" className="hs-anchor"><VoyageReveal /></div>
-      <div id="contact-home" className="hs-anchor"><Contact /></div>
-      <div id="faq" className="hs-anchor"><FAQ /></div>
-      <div id="cta-final" className="hs-anchor"><CTAFinal /></div>
+      <div data-scroll-section data-scroll-label="Accueil" className="hs-anchor"><Hero /></div>
+      <div data-scroll-section data-scroll-label="Le concept" className="hs-anchor"><VideoSection /></div>
+      <div data-scroll-section data-scroll-label="Pour qui" className="hs-anchor"><AudienceSwitcher /></div>
+      <div data-scroll-section data-scroll-label="On organise tout" className="hs-anchor"><FacilitatorBand /></div>
+      <div data-scroll-section data-scroll-label="Pourquoi le Caucase" className="hs-anchor"><Philosophie /></div>
+      <div data-scroll-section data-scroll-label="Le Daghestan" className="hs-anchor"><DestinationShowcase /></div>
+      <div data-scroll-section data-scroll-label="Témoignages" className="hs-anchor"><Testimonials /></div>
+      <div data-scroll-section data-scroll-label="Sessions" className="hs-anchor"><Sessions /></div>
+      <div data-scroll-section data-scroll-label="Le parcours" className="hs-anchor"><Timeline /></div>
+      <div data-scroll-section data-scroll-label="Coachs" className="hs-anchor"><Coaches /></div>
+      <div data-scroll-section data-scroll-label="Voyage" className="hs-anchor"><VoyageReveal /></div>
+      <div data-scroll-section data-scroll-label="Contact" className="hs-anchor"><Contact /></div>
+      <div data-scroll-section data-scroll-label="FAQ" className="hs-anchor"><FAQ /></div>
+      <div data-scroll-section data-scroll-label="Prochain camp" className="hs-anchor"><CTAFinal /></div>
     </>
   )
 }

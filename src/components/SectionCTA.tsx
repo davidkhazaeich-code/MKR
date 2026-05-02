@@ -9,7 +9,7 @@ interface SectionCTAProps {
 
 export default function SectionCTA({ primaryHref, primaryLabel, ghostHref, ghostLabel }: SectionCTAProps) {
   return (
-    <section className="section-cta">
+    <section className="section-cta" data-scroll-section data-scroll-label="Passer à l'action">
       <div className="inner reveal">
         <div className="section-cta-buttons">
           <Link href={primaryHref} className="btn-primary">{primaryLabel}</Link>

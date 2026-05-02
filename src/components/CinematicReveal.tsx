@@ -23,6 +23,8 @@ export default function CinematicReveal({ image, alt, label, title, tagline, cla
     <div
       ref={containerRef}
       className={`cine-reveal-outer${className ? ` ${className}` : ''}`}
+      data-scroll-section
+      data-scroll-label={label || (title ? title.replace(/<[^>]+>/g, '') : 'Image')}
     >
       <motion.div
         className="cine-reveal-sticky"

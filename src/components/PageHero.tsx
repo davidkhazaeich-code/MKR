@@ -13,7 +13,11 @@ interface PageHeroProps {
 export default function PageHero({ label, title, subtitle, breadcrumb, compact, image, imageAlt }: PageHeroProps) {
   const hasImage = Boolean(image)
   return (
-    <section className={`page-hero${compact ? ' page-hero--compact' : ''}${hasImage ? ' page-hero--image' : ''}`}>
+    <section
+      className={`page-hero${compact ? ' page-hero--compact' : ''}${hasImage ? ' page-hero--image' : ''}`}
+      data-scroll-section
+      data-scroll-label={label}
+    >
       {hasImage && (
         <>
           {/* eslint-disable-next-line @next/next/no-img-element */}

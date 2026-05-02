@@ -192,14 +192,6 @@ export default function Hero() {
         <HeroCampCarousel />
       </div>
 
-      {/* Scroll indicator */}
-      <div className="scroll-indicator" aria-hidden="true">
-        <div className="scroll-line">
-          <div className="scroll-line-fill"></div>
-        </div>
-        <span className="scroll-label">SCROLL</span>
-      </div>
-
     </section>
   )
 }
