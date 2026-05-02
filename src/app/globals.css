@@ -171,9 +171,9 @@ h1, h2, h3, h4, h5 {
 #nav.is-scrolled { border-color: rgba(200,75,49,0.1); }
 .nav-inner { display: flex; align-items: center; height: var(--nav-h); width: 100%; padding: 0 clamp(2rem, 9vw, 16rem); gap: 1.5rem; }
 .nav-logo { display: flex; align-items: center; line-height: 1; flex-shrink: 0; text-decoration: none; }
-.nav-logo-img { height: 72px; width: auto; object-fit: contain; }
+.nav-logo-img { height: 56px; width: auto; object-fit: contain; display: block; }
 @media (max-width: 720px) {
-  .nav-logo-img { height: 56px; }
+  .nav-logo-img { height: 48px; }
 }
 .nav-list { display: flex; align-items: center; list-style: none; gap: .15rem; flex: 1; justify-content: center; }
 .nav-trigger { display: inline-flex; align-items: center; gap: .3rem; font-family: var(--font-barlow-condensed), sans-serif; font-weight: 600; font-size: .78rem; letter-spacing: .15em; text-transform: uppercase; color: var(--text-secondary); background: none; border: none; cursor: pointer; padding: .55rem .9rem; position: relative; transition: color 200ms linear; }
@@ -2019,6 +2019,7 @@ h1, h2, h3, h4, h5 {
 .footer-logo-img {
   height: 84px;
   width: auto;
+  align-self: flex-start;
   object-fit: contain;
   margin-bottom: 0.85rem;
 }
