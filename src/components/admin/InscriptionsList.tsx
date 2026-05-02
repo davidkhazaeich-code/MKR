@@ -73,9 +73,16 @@ export default function InscriptionsList({ rows }: { rows: Row[] }) {
   const router = useRouter()
   const [query, setQuery] = useState('')
   const [focusedIdx, setFocusedIdx] = useState<number | null>(null)
+  const [mounted, setMounted] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
   const itemRefs = useRef<Array<HTMLAnchorElement | null>>([])
   const lastQueryHydrated = useRef(false)
+
+  // Mounted flag : evite que les calculs Date.now-dependants causent un mismatch
+  // d'hydratation entre serveur et client (badges Nouveau/Visio en retard, relatif).
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   // Restaure la recherche depuis sessionStorage (au mount uniquement)
   useEffect(() => {
@@ -268,6 +275,7 @@ export default function InscriptionsList({ rows }: { rows: Row[] }) {
               <CandidatureRow
                 row={row}
                 focused={focusedIdx === i}
+                mounted={mounted}
                 rowRef={(el) => {
                   itemRefs.current[i] = el
                 }}
@@ -284,21 +292,25 @@ export default function InscriptionsList({ rows }: { rows: Row[] }) {
 function CandidatureRow({
   row,
   focused,
+  mounted,
   rowRef,
   onMouseEnter,
 }: {
   row: Row
   focused: boolean
+  mounted: boolean
   rowRef: (el: HTMLAnchorElement | null) => void
   onMouseEnter: () => void
 }) {
   const c = row.candidate
   const fullName = c ? `${c.prenom} ${c.nom}` : '(candidat manquant)'
 
-  const ageMs = Date.now() - new Date(row.created_at).getTime()
-  const isNew = ageMs < ONE_DAY
-  const sinceStatusMs = Date.now() - new Date(row.status_changed_at).getTime()
-  const isStaleVisio = row.status === 'recue' && sinceStatusMs > SEVEN_DAYS
+  // Calculs Date.now-dependants : seulement apres mount pour eviter les
+  // mismatches d'hydratation (server time != client time first render).
+  const ageMs = mounted ? Date.now() - new Date(row.created_at).getTime() : Infinity
+  const isNew = mounted && ageMs < ONE_DAY
+  const sinceStatusMs = mounted ? Date.now() - new Date(row.status_changed_at).getTime() : 0
+  const isStaleVisio = mounted && row.status === 'recue' && sinceStatusMs > SEVEN_DAYS
 
   return (
     <Link
@@ -341,7 +353,9 @@ function CandidatureRow({
             )}
           </div>
         </div>
-        <div className="adm-list-time">{formatRelative(row.created_at)}</div>
+        <div className="adm-list-time" suppressHydrationWarning>
+          {mounted ? formatRelative(row.created_at) : ''}
+        </div>
       </div>
 
       {row.notes_admin && <p className="adm-list-note">📝 {row.notes_admin}</p>}
