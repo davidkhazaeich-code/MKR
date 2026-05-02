@@ -128,19 +128,21 @@ mkrcamp.com/
 ### 🏠 `/` — Homepage
 **Fichier** : `src/app/(site)/page.tsx`
 **Rôle** : Landing principal — sequence sections dynamic-imported
-**Sections (ordre)** :
+**Sections (ordre)** : (mis à jour 2026-05-02 : Testimonials remontés en pos 4, VoyageReveal en pos 5 "Comment y aller")
 1. `<Hero />` — vidéos en boucle + carousel sessions inline
 2. `<VideoSection />` — titre "1 À 3 SEMAINES QUI CHANGENT TOUT" + 4 stats (2x sessions, 9 coachs, 15 max, 0 distraction)
-3. `<Philosophie />` — bento "POURQUOI LE CAUCASE" (3 cards)
-4. `<DestinationShowcase />` — grid 4 paysages (Canyon Sulak, Lac Kezenoy, Route, Gamsutl)
-5. `<Testimonials />` — carousel TÉMOIGNAGES (data/testimonials.ts)
-6. `<Sessions />` — cards depuis `data/sessions.ts` (1 seule actuellement)
-7. `<Timeline />` — 5 étapes parcours (Postuler → Validation → Préparation → Voyage → Immersion)
-8. `<Coaches />` — 4 cards depuis `data/coaches.ts`
-9. `<VoyageReveal />` — section transition
-10. `<Contact />` — bloc info contact (téléphone, email, instagram)
-11. `<FAQ />` — top 6 questions (data/faq.ts FAQ_HOMEPAGE)
-12. `<CTAFinal />` — "Prochain camp · 17 août - 5 septembre 2026 · Daghestan" + montagne SVG
+3. `<AudienceSwitcher />` — 4 cards "Pour qui ?" (session/custom/famille/groupe)
+4. `<Testimonials />` — carousel TÉMOIGNAGES (data/testimonials.ts) **[remonté en pos 4]**
+5. `<VoyageReveal />` — "Comment y aller" : trajet Istanbul→Makhachkala + transfert 1h30 **[remonté en pos 5]**
+6. `<FacilitatorBand />` — "MKR organise tout" 6 prestations
+7. `<Philosophie />` — bento "POURQUOI LE CAUCASE" (3 cards)
+8. `<DestinationShowcase />` — grid 4 paysages (Canyon Sulak, Lac Kezenoy, Route, Gamsutl)
+9. `<Sessions />` — cards depuis `data/sessions.ts` (1 seule actuellement)
+10. `<Timeline />` — 5 étapes parcours (Postuler → Validation → Préparation → Voyage → Immersion)
+11. `<Coaches />` — 4 cards depuis `data/coaches.ts`
+12. `<Contact />` — bloc info contact (téléphone, email, instagram)
+13. `<FAQ />` — top 6 questions (data/faq.ts FAQ_HOMEPAGE)
+14. `<CTAFinal />` — "Prochain camp · 17 août - 5 septembre 2026 · Daghestan" + montagne SVG
 **Métadonnées** : title, description, canonical
 **Pour modifier le copy hero** : `components/Hero.tsx` lignes 160-188
 
