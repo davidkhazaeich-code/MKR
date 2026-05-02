@@ -53,9 +53,7 @@ export default function Footer() {
           {/* Brand */}
           <div>
             <Link href="/" className="footer-logo-link" aria-label="MKR Caucasian Camp · Accueil">
-              <Image src="/logo-white.webp" alt="" className="footer-logo-img" width={320} height={193} aria-hidden="true" />
-              <span className="footer-logo-mkr">MKR</span>
-              <span className="footer-logo-sub">Caucasian Camp</span>
+              <Image src="/logo-white.webp" alt="MKR Caucasian Camp" className="footer-logo-img" width={320} height={193} />
             </Link>
             <p className="footer-tagline">Camp d&apos;entraînement au Caucase.</p>
             <p className="footer-desc">
