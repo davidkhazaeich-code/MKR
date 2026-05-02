@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation'
 import { getSupabaseAdmin } from '@/lib/supabase-admin'
 import { STATUS_LABEL, type Status } from '@/lib/admin-transitions'
 import AdminActions from '@/components/admin/AdminActions'
+import DangerSection from '@/components/admin/DangerSection'
 import Avatar from '@/components/admin/ui/Avatar'
 import BackShortcut from '@/components/admin/ui/BackShortcut'
 import Badge from '@/components/admin/ui/Badge'
@@ -473,6 +474,9 @@ export default async function CandidatureDetailPage({
             />
           </div>
         </div>
+
+        {/* Danger zone — full width, en bas, separe du workflow normal */}
+        <DangerSection candidatureId={candidature.id} candidateName={fullName} />
       </main>
     </>
   )

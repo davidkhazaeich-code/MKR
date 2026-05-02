@@ -178,13 +178,15 @@ export async function PATCH(
     return NextResponse.json({ ok: true, candidatureId: id, message: 'Rien à mettre à jour' })
   }
 
-  // 6. Update + insert audit en parallele
-  const { error: updateError } = await supabase
+  // 6. Update et retourne le row mis a jour (pour sync client sans refetch)
+  const { data: updated, error: updateError } = await supabase
     .from('candidatures')
     .update(updates)
     .eq('id', id)
+    .select('id, status, status_changed_at, registration_fee_paid_at, package_paid_at, package_amount_cents, notes_admin, notes_visio')
+    .single()
 
-  if (updateError) {
+  if (updateError || !updated) {
     console.error('[api/admin/candidature] update failed', updateError)
     return NextResponse.json({ ok: false, error: 'Update DB échoué' }, { status: 500 })
   }
@@ -197,5 +199,63 @@ export async function PATCH(
     }
   }
 
-  return NextResponse.json({ ok: true, candidatureId: id, updated: Object.keys(updates) })
+  return NextResponse.json({
+    ok: true,
+    candidatureId: id,
+    updated: Object.keys(updates),
+    candidature: updated,
+  })
+}
+
+// DELETE /api/admin/candidature/[id]
+// Supprime definitivement le dossier (irreversible). audit_log cascade via FK.
+// Si le candidat n'a plus aucun autre dossier, on supprime aussi le candidat
+// (cleanup RGPD complet, pas de PII orpheline).
+export async function DELETE(_request: Request, ctx: { params: Promise<{ id: string }> }) {
+  const { id } = await ctx.params
+  if (!id || id.length < 32) {
+    return NextResponse.json({ ok: false, error: 'id candidature invalide' }, { status: 400 })
+  }
+
+  const supabase = getSupabaseAdmin()
+
+  // 1. Recupere candidate_id pour pouvoir nettoyer en cascade
+  const { data: target, error: readErr } = await supabase
+    .from('candidatures')
+    .select('id, candidate_id')
+    .eq('id', id)
+    .maybeSingle()
+
+  if (readErr || !target) {
+    return NextResponse.json({ ok: false, error: 'Candidature introuvable' }, { status: 404 })
+  }
+
+  // 2. Delete candidature (audit_log cascade via FK ON DELETE CASCADE)
+  const { error: delErr } = await supabase.from('candidatures').delete().eq('id', id)
+  if (delErr) {
+    console.error('[api/admin/candidature DELETE] candidature delete failed', delErr)
+    return NextResponse.json({ ok: false, error: 'Suppression candidature echouee' }, { status: 500 })
+  }
+
+  // 3. Check si le candidat a d'autres candidatures
+  const { count, error: countErr } = await supabase
+    .from('candidatures')
+    .select('id', { count: 'exact', head: true })
+    .eq('candidate_id', target.candidate_id)
+
+  let candidateDeleted = false
+  if (!countErr && (count ?? 0) === 0) {
+    const { error: candDelErr } = await supabase
+      .from('candidates')
+      .delete()
+      .eq('id', target.candidate_id)
+    if (candDelErr) {
+      console.error('[api/admin/candidature DELETE] candidate delete failed', candDelErr)
+      // Pas fatal : la candidature est bien supprimee, le candidat orphelin restera
+    } else {
+      candidateDeleted = true
+    }
+  }
+
+  return NextResponse.json({ ok: true, candidateDeleted, candidatureId: id })
 }
