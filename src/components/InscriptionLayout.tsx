@@ -151,6 +151,8 @@ export default function InscriptionLayout({ initialAudience }: InscriptionLayout
   })
   const [errors, setErrors] = useState<string[]>([])
   const [submitted, setSubmitted] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitError, setSubmitError] = useState<string | null>(null)
 
   const audienceConfig = audience ? getRegistrationType(audience) : null
 
@@ -379,10 +381,11 @@ export default function InscriptionLayout({ initialAudience }: InscriptionLayout
   const next = () => { if (validate()) { setDir('next'); setStep(s => s + 1) } }
   const prev = () => { setDir('prev'); setStep(s => s - 1); setErrors([]) }
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
     if (!validate()) return
-    // Payload normalisé prêt pour backend Supabase futur (table candidatures + form_data jsonb)
+    if (isSubmitting) return
+    // Payload normalisé snake_case prêt pour backend Supabase (table candidatures + form_data jsonb)
     const payload = {
       tunnel_type: audience,
       candidate: {
@@ -447,8 +450,25 @@ export default function InscriptionLayout({ initialAudience }: InscriptionLayout
         },
       },
     }
-    console.log('Candidature payload:', payload)
-    setSubmitted(true)
+    setIsSubmitting(true)
+    setSubmitError(null)
+    try {
+      const res = await fetch('/api/inscription', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      })
+      const data = await res.json().catch(() => ({}))
+      if (!res.ok || !data.ok) {
+        setSubmitError(data.error || 'Une erreur est survenue. Reessaie ou ecris-nous a contact@mkrcaucasiancamp.com')
+        return
+      }
+      setSubmitted(true)
+    } catch {
+      setSubmitError('Connexion impossible. Verifie ton reseau et reessaie.')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   /* ── Audience Selector (avant les steps) ── */
@@ -1413,9 +1433,16 @@ export default function InscriptionLayout({ initialAudience }: InscriptionLayout
               {step < STEPS.length - 1 ? (
                 <button type="button" className="cand-btn-next" onClick={next}>Étape suivante →</button>
               ) : (
-                <button type="submit" className="cand-btn-submit">ENVOYER MA CANDIDATURE</button>
+                <button type="submit" className="cand-btn-submit" disabled={isSubmitting}>
+                  {isSubmitting ? 'ENVOI EN COURS…' : 'ENVOYER MA CANDIDATURE'}
+                </button>
               )}
             </div>
+            {submitError && (
+              <p className="cand-error" role="alert" style={{ marginTop: '1rem', color: '#c1392b', fontWeight: 600 }}>
+                {submitError}
+              </p>
+            )}
           </form>
         </div>
       </main>

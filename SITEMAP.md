@@ -1,7 +1,35 @@
 # SITEMAP MKR Caucasian Camp — Cartographie complète
 
-> **Fichier de référence pour Claude Code.** Mise à jour : 2026-04-30 (post-Sprint 2 facilitateur).
+> **Fichier de référence pour Claude Code.** Mise à jour : 2026-05-02 (post backend Supabase v1).
 > Lis ce fichier en priorité avant toute intervention sur le site MKR. Il évite de re-explorer.
+
+## 🆕 Changements 2026-05-02 (backend Supabase v1 — capture des candidatures)
+
+- **Projet Supabase** `mkr-inscriptions` (id `bgwvrzgnoqlqqrvflwav`, eu-central-1) — voir spec complète dans [`PLAN_GESTION_INSCRIPTIONS.md`](./PLAN_GESTION_INSCRIPTIONS.md). V1 simplifié, sans Stripe ni Resend (ces deux services seront branchés quand David aura email pro + compte Stripe).
+- **3 tables** : `candidates` (déduplique par email), `candidatures` (form_data jsonb, status enum, champs Stripe nullable pour activer plus tard sans migration), `audit_log` (append-only).
+- **API route** `POST /api/inscription` (`src/app/api/inscription/route.ts`) : valide payload, upsert candidate, insert candidature en status `recue`, insère audit_log. Retourne `{ ok, candidatureId }`. Stub TODO Resend.
+- **Lib serveur** `src/lib/supabase-admin.ts` : client Supabase service_role (cached, pas de session).
+- **InscriptionLayout** branché sur l'API (`handleSubmit` async, fetch POST, états `isSubmitting` + `submitError`, bouton désactivé pendant envoi). Plus de `console.log`.
+- **Page admin** `/admin/inscriptions?token=XXX` (`src/app/admin/inscriptions/page.tsx`) : token vérifié contre `ADMIN_TOKEN`, 404 si invalide. Liste 200 dossiers récents avec filtres tunnel + status, chaque card affiche candidat, contact tel/mail cliquables, métadonnées dossier, et form_data complet en `<details>`. **Read-only** pour l'instant (mutations dans P2).
+- **Env vars requises** : `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, `ADMIN_TOKEN`. Voir `.env.local` (pas commité). À ajouter sur Vercel avant prod.
+- **Dépendance ajoutée** : `@supabase/supabase-js` (^2.105).
+- **Bulk script accents** : `/tmp/fix-accents-v2.py` a tourné le 2026-05-01 sur 24 fichiers (mais pas encore appliqué aux commentaires JSX/CSS).
+
+### Backlog P2/P3 (à activer quand prérequis présents)
+
+- **Stripe Checkout EUR** (frais 100€) → webhook qui passe candidature `draft → recue`. Champs DB déjà prêts (`stripe_payment_intent_id`, `registration_fee_paid_at`).
+- **Resend transactional** (8 emails listés dans PLAN_GESTION_INSCRIPTIONS §7.4) → besoin de domaine `mkrcaucasiancamp.com` vérifié (SPF + DKIM + DMARC).
+- **Dashboard kanban admin** (mutations status, génération PDF facture, refund) → nécessite Stripe + service_role. Spec complète §5 du plan.
+- **Tables additionnelles** : `credits`, `waitlist`, `session_capacity`, vue `v_session_places` — à créer quand Stripe + capacité 15 places activées.
+
+### Anti-patterns à respecter (rappel des audits 2026-04-30 / 05-01)
+
+- **Slugs URL ASCII uniquement** : `/preparer-son-camp` (pas `/préparer`). Les routes Next.js mappent au filesystem.
+- **Clés d'objet ASCII uniquement** : `coach.experience` (pas `coach.expérience`). Sinon `undefined` au runtime.
+- **IDs FAQ catégories ASCII** : labels avec accents OK, ids slug = ASCII.
+- **Tarifs en EUR partout** (plus en CHF) post-pivot facilitateur.
+
+---
 
 ## 🆕 Changements 2026-04-30 (post-pivot facilitateur, logique 4 tunnels nettoyée)
 
@@ -35,12 +63,17 @@ mkrcaucasiancamp.com/
 │   ├── inscription/page.tsx     → page /inscription (HORS group `(site)`)
 │   ├── sitemap.ts               → sitemap.xml (28 URLs)
 │   ├── robots.ts                → robots.txt
+│   ├── api/
+│   │   └── inscription/route.ts → POST /api/inscription (Supabase upsert candidate + insert candidature)
+│   ├── admin/
+│   │   └── inscriptions/page.tsx → /admin/inscriptions?token=XXX (read-only liste 200 dossiers, token-protégé)
 │   └── (site)/                  → group route avec layout commun
 │       ├── layout.tsx           → wrap Nav + Footer + StickyMobileCTA
 │       ├── page.tsx             → /  (homepage, sections dynamic-imported)
 │       └── [25 dossiers/page.tsx] → toutes les autres URLs
 ├── src/components/  (36 fichiers .tsx)
 ├── src/data/        (6 fichiers .ts — single sources of truth)
+├── src/lib/         (supabase-admin.ts — client service_role serveur)
 ├── src/hooks/       (1 fichier — useScrollReveal)
 └── public/images/   (action/ blog/ coaches/ environment/ galerie/ galerie-real/ heritage/ hero/ ruslan/ social/ testimonials/ textures/)
 ```
