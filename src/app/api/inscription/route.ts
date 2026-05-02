@@ -185,11 +185,66 @@ export async function POST(request: Request) {
     actor_email: 'system',
   })
 
-  // TODO: Resend notification a contact@mkrcaucasiancamp.com (en attente domaine pro + cle Resend)
+  // Notification Slack (optionnelle — silencieux si SLACK_WEBHOOK_URL non defini).
+  // Fait avant return mais avec timeout 2s pour ne jamais bloquer le user.
+  // TODO V2: remplacer par Resend email quand domaine pro est configure.
+  await notifySlack(
+    {
+      tunnel,
+      prenom,
+      nom,
+      email,
+      pays: candidate.pays?.trim() || null,
+      duree_semaines: body.duree_semaines ?? null,
+      candidature_id: candidature.id,
+    },
+  ).catch((err) => {
+    console.error('[api/inscription] Slack notify failed (non-fatal)', err)
+  })
 
   return NextResponse.json({
     ok: true,
     candidatureId: candidature.id,
     createdAt: candidature.created_at,
   })
+}
+
+interface SlackPayload {
+  tunnel: string
+  prenom: string
+  nom: string
+  email: string
+  pays: string | null
+  duree_semaines: number | null
+  candidature_id: string
+}
+
+async function notifySlack(p: SlackPayload): Promise<void> {
+  const url = process.env.SLACK_WEBHOOK_URL
+  if (!url) return
+  const tunnelLabel: Record<string, string> = {
+    session: 'MKR Camp 2026',
+    custom: 'Sur Mesure',
+    famille: 'Famille',
+    groupe: 'Club & Groupe',
+  }
+  const adminBase = process.env.NEXT_PUBLIC_SITE_URL || 'https://mkrcaucasiancamp.com'
+  const text = [
+    `🆕 *Nouvelle candidature MKR* (${tunnelLabel[p.tunnel] ?? p.tunnel})`,
+    `*${p.prenom} ${p.nom}* — ${p.email}${p.pays ? ` — ${p.pays}` : ''}${p.duree_semaines ? ` — ${p.duree_semaines} sem.` : ''}`,
+    `<${adminBase}/admin/inscriptions/${p.candidature_id}|Voir le dossier>`,
+  ].join('\n')
+
+  const controller = new AbortController()
+  const timeout = setTimeout(() => controller.abort(), 2000)
+  try {
+    await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text }),
+      signal: controller.signal,
+    })
+  } finally {
+    clearTimeout(timeout)
+  }
 }
