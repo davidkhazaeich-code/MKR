@@ -6,6 +6,15 @@ type TunnelType = (typeof VALID_TUNNELS)[number]
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
+// Limites max pour eviter les payloads abusifs.
+const MAX_NAME = 60
+const MAX_EMAIL = 254
+const MAX_PHONE = 30
+const MAX_COUNTRY = 60
+const MAX_CITY = 80
+const MAX_FORM_DATA_BYTES = 20_000 // 20KB
+const DEDUP_WINDOW_SECONDS = 60
+
 type CandidatePayload = {
   prenom?: string
   nom?: string
@@ -23,10 +32,26 @@ type InscriptionPayload = {
   duree_semaines?: number | null
   date_debut_souhaitee?: string | null
   form_data?: Record<string, unknown>
+  // Honeypot : champ invisible pour utilisateurs humains, rempli par bots.
+  _hp?: string
 }
 
 function badRequest(message: string) {
   return NextResponse.json({ ok: false, error: message }, { status: 400 })
+}
+
+function tooBig(message: string) {
+  return NextResponse.json({ ok: false, error: message }, { status: 413 })
+}
+
+function tooMany(message: string) {
+  return NextResponse.json({ ok: false, error: message }, { status: 429 })
+}
+
+function clientIp(request: Request): string | null {
+  const xff = request.headers.get('x-forwarded-for')
+  if (xff) return xff.split(',')[0]?.trim() ?? null
+  return request.headers.get('x-real-ip')
 }
 
 export async function POST(request: Request) {
@@ -35,6 +60,11 @@ export async function POST(request: Request) {
     body = (await request.json()) as InscriptionPayload
   } catch {
     return badRequest('Body JSON invalide')
+  }
+
+  // 1. Honeypot. Reponse 200 fake pour pas signaler aux bots qu'on les detecte.
+  if (typeof body._hp === 'string' && body._hp.trim().length > 0) {
+    return NextResponse.json({ ok: true, candidatureId: 'noop', createdAt: new Date().toISOString() })
   }
 
   const tunnel = body.tunnel_type
@@ -50,8 +80,27 @@ export async function POST(request: Request) {
   if (!prenom || !nom || !email) {
     return badRequest('prenom, nom et email obligatoires')
   }
-  if (!EMAIL_RE.test(email)) {
+  if (prenom.length > MAX_NAME || nom.length > MAX_NAME) {
+    return badRequest('Prenom ou nom trop long')
+  }
+  if (email.length > MAX_EMAIL || !EMAIL_RE.test(email)) {
     return badRequest('Email invalide')
+  }
+  if (candidate.telephone && candidate.telephone.length > MAX_PHONE) {
+    return badRequest('Telephone trop long')
+  }
+  if (candidate.pays && candidate.pays.length > MAX_COUNTRY) {
+    return badRequest('Pays trop long')
+  }
+  if (candidate.ville_depart && candidate.ville_depart.length > MAX_CITY) {
+    return badRequest('Ville trop longue')
+  }
+
+  // 2. Limite taille form_data (defense en profondeur, JSON deja parse au-dessus).
+  const formData = body.form_data ?? {}
+  const formDataSize = JSON.stringify(formData).length
+  if (formDataSize > MAX_FORM_DATA_BYTES) {
+    return tooBig('form_data trop volumineux')
   }
 
   const supabase = getSupabaseAdmin()
@@ -80,13 +129,37 @@ export async function POST(request: Request) {
     )
   }
 
+  // 3. Dedup soft : refuse si une candidature pour le meme (candidate, tunnel)
+  // a ete creee dans la fenetre DEDUP_WINDOW_SECONDS. Limite l'effet d'un user
+  // qui spam le bouton OU d'un bot qui rejoue le POST en boucle.
+  const dedupSince = new Date(Date.now() - DEDUP_WINDOW_SECONDS * 1000).toISOString()
+  const { data: recent, error: recentError } = await supabase
+    .from('candidatures')
+    .select('id')
+    .eq('candidate_id', upsertedCandidate.id)
+    .eq('tunnel_type', tunnel)
+    .gte('created_at', dedupSince)
+    .limit(1)
+    .maybeSingle()
+
+  if (recentError) {
+    console.error('[api/inscription] dedup check failed', recentError)
+    // Pas de fail-fast : on log et on continue. Ne pas bloquer les vrais users.
+  } else if (recent) {
+    return tooMany('Une candidature recente existe deja pour ce candidat. Reessaye dans quelques secondes.')
+  }
+
+  const ip = clientIp(request)
   const candidatureRow = {
     candidate_id: upsertedCandidate.id,
     tunnel_type: tunnel,
     session_id: body.session_id || null,
     duree_semaines: body.duree_semaines ?? null,
     date_debut_souhaitee: body.date_debut_souhaitee || null,
-    form_data: body.form_data ?? {},
+    form_data: {
+      ...formData,
+      _meta: { ip: ip ?? null, ua: request.headers.get('user-agent') ?? null },
+    },
     status: 'recue',
     status_changed_by_email: 'system',
   }

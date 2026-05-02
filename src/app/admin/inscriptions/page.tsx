@@ -1,9 +1,9 @@
 import type { Metadata } from 'next'
-import { notFound } from 'next/navigation'
 import { getSupabaseAdmin } from '@/lib/supabase-admin'
 
-// Page admin token-protegee : /admin/inscriptions?token=XXX
-// Token verifie contre process.env.ADMIN_TOKEN. 404 si invalide (cache l'existence).
+// Page admin protegee par middleware (cookie httpOnly 'mkr_admin').
+// Le middleware (src/middleware.ts) rewrite vers /admin/login si non authentifie.
+// Aucun token n'apparait dans l'URL ici.
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
@@ -84,13 +84,9 @@ function formatDate(iso: string): string {
 export default async function AdminInscriptionsPage({
   searchParams,
 }: {
-  searchParams: Promise<{ token?: string; tunnel?: string; status?: string }>
+  searchParams: Promise<{ tunnel?: string; status?: string }>
 }) {
   const params = await searchParams
-  const expected = process.env.ADMIN_TOKEN
-  if (!expected || !params.token || params.token !== expected) {
-    notFound()
-  }
 
   let query
   try {
@@ -138,21 +134,39 @@ export default async function AdminInscriptionsPage({
     minute: '2-digit',
   })
 
-  const linkBase = `?token=${encodeURIComponent(params.token)}`
+  const linkBase = '?'
 
   return (
     <div style={{ minHeight: '100vh', background: '#0A0A0A', color: '#fff', padding: '2rem 1rem' }}>
       <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-        <header style={{ marginBottom: '2rem' }}>
-          <h1 style={{ fontSize: '1.8rem', fontWeight: 600, margin: 0 }}>Candidatures MKR</h1>
-          <p style={{ color: '#9CA3AF', fontSize: '0.85rem', margin: '0.4rem 0 0' }}>
-            Mis à jour à {generatedAt}.{' '}
-            <a href={linkBase} style={{ color: '#FF8C00', textDecoration: 'underline' }}>
-              Rafraîchir
-            </a>
-            {' · '}
-            <span style={{ color: '#71717a' }}>{rows.length} dossier{rows.length > 1 ? 's' : ''}</span>
-          </p>
+        <header style={{ marginBottom: '2rem', display: 'flex', flexWrap: 'wrap', gap: '1rem', alignItems: 'flex-start', justifyContent: 'space-between' }}>
+          <div>
+            <h1 style={{ fontSize: '1.8rem', fontWeight: 600, margin: 0 }}>Candidatures MKR</h1>
+            <p style={{ color: '#9CA3AF', fontSize: '0.85rem', margin: '0.4rem 0 0' }}>
+              Mis à jour à {generatedAt}.{' '}
+              <a href="/admin/inscriptions" style={{ color: '#FF8C00', textDecoration: 'underline' }}>
+                Rafraîchir
+              </a>
+              {' · '}
+              <span style={{ color: '#71717a' }}>{rows.length} dossier{rows.length > 1 ? 's' : ''}</span>
+            </p>
+          </div>
+          <form method="POST" action="/api/admin/logout">
+            <button
+              type="submit"
+              style={{
+                padding: '0.4rem 0.9rem',
+                borderRadius: '8px',
+                border: '1px solid rgba(255,255,255,0.12)',
+                background: 'transparent',
+                color: '#9CA3AF',
+                fontSize: '0.8rem',
+                cursor: 'pointer',
+              }}
+            >
+              Deconnexion
+            </button>
+          </form>
         </header>
 
         {error && (
@@ -181,11 +195,11 @@ export default async function AdminInscriptionsPage({
             borderBottom: '1px solid rgba(255,255,255,0.08)',
           }}
         >
-          <FilterPill href={linkBase} label={`Tous (${rows.length})`} active={!params.tunnel} />
+          <FilterPill href="/admin/inscriptions" label={`Tous (${rows.length})`} active={!params.tunnel} />
           {(Object.keys(TUNNEL_LABEL) as TunnelType[]).map((t) => (
             <FilterPill
               key={t}
-              href={`${linkBase}&tunnel=${t}`}
+              href={`/admin/inscriptions?tunnel=${t}`}
               label={`${TUNNEL_LABEL[t]} (${counts[t]})`}
               active={params.tunnel === t}
               accent={TUNNEL_COLOR[t]}
