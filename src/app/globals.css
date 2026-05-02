@@ -75,6 +75,11 @@ html {
   font-size: max(16px, 1rem);
 }
 
+/* Anchors homepage : compense la nav sticky (~72px) lors d'un scroll par dot */
+.hs-anchor {
+  scroll-margin-top: 72px;
+}
+
 body {
   background: var(--bg);
   color: var(--text-primary);
