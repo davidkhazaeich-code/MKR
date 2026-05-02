@@ -16,7 +16,7 @@ export default function Footer() {
           <div className="footer-contact-inner">
             <div className="footer-contact-left">
               <span className="footer-contact-eyebrow">Rejoins le prochain camp</span>
-              <h2 className="footer-contact-heading">TON PROCHAIN NIVEAU EST AU CAUCASE.</h2>
+              <h2 className="footer-contact-heading">LE CAUCASE T&apos;ATTEND. POSTULE.</h2>
             </div>
             <div className="footer-contact-right">
               <a href="https://wa.me/33666177691" target="_blank" rel="noopener noreferrer"

@@ -20,9 +20,9 @@ export default function Philosophie() {
             <span className="bento-card-label">Héritage · Tradition · Combat</span>
             <h3 className="bento-card-title">LÀ OÙ TOUT<br />A COMMENCÉ</h3>
             <p className="bento-card-body">
-              Les meilleurs combattants de la planète sortent tous du même endroit. Le Caucase. Khabib, Makhachev, des centaines de champions olympiques de lutte. Ce n&apos;est pas un hasard : les traditions de combat ici se transmettent <strong>de père en fils depuis des siècles</strong>.<br /><br />
-              MKR Caucasian Camp te donne accès à cet héritage. Tu t&apos;entraînes dans les mêmes salles, avec les mêmes coachs, selon les mêmes méthodes. Pas en touriste. En athlète qui veut <strong>franchir un cap</strong>.<br /><br />
-              Quand tu reviens de ce séjour au Daghestan (1 à 3 semaines), ta façon de combattre, de t&apos;entraîner et de te voir <strong>n&apos;est plus la même</strong>.
+              Les meilleurs combattants du monde sortent tous du même berceau : le Caucase. Khabib, Makhachev, des centaines de champions olympiques de lutte. Rien d&apos;un hasard. Ici, le combat se transmet <strong>de père en fils depuis des siècles</strong>.<br /><br />
+              MKR Caucasian Camp ouvre cet héritage aux athlètes étrangers. Mêmes salles, mêmes coachs, mêmes méthodes. Pas en touriste. En athlète venu <strong>franchir un cap</strong>.<br /><br />
+              Au retour de ton camp au Daghestan (de une à trois semaines), tu ne combats plus pareil. Tu ne t&apos;entraînes plus pareil. <strong>Et tu ne te vois plus pareil non plus.</strong>
             </p>
           </article>
 
@@ -31,9 +31,9 @@ export default function Philosophie() {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img className="bento-img" src="/images/environment/gym-interior.webp" alt="" aria-hidden="true" />
             <span className="bento-card-label">Coaching · Méthodes · Progression</span>
-            <h3 className="bento-card-title">LE MEILLEUR<br />NIVEAU</h3>
+            <h3 className="bento-card-title">LA MÉTHODE<br />QUI FORGE</h3>
             <p className="bento-card-body">
-              Sparring quotidien avec des combattants locaux. Drills d&apos;intensité, récupération guidée. Les méthodes qui ont produit des champions du monde <strong>appliquées à ta progression</strong>.
+              Sparring quotidien avec des combattants locaux. Travail technique, intensité maîtrisée, récupération encadrée. Les méthodes qui ont fabriqué des champions du monde <strong>mises au service de ta progression</strong>.
             </p>
           </article>
 
@@ -42,9 +42,9 @@ export default function Philosophie() {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img className="bento-img" src="/images/environment/communal-meal.webp" alt="" aria-hidden="true" />
             <span className="bento-card-label">Immersion · Culture · Vie de camp</span>
-            <h3 className="bento-card-title">UNE EXPÉRIENCE<br />UNIQUE</h3>
+            <h3 className="bento-card-title">UNE IMMERSION<br />QUI MARQUE</h3>
             <p className="bento-card-body">
-              Tu vis avec eux, tu manges avec eux. Zéro distraction, zéro confort superflu. Juste l&apos;entraînement, la culture locale, et une <strong>connexion humaine</strong> que tu ne trouveras dans aucun gym en Europe.
+              Tu vis avec eux, tu manges avec eux. Zéro distraction, zéro superflu. Juste l&apos;entraînement, la culture caucasienne, et une <strong>fraternité du tapis</strong> que tu ne croiseras dans aucune salle européenne.
             </p>
           </article>
         </div>

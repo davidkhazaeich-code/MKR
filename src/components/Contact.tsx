@@ -15,8 +15,8 @@ export default function Contact() {
               PRÊT À<br />FRANCHIR<br />LE CAP ?
             </h2>
             <p className="cand-subtitle">
-              15 places max par session. On sélectionne des athlètes motivés de tous niveaux,
-              pas seulement des pros. L&apos;entretien vidéo sert à comprendre tes objectifs.
+              Quinze places maximum par session. On retient des athlètes motivés, à tous les niveaux,
+              pas seulement des pros. L&apos;entretien vidéo nous sert à cerner tes objectifs.
             </p>
             <Link href="/inscription" className="contact-cta-btn">
               DÉPOSER MA CANDIDATURE
@@ -77,22 +77,22 @@ export default function Contact() {
             <div className="contact-step">
               <span className="contact-step-num">01</span>
               <h4 className="contact-step-label">Formulaire</h4>
-              <p className="contact-step-desc">Remplis le formulaire de candidature en ligne. Niveau, objectifs, expérience.</p>
+              <p className="contact-step-desc">Tu remplis le formulaire de candidature en ligne. Niveau, objectifs, expérience.</p>
             </div>
             <div className="contact-step">
               <span className="contact-step-num">02</span>
               <h4 className="contact-step-label">Entretien vidéo</h4>
-              <p className="contact-step-desc">Un appel de 15 min avec notre équipe pour évaluer ta motivation et ton niveau.</p>
+              <p className="contact-step-desc">Un appel de quinze minutes avec notre équipe pour cerner ta motivation et ton niveau.</p>
             </div>
             <div className="contact-step">
               <span className="contact-step-num">03</span>
               <h4 className="contact-step-label">Confirmation</h4>
-              <p className="contact-step-desc">Réponse sous 72h. Si accepté, tu reçois le guide de préparation complet.</p>
+              <p className="contact-step-desc">Réponse sous 72 h. Si tu es retenu, tu reçois le guide de préparation complet.</p>
             </div>
             <div className="contact-step">
               <span className="contact-step-num">04</span>
               <h4 className="contact-step-label">Départ</h4>
-              <p className="contact-step-desc">Transfert aéroport inclus. On te récupère à l&apos;arrivée, tu n&apos;as rien à gérer.</p>
+              <p className="contact-step-desc">Transfert aéroport inclus. On vient te chercher à ton arrivée. Tu n&apos;as rien à gérer.</p>
             </div>
           </div>
         </div>

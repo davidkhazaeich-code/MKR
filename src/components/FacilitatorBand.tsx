@@ -91,15 +91,15 @@ export default function FacilitatorBand({ withHeader = true }: FacilitatorBandPr
         {withHeader && (
           <div className="facilitator-header reveal">
             <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>
-              MKR ORGANISE TOUT
+              TOUT EST INCLUS
             </span>
             <h2 id="facilitator-heading" className="facilitator-title">
               ON S&apos;OCCUPE DE TOUT.<br/>
-              TU N&apos;AS QU&apos;À T&apos;ENTRAÎNER.
+              TOI, TU T&apos;ENTRAÎNES.
             </h2>
             <p className="facilitator-sub">
-              Du dossier visa à ton arrivée sur le tapis : 6 prestations incluses dans tous nos camps,
-              peu importe le format choisi.
+              Du dossier visa à ton arrivée sur le tapis : six prestations incluses dans chaque camp,
+              quel que soit le format choisi.
             </p>
           </div>
         )}
@@ -121,7 +121,7 @@ export default function FacilitatorBand({ withHeader = true }: FacilitatorBandPr
         </div>
 
         <p className="facilitator-footnote reveal">
-          Tu fais une seule chose : t&apos;entraîner et progresser. Le reste, on le coordonne pour toi.
+          Tu n&apos;as qu&apos;une chose à faire : t&apos;entraîner et progresser. Le reste, on s&apos;en charge.
         </p>
       </div>
     </section>

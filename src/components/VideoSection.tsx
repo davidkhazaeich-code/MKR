@@ -32,7 +32,7 @@ export default function VideoSection() {
                 <polygon points="8,4 24,14 8,24" fill="#F8F8F8" />
               </svg>
             </div>
-            <span className="video-caption">Découvrez l&apos;immersion en vidéo</span>
+            <span className="video-caption">Découvre l&apos;immersion en vidéo</span>
           </div>
         </div>
 

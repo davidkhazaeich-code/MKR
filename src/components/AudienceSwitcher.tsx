@@ -53,14 +53,14 @@ export default function AudienceSwitcher({ withHeader = true, compact = false }:
         {withHeader && (
           <div className="audience-switcher-header reveal">
             <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>
-              MKR ORGANISE TOUT
+              QUATRE FAÇONS DE VENIR
             </span>
             <h2 id="audiences-heading" className="audience-switcher-title">
-              CHOISIS COMMENT<br/>TU VIENS AU CAMP
+              QUEL CAMP<br/>TE RESSEMBLE ?
             </h2>
             <p className="audience-switcher-sub">
-              Visa, vol intérieur Istanbul-Makhachkala, transferts, hébergement, encadrement, repas. Tu choisis ton format,
-              on coordonne tout sur place. 4 tunnels d&apos;inscription pensés pour chaque profil : MKR Camp, sur mesure, famille, club.
+              Tu pars seul, en duo, en famille ou avec ton club ? On a un format pour chaque profil. Visa, vol intérieur
+              Istanbul-Makhachkala, transferts, hébergement, repas et encadrement : tout est coordonné sur place par MKR.
             </p>
           </div>
         )}

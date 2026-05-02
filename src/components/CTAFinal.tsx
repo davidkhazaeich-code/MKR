@@ -10,7 +10,7 @@ export default function CTAFinal() {
       <div className="cta-inner">
         <span className="cta-label reveal">15 places par session. Sélection sur dossier. {SESSIONS.length} sessions par an.</span>
         <h2 id="cta-heading" className="cta-title reveal">
-          PRÊT À PASSER<br /><span>AU NIVEAU SUPÉRIEUR ?</span>
+          PRÊT POUR<br /><span>LE CAUCASE ?</span>
         </h2>
         <p className="cta-subtitle reveal" style={{ transitionDelay: '0.1s' }}>
           Prochain camp · {next.dates} {year} · Daghestan

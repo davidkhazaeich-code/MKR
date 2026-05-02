@@ -32,7 +32,7 @@ export default function Timeline() {
                 </div>
                 <div className="timeline-num">01</div>
                 <h3 className="timeline-step-title">CANDIDATURE</h3>
-                <p className="timeline-step-body">Tu remplis le formulaire de candidature en ligne. Niveau actuel, discipline, objectifs. Nous avons besoin de savoir qui tu es avant de te dire si le camp est fait pour toi.</p>
+                <p className="timeline-step-body">Tu remplis le formulaire de candidature en ligne. Niveau actuel, discipline, objectifs. On a besoin de savoir qui tu es avant de te confirmer si le camp est fait pour toi.</p>
               </div>
             </div>
             <div className="timeline-dot-wrap">
@@ -59,7 +59,7 @@ export default function Timeline() {
                 </div>
                 <div className="timeline-num">02</div>
                 <h3 className="timeline-step-title">ENTRETIEN</h3>
-                <p className="timeline-step-body">Un échange vidéo avec notre équipe. Pas un interrogatoire, une conversation. Nous voulons comprendre tes motivations et t&apos;expliquer ce qui t&apos;attend vraiment.</p>
+                <p className="timeline-step-body">Un échange vidéo avec notre équipe. Pas un interrogatoire, une conversation. On veut cerner tes motivations et te raconter ce qui t&apos;attend vraiment sur place.</p>
               </div>
               <div className="timeline-step-img reveal-clip">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -86,7 +86,7 @@ export default function Timeline() {
                 </div>
                 <div className="timeline-num">03</div>
                 <h3 className="timeline-step-title">CONFIRMATION</h3>
-                <p className="timeline-step-body">Sélection confirmée, contrat signé, acompte versé. Ta place est réservée. On commence à te préparer à distance avec le guide pré-camp personnalisé.</p>
+                <p className="timeline-step-body">Sélection confirmée, contrat signé, acompte versé. Ta place est réservée. On lance ta préparation à distance avec le guide pré-camp personnalisé.</p>
               </div>
             </div>
             <div className="timeline-dot-wrap">
@@ -113,11 +113,11 @@ export default function Timeline() {
                 </div>
                 <div className="timeline-num">04</div>
                 <h3 className="timeline-step-title">PRÉPARATION</h3>
-                <p className="timeline-step-body">4 semaines de protocole préparatoire à distance : conditioning spécifique, nutrition, logistique visa Russie. On maximise chaque jour avant ton arrivée.</p>
+                <p className="timeline-step-body">Quatre semaines de protocole à distance : préparation physique sur mesure, plan nutrition, démarches visa Russie. On exploite chaque jour avant ton arrivée.</p>
               </div>
               <div className="timeline-step-img reveal-clip">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img className="timeline-step-photo" src="/images/action/conditioning-rope.webp" alt="Conditioning, grimper de corde" />
+                <img className="timeline-step-photo" src="/images/action/conditioning-rope.webp" alt="Préparation physique, grimper de corde" />
                 <div className="timeline-step-img-inner"></div>
               </div>
             </div>
@@ -140,7 +140,7 @@ export default function Timeline() {
                 </div>
                 <div className="timeline-num" style={{ color: 'var(--cta)' }}>05</div>
                 <h3 className="timeline-step-title">IMMERSION</h3>
-                <p className="timeline-step-body">Une à trois semaines au Daghestan. Entraînements biquotidiens, sparring avec des combattants locaux, vie en communauté. Tu reviens avec un niveau que tu n&apos;aurais jamais atteint autrement.</p>
+                <p className="timeline-step-body">De une à trois semaines au Daghestan. Deux entraînements par jour, sparring avec les combattants locaux, vie en communauté. Tu repars avec un niveau que tu n&apos;aurais jamais atteint ailleurs.</p>
               </div>
             </div>
             <div className="timeline-dot-wrap">
