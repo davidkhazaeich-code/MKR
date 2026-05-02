@@ -72,7 +72,7 @@ export default function Contact() {
 
         {/* Processus de candidature */}
         <div className="contact-process reveal" style={{ transitionDelay: '0.15s' }}>
-          <h3 className="contact-process-title">COMMENT CA SE PASSE</h3>
+          <h3 className="contact-process-title">COMMENT ÇA SE PASSE</h3>
           <div className="contact-process-steps">
             <div className="contact-step">
               <span className="contact-step-num">01</span>
@@ -81,18 +81,18 @@ export default function Contact() {
             </div>
             <div className="contact-step">
               <span className="contact-step-num">02</span>
-              <h4 className="contact-step-label">Entretien video</h4>
-              <p className="contact-step-desc">Un appel de 15 min avec notre equipe pour evaluer ta motivation et ton niveau.</p>
+              <h4 className="contact-step-label">Entretien vidéo</h4>
+              <p className="contact-step-desc">Un appel de 15 min avec notre équipe pour évaluer ta motivation et ton niveau.</p>
             </div>
             <div className="contact-step">
               <span className="contact-step-num">03</span>
               <h4 className="contact-step-label">Confirmation</h4>
-              <p className="contact-step-desc">Reponse sous 72h. Si accepte, tu recois le guide de préparation complet.</p>
+              <p className="contact-step-desc">Réponse sous 72h. Si accepté, tu reçois le guide de préparation complet.</p>
             </div>
             <div className="contact-step">
               <span className="contact-step-num">04</span>
-              <h4 className="contact-step-label">Depart</h4>
-              <p className="contact-step-desc">Transfert aéroport inclus. On te récupère a l&apos;arrivee, tu n&apos;as rien a gerer.</p>
+              <h4 className="contact-step-label">Départ</h4>
+              <p className="contact-step-desc">Transfert aéroport inclus. On te récupère à l&apos;arrivée, tu n&apos;as rien à gérer.</p>
             </div>
           </div>
         </div>
@@ -103,7 +103,7 @@ export default function Contact() {
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <polygon points="12,2 15,9 22,9 16.5,14 18.5,21 12,17 5.5,21 7.5,14 2,9 9,9" stroke="currentColor" strokeWidth="1.5"/>
             </svg>
-            <span>Selection sur dossier</span>
+            <span>Sélection sur dossier</span>
           </div>
           <div className="contact-badge">
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -119,7 +119,7 @@ export default function Contact() {
               <line x1="8" y1="4" x2="8" y2="10" stroke="currentColor" strokeWidth="1.5"/>
               <line x1="16" y1="4" x2="16" y2="10" stroke="currentColor" strokeWidth="1.5"/>
             </svg>
-            <span>Reponse sous 72h</span>
+            <span>Réponse sous 72h</span>
           </div>
           <div className="contact-badge">
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">

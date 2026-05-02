@@ -2,7 +2,7 @@ export const SITE_URL = 'https://mkrcaucasiancamp.com'
 export const SITE_NAME = 'MKR Caucasian Camp'
 export const SITE_EMAIL = 'contact@mkrcaucasiancamp.com'
 export const SITE_DESCRIPTION =
-  "Camp d'entraînement MMA et Lutte au cœur du Caucase, Daghestan. Méthodes d'élite, coachs champions, immersion totale."
+  "Camp d'entraînement MMA et Lutte au Daghestan, au cœur du Caucase. 9 coachs daghestanais, 3 disciplines (Lutte adultes, Lutte enfants, MMA), immersion 1 à 3 semaines."
 
 export const SOCIALS = {
   instagram: 'https://instagram.com/mkr.caucasiancamp',

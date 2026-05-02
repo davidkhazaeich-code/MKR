@@ -6,8 +6,8 @@ import DestinationReveal from '@/components/DestinationReveal'
 import CinematicReveal from '@/components/CinematicReveal'
 
 export const metadata: Metadata = {
-  title: 'Dagestan | MKR Caucasian Camp | Camps MMA au coeur du Caucase',
-  description: "Tout savoir sur le Dagestan : salles d'entraînement, sécurité, culture, excursions. La terre qui forge les champions du MMA.",
+  title: 'Daghestan : Camps MMA et Lutte au cœur du Caucase | MKR',
+  description: "Tout savoir sur le Daghestan : salles d'entraînement, sécurité, culture, excursions. La terre qui forge les champions du MMA et de la lutte mondiale.",
   alternates: { canonical: 'https://mkrcaucasiancamp.com/destinations/dagestan' },
 }
 
@@ -15,20 +15,20 @@ export default function DagestanPage() {
   return (
     <>
       <PageHero
-        label="DAGESTAN"
+        label="DAGHESTAN"
         title="LA TERRE QUI FORGE<br/>LES CHAMPIONS"
         subtitle="Berceau du MMA mondial. Khabib, Makhachev, et des centaines de champions olympiques de lutte."
         breadcrumb={[
           { href: '/destinations', label: 'Destinations' },
-          { href: '/destinations/dagestan', label: 'Dagestan' },
+          { href: '/destinations/dagestan', label: 'Daghestan' },
         ]}
       />
 
       <DestinationReveal
         image="/images/environment/dagestan-horses.webp"
-        alt="Cavaliers sur les montagnes du Dagestan au coucher du soleil"
+        alt="Cavaliers sur les montagnes du Daghestan au coucher du soleil"
         label="CAUCASE · RUSSIE"
-        title="LES MONTAGNES<br/>DU DAGESTAN"
+        title="LES MONTAGNES<br/>DU DAGHESTAN"
         facts={[
           { label: 'Capitale', value: 'Makhachkala' },
           { label: 'Altitude moyenne', value: '1 000 m' },
@@ -45,21 +45,21 @@ export default function DagestanPage() {
         <div className="inner">
           <div className="layout-split reveal">
             <div>
-              <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>PRESENTATION</span>
-              <h2 style={{ fontSize: 'clamp(1.5rem, 3vw, 2rem)', textTransform: 'uppercase' }}>LE DAGESTAN</h2>
+              <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>PRÉSENTATION</span>
+              <h2 style={{ fontSize: 'clamp(1.5rem, 3vw, 2rem)', textTransform: 'uppercase' }}>LE DAGHESTAN</h2>
               <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1rem' }}>
-                Republique du Caucase russe, le Dagestan est une terre de montagnes et de traditions.
-                C&apos;est ici que la lutte se transmet de pere en fils depuis des siecles. Les villages de montagne
+                République du Caucase russe, le Daghestan est une terre de montagnes et de traditions.
+                C&apos;est ici que la lutte se transmet de père en fils depuis des siècles. Les villages de montagne
                 ont produit plus de champions olympiques par habitant que n&apos;importe quel autre endroit sur Terre.
               </p>
               <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1rem' }}>
-                Makhachkala, la capitale, abrite des dizaines de salles de combat ou s&apos;entraînent quotidiennement
-                des centaines d&apos;athlètes de niveau international. C&apos;est dans ces salles que MKR t&apos;emmene.
+                Makhachkala, la capitale, abrite des dizaines de salles de combat où s&apos;entraînent quotidiennement
+                des centaines d&apos;athlètes de niveau international. C&apos;est dans ces salles que MKR t&apos;emmène.
               </p>
             </div>
             <div className="content-card">
-              <h3 className="card-title">CHIFFRES CLES</h3>
-              <div className="dag-stat"><span>Surface</span><strong>50 300 km2</strong></div>
+              <h3 className="card-title">CHIFFRES CLÉS</h3>
+              <div className="dag-stat"><span>Surface</span><strong>50 300 km²</strong></div>
               <div className="dag-stat"><span>Population</span><strong>3.1 millions</strong></div>
               <div className="dag-stat"><span>Altitude moyenne</span><strong>1 000 m</strong></div>
               <div className="dag-stat"><span>Champions olympiques</span><strong>30+</strong></div>
@@ -74,7 +74,7 @@ export default function DagestanPage() {
         <div className="fx-glow-orb" />
         <div className="inner">
           <div className="reveal">
-            <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>SECURITE</span>
+            <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>SÉCURITÉ</span>
             <h2 style={{ fontSize: 'clamp(1.5rem, 3.5vw, 2.2rem)', textTransform: 'uppercase' }}>
               LA QUESTION QUE TOUT LE MONDE POSE
             </h2>
@@ -82,13 +82,13 @@ export default function DagestanPage() {
           <div className="layout-split reveal" style={{ marginTop: '2rem' }}>
             <div>
               <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6' }}>
-                On ne va pas te rassurer avec des formules creuses. La realite du terrain en 2026 :
-                la region ou se déroule le camp est stable et frequentee par des athlètes du monde entier.
-                Les villes d&apos;entraînement (Makhachkala, Kaspiysk) sont des zones urbanisees normales.
+                Pas de formule creuse. La réalité du terrain en 2026 :
+                la région où se déroule le camp est stable et fréquentée par des athlètes du monde entier.
+                Les villes d&apos;entraînement (Makhachkala, Kaspiysk) sont des zones urbaines normales.
               </p>
               <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1rem' }}>
-                Le Quai d&apos;Orsay deconseille certaines zones frontalieres, pas les zones urbaines ou nous operons.
-                Chaque participant est informe en detail avant le depart.
+                Le Quai d&apos;Orsay déconseille certaines zones frontalières, pas les zones urbaines où nous opérons.
+                Chaque participant est informé en détail avant le départ.
               </p>
               <p className="pull-quote">
                 &laquo; Je suis parti seul, sans parler russe. L&apos;accueil est incroyable. Sur le tapis, le niveau est brutal. &raquo;
@@ -100,9 +100,9 @@ export default function DagestanPage() {
                 <h3 className="card-title">PROTOCOLE MKR</h3>
                 <ul className="logi-check-list">
                   <li>Contact d&apos;urgence 24/7 sur place</li>
-                  <li>Equipe francophone permanente</li>
+                  <li>Équipe francophone permanente</li>
                   <li>Assurance rapatriement obligatoire</li>
-                  <li>Briefing sécurité avant depart</li>
+                  <li>Briefing sécurité avant départ</li>
                   <li>Suivi Quai d&apos;Orsay en continu</li>
                 </ul>
               </div>
@@ -116,13 +116,13 @@ export default function DagestanPage() {
         <div className="inner">
           <div className="logi-header reveal">
             <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>SALLES</span>
-            <h2>LIEUX D&apos;ENTRAINEMENT</h2>
+            <h2>LIEUX D&apos;ENTRAÎNEMENT</h2>
           </div>
           <div className="grid-2">
             <figure className="photo-card reveal">
               <img
                 src="/images/environment/gym-interior.webp"
-                alt="Salle d'entraînement principale a Makhachkala, Dagestan"
+                alt="Salle d'entraînement principale à Makhachkala, Daghestan"
                 width={800}
                 height={600}
                 loading="lazy"
@@ -133,13 +133,13 @@ export default function DagestanPage() {
             <figure className="photo-card reveal" style={{ transitionDelay: '0.1s' }}>
               <img
                 src="/images/action/sparring-mma-wall.webp"
-                alt="Entrainement MMA a Kaspiysk, Dagestan"
+                alt="Entraînement MMA à Kaspiysk, Daghestan"
                 width={800}
                 height={600}
                 loading="lazy"
                 className="section-photo-img"
               />
-              <figcaption>Salle secondaire, Kaspiysk. MMA, cage, equipement complet.</figcaption>
+              <figcaption>Salle secondaire, Kaspiysk. MMA, cage, équipement complet.</figcaption>
             </figure>
           </div>
         </div>
@@ -151,13 +151,13 @@ export default function DagestanPage() {
         <div className="inner">
           <div className="logi-header reveal">
             <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>CULTURE</span>
-            <h2>EXCURSIONS ET DECOUVERTE</h2>
+            <h2>EXCURSIONS ET DÉCOUVERTE</h2>
           </div>
           <div className="grid-3">
             {[
-              { title: 'Canyon de Sulak', desc: "Plus profond que le Grand Canyon. Randonnee spectaculaire le jour de repos.", img: '/images/environment/canyon-sulak.webp' },
-              { title: 'Dune de Sarykum', desc: "La plus grande dune d'Europe. Paysage surreal a quelques kilometres de Makhachkala.", img: '/images/environment/sarykum-dune.webp' },
-              { title: 'Village de Gamsutl', desc: "Village fantome perche dans les montagnes. Temoignage d'un Dagestan ancestral.", img: '/images/environment/gamsutl-village.webp' },
+              { title: 'Canyon de Sulak', desc: "Plus profond que le Grand Canyon. Randonnée spectaculaire le jour de repos.", img: '/images/environment/canyon-sulak.webp' },
+              { title: 'Dune de Sarykum', desc: "La plus grande dune d'Europe. Paysage surréel à quelques kilomètres de Makhachkala.", img: '/images/environment/sarykum-dune.webp' },
+              { title: 'Village de Gamsutl', desc: "Village fantôme perché dans les montagnes. Témoignage d'un Daghestan ancestral.", img: '/images/environment/gamsutl-village.webp' },
             ].map((exc, i) => (
               <div key={i} className="content-card fx-grain fx-corner-glow reveal" style={{ transitionDelay: `${i * 0.08}s` }}>
                 <img
@@ -179,8 +179,8 @@ export default function DagestanPage() {
       {/* Cinematic reveal */}
       <CinematicReveal
         image="/images/environment/mountain-road.webp"
-        alt="Route de montagne au Dagestan"
-        label="DAGESTAN"
+        alt="Route de montagne au Daghestan"
+        label="DAGHESTAN"
         title="LA ROUTE DU CHAMPION"
         tagline="Des montagnes qui forgent le caractère. Chaque virage rapproche du camp."
       />
@@ -189,10 +189,10 @@ export default function DagestanPage() {
       <section className="logi-section fx-grid fx-stack-5">
         <div className="inner">
           <div className="group-card reveal">
-            <h2>LOGISTIQUE DAGESTAN</h2>
-            <p>Aeroport : Makhachkala (MCX). Transfert MKR depuis l&apos;aéroport inclus. Hebergement en logement de camp.</p>
+            <h2>LOGISTIQUE DAGHESTAN</h2>
+            <p>Aéroport : Makhachkala (MCX). Transfert MKR depuis l&apos;aéroport inclus. Hébergement en logement de camp.</p>
             <Link href="/logistique" className="btn-ghost" style={{ marginTop: '1rem', fontSize: '0.9rem', padding: '0.6rem 1.5rem' }}>
-              DETAIL COMPLET
+              DÉTAIL COMPLET
             </Link>
           </div>
         </div>
@@ -200,9 +200,9 @@ export default function DagestanPage() {
 
       <SectionCTA
         primaryHref="/sessions"
-        primaryLabel="VOIR LES SESSIONS DAGESTAN"
+        primaryLabel="VOIR LES SESSIONS DAGHESTAN"
         ghostHref="/programme"
-        ghostLabel="DECOUVRIR LE PROGRAMME"
+        ghostLabel="DÉCOUVRIR LE PROGRAMME"
       />
     </>
   )

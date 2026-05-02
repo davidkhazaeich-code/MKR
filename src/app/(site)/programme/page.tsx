@@ -5,8 +5,8 @@ import SectionCTA from '@/components/SectionCTA'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 
 export const metadata: Metadata = {
-  title: 'Programme MMA & Lutte | MKR Caucasian Camp | Entrainement au Daghestan',
-  description: "Programme d'entraînement complet : MMA, Lutte adultes, Lutte enfants. Methodes daghestanaises ancestrales, sparring quotidien, coaching de haut niveau au Caucase.",
+  title: 'Programme MMA et Lutte au Daghestan | MKR Caucasian Camp',
+  description: "Programme d'entraînement complet : MMA, Lutte adultes, Lutte enfants. Méthodes daghestanaises, sparring quotidien, coaching d'élite au cœur du Caucase.",
   alternates: { canonical: 'https://mkrcaucasiancamp.com/programme' },
 }
 
@@ -55,7 +55,7 @@ export default function ProgrammePage() {
             <div className="prog-disc-content">
               <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.5rem' }}>DISCIPLINE</span>
               <h2>MMA</h2>
-              <p>Striking, clinch, takedowns, soumissions. Sparring quotidien avec des combattants locaux. Transitions debout-sol. Methodes inspirees des meilleurs fighters du Caucase.</p>
+              <p>Striking, clinch, takedowns, soumissions. Sparring quotidien avec des combattants locaux. Transitions debout-sol. Méthodes inspirées des meilleurs fighters du Caucase.</p>
               <span className="btn-ghost" style={{ marginTop: '1.5rem', fontSize: '0.9rem', padding: '0.6rem 1.5rem' }}>
                 VOIR LE PROGRAMME MMA
               </span>
@@ -79,7 +79,7 @@ export default function ProgrammePage() {
             <div className="prog-disc-content">
               <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.5rem' }}>DISCIPLINE</span>
               <h2>LUTTE ADULTES</h2>
-              <p>Lutte libre exclusivement. Methodes daghestanaises transmises par des champions. Projections, controle au sol, scrambles. La discipline fondatrice du combat au Caucase.</p>
+              <p>Lutte libre exclusivement. Méthodes daghestanaises transmises par des champions. Projections, contrôle au sol, scrambles. La discipline fondatrice du combat au Caucase.</p>
               <span className="btn-ghost" style={{ marginTop: '1.5rem', fontSize: '0.9rem', padding: '0.6rem 1.5rem' }}>
                 VOIR LE PROGRAMME LUTTE
               </span>
@@ -94,7 +94,7 @@ export default function ProgrammePage() {
           <Link href="/programme/lutte-enfants" className="prog-discipline-card reveal">
             <img
               src="/images/action/ground-control.webp"
-              alt="Lutte adaptee aux jeunes athlètes au Caucase"
+              alt="Lutte adaptée aux jeunes athlètes au Caucase"
               width={800}
               height={600}
               loading="lazy"
@@ -103,7 +103,7 @@ export default function ProgrammePage() {
             <div className="prog-disc-content">
               <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.5rem' }}>DISCIPLINE</span>
               <h2>LUTTE ENFANTS</h2>
-              <p>Programme jeunesse. Pedagogie progressive, encadrement spécialisé. Les fondamentaux daghestanais transmis aux nouvelles générations dans un cadre adapte et sécurisant.</p>
+              <p>Programme jeunesse. Pédagogie progressive, encadrement spécialisé. Les fondamentaux daghestanais transmis aux nouvelles générations dans un cadre adapté et sécurisant.</p>
               <span className="btn-ghost" style={{ marginTop: '1.5rem', fontSize: '0.9rem', padding: '0.6rem 1.5rem' }}>
                 VOIR LE PROGRAMME LUTTE ENFANTS
               </span>
@@ -130,9 +130,9 @@ export default function ProgrammePage() {
               <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.5rem' }}>JEUNESSE</span>
               <h3 className="card-title" style={{ fontSize: '1.3rem' }}>PROGRAMME 8-17 ANS</h3>
               <p className="card-body">
-                Au Daghestan, on commence la lutte très jeune. MKR ouvre cet acces aux 8-17 ans dans un cadre
-                adapte : coach jeunesse dédié, ratio 1 pour 5, sécurité renforcée. Enfant 8-17 ans toujours
-                accompagne d&apos;un parent participant. Tarif fixe 1 900 € / 3 semaines.
+                Au Daghestan, on commence la lutte très jeune. MKR ouvre cet accès aux 8-17 ans dans un cadre
+                adapté : coach jeunesse dédié, ratio 1 pour 5, sécurité renforcée. Enfant 8-17 ans toujours
+                accompagné d&apos;un parent participant. Tarif fixe 1 900 € / 3 semaines.
               </p>
               <div style={{ marginTop: '1.25rem', display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
                 <Link href="/programme/lutte-enfants" className="btn-ghost" style={{ fontSize: '0.8rem', padding: '0.55rem 1.25rem' }}>
@@ -159,15 +159,15 @@ export default function ProgrammePage() {
             {[
               {
                 level: 'PROFESSIONNEL',
-                desc: 'Combattants pro ou semi-pro. Sparring non retenu, coaching tactique avancé, préparation spécifique compétition.',
+                desc: 'Combattants pro ou semi-pro. Sparring soutenu, coaching tactique avancé, préparation spécifique compétition.',
               },
               {
-                level: 'INTERMEDIAIRE',
-                desc: '2-5 ans de pratique reguliere. Base solide debout et au sol. Le coeur du groupe MKR.',
+                level: 'INTERMÉDIAIRE',
+                desc: '2 à 5 ans de pratique régulière. Base solide debout et au sol. Le cœur du groupe MKR.',
               },
               {
-                level: 'AMATEUR SERIEUX',
-                desc: '2 ans minimum de pratique. Condition physique solide. Motivation et engagement total pendant le camp.',
+                level: 'AMATEUR SÉRIEUX',
+                desc: '2 ans minimum de pratique. Condition physique solide. Engagement total pendant le camp.',
               },
             ].map((n, i) => (
               <div key={i} className="content-card fx-grain fx-corner-glow reveal" style={{ transitionDelay: `${i * 0.08}s` }}>
@@ -183,7 +183,7 @@ export default function ProgrammePage() {
         primaryHref="/sessions"
         primaryLabel="VOIR LES SESSIONS"
         ghostHref="/coachs"
-        ghostLabel="DECOUVRIR NOS COACHS"
+        ghostLabel="DÉCOUVRIR NOS COACHS"
       />
     </>
   )

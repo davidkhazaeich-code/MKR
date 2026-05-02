@@ -247,7 +247,7 @@ export default function Nav() {
                   <li><Link href="/mkr-camp-2026">{ICO.sessions} MKR Camp 2026 (session officielle) {ARROW_SM}</Link></li>
                   <li><Link href="/sur-mesure">{ICO.calendar} Sur Mesure (tes dates, ton aventure) {ARROW_SM}</Link></li>
                   <li><Link href="/familles">{ICO.coaches} Famille (parent + enfant 8-17) {ARROW_SM}</Link></li>
-                  <li><Link href="/clubs-groupes">{ICO.coaches} Club &amp; Groupe (5 à 20 personnes) {ARROW_SM}</Link></li>
+                  <li><Link href="/clubs-groupes">{ICO.coaches} Club et Groupe (5 à 20 personnes) {ARROW_SM}</Link></li>
                   <li><Link href="/le-camp">{ICO.camp} Découvrir le camp {ARROW_SM}</Link></li>
                   <li><Link href="/comment-ca-marche">{ICO.howItWorks} Comment ça marche {ARROW_SM}</Link></li>
                   <li><Link href="/preparer-son-camp">{ICO.prepare} Préparer son camp {ARROW_SM}</Link></li>
@@ -302,7 +302,7 @@ export default function Nav() {
                   </svg>
                 </div>
                 <h3 className="mega-prog-title">LUTTE ADULTES</h3>
-                <p className="mega-prog-desc">Lutte libre. Methodes daghestanaises transmises par des champions, sparring quotidien.</p>
+                <p className="mega-prog-desc">Lutte libre. Méthodes daghestanaises transmises par des champions, sparring quotidien.</p>
                 <span className="mega-arrow-link">Voir le programme {ARROW_RIGHT}</span>
               </Link>
               <Link href="/programme/lutte-enfants" className="mega-prog-card">
@@ -316,7 +316,7 @@ export default function Nav() {
                   </svg>
                 </div>
                 <h3 className="mega-prog-title">JEUNESSE</h3>
-                <p className="mega-prog-desc">Programme 8-17 ans avec parent participant. Pedagogie progressive, ratio 1 coach pour 5 enfants, sécurité renforcée.</p>
+                <p className="mega-prog-desc">Programme 8-17 ans avec parent participant. Pédagogie progressive, ratio 1 coach pour 5 enfants, sécurité renforcée.</p>
                 <span className="mega-arrow-link">Voir le programme {ARROW_RIGHT}</span>
               </Link>
             </div>
@@ -335,14 +335,14 @@ export default function Nav() {
           <div className="mega-inner">
             <span className="mega-section-label">Destinations 2026</span>
             <div className="mega-dest-grid">
-              <Link href="/destinations/dagestan" className="mega-dest-card" aria-label="Explorer le Dagestan">
+              <Link href="/destinations/dagestan" className="mega-dest-card" aria-label="Explorer le Daghestan">
                 <Image src="/images/environment/dagestan-panorama.webp" alt="" className="mega-dest-img" fill sizes="(max-width: 768px) 100vw, 50vw" aria-hidden="true" />
                 <div className="mega-dest-overlay" aria-hidden="true"/>
                 <div className="mega-dest-content">
                   <span className="mega-dest-region">Caucase · Russie</span>
-                  <h2 className="mega-dest-name">DAGESTAN</h2>
-                  <p className="mega-dest-tagline">La terre qui a forge les meilleurs combattants de la planete.</p>
-                  <span className="mega-dest-cta">Explorer le Dagestan {ARROW_RIGHT}</span>
+                  <h2 className="mega-dest-name">DAGHESTAN</h2>
+                  <p className="mega-dest-tagline">La terre qui a forgé les meilleurs combattants de la planète.</p>
+                  <span className="mega-dest-cta">Explorer le Daghestan {ARROW_RIGHT}</span>
                 </div>
               </Link>
             </div>
@@ -352,7 +352,7 @@ export default function Nav() {
                 <line x1="9" y1="8" x2="9" y2="12"/><circle cx="9" cy="6" r="0.5" fill="currentColor"/>
               </svg>
               <span className="mega-dest-security-text">
-                Chaque destination inclut une section sécurité avec le niveau d&apos;alerte Quai d&apos;Orsay mis a jour.
+                Chaque destination inclut une section sécurité avec le niveau d&apos;alerte Quai d&apos;Orsay mis à jour.
               </span>
             </div>
           </div>
@@ -373,25 +373,25 @@ export default function Nav() {
               <div>
                 <span className="mega-infos-col-label">Contenus</span>
                 <ul className="mega-link-list" role="list">
-                  <li><Link href="/galerie">{ICO.gallery} Galerie photos et videos {ARROW_SM}</Link></li>
-                  <li><Link href="/temoignages">{ICO.testimonials} Temoignages athlètes {ARROW_SM}</Link></li>
+                  <li><Link href="/galerie">{ICO.gallery} Galerie photos et vidéos {ARROW_SM}</Link></li>
+                  <li><Link href="/temoignages">{ICO.testimonials} Témoignages athlètes {ARROW_SM}</Link></li>
                   <li><Link href="/blog">{ICO.blog} Blog et articles {ARROW_SM}</Link></li>
-                  <li><Link href="/guide-dagestan">{ICO.guide} Guide Dagestan PDF {ARROW_SM}</Link></li>
+                  <li><Link href="/guide-dagestan">{ICO.guide} Guide Daghestan PDF {ARROW_SM}</Link></li>
                 </ul>
               </div>
               <div>
                 <span className="mega-infos-col-label">Pratique</span>
                 <ul className="mega-link-list" role="list">
                   <li><Link href="/faq">{ICO.faq} FAQ {ARROW_SM}</Link></li>
-                  <li><Link href="/a-propos">{ICO.about} A propos de MKR {ARROW_SM}</Link></li>
+                  <li><Link href="/a-propos">{ICO.about} À propos de MKR {ARROW_SM}</Link></li>
                   <li><Link href="/contact">{ICO.contact} Contact {ARROW_SM}</Link></li>
                   <li><Link href="/inscription">{ICO.inscription} Inscription {ARROW_SM}</Link></li>
                 </ul>
               </div>
-              <div className="mega-testi" aria-label="Temoignage athlète">
+              <div className="mega-testi" aria-label="Témoignage athlète">
                 <Image src="/images/testimonials/thomas-b.webp" alt="" className="mega-testi-avatar" width={40} height={40} aria-hidden="true" />
                 <span className="mega-testi-quote-mark" aria-hidden="true">&ldquo;</span>
-                <p className="mega-testi-quote">Deux semaines après le retour, j&apos;ai remporte mon premier titre regional. Ce que j&apos;ai construit la-bas, aucun gym en France ne pouvait me le donner.</p>
+                <p className="mega-testi-quote">Deux semaines après le retour, j&apos;ai remporté mon premier titre régional. Ce que j&apos;ai construit là-bas, aucune salle en France ne pouvait me le donner.</p>
                 <span className="mega-testi-name">Thomas B.</span>
                 <span className="mega-testi-meta">Boxe · Lyon · Session Automne 2025</span>
               </div>
@@ -421,8 +421,8 @@ export default function Nav() {
         <div className="mobile-inner">
           <MobAccordion title="Le Camp" id="mob-camp">
             <Link href="/le-camp" className="mob-sub-link">{ICO.camp} Le Camp</Link>
-            <Link href="/comment-ca-marche" className="mob-sub-link">{ICO.howItWorks} Comment ca marche</Link>
-            <Link href="/preparer-son-camp" className="mob-sub-link">{ICO.prepare} Preparer son camp</Link>
+            <Link href="/comment-ca-marche" className="mob-sub-link">{ICO.howItWorks} Comment ça marche</Link>
+            <Link href="/preparer-son-camp" className="mob-sub-link">{ICO.prepare} Préparer son camp</Link>
             <Link href="/logistique" className="mob-sub-link">{ICO.logistics} Logistique et visa</Link>
           </MobAccordion>
           <MobAccordion title="Programme" id="mob-prog">
@@ -434,21 +434,21 @@ export default function Nav() {
             <Link href="/coachs" className="mob-sub-link">{ICO.coaches} Nos coachs</Link>
           </MobAccordion>
           <MobAccordion title="Destinations" id="mob-dest">
-            <Link href="/destinations/dagestan" className="mob-sub-link">{ICO.dagestan} Dagestan</Link>
+            <Link href="/destinations/dagestan" className="mob-sub-link">{ICO.dagestan} Daghestan</Link>
           </MobAccordion>
           <MobAccordion title="Informations" id="mob-infos">
             <Link href="/galerie" className="mob-sub-link">{ICO.gallery} Galerie</Link>
-            <Link href="/temoignages" className="mob-sub-link">{ICO.testimonials} Temoignages</Link>
+            <Link href="/temoignages" className="mob-sub-link">{ICO.testimonials} Témoignages</Link>
             <Link href="/faq" className="mob-sub-link">{ICO.faq} FAQ</Link>
             <Link href="/blog" className="mob-sub-link">{ICO.blog} Blog</Link>
-            <Link href="/a-propos" className="mob-sub-link">{ICO.about} A propos</Link>
+            <Link href="/a-propos" className="mob-sub-link">{ICO.about} À propos</Link>
             <Link href="/contact" className="mob-sub-link">{ICO.contact} Contact</Link>
           </MobAccordion>
           <MobAccordion title="Nos Camps" id="mob-camps">
             <Link href="/mkr-camp-2026" className="mob-sub-link">{ICO.sessions} MKR Camp 2026</Link>
             <Link href="/sur-mesure" className="mob-sub-link">{ICO.calendar} Sur Mesure</Link>
             <Link href="/familles" className="mob-sub-link">{ICO.coaches} Famille</Link>
-            <Link href="/clubs-groupes" className="mob-sub-link">{ICO.coaches} Club &amp; Groupe</Link>
+            <Link href="/clubs-groupes" className="mob-sub-link">{ICO.coaches} Club et Groupe</Link>
             <Link href="/sessions" className="mob-sub-link">{ICO.sessions} Tarifs publics</Link>
           </MobAccordion>
           <a href="https://wa.me/33666177691" target="_blank" rel="noopener noreferrer" className="mob-direct">

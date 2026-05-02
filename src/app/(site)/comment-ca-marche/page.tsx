@@ -6,8 +6,8 @@ import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 import CinematicReveal from '@/components/CinematicReveal'
 
 export const metadata: Metadata = {
-  title: "Comment ca marche | MKR Caucasian Camp | Processus d'inscription",
-  description: "De l'inscription au premier tapis : découvre les 6 etapes pour rejoindre le camp MKR au Caucase. Processus clair, transparent, sans surprise.",
+  title: "Comment ça marche : 6 étapes pour rejoindre le camp | MKR",
+  description: "De l'inscription au premier tapis : découvre les 6 étapes pour rejoindre le camp MKR au Daghestan. Processus clair, transparent, sans surprise.",
   alternates: { canonical: 'https://mkrcaucasiancamp.com/comment-ca-marche' },
 }
 
@@ -21,40 +21,40 @@ const STEPS = [
   {
     num: '02',
     title: 'APPEL DE VALIDATION',
-    desc: "Un membre de l'equipe te contacte sous 48h pour un entretien de 15-20 minutes. On evalue ta motivation, ton niveau et on repond a toutes tes questions.",
+    desc: "Un membre de l'équipe te contacte sous 48h pour un entretien de 15 à 20 minutes. On évalue ta motivation, ton niveau et on répond à toutes tes questions.",
     detail: 'Sous 48h',
   },
   {
     num: '03',
     title: 'ACOMPTE',
-    desc: 'Si ta candidature est acceptee, tu verses un acompte de 30% pour confirmer ta place. Paiement par virement, CB ou PayPal.',
+    desc: 'Si ta candidature est acceptée, tu verses un acompte de 30% pour confirmer ta place. Paiement par virement, CB ou PayPal.',
     detail: '30% du tarif',
   },
   {
     num: '04',
-    title: 'GUIDE DE PREPARATION',
-    desc: "Tu recois un guide complet : programme de préparation physique sur 6 semaines, liste d'equipement, informations logistiques, conseils pratiques.",
-    detail: 'Envoye après confirmation',
+    title: 'GUIDE DE PRÉPARATION',
+    desc: "Tu reçois un guide complet : programme de préparation physique sur 6 semaines, liste d'équipement, informations logistiques, conseils pratiques.",
+    detail: 'Envoyé après confirmation',
   },
   {
     num: '05',
-    title: 'DEPART',
-    desc: "Vol a ta charge. Un vehicule MKR t'attend a l'aéroport. Le transfert vers le camp est inclus. Tu n'as plus qu'a embarquer.",
+    title: 'DÉPART',
+    desc: "Vol à ta charge. Un véhicule MKR t'attend à l'aéroport. Le transfert vers le camp est inclus. Tu n'as plus qu'à embarquer.",
     detail: 'Transfert inclus',
   },
   {
     num: '06',
     title: 'LE CAMP',
-    desc: "1 a 3 semaines d'entraînement intensif. 2 sessions par jour. Coachs locaux. Hebergement, repas, excursions en option. Tu ne t'occupes de rien d'autre que de progresser.",
-    detail: '1 a 3 semaines',
+    desc: "1 à 3 semaines d'entraînement intensif. 2 sessions par jour. Coachs locaux. Hébergement, repas, excursions en option. Tu te concentres sur une seule chose : progresser.",
+    detail: '1 à 3 semaines',
   },
 ]
 
 const PROCESS_FAQ = [
-  { question: "Combien de temps dure le processus d'inscription ?", answer: "De l'envoi du formulaire a la confirmation, le processus prend 3 a 5 jours en moyenne. L'appel de validation a lieu sous 48h après reception de ta candidature." },
-  { question: "Que se passe-t-il si ma candidature est refusee ?", answer: "On t'explique les raisons et on te donne des pistes pour te préparer a une prochaine session. Le refus est souvent lie au niveau sportif : on te recommande un programme de préparation." },
-  { question: "Puis-je reporter ma session ?", answer: "Oui, sous certaines conditions. Report gratuit si demande faite plus de 60 jours avant le debut du camp. Soumis a disponibilite sur la session suivante." },
-  { question: "Le solde est du quand ?", answer: "Le solde (70% restant) est du 30 jours avant le debut du camp. Tu recois un rappel automatique." },
+  { question: "Combien de temps dure le processus d'inscription ?", answer: "De l'envoi du formulaire à la confirmation, le processus prend 3 à 5 jours en moyenne. L'appel de validation a lieu sous 48h après réception de ta candidature." },
+  { question: "Que se passe-t-il si ma candidature est refusée ?", answer: "On t'explique les raisons et on te donne des pistes pour te préparer à une prochaine session. Le refus est souvent lié au niveau sportif : on te recommande un programme de préparation." },
+  { question: "Puis-je reporter ma session ?", answer: "Oui, sous certaines conditions. Report gratuit si demande faite plus de 60 jours avant le début du camp. Soumis à disponibilité sur la session suivante." },
+  { question: "Le solde est dû quand ?", answer: "Le solde (70% restant) est dû 30 jours avant le début du camp. Tu reçois un rappel automatique." },
 ]
 
 export default function CommentCaMarchePage() {
@@ -62,20 +62,20 @@ export default function CommentCaMarchePage() {
     <>
       <BreadcrumbJsonLd items={[
         { name: 'Accueil', url: 'https://mkrcaucasiancamp.com/' },
-        { name: 'Comment ca marche', url: 'https://mkrcaucasiancamp.com/comment-ca-marche' },
+        { name: 'Comment ça marche', url: 'https://mkrcaucasiancamp.com/comment-ca-marche' },
       ]} />
       <PageHero
         label="LE PROCESSUS"
         title="DE L'INSCRIPTION<br/>AU PREMIER TAPIS"
-        subtitle="Processus clair, transparent, sans surprise. 6 etapes simples."
+        subtitle="Processus clair, transparent, sans surprise. 6 étapes simples."
       />
 
       {/* Cinematic reveal */}
       <CinematicReveal
         image="/images/environment/gym-interior.webp"
-        alt="Interieur de la salle d'entraînement au Caucase"
+        alt="Intérieur de la salle d'entraînement au Caucase"
         label="LES SALLES"
-        title="EQUIPEMENT PRO, AME CAUCASIENNE"
+        title="ÉQUIPEMENT PRO, ÂME CAUCASIENNE"
         tagline="Tapis olympiques, cage MMA, sacs lourds. L'essentiel pour progresser, rien de superflu."
       />
 
@@ -108,10 +108,10 @@ export default function CommentCaMarchePage() {
           </div>
           <div className="reveal" style={{ maxWidth: '600px' }}>
             <table className="table-tonal">
-              <thead><tr><th>Delai avant le camp</th><th>Remboursement</th></tr></thead>
+              <thead><tr><th>Délai avant le camp</th><th>Remboursement</th></tr></thead>
               <tbody>
                 <tr><td>Plus de 60 jours</td><td style={{ color: '#22c55e' }}>100%</td></tr>
-                <tr><td>30 a 60 jours</td><td style={{ color: '#facc15' }}>50%</td></tr>
+                <tr><td>30 à 60 jours</td><td style={{ color: '#facc15' }}>50%</td></tr>
                 <tr><td>Moins de 30 jours</td><td style={{ color: '#ef4444' }}>Non remboursable</td></tr>
               </tbody>
             </table>
@@ -129,9 +129,9 @@ export default function CommentCaMarchePage() {
           </div>
           <div className="grid-3">
             {[
-              { title: 'Virement bancaire', desc: 'IBAN suisse. Pas de frais supplementaires. Coordonnees envoyées après validation.' },
-              { title: 'Carte bancaire', desc: 'Paiement sécurise via Stripe. Visa, Mastercard, Amex.' },
-              { title: 'PayPal', desc: 'Disponible sur demande. Frais PayPal a la charge du participant.' },
+              { title: 'Virement bancaire', desc: 'IBAN suisse. Pas de frais supplémentaires. Coordonnées envoyées après validation.' },
+              { title: 'Carte bancaire', desc: 'Paiement sécurisé via Stripe. Visa, Mastercard, Amex.' },
+              { title: 'PayPal', desc: 'Disponible sur demande. Frais PayPal à la charge du participant.' },
             ].map((p, i) => (
               <div key={i} className="content-card fx-grain fx-corner-glow reveal" style={{ transitionDelay: `${i * 0.08}s` }}>
                 <h3 className="card-title">{p.title}</h3>

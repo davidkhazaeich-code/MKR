@@ -155,7 +155,7 @@ export default function MkrCamp2026Page() {
               <p className="card-body">Tu pars avec un enfant 8-17 ans ? Programme parent + enfant adapté.</p>
             </Link>
             <Link href="/clubs-groupes" className="content-card fx-grain fx-corner-glow" style={{ textDecoration: 'none', display: 'block' }}>
-              <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.5rem', fontSize: '0.65rem' }}>CLUB & GROUPE</span>
+              <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.5rem', fontSize: '0.65rem' }}>CLUB ET GROUPE</span>
               <h3 className="card-title">Ton club au Daghestan</h3>
               <p className="card-body">Tu fédères 5+ personnes (club ou groupe organisé) ? Camp dédié.</p>
             </Link>

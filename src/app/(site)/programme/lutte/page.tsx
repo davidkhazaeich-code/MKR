@@ -5,24 +5,24 @@ import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 import CinematicReveal from '@/components/CinematicReveal'
 
 export const metadata: Metadata = {
-  title: 'Programme Lutte | MKR Caucasian Camp | Lutte libre au Caucase',
-  description: "Programme de lutte libre. Methodes daghestanaises ancestrales, sparring quotidien, coaching de haut niveau au Caucase.",
+  title: 'Programme Lutte libre au Daghestan | MKR Caucasian Camp',
+  description: "Programme de lutte libre au Caucase. Méthodes daghestanaises ancestrales, leg rides, chain wrestling, sparring quotidien, coachs champions du monde.",
   alternates: { canonical: 'https://mkrcaucasiancamp.com/programme/lutte' },
 }
 
 const TECHNIQUES = [
-  { title: 'Lutte libre', desc: 'Takedowns explosifs, controle des jambes, scrambles. La base du combat au Dagestan.' },
-  { title: 'Leg rides', desc: 'Specialite daghestanaise. Controle au sol avec les jambes. Technique introuvable en Europe.' },
-  { title: 'Chain wrestling', desc: 'Enchainement de takedowns. Si le premier echoue, le deuxieme est déjà en route.' },
-  { title: 'Funk rolls', desc: 'Reprises de position acrobatiques. Transformer une situation defensive en attaque.' },
-  { title: 'Mat returns', desc: 'Ramener l\'adversaire au sol depuis la position debout. Technique de controle.' },
-  { title: 'Defense de takedown', desc: 'Sprawl, underhooks, contre-attaques. Annuler l\'attaque adverse et reprendre l\'initiative.' },
+  { title: 'Lutte libre', desc: 'Takedowns explosifs, contrôle des jambes, scrambles. La base du combat au Daghestan.' },
+  { title: 'Leg rides', desc: 'Spécialité daghestanaise. Contrôle au sol avec les jambes. Technique introuvable en Europe.' },
+  { title: 'Chain wrestling', desc: 'Enchaînement de takedowns. Si le premier échoue, le deuxième est déjà en route.' },
+  { title: 'Funk rolls', desc: 'Reprises de position acrobatiques. Transformer une situation défensive en attaque.' },
+  { title: 'Mat returns', desc: "Ramener l'adversaire au sol depuis la position debout. Technique de contrôle." },
+  { title: 'Défense de takedown', desc: "Sprawl, underhooks, contre-attaques. Annuler l'attaque adverse et reprendre l'initiative." },
 ]
 
 const SESSION_FLOW = [
-  { time: '15 min', activity: 'Echauffement', desc: 'Course, exercices au sol, mobilite des hanches.' },
-  { time: '30 min', activity: 'Technique', desc: 'Demonstration par le coach. Repetition par paires. Corrections individuelles.' },
-  { time: '20 min', activity: 'Situations', desc: 'Positions de depart imposees. Attaque-defense chronometree.' },
+  { time: '15 min', activity: 'Échauffement', desc: 'Course, exercices au sol, mobilité des hanches.' },
+  { time: '30 min', activity: 'Technique', desc: 'Démonstration par le coach. Répétition par paires. Corrections individuelles.' },
+  { time: '20 min', activity: 'Situations', desc: 'Positions de départ imposées. Attaque-défense chronométrée.' },
   { time: '30 min', activity: 'Sparring', desc: 'Rounds de 6 minutes (rythme compétition). Rotation partenaires.' },
   { time: '10 min', activity: 'Conditioning', desc: 'Circuit final : pompes, squats, pont de lutte, gainage.' },
 ]
@@ -37,8 +37,8 @@ export default function ProgrammeLuttePage() {
       ]} />
       <PageHero
         label="LUTTE"
-        title="LA DISCIPLINE QUI A<br/>FORGE LE CAUCASE"
-        subtitle="Lutte libre uniquement. Les méthodes ancestrales du Dagestan."
+        title="LA DISCIPLINE QUI A<br/>FORGÉ LE CAUCASE"
+        subtitle="Lutte libre uniquement. Les méthodes ancestrales du Daghestan."
         breadcrumb={[
           { href: '/programme', label: 'Programme' },
           { href: '/programme/lutte', label: 'Lutte' },
@@ -52,15 +52,15 @@ export default function ProgrammeLuttePage() {
           <div className="layout-split reveal">
             <div>
               <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>LE PROGRAMME</span>
-              <h2 style={{ fontSize: 'clamp(1.5rem, 3vw, 2rem)', textTransform: 'uppercase' }}>LUTTE AU DAGESTAN</h2>
+              <h2 style={{ fontSize: 'clamp(1.5rem, 3vw, 2rem)', textTransform: 'uppercase' }}>LUTTE AU DAGHESTAN</h2>
               <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1rem' }}>
-                Au Dagestan, la lutte n&apos;est pas un sport. C&apos;est une identité. Chaque village a son champion,
+                Au Daghestan, la lutte n&apos;est pas un sport. C&apos;est une identité. Chaque village a son champion,
                 chaque famille transmet ses techniques. Les méthodes daghestanaises ont produit plus de champions
                 olympiques de lutte par habitant que n&apos;importe quel autre endroit au monde.
               </p>
               <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1rem' }}>
-                Le programme MKR te donne acces a ce savoir : lutte libre exclusivement, et les techniques
-                spécifiques du Caucase que tu ne trouveras dans aucune academie européenne.
+                Le programme MKR te donne accès à ce savoir : lutte libre exclusivement, et les techniques
+                spécifiques du Caucase que tu ne trouveras dans aucune académie européenne.
               </p>
             </div>
             <div>
@@ -77,7 +77,7 @@ export default function ProgrammeLuttePage() {
               <figure className="photo-card" style={{ marginTop: '1.25rem' }}>
                 <img
                   src="/images/action/ground-control.webp"
-                  alt="Controle au sol en lutte, technique daghestanaise"
+                  alt="Contrôle au sol en lutte, technique daghestanaise"
                   width={800}
                   height={600}
                   loading="lazy"
@@ -95,7 +95,7 @@ export default function ProgrammeLuttePage() {
         alt="Takedown de lutte libre en entraînement au Caucase"
         label="PROJECTION"
         title="L'ART DU TAKEDOWN"
-        tagline="Lutte libre. Les techniques qui ont forge les champions du Caucase."
+        tagline="Lutte libre. Les techniques qui ont forgé les champions du Caucase."
       />
 
       {/* Techniques */}
@@ -122,7 +122,7 @@ export default function ProgrammeLuttePage() {
         <div className="inner">
           <div className="logi-header reveal">
             <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>SESSION TYPE</span>
-            <h2>DEROULEMENT D&apos;UNE SESSION</h2>
+            <h2>DÉROULEMENT D&apos;UNE SESSION</h2>
           </div>
           <div className="daily-timeline">
             {SESSION_FLOW.map((step, i) => (

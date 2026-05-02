@@ -5,26 +5,26 @@ import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 import CinematicReveal from '@/components/CinematicReveal'
 
 export const metadata: Metadata = {
-  title: 'Programme MMA | MKR Caucasian Camp | Entrainement MMA au Caucase',
-  description: "Detail du programme MMA : techniques couvertes, sparring, coaching, niveaux. Entrainement intensif au coeur du Caucase.",
+  title: 'Programme MMA au Daghestan | MKR Caucasian Camp',
+  description: "Programme MMA complet au Caucase : techniques debout, clinch, takedowns, soumissions, transitions. Sparring quotidien et coaching d'élite au Daghestan.",
   alternates: { canonical: 'https://mkrcaucasiancamp.com/programme/mma' },
 }
 
 const TECHNIQUES = [
-  { title: 'Stand-up', desc: 'Boxing, kickboxing, coups de coude et genou. Travail de distance et de timing.' },
-  { title: 'Clinch', desc: 'Controle mural, dirty boxing, projections depuis le clinch. Specialite caucasienne.' },
-  { title: 'Takedowns', desc: 'Singles, doubles, body locks. Integration des techniques de lutte dans le MMA.' },
-  { title: 'Ground & Pound', desc: 'Controle au sol, frappe en position dominante. Gestion de la garde.' },
-  { title: 'Soumissions', desc: 'Etranglements, clefs de bras et jambes. Enchainements depuis les transitions.' },
+  { title: 'Stand-up', desc: 'Boxe, kickboxing, coups de coude et de genou. Travail de distance et de timing.' },
+  { title: 'Clinch', desc: 'Contrôle mural, dirty boxing, projections depuis le clinch. Spécialité caucasienne.' },
+  { title: 'Takedowns', desc: 'Singles, doubles, body locks. Intégration des techniques de lutte dans le MMA.' },
+  { title: 'Ground et Pound', desc: 'Contrôle au sol, frappe en position dominante. Gestion de la garde.' },
+  { title: 'Soumissions', desc: 'Étranglements, clés de bras et de jambes. Enchaînements depuis les transitions.' },
   { title: 'Transitions', desc: 'Passage debout-sol fluide. Scrambles, reprises de position. Le point fort du Caucase.' },
 ]
 
 const SESSION_FLOW = [
-  { time: '15 min', activity: 'Echauffement', desc: 'Mobilite, activation, shadow boxing.' },
-  { time: '30 min', activity: 'Technique', desc: 'Demonstration et répétition par paires. Focus du jour.' },
-  { time: '20 min', activity: 'Drills', desc: 'Situations de combat, enchainements, timing.' },
-  { time: '30 min', activity: 'Sparring', desc: 'Rounds de 5 minutes. Intensite adaptee au niveau.' },
-  { time: '10 min', activity: 'Debrief', desc: 'Retour du coach, points cles, feedback individuel.' },
+  { time: '15 min', activity: 'Échauffement', desc: 'Mobilité, activation, shadow boxing.' },
+  { time: '30 min', activity: 'Technique', desc: 'Démonstration et répétition par paires. Focus du jour.' },
+  { time: '20 min', activity: 'Drills', desc: 'Situations de combat, enchaînements, timing.' },
+  { time: '30 min', activity: 'Sparring', desc: 'Rounds de 5 minutes. Intensité adaptée au niveau.' },
+  { time: '10 min', activity: 'Débrief', desc: 'Retour du coach, points clés, feedback individuel.' },
 ]
 
 export default function ProgrammeMMAPage() {
@@ -38,7 +38,7 @@ export default function ProgrammeMMAPage() {
       <PageHero
         label="MMA"
         title="FRAPPE. PROJETTE.<br/>SOUMETS."
-        subtitle="Programme MMA complet. Des méthodes forgees dans les salles du Caucase."
+        subtitle="Programme MMA complet. Des méthodes forgées dans les salles du Caucase."
         breadcrumb={[
           { href: '/programme', label: 'Programme' },
           { href: '/programme/mma', label: 'MMA' },
@@ -54,13 +54,13 @@ export default function ProgrammeMMAPage() {
               <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>LE PROGRAMME</span>
               <h2 style={{ fontSize: 'clamp(1.5rem, 3vw, 2rem)', textTransform: 'uppercase' }}>MMA AU CAUCASE</h2>
               <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1rem' }}>
-                Le MMA au Caucase n&apos;est pas un sport de salle climatisee. C&apos;est une discipline forgee dans
-                la tradition de la lutte, enrichie par des decennies de compétition internationale. Les coachs MKR
-                enseignent un MMA complet, avec un accent particulier sur les transitions et le controle.
+                Le MMA au Caucase n&apos;est pas un sport de salle climatisée. C&apos;est une discipline forgée dans
+                la tradition de la lutte, enrichie par des décennies de compétition internationale. Les coachs MKR
+                enseignent un MMA complet, avec un accent particulier sur les transitions et le contrôle.
               </p>
               <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1rem' }}>
-                Chaque session est structuree : technique, drills, sparring. Le niveau s&apos;adapte a chaque
-                participant, mais l&apos;intensite reste elevee pour tous.
+                Chaque session est structurée : technique, drills, sparring. Le niveau s&apos;adapte à chaque
+                participant, mais l&apos;intensité reste élevée pour tous.
               </p>
             </div>
             <div>
@@ -92,9 +92,9 @@ export default function ProgrammeMMAPage() {
       {/* Cinematic reveal */}
       <CinematicReveal
         image="/images/action/ground-control.webp"
-        alt="Controle au sol MMA dans une salle du Caucase"
+        alt="Contrôle au sol MMA dans une salle du Caucase"
         label="GROUND GAME"
-        title="LE CONTROLE AU SOL"
+        title="LE CONTRÔLE AU SOL"
         tagline="Position dominante, soumissions, transitions. Le MMA caucasien commence par le sol."
       />
 
@@ -122,7 +122,7 @@ export default function ProgrammeMMAPage() {
         <div className="inner">
           <div className="logi-header reveal">
             <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>SESSION TYPE</span>
-            <h2>DEROULEMENT D&apos;UNE SESSION</h2>
+            <h2>DÉROULEMENT D&apos;UNE SESSION</h2>
           </div>
           <div className="daily-timeline">
             {SESSION_FLOW.map((step, i) => (

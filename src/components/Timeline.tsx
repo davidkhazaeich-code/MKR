@@ -117,7 +117,7 @@ export default function Timeline() {
               </div>
               <div className="timeline-step-img reveal-clip">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img className="timeline-step-photo" src="/images/action/conditioning-rope.webp" alt="Conditioning -grimper de corde" />
+                <img className="timeline-step-photo" src="/images/action/conditioning-rope.webp" alt="Conditioning, grimper de corde" />
                 <div className="timeline-step-img-inner"></div>
               </div>
             </div>
@@ -128,7 +128,7 @@ export default function Timeline() {
             <div className="timeline-panel">
               <div className="timeline-step-img reveal-clip">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img className="timeline-step-photo" src="/images/environment/mountain-road.webp" alt="Route vers le camp -Caucase" />
+                <img className="timeline-step-photo" src="/images/environment/mountain-road.webp" alt="Route vers le camp au Caucase" />
                 <div className="timeline-step-img-inner"></div>
               </div>
               <div className="timeline-text">

@@ -4,8 +4,8 @@ import SectionCTA from '@/components/SectionCTA'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 
 export const metadata: Metadata = {
-  title: 'Logistique | MKR Caucasian Camp | Visa, Vol, Budget Dagestan',
-  description: "Guide pratique complet : visa, vols depuis Paris/Bruxelles/Geneve, budget total, assurance voyage. Tout ce qu'il faut savoir avant de partir au Dagestan.",
+  title: 'Logistique Camp Daghestan : Visa, Vol, Budget | MKR Caucasian Camp',
+  description: "Guide pratique complet : visa Russie, vols depuis Paris, Bruxelles ou Genève, budget total, assurance voyage. Tout pour partir au Daghestan en confiance.",
   alternates: { canonical: 'https://mkrcaucasiancamp.com/logistique' },
 }
 
@@ -19,7 +19,7 @@ export default function LogistiquePage() {
       <PageHero
         label="LOGISTIQUE"
         title="TOUT CE QUE TU DOIS<br/>SAVOIR AVANT DE PARTIR"
-        subtitle="Visa, vols, budget, assurance. On t'explique tout."
+        subtitle="Visa, vols, budget, assurance. Tout est là."
       />
 
       {/* Budget total */}
@@ -28,7 +28,7 @@ export default function LogistiquePage() {
         <div className="inner">
           <div className="logi-header reveal">
             <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>BUDGET</span>
-            <h2>BUDGET TOTAL ESTIME</h2>
+            <h2>BUDGET TOTAL ESTIMÉ</h2>
           </div>
           <div className="layout-split reveal" style={{ transitionDelay: '0.1s' }}>
             <div>
@@ -37,24 +37,24 @@ export default function LogistiquePage() {
                 <tbody>
                   <tr><td>Package MKR (camp complet)</td><td>2 750 - 3 200 €</td></tr>
                   <tr><td>Vol international A/R</td><td>400 - 700 EUR</td></tr>
-                  <tr><td>Visa (si necessaire)</td><td>60 - 100 EUR</td></tr>
+                  <tr><td>Visa (si nécessaire)</td><td>60 - 100 EUR</td></tr>
                   <tr><td>Assurance voyage</td><td>80 - 150 EUR</td></tr>
-                  <tr><td>Equipement personnel</td><td>100 - 200 EUR</td></tr>
+                  <tr><td>Équipement personnel</td><td>100 - 200 EUR</td></tr>
                 </tbody>
               </table>
               <p style={{ color: 'var(--text-muted)', fontSize: '0.8rem', marginTop: '1rem' }}>
-                Estimations basees sur les departs depuis l&apos;Europe francophone. Prix sujets a variation.
+                Estimations basées sur les départs depuis l&apos;Europe francophone. Prix sujets à variation.
               </p>
             </div>
             <div className="content-card fx-grain fx-corner-glow">
               <h3 className="card-title">CE QUI EST INCLUS</h3>
               <ul className="logi-check-list">
-                <li>Hebergement de camp</li>
+                <li>Hébergement de camp</li>
                 <li>2 repas par jour</li>
-                <li>2 sessions d&apos;entraînement/jour</li>
+                <li>2 sessions d&apos;entraînement par jour</li>
                 <li>Transferts aéroport-camp</li>
                 <li>Excursions culturelles (en option)</li>
-                <li>Suivi préparatoire a distance</li>
+                <li>Suivi préparatoire à distance</li>
               </ul>
             </div>
           </div>
@@ -67,14 +67,14 @@ export default function LogistiquePage() {
         <div className="inner">
           <div className="logi-header reveal">
             <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>VISA</span>
-            <h2>FORMALITES D&apos;ENTREE</h2>
+            <h2>FORMALITÉS D&apos;ENTRÉE</h2>
           </div>
           <div className="logi-visa-steps reveal">
             {[
-              { num: '01', title: 'Verifier ton passeport', desc: 'Passeport valide au moins 6 mois après la date de retour.' },
-              { num: '02', title: 'Visa Russie obligatoire', desc: "Le camp se déroule au Daghestan (Federation de Russie). Un visa russe est necessaire pour la majorite des nationalites. Pour les ressortissants UE, MKR fournit un questionnaire visa a remplir avec ton passeport (validite 6 mois minimum)." },
-              { num: '03', title: 'Lettre d&apos;invitation MKR', desc: "MKR fournit la lettre d&apos;invitation officielle après confirmation de ta candidature. C&apos;est le document central du dossier visa." },
-              { num: '04', title: 'Documents a emporter', desc: "Passeport, confirmation de reservation MKR, attestation d'assurance, billet retour." },
+              { num: '01', title: 'Vérifier ton passeport', desc: 'Passeport valide au moins 6 mois après la date de retour.' },
+              { num: '02', title: 'Visa Russie obligatoire', desc: "Le camp se déroule au Daghestan (Fédération de Russie). Un visa russe est nécessaire pour la majorité des nationalités. Pour les ressortissants UE, MKR fournit un questionnaire visa à remplir avec ton passeport (validité 6 mois minimum)." },
+              { num: '03', title: "Lettre d'invitation MKR", desc: "MKR fournit la lettre d'invitation officielle après confirmation de ta candidature. C'est le document central du dossier visa." },
+              { num: '04', title: 'Documents à emporter', desc: "Passeport, confirmation de réservation MKR, attestation d'assurance, billet retour." },
             ].map((step) => (
               <div key={step.num} className="logi-step">
                 <span className="logi-step-num">{step.num}</span>
@@ -84,7 +84,7 @@ export default function LogistiquePage() {
                 </div>
               </div>
             ))}
-            <p className="logi-updated">Mis a jour : avril 2026</p>
+            <p className="logi-updated">Mis à jour : avril 2026</p>
           </div>
         </div>
       </section>
@@ -99,7 +99,7 @@ export default function LogistiquePage() {
           <div className="grid-3">
             {[
               { city: 'Paris CDG', connections: 'Via Istanbul (Turkish Airlines) vers Makhachkala (MCX). Vol intérieur Istanbul-Makhachkala inclus dans le package MKR.', price: '450 - 700 EUR', duration: '~7-9h avec escale' },
-              { city: 'Geneve / Zurich', connections: 'Via Istanbul (Turkish Airlines) vers Makhachkala (MCX). Vol intérieur Istanbul-Makhachkala inclus dans le package MKR.', price: '500 - 750 EUR', duration: '~8-10h avec escale' },
+              { city: 'Genève / Zurich', connections: 'Via Istanbul (Turkish Airlines) vers Makhachkala (MCX). Vol intérieur Istanbul-Makhachkala inclus dans le package MKR.', price: '500 - 750 EUR', duration: '~8-10h avec escale' },
               { city: 'Bruxelles', connections: 'Via Istanbul (Turkish Airlines) vers Makhachkala (MCX). Vol intérieur Istanbul-Makhachkala inclus dans le package MKR.', price: '480 - 720 EUR', duration: '~8-10h avec escale' },
             ].map((flight, i) => (
               <div key={i} className="content-card fx-grain fx-corner-glow reveal" style={{ transitionDelay: `${i * 0.08}s` }}>
@@ -113,7 +113,7 @@ export default function LogistiquePage() {
                   <p style={{ color: 'var(--primary)' }}>{flight.price}</p>
                 </div>
                 <div className="logi-flight-detail">
-                  <span className="logi-flight-label">Duree</span>
+                  <span className="logi-flight-label">Durée</span>
                   <p>{flight.duration}</p>
                 </div>
               </div>
@@ -131,12 +131,12 @@ export default function LogistiquePage() {
             <h2>ASSURANCE VOYAGE</h2>
             <p>L&apos;assurance voyage est obligatoire pour participer au camp. Elle doit couvrir :</p>
             <ul className="logi-check-list" style={{ marginTop: '1rem' }}>
-              <li>Rapatriement medical</li>
+              <li>Rapatriement médical</li>
               <li>Pratique de sports de contact (MMA, lutte)</li>
-              <li>Frais medicaux a l&apos;étranger</li>
-              <li>Responsabilite civile</li>
+              <li>Frais médicaux à l&apos;étranger</li>
+              <li>Responsabilité civile</li>
             </ul>
-            <p style={{ marginTop: '1rem' }}>Prestataires recommandes : Chapka Direct, ACS, World Nomads, Allianz Travel.</p>
+            <p style={{ marginTop: '1rem' }}>Prestataires recommandés : Chapka Direct, ACS, World Nomads, Allianz Travel.</p>
           </div>
         </div>
       </section>
@@ -149,9 +149,9 @@ export default function LogistiquePage() {
               <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>SUR PLACE</span>
               <h2>TRANSFERTS</h2>
               <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1rem' }}>
-                Le transfert depuis l&apos;aéroport est inclus dans le package. Un vehicule MKR t&apos;attend a ton arrivee.
+                Le transfert depuis l&apos;aéroport est inclus dans le package. Un véhicule MKR t&apos;attend à ton arrivée.
                 Le trajet entre l&apos;aéroport de Makhachkala et le lieu d&apos;entraînement dure environ 1h30. Tous
-                les deplacements pendant le camp sont pris en charge.
+                les déplacements pendant le camp sont pris en charge.
               </p>
               <figure className="photo-card" style={{ marginTop: '1.5rem' }}>
                 <img
@@ -167,9 +167,9 @@ export default function LogistiquePage() {
             </div>
             <div className="content-card fx-grain fx-corner-glow">
               <h3 className="card-title">INFOS PRATIQUES</h3>
-              <p className="card-body">Aeroport : Makhachkala (MCX)</p>
-              <p className="card-body">Accueil a l&apos;aéroport par l&apos;equipe MKR</p>
-              <p className="card-body">Vehicule prive camp &lt;&gt; salle</p>
+              <p className="card-body">Aéroport : Makhachkala (MCX)</p>
+              <p className="card-body">Accueil à l&apos;aéroport par l&apos;équipe MKR</p>
+              <p className="card-body">Véhicule privé camp et salle</p>
             </div>
           </div>
         </div>
@@ -180,17 +180,17 @@ export default function LogistiquePage() {
         <div className="fx-glow-orb fx-glow-orb--top fx-glow-breathe" />
         <div className="inner">
           <div className="logi-header reveal">
-            <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>BON A SAVOIR</span>
+            <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>BON À SAVOIR</span>
             <h2>INFOS PRATIQUES</h2>
           </div>
           <div className="grid-3x2">
             {[
-              { title: 'Decalage horaire', desc: 'GMT+3 (heure de Moscou). +2h par rapport a Paris.' },
-              { title: 'Monnaie', desc: 'Rouble russe (RUB). 1 EUR ≈ 100 RUB. Especes recommandees, CB internationales souvent inutilisables.' },
-              { title: 'Internet', desc: 'Wi-Fi au logement. Carte SIM locale Russie recommandee (~5 EUR).' },
-              { title: 'Climat', desc: 'Continental. Printemps 12-20°C, ete 25-35°C, automne 10-18°C.' },
-              { title: 'Langue', desc: 'Russe principal. Avar et autres langues du Daghestan selon la salle. Interprete MKR francophone sur place.' },
-              { title: 'Alimentation', desc: 'Cuisine caucasienne : riche en protéines, viande, legumes, pain. Regime adapte aux athlètes.' },
+              { title: 'Décalage horaire', desc: 'GMT+3 (heure de Moscou). +2h par rapport à Paris.' },
+              { title: 'Monnaie', desc: 'Rouble russe (RUB). 1 EUR ≈ 100 RUB. Espèces recommandées, CB internationales souvent inutilisables.' },
+              { title: 'Internet', desc: 'Wi-Fi au logement. Carte SIM locale Russie recommandée (~5 EUR).' },
+              { title: 'Climat', desc: 'Continental. Printemps 12-20°C, été 25-35°C, automne 10-18°C.' },
+              { title: 'Langue', desc: 'Russe principal. Avar et autres langues du Daghestan selon la salle. Interprète MKR francophone sur place.' },
+              { title: 'Alimentation', desc: 'Cuisine caucasienne : riche en protéines, viande, légumes, pain. Régime adapté aux athlètes.' },
             ].map((info, i) => (
               <div key={i} className="content-card fx-grain fx-corner-glow reveal" style={{ transitionDelay: `${i * 0.06}s` }}>
                 <h3 className="card-title" style={{ fontSize: '0.95rem' }}>{info.title}</h3>
@@ -205,7 +205,7 @@ export default function LogistiquePage() {
         primaryHref="/faq"
         primaryLabel="DES QUESTIONS ?"
         ghostHref="/guide-dagestan"
-        ghostLabel="TELECHARGER LE GUIDE PDF"
+        ghostLabel="TÉLÉCHARGER LE GUIDE PDF"
       />
     </>
   )

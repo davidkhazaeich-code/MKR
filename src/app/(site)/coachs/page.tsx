@@ -5,8 +5,8 @@ import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 import CinematicReveal from '@/components/CinematicReveal'
 
 export const metadata: Metadata = {
-  title: 'Nos Coachs | MKR Caucasian Camp | Entraineurs MMA & Lutte du Caucase',
-  description: "Formes dans les salles du Caucase. Nos coachs enseignent ce qu'ils vivent. Champions de lutte libre, veterans MMA, et un staff complet de 9 coachs experimentes.",
+  title: 'Coachs MMA et Lutte au Daghestan | MKR Caucasian Camp',
+  description: "Formés dans les salles du Caucase. Nos coachs enseignent ce qu'ils vivent. Champions de lutte libre, vétérans MMA et un staff complet de 9 coachs expérimentés.",
   alternates: { canonical: 'https://mkrcaucasiancamp.com/coachs' },
 }
 
@@ -15,29 +15,29 @@ const COACHES = [
     name: 'Magomed Magomedov',
     role: 'Coach Lutte libre',
     experience: '18 ans',
-    bio: "Champion du Daghestan en lutte libre. Forme dans les academies de Makhachkala, Magomed enseigne les techniques ancestrales du Caucase. Sa méthode se concentre sur le controle au corps-a-corps et les projections de hanche qui ont fait la reputation du Daghestan.",
-    palmares: 'Champion du Daghestan en lutte libre, Formateur equipe junior',
+    bio: "Champion du Daghestan en lutte libre. Formé dans les académies de Makhachkala, Magomed enseigne les techniques ancestrales du Caucase. Sa méthode se concentre sur le contrôle au corps-à-corps et les projections de hanche qui ont fait la réputation du Daghestan.",
+    palmares: 'Champion du Daghestan en lutte libre, Formateur équipe junior',
   },
   {
     name: 'Khasan Akhmedov',
     role: 'Coach MMA',
     experience: '14 ans',
-    bio: "Veteran du circuit MMA caucasien. Khasan combine une expertise en striking et en grappling. Sa philosophie : chaque combattant doit etre dangereux debout et au sol. Il dirige les sessions de sparring au Daghestan avec une attention particuliere a l'intelligence tactique.",
+    bio: "Vétéran du circuit MMA caucasien. Khasan combine une expertise en striking et en grappling. Sa philosophie : chaque combattant doit être dangereux debout et au sol. Il dirige les sessions de sparring au Daghestan avec une attention particulière à l'intelligence tactique.",
     palmares: '22 combats pro, Formateur fighters Eagle FC',
   },
   {
     name: 'Akhmed Bashaev',
     role: 'Coach Boxe',
     experience: '20 ans',
-    bio: "Ancien boxeur professionnel, Akhmed est respecte dans tout le Caucase pour sa technique de frappe pure. Il travaille les fondamentaux : placement, timing, gestion de la distance. Ses sessions de pads au Daghestan sont redoutees et adulees en parts egales.",
-    palmares: 'Champion regional boxe, 30+ combats pro',
+    bio: "Ancien boxeur professionnel, Akhmed est respecté dans tout le Caucase pour sa technique de frappe pure. Il travaille les fondamentaux : placement, timing, gestion de la distance. Ses sessions de pads au Daghestan sont redoutées et adulées en parts égales.",
+    palmares: 'Champion régional boxe, 30+ combats pro',
   },
   {
     name: 'Shamil Khalilov',
     role: 'Coach Sambo',
     experience: '16 ans',
-    bio: "Maitre de Sambo sportif et combat, Shamil apporte une dimension unique au programme MKR. Ses techniques de soumission debout et ses transitions sol-debout sont un avantage competitif pour tout fighter. Heritier de la grande ecole de Sambo daghestanaise.",
-    palmares: 'Multiple medaille Sambo, Instructeur federal',
+    bio: "Maître de Sambo sportif et combat, Shamil apporte une dimension rare au programme MKR. Ses techniques de soumission debout et ses transitions sol-debout sont un avantage compétitif pour tout fighter. Héritier de la grande école de Sambo daghestanaise.",
+    palmares: 'Multiple médaillé Sambo, Instructeur fédéral',
   },
 ]
 
@@ -50,9 +50,9 @@ export default function CoachsPage() {
       ]} />
 
       <PageHero
-        label="NOS ENTRAINEURS"
-        title="FORMES DANS LES<br/>SALLES DU CAUCASE"
-        subtitle="Ils enseignent ce qu'ils vivent. Champions, veterans, maitres."
+        label="NOS ENTRAÎNEURS"
+        title="FORMÉS DANS LES<br/>SALLES DU CAUCASE"
+        subtitle="Ils enseignent ce qu'ils vivent. Champions, vétérans, maîtres."
       />
 
       {/* Grille de coachs */}
@@ -102,14 +102,14 @@ export default function CoachsPage() {
         <div className="inner">
           <div className="layout-split layout-split--balanced layout-split--center reveal">
             <div>
-              <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>METHODE</span>
+              <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>MÉTHODE</span>
               <h2 style={{ fontSize: 'clamp(1.5rem, 3.5vw, 2.2rem)', textTransform: 'uppercase' }}>
-                LA METHODE DAGHESTANAISE
+                LA MÉTHODE DAGHESTANAISE
               </h2>
               <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1.5rem' }}>
-                En Occident, on forme des athlètes. Au Caucase, on forge des combattants. La difference est dans la méthode :
-                répétition jusqu&apos;a l&apos;automatisme, sparring quotidien contre des adversaires qui ne font pas semblant,
-                et une culture ou abandonner n&apos;est tout simplement pas une option.
+                En Occident, on forme des athlètes. Au Caucase, on forge des combattants. La différence est dans la méthode :
+                répétition jusqu&apos;à l&apos;automatisme, sparring quotidien contre des adversaires qui ne font pas semblant,
+                et une culture où abandonner n&apos;est tout simplement pas une option.
               </p>
               <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1rem' }}>
                 Les techniques transmises ici n&apos;existent dans aucun manuel occidental. Elles se transmettent sur le tapis,
@@ -118,7 +118,7 @@ export default function CoachsPage() {
               <p className="pull-quote">
                 &laquo; Magomed t&apos;apprend des prises que tu ne verras nulle part en Europe. &raquo;
               </p>
-              <span style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>Karim D. · MMA · Geneve</span>
+              <span style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>Karim D. · MMA · Genève</span>
             </div>
             <div>
               <figure className="photo-card">
@@ -138,7 +138,7 @@ export default function CoachsPage() {
 
       <SectionCTA
         primaryHref="/sessions"
-        primaryLabel="VIENS T'ENTRAINER AVEC EUX"
+        primaryLabel="VIENS T'ENTRAÎNER AVEC EUX"
         ghostHref="/programme"
         ghostLabel="VOIR LE PROGRAMME"
       />

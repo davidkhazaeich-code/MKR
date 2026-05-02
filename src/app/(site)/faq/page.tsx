@@ -6,8 +6,8 @@ import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 import { getAllFaqItems } from '@/data/faq'
 
 export const metadata: Metadata = {
-  title: 'FAQ | MKR Caucasian Camp | Questions Frequentes',
-  description: "Toutes les reponses a vos questions : sécurité, visa, niveau requis, prix, equipement, inscription. FAQ complete.",
+  title: 'FAQ Camp MMA Daghestan | MKR Caucasian Camp',
+  description: "Toutes les réponses à tes questions : sécurité, visa Russie, niveau requis, prix, équipement, inscription. FAQ complète du camp MKR.",
   alternates: { canonical: 'https://mkrcaucasiancamp.com/faq' },
 }
 
@@ -36,7 +36,7 @@ export default function FAQPage() {
 
       <PageHero
         label="FAQ"
-        title="QUESTIONS FREQUENTES"
+        title="QUESTIONS FRÉQUENTES"
         subtitle="Tout ce que tu dois savoir avant de postuler."
       />
       <FAQTabs />
@@ -44,7 +44,7 @@ export default function FAQPage() {
         primaryHref="/sessions"
         primaryLabel="VOIR LES SESSIONS"
         ghostHref="/contact"
-        ghostLabel="PAS TROUVE TA REPONSE ?"
+        ghostLabel="PAS TROUVÉ TA RÉPONSE ?"
       />
     </>
   )

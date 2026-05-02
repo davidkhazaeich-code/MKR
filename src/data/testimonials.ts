@@ -26,7 +26,7 @@ export const TESTIMONIALS: Testimonial[] = [
     alt: 'Karim D. - MMA, Genève',
     name: 'Karim D.',
     discipline: 'MMA · Genève',
-    quote: "Le niveau des coachs est inégalable. Magomed t'apprend des prises que tu ne verras nulle part en Europe. J'y retourne l'année prochaine.",
+    quote: "Le niveau des coachs est rare. Magomed t'apprend des prises que tu ne verras nulle part en Europe. J'y retourne l'année prochaine.",
   },
   {
     img: '/images/testimonials/thomas-b.webp',
@@ -40,14 +40,14 @@ export const TESTIMONIALS: Testimonial[] = [
     alt: 'Yassine K. - Grappling, Bruxelles',
     name: 'Yassine K.',
     discipline: 'Grappling · Bruxelles',
-    quote: "Un mois de camp qui vaut deux ans de salle. Les Dagestanais t'apprennent à souffrir avec le sourire. Je suis revenu transformé.",
+    quote: "Un mois de camp qui vaut deux ans de salle. Les Daghestanais t'apprennent à souffrir avec le sourire. Je suis revenu transformé.",
   },
   {
     img: '/images/testimonials/romain-v.webp',
     alt: 'Romain V. - Sambo, Toulouse',
     name: 'Romain V.',
     discipline: 'Sambo · Toulouse',
-    quote: "Je suis parti seul, sans parler russe. L'accueil est incroyable. Sur le tapis, le niveau est brutal - exactement ce que je cherchais.",
+    quote: "Je suis parti seul, sans parler russe. L'accueil est chaleureux. Sur le tapis, le niveau est brutal, exactement ce que je cherchais.",
   },
   {
     img: '/images/testimonials/adam-s.webp',

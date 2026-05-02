@@ -15,10 +15,10 @@ export default function ContactForm() {
         <label className="cand-label">Sujet</label>
         <select className="cand-select" required defaultValue="">
           <option value="" disabled>Choisis un sujet</option>
-          <option value="general">Question generale</option>
+          <option value="general">Question générale</option>
           <option value="partenariat">Partenariat</option>
           <option value="clubs">Clubs et groupes</option>
-          <option value="presse">Presse et medias</option>
+          <option value="presse">Presse et médias</option>
           <option value="autre">Autre</option>
         </select>
       </div>

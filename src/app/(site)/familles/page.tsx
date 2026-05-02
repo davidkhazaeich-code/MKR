@@ -35,7 +35,7 @@ const PILLARS = [
   },
   {
     title: 'Tarifs famille publics',
-    desc: "Pas de réduction-marketing. Tarif adulte fixe + tarif enfant fixe (1 900 € / 3 sem par enfant). Total transparent.",
+    desc: "Pas de remise affichée. Tarif adulte fixe et tarif enfant fixe (1 900 € / 3 sem par enfant). Total transparent.",
   },
 ]
 
@@ -103,7 +103,7 @@ export default function FamillesPage() {
               <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1rem' }}>
                 MKR organise tout : visa, vol intérieur Istanbul-Makhachkala, transferts, hébergement famille,
                 2 repas par jour, encadrement par 9 coachs expérimentés.
-                Tu n&apos;as qu&apos;à embarquer ton sac et celui de ton enfant.
+                Tu embarques ton sac et celui de ton enfant.
               </p>
               <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1rem' }}>
                 <strong>Important</strong> : l&apos;enfant 8-17 ans doit être obligatoirement accompagné d&apos;un parent

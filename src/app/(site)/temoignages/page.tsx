@@ -5,33 +5,33 @@ import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 import CinematicReveal from '@/components/CinematicReveal'
 
 export const metadata: Metadata = {
-  title: 'Temoignages | MKR Caucasian Camp | Avis Athletes',
-  description: "Ils sont venus, ils racontent. Temoignages video et ecrits d'athlètes qui ont vecu l'expérience MKR au Caucase.",
+  title: 'Témoignages athlètes | Camp MKR au Daghestan',
+  description: "Ils sont venus, ils racontent. Témoignages vidéo et écrits d'athlètes qui ont vécu l'expérience MKR au Caucase.",
   alternates: { canonical: 'https://mkrcaucasiancamp.com/temoignages' },
 }
 
 const VIDEO_TESTIMONIALS = [
   { img: '/images/testimonials/video-thumb-1.webp', name: 'Mehdi R.', discipline: 'Lutte Libre · Paris', label: 'Interview post-camp' },
-  { img: '/images/testimonials/video-thumb-2.webp', name: 'Thomas B. & Karim D.', discipline: 'Boxe · MMA', label: 'Retour de session' },
+  { img: '/images/testimonials/video-thumb-2.webp', name: 'Thomas B. et Karim D.', discipline: 'Boxe · MMA', label: 'Retour de session' },
   { img: '/images/testimonials/video-thumb-3.webp', name: 'Yassine K.', discipline: 'Grappling · Bruxelles', label: 'Coulisses du camp' },
   { img: '/images/testimonials/video-thumb-4.webp', name: 'Le groupe', discipline: 'Session Automne 2025', label: 'Bilan collectif' },
 ]
 
 const TESTIMONIALS = [
-  { name: 'Mehdi R.', discipline: 'Lutte Libre · Paris', quote: "Trois semaines qui ont change ma facon de me battre. La durete des entraînements m'a oblige a aller chercher ce que je n'avais jamais touche.", img: '/images/testimonials/mehdi-r.webp' },
-  { name: 'Karim D.', discipline: 'MMA · Geneve', quote: "Le niveau des coachs est inegalable. Magomed t'apprend des prises que tu ne verras nulle part en Europe. J'y retourne l'annee prochaine.", img: '/images/testimonials/karim-d.webp' },
-  { name: 'Thomas B.', discipline: 'Boxe · Lyon', quote: "Deux semaines après le retour, j'ai remporte mon premier titre regional. Ce que j'ai construit la-bas, aucun gym en France ne pouvait me donner.", img: '/images/testimonials/thomas-b.webp' },
-  { name: 'Yassine K.', discipline: 'Grappling · Bruxelles', quote: "Un mois de camp qui vaut deux ans de salle. Les Dagestanais t'apprennent a souffrir avec le sourire. Je suis revenu transforme.", img: '/images/testimonials/yassine-k.webp' },
-  { name: 'Romain V.', discipline: 'Sambo · Toulouse', quote: "Je suis parti seul, sans parler russe. L'accueil est incroyable. Sur le tapis, le niveau est brutal. Exactement ce que je cherchais.", img: '/images/testimonials/romain-v.webp' },
-  { name: 'Adam S.', discipline: 'Lutte · Montreal', quote: "Le Caucase, c'est une autre planete. Les entraînements du matin a 6h t'apprennent ce que c'est que la discipline. Je repars l'ete prochain.", img: '/images/testimonials/adam-s.webp' },
-  { name: 'Lucas M.', discipline: 'MMA · Zurich', quote: "Trois semaines, six kilos de transpiration et une vision du combat totalement differente. Ce camp m'a redonne faim de compétition.", img: '/images/testimonials/lucas-m.webp' },
-  { name: 'Amine B.', discipline: 'Jiu-Jitsu · Lyon', quote: "Les coachs du camp connaissent des techniques que tu ne trouveras dans aucun livre. Une expérience sportive et humaine que je conseille a tout compétiteur.", img: '/images/testimonials/amine-b.webp' },
-  { name: 'Pierre L.', discipline: 'Kickboxing · Nantes', quote: "Le groupe, l'ambiance, les montagnes en fond de tapis. On touche quelque chose de rare. Revenu avec une medaille et des souvenirs pour la vie.", img: '/images/testimonials/pierre-l.webp' },
+  { name: 'Mehdi R.', discipline: 'Lutte Libre · Paris', quote: "Trois semaines qui ont changé ma façon de me battre. La dureté des entraînements m'a obligé à aller chercher ce que je n'avais jamais touché.", img: '/images/testimonials/mehdi-r.webp' },
+  { name: 'Karim D.', discipline: 'MMA · Genève', quote: "Le niveau des coachs est rare. Magomed t'apprend des prises que tu ne verras nulle part en Europe. J'y retourne l'année prochaine.", img: '/images/testimonials/karim-d.webp' },
+  { name: 'Thomas B.', discipline: 'Boxe · Lyon', quote: "Deux semaines après le retour, j'ai remporté mon premier titre régional. Ce que j'ai construit là-bas, aucune salle en France ne pouvait me le donner.", img: '/images/testimonials/thomas-b.webp' },
+  { name: 'Yassine K.', discipline: 'Grappling · Bruxelles', quote: "Un mois de camp qui vaut deux ans de salle. Les Daghestanais t'apprennent à souffrir avec le sourire. Je suis revenu transformé.", img: '/images/testimonials/yassine-k.webp' },
+  { name: 'Romain V.', discipline: 'Sambo · Toulouse', quote: "Je suis parti seul, sans parler russe. L'accueil est chaleureux. Sur le tapis, le niveau est brutal. Exactement ce que je cherchais.", img: '/images/testimonials/romain-v.webp' },
+  { name: 'Adam S.', discipline: 'Lutte · Montréal', quote: "Le Caucase, c'est une autre planète. Les entraînements du matin à 6h t'apprennent ce qu'est la discipline. Je repars l'été prochain.", img: '/images/testimonials/adam-s.webp' },
+  { name: 'Lucas M.', discipline: 'MMA · Zurich', quote: "Trois semaines, six kilos de transpiration et une vision du combat totalement différente. Ce camp m'a redonné faim de compétition.", img: '/images/testimonials/lucas-m.webp' },
+  { name: 'Amine B.', discipline: 'Jiu-Jitsu · Lyon', quote: "Les coachs du camp connaissent des techniques que tu ne trouveras dans aucun livre. Une expérience sportive et humaine que je conseille à tout compétiteur.", img: '/images/testimonials/amine-b.webp' },
+  { name: 'Pierre L.', discipline: 'Kickboxing · Nantes', quote: "Le groupe, l'ambiance, les montagnes en fond de tapis. On touche quelque chose de rare. Revenu avec une médaille et des souvenirs pour la vie.", img: '/images/testimonials/pierre-l.webp' },
 ]
 
 function Stars() {
   return (
-    <div className="testi-stars" role="img" aria-label="5 etoiles sur 5">
+    <div className="testi-stars" role="img" aria-label="5 étoiles sur 5">
       {[...Array(5)].map((_, i) => (
         <svg key={i} viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <polygon points="7,1 9,5 13,5.5 10,8.5 10.5,13 7,11 3.5,13 4,8.5 1,5.5 5,5" />
@@ -46,11 +46,11 @@ export default function TemoignagesPage() {
     <>
       <BreadcrumbJsonLd items={[
         { name: 'Accueil', url: 'https://mkrcaucasiancamp.com/' },
-        { name: 'Temoignages', url: 'https://mkrcaucasiancamp.com/temoignages' },
+        { name: 'Témoignages', url: 'https://mkrcaucasiancamp.com/temoignages' },
       ]} />
 
       <PageHero
-        label="TEMOIGNAGES"
+        label="TÉMOIGNAGES"
         title="ILS SONT VENUS.<br/>ILS RACONTENT."
         subtitle="Des athlètes de toute l'Europe. Un seul verdict."
       />
@@ -59,8 +59,8 @@ export default function TemoignagesPage() {
       <section className="logi-section fx-grid fx-stack-1">
         <div className="inner">
           <div className="logi-header reveal">
-            <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>VIDEOS</span>
-            <h2>TEMOIGNAGES VIDEO</h2>
+            <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>VIDÉOS</span>
+            <h2>TÉMOIGNAGES VIDÉO</h2>
           </div>
           <div className="grid-2">
             {VIDEO_TESTIMONIALS.map((v, i) => (
@@ -68,7 +68,7 @@ export default function TemoignagesPage() {
                 <div style={{ position: 'relative', marginBottom: '1rem' }}>
                   <img
                     src={v.img}
-                    alt={`Temoignage video de ${v.name}`}
+                    alt={`Témoignage vidéo de ${v.name}`}
                     width={800}
                     height={450}
                     loading="lazy"
@@ -94,18 +94,18 @@ export default function TemoignagesPage() {
       {/* Cinematic reveal */}
       <CinematicReveal
         image="/images/environment/communal-meal.webp"
-        alt="Athletes et coachs reunis autour d'un repas au camp"
-        label="FRATERNITE"
+        alt="Athlètes et coachs réunis autour d'un repas au camp"
+        label="FRATERNITÉ"
         title="CE QU&apos;ILS EN DISENT"
-        tagline="Des liens forges sur le tapis et autour de la table. Une expérience qui marque."
+        tagline="Des liens forgés sur le tapis et autour de la table. Une expérience qui marque."
       />
 
       {/* Grid temoignages texte */}
       <section className="logi-section logi-alt fx-texture-concrete fx-stack-3">
         <div className="inner">
           <div className="logi-header reveal">
-            <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>ECRITS</span>
-            <h2>TEMOIGNAGES</h2>
+            <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>ÉCRITS</span>
+            <h2>TÉMOIGNAGES</h2>
           </div>
           <div className="grid-3">
             {TESTIMONIALS.map((t, i) => (
@@ -137,11 +137,11 @@ export default function TemoignagesPage() {
         <div className="fx-glow-orb" />
         <div className="stat-item">
           <span className="stat-num">8</span>
-          <span className="stat-label">Athletes haut niveau</span>
+          <span className="stat-label">Athlètes haut niveau</span>
         </div>
         <div className="stat-item">
           <span className="stat-num">9</span>
-          <span className="stat-label">Coachs experimentes</span>
+          <span className="stat-label">Coachs expérimentés</span>
         </div>
         <div className="stat-item">
           <span className="stat-num">87%</span>
@@ -151,7 +151,7 @@ export default function TemoignagesPage() {
 
       <SectionCTA
         primaryHref="/inscription"
-        primaryLabel="A TON TOUR"
+        primaryLabel="À TON TOUR"
         ghostHref="/sessions"
         ghostLabel="VOIR LES SESSIONS"
       />

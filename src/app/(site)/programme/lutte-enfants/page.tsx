@@ -147,7 +147,7 @@ export default function ProgrammeLutteEnfantsPage() {
         <div className="inner">
           <div className="logi-header reveal">
             <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>SESSION TYPE</span>
-            <h2>DEROULEMENT D&apos;UNE SESSION</h2>
+            <h2>DÉROULEMENT D&apos;UNE SESSION</h2>
           </div>
           <div className="daily-timeline">
             {SESSION_FLOW.map((step, i) => (

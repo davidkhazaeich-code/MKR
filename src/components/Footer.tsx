@@ -57,7 +57,7 @@ export default function Footer() {
             </Link>
             <p className="footer-tagline">Camp d&apos;entraînement au Caucase.</p>
             <p className="footer-desc">
-              Camps d&apos;entraînement intensifs de MMA et de lutte (adultes et enfants) au coeur du Dagestan. Coachs locaux. Immersion totale. Zero distraction.
+              Camps d&apos;entraînement intensifs de MMA et de lutte (adultes et enfants) au cœur du Daghestan. Coachs locaux. Immersion totale. Zéro distraction.
             </p>
             <div className="footer-socials">
               <a href="https://instagram.com/mkr.caucasiancamp" target="_blank" rel="noopener noreferrer"
@@ -94,9 +94,9 @@ export default function Footer() {
               <li><Link href="/mkr-camp-2026" className="accent">MKR Camp 2026</Link></li>
               <li><Link href="/sur-mesure">Sur Mesure</Link></li>
               <li><Link href="/familles">Famille</Link></li>
-              <li><Link href="/clubs-groupes">Club &amp; Groupe</Link></li>
+              <li><Link href="/clubs-groupes">Club et Groupe</Link></li>
               <li><Link href="/sessions">Tarifs publics</Link></li>
-              <li><Link href="/comment-ca-marche">Comment ca marche</Link></li>
+              <li><Link href="/comment-ca-marche">Comment ça marche</Link></li>
             </ul>
           </div>
 
@@ -109,9 +109,9 @@ export default function Footer() {
               <li><Link href="/programme/lutte-enfants">Lutte enfants</Link></li>
               <li><Link href="/familles">Camp Famille</Link></li>
               <li><Link href="/coachs">Nos coachs</Link></li>
-              <li><Link href="/destinations/dagestan">Dagestan</Link></li>
+              <li><Link href="/destinations/dagestan">Daghestan</Link></li>
               <li><Link href="/le-camp">Le Camp</Link></li>
-              <li><Link href="/preparer-son-camp">Preparer son camp</Link></li>
+              <li><Link href="/preparer-son-camp">Préparer son camp</Link></li>
               <li><Link href="/logistique">Logistique et visa</Link></li>
             </ul>
           </div>
@@ -121,10 +121,10 @@ export default function Footer() {
             <span className="footer-col-label">Informations</span>
             <ul className="footer-nav-list" role="list">
               <li><Link href="/galerie">Galerie</Link></li>
-              <li><Link href="/temoignages">Temoignages</Link></li>
+              <li><Link href="/temoignages">Témoignages</Link></li>
               <li><Link href="/faq">FAQ</Link></li>
               <li><Link href="/blog">Blog</Link></li>
-              <li><Link href="/a-propos">A propos</Link></li>
+              <li><Link href="/a-propos">À propos</Link></li>
               <li><Link href="/contact">Contact</Link></li>
             </ul>
           </div>
@@ -134,13 +134,13 @@ export default function Footer() {
         {/* Bottom strip */}
         <div className="footer-bottom">
           <div className="footer-bottom-inner">
-            <span className="footer-copy">&copy; 2026 MKR Caucasian Camp · Tous droits reserves · mkrcaucasiancamp.com · Site concu par <a href="https://dkdp.ch" target="_blank" rel="noopener noreferrer" className="footer-dkdp">DKDP</a></span>
-            <nav className="footer-legal" aria-label="Liens legaux">
-              <Link href="/mentions-legales">Mentions legales</Link>
+            <span className="footer-copy">&copy; 2026 MKR Caucasian Camp · Tous droits réservés · mkrcaucasiancamp.com · Site conçu par <a href="https://dkdp.ch" target="_blank" rel="noopener noreferrer" className="footer-dkdp">DKDP</a></span>
+            <nav className="footer-legal" aria-label="Liens légaux">
+              <Link href="/mentions-legales">Mentions légales</Link>
               <span className="footer-legal-dot" aria-hidden="true">·</span>
               <Link href="/cgv">CGV</Link>
               <span className="footer-legal-dot" aria-hidden="true">·</span>
-              <Link href="/politique-de-confidentialite">Confidentialite</Link>
+              <Link href="/politique-de-confidentialite">Confidentialité</Link>
             </nav>
           </div>
         </div>

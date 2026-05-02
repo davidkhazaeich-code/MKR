@@ -16,9 +16,9 @@ export default function StickyMobileCTA() {
     <a
       href="/inscription"
       className={`sticky-cta-mobile${visible ? ' is-visible' : ''}`}
-      aria-label="Reserver ton camp"
+      aria-label="Réserver ton camp"
     >
-      RESERVE TON CAMP
+      RÉSERVE TON CAMP
     </a>
   )
 }

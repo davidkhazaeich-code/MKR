@@ -44,7 +44,7 @@ export default function VideoSection() {
           </div>
           <div className="video-highlight-item">
             <span className="video-highlight-num">9</span>
-            <span className="video-highlight-label">Coachs experimentes</span>
+            <span className="video-highlight-label">Coachs expérimentés</span>
           </div>
           <div className="video-highlight-item">
             <span className="video-highlight-num">15</span>

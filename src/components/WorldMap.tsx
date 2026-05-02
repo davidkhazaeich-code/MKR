@@ -67,7 +67,7 @@ export function WorldMap({
       <Image
         src={`data:image/svg+xml;utf8,${encodeURIComponent(svgMap)}`}
         className="world-map-img"
-        alt="Carte du monde -routes vers le Dagestan"
+        alt="Carte du monde, routes vers le Daghestan"
         height={495}
         width={1056}
         draggable={false}

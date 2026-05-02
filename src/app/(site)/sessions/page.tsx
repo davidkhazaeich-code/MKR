@@ -8,8 +8,8 @@ import AudienceSwitcher from '@/components/AudienceSwitcher'
 import PricingTable from '@/components/PricingTable'
 
 export const metadata: Metadata = {
-  title: 'Sessions & Tarifs | MKR Caucasian Camp | Prix Camps MMA Dagestan',
-  description: "Calendrier 2026 des camps MMA & Lutte au Caucase. Prix, dates, places disponibles. Reserve ta session.",
+  title: 'Sessions et Tarifs 2026 | MKR Caucasian Camp au Daghestan',
+  description: "Calendrier 2026 des camps MMA et Lutte au Caucase. Prix, dates, places disponibles. Réserve ta session au Daghestan.",
   alternates: { canonical: 'https://mkrcaucasiancamp.com/sessions' },
 }
 
@@ -37,7 +37,7 @@ const INCLUDES = [
       </svg>
     ),
     title: 'Transport local',
-    desc: 'Transferts aéroport-camp et deplacements sur place pris en charge.',
+    desc: 'Transferts aéroport-camp et déplacements sur place pris en charge.',
   },
   {
     icon: (
@@ -45,8 +45,8 @@ const INCLUDES = [
         <rect x="4" y="10" width="24" height="18" /><path d="M4 16 L16 10 L28 16" />
       </svg>
     ),
-    title: 'Hebergement',
-    desc: 'Logement de camp partage, propre et fonctionnel.',
+    title: 'Hébergement',
+    desc: 'Logement de camp partagé, propre et fonctionnel.',
   },
   {
     icon: (
@@ -55,7 +55,7 @@ const INCLUDES = [
       </svg>
     ),
     title: '2 sessions/jour',
-    desc: 'Entrainement biquotidien avec des coachs locaux.',
+    desc: 'Entraînement biquotidien avec des coachs locaux.',
   },
   {
     icon: (
@@ -64,7 +64,7 @@ const INCLUDES = [
       </svg>
     ),
     title: 'Coachs locaux',
-    desc: 'Entraineurs daghestanais, champions et veterans. Equipe complete de 9 coachs experimentes.',
+    desc: 'Entraîneurs daghestanais, champions et vétérans. Équipe complète de 9 coachs expérimentés.',
   },
   {
     icon: (
@@ -73,7 +73,7 @@ const INCLUDES = [
       </svg>
     ),
     title: 'Excursions (en option)',
-    desc: 'Sorties culturelles et randonnees en montagne le jour de repos, en option.',
+    desc: 'Sorties culturelles et randonnées en montagne le jour de repos, en option.',
   },
   {
     icon: (
@@ -83,7 +83,7 @@ const INCLUDES = [
       </svg>
     ),
     title: '2 repas/jour',
-    desc: 'Petit-dejeuner et dejeuner pris en charge. Nutrition adaptee a l\'effort, cuisine locale.',
+    desc: "Petit-déjeuner et déjeuner pris en charge. Nutrition adaptée à l'effort, cuisine locale.",
   },
 ]
 
@@ -92,11 +92,11 @@ export default function SessionsPage() {
     <>
       <BreadcrumbJsonLd items={[
         { name: 'Accueil', url: 'https://mkrcaucasiancamp.com/' },
-        { name: 'Sessions & Tarifs', url: 'https://mkrcaucasiancamp.com/sessions' },
+        { name: 'Sessions et Tarifs', url: 'https://mkrcaucasiancamp.com/sessions' },
       ]} />
 
       <PageHero
-        label="SESSIONS & TARIFS"
+        label="SESSIONS ET TARIFS"
         title="CHOISIS TON FORMAT.<br/>NOUS ORGANISONS TOUT."
         subtitle="Rejoindre la session groupe, organiser ton camp sur mesure ou venir avec ton club. Tarifs publics fixes."
       />
@@ -128,7 +128,7 @@ export default function SessionsPage() {
                 </div>
                 <div className="session-meta">
                   <div className="session-meta-item">
-                    <span className="session-meta-label">Intensite</span>
+                    <span className="session-meta-label">Intensité</span>
                     <span className="session-meta-value">{s.intensity}</span>
                   </div>
                   <div className="session-meta-item">
@@ -136,7 +136,7 @@ export default function SessionsPage() {
                     <span className="session-meta-value">{s.places}</span>
                   </div>
                   <div className="session-meta-item">
-                    <span className="session-meta-label">Duree</span>
+                    <span className="session-meta-label">Durée</span>
                     <span className="session-meta-value">{s.duration}</span>
                   </div>
                 </div>
@@ -168,9 +168,9 @@ export default function SessionsPage() {
       <CinematicReveal
         image="/images/action/shadowboxing-group.webp"
         alt="Groupe d'athlètes en shadowboxing dans une salle du Caucase"
-        label="INTENSITE"
+        label="INTENSITÉ"
         title="CHAQUE SESSION COMPTE"
-        tagline="Groupe reduit, coaching personnalise. L'energie collective pousse chacun au-dela de ses limites."
+        tagline="Groupe réduit, coaching personnalisé. L'énergie collective pousse chacun au-delà de ses limites."
       />
 
       {/* Ce qui est inclus */}
@@ -202,7 +202,7 @@ export default function SessionsPage() {
         <div className="inner">
           <div className="group-card fx-grain fx-corner-glow reveal">
             <h2 id="group-heading">TU VIENS AVEC TON CLUB ?</h2>
-            <p>Prix degressif a partir de 5 personnes. Contacte-nous directement pour un devis sur mesure.</p>
+            <p>Prix dégressif à partir de 5 personnes. Contacte-nous directement pour un devis sur mesure.</p>
             <img
               src="/images/environment/communal-meal.webp"
               alt="Groupe d'athlètes au camp MKR Caucasian Camp"
@@ -230,26 +230,26 @@ export default function SessionsPage() {
           <div className="layout-split layout-split--balanced reveal">
             <div>
               <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>
-                MODALITES
+                MODALITÉS
               </span>
               <h2 style={{ fontSize: 'clamp(1.5rem, 3vw, 2rem)', textTransform: 'uppercase' }}>
                 PAIEMENT ET CONDITIONS
               </h2>
               <ul className="terms-list">
-                <li>Acompte de 30% a la confirmation de ta candidature</li>
-                <li>Solde 30 jours avant le debut du camp</li>
+                <li>Acompte de 30% à la confirmation de ta candidature</li>
+                <li>Solde 30 jours avant le début du camp</li>
                 <li>Paiement par virement bancaire, Stripe (CB) ou PayPal</li>
-                <li>Annulation gratuite jusqu&apos;a 60 jours avant le depart</li>
+                <li>Annulation gratuite jusqu&apos;à 60 jours avant le départ</li>
               </ul>
               <div style={{ marginTop: '1.5rem', display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-                <Link href="/cgv" className="btn-ghost" style={{ fontSize: '0.9rem', padding: '0.6rem 1.5rem' }}>CGV COMPLETES</Link>
-                <Link href="/comment-ca-marche" className="btn-ghost" style={{ fontSize: '0.9rem', padding: '0.6rem 1.5rem' }}>COMMENT CA MARCHE</Link>
+                <Link href="/cgv" className="btn-ghost" style={{ fontSize: '0.9rem', padding: '0.6rem 1.5rem' }}>CGV COMPLÈTES</Link>
+                <Link href="/comment-ca-marche" className="btn-ghost" style={{ fontSize: '0.9rem', padding: '0.6rem 1.5rem' }}>COMMENT ÇA MARCHE</Link>
               </div>
             </div>
             <div>
               <table className="table-tonal">
                 <thead>
-                  <tr><th>Delai</th><th>Remboursement</th></tr>
+                  <tr><th>Délai</th><th>Remboursement</th></tr>
                 </thead>
                 <tbody>
                   <tr><td>&gt; 60 jours</td><td>100%</td></tr>
@@ -267,9 +267,9 @@ export default function SessionsPage() {
         {[
           { label: 'Tout compris', icon: <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5"><polyline points="3,10 8,15 17,5"/></svg> },
           { label: 'Coachs locaux', icon: <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5"><circle cx="10" cy="7" r="3"/><path d="M4 18c0-4 2.5-6 6-6s6 2 6 6"/></svg> },
-          { label: 'Transport gere', icon: <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M2 14 L10 4 L18 14"/><line x1="6" y1="10" x2="14" y2="10"/></svg> },
-          { label: 'Places limitees', icon: <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="3" y="3" width="14" height="14"/><line x1="10" y1="7" x2="10" y2="13"/><line x1="7" y1="10" x2="13" y2="10"/></svg> },
-          { label: 'Paiement sécurise', icon: <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="4" y="8" width="12" height="10"/><path d="M7 8V5a3 3 0 016 0v3"/></svg> },
+          { label: 'Transport géré', icon: <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M2 14 L10 4 L18 14"/><line x1="6" y1="10" x2="14" y2="10"/></svg> },
+          { label: 'Places limitées', icon: <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="3" y="3" width="14" height="14"/><line x1="10" y1="7" x2="10" y2="13"/><line x1="7" y1="10" x2="13" y2="10"/></svg> },
+          { label: 'Paiement sécurisé', icon: <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="4" y="8" width="12" height="10"/><path d="M7 8V5a3 3 0 016 0v3"/></svg> },
         ].map((r, i) => (
           <div key={i} className="reassurance-item">
             {r.icon}
@@ -280,7 +280,7 @@ export default function SessionsPage() {
 
       <SectionCTA
         primaryHref="/inscription"
-        primaryLabel="RESERVE TA PLACE"
+        primaryLabel="RÉSERVE TA PLACE"
         ghostHref="/faq"
         ghostLabel="DES QUESTIONS ?"
       />

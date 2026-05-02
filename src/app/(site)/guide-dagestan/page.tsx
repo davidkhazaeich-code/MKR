@@ -5,18 +5,18 @@ import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 import CinematicReveal from '@/components/CinematicReveal'
 
 export const metadata: Metadata = {
-  title: 'Guide Dagestan | MKR Caucasian Camp | Telecharger gratuitement',
-  description: "Guide complet : partir s'entraîner au Dagestan. Visa, vols, budget, préparation physique, equipement. Telechargement gratuit.",
+  title: 'Guide gratuit : partir s\'entraîner au Daghestan | MKR',
+  description: "Guide complet pour partir s'entraîner au Daghestan. Visa, vols, budget, préparation physique, équipement. Téléchargement gratuit.",
   alternates: { canonical: 'https://mkrcaucasiancamp.com/guide-dagestan' },
 }
 
 const GUIDE_CONTENTS = [
-  { title: 'Visa etape par etape', desc: 'Formalites pour FR, CH, BE, CA. E-visa, delais, documents.' },
-  { title: 'Vols et prix', desc: 'Comparatif des vols depuis Paris, Geneve, Bruxelles. Meilleures periodes.' },
-  { title: 'Budget realiste', desc: 'Cout total detaille : camp, vol, visa, assurance, equipement.' },
-  { title: 'Programme prep 6 semaines', desc: 'Cardio, force, mobilite. Semaine par semaine.' },
-  { title: 'Equipement complet', desc: 'Liste exhaustive : vetements, protection, hygiene, admin.' },
-  { title: 'Conseils anciens participants', desc: "Retours d'expérience et astuces de ceux qui y sont alles." },
+  { title: 'Visa étape par étape', desc: 'Formalités pour FR, CH, BE, CA. E-visa, délais, documents.' },
+  { title: 'Vols et prix', desc: 'Comparatif des vols depuis Paris, Genève, Bruxelles. Meilleures périodes.' },
+  { title: 'Budget réaliste', desc: 'Coût total détaillé : camp, vol, visa, assurance, équipement.' },
+  { title: 'Programme prep 6 semaines', desc: 'Cardio, force, mobilité. Semaine par semaine.' },
+  { title: 'Équipement complet', desc: 'Liste exhaustive : vêtements, protection, hygiène, admin.' },
+  { title: 'Conseils anciens participants', desc: "Retours d'expérience et astuces de ceux qui y sont allés." },
 ]
 
 export default function GuideDagestanPage() {
@@ -24,11 +24,11 @@ export default function GuideDagestanPage() {
     <>
       <BreadcrumbJsonLd items={[
         { name: 'Accueil', url: 'https://mkrcaucasiancamp.com/' },
-        { name: 'Guide Dagestan', url: 'https://mkrcaucasiancamp.com/guide-dagestan' },
+        { name: 'Guide Daghestan', url: 'https://mkrcaucasiancamp.com/guide-dagestan' },
       ]} />
       <PageHero
         label="GUIDE GRATUIT"
-        title="PARTIR S'ENTRAINER<br/>AU DAGESTAN"
+        title="PARTIR S'ENTRAÎNER<br/>AU DAGHESTAN"
         subtitle="Visa, vols, budget, préparation. Tout dans un guide de 20 pages."
         compact
       />
@@ -36,10 +36,10 @@ export default function GuideDagestanPage() {
       {/* Cinematic reveal */}
       <CinematicReveal
         image="/images/environment/dagestan-panorama.webp"
-        alt="Montagnes du Dagestan, vue panoramique"
-        label="DAGESTAN"
+        alt="Montagnes du Daghestan, vue panoramique"
+        label="DAGHESTAN"
         title="TERRE DE CHAMPIONS"
-        tagline="Le Dagestan a produit plus de champions de lutte que n'importe quelle region au monde."
+        tagline="Le Daghestan a produit plus de champions de lutte que n'importe quelle région au monde."
       />
 
       <section className="guide-section fx-grid fx-glow fx-stack-1">

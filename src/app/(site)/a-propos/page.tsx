@@ -5,8 +5,8 @@ import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 import CinematicReveal from '@/components/CinematicReveal'
 
 export const metadata: Metadata = {
-  title: 'A Propos | MKR Caucasian Camp | Notre Histoire',
-  description: "L'histoire de MKR Caucasian Camp. Pourquoi le Caucase, notre mission, notre equipe, nos partenaires.",
+  title: 'À propos de MKR Caucasian Camp : notre histoire et notre mission',
+  description: "L'histoire de MKR Caucasian Camp. Pourquoi le Caucase, notre mission, notre équipe, nos partenaires.",
   alternates: { canonical: 'https://mkrcaucasiancamp.com/a-propos' },
 }
 
@@ -15,13 +15,13 @@ export default function AProposPage() {
     <>
       <BreadcrumbJsonLd items={[
         { name: 'Accueil', url: 'https://mkrcaucasiancamp.com/' },
-        { name: 'A Propos', url: 'https://mkrcaucasiancamp.com/a-propos' },
+        { name: 'À Propos', url: 'https://mkrcaucasiancamp.com/a-propos' },
       ]} />
 
       <PageHero
-        label="A PROPOS"
+        label="À PROPOS"
         title="NOTRE HISTOIRE"
-        subtitle="Comment MKR Caucasian Camp est ne, et pourquoi on fait ca."
+        subtitle="Comment MKR Caucasian Camp est né, et pourquoi on fait ça."
       />
 
       {/* L'histoire */}
@@ -34,12 +34,12 @@ export default function AProposPage() {
                 POURQUOI MKR EXISTE
               </h2>
               <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1rem' }}>
-                MKR est ne d&apos;un constat simple : les meilleurs combattants de la planete viennent tous du meme endroit,
-                mais personne ne propose un acces structure a ces méthodes d&apos;entraînement pour les athlètes européens.
+                Les meilleurs combattants viennent du même endroit. Le Caucase. Mais personne ne propose
+                un accès structuré à ces méthodes d&apos;entraînement pour les athlètes européens.
               </p>
               <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1rem' }}>
-                Apres des annees de voyages au Dagestan, des relations construites avec les coachs locaux,
-                et des dizaines d&apos;athlètes accompagnes, MKR Caucasian Camp est devenu le pont entre l&apos;Europe
+                Après des années de voyages au Daghestan, des relations construites avec les coachs locaux,
+                et des dizaines d&apos;athlètes accompagnés, MKR Caucasian Camp est devenu le pont entre l&apos;Europe
                 francophone et les salles du Caucase.
               </p>
             </div>
@@ -63,9 +63,9 @@ export default function AProposPage() {
       <CinematicReveal
         image="/images/environment/communal-meal.webp"
         alt="Repas communautaire au camp MKR au Caucase"
-        label="COMMUNAUTE"
+        label="COMMUNAUTÉ"
         title="PLUS QU'UN CAMP"
-        tagline="Repas partages, liens forges sur le tapis. Une fraternite entre athlètes qui depasse les frontieres."
+        tagline="Repas partagés, liens forgés sur le tapis. Une fraternité entre athlètes qui dépasse les frontières."
       />
 
       {/* Mission */}
@@ -80,8 +80,8 @@ export default function AProposPage() {
               lineHeight: 1.2,
               textTransform: 'uppercase',
             }}>
-              &laquo; Notre mission : donner aux athlètes francophones acces aux méthodes de combat
-              d&apos;entraînement les plus efficaces au monde, dans un cadre authentique et encadre. &raquo;
+              &laquo; Notre mission : donner aux athlètes francophones accès aux méthodes d&apos;entraînement
+              de combat les plus efficaces au monde, dans un cadre authentique et encadré. &raquo;
             </p>
           </div>
         </div>
@@ -91,7 +91,7 @@ export default function AProposPage() {
       <section className="logi-section fx-grid fx-stack-3">
         <div className="inner">
           <div className="logi-header reveal">
-            <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>EQUIPE</span>
+            <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>ÉQUIPE</span>
             <h2>QUI SOMMES-NOUS</h2>
           </div>
           <div className="grid-2">
@@ -113,7 +113,7 @@ export default function AProposPage() {
                 <h3>RUSLAN</h3>
                 <p className="coach-ext-bio">
                   Fondateur de MKR Caucasian Camp. Pratiquant de sports de combat depuis plus de 15 ans.
-                  Connecte au Caucase depuis 2018. Organise les camps et gere les relations avec les coachs
+                  Connecté au Caucase depuis 2018. Organise les camps et gère les relations avec les coachs
                   et salles partenaires sur place.
                 </p>
               </div>

@@ -5,8 +5,8 @@ import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 import GalerieContent from '@/components/GalerieContent'
 
 export const metadata: Metadata = {
-  title: 'Galerie | MKR Caucasian Camp | Photos du camp MMA au Caucase',
-  description: "Photos et videos du camp MKR au Caucase. Entrainements, montagnes, coachs, culture. Decouvre le camp en images.",
+  title: 'Galerie photos du camp MMA au Daghestan | MKR Caucasian Camp',
+  description: "Photos et vidéos du camp MKR au Caucase. Entraînements, montagnes, coachs, culture. Découvre le camp en images.",
   alternates: { canonical: 'https://mkrcaucasiancamp.com/galerie' },
 }
 
@@ -28,7 +28,7 @@ export default function GaleriePage() {
 
       <SectionCTA
         primaryHref="/sessions"
-        primaryLabel="VIENS CREER TES PROPRES SOUVENIRS"
+        primaryLabel="VIENS CRÉER TES PROPRES SOUVENIRS"
       />
     </>
   )

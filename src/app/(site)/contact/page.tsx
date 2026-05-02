@@ -5,7 +5,7 @@ import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 
 export const metadata: Metadata = {
   title: 'Contact | MKR Caucasian Camp',
-  description: "Contacte MKR Caucasian Camp. Question generale, partenariat, clubs, presse. Reponse sous 48h.",
+  description: "Contacte MKR Caucasian Camp. Question générale, partenariat, clubs, presse. Réponse sous 48h.",
   alternates: { canonical: 'https://mkrcaucasiancamp.com/contact' },
 }
 
@@ -62,7 +62,7 @@ export default function ContactPage() {
                 </div>
               </div>
               <p style={{ color: 'var(--text-muted)', fontSize: '0.8rem', marginTop: '1.5rem' }}>
-                On repond sous 48h. Fuseau horaire : GMT+3 (Caucase).
+                On répond sous 48h. Fuseau horaire : GMT+3 (Caucase).
               </p>
               <figure className="photo-card" style={{ marginTop: '1.5rem' }}>
                 <img

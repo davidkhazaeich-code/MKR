@@ -3,15 +3,15 @@ import Link from 'next/link'
 const LANDSCAPES = [
   {
     src: '/images/environment/canyon-sulak.webp',
-    alt: 'Canyon de Sulak, Dagestan',
-    label: 'DAGESTAN',
+    alt: 'Canyon de Sulak, Daghestan',
+    label: 'DAGHESTAN',
     caption: 'Canyon de Sulak',
     text: 'Plus profond que le Grand Canyon. Excursion jour de repos.',
   },
   {
     src: '/images/environment/lake-kezenoy.webp',
-    alt: 'Lac de montagne au Caucase, Dagestan',
-    label: 'DAGESTAN',
+    alt: 'Lac de montagne au Caucase, Daghestan',
+    label: 'DAGHESTAN',
     caption: 'Lacs de montagne',
     text: 'Excursion en option dans les hauteurs du Caucase Nord.',
   },
@@ -20,14 +20,14 @@ const LANDSCAPES = [
     alt: 'Route de montagne au Caucase russe',
     label: 'CAUCASE',
     caption: 'Route du camp',
-    text: 'Les routes qui menent au camp traversent les plus beaux paysages.',
+    text: 'Les routes qui mènent au camp traversent les plus beaux paysages.',
   },
   {
     src: '/images/environment/gamsutl-village.webp',
-    alt: 'Village perche de Gamsutl, Dagestan',
-    label: 'DAGESTAN',
+    alt: 'Village perché de Gamsutl, Daghestan',
+    label: 'DAGHESTAN',
     caption: 'Gamsutl',
-    text: 'Village fantome perche a 1 500 m. Dagestan ancestral.',
+    text: 'Village fantôme perché à 1 500 m. Daghestan ancestral.',
   },
 ]
 
