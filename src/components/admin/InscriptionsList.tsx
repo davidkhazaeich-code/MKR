@@ -7,6 +7,21 @@ import Avatar from './ui/Avatar'
 import Badge from './ui/Badge'
 import Icon from './ui/Icon'
 import { STATUS_LABEL, type Status } from '@/lib/admin-transitions'
+import { SESSIONS } from '@/data/sessions'
+
+const SESSION_LOOKUP: Record<string, { label: string; dates: string }> = SESSIONS.reduce(
+  (acc, s) => {
+    acc[s.id] = { label: s.label, dates: s.dates }
+    return acc
+  },
+  {} as Record<string, { label: string; dates: string }>,
+)
+
+function formatDateShort(iso: string): string {
+  const d = new Date(iso)
+  if (Number.isNaN(d.getTime())) return iso
+  return d.toLocaleDateString('fr-FR', { day: '2-digit', month: 'short', year: 'numeric' })
+}
 
 type TunnelType = 'session' | 'custom' | 'famille' | 'groupe'
 
@@ -332,6 +347,26 @@ function CandidatureRow({
               {row.duree_semaines && <span>{row.duree_semaines} sem.</span>}
             </div>
           )}
+          {/* Session info — visible et scannable */}
+          <div className="adm-list-meta" style={{ marginTop: '0.25rem' }}>
+            {row.session_id && SESSION_LOOKUP[row.session_id] ? (
+              <span style={{ color: 'var(--adm-tunnel-session)', fontWeight: 600 }}>
+                📅 {SESSION_LOOKUP[row.session_id].label}
+                <span style={{ color: 'var(--adm-text-muted)', fontWeight: 400 }}>
+                  {' · '}
+                  {SESSION_LOOKUP[row.session_id].dates}
+                </span>
+              </span>
+            ) : row.session_id ? (
+              <span style={{ color: 'var(--adm-text-muted)' }}>📅 {row.session_id}</span>
+            ) : row.date_debut_souhaitee ? (
+              <span style={{ color: 'var(--adm-text-muted)' }}>
+                📅 Sur mesure · début {formatDateShort(row.date_debut_souhaitee)}
+              </span>
+            ) : (
+              <span style={{ color: 'var(--adm-text-faint)' }}>📅 Sur mesure (date à définir)</span>
+            )}
+          </div>
 
           <div className="adm-list-badges">
             <Badge color={TUNNEL_COLOR[row.tunnel_type]} dot>
