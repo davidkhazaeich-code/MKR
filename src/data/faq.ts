@@ -41,19 +41,19 @@ export const FAQ_HOMEPAGE: FAQItem[] = [
 export const FAQ_CATEGORIES: FAQCategory[] = [
   {
     id: 'securite',
-    label: 'Securite',
+    label: 'Sécurité',
     items: [
       {
         question: 'Est-ce que le Dagestan est sur ?',
-        answer: "La region ou se deroule le camp est stable et frequentee par des athletes du monde entier. Nous suivons en permanence les recommandations du Quai d'Orsay et du DFAE. Un protocole de securite MKR est en place : contacts d'urgence 24/7, assurance rapatriement recommandee, equipe locale presente en permanence.",
+        answer: "La region ou se déroule le camp est stable et frequentee par des athlètes du monde entier. Nous suivons en permanence les recommandations du Quai d'Orsay et du DFAE. Un protocole de sécurité MKR est en place : contacts d'urgence 24/7, assurance rapatriement recommandee, equipe locale presente en permanence.",
       },
       {
         question: 'Dois-je souscrire une assurance voyage ?',
-        answer: "Oui, c'est obligatoire. Ton assurance doit couvrir le rapatriement medical et la pratique de sports de contact. Nous recommandons des prestataires comme Chapka, ACS ou World Nomads. Le detail est envoye apres validation de ta candidature.",
+        answer: "Oui, c'est obligatoire. Ton assurance doit couvrir le rapatriement medical et la pratique de sports de contact. Nous recommandons des prestataires comme Chapka, ACS ou World Nomads. Le detail est envoye après validation de ta candidature.",
       },
       {
         question: 'Y a-t-il un accompagnateur francophone sur place ?',
-        answer: "Oui. Un membre de l'equipe MKR francophone est present pendant toute la duree du camp. Un interprete local assure egalement la traduction pendant les entrainements.",
+        answer: "Oui. Un membre de l'equipe MKR francophone est present pendant toute la duree du camp. Un interprete local assure egalement la traduction pendant les entraînements.",
       },
     ],
   },
@@ -63,33 +63,33 @@ export const FAQ_CATEGORIES: FAQCategory[] = [
     items: [
       {
         question: 'Le visa est-il necessaire ?',
-        answer: "Le camp se deroule au Daghestan (Federation de Russie). Un visa russe est necessaire pour la majorite des nationalites. Pour les ressortissants UE, MKR fournit un questionnaire visa a completer avec ton passeport (validite 6 mois minimum) et t'accompagne dans toute la procedure apres confirmation de ta candidature.",
+        answer: "Le camp se déroule au Daghestan (Federation de Russie). Un visa russe est necessaire pour la majorite des nationalites. Pour les ressortissants UE, MKR fournit un questionnaire visa a completer avec ton passeport (validite 6 mois minimum) et t'accompagne dans toute la procedure après confirmation de ta candidature.",
       },
       {
         question: "Qu'est-ce qui est inclus dans le prix ?",
-        answer: "Le tarif comprend l'hebergement en logement de camp, les repas (2 repas/jour), les seances d'entrainement biquotidiennes, le vol interieur Istanbul-Makhachkala, les transferts aeroport-camp et le suivi preparatoire a distance. Le vol international n'est pas inclus.",
+        answer: "Le tarif comprend l'hebergement en logement de camp, les repas (2 repas/jour), les seances d'entraînement biquotidiennes, le vol intérieur Istanbul-Makhachkala, les transferts aéroport-camp et le suivi préparatoire a distance. Le vol international n'est pas inclus.",
       },
       {
         question: 'Quel equipement dois-je apporter ?',
-        answer: "Gants de boxe (16 oz), protege-tibias, protege-dents et coquille. Un guide complet de preparation est envoye apres confirmation de ta candidature.",
+        answer: "Gants de boxe (16 oz), protege-tibias, protege-dents et coquille. Un guide complet de préparation est envoye après confirmation de ta candidature.",
       },
       {
-        question: "Comment se passe le transfert depuis l'aeroport ?",
-        answer: "Le transfert aeroport-camp est inclus dans le prix. Un vehicule MKR t'attend a l'arrivee. Le trajet entre Makhachkala et le lieu d'entrainement dure environ 1h30.",
+        question: "Comment se passe le transfert depuis l'aéroport ?",
+        answer: "Le transfert aéroport-camp est inclus dans le prix. Un vehicule MKR t'attend a l'arrivee. Le trajet entre Makhachkala et le lieu d'entraînement dure environ 1h30.",
       },
     ],
   },
   {
-    id: 'entrainement',
+    id: 'entraînement',
     label: 'Entrainement',
     items: [
       {
         question: 'Quel niveau est requis pour participer ?',
-        answer: "Le camp est ouvert aux pratiquants intermediaires et avances. Une pratique reguliere d'au moins 2 ans en MMA, lutte ou art martial de combat est requise. Le niveau est evalue lors de l'entretien video.",
+        answer: "Le camp est ouvert aux pratiquants intermédiaires et avancés. Une pratique reguliere d'au moins 2 ans en MMA, lutte ou art martial de combat est requise. Le niveau est evalue lors de l'entretien video.",
       },
       {
-        question: "Quelle est la langue d'entrainement ?",
-        answer: "Les entrainements se deroulent principalement en russe (et quelques mots d'avar selon la salle). Un interprete est present pour le francais et l'anglais. L'immersion linguistique fait partie de l'experience.",
+        question: "Quelle est la langue d'entraînement ?",
+        answer: "Les entraînements se déroulent principalement en russe (et quelques mots d'avar selon la salle). Un interprete est present pour le francais et l'anglais. L'immersion linguistique fait partie de l'expérience.",
       },
       {
         question: 'Combien de participants par session ?',
@@ -101,7 +101,7 @@ export const FAQ_CATEGORIES: FAQCategory[] = [
       },
       {
         question: 'Y a-t-il des jours de repos ?',
-        answer: "Un jour de repos par semaine est prevu, generalement consacre a une excursion culturelle ou une randonnee en montagne. Le reste du temps, c'est entrainement biquotidien.",
+        answer: "Un jour de repos par semaine est prevu, generalement consacre a une excursion culturelle ou une randonnee en montagne. Le reste du temps, c'est entraînement biquotidien.",
       },
     ],
   },
@@ -111,15 +111,15 @@ export const FAQ_CATEGORIES: FAQCategory[] = [
     items: [
       {
         question: "Comment fonctionne le processus d'inscription ?",
-        answer: "1. Tu remplis le formulaire en ligne (5 minutes). 2. On te rappelle sous 48h pour un entretien de validation. 3. Si ta candidature est acceptee, tu verses un acompte de 30%. 4. Tu recois le guide de preparation. 5. Le solde est du 30 jours avant le depart.",
+        answer: "1. Tu remplis le formulaire en ligne (5 minutes). 2. On te rappelle sous 48h pour un entretien de validation. 3. Si ta candidature est acceptee, tu verses un acompte de 30%. 4. Tu recois le guide de préparation. 5. Le solde est du 30 jours avant le depart.",
       },
       {
-        question: 'Puis-je annuler apres inscription ?',
+        question: 'Puis-je annuler après inscription ?',
         answer: "Oui. Annulation gratuite jusqu'a 60 jours avant le depart (remboursement 100%). Entre 30 et 60 jours : remboursement 50%. Moins de 30 jours : non remboursable. Detail complet dans nos CGV.",
       },
       {
         question: 'Quels moyens de paiement acceptez-vous ?',
-        answer: "Virement bancaire, carte bancaire (via Stripe) et PayPal. Le paiement se fait en CHF ou en EUR.",
+        answer: "Virement bancaire, carte bancaire (via Stripe) et PayPal. Le paiement se fait en euros (EUR).",
       },
       {
         question: 'Je viens avec mon club, y a-t-il un tarif groupe ?',
@@ -131,7 +131,7 @@ export const FAQ_CATEGORIES: FAQCategory[] = [
       },
       {
         question: 'Quel est le delai minimum pour reserver un camp sur mesure ?',
-        answer: "90 jours minimum avant la date de debut souhaitee. Ce delai permet de gerer le visa russe (3-4 semaines), reserver un vol intl pas cher, et completer la preparation physique de 6 semaines. Pour les camps sur dates fixes (session officielle), inscription jusqu'a 30 jours avant le depart.",
+        answer: "90 jours minimum avant la date de debut souhaitee. Ce delai permet de gerer le visa russe (3-4 semaines), reserver un vol intl pas cher, et completer la préparation physique de 6 semaines. Pour les camps sur dates fixes (session officielle), inscription jusqu'a 30 jours avant le depart.",
       },
     ],
   },
@@ -141,7 +141,7 @@ export const FAQ_CATEGORIES: FAQCategory[] = [
     items: [
       {
         question: 'Mon enfant peut-il venir au camp ?',
-        answer: "Oui, des 8 ans, mais il doit obligatoirement etre accompagne d'un parent participant au camp. C'est notre regle de securite : pas de prise en charge enfant seul. Tarif enfant 8-17 ans fixe : 1 000 CHF / 1 sem, 1 400 CHF / 2 sem, 1 900 CHF / 3 sem.",
+        answer: "Oui, des 8 ans, mais il doit obligatoirement etre accompagne d'un parent participant au camp. C'est notre regle de sécurité : pas de prise en charge enfant seul. Tarif enfant 8-17 ans fixe : 1 000 € / 1 sem, 1 400 € / 2 sem, 1 900 € / 3 sem.",
       },
       {
         question: 'Comment s\'inscrire en famille ?',
@@ -149,7 +149,7 @@ export const FAQ_CATEGORIES: FAQCategory[] = [
       },
       {
         question: "Comment l'enfant est-il encadre pendant les sessions ?",
-        answer: "Un coach jeunesse forme a la pedagogie sportive des plus jeunes encadre les sessions enfants (Lutte enfants a 10h30 et 17h30). Ratio 1 coach pour 5 enfants maximum. Tapis olympiques homologues, salle dediee, pas de KO autorise, sparring controle. Briefing parents chaque fin de session, photos quotidiennes.",
+        answer: "Un coach jeunesse forme a la pédagogie sportive des plus jeunes encadre les sessions enfants (Lutte enfants a 10h30 et 17h30). Ratio 1 coach pour 5 enfants maximum. Tapis olympiques homologués, salle dédiée, pas de KO autorise, sparring controle. Briefing parents chaque fin de session, photos quotidiennes.",
       },
       {
         question: 'Le programme parent et le programme enfant sont-ils en parallele ?',
@@ -157,7 +157,7 @@ export const FAQ_CATEGORIES: FAQCategory[] = [
       },
       {
         question: 'Quel age minimum/maximum pour les enfants ?',
-        answer: "Minimum 8 ans, maximum 17 ans. En dessous de 8 ans, le camp est physiquement et culturellement trop intense. A partir de 18 ans, ton ado est inscrit comme adulte au tarif adulte (1 500 / 2 200 / 2 900 CHF selon duree).",
+        answer: "Minimum 8 ans, maximum 17 ans. En dessous de 8 ans, le camp est physiquement et culturellement trop intense. A partir de 18 ans, ton ado est inscrit comme adulte au tarif adulte (1 500 / 2 200 / 2 900 € selon duree).",
       },
       {
         question: 'Faut-il un certificat medical pour les enfants ?',

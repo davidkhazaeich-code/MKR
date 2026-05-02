@@ -6456,7 +6456,7 @@ html.is-loading body {
 }
 
 .audience-switcher-title {
-  font-family: var(--font-display, inherit);
+  font-family: var(--font-teko), sans-serif;
   font-size: clamp(2rem, 5vw, 3.4rem);
   line-height: 0.95;
   letter-spacing: -0.01em;
@@ -6544,7 +6544,7 @@ html.is-loading body {
 }
 
 .audience-card-title {
-  font-family: var(--font-display, inherit);
+  font-family: var(--font-teko), sans-serif;
   font-size: 1.35rem;
   line-height: 1.1;
   text-transform: uppercase;
@@ -6632,7 +6632,7 @@ html.is-loading body {
 }
 
 .pricing-table-title {
-  font-family: var(--font-display, inherit);
+  font-family: var(--font-teko), sans-serif;
   font-size: clamp(1.8rem, 4.5vw, 2.8rem);
   text-transform: uppercase;
   letter-spacing: -0.01em;
@@ -6675,7 +6675,7 @@ html.is-loading body {
 }
 
 .pricing-card-title {
-  font-family: var(--font-display, inherit);
+  font-family: var(--font-teko), sans-serif;
   font-size: 1.3rem;
   text-transform: uppercase;
   margin: 0 0 0.5rem;
@@ -6727,7 +6727,7 @@ html.is-loading body {
 }
 
 .pricing-family-title {
-  font-family: var(--font-display, inherit);
+  font-family: var(--font-teko), sans-serif;
   font-size: 0.95rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -6779,7 +6779,7 @@ html.is-loading body {
 }
 
 .pricing-included-title {
-  font-family: var(--font-display, inherit);
+  font-family: var(--font-teko), sans-serif;
   font-size: 0.95rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -6920,7 +6920,7 @@ html.is-loading body {
 }
 
 .insc-audience-banner strong {
-  font-family: var(--font-display, inherit);
+  font-family: var(--font-teko), sans-serif;
   font-size: 1.05rem;
   text-transform: uppercase;
   letter-spacing: -0.005em;
@@ -7020,7 +7020,7 @@ html.is-loading body {
 }
 
 .facilitator-title {
-  font-family: var(--font-display, inherit);
+  font-family: var(--font-teko), sans-serif;
   font-size: clamp(1.8rem, 4.5vw, 2.8rem);
   text-transform: uppercase;
   letter-spacing: -0.005em;
@@ -7078,7 +7078,7 @@ html.is-loading body {
 .facilitator-card-icon svg { width: 100%; height: 100%; }
 
 .facilitator-card-title {
-  font-family: var(--font-display, inherit);
+  font-family: var(--font-teko), sans-serif;
   font-size: 1.05rem;
   text-transform: uppercase;
   letter-spacing: -0.005em;
@@ -7184,7 +7184,7 @@ html.is-loading body {
 
 .parents-stat-num {
   display: block;
-  font-family: var(--font-display, inherit);
+  font-family: var(--font-teko), sans-serif;
   font-size: clamp(2rem, 5vw, 2.6rem);
   font-weight: 700;
   letter-spacing: -0.01em;

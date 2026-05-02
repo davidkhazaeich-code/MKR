@@ -35,7 +35,7 @@ export default function LogistiquePage() {
               <table className="table-tonal">
                 <thead><tr><th>Poste</th><th>Estimation</th></tr></thead>
                 <tbody>
-                  <tr><td>Package MKR (camp complet)</td><td>2 750 - 3 200 CHF</td></tr>
+                  <tr><td>Package MKR (camp complet)</td><td>2 750 - 3 200 €</td></tr>
                   <tr><td>Vol international A/R</td><td>400 - 700 EUR</td></tr>
                   <tr><td>Visa (si necessaire)</td><td>60 - 100 EUR</td></tr>
                   <tr><td>Assurance voyage</td><td>80 - 150 EUR</td></tr>
@@ -51,10 +51,10 @@ export default function LogistiquePage() {
               <ul className="logi-check-list">
                 <li>Hebergement de camp</li>
                 <li>2 repas par jour</li>
-                <li>2 sessions d&apos;entrainement/jour</li>
-                <li>Transferts aeroport-camp</li>
+                <li>2 sessions d&apos;entraînement/jour</li>
+                <li>Transferts aéroport-camp</li>
                 <li>Excursions culturelles (en option)</li>
-                <li>Suivi preparatoire a distance</li>
+                <li>Suivi préparatoire a distance</li>
               </ul>
             </div>
           </div>
@@ -71,9 +71,9 @@ export default function LogistiquePage() {
           </div>
           <div className="logi-visa-steps reveal">
             {[
-              { num: '01', title: 'Verifier ton passeport', desc: 'Passeport valide au moins 6 mois apres la date de retour.' },
-              { num: '02', title: 'Visa Russie obligatoire', desc: "Le camp se deroule au Daghestan (Federation de Russie). Un visa russe est necessaire pour la majorite des nationalites. Pour les ressortissants UE, MKR fournit un questionnaire visa a remplir avec ton passeport (validite 6 mois minimum)." },
-              { num: '03', title: 'Lettre d&apos;invitation MKR', desc: "MKR fournit la lettre d&apos;invitation officielle apres confirmation de ta candidature. C&apos;est le document central du dossier visa." },
+              { num: '01', title: 'Verifier ton passeport', desc: 'Passeport valide au moins 6 mois après la date de retour.' },
+              { num: '02', title: 'Visa Russie obligatoire', desc: "Le camp se déroule au Daghestan (Federation de Russie). Un visa russe est necessaire pour la majorite des nationalites. Pour les ressortissants UE, MKR fournit un questionnaire visa a remplir avec ton passeport (validite 6 mois minimum)." },
+              { num: '03', title: 'Lettre d&apos;invitation MKR', desc: "MKR fournit la lettre d&apos;invitation officielle après confirmation de ta candidature. C&apos;est le document central du dossier visa." },
               { num: '04', title: 'Documents a emporter', desc: "Passeport, confirmation de reservation MKR, attestation d'assurance, billet retour." },
             ].map((step) => (
               <div key={step.num} className="logi-step">
@@ -98,9 +98,9 @@ export default function LogistiquePage() {
           </div>
           <div className="grid-3">
             {[
-              { city: 'Paris CDG', connections: 'Via Istanbul (Turkish Airlines) vers Makhachkala (MCX). Vol interieur Istanbul-Makhachkala inclus dans le package MKR.', price: '450 - 700 EUR', duration: '~7-9h avec escale' },
-              { city: 'Geneve / Zurich', connections: 'Via Istanbul (Turkish Airlines) vers Makhachkala (MCX). Vol interieur Istanbul-Makhachkala inclus dans le package MKR.', price: '500 - 750 EUR', duration: '~8-10h avec escale' },
-              { city: 'Bruxelles', connections: 'Via Istanbul (Turkish Airlines) vers Makhachkala (MCX). Vol interieur Istanbul-Makhachkala inclus dans le package MKR.', price: '480 - 720 EUR', duration: '~8-10h avec escale' },
+              { city: 'Paris CDG', connections: 'Via Istanbul (Turkish Airlines) vers Makhachkala (MCX). Vol intérieur Istanbul-Makhachkala inclus dans le package MKR.', price: '450 - 700 EUR', duration: '~7-9h avec escale' },
+              { city: 'Geneve / Zurich', connections: 'Via Istanbul (Turkish Airlines) vers Makhachkala (MCX). Vol intérieur Istanbul-Makhachkala inclus dans le package MKR.', price: '500 - 750 EUR', duration: '~8-10h avec escale' },
+              { city: 'Bruxelles', connections: 'Via Istanbul (Turkish Airlines) vers Makhachkala (MCX). Vol intérieur Istanbul-Makhachkala inclus dans le package MKR.', price: '480 - 720 EUR', duration: '~8-10h avec escale' },
             ].map((flight, i) => (
               <div key={i} className="content-card fx-grain fx-corner-glow reveal" style={{ transitionDelay: `${i * 0.08}s` }}>
                 <h3 className="card-title">{flight.city}</h3>
@@ -133,7 +133,7 @@ export default function LogistiquePage() {
             <ul className="logi-check-list" style={{ marginTop: '1rem' }}>
               <li>Rapatriement medical</li>
               <li>Pratique de sports de contact (MMA, lutte)</li>
-              <li>Frais medicaux a l&apos;etranger</li>
+              <li>Frais medicaux a l&apos;étranger</li>
               <li>Responsabilite civile</li>
             </ul>
             <p style={{ marginTop: '1rem' }}>Prestataires recommandes : Chapka Direct, ACS, World Nomads, Allianz Travel.</p>
@@ -149,8 +149,8 @@ export default function LogistiquePage() {
               <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>SUR PLACE</span>
               <h2>TRANSFERTS</h2>
               <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1rem' }}>
-                Le transfert depuis l&apos;aeroport est inclus dans le package. Un vehicule MKR t&apos;attend a ton arrivee.
-                Le trajet entre l&apos;aeroport de Makhachkala et le lieu d&apos;entrainement dure environ 1h30. Tous
+                Le transfert depuis l&apos;aéroport est inclus dans le package. Un vehicule MKR t&apos;attend a ton arrivee.
+                Le trajet entre l&apos;aéroport de Makhachkala et le lieu d&apos;entraînement dure environ 1h30. Tous
                 les deplacements pendant le camp sont pris en charge.
               </p>
               <figure className="photo-card" style={{ marginTop: '1.5rem' }}>
@@ -162,13 +162,13 @@ export default function LogistiquePage() {
                   loading="lazy"
                   className="section-photo-img"
                 />
-                <figcaption>La route vers le camp. Le voyage fait partie de l&apos;experience.</figcaption>
+                <figcaption>La route vers le camp. Le voyage fait partie de l&apos;expérience.</figcaption>
               </figure>
             </div>
             <div className="content-card fx-grain fx-corner-glow">
               <h3 className="card-title">INFOS PRATIQUES</h3>
               <p className="card-body">Aeroport : Makhachkala (MCX)</p>
-              <p className="card-body">Accueil a l&apos;aeroport par l&apos;equipe MKR</p>
+              <p className="card-body">Accueil a l&apos;aéroport par l&apos;equipe MKR</p>
               <p className="card-body">Vehicule prive camp &lt;&gt; salle</p>
             </div>
           </div>
@@ -190,7 +190,7 @@ export default function LogistiquePage() {
               { title: 'Internet', desc: 'Wi-Fi au logement. Carte SIM locale Russie recommandee (~5 EUR).' },
               { title: 'Climat', desc: 'Continental. Printemps 12-20°C, ete 25-35°C, automne 10-18°C.' },
               { title: 'Langue', desc: 'Russe principal. Avar et autres langues du Daghestan selon la salle. Interprete MKR francophone sur place.' },
-              { title: 'Alimentation', desc: 'Cuisine caucasienne : riche en proteines, viande, legumes, pain. Regime adapte aux athletes.' },
+              { title: 'Alimentation', desc: 'Cuisine caucasienne : riche en protéines, viande, legumes, pain. Regime adapte aux athlètes.' },
             ].map((info, i) => (
               <div key={i} className="content-card fx-grain fx-corner-glow reveal" style={{ transitionDelay: `${i * 0.06}s` }}>
                 <h3 className="card-title" style={{ fontSize: '0.95rem' }}>{info.title}</h3>

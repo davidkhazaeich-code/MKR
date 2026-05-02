@@ -13,13 +13,13 @@ export default function CGVPage() {
         <h1 className="legal-title">CONDITIONS GENERALES DE VENTE</h1>
         <div className="legal-content">
           <h2>Article 1 : Objet</h2>
-          <p>Les presentes conditions generales de vente (CGV) regissent les relations contractuelles entre MKR Caucasian Camp (ci-apres &laquo; l&apos;Organisateur &raquo;) et toute personne physique (ci-apres &laquo; le Participant &raquo;) souhaitant participer a un camp d&apos;entrainement organise par MKR Caucasian Camp.</p>
+          <p>Les presentes conditions generales de vente (CGV) regissent les relations contractuelles entre MKR Caucasian Camp (ci-après &laquo; l&apos;Organisateur &raquo;) et toute personne physique (ci-après &laquo; le Participant &raquo;) souhaitant participer a un camp d&apos;entraînement organise par MKR Caucasian Camp.</p>
 
           <h2>Article 2 : Inscription et validation</h2>
           <p>L&apos;inscription se fait via le formulaire en ligne sur mkrcaucasiancamp.com. Toute candidature est soumise a validation par l&apos;equipe MKR lors d&apos;un entretien telephonique ou video. L&apos;Organisateur se reserve le droit de refuser toute candidature sans justification.</p>
 
           <h2>Article 3 : Tarifs et paiement</h2>
-          <p>Les tarifs sont indiques en francs suisses (CHF) sur la page Sessions du site. Le paiement s&apos;effectue en deux temps :</p>
+          <p>Les tarifs sont indiques en euros (EUR) sur la page Sessions du site. Le paiement s&apos;effectue en deux temps :</p>
           <ul>
             <li>Acompte de 30% a la confirmation de la candidature</li>
             <li>Solde de 70% au plus tard 30 jours avant le debut du camp</li>
@@ -39,11 +39,11 @@ export default function CGVPage() {
           <ul>
             <li>Hebergement en logement de camp</li>
             <li>2 repas par jour (petit-dejeuner et dejeuner)</li>
-            <li>Sessions d&apos;entrainement biquotidiennes (6 jours/semaine)</li>
-            <li>Vol interieur Istanbul-Makhachkala</li>
-            <li>Transferts aeroport-camp</li>
+            <li>Sessions d&apos;entraînement biquotidiennes (6 jours/semaine)</li>
+            <li>Vol intérieur Istanbul-Makhachkala</li>
+            <li>Transferts aéroport-camp</li>
             <li>Excursions culturelles (en option)</li>
-            <li>Suivi preparatoire a distance avant le depart</li>
+            <li>Suivi préparatoire a distance avant le depart</li>
           </ul>
 
           <h2>Article 6 : Prestations non incluses</h2>
@@ -59,7 +59,7 @@ export default function CGVPage() {
           <p>Le Participant est tenu de souscrire une assurance voyage couvrant le rapatriement medical et la pratique de sports de contact avant le depart. La preuve d&apos;assurance doit etre fournie a l&apos;Organisateur au plus tard 15 jours avant le depart.</p>
 
           <h2>Article 8 : Responsabilite</h2>
-          <p>Le Participant reconnait participer au camp de sa propre initiative et en pleine connaissance des risques lies a la pratique de sports de combat. L&apos;Organisateur decline toute responsabilite en cas de blessure survenue lors des entrainements ou activites annexes.</p>
+          <p>Le Participant reconnait participer au camp de sa propre initiative et en pleine connaissance des risques lies a la pratique de sports de combat. L&apos;Organisateur decline toute responsabilite en cas de blessure survenue lors des entraînements ou activites annexes.</p>
 
           <h2>Article 9 : Droit a l&apos;image</h2>
           <p>Le Participant autorise l&apos;Organisateur a utiliser les photos et videos prises pendant le camp a des fins de communication et de promotion, sauf opposition ecrite prealable. Pour les mineurs, l&apos;autorisation est donnee par le responsable legal lors de l&apos;inscription.</p>
@@ -70,11 +70,11 @@ export default function CGVPage() {
           <ul>
             <li>Une autorisation parentale signee par le responsable legal au moment de l&apos;inscription</li>
             <li>Un certificat medical d&apos;aptitude a la pratique sportive intensive datant de moins de 6 mois avant le depart, etabli par le medecin traitant</li>
-            <li>Une copie du passeport du mineur (validite minimum 6 mois apres la date de retour)</li>
+            <li>Une copie du passeport du mineur (validite minimum 6 mois après la date de retour)</li>
             <li>Une procuration medicale autorisant l&apos;Organisateur et son equipe medicale locale a prendre les mesures d&apos;urgence necessaires</li>
             <li>L&apos;assurance voyage doit explicitement couvrir le mineur, le rapatriement medical et la pratique de sports de contact pour mineurs</li>
           </ul>
-          <p>Le parent ou responsable legal accompagnant demeure pleinement responsable du mineur pendant toute la duree du sejour, y compris en dehors des sessions d&apos;entrainement encadrees par MKR. L&apos;Organisateur fournit un encadrement specialise pendant les sessions Lutte enfants (coach jeunesse dedie, ratio 1 coach pour 5 enfants maximum, supervision constante).</p>
+          <p>Le parent ou responsable legal accompagnant demeure pleinement responsable du mineur pendant toute la duree du sejour, y compris en dehors des sessions d&apos;entraînement encadrées par MKR. L&apos;Organisateur fournit un encadrement spécialisé pendant les sessions Lutte enfants (coach jeunesse dédié, ratio 1 coach pour 5 enfants maximum, supervision constante).</p>
 
           <h2>Article 11 : Droit applicable</h2>
           <p>Les presentes CGV sont soumises au droit suisse. Tout litige sera porte devant les juridictions competentes du canton de [A completer], Suisse.</p>

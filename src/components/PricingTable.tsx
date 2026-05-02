@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { ADULT_PRICING, CHILD_PRICING, FAMILY_EXAMPLES, calculatePrice, formatCHF } from '@/data/pricing'
+import { ADULT_PRICING, CHILD_PRICING, FAMILY_EXAMPLES, calculatePrice, formatEUR } from '@/data/pricing'
 
 interface PricingTableProps {
   /** Affiche le titre + eyebrow au-dessus */
@@ -42,7 +42,7 @@ export default function PricingTable({ withHeader = true, compact = false }: Pri
               {Object.values(ADULT_PRICING).map(p => (
                 <li key={p.weeks}>
                   <span className="pricing-list-label">{p.label}</span>
-                  <span className="pricing-list-value">{formatCHF(p.price)}</span>
+                  <span className="pricing-list-value">{formatEUR(p.price)}</span>
                 </li>
               ))}
             </ul>
@@ -59,7 +59,7 @@ export default function PricingTable({ withHeader = true, compact = false }: Pri
               {Object.values(CHILD_PRICING).map(p => (
                 <li key={p.weeks}>
                   <span className="pricing-list-label">{p.label}</span>
-                  <span className="pricing-list-value">{formatCHF(p.price)}</span>
+                  <span className="pricing-list-value">{formatEUR(p.price)}</span>
                 </li>
               ))}
             </ul>
@@ -75,7 +75,7 @@ export default function PricingTable({ withHeader = true, compact = false }: Pri
                 return (
                   <div key={ex.label} className="pricing-family-item">
                     <span className="pricing-family-label">{ex.label}</span>
-                    <span className="pricing-family-value">{formatCHF(total)}</span>
+                    <span className="pricing-family-value">{formatEUR(total)}</span>
                     <span className="pricing-family-detail">
                       {ex.adults > 0 && `${ex.adults} × 2 900`}
                       {ex.adults > 0 && ex.children > 0 && ' + '}

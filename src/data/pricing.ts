@@ -11,22 +11,22 @@ export type Duration = 1 | 2 | 3
 export interface PriceEntry {
   weeks: Duration
   price: number
-  currency: 'CHF'
+  currency: 'EUR'
   label: string
 }
 
 /** Tarifs ADULTE 18+ */
 export const ADULT_PRICING: Record<Duration, PriceEntry> = {
-  1: { weeks: 1, price: 1500, currency: 'CHF', label: '1 semaine' },
-  2: { weeks: 2, price: 2200, currency: 'CHF', label: '2 semaines' },
-  3: { weeks: 3, price: 2900, currency: 'CHF', label: '3 semaines' },
+  1: { weeks: 1, price: 1500, currency: 'EUR', label: '1 semaine' },
+  2: { weeks: 2, price: 2200, currency: 'EUR', label: '2 semaines' },
+  3: { weeks: 3, price: 2900, currency: 'EUR', label: '3 semaines' },
 }
 
 /** Tarifs ENFANT/ADO 8-17 (avec parent obligatoire) */
 export const CHILD_PRICING: Record<Duration, PriceEntry> = {
-  1: { weeks: 1, price: 1000, currency: 'CHF', label: '1 semaine' },
-  2: { weeks: 2, price: 1400, currency: 'CHF', label: '2 semaines' },
-  3: { weeks: 3, price: 1900, currency: 'CHF', label: '3 semaines' },
+  1: { weeks: 1, price: 1000, currency: 'EUR', label: '1 semaine' },
+  2: { weeks: 2, price: 1400, currency: 'EUR', label: '2 semaines' },
+  3: { weeks: 3, price: 1900, currency: 'EUR', label: '3 semaines' },
 }
 
 /** Helper : récupérer un tarif unitaire */
@@ -46,9 +46,9 @@ export function calculatePrice({ adults, children, weeks }: FamilyConfig): numbe
   return adults * getPrice('adult', weeks) + children * getPrice('child', weeks)
 }
 
-/** Format prix CHF */
-export function formatCHF(amount: number): string {
-  return `${amount.toLocaleString('fr-CH').replace(/ /g, ' ')} CHF`
+/** Format prix EUR */
+export function formatEUR(amount: number): string {
+  return `${amount.toLocaleString('fr-FR').replace(/ /g, ' ')} €`
 }
 
 /** Configurations famille types pour affichage */

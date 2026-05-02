@@ -34,7 +34,7 @@ export const SESSIONS: Session[] = [
     startDate: '2026-08-17',
     endDate: '2026-09-05',
     price: 2900,
-    priceCurrency: 'CHF',
+    priceCurrency: 'EUR',
     maxCapacity: 15,
     spotsLabel: 'Places disponibles',
     status: 'open',
@@ -45,7 +45,8 @@ export const SESSIONS: Session[] = [
 ]
 
 export function formatPrice(session: Session): string {
-  return `${session.price.toLocaleString('fr-CH')} ${session.priceCurrency}`
+  const symbol = session.priceCurrency === 'EUR' ? '€' : session.priceCurrency
+  return `${session.price.toLocaleString('fr-FR')} ${symbol}`
 }
 
 export function sessionFormLabel(session: Session): string {

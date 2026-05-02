@@ -22,7 +22,7 @@ const SESSIONS = [
     intensity: 'Maximale',
     places: '15 max.',
     duration: '3 semaines',
-    price: '2 900 CHF',
+    price: '2 900 €',
     status: 'open' as const,
     statusLabel: 'Places disponibles',
     delay: '0s',
@@ -37,7 +37,7 @@ const INCLUDES = [
       </svg>
     ),
     title: 'Transport local',
-    desc: 'Transferts aeroport-camp et deplacements sur place pris en charge.',
+    desc: 'Transferts aéroport-camp et deplacements sur place pris en charge.',
   },
   {
     icon: (
@@ -144,7 +144,7 @@ export default function SessionsPage() {
                 <div className="session-card-footer">
                   <div>
                     <div className="session-price">{s.price}</div>
-                    <div className="session-price-sub">Tarif adulte. Enfant 8-17 (avec parent) : 1 900 CHF / 3 sem.</div>
+                    <div className="session-price-sub">Tarif adulte. Enfant 8-17 (avec parent) : 1 900 € / 3 sem.</div>
                   </div>
                   <Link href="/inscription?type=session" className="session-cta">POSTULER</Link>
                 </div>
@@ -167,7 +167,7 @@ export default function SessionsPage() {
       {/* Cinematic reveal */}
       <CinematicReveal
         image="/images/action/shadowboxing-group.webp"
-        alt="Groupe d'athletes en shadowboxing dans une salle du Caucase"
+        alt="Groupe d'athlètes en shadowboxing dans une salle du Caucase"
         label="INTENSITE"
         title="CHAQUE SESSION COMPTE"
         tagline="Groupe reduit, coaching personnalise. L'energie collective pousse chacun au-dela de ses limites."
@@ -205,7 +205,7 @@ export default function SessionsPage() {
             <p>Prix degressif a partir de 5 personnes. Contacte-nous directement pour un devis sur mesure.</p>
             <img
               src="/images/environment/communal-meal.webp"
-              alt="Groupe d'athletes au camp MKR Caucasian Camp"
+              alt="Groupe d'athlètes au camp MKR Caucasian Camp"
               width={800}
               height={343}
               loading="lazy"
@@ -269,7 +269,7 @@ export default function SessionsPage() {
           { label: 'Coachs locaux', icon: <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5"><circle cx="10" cy="7" r="3"/><path d="M4 18c0-4 2.5-6 6-6s6 2 6 6"/></svg> },
           { label: 'Transport gere', icon: <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M2 14 L10 4 L18 14"/><line x1="6" y1="10" x2="14" y2="10"/></svg> },
           { label: 'Places limitees', icon: <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="3" y="3" width="14" height="14"/><line x1="10" y1="7" x2="10" y2="13"/><line x1="7" y1="10" x2="13" y2="10"/></svg> },
-          { label: 'Paiement securise', icon: <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="4" y="8" width="12" height="10"/><path d="M7 8V5a3 3 0 016 0v3"/></svg> },
+          { label: 'Paiement sécurise', icon: <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="4" y="8" width="12" height="10"/><path d="M7 8V5a3 3 0 016 0v3"/></svg> },
         ].map((r, i) => (
           <div key={i} className="reassurance-item">
             {r.icon}
