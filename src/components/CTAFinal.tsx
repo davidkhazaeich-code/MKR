@@ -1,16 +1,19 @@
 import Link from 'next/link'
+import { getNextSession, SESSIONS } from '@/data/sessions'
 
 export default function CTAFinal() {
+  const next = getNextSession()
+  const year = next.startDate.slice(0, 4)
   return (
     <section id="cta-final" aria-labelledby="cta-heading">
       <div className="cta-glow" aria-hidden="true"></div>
       <div className="cta-inner">
-        <span className="cta-label reveal">15 places par session. Sélection sur dossier.</span>
+        <span className="cta-label reveal">15 places par session. Sélection sur dossier. {SESSIONS.length} sessions par an.</span>
         <h2 id="cta-heading" className="cta-title reveal">
           PRÊT À PASSER<br /><span>AU NIVEAU SUPÉRIEUR ?</span>
         </h2>
         <p className="cta-subtitle reveal" style={{ transitionDelay: '0.1s' }}>
-          Prochain camp · 17 août - 5 septembre 2026 · Daghestan
+          Prochain camp · {next.dates} {year} · Daghestan
         </p>
         <Link href="/inscription" className="cta-btn reveal" style={{ transitionDelay: '0.2s' }}>
           DÉPOSER MA CANDIDATURE

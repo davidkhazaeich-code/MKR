@@ -235,7 +235,7 @@ function HeroCampCarousel() {
         <div className="hero-camps-dates">{session.dates}</div>
         <div className="hero-camps-bottom">
           <span className="hero-camps-price">{formatPrice(session)}</span>
-          <Link href="/inscription" className="hero-camps-cta">S&apos;inscrire →</Link>
+          <Link href={`/inscription?type=session&session=${session.id}`} className="hero-camps-cta">S&apos;inscrire →</Link>
         </div>
       </div>
       {SESSIONS.length > 1 && (

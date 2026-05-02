@@ -9,9 +9,9 @@ import PricingTable from '@/components/PricingTable'
 import PlacesRestantes from '@/components/PlacesRestantes'
 
 export const metadata: Metadata = {
-  title: 'Sessions et Tarifs 2026 | MKR Caucasian Camp au Daghestan',
-  description: "Calendrier 2026 des camps MMA et Lutte au Caucase. Prix, dates, places disponibles. Réserve ta session au Daghestan.",
-  alternates: { canonical: 'https://mkrcaucasiancamp.com/sessions' },
+  title: 'Sessions et Tarifs 2026 - 2027 | MKR Caucasian Camp au Daghestan',
+  description: "Calendrier des 4 camps MMA et Lutte au Caucase : Été 2026, Toussaint 2026, Hiver 2027, Pâques 2027. Prix, dates calées vacances scolaires, places disponibles.",
+  alternates: { canonical: 'https://mkrcamp.com/sessions' },
 }
 
 const SESSIONS = [
@@ -28,6 +28,48 @@ const SESSIONS = [
     status: 'open' as const,
     statusLabel: 'Places disponibles',
     delay: '0s',
+  },
+  {
+    id: 'toussaint-2026',
+    month: 'OCT',
+    season: 'Session Automne · Toussaint 2026',
+    name: 'CAMP\nTOUSSAINT',
+    dates: '17 OCTOBRE · 7 NOVEMBRE 2026',
+    intensity: 'Élevée',
+    maxCapacity: 15,
+    duration: '3 semaines',
+    price: '2 900 €',
+    status: 'open' as const,
+    statusLabel: 'Places disponibles',
+    delay: '0.08s',
+  },
+  {
+    id: 'fevrier-2027',
+    month: 'FÉV',
+    season: 'Session Hiver · Février 2027',
+    name: 'CAMP\nHIVER',
+    dates: '13 FÉVRIER · 6 MARS 2027',
+    intensity: 'Maximale',
+    maxCapacity: 15,
+    duration: '3 semaines',
+    price: '2 900 €',
+    status: 'open' as const,
+    statusLabel: 'Places disponibles',
+    delay: '0.16s',
+  },
+  {
+    id: 'paques-2027',
+    month: 'AVR',
+    season: 'Session Printemps · Pâques 2027',
+    name: 'CAMP\nPRINTEMPS',
+    dates: '3 · 24 AVRIL 2027',
+    intensity: 'Élevée',
+    maxCapacity: 15,
+    duration: '3 semaines',
+    price: '2 900 €',
+    status: 'open' as const,
+    statusLabel: 'Places disponibles',
+    delay: '0.24s',
   },
 ]
 
@@ -93,14 +135,14 @@ export default function SessionsPage() {
   return (
     <>
       <BreadcrumbJsonLd items={[
-        { name: 'Accueil', url: 'https://mkrcaucasiancamp.com/' },
-        { name: 'Sessions et Tarifs', url: 'https://mkrcaucasiancamp.com/sessions' },
+        { name: 'Accueil', url: 'https://mkrcamp.com/' },
+        { name: 'Sessions et Tarifs', url: 'https://mkrcamp.com/sessions' },
       ]} />
 
       <PageHero
         label="SESSIONS ET TARIFS"
         title="CHOISIS TON FORMAT.<br/>NOUS ORGANISONS TOUT."
-        subtitle="Rejoindre la session groupe, organiser ton camp sur mesure ou venir avec ton club. Tarifs publics fixes."
+        subtitle="Quatre sessions par an calées sur les vacances scolaires francophones. Rejoins un groupe, organise ton camp sur mesure ou viens avec ton club. Tarifs publics fixes."
       />
 
       {/* Audience Switcher : 3 types d'inscription */}
@@ -112,13 +154,16 @@ export default function SessionsPage() {
         <div className="inner">
           <div className="logi-header reveal">
             <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>
-              SESSION OFFICIELLE 2026
+              SESSIONS OFFICIELLES 2026 / 2027
             </span>
-            <h2 id="sessions-list-heading">UN GROUPE, UNE DATE, UN OBJECTIF</h2>
+            <h2 id="sessions-list-heading">QUATRE SESSIONS, UN OBJECTIF</h2>
+            <p style={{ color: 'var(--text-secondary)', marginTop: '0.8rem', maxWidth: '720px' }}>
+              Une session par saison, calées sur les vacances scolaires des trois zones françaises, suisses romandes et belges. Choisis celle qui colle à ton calendrier.
+            </p>
           </div>
           <div className="sessions-grid">
             {SESSIONS.map((s, i) => (
-              <article key={i} className="session-card fx-grain fx-corner-glow reveal" style={{ transitionDelay: s.delay }}>
+              <article key={i} id={s.id} className="session-card fx-grain fx-corner-glow reveal" style={{ transitionDelay: s.delay, scrollMarginTop: '120px' }}>
                 <div className="session-month-bg" aria-hidden="true">{s.month}</div>
                 <div className="session-status-badge" data-status={s.status}>
                   <PlacesRestantes
@@ -158,7 +203,7 @@ export default function SessionsPage() {
                     <div className="session-price">{s.price}</div>
                     <div className="session-price-sub">Tarif adulte. Enfant 8-17 (avec parent) : 1 900 € / 3 sem.</div>
                   </div>
-                  <Link href="/inscription?type=session" className="session-cta">POSTULER</Link>
+                  <Link href={`/inscription?type=session&session=${s.id}`} className="session-cta">POSTULER</Link>
                 </div>
               </article>
             ))}
@@ -227,7 +272,7 @@ export default function SessionsPage() {
               <a href="https://wa.me/33666177691" target="_blank" rel="noopener noreferrer" className="btn-primary">
                 CONTACTER PAR WHATSAPP
               </a>
-              <a href="mailto:contact@mkrcaucasiancamp.com" className="btn-ghost">
+              <a href="mailto:contact@mkrcamp.com" className="btn-ghost">
                 ENVOYER UN EMAIL
               </a>
             </div>

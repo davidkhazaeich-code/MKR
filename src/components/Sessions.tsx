@@ -8,11 +8,14 @@ export default function Sessions() {
       <div className="inner">
         <div className="sessions-header reveal">
           <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>
-            PROGRAMME 2026
+            CALENDRIER 2026 / 2027
           </span>
           <h2 id="sessions-heading" className="sessions-title">
-            LES<br />SESSIONS
+            LES 4<br />SESSIONS
           </h2>
+          <p style={{ color: 'var(--text-secondary)', marginTop: '0.8rem', maxWidth: '640px' }}>
+            Une session par saison, calée sur les vacances scolaires francophones (France, Suisse romande, Belgique).
+          </p>
         </div>
 
         <div className="sessions-grid">
@@ -54,7 +57,7 @@ export default function Sessions() {
                   <div className="session-price">{formatPrice(session)}</div>
                   <div className="session-price-sub">Hébergement, 2 repas/jour, vol intérieur Istanbul-Makhachkala inclus · Vol international à charge</div>
                 </div>
-                <Link href="/inscription" className="session-cta">POSTULER</Link>
+                <Link href={`/inscription?type=session&session=${session.id}`} className="session-cta">POSTULER</Link>
               </div>
             </article>
           ))}

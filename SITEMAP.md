@@ -1,7 +1,47 @@
 # SITEMAP MKR Caucasian Camp — Cartographie complète
 
-> **Fichier de référence pour Claude Code.** Mise à jour : 2026-05-02 (post backend Supabase v1).
+> **Fichier de référence pour Claude Code.** Mise à jour : 2026-05-02 (post ajout 3 sessions saisonnières + backend Supabase v1).
 > Lis ce fichier en priorité avant toute intervention sur le site MKR. Il évite de re-explorer.
+
+## 🆕 Changements 2026-05-02 (4 sessions officielles, calendrier 2026 / 2027)
+
+- **3 nouvelles sessions officielles** ajoutées dans `data/sessions.ts` (jusqu'ici 1 seule, `aout-2026`) :
+  - `toussaint-2026` — 17 octobre - 7 novembre 2026 (Toussaint FR + octobre CH + Toussaint BE)
+  - `fevrier-2027` — 13 février - 6 mars 2027 (vacances d'hiver Zones A/B/C FR + relâche CH + carnaval BE)
+  - `paques-2027` — 3 - 24 avril 2027 (vacances de printemps FR + Pâques CH + BE)
+- **Helper** `getNextSession(now)` dans `data/sessions.ts` : retourne la prochaine session à venir. Utilisé par `CTAFinal` (qui n'est plus hardcodé).
+- **Form `/inscription`** :
+  - Accepte deux URL params : `?type=session|custom|famille|groupe` (existant) **et** `?session=<id>` (nouveau, pré-sélectionne la session)
+  - `VALID_TYPES` corrigé pour inclure `famille` (oubli historique)
+  - Step 3 audience='session' : input disabled remplacé par `<select>` listant les 4 sessions (`SESSIONS.map`)
+  - Step 3 audience='famille' RadioGroup : 5 options (4 sessions + sur-mesure) au lieu de 2
+  - Step 5 récap : affiche dynamiquement la session sélectionnée
+  - `SESSION_MAP` (succès StoryCard) construit dynamiquement depuis `SESSIONS`
+  - Payload `session_id` : utilise `form.session` si valide, sinon null
+- **Page `/sessions`** : tableau hardcoded passe de 1 à 4 entrées. Hero "QUATRE SESSIONS, UN OBJECTIF". Subtitle mentionne vacances scolaires francophones. Chaque `<article>` a un `id={s.id}` + `scrollMarginTop` pour ancres `#toussaint-2026` etc.
+- **Page `/mkr-camp-2026`** : flagship pour la session août — conservé. Section cross-sell repensée : nouvelle section "3 AUTRES SESSIONS OFFICIELLES" (cards Toussaint / Hiver / Pâques pointant vers `/sessions#<id>`) avant la section formats.
+- **Composants homepage** :
+  - `Sessions.tsx` : label "PROGRAMME 2026" → "CALENDRIER 2026 / 2027", titre "LES 4 SESSIONS", sous-titre vacances francophones. PostulerLink utilise `?type=session&session=${id}`.
+  - `Hero.tsx` : carousel auto-renderé sur les 4 sessions (pas de changement code, lit `SESSIONS`). CTA carousel utilise `?type=session&session=${id}`.
+  - `CTAFinal.tsx` : "Prochain camp · {dates} {year} · Daghestan" dynamique via `getNextSession()`. Sub-label affiche `${SESSIONS.length} sessions par an`.
+- **Nav.tsx** :
+  - Mega menu "Le Camp" : Col 2 affiche 4 sessions avec dates abrégées (Été / Toussaint / Hiver / Pâques) pointant vers `/mkr-camp-2026` (août) ou `/sessions#<id>` (autres). Col 3 renommée "Autres formats".
+  - Menu mobile accordion "Le Camp" : 4 liens sessions + 4 liens formats + 3 liens préparation
+- **`data/registration-types.ts`** : tunnel `session` description / longDescription / dates / cta / href mis à jour ("4 sessions par an", href `/sessions` au lieu de `/mkr-camp-2026`). `aout-2026` reste accessible via le card "MKR Camp 2026" sur la page `/sessions` (anchor `#aout-2026`).
+- **`data/faq.ts`** :
+  - `FAQ_HOMEPAGE` : nouvelle Q "Quelles sont les dates des prochains camps ?" listant les 4 sessions
+  - `FAQ_CATEGORIES` (Inscription) : Q "4 types d'inscription" mise à jour pour pluraliser sessions ; nouvelle Q "Quelles sont les 4 sessions officielles 2026 / 2027 ?"
+- **Pages cross-sell** (`/familles`, `/sur-mesure`, `/clubs-groupes`) : mentions "session 17 août - 5 sept" remplacées par "4 sessions par an" (calendrier 2026 / 2027). Page `/familles` : CTA "INSCRIRE MA FAMILLE (SESSION 17 AOÛT)" → "INSCRIRE MA FAMILLE" (le tunnel famille gère le choix de session côté form).
+
+### Pour ajouter / modifier / supprimer une session
+
+1. Modifier `data/sessions.ts` (source unique pour Hero carousel, Sessions homepage, form select, CTAFinal).
+2. Modifier `app/(site)/sessions/page.tsx` : tableau `SESSIONS` hardcoded (cards visuelles).
+3. Si l'ID change, mettre à jour les ancres dans `Nav.tsx` (mega menu + mobile) et `app/(site)/mkr-camp-2026/page.tsx` (cross-sell).
+4. Ajouter / mettre à jour la mention dans `data/faq.ts` (homepage + categories).
+5. **Pas besoin** de toucher : `Sessions.tsx`, `Hero.tsx`, `CTAFinal.tsx`, `InscriptionLayout.tsx` (tous lisent `data/sessions.ts`).
+
+---
 
 ## 🆕 Changements 2026-05-02 (backend Supabase v1 — capture des candidatures)
 
@@ -18,7 +58,7 @@
 ### Backlog P2/P3 (à activer quand prérequis présents)
 
 - **Stripe Checkout EUR** (frais 100€) → webhook qui passe candidature `draft → recue`. Champs DB déjà prêts (`stripe_payment_intent_id`, `registration_fee_paid_at`).
-- **Resend transactional** (8 emails listés dans PLAN_GESTION_INSCRIPTIONS §7.4) → besoin de domaine `mkrcaucasiancamp.com` vérifié (SPF + DKIM + DMARC).
+- **Resend transactional** (8 emails listés dans PLAN_GESTION_INSCRIPTIONS §7.4) → besoin de domaine `mkrcamp.com` vérifié (SPF + DKIM + DMARC).
 - **Dashboard kanban admin** (mutations status, génération PDF facture, refund) → nécessite Stripe + service_role. Spec complète §5 du plan.
 - **Tables additionnelles** : `credits`, `waitlist`, `session_capacity`, vue `v_session_places` — à créer quand Stripe + capacité 15 places activées.
 
@@ -57,7 +97,7 @@
 ## 0 — Architecture rapide
 
 ```
-mkrcaucasiancamp.com/
+mkrcamp.com/
 ├── src/app/
 │   ├── layout.tsx               → root layout (JSON-LD Organization + SportsActivityLocation)
 │   ├── inscription/page.tsx     → page /inscription (HORS group `(site)`)
@@ -276,7 +316,7 @@ mkrcaucasiancamp.com/
 ### 📰 `/blog/[slug]` — Article individuel
 **Fichier** : `src/app/(site)/blog/[slug]/page.tsx`
 **Tableaux** :
-- `ARTICLES_MAP` (l.16) : Record<slug, Article> avec content HTML inline. **Note** : seuls 5 slugs sont mappés (le 6e slug `securite-dagestan-2026` du `/blog` n'est pas dans MAP — bug latent à vérifier).
+- `ARTICLES_MAP` (l.16) : Record<slug, Article> avec content HTML inline. Les 6 slugs du `/blog` sont tous mappés et présents dans `sitemap.ts` BLOG_SLUGS. Vérifié 2026-05-02.
 **generateStaticParams** : précompile les articles
 **Sections** : PageHero avec date/category · Article body (dangerouslySetInnerHTML) · SectionCTA
 
@@ -302,7 +342,7 @@ mkrcaucasiancamp.com/
 **Fichier** : `src/app/(site)/contact/page.tsx`
 **Composant** : `<ContactForm />` (formulaire simple : Nom, Email, Sujet [select], Message)
 **Sujets disponibles** (ContactForm.tsx) : general, partenariat, clubs, presse, autre
-**Coordonnées affichées** : email contact@mkrcaucasiancamp.com · WhatsApp **+33 6 66 17 76 91** (wa.me/33666177691) · Instagram @mkr.caucasiancamp
+**Coordonnées affichées** : email contact@mkrcamp.com · WhatsApp **+33 6 66 17 76 91** (wa.me/33666177691) · Instagram @mkr.caucasiancamp
 
 ---
 
@@ -398,9 +438,9 @@ mkrcaucasiancamp.com/
 
 ### `src/data/site.ts`
 ```ts
-SITE_URL = 'https://mkrcaucasiancamp.com'
+SITE_URL = 'https://mkrcamp.com'
 SITE_NAME = 'MKR Caucasian Camp'
-SITE_EMAIL = 'contact@mkrcaucasiancamp.com'
+SITE_EMAIL = 'contact@mkrcamp.com'
 SITE_DESCRIPTION = "Camp d'entraînement MMA et Lutte au cœur du Caucase, Daghestan..."
 SOCIALS = { instagram, facebook, youtube }
 GEO = { latitude: 42.9849, longitude: 47.5047, country: 'RU', region: 'Daghestan' }
@@ -575,9 +615,11 @@ GEO = { latitude: 42.9849, longitude: 47.5047, country: 'RU', region: 'Daghestan
 | `components/InscriptionLayout.tsx` | ~145 | SESSION_MAP succès inscription |
 | `components/InscriptionLayout.tsx` | ~436 | option select dans le form |
 | `components/CTAFinal.tsx` | 13 | "Prochain camp · 17 août - 5 septembre 2026 · Daghestan" |
-| `components/Nav.tsx` | ~257 | mega-camp-accent-sub (mega menu Le Camp) |
+| `components/Nav.tsx` | mega-camp panel | label "Session MKR 2026 · 17 août" (lien vers `/mkr-camp-2026`) |
 **Composants dynamiques (auto-mise à jour)** : `Sessions.tsx` (homepage), `Hero.tsx` (carousel) lisent `data/sessions.ts`.
 **⚠️** Si on ajoute/modifie/supprime une session : toucher au minimum les 4 endroits hardcodés.
+
+> **Note refacto mega menu (2026-05-02)** : panel Le Camp restructuré en 3 colonnes (Feature / Formats / Préparer ma venue). L'ancien `mega-camp-accent` (box visuelle "SESSION OFFICIELLE") a été supprimé pour éviter le doublon avec le 1er lien de la liste. Mobile : 4 accordions (Le Camp, Programme, Destination, Découvrir) au lieu de 5, suppression du doublon "Famille". Logistique + Guide PDF déplacés du panel "Infos" vers "Destination". Inscription retirée du panel (CTA POSTULER suffit).
 
 ### Stats hero (9 coachs / 8 athlètes / 1-3 semaines)
 | Fichier | Ligne | Forme |
@@ -686,7 +728,7 @@ GEO = { latitude: 42.9849, longitude: 47.5047, country: 'RU', region: 'Daghestan
 ### Email contact
 | Fichier | Forme |
 |---|---|
-| `data/site.ts` | SITE_EMAIL = 'contact@mkrcaucasiancamp.com' |
+| `data/site.ts` | SITE_EMAIL = 'contact@mkrcamp.com' |
 | `components/Footer.tsx` | footer-contact-link mailto |
 | `components/Contact.tsx` | bloc info homepage |
 | `app/(site)/contact/page.tsx` | carte Email |

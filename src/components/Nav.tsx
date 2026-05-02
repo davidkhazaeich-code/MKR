@@ -187,7 +187,7 @@ export default function Nav() {
                     {id === 'programme' && ICO.overview}
                     {id === 'destinations' && ICO.dagestan}
                     {id === 'infos' && ICO.about}
-                    {id === 'camp' ? 'Le Camp' : id === 'programme' ? 'Programme' : id === 'destinations' ? 'Destinations' : 'Infos'}
+                    {id === 'camp' ? 'Le Camp' : id === 'programme' ? 'Programme' : id === 'destinations' ? 'Destination' : 'Découvrir'}
                     {CHEVRON}
                   </button>
                 </li>
@@ -230,29 +230,30 @@ export default function Nav() {
           onMouseLeave={scheduleClose}
         >
           <div className="mega-inner">
-            <span className="mega-section-label">Le Camp MKR, 4 façons de venir</span>
+            <span className="mega-section-label">Le Camp MKR · Choisis ta venue</span>
             <div className="mega-camp-grid">
               <div>
-                <h2 className="mega-camp-feature-title">CHOISIS<br/>TON FORMAT.</h2>
-                <p className="mega-camp-feature-body">Rejoindre la session officielle, organiser ton camp sur mesure, ou venir avec ton club. MKR organise tout : visa, vol intérieur, transferts, hébergement, encadrement, repas.</p>
-                <Link href="/sessions" className="mega-arrow-link">Voir les tarifs publics {ARROW_RIGHT}</Link>
+                <h2 className="mega-camp-feature-title">CHOISIS<br/>TA SESSION.</h2>
+                <p className="mega-camp-feature-body">Quatre sessions par an calées sur les vacances scolaires francophones. MKR organise tout : visa, vol intérieur, transferts, hébergement, repas, encadrement.</p>
+                <Link href="/sessions" className="mega-arrow-link">Voir les 4 sessions {ARROW_RIGHT}</Link>
               </div>
               <div>
-                <span className="mega-camp-links-label">4 camps disponibles</span>
+                <span className="mega-camp-links-label">Sessions officielles 2026 / 2027</span>
                 <ul className="mega-link-list" role="list">
-                  <li><Link href="/mkr-camp-2026">{ICO.sessions} MKR Camp 2026 (session officielle) {ARROW_SM}</Link></li>
-                  <li><Link href="/sur-mesure">{ICO.calendar} Sur Mesure (tes dates, ton aventure) {ARROW_SM}</Link></li>
-                  <li><Link href="/familles">{ICO.coaches} Famille (parent + enfant 8-17) {ARROW_SM}</Link></li>
-                  <li><Link href="/clubs-groupes">{ICO.coaches} Club et Groupe (5 à 20 personnes) {ARROW_SM}</Link></li>
-                  <li><Link href="/le-camp">{ICO.camp} Découvrir le camp {ARROW_SM}</Link></li>
-                  <li><Link href="/comment-ca-marche">{ICO.howItWorks} Comment ça marche {ARROW_SM}</Link></li>
-                  <li><Link href="/preparer-son-camp">{ICO.prepare} Préparer son camp {ARROW_SM}</Link></li>
+                  <li><Link href="/mkr-camp-2026">{ICO.sessions} Été · 17 août - 5 sept 2026 {ARROW_SM}</Link></li>
+                  <li><Link href="/sessions#toussaint-2026">{ICO.sessions} Toussaint · 17 oct - 7 nov 2026 {ARROW_SM}</Link></li>
+                  <li><Link href="/sessions#fevrier-2027">{ICO.sessions} Hiver · 13 fév - 6 mars 2027 {ARROW_SM}</Link></li>
+                  <li><Link href="/sessions#paques-2027">{ICO.sessions} Pâques · 3 - 24 avril 2027 {ARROW_SM}</Link></li>
                 </ul>
               </div>
-              <div className="mega-camp-accent" aria-hidden="true">
-                <Image src="/images/environment/gym-interior.webp" alt="" className="mega-camp-accent-img" fill sizes="280px" />
-                <h3 className="mega-camp-accent-title">SESSION<br/>OFFICIELLE.</h3>
-                <span className="mega-camp-accent-sub">17 août - 5 septembre 2026 · 2 900 €</span>
+              <div>
+                <span className="mega-camp-links-label">Autres formats</span>
+                <ul className="mega-link-list" role="list">
+                  <li><Link href="/sur-mesure">{ICO.calendar} Sur Mesure · tes dates {ARROW_SM}</Link></li>
+                  <li><Link href="/familles">{ICO.coaches} Famille · parent + enfant 8-17 {ARROW_SM}</Link></li>
+                  <li><Link href="/clubs-groupes">{ICO.coaches} Club et Groupe · 5 à 20 {ARROW_SM}</Link></li>
+                  <li><Link href="/comment-ca-marche">{ICO.howItWorks} Comment ça marche {ARROW_SM}</Link></li>
+                </ul>
               </div>
             </div>
           </div>
@@ -316,6 +317,10 @@ export default function Nav() {
                 <span className="mega-arrow-link">Voir le programme {ARROW_RIGHT}</span>
               </Link>
             </div>
+            <div className="mega-prog-secondary">
+              <Link href="/programme" className="mega-prog-secondary-link">{ICO.overview} Vue d&apos;ensemble du programme {ARROW_SM}</Link>
+              <Link href="/coachs" className="mega-prog-secondary-link">{ICO.coaches} Nos coachs {ARROW_SM}</Link>
+            </div>
           </div>
         </div>
 
@@ -329,10 +334,10 @@ export default function Nav() {
           onMouseLeave={scheduleClose}
         >
           <div className="mega-inner">
-            <span className="mega-section-label">Destinations 2026</span>
-            <div className="mega-dest-grid">
+            <span className="mega-section-label">Destination · Daghestan, Caucase</span>
+            <div className="mega-dest-layout">
               <Link href="/destinations/dagestan" className="mega-dest-card" aria-label="Explorer le Daghestan">
-                <Image src="/images/environment/dagestan-panorama.webp" alt="" className="mega-dest-img" fill sizes="(max-width: 768px) 100vw, 50vw" aria-hidden="true" />
+                <Image src="/images/environment/dagestan-panorama.webp" alt="" className="mega-dest-img" fill sizes="(max-width: 768px) 100vw, 60vw" aria-hidden="true" />
                 <div className="mega-dest-overlay" aria-hidden="true"/>
                 <div className="mega-dest-content">
                   <span className="mega-dest-region">Caucase · Russie</span>
@@ -341,15 +346,22 @@ export default function Nav() {
                   <span className="mega-dest-cta">Explorer le Daghestan {ARROW_RIGHT}</span>
                 </div>
               </Link>
-            </div>
-            <div className="mega-dest-security" role="note">
-              <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" width="16" height="16" aria-hidden="true">
-                <polygon points="9,1.5 16.5,5 16.5,13 9,16.5 1.5,13 1.5,5"/>
-                <line x1="9" y1="8" x2="9" y2="12"/><circle cx="9" cy="6" r="0.5" fill="currentColor"/>
-              </svg>
-              <span className="mega-dest-security-text">
-                Chaque destination inclut une section sécurité avec le niveau d&apos;alerte Quai d&apos;Orsay mis à jour.
-              </span>
+              <div className="mega-dest-aside">
+                <span className="mega-camp-links-label">Préparer le voyage</span>
+                <ul className="mega-link-list" role="list">
+                  <li><Link href="/logistique">{ICO.logistics} Logistique, vols et visa {ARROW_SM}</Link></li>
+                  <li><Link href="/guide-dagestan">{ICO.guide} Guide Daghestan PDF {ARROW_SM}</Link></li>
+                </ul>
+                <div className="mega-dest-security" role="note">
+                  <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" width="16" height="16" aria-hidden="true">
+                    <polygon points="9,1.5 16.5,5 16.5,13 9,16.5 1.5,13 1.5,5"/>
+                    <line x1="9" y1="8" x2="9" y2="12"/><circle cx="9" cy="6" r="0.5" fill="currentColor"/>
+                  </svg>
+                  <span className="mega-dest-security-text">
+                    Niveau d&apos;alerte Quai d&apos;Orsay mis à jour sur la fiche destination.
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -364,24 +376,22 @@ export default function Nav() {
           onMouseLeave={scheduleClose}
         >
           <div className="mega-inner">
-            <span className="mega-section-label">Informations et Ressources</span>
+            <span className="mega-section-label">Découvrir MKR · Preuve et ressources</span>
             <div className="mega-infos-grid">
               <div>
-                <span className="mega-infos-col-label">Contenus</span>
+                <span className="mega-infos-col-label">Voir le camp</span>
                 <ul className="mega-link-list" role="list">
                   <li><Link href="/galerie">{ICO.gallery} Galerie photos et vidéos {ARROW_SM}</Link></li>
                   <li><Link href="/temoignages">{ICO.testimonials} Témoignages athlètes {ARROW_SM}</Link></li>
                   <li><Link href="/blog">{ICO.blog} Blog et articles {ARROW_SM}</Link></li>
-                  <li><Link href="/guide-dagestan">{ICO.guide} Guide Daghestan PDF {ARROW_SM}</Link></li>
                 </ul>
               </div>
               <div>
-                <span className="mega-infos-col-label">Pratique</span>
+                <span className="mega-infos-col-label">Comprendre, échanger</span>
                 <ul className="mega-link-list" role="list">
-                  <li><Link href="/faq">{ICO.faq} FAQ {ARROW_SM}</Link></li>
+                  <li><Link href="/faq">{ICO.faq} Questions fréquentes {ARROW_SM}</Link></li>
                   <li><Link href="/a-propos">{ICO.about} À propos de MKR {ARROW_SM}</Link></li>
-                  <li><Link href="/contact">{ICO.contact} Contact {ARROW_SM}</Link></li>
-                  <li><Link href="/inscription">{ICO.inscription} Inscription {ARROW_SM}</Link></li>
+                  <li><Link href="/contact">{ICO.contact} Nous contacter {ARROW_SM}</Link></li>
                 </ul>
               </div>
               <div className="mega-testi" aria-label="Témoignage athlète">
@@ -416,36 +426,40 @@ export default function Nav() {
       >
         <div className="mobile-inner">
           <MobAccordion title="Le Camp" id="mob-camp">
-            <Link href="/le-camp" className="mob-sub-link">{ICO.camp} Le Camp</Link>
+            <span className="mob-sub-label">Sessions officielles 2026 / 2027</span>
+            <Link href="/mkr-camp-2026" className="mob-sub-link">{ICO.sessions} Été · 17 août - 5 sept 2026</Link>
+            <Link href="/sessions#toussaint-2026" className="mob-sub-link">{ICO.sessions} Toussaint · 17 oct - 7 nov 2026</Link>
+            <Link href="/sessions#fevrier-2027" className="mob-sub-link">{ICO.sessions} Hiver · 13 fév - 6 mars 2027</Link>
+            <Link href="/sessions#paques-2027" className="mob-sub-link">{ICO.sessions} Pâques · 3 - 24 avril 2027</Link>
+            <span className="mob-sub-label">Autres formats</span>
+            <Link href="/sur-mesure" className="mob-sub-link">{ICO.calendar} Sur Mesure · tes dates</Link>
+            <Link href="/familles" className="mob-sub-link">{ICO.coaches} Famille · parent + enfant</Link>
+            <Link href="/clubs-groupes" className="mob-sub-link">{ICO.coaches} Club et Groupe · 5 à 20</Link>
+            <Link href="/sessions" className="mob-sub-link">{ICO.sessions} Voir tous les tarifs</Link>
+            <span className="mob-sub-label">Préparer sa venue</span>
+            <Link href="/le-camp" className="mob-sub-link">{ICO.camp} Découvrir le camp</Link>
             <Link href="/comment-ca-marche" className="mob-sub-link">{ICO.howItWorks} Comment ça marche</Link>
             <Link href="/preparer-son-camp" className="mob-sub-link">{ICO.prepare} Préparer son camp</Link>
-            <Link href="/logistique" className="mob-sub-link">{ICO.logistics} Logistique et visa</Link>
           </MobAccordion>
           <MobAccordion title="Programme" id="mob-prog">
             <Link href="/programme" className="mob-sub-link">{ICO.overview} Vue d&apos;ensemble</Link>
             <Link href="/programme/mma" className="mob-sub-link">{ICO.mma} MMA</Link>
             <Link href="/programme/lutte" className="mob-sub-link">{ICO.lutte} Lutte adultes</Link>
-            <Link href="/programme/lutte-enfants" className="mob-sub-link">{ICO.lutte} Lutte enfants</Link>
-            <Link href="/familles" className="mob-sub-link">{ICO.coaches} Camp Famille</Link>
+            <Link href="/programme/lutte-enfants" className="mob-sub-link">{ICO.lutte} Jeunesse 8-17</Link>
             <Link href="/coachs" className="mob-sub-link">{ICO.coaches} Nos coachs</Link>
           </MobAccordion>
-          <MobAccordion title="Destinations" id="mob-dest">
-            <Link href="/destinations/dagestan" className="mob-sub-link">{ICO.dagestan} Daghestan</Link>
+          <MobAccordion title="Destination" id="mob-dest">
+            <Link href="/destinations/dagestan" className="mob-sub-link">{ICO.dagestan} Daghestan, Caucase</Link>
+            <Link href="/logistique" className="mob-sub-link">{ICO.logistics} Logistique, vols et visa</Link>
+            <Link href="/guide-dagestan" className="mob-sub-link">{ICO.guide} Guide Daghestan PDF</Link>
           </MobAccordion>
-          <MobAccordion title="Informations" id="mob-infos">
+          <MobAccordion title="Découvrir" id="mob-decouvrir">
             <Link href="/galerie" className="mob-sub-link">{ICO.gallery} Galerie</Link>
             <Link href="/temoignages" className="mob-sub-link">{ICO.testimonials} Témoignages</Link>
-            <Link href="/faq" className="mob-sub-link">{ICO.faq} FAQ</Link>
             <Link href="/blog" className="mob-sub-link">{ICO.blog} Blog</Link>
+            <Link href="/faq" className="mob-sub-link">{ICO.faq} FAQ</Link>
             <Link href="/a-propos" className="mob-sub-link">{ICO.about} À propos</Link>
             <Link href="/contact" className="mob-sub-link">{ICO.contact} Contact</Link>
-          </MobAccordion>
-          <MobAccordion title="Nos Camps" id="mob-camps">
-            <Link href="/mkr-camp-2026" className="mob-sub-link">{ICO.sessions} MKR Camp 2026</Link>
-            <Link href="/sur-mesure" className="mob-sub-link">{ICO.calendar} Sur Mesure</Link>
-            <Link href="/familles" className="mob-sub-link">{ICO.coaches} Famille</Link>
-            <Link href="/clubs-groupes" className="mob-sub-link">{ICO.coaches} Club et Groupe</Link>
-            <Link href="/sessions" className="mob-sub-link">{ICO.sessions} Tarifs publics</Link>
           </MobAccordion>
           <a href="https://wa.me/33666177691" target="_blank" rel="noopener noreferrer" className="mob-direct">
             <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" width="18" height="18" aria-hidden="true">
@@ -454,7 +468,7 @@ export default function Nav() {
             WhatsApp +33 6 66 17 76 91
           </a>
           <div className="mob-cta-wrap">
-            <Link href="/inscription" className="mob-cta">CHOISIR MON INSCRIPTION</Link>
+            <Link href="/inscription" className="mob-cta">POSTULER AU CAMP</Link>
           </div>
         </div>
       </div>

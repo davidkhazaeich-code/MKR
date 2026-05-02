@@ -9,7 +9,7 @@ import PricingTable from '@/components/PricingTable'
 export const metadata: Metadata = {
   title: 'Camp Famille | MKR Caucasian Camp | MMA et Lutte parent-enfant au Daghestan',
   description: "Viens t'entraîner en famille au Daghestan. Parent et enfant 8-17 ans côte à côte sur le tapis. Programme adapté, tarifs famille publics, encadrement spécialisé.",
-  alternates: { canonical: 'https://mkrcaucasiancamp.com/familles' },
+  alternates: { canonical: 'https://mkrcamp.com/familles' },
 }
 
 const PILLARS = [
@@ -64,8 +64,8 @@ export default function FamillesPage() {
   return (
     <>
       <BreadcrumbJsonLd items={[
-        { name: 'Accueil', url: 'https://mkrcaucasiancamp.com/' },
-        { name: 'Camp Famille', url: 'https://mkrcaucasiancamp.com/familles' },
+        { name: 'Accueil', url: 'https://mkrcamp.com/' },
+        { name: 'Camp Famille', url: 'https://mkrcamp.com/familles' },
       ]} />
 
       <PageHero
@@ -252,8 +252,7 @@ export default function FamillesPage() {
               <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.4rem', fontSize: '0.6rem' }}>ÉTAPE 01</span>
               <h3 className="card-title" style={{ fontSize: '0.95rem' }}>Choisis ton format</h3>
               <p className="card-body" style={{ fontSize: '0.85rem' }}>
-                Rejoindre la session officielle (17 août - 5 sept), ou camp sur mesure (tes dates, 90 jours minimum).
-                Dans le formulaire, coche &quot;Tu viens avec ta famille ?&quot;.
+                Rejoindre une de nos quatre sessions officielles (Été 2026, Toussaint 2026, Hiver 2027, Pâques 2027) calées sur les vacances scolaires, ou camp sur mesure (tes dates, 90 jours minimum). Dans le formulaire, coche &quot;Tu viens avec ta famille ?&quot;.
               </p>
             </div>
             <div className="content-card fx-grain fx-corner-glow reveal" style={{ transitionDelay: '0.08s' }}>
@@ -274,11 +273,11 @@ export default function FamillesPage() {
             </div>
           </div>
           <div className="reveal" style={{ marginTop: '2rem', textAlign: 'center' }}>
-            <Link href="/inscription?type=session" className="btn-primary" style={{ marginRight: '1rem' }}>
-              INSCRIRE MA FAMILLE (SESSION 17 AOÛT)
+            <Link href="/inscription?type=famille" className="btn-primary" style={{ marginRight: '1rem' }}>
+              INSCRIRE MA FAMILLE
             </Link>
-            <Link href="/inscription?type=custom" className="btn-ghost">
-              CAMP SUR MESURE FAMILLE
+            <Link href="/sessions" className="btn-ghost">
+              VOIR LES 4 SESSIONS
             </Link>
           </div>
         </div>

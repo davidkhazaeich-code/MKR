@@ -10,7 +10,7 @@ import FacilitatorBand from '@/components/FacilitatorBand'
 export const metadata: Metadata = {
   title: 'MKR Camp 2026 | Session officielle 17 août - 5 sept | MKR Caucasian Camp',
   description: 'Rejoins le MKR Camp 2026, session officielle du 17 août au 5 septembre 2026 au Daghestan. 3 semaines, adultes uniquement, 15 places max. Tarif fixe 2 900 € tout inclus.',
-  alternates: { canonical: 'https://mkrcaucasiancamp.com/mkr-camp-2026' },
+  alternates: { canonical: 'https://mkrcamp.com/mkr-camp-2026' },
 }
 
 const REASONS = [
@@ -41,8 +41,8 @@ export default function MkrCamp2026Page() {
   return (
     <>
       <BreadcrumbJsonLd items={[
-        { name: 'Accueil', url: 'https://mkrcaucasiancamp.com/' },
-        { name: 'MKR Camp 2026', url: 'https://mkrcaucasiancamp.com/mkr-camp-2026' },
+        { name: 'Accueil', url: 'https://mkrcamp.com/' },
+        { name: 'MKR Camp 2026', url: 'https://mkrcamp.com/mkr-camp-2026' },
       ]} />
 
       <PageHero
@@ -134,12 +134,44 @@ export default function MkrCamp2026Page() {
         </div>
       </section>
 
-      {/* Cross-sell autres tunnels */}
-      <section className="logi-section fx-grid fx-stack-6">
+      {/* Autres sessions officielles */}
+      <section className="logi-section fx-texture-basalt fx-stack-6">
         <div className="inner">
           <div className="logi-header reveal">
             <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>
-              LES DATES NE TE CONVIENNENT PAS ?
+              AOÛT 2026 NE TE CONVIENT PAS ?
+            </span>
+            <h2>3 AUTRES SESSIONS OFFICIELLES</h2>
+            <p style={{ color: 'var(--text-secondary)', marginTop: '0.8rem', maxWidth: '720px' }}>
+              On a calé les 4 sessions sur les vacances scolaires francophones (France, Suisse romande, Belgique). Même format, même tarif, mêmes coachs.
+            </p>
+          </div>
+          <div className="grid-3 reveal" style={{ gap: '1.5rem' }}>
+            <Link href="/sessions#toussaint-2026" className="content-card fx-grain fx-corner-glow" style={{ textDecoration: 'none', display: 'block' }}>
+              <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.5rem', fontSize: '0.65rem' }}>AUTOMNE · TOUSSAINT</span>
+              <h3 className="card-title">17 oct - 7 nov 2026</h3>
+              <p className="card-body">Vacances de la Toussaint en France et octobre en Suisse. Idéal pour partir 1 à 3 semaines pendant les congés.</p>
+            </Link>
+            <Link href="/sessions#fevrier-2027" className="content-card fx-grain fx-corner-glow" style={{ textDecoration: 'none', display: 'block' }}>
+              <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.5rem', fontSize: '0.65rem' }}>HIVER · FÉVRIER</span>
+              <h3 className="card-title">13 fév - 6 mars 2027</h3>
+              <p className="card-body">Vacances d&apos;hiver des trois zones françaises, relâche genevoise et carnaval belge.</p>
+            </Link>
+            <Link href="/sessions#paques-2027" className="content-card fx-grain fx-corner-glow" style={{ textDecoration: 'none', display: 'block' }}>
+              <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.5rem', fontSize: '0.65rem' }}>PRINTEMPS · PÂQUES</span>
+              <h3 className="card-title">3 - 24 avril 2027</h3>
+              <p className="card-body">Vacances de printemps françaises, Pâques en Belgique et en Suisse romande.</p>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Cross-sell autres tunnels */}
+      <section className="logi-section fx-grid fx-stack-7">
+        <div className="inner">
+          <div className="logi-header reveal">
+            <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>
+              LE FORMAT NE COLLE PAS ?
             </span>
             <h2>EXPLORE LES AUTRES FORMATS</h2>
           </div>
@@ -164,7 +196,7 @@ export default function MkrCamp2026Page() {
       </section>
 
       <SectionCTA
-        primaryHref="/inscription?type=session"
+        primaryHref="/inscription?type=session&session=aout-2026"
         primaryLabel="M'INSCRIRE AU MKR CAMP 2026"
         ghostHref="/contact"
         ghostLabel="POSER UNE QUESTION"

@@ -5,6 +5,10 @@ import { useState, FormEvent } from 'react'
 import dynamic from 'next/dynamic'
 import { REGISTRATION_TYPES, type RegistrationTypeId, getRegistrationType } from '@/data/registration-types'
 import { calculatePrice, formatEUR, type Duration } from '@/data/pricing'
+import { SESSIONS } from '@/data/sessions'
+
+const DEFAULT_SESSION_ID = SESSIONS[0]?.id ?? 'aout-2026'
+const SESSION_IDS = SESSIONS.map(s => s.id)
 
 const StoryCard = dynamic(() => import('./StoryCard'))
 
@@ -126,23 +130,27 @@ function RadioGroup({ name, options, value, onChange }: {
 
 interface InscriptionLayoutProps {
   initialAudience: RegistrationTypeId | null
+  initialSessionId?: string | null
 }
 
-export default function InscriptionLayout({ initialAudience }: InscriptionLayoutProps) {
+export default function InscriptionLayout({ initialAudience, initialSessionId }: InscriptionLayoutProps) {
   const [audience, setAudience] = useState<RegistrationTypeId | null>(initialAudience)
   const [step, setStep] = useState(0)
   const [dir, setDir] = useState<'next' | 'prev'>('next')
   const [form, setForm] = useState<FormData>(() => {
     const init = { ...INITIAL }
+    const requestedSession = initialSessionId && SESSION_IDS.includes(initialSessionId)
+      ? initialSessionId
+      : DEFAULT_SESSION_ID
     // Si on rejoint la session, pré-remplir
     if (initialAudience === 'session') {
-      init.session = 'aout-2026'
+      init.session = requestedSession
       init.duree = '3-semaines'
     }
-    // Si famille : checkbox famille pré-coché, par défaut sur la session officielle, 1 enfant minimum
+    // Si famille : checkbox famille pré-coché, par défaut sur la session demandée (ou la prochaine), 1 enfant minimum
     if (initialAudience === 'famille') {
       init.vientAvecFamille = true
-      init.session = 'aout-2026'
+      init.session = requestedSession
       init.duree = '3-semaines'
       init.enfants = [makeChild()]
       init.nombreEnfants = '1'
@@ -197,14 +205,16 @@ export default function InscriptionLayout({ initialAudience }: InscriptionLayout
     setAudience(id)
     setForm(prev => {
       const next = { ...prev }
+      // Réutilise la session déjà choisie si elle est valide, sinon la prochaine session
+      const sessionToKeep = SESSION_IDS.includes(prev.session) ? prev.session : DEFAULT_SESSION_ID
       if (id === 'session') {
-        next.session = 'aout-2026'
+        next.session = sessionToKeep
         next.duree = '3-semaines'
         next.vientAvecFamille = false
         next.enfants = []
         next.nombreEnfants = ''
       } else if (id === 'famille') {
-        next.session = 'aout-2026'
+        next.session = sessionToKeep
         next.duree = '3-semaines'
         next.vientAvecFamille = true
         if (prev.enfants.length === 0) {
@@ -397,7 +407,10 @@ export default function InscriptionLayout({ initialAudience }: InscriptionLayout
         pays: form.pays,
         ville_depart: form.villeDepart,
       },
-      session_id: audience === 'session' || (audience === 'famille' && form.session === 'aout-2026') ? 'aout-2026' : null,
+      session_id: (audience === 'session' && SESSION_IDS.includes(form.session))
+        || (audience === 'famille' && SESSION_IDS.includes(form.session))
+        ? form.session
+        : null,
       duree_semaines: form.duree === '1-semaine' ? 1 : form.duree === '2-semaines' ? 2 : form.duree === '3-semaines' ? 3 : null,
       date_debut_souhaitee: form.dateDebutSouhaitee || null,
       form_data: {
@@ -460,7 +473,7 @@ export default function InscriptionLayout({ initialAudience }: InscriptionLayout
       })
       const data = await res.json().catch(() => ({}))
       if (!res.ok || !data.ok) {
-        setSubmitError(data.error || 'Une erreur est survenue. Reessaie ou ecris-nous a contact@mkrcaucasiancamp.com')
+        setSubmitError(data.error || 'Une erreur est survenue. Reessaie ou ecris-nous a contact@mkrcamp.com')
         return
       }
       setSubmitted(true)
@@ -545,9 +558,13 @@ export default function InscriptionLayout({ initialAudience }: InscriptionLayout
 
   /* ── Success ── */
   if (submitted) {
-    const SESSION_MAP: Record<string, { name: string; destination: string }> = {
-      'aout-2026': { name: 'CAMP DAGHESTANAIS', destination: 'Dagestan' },
-    }
+    const SESSION_MAP: Record<string, { name: string; destination: string }> = SESSIONS.reduce(
+      (acc, s) => {
+        acc[s.id] = { name: s.name, destination: s.destination }
+        return acc
+      },
+      {} as Record<string, { name: string; destination: string }>,
+    )
     const sel = SESSION_MAP[form.session] || { name: form.session, destination: 'Dagestan' }
 
     return (
@@ -1068,18 +1085,28 @@ export default function InscriptionLayout({ initialAudience }: InscriptionLayout
                   </div>
                 )}
 
-                {/* Audience: SESSION GROUPE — date verrouillée */}
+                {/* Audience: SESSION GROUPE — choix parmi les 4 sessions officielles */}
                 {audience === 'session' && (
-                  <div className="cand-row">
-                    <Field label="Session" hint="Camp officiel 2026 (3 semaines fixes)">
-                      <input className="cand-input" type="text" disabled
-                        value="17 Août - 5 Septembre 2026 · 3 semaines" />
+                  <>
+                    <Field label="Session officielle" hint="Quatre sessions par an, calées sur les vacances scolaires francophones. Durée fixe 3 semaines.">
+                      <select className="cand-select" value={form.session}
+                        onChange={e => set('session', e.target.value)}>
+                        {SESSIONS.map(s => (
+                          <option key={s.id} value={s.id}>
+                            {s.seasonLabel} · {s.dates}
+                          </option>
+                        ))}
+                      </select>
                     </Field>
-                    <Field label="Tarif" hint="Adulte 3 semaines">
-                      <input className="cand-input" type="text" disabled
-                        value="2 900 €" />
-                    </Field>
-                  </div>
+                    <div className="cand-row">
+                      <Field label="Durée" hint="Toutes les sessions officielles durent 3 semaines">
+                        <input className="cand-input" type="text" disabled value="3 semaines" />
+                      </Field>
+                      <Field label="Tarif" hint="Adulte 3 semaines">
+                        <input className="cand-input" type="text" disabled value="2 900 €" />
+                      </Field>
+                    </div>
+                  </>
                 )}
 
                 {/* Audience: CAMP SUR MESURE — composition + autres participants + dates */}
@@ -1191,23 +1218,28 @@ export default function InscriptionLayout({ initialAudience }: InscriptionLayout
                   </>
                 )}
 
-                {/* Audience: FAMILLE — sub-choix session vs sur mesure (enfants déjà collectés en step 2) */}
+                {/* Audience: FAMILLE — sub-choix parmi les 4 sessions ou sur mesure (enfants déjà collectés en step 2) */}
                 {audience === 'famille' && (
                   <>
-                    <Field label="Format de ton camp famille" hint="Tu peux rejoindre la session officielle ou choisir tes propres dates">
-                      <RadioGroup name="formatFamille" value={form.session === 'sur-mesure' ? 'sur-mesure' : 'aout-2026'}
+                    <Field label="Format de ton camp famille" hint="Tu peux rejoindre une de nos sessions officielles (calées sur les vacances scolaires) ou choisir tes propres dates">
+                      <RadioGroup
+                        name="formatFamille"
+                        value={form.session === 'sur-mesure' ? 'sur-mesure' : (SESSION_IDS.includes(form.session) ? form.session : DEFAULT_SESSION_ID)}
                         onChange={v => {
-                          if (v === 'aout-2026') {
-                            set('session', 'aout-2026')
-                            set('duree', '3-semaines')
-                            set('dateDebutSouhaitee', '')
-                          } else {
+                          if (v === 'sur-mesure') {
                             set('session', 'sur-mesure')
                             set('duree', '')
+                          } else {
+                            set('session', v)
+                            set('duree', '3-semaines')
+                            set('dateDebutSouhaitee', '')
                           }
                         }}
                         options={[
-                          { val: 'aout-2026', label: 'Rejoindre le MKR Camp 2026 (17 août - 5 sept, 3 semaines)' },
+                          ...SESSIONS.map(s => ({
+                            val: s.id,
+                            label: `Rejoindre la session ${s.season} (${s.dates}, 3 semaines)`,
+                          })),
                           { val: 'sur-mesure', label: 'Camp famille sur mesure (vos dates, durée au choix, 90j minimum)' },
                         ]}
                       />
@@ -1356,16 +1388,22 @@ export default function InscriptionLayout({ initialAudience }: InscriptionLayout
                   )}
 
                   {/* Dates / durée */}
-                  {audience === 'session' && (
-                    <div className="cand-recap-row"><span>Session</span><strong>17 Août - 5 Septembre 2026 (3 sem)</strong></div>
-                  )}
-                  {audience === 'famille' && form.session === 'aout-2026' && (
-                    <div className="cand-recap-row"><span>Format</span><strong>MKR Camp 2026 (17 août - 5 sept, 3 sem)</strong></div>
-                  )}
+                  {audience === 'session' && (() => {
+                    const sel = SESSIONS.find(s => s.id === form.session)
+                    return sel ? (
+                      <div className="cand-recap-row"><span>Session</span><strong>{sel.dates} {sel.startDate.slice(0, 4)} (3 sem)</strong></div>
+                    ) : null
+                  })()}
+                  {audience === 'famille' && SESSION_IDS.includes(form.session) && (() => {
+                    const sel = SESSIONS.find(s => s.id === form.session)
+                    return sel ? (
+                      <div className="cand-recap-row"><span>Format</span><strong>Session {sel.season} ({sel.dates}, 3 sem)</strong></div>
+                    ) : null
+                  })()}
                   {(audience === 'custom' || audience === 'groupe' || (audience === 'famille' && form.session === 'sur-mesure')) && form.dateDebutSouhaitee && (
                     <div className="cand-recap-row"><span>Date début</span><strong>{form.dateDebutSouhaitee}</strong></div>
                   )}
-                  {form.duree && audience !== 'session' && !(audience === 'famille' && form.session === 'aout-2026') && (
+                  {form.duree && audience !== 'session' && !(audience === 'famille' && SESSION_IDS.includes(form.session)) && (
                     <div className="cand-recap-row"><span>Durée</span><strong>{form.duree.replace('-', ' ')}</strong></div>
                   )}
 

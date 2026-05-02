@@ -35,6 +35,10 @@ export const FAQ_HOMEPAGE: FAQItem[] = [
     question: 'Combien de participants par session ?',
     answer: "Maximum 15 participants par session pour un suivi individualisé. Les places sont limitées volontairement. La sélection est réelle.",
   },
+  {
+    question: "Quelles sont les dates des prochains camps ?",
+    answer: "Quatre sessions officielles par an, calées sur les vacances scolaires francophones. Été 2026 : 17 août - 5 septembre. Toussaint 2026 : 17 octobre - 7 novembre. Hiver 2027 : 13 février - 6 mars. Pâques 2027 : 3 - 24 avril. Toutes au Daghestan, 3 semaines, 15 places max, 2 900 € adulte tout compris.",
+  },
 ]
 
 /** Full FAQ page - categorized questions for the /faq page */
@@ -127,7 +131,11 @@ export const FAQ_CATEGORIES: FAQCategory[] = [
       },
       {
         question: "Quels sont les 4 types d'inscription ?",
-        answer: "1. MKR Camp 2026 (session officielle 17 août - 5 sept, adultes uniquement, groupe constitué par MKR, 3 semaines fixes). 2. Sur Mesure (tes dates, 1 à 4 adultes, 1/2/3 semaines, délai 90 jours minimum). 3. Famille (parent + enfant 8-17 ans, choix entre rejoindre la session ou sur mesure). 4. Club et Groupe (5 à 20 personnes, club ou groupe organisé, dates au choix, devis sur mesure). Tarifs publics fixes identiques pour les 4 tunnels.",
+        answer: "1. Sessions officielles (quatre par an : Été 17 août - 5 sept 2026, Toussaint 17 oct - 7 nov 2026, Hiver 13 fév - 6 mars 2027, Pâques 3 - 24 avril 2027 ; adultes uniquement, groupe constitué par MKR, 3 semaines fixes, dates calées sur les vacances scolaires francophones). 2. Sur Mesure (tes dates, 1 à 4 adultes, 1/2/3 semaines, délai 90 jours minimum). 3. Famille (parent + enfant 8-17 ans, choix entre rejoindre une session officielle ou sur mesure). 4. Club et Groupe (5 à 20 personnes, club ou groupe organisé, dates au choix, devis sur mesure). Tarifs publics fixes identiques pour les 4 tunnels.",
+      },
+      {
+        question: "Quelles sont les 4 sessions officielles 2026 / 2027 ?",
+        answer: "Quatre sessions par an, calées sur les vacances scolaires des trois zones françaises, suisses romandes et belges, pour permettre aux pratiquants francophones (et aux familles) de partir sans poser de congés. Été 2026 : 17 août - 5 septembre 2026 (3 sem, vacances été). Toussaint 2026 : 17 octobre - 7 novembre 2026 (3 sem, Toussaint FR + octobre CH + Toussaint BE). Hiver 2027 : 13 février - 6 mars 2027 (3 sem, vacances d'hiver zones A/B/C FR + relâche CH + carnaval BE). Pâques 2027 : 3 - 24 avril 2027 (3 sem, vacances de printemps FR + Pâques CH + BE). Toutes au Daghestan, 15 places max, 2 900 € / adulte / 3 semaines tout compris.",
       },
       {
         question: 'Quel est le délai minimum pour réserver un camp sur mesure ?',

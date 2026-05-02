@@ -10,7 +10,7 @@ import FacilitatorBand from '@/components/FacilitatorBand'
 export const metadata: Metadata = {
   title: 'Camp Sur Mesure | MKR Caucasian Camp | Tes dates au Daghestan',
   description: 'Camp individuel sur mesure au Daghestan. Tu choisis tes dates, ta durée (1, 2 ou 3 sem), ton format (solo, duo, trio, quatuor). MKR coordonne tout. Délai 90 jours min.',
-  alternates: { canonical: 'https://mkrcaucasiancamp.com/sur-mesure' },
+  alternates: { canonical: 'https://mkrcamp.com/sur-mesure' },
 }
 
 const PROFILES = [
@@ -40,8 +40,8 @@ export default function SurMesurePage() {
   return (
     <>
       <BreadcrumbJsonLd items={[
-        { name: 'Accueil', url: 'https://mkrcaucasiancamp.com/' },
-        { name: 'Sur Mesure', url: 'https://mkrcaucasiancamp.com/sur-mesure' },
+        { name: 'Accueil', url: 'https://mkrcamp.com/' },
+        { name: 'Sur Mesure', url: 'https://mkrcamp.com/sur-mesure' },
       ]} />
 
       <PageHero
@@ -143,10 +143,10 @@ export default function SurMesurePage() {
             <h2>EXPLORE LES AUTRES FORMATS</h2>
           </div>
           <div className="grid-3 reveal" style={{ gap: '1.5rem' }}>
-            <Link href="/mkr-camp-2026" className="content-card fx-grain fx-corner-glow" style={{ textDecoration: 'none', display: 'block' }}>
-              <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.5rem', fontSize: '0.65rem' }}>SESSION OFFICIELLE</span>
-              <h3 className="card-title">MKR Camp 2026</h3>
-              <p className="card-body">Tu veux rejoindre la session du 17 août - 5 sept 2026 ? Groupe constitué, esprit collectif.</p>
+            <Link href="/sessions" className="content-card fx-grain fx-corner-glow" style={{ textDecoration: 'none', display: 'block' }}>
+              <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.5rem', fontSize: '0.65rem' }}>SESSIONS OFFICIELLES</span>
+              <h3 className="card-title">4 sessions par an</h3>
+              <p className="card-body">Tu veux rejoindre un groupe constitué par MKR ? Quatre sessions calées sur les vacances scolaires : Été 2026, Toussaint 2026, Hiver 2027, Pâques 2027.</p>
             </Link>
             <Link href="/familles" className="content-card fx-grain fx-corner-glow" style={{ textDecoration: 'none', display: 'block' }}>
               <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.5rem', fontSize: '0.65rem' }}>FAMILLE</span>

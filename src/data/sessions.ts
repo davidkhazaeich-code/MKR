@@ -42,6 +42,66 @@ export const SESSIONS: Session[] = [
     duration: '3 semaines',
     destination: 'Dagestan',
   },
+  {
+    id: 'toussaint-2026',
+    season: 'Automne',
+    seasonLabel: 'Session Automne · Toussaint 2026',
+    label: 'OCTOBRE 2026',
+    name: 'CAMP TOUSSAINT',
+    monthAbbr: 'OCT',
+    dates: '17 Octobre - 7 Novembre',
+    datesFull: '17 OCTOBRE · 7 NOVEMBRE 2026',
+    startDate: '2026-10-17',
+    endDate: '2026-11-07',
+    price: 2900,
+    priceCurrency: 'EUR',
+    maxCapacity: 15,
+    spotsLabel: 'Places disponibles',
+    status: 'open',
+    intensity: 'Élevée',
+    duration: '3 semaines',
+    destination: 'Dagestan',
+  },
+  {
+    id: 'fevrier-2027',
+    season: 'Hiver',
+    seasonLabel: 'Session Hiver · Février 2027',
+    label: 'FÉVRIER 2027',
+    name: 'CAMP HIVER',
+    monthAbbr: 'FÉV',
+    dates: '13 Février - 6 Mars',
+    datesFull: '13 FÉVRIER · 6 MARS 2027',
+    startDate: '2027-02-13',
+    endDate: '2027-03-06',
+    price: 2900,
+    priceCurrency: 'EUR',
+    maxCapacity: 15,
+    spotsLabel: 'Places disponibles',
+    status: 'open',
+    intensity: 'Maximale',
+    duration: '3 semaines',
+    destination: 'Dagestan',
+  },
+  {
+    id: 'paques-2027',
+    season: 'Printemps',
+    seasonLabel: 'Session Printemps · Pâques 2027',
+    label: 'AVRIL 2027',
+    name: 'CAMP PRINTEMPS',
+    monthAbbr: 'AVR',
+    dates: '3 - 24 Avril',
+    datesFull: '3 · 24 AVRIL 2027',
+    startDate: '2027-04-03',
+    endDate: '2027-04-24',
+    price: 2900,
+    priceCurrency: 'EUR',
+    maxCapacity: 15,
+    spotsLabel: 'Places disponibles',
+    status: 'open',
+    intensity: 'Élevée',
+    duration: '3 semaines',
+    destination: 'Dagestan',
+  },
 ]
 
 export function formatPrice(session: Session): string {
@@ -50,5 +110,16 @@ export function formatPrice(session: Session): string {
 }
 
 export function sessionFormLabel(session: Session): string {
-  return `${session.season} 2026 (${session.dates})`
+  const year = session.startDate.slice(0, 4)
+  return `${session.season} ${year} (${session.dates})`
+}
+
+/**
+ * Retourne la prochaine session à venir (la plus proche dans le futur).
+ * Fallback : la première session du tableau si aucune n'est dans le futur.
+ */
+export function getNextSession(now: Date = new Date()): Session {
+  const upcoming = SESSIONS.filter(s => new Date(s.startDate) >= now)
+    .sort((a, b) => a.startDate.localeCompare(b.startDate))
+  return upcoming[0] || SESSIONS[0]
 }
