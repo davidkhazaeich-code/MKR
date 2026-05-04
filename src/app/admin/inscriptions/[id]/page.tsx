@@ -46,6 +46,14 @@ const STATUS_COLOR: Record<Status, string> = {
   reportee: 'var(--adm-status-reportee)',
 }
 
+type PaymentMethod = 'virement' | 'cash' | 'autre'
+
+const PAYMENT_METHOD_LABEL: Record<PaymentMethod, string> = {
+  virement: 'Virement bancaire',
+  cash: 'Espèces',
+  autre: 'Autre',
+}
+
 interface CandidatureRow {
   id: string
   created_at: string
@@ -57,11 +65,10 @@ interface CandidatureRow {
   status: Status
   status_changed_at: string
   status_changed_by_email: string | null
-  registration_fee_cents: number | null
-  registration_fee_currency: string | null
-  registration_fee_paid_at: string | null
   package_amount_cents: number | null
   package_paid_at: string | null
+  payment_method: PaymentMethod | null
+  payment_date: string | null
   notes_admin: string | null
   notes_visio: string | null
   form_data: Record<string, unknown>
@@ -149,22 +156,11 @@ function describeEvent(e: AuditRow): { label: string; detail: string | null; acc
         accent: to ? `var(--adm-status-${to})` : undefined,
       }
     }
-    case 'fee_paid_change': {
-      const wasPaid = !!e.from_value?.registration_fee_paid_at
-      const isPaid = !!e.to_value?.registration_fee_paid_at
-      return {
-        label: isPaid
-          ? "Frais d'inscription 100 € marqués payés"
-          : "Frais d'inscription 100 € retirés (revenus à non payés)",
-        detail: null,
-        accent: isPaid ? 'var(--adm-status-validee)' : 'var(--adm-text-muted)',
-      }
-    }
     case 'package_paid_change': {
       const isPaid = !!e.to_value?.package_paid_at
       return {
         label: isPaid
-          ? 'Package soldé (virement reçu)'
+          ? 'Package soldé (paiement reçu)'
           : 'Package retiré du soldé',
         detail: null,
         accent: isPaid ? 'var(--adm-status-soldee)' : 'var(--adm-text-muted)',
@@ -177,6 +173,25 @@ function describeEvent(e: AuditRow): { label: string; detail: string | null; acc
       const toEur = toCents ? `${(toCents / 100).toFixed(2)} €` : '—'
       return { label: 'Montant package mis à jour', detail: `${fromEur} → ${toEur}` }
     }
+    case 'payment_method_change': {
+      const from = e.from_value?.payment_method as PaymentMethod | null | undefined
+      const to = e.to_value?.payment_method as PaymentMethod | null | undefined
+      const fromLabel = from ? PAYMENT_METHOD_LABEL[from] : '—'
+      const toLabel = to ? PAYMENT_METHOD_LABEL[to] : '—'
+      return { label: 'Méthode de paiement mise à jour', detail: `${fromLabel} → ${toLabel}` }
+    }
+    case 'payment_date_change': {
+      const from = e.from_value?.payment_date as string | null | undefined
+      const to = e.to_value?.payment_date as string | null | undefined
+      return {
+        label: 'Date de paiement mise à jour',
+        detail: `${from ? formatDateOnly(from) : '—'} → ${to ? formatDateOnly(to) : '—'}`,
+      }
+    }
+    // Events legacy (avant suppression Stripe / 100€) : on les laisse s'afficher
+    // bruts pour préserver l'historique sans casser l'UI.
+    case 'fee_paid_change':
+      return { label: '[archive] Frais d\'inscription marqués payés/retirés', detail: null }
     case 'notes_admin_update':
       return { label: 'Notes admin éditées', detail: null }
     case 'notes_visio_update':
@@ -184,6 +199,12 @@ function describeEvent(e: AuditRow): { label: string; detail: string | null; acc
     default:
       return { label: e.event, detail: null }
   }
+}
+
+function formatDateOnly(iso: string): string {
+  const [y, m, d] = iso.split('-')
+  if (!y || !m || !d) return iso
+  return `${d}/${m}/${y}`
 }
 
 function formatDateTime(iso: string): string {
@@ -236,9 +257,8 @@ export default async function CandidatureDetailPage({
         .select(`
           id, created_at, updated_at, tunnel_type, session_id, duree_semaines,
           date_debut_souhaitee, status, status_changed_at, status_changed_by_email,
-          registration_fee_cents, registration_fee_currency, registration_fee_paid_at,
-          package_amount_cents, package_paid_at, notes_admin, notes_visio,
-          form_data, group_members,
+          package_amount_cents, package_paid_at, payment_method, payment_date,
+          notes_admin, notes_visio, form_data, group_members,
           candidate:candidates ( prenom, nom, email, telephone, date_naissance, pays, ville_depart )
         `)
         .eq('id', id)
@@ -282,19 +302,13 @@ export default async function CandidatureDetailPage({
     ? (candidature.package_amount_cents / 100).toFixed(2)
     : null
 
-  // Calcul du restant à payer (centimes), même logique que la liste
+  // Calcul du restant à payer (centimes). Plus de frais 100€ upfront : le
+  // package est soit soldé en une fois post-visio, soit en attente.
   const totalCents = candidature.package_amount_cents
-  const feeCents = candidature.registration_fee_cents ?? 10000
-  const feePaid = !!candidature.registration_fee_paid_at
   const packagePaid = !!candidature.package_paid_at
-  const remainingCents = packagePaid
-    ? 0
-    : totalCents
-      ? Math.max(0, totalCents - (feePaid ? feeCents : 0))
-      : null
+  const remainingCents = packagePaid ? 0 : totalCents ?? null
   const remainingEur = remainingCents !== null ? (remainingCents / 100).toFixed(2) : null
-  const paidCents =
-    (feePaid ? feeCents : 0) + (packagePaid && totalCents ? totalCents - feeCents : 0)
+  const paidCents = packagePaid && totalCents ? totalCents : 0
   const totalToCollect = totalCents ?? 0
   const progressPct = totalToCollect > 0 ? Math.min(100, Math.round((paidCents / totalToCollect) * 100)) : 0
   const phoneTel = c?.telephone?.replace(/[^+0-9]/g, '') ?? ''
@@ -519,16 +533,6 @@ export default async function CandidatureDetailPage({
 
               <DefList
                 items={[
-                  [
-                    "Frais d'inscription 100€",
-                    candidature.registration_fee_paid_at ? (
-                      <span style={{ color: 'var(--adm-status-validee)' }}>
-                        ✓ Payés le {formatDateTime(candidature.registration_fee_paid_at)}
-                      </span>
-                    ) : (
-                      <span className="adm-def-val--muted">Non payés</span>
-                    ),
-                  ],
                   ['Montant package total', packageEur ? `${packageEur} €` : '—'],
                   [
                     'Package soldé',
@@ -538,6 +542,22 @@ export default async function CandidatureDetailPage({
                       </span>
                     ) : (
                       <span className="adm-def-val--muted">Non soldé</span>
+                    ),
+                  ],
+                  [
+                    'Méthode de paiement',
+                    candidature.payment_method ? (
+                      <span>{PAYMENT_METHOD_LABEL[candidature.payment_method]}</span>
+                    ) : (
+                      <span className="adm-def-val--muted">—</span>
+                    ),
+                  ],
+                  [
+                    'Date de réception',
+                    candidature.payment_date ? (
+                      <span>{formatDateOnly(candidature.payment_date)}</span>
+                    ) : (
+                      <span className="adm-def-val--muted">—</span>
                     ),
                   ],
                 ]}
@@ -598,9 +618,10 @@ export default async function CandidatureDetailPage({
             <AdminActions
               candidatureId={candidature.id}
               currentStatus={candidature.status}
-              registrationFeePaidAt={candidature.registration_fee_paid_at}
               packagePaidAt={candidature.package_paid_at}
               packageAmountCents={candidature.package_amount_cents}
+              paymentMethod={candidature.payment_method}
+              paymentDate={candidature.payment_date}
               notesAdmin={candidature.notes_admin ?? ''}
               notesVisio={candidature.notes_visio ?? ''}
             />

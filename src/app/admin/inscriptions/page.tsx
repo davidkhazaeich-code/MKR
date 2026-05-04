@@ -40,8 +40,6 @@ interface ListRow {
   duree_semaines: number | null
   date_debut_souhaitee: string | null
   status: Status
-  registration_fee_cents: number | null
-  registration_fee_paid_at: string | null
   package_amount_cents: number | null
   package_paid_at: string | null
   notes_admin: string | null
@@ -104,7 +102,6 @@ export default async function AdminInscriptionsPage({
       .select(`
         id, created_at, status_changed_at, tunnel_type, session_id, duree_semaines,
         date_debut_souhaitee, status,
-        registration_fee_cents, registration_fee_paid_at,
         package_amount_cents, package_paid_at,
         notes_admin,
         candidate:candidates ( prenom, nom, email, telephone, pays )

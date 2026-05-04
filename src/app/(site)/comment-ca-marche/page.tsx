@@ -26,9 +26,9 @@ const STEPS = [
   },
   {
     num: '03',
-    title: 'ACOMPTE',
-    desc: 'Si ta candidature est acceptée, tu verses un acompte de 30% pour confirmer ta place. Paiement par virement, CB ou PayPal.',
-    detail: '30% du tarif',
+    title: 'PAIEMENT POST-VISIO',
+    desc: "Une fois ta candidature validée à l'issue de la visio, tu reçois le RIB MKR pour régler le package en une seule fois (virement ou espèces). Aucun paiement n'est demandé avant l'entretien.",
+    detail: 'Après validation',
   },
   {
     num: '04',
@@ -54,7 +54,7 @@ const PROCESS_FAQ = [
   { question: "Combien de temps dure le processus d'inscription ?", answer: "De l'envoi du formulaire à la confirmation, le processus prend 3 à 5 jours en moyenne. L'appel de validation a lieu sous 48h après réception de ta candidature." },
   { question: "Que se passe-t-il si ma candidature est refusée ?", answer: "On t'explique les raisons et on te donne des pistes pour te préparer à une prochaine session. Le refus est souvent lié au niveau sportif : on te recommande un programme de préparation." },
   { question: "Puis-je reporter ma session ?", answer: "Oui, sous certaines conditions. Report gratuit si demande faite plus de 60 jours avant le début du camp. Soumis à disponibilité sur la session suivante." },
-  { question: "Le solde est dû quand ?", answer: "Le solde (70% restant) est dû 30 jours avant le début du camp. Tu reçois un rappel automatique." },
+  { question: "Quand est-ce que je paye ?", answer: "Tu ne payes rien au moment de l'inscription. Le paiement intégral du package est dû après l'entretien de validation en visio, par virement bancaire ou espèces. Tu reçois le RIB une fois ta candidature validée." },
 ]
 
 export default function CommentCaMarchePage() {
@@ -129,9 +129,9 @@ export default function CommentCaMarchePage() {
           </div>
           <div className="grid-3">
             {[
-              { title: 'Virement bancaire', desc: 'IBAN suisse. Pas de frais supplémentaires. Coordonnées envoyées après validation.' },
-              { title: 'Carte bancaire', desc: 'Paiement sécurisé via Stripe. Visa, Mastercard, Amex.' },
-              { title: 'PayPal', desc: 'Disponible sur demande. Frais PayPal à la charge du participant.' },
+              { title: 'Virement bancaire', desc: "IBAN communiqué après validation de ta candidature en visio. Pas de frais supplémentaires." },
+              { title: 'Espèces', desc: "Possible sur place ou en main propre. À convenir directement avec Ruslan lors de l'entretien visio." },
+              { title: 'Autre modalité', desc: 'Toute demande spécifique est étudiée au cas par cas. Parle-en lors de la visio de validation.' },
             ].map((p, i) => (
               <div key={i} className="content-card fx-grain fx-corner-glow reveal" style={{ transitionDelay: `${i * 0.08}s` }}>
                 <h3 className="card-title">{p.title}</h3>

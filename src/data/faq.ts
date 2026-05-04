@@ -115,15 +115,15 @@ export const FAQ_CATEGORIES: FAQCategory[] = [
     items: [
       {
         question: "Comment fonctionne le processus d'inscription ?",
-        answer: "1. Tu remplis le formulaire en ligne (5 minutes). 2. On te rappelle sous 48h pour un entretien de validation. 3. Si ta candidature est acceptée, tu verses un acompte de 30%. 4. Tu reçois le guide de préparation. 5. Le solde est dû 30 jours avant le départ.",
+        answer: "1. Tu remplis le formulaire en ligne (5 minutes). Aucun paiement n'est demandé à ce stade. 2. On te rappelle sous 48h pour un entretien de validation en visioconférence avec Ruslan. 3. Si ta candidature est acceptée, tu reçois le RIB MKR et règles le package en une seule fois (virement ou espèces). 4. Tu reçois le guide de préparation et la lettre d'invitation visa.",
       },
       {
         question: 'Puis-je annuler après inscription ?',
-        answer: "Oui. Annulation gratuite jusqu'à 60 jours avant le départ (remboursement 100%). Entre 30 et 60 jours : remboursement 50%. Moins de 30 jours : non remboursable. Détail complet dans nos CGV.",
+        answer: "Oui. Tant que tu n'as pas réglé ton package, l'annulation est sans frais. Une fois le paiement reçu : annulation gratuite jusqu'à 60 jours avant le départ (remboursement 100%). Entre 30 et 60 jours : remboursement 50%. Moins de 30 jours : non remboursable. Détail complet dans nos CGV.",
       },
       {
         question: 'Quels moyens de paiement acceptez-vous ?',
-        answer: "Virement bancaire, carte bancaire (via Stripe) et PayPal. Le paiement se fait en euros (EUR).",
+        answer: "Virement bancaire (recommandé) ou espèces. Le paiement se fait en euros (EUR), une seule fois après l'entretien de validation. Aucun paiement n'est pris au moment de l'inscription en ligne.",
       },
       {
         question: 'Je viens avec mon club, y a-t-il un tarif groupe ?',

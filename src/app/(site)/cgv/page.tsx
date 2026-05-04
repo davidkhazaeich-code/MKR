@@ -19,12 +19,9 @@ export default function CGVPage() {
           <p>L&apos;inscription se fait via le formulaire en ligne sur mkrcamp.com. Toute candidature est soumise à validation par l&apos;équipe MKR lors d&apos;un entretien téléphonique ou vidéo. L&apos;Organisateur se réserve le droit de refuser toute candidature sans justification.</p>
 
           <h2>Article 3 : Tarifs et paiement</h2>
-          <p>Les tarifs sont indiqués en euros (EUR) sur la page Sessions du site. Le paiement s&apos;effectue en deux temps :</p>
-          <ul>
-            <li>Acompte de 30% à la confirmation de la candidature</li>
-            <li>Solde de 70% au plus tard 30 jours avant le début du camp</li>
-          </ul>
-          <p>Moyens de paiement acceptés : virement bancaire, carte bancaire (Stripe), PayPal.</p>
+          <p>Les tarifs sont indiqués en euros (EUR) sur la page Sessions du site. Aucun paiement n&apos;est demandé au moment de l&apos;inscription en ligne.</p>
+          <p>Le paiement intégral du package est dû après l&apos;entretien de validation en visioconférence avec l&apos;équipe MKR. Les coordonnées bancaires (RIB) sont communiquées au candidat à l&apos;issue de cet entretien.</p>
+          <p>Moyens de paiement acceptés : virement bancaire ou espèces. Toute autre modalité est étudiée au cas par cas.</p>
 
           <h2>Article 4 : Politique d&apos;annulation</h2>
           <ul>

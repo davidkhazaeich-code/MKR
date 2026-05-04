@@ -12,23 +12,27 @@ import {
 //
 // Body partiel — chaque champ est optionnel, on update ce qui est present :
 // {
-//   status?: Status                         -> transition (validee garde-fous)
-//   fee_paid?: boolean                      -> set/clear registration_fee_paid_at
-//   package_paid?: boolean                  -> set/clear package_paid_at
-//   package_amount_cents?: number           -> set le montant package
-//   notes_admin?: string                    -> update notes_admin
-//   notes_visio?: string                    -> update notes_visio
+//   status?: Status                               -> transition (canTransition garde-fous)
+//   package_paid?: boolean                        -> set/clear package_paid_at
+//   package_amount_cents?: number                 -> set le montant total package en cents EUR
+//   payment_method?: 'virement' | 'cash' | 'autre' | null  -> méthode de paiement post-visio
+//   payment_date?: string (YYYY-MM-DD) | null     -> date de réception du paiement
+//   notes_admin?: string                          -> update notes_admin
+//   notes_visio?: string                          -> update notes_visio
 // }
 
 export const dynamic = 'force-dynamic'
 
 const MAX_NOTES = 5000
+const PAYMENT_METHODS = ['virement', 'cash', 'autre'] as const
+type PaymentMethod = (typeof PAYMENT_METHODS)[number]
 
 interface PatchBody {
   status?: string
-  fee_paid?: boolean
   package_paid?: boolean
   package_amount_cents?: number
+  payment_method?: PaymentMethod | null
+  payment_date?: string | null
   notes_admin?: string
   notes_visio?: string
 }
@@ -45,6 +49,8 @@ interface AuditEntry {
 function badRequest(message: string) {
   return NextResponse.json({ ok: false, error: message }, { status: 400 })
 }
+
+const DATE_RE = /^\d{4}-\d{2}-\d{2}$/
 
 export async function PATCH(
   request: Request,
@@ -67,7 +73,7 @@ export async function PATCH(
   // 1. Lecture de l'etat courant pour valider transitions et generer diff audit
   const { data: current, error: readError } = await supabase
     .from('candidatures')
-    .select('id, status, registration_fee_paid_at, package_paid_at, package_amount_cents, notes_admin, notes_visio')
+    .select('id, status, package_paid_at, package_amount_cents, payment_method, payment_date, notes_admin, notes_visio')
     .eq('id', id)
     .maybeSingle()
 
@@ -104,22 +110,7 @@ export async function PATCH(
     }
   }
 
-  // 3. Toggle frais 100€ payés
-  if (typeof body.fee_paid === 'boolean') {
-    const target = body.fee_paid ? nowIso : null
-    if (target !== current.registration_fee_paid_at) {
-      updates.registration_fee_paid_at = target
-      auditEntries.push({
-        candidature_id: id,
-        event: 'fee_paid_change',
-        from_value: { registration_fee_paid_at: current.registration_fee_paid_at },
-        to_value: { registration_fee_paid_at: target },
-        actor_email: actor,
-      })
-    }
-  }
-
-  // 4. Toggle package soldé + montant
+  // 3. Toggle package soldé
   if (typeof body.package_paid === 'boolean') {
     const target = body.package_paid ? nowIso : null
     if (target !== current.package_paid_at) {
@@ -133,6 +124,8 @@ export async function PATCH(
       })
     }
   }
+
+  // 4. Montant package
   if (typeof body.package_amount_cents === 'number' && body.package_amount_cents >= 0) {
     if (body.package_amount_cents !== current.package_amount_cents) {
       updates.package_amount_cents = body.package_amount_cents
@@ -146,7 +139,45 @@ export async function PATCH(
     }
   }
 
-  // 5. Notes
+  // 5. Méthode de paiement
+  if ('payment_method' in body) {
+    const next = body.payment_method
+    if (next !== null && next !== undefined && !PAYMENT_METHODS.includes(next)) {
+      return badRequest(`Méthode de paiement inconnue: ${next}`)
+    }
+    const target = next ?? null
+    if (target !== current.payment_method) {
+      updates.payment_method = target
+      auditEntries.push({
+        candidature_id: id,
+        event: 'payment_method_change',
+        from_value: { payment_method: current.payment_method },
+        to_value: { payment_method: target },
+        actor_email: actor,
+      })
+    }
+  }
+
+  // 6. Date de paiement
+  if ('payment_date' in body) {
+    const next = body.payment_date
+    if (next !== null && next !== undefined && !DATE_RE.test(next)) {
+      return badRequest('payment_date invalide (format attendu YYYY-MM-DD)')
+    }
+    const target = next ?? null
+    if (target !== current.payment_date) {
+      updates.payment_date = target
+      auditEntries.push({
+        candidature_id: id,
+        event: 'payment_date_change',
+        from_value: { payment_date: current.payment_date },
+        to_value: { payment_date: target },
+        actor_email: actor,
+      })
+    }
+  }
+
+  // 7. Notes
   if (typeof body.notes_admin === 'string') {
     if (body.notes_admin.length > MAX_NOTES) {
       return badRequest('notes_admin trop longues')
@@ -178,12 +209,12 @@ export async function PATCH(
     return NextResponse.json({ ok: true, candidatureId: id, message: 'Rien à mettre à jour' })
   }
 
-  // 6. Update et retourne le row mis a jour (pour sync client sans refetch)
+  // 8. Update et retourne le row mis a jour (pour sync client sans refetch)
   const { data: updated, error: updateError } = await supabase
     .from('candidatures')
     .update(updates)
     .eq('id', id)
-    .select('id, status, status_changed_at, registration_fee_paid_at, package_paid_at, package_amount_cents, notes_admin, notes_visio')
+    .select('id, status, status_changed_at, package_paid_at, package_amount_cents, payment_method, payment_date, notes_admin, notes_visio')
     .single()
 
   if (updateError || !updated) {

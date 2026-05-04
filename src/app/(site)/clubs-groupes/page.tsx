@@ -44,8 +44,8 @@ const PROCESS = [
   { num: '01', title: 'Demande de devis', desc: 'Tu remplis le formulaire : nom du club, nombre de participants (5 à 20), niveau collectif, dates souhaitées, durée.' },
   { num: '02', title: 'Appel de cadrage', desc: 'On organise un appel avec le responsable du groupe pour cadrer le programme, les attentes, la logistique.' },
   { num: '03', title: 'Devis détaillé', desc: 'Tu reçois un devis ferme : tarif par tête × nombre de membres + détail des prestations.' },
-  { num: '04', title: 'Acompte 30%', desc: 'À la signature, acompte 30% du total. Lettres d\'invitation visa pour chaque membre.' },
-  { num: '05', title: 'Préparation', desc: 'Programme prep physique 6 semaines transmis à chaque membre. Solde 30 jours avant le départ.' },
+  { num: '04', title: 'Validation et virement', desc: 'À la signature du devis, virement bancaire intégral du groupe sur le compte MKR. Lettres d\'invitation visa pour chaque membre.' },
+  { num: '05', title: 'Préparation', desc: 'Programme prep physique 6 semaines transmis à chaque membre. Tout est réglé en amont du départ.' },
   { num: '06', title: 'Camp dédié', desc: 'Ton groupe arrive ensemble, vit ensemble, s\'entraîne ensemble. Coach dédié, programme adapté.' },
 ]
 

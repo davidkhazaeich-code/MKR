@@ -293,9 +293,9 @@ export default function SessionsPage() {
                 PAIEMENT ET CONDITIONS
               </h2>
               <ul className="terms-list">
-                <li>Acompte de 30% à la confirmation de ta candidature</li>
-                <li>Solde 30 jours avant le début du camp</li>
-                <li>Paiement par virement bancaire, Stripe (CB) ou PayPal</li>
+                <li>Aucun paiement à l&apos;inscription en ligne</li>
+                <li>Visio de validation avec l&apos;équipe MKR sous 48h</li>
+                <li>Paiement intégral après validation : virement bancaire ou espèces</li>
                 <li>Annulation gratuite jusqu&apos;à 60 jours avant le départ</li>
               </ul>
               <div style={{ marginTop: '1.5rem', display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>

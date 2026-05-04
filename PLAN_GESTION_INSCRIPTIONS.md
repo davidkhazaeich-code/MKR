@@ -1,41 +1,56 @@
 # SPEC — Gestion des candidatures et inscriptions MKR
 
-> **Date** : 2026-05-01
+> **Date initiale** : 2026-05-01
+> **Dernière révision** : 2026-05-04 (suppression du paiement Stripe / 100 €)
 > **Auteur** : Claude pour DKDP / MKR Caucasian Camp (David Khazaei)
-> **Statut** : 🟢 Décisions arbitrées, prêt pour writing-plans
-> **Effort estimé** : 13-19 jours dev (P1+P2+P3, ~3-4 semaines calendrier)
+> **Statut** : 🟢 V1.5 déployée + révision business 2026-05-04 appliquée
+> **Effort restant** : minime (paiement 100 % manuel par virement / espèces, plus de Stripe à brancher)
 
 ---
 
-## 0 — Résumé exécutif
+## ⚠️ BREAKING CHANGE — 2026-05-04 : suppression du paiement upfront
 
-Mise en place d'un système complet de gestion du pipeline de candidatures pour MKR Caucasian Camp, avec :
+Décision Ruslan + David : **on abandonne le paiement Stripe de 100 € à l'inscription**. Le nouveau flow :
 
-- Frais d'inscription 100 € via Stripe au moment du form (instantané)
-- Compteur 15 places live et atomique sur la session officielle
+1. Candidat soumet le form `/inscription` → enregistré direct (pas de paiement)
+2. Ruslan valide manuellement la candidature et planifie une visio
+3. Si validée à l'issue de la visio : Ruslan envoie le RIB au candidat
+4. Le candidat règle le package en **une seule fois** par virement bancaire ou espèces
+5. Ruslan coche « Soldé » dans le dashboard et renseigne méthode + date de paiement
+
+**Conséquences** :
+- DB : colonnes `registration_fee_*`, `stripe_payment_intent_id`, `stripe_checkout_session_id` supprimées (migration `drop_stripe_columns_add_manual_payment_fields` du 2026-05-04). Ajout de `payment_method` (virement / cash / autre) et `payment_date` (date).
+- Code : retrait des toggles « Frais 100 € payés » dans le dashboard admin, ajout d'un bloc « Méthode + date de paiement ».
+- Pages publiques : suppression de toutes les mentions « acompte 30 % », « Stripe », « PayPal », « 100 € à l'inscription ».
+- Sections de cette spec qui parlent de Stripe / 100 € / refunds Stripe / crédits 100 € → considérées **OBSOLÈTES**, conservées pour archive uniquement.
+
+Les sections impactées (§1.1, §1.3, §1.7, §3.2 colonnes Stripe, §4.2 side-effects, §7.1 Stripe, §7.4 emails relatifs aux frais) sont en partie réécrites ci-dessous, en partie laissées en l'état pour préserver l'historique.
+
+---
+
+## 0 — Résumé exécutif (révisé 2026-05-04)
+
+Mise en place d'un système de gestion du pipeline de candidatures pour MKR Caucasian Camp, avec :
+
+- **Aucun paiement à l'inscription** (le form pousse en DB et notifie Ruslan)
+- Compteur 15 places live et atomique sur la session officielle (déclenché dès status RECUE)
 - Pipeline statuts (Reçue → Validée → Soldée → Camp fait) + branches (Refusée, Annulée, Reportée)
-- Crédits 100 € reportables 12 mois pour les candidats qui reportent
-- Dashboard admin custom `/admin` en français pour Ruslan (kanban + alertes)
-- 8 emails transactionnels via Resend
-- PDF facture pro forma auto-généré à la validation, RIB Ruslan, paiement par virement bancaire
-- Conversion site CHF → EUR
-- CGV mises à jour avec clause frais d'inscription
+- Dashboard admin custom `/admin` en français pour Ruslan (kanban + alertes + saisie manuelle paiement)
+- Notif Slack optionnelle à chaque nouvelle candidature (V1.5) — emails Resend en V2
+- Paiement intégral post-visio par virement bancaire ou espèces (RIB envoyé manuellement par Ruslan)
+- Tarifs en EUR (conversion 1:1 depuis CHF, déjà appliqué)
 
-**Aucune intégration Bexio.** Ruslan gère sa facturation côté business, MKR fournit juste le PDF pro forma au candidat.
+**Aucune intégration Bexio, aucune intégration Stripe.** Ruslan gère sa facturation côté business.
 
 ---
 
 ## 1 — Décisions business arbitrées (David, 2026-05-01)
 
-### 1.1 Frais d'inscription
-- **Montant** : 100 €
-- **Devise** : EUR (conversion 1:1 depuis les anciens CHF)
-- **Moment du paiement** : à la soumission du form (Stripe Checkout)
-- **Tunnels concernés** : `session` (officielle 17 août) ET `custom` (sur mesure). Le tunnel `groupe/club` reste sur dates custom uniquement (donc les frais s'y appliquent, multipliés par N membres si réservation multi).
-- **Non remboursables en cas d'annulation candidat**
-- **Déductibles du package final** si camp réalisé
-- **Reportables 12 mois** sous forme de crédit nominatif si le candidat reporte
-- **Remboursés 100 %** si MKR refuse le candidat après visio
+### 1.1 Frais d'inscription — **SUPPRIMÉS (révision 2026-05-04)**
+
+Plus aucun paiement n'est demandé au moment du form. Le candidat s'inscrit gratuitement, Ruslan valide manuellement, paie en une fois post-visio. Voir §1.3 ci-dessous.
+
+> Section originale (frais 100 € via Stripe) archivée — voir l'historique git si besoin de référence.
 
 ### 1.2 Tarifs camp (EUR, conversion 1:1 depuis CHF)
 | Durée | Adulte (18+) | Enfant/Ado (8-17, parent obligatoire) |
@@ -44,14 +59,16 @@ Mise en place d'un système complet de gestion du pipeline de candidatures pour 
 | 2 semaines | 2 200 € | 1 400 € |
 | 3 semaines | 2 900 € | 1 900 € |
 
-### 1.3 Paiement du package
-- **Un seul virement bancaire post-visio** pour le package complet moins les 100 € déjà payés
-- **PDF facture pro forma auto-généré** envoyé au candidat à la validation, contient le RIB de Ruslan
-- Pas d'étape acompte 30 % séparée
+### 1.3 Paiement du package (révisé 2026-05-04)
+- **Aucun paiement à l'inscription**.
+- **Un seul règlement post-visio** pour le package complet (montant total selon durée + nombre de personnes).
+- **Méthodes acceptées** : virement bancaire (recommandé) ou espèces.
+- **RIB envoyé manuellement** par Ruslan au candidat à l'issue de la visio de validation. Pas de génération PDF auto pour le moment.
+- Pas d'étape acompte 30 %, pas d'étape 100 €. Tout est payé en une fois.
 
 ### 1.4 Capacité 15 places
 - S'applique uniquement à la session officielle (`tunnel_type=session`)
-- Décompte dès le statut `RECUE` (frais payés)
+- Décompte dès le statut `RECUE` (candidature soumise)
 - Les statuts `RECUE`, `VALIDEE`, `SOLDEE` consomment 1 place
 - Les statuts `REFUSEE`, `ANNULEE`, `REPORTEE`, `CAMP_FAIT` libèrent la place
 
@@ -64,10 +81,10 @@ Mise en place d'un système complet de gestion du pipeline de candidatures pour 
 - Alerte rouge dans le dashboard après 7 jours sans visio
 - Email rappel quotidien à Ruslan tant que le dossier reste en `RECUE` après 7j
 
-### 1.7 Tunnel groupe/club
+### 1.7 Tunnel groupe/club (révisé 2026-05-04)
 - Inscription sur dates custom uniquement (pas sur session officielle 17 août)
 - 2 à 20 membres
-- Frais 100 € × N membres en une seule transaction Stripe (au nom du responsable du club)
+- Aucun paiement à l'inscription (cf. §1.1). Paiement intégral du groupe post-visio par virement, au nom du responsable du club.
 
 ### 1.8 Multi-sessions
 - 1 seule session active à la fois pour le moment
@@ -117,6 +134,9 @@ CREATE TABLE candidates (
 ```
 
 ### 3.2 `candidatures`
+
+> ⚠️ **Schema réel post 2026-05-04** : les colonnes `registration_fee_cents`, `registration_fee_currency`, `registration_fee_paid_at`, `stripe_payment_intent_id`, `stripe_checkout_session_id` ont été supprimées. Deux nouvelles colonnes ont été ajoutées : `payment_method text CHECK (... IN ('virement','cash','autre'))` et `payment_date date`. Le bloc SQL ci-dessous reflète l'intention V1 originale et n'est plus aligné avec la prod — voir Supabase pour le schéma effectif.
+
 Le dossier d'inscription. Une `candidate` peut avoir plusieurs `candidatures` dans le temps (reports, etc.). Les données du form sont en `jsonb` pour flexibilité.
 
 ```sql
@@ -316,15 +336,18 @@ GROUP BY sc.session_id, sc.session_label, sc.max_capacity, sc.status;
 └─────────────┘
 ```
 
-### 4.2 Side-effects par transition
+### 4.2 Side-effects par transition (révisé 2026-05-04)
 
-| Transition | Effets automatiques |
-|---|---|
-| `draft` → `recue` (Stripe webhook) | Email candidat #1, Email Ruslan #2, decrement compteur, audit log |
-| `recue` → `validee` (admin) | Génération PDF facture, upload Supabase Storage, Email candidat #3 avec PDF, audit log |
-| `recue` → `refusee` (admin) | Stripe refund 100 € auto via API, Email candidat #4, libère place, audit log |
-| `*` → `annulee` (admin) | Email candidat #5, libère place, audit log (frais perdus) |
-| `*` → `reportee` (admin) | INSERT `credits` (100 €, +12 mois), Email candidat #6, libère place, audit log |
+| Transition | Effets automatiques (V1.5 actuelle) | Effets V2 (quand emails Resend branchés) |
+|---|---|---|
+| Form → `recue` | Insert candidature + audit_log + notif Slack optionnelle, decrement compteur 15 places | + Email candidat #1, + Email Ruslan #2 |
+| `recue` → `validee` (admin) | Audit log + rappel manuel à Ruslan d'envoyer le RIB | + Email candidat #3 avec RIB |
+| `recue` → `refusee` (admin) | Audit log, libère place. Aucun remboursement (rien n'a été pris à l'inscription) | + Email candidat #4 |
+| `validee` → `soldee` (admin) | Audit log (Ruslan saisit méthode + date paiement + montant) | + Email candidat de confirmation paiement |
+| `*` → `annulee` (admin) | Audit log, libère place. Si paiement déjà reçu : appliquer manuellement la grille refund (100 / 50 / 0 selon délai) | + Email candidat #5 |
+| `*` → `reportee` (admin) | Audit log, libère place, recaler manuellement le candidat | + Email candidat #6 |
+
+> Section originale (Stripe webhook, refund Stripe, crédits 100 €, génération PDF) archivée. Voir l'historique git si besoin.
 | `validee` → `soldee` (admin) | Email candidat #7, audit log |
 | `soldee` → `camp_fait` (admin manuel post-camp) | Email candidat optionnel, audit log |
 
@@ -446,12 +469,11 @@ Fichiers à toucher :
 
 ## 7 — Intégrations externes
 
-### 7.1 Stripe
-- Compte au nom de Ruslan (à créer si pas existant)
-- Mode `payment` EUR, capture immédiate
-- Métadonnées PaymentIntent : `candidature_id`, `candidate_email`, `tunnel_type`, `session_id`
-- Webhooks : `checkout.session.completed`, `charge.refunded`, `charge.failed`
-- Test mode pendant P1+P2, live mode P3
+### 7.1 Stripe — **SUPPRIMÉ (révision 2026-05-04)**
+
+Plus d'intégration Stripe. Tous les paiements passent par virement bancaire ou espèces hors-app. Ruslan envoie le RIB manuellement post-visio. Voir §1.3.
+
+> Section originale (mode payment EUR, webhooks, refund automatique) archivée.
 
 ### 7.2 Resend
 - Domaine `noreply@mkrcamp.com` (DNS SPF + DKIM + DMARC à configurer)

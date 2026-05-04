@@ -30,9 +30,9 @@ const REASONS = [
 
 const TIMELINE = [
   { time: 'J-90', label: 'Inscription', desc: 'Tu remplis le formulaire. Réponse sous 48h.' },
-  { time: 'J-60', label: 'Acompte 30%', desc: 'Lettre d\'invitation visa Russie. Acompte versé.' },
-  { time: 'J-45', label: 'Programme prep 6 sem', desc: 'Tu reçois le programme prep physique à distance.' },
-  { time: 'J-30', label: 'Solde', desc: 'Tu verses le solde. Visa russe finalisé.' },
+  { time: 'J-60', label: 'Visio + paiement', desc: 'Visio de validation avec Ruslan. Si validé : RIB envoyé, paiement intégral par virement. Lettre d\'invitation visa Russie déclenchée.' },
+  { time: 'J-45', label: 'Programme prep 6 sem', desc: 'Tu reçois le programme prep physique à distance. Visa russe en cours de finalisation.' },
+  { time: 'J-30', label: 'Visa finalisé', desc: 'Visa russe en main. Tu peux acheter ton vol international en confiance.' },
   { time: 'J-7', label: 'Briefing final', desc: 'Brief logistique, vol, transferts, packing list confirmée.' },
   { time: 'JOUR J', label: 'Départ', desc: 'Vol intl à charge. Vol intérieur Istanbul-Makhachkala inclus. Véhicule MKR à l\'aéroport.' },
 ]

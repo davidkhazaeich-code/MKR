@@ -265,10 +265,9 @@ export default function FamillesPage() {
             </div>
             <div className="content-card fx-grain fx-corner-glow reveal" style={{ transitionDelay: '0.16s' }}>
               <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.4rem', fontSize: '0.6rem' }}>ÉTAPE 03</span>
-              <h3 className="card-title" style={{ fontSize: '0.95rem' }}>Validation et acompte</h3>
+              <h3 className="card-title" style={{ fontSize: '0.95rem' }}>Validation et paiement</h3>
               <p className="card-body" style={{ fontSize: '0.85rem' }}>
-                Réponse sous 48h. Si validée : acompte 30%, certificat médical pour chaque membre, guide de préparation.
-                Solde 30 jours avant le départ.
+                Réponse sous 48h. Si validée en visio : paiement intégral par virement bancaire (RIB envoyé après l&apos;entretien), certificat médical pour chaque membre, guide de préparation.
               </p>
             </div>
           </div>

@@ -35,8 +35,8 @@ export default function MerciPage() {
             <div className="merci-step">
               <span className="merci-step-num">02</span>
               <div>
-                <h3>Confirmation et acompte</h3>
-                <p>Si ta candidature est validée, tu reçois un lien de paiement pour l&apos;acompte de 30%.</p>
+                <h3>Validation et paiement</h3>
+                <p>Si ta candidature est validée à l&apos;issue de la visio, tu reçois le RIB MKR pour régler le package en une seule fois (virement ou espèces).</p>
               </div>
             </div>
             <div className="merci-step">

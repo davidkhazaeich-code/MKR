@@ -1,6 +1,8 @@
 // Source unique des transitions de status admin pour les candidatures.
-// Reflète le diagramme §4.1 de PLAN_GESTION_INSCRIPTIONS.md, simplifié V1.5
-// (pas de Stripe refund, pas de credit, pas de PDF — juste status + audit_log).
+// Reflète le diagramme §4.1 de PLAN_GESTION_INSCRIPTIONS.md.
+// Flow : form -> RECUE -> Ruslan valide -> VALIDEE -> visio + virement/cash post-visio -> SOLDEE -> camp -> CAMP_FAIT.
+// Branches : REFUSEE (avant paiement), ANNULEE / REPORTEE (à toute étape).
+// Pas de paiement upfront, pas de Stripe : tout passe par virement bancaire ou espèces après l'entretien visio.
 
 export const STATUS_VALUES = [
   'recue',
@@ -39,10 +41,11 @@ export function canTransition(from: Status, to: Status): boolean {
 }
 
 // Note manuelle ajoutée à audit_log pour rappeler à Ruslan ce qu'il doit
-// faire hors-app (puisqu'on n'a pas encore Stripe / Resend / PDF auto).
+// faire hors-app (envoi du RIB, vérification du virement reçu, etc.).
 export const TRANSITION_REMINDER: Partial<Record<Status, string>> = {
-  validee: 'À FAIRE : envoyer la facture pro forma au candidat avec le RIB.',
-  refusee: 'À FAIRE : rembourser les 100€ au candidat (Stripe pas encore actif, virement manuel).',
-  reportee: 'À FAIRE : noter le crédit 100€ valable 12 mois (table credits pas encore créée).',
-  soldee: 'À VÉRIFIER : virement reçu sur le compte de Ruslan.',
+  validee: 'À FAIRE : planifier la visio avec le candidat et lui envoyer le RIB pour le virement post-visio.',
+  refusee: 'Aucun paiement n\'a été pris : pas de remboursement à effectuer.',
+  reportee: 'Recaler le candidat sur une session ultérieure ou des dates sur mesure (90 j minimum).',
+  soldee: 'À VÉRIFIER : montant total reçu (virement ou espèces) avant le départ du camp.',
+  annulee: 'Si un paiement a été reçu, appliquer la grille d\'annulation (100% à >60j, 50% à 30-60j, 0% à <30j).',
 }

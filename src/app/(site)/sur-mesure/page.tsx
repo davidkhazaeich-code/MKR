@@ -31,8 +31,8 @@ const PROFILES = [
 const PROCESS = [
   { num: '01', title: 'Tu remplis le formulaire', desc: 'Composition (1 à 4 adultes), dates souhaitées (90 jours min avant), durée (1, 2 ou 3 sem), niveau, objectifs.' },
   { num: '02', title: 'Validation MKR sous 48h', desc: 'On valide la disponibilité des coachs et de l\'hébergement à tes dates. Appel vidéo de qualification.' },
-  { num: '03', title: 'Acompte 30% + lettre visa', desc: 'Tu reçois la lettre d\'invitation officielle pour ton dossier visa Russie. Acompte 30% versé.' },
-  { num: '04', title: 'Préparation 6 semaines', desc: 'Programme de prep physique à distance. Solde 30 jours avant le départ.' },
+  { num: '03', title: 'Validation et lettre visa', desc: 'Tu reçois la lettre d\'invitation officielle pour ton dossier visa Russie et le RIB pour le paiement intégral du package par virement bancaire.' },
+  { num: '04', title: 'Préparation 6 semaines', desc: 'Programme de prep physique à distance. Tout est réglé, tu n\'as plus qu\'à te concentrer sur l\'entraînement.' },
   { num: '05', title: 'Départ et camp', desc: 'Vol intérieur Istanbul-Makhachkala inclus. Véhicule MKR à l\'aéroport. Tu n\'as qu\'à t\'entraîner.' },
 ]
 

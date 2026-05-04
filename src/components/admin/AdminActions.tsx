@@ -13,12 +13,21 @@ import ConfirmModal from './ui/ConfirmModal'
 import Icon from './ui/Icon'
 import { useToast } from './ui/Toast'
 
+type PaymentMethod = 'virement' | 'cash' | 'autre'
+
+const PAYMENT_METHOD_LABEL: Record<PaymentMethod, string> = {
+  virement: 'Virement bancaire',
+  cash: 'Espèces',
+  autre: 'Autre',
+}
+
 interface Props {
   candidatureId: string
   currentStatus: Status
-  registrationFeePaidAt: string | null
   packagePaidAt: string | null
   packageAmountCents: number | null
+  paymentMethod: PaymentMethod | null
+  paymentDate: string | null
   notesAdmin: string
   notesVisio: string
 }
@@ -27,9 +36,10 @@ interface ServerCandidature {
   id: string
   status: Status
   status_changed_at: string
-  registration_fee_paid_at: string | null
   package_paid_at: string | null
   package_amount_cents: number | null
+  payment_method: PaymentMethod | null
+  payment_date: string | null
   notes_admin: string | null
   notes_visio: string | null
 }
@@ -74,16 +84,17 @@ const ACTION_CONFIRM: Record<Status, { title: string; message: string } | undefi
   refusee: {
     title: 'Refuser cette candidature ?',
     message:
-      'Le candidat devra être remboursé manuellement (Stripe pas encore actif). Cette action ne peut pas être annulée.',
+      'Aucun paiement n\'ayant été pris à ce stade, il n\'y a pas de remboursement à effectuer. Cette action ne peut pas être annulée.',
   },
   annulee: {
     title: 'Annuler cette candidature ?',
-    message: 'Les frais 100€ sont perdus pour le candidat. Cette action ne peut pas être annulée.',
+    message:
+      'Si un paiement a déjà été reçu, applique la grille d\'annulation (100% à >60j, 50% à 30-60j, 0% à <30j) manuellement. Cette action ne peut pas être annulée.',
   },
   reportee: {
     title: 'Reporter cette candidature ?',
     message:
-      'Un crédit 100€ valable 12 mois sera dû au candidat (à noter manuellement, table credits pas encore créée).',
+      'Le candidat sera recalé sur une session ultérieure ou des dates sur mesure (90 jours min).',
   },
 }
 
@@ -100,9 +111,10 @@ export default function AdminActions(props: Props) {
   // Initialisé depuis les props server-side, puis owned client-side.
   // Pas de re-sync depuis props : on évite que router.refresh écrase l'état utilisateur.
   const [status, setStatus] = useState<Status>(props.currentStatus)
-  const [feePaidAt, setFeePaidAt] = useState(props.registrationFeePaidAt)
   const [packagePaidAt, setPackagePaidAt] = useState(props.packagePaidAt)
   const [packageCents, setPackageCents] = useState(props.packageAmountCents)
+  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod | null>(props.paymentMethod)
+  const [paymentDate, setPaymentDate] = useState<string | null>(props.paymentDate)
   const [confirm, setConfirm] = useState<Status | null>(null)
   const [busy, setBusy] = useState(false)
 
@@ -178,25 +190,8 @@ export default function AdminActions(props: Props) {
     )
     if (result) {
       setStatus(result.status)
-      // Si une transition a déclenché un side-effect server (rare en V1.5),
-      // sync les autres champs aussi.
-      if (result.registration_fee_paid_at !== feePaidAt) setFeePaidAt(result.registration_fee_paid_at)
       if (result.package_paid_at !== packagePaidAt) setPackagePaidAt(result.package_paid_at)
     }
-  }
-
-  // === Fee toggle ===
-  const handleFeeToggle = async (checked: boolean) => {
-    const prev = feePaidAt
-    setFeePaidAt(checked ? new Date().toISOString() : null)
-    const result = await patch(
-      { fee_paid: checked },
-      {
-        successMessage: checked ? 'Frais 100€ marqués payés' : 'Frais 100€ remis à non payés',
-        onError: () => setFeePaidAt(prev),
-      },
-    )
-    if (result) setFeePaidAt(result.registration_fee_paid_at)
   }
 
   // === Package paid toggle ===
@@ -231,6 +226,34 @@ export default function AdminActions(props: Props) {
       },
     )
     if (result) setPackageCents(result.package_amount_cents)
+  }
+
+  // === Méthode de paiement ===
+  const handlePaymentMethodChange = async (next: PaymentMethod | null) => {
+    const prev = paymentMethod
+    setPaymentMethod(next)
+    const result = await patch(
+      { payment_method: next },
+      {
+        successMessage: next ? `Méthode : ${PAYMENT_METHOD_LABEL[next]}` : 'Méthode effacée',
+        onError: () => setPaymentMethod(prev),
+      },
+    )
+    if (result) setPaymentMethod(result.payment_method)
+  }
+
+  // === Date de paiement ===
+  const handlePaymentDateChange = async (next: string | null) => {
+    const prev = paymentDate
+    setPaymentDate(next)
+    const result = await patch(
+      { payment_date: next },
+      {
+        successMessage: next ? `Date paiement : ${formatDateFr(next)}` : 'Date effacée',
+        onError: () => setPaymentDate(prev),
+      },
+    )
+    if (result) setPaymentDate(result.payment_date)
   }
 
   // === Auto-save admin notes (debounced) ===
@@ -369,29 +392,11 @@ export default function AdminActions(props: Props) {
             Paiement
           </h2>
 
-          <Switch
-            checked={!!feePaidAt}
-            onChange={handleFeeToggle}
-            disabled={busy}
-            label="Frais d'inscription 100€ payés"
-            help={
-              feePaidAt
-                ? `Marqué payé le ${new Date(feePaidAt).toLocaleString('fr-FR', {
-                    day: '2-digit',
-                    month: '2-digit',
-                    year: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit',
-                  })}`
-                : 'Stripe pas encore actif — paiement à constater manuellement.'
-            }
-          />
-
           <div className="adm-input-row">
             <label className="adm-input-row-label" htmlFor="package-amount">
               Montant package (€)
               <span style={{ display: 'block', fontSize: '0.75rem', color: 'var(--adm-text-muted)', marginTop: '0.15rem' }}>
-                Total à payer par le candidat (frais 100€ inclus).
+                Total convenu avec le candidat (référence : 1500/2200/2900 € adulte selon durée).
               </span>
             </label>
             <input
@@ -412,11 +417,52 @@ export default function AdminActions(props: Props) {
             )}
           </div>
 
+          <div className="adm-input-row">
+            <label className="adm-input-row-label" htmlFor="payment-method">
+              Méthode de paiement
+              <span style={{ display: 'block', fontSize: '0.75rem', color: 'var(--adm-text-muted)', marginTop: '0.15rem' }}>
+                Paiement reçu après la visio.
+              </span>
+            </label>
+            <select
+              id="payment-method"
+              className="adm-input"
+              value={paymentMethod ?? ''}
+              onChange={(e) => {
+                const v = e.target.value
+                void handlePaymentMethodChange(v === '' ? null : (v as PaymentMethod))
+              }}
+              disabled={busy}
+            >
+              <option value="">— Pas encore reçu</option>
+              <option value="virement">Virement bancaire</option>
+              <option value="cash">Espèces</option>
+              <option value="autre">Autre</option>
+            </select>
+          </div>
+
+          <div className="adm-input-row">
+            <label className="adm-input-row-label" htmlFor="payment-date">
+              Date de réception
+            </label>
+            <input
+              id="payment-date"
+              type="date"
+              className="adm-input"
+              value={paymentDate ?? ''}
+              onChange={(e) => {
+                const v = e.target.value
+                void handlePaymentDateChange(v === '' ? null : v)
+              }}
+              disabled={busy}
+            />
+          </div>
+
           <Switch
             checked={!!packagePaidAt}
             onChange={handlePackageToggle}
             disabled={busy}
-            label="Package soldé (virement reçu)"
+            label="Package soldé"
             help={
               packagePaidAt
                 ? `Soldé le ${new Date(packagePaidAt).toLocaleString('fr-FR', {
@@ -426,7 +472,7 @@ export default function AdminActions(props: Props) {
                     hour: '2-digit',
                     minute: '2-digit',
                   })}`
-                : 'À cocher quand le virement de Ruslan est confirmé.'
+                : 'À cocher quand le paiement post-visio est confirmé.'
             }
           />
         </section>
@@ -442,7 +488,7 @@ export default function AdminActions(props: Props) {
               className="adm-notes-textarea"
               value={adminDraft}
               onChange={(e) => setAdminDraft(e.target.value)}
-              placeholder="Ce que tu veux noter sur le dossier (suivi, relances, paiement reçu par virement…)"
+              placeholder="Ce que tu veux noter sur le dossier (suivi, relances, paiement reçu…)"
               rows={4}
               maxLength={5000}
             />
@@ -485,6 +531,12 @@ export default function AdminActions(props: Props) {
       />
     </>
   )
+}
+
+function formatDateFr(iso: string): string {
+  const [y, m, d] = iso.split('-')
+  if (!y || !m || !d) return iso
+  return `${d}/${m}/${y}`
 }
 
 function NotesStatusIndicator({ state }: { state: SaveState }) {

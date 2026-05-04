@@ -34,8 +34,6 @@ interface Row {
   duree_semaines: number | null
   date_debut_souhaitee: string | null
   status: Status
-  registration_fee_cents: number | null
-  registration_fee_paid_at: string | null
   package_amount_cents: number | null
   package_paid_at: string | null
   notes_admin: string | null
@@ -46,19 +44,6 @@ interface Row {
     telephone: string | null
     pays: string | null
   } | null
-}
-
-// Calcule le montant restant à payer en cents.
-// Logique :
-// - package_paid_at SET -> 0 (tout soldé)
-// - sinon : package_amount - (fee_paid ? registration_fee_cents : 0)
-// - retourne null si package_amount inconnu
-function computeRemainingCents(row: Row): number | null {
-  if (row.package_paid_at) return 0
-  if (!row.package_amount_cents) return null
-  const feePaid = !!row.registration_fee_paid_at
-  const feeCents = row.registration_fee_cents ?? 10000
-  return Math.max(0, row.package_amount_cents - (feePaid ? feeCents : 0))
 }
 
 function formatEuro(cents: number): string {
@@ -329,9 +314,8 @@ export default function InscriptionsList({ rows }: { rows: Row[] }) {
   )
 }
 
-// Badge financier : montre l'etat du paiement avec montant restant
+// Badge financier : "Soldé" si paiement reçu, "À régler" si montant connu mais pas reçu, rien sinon.
 function PaymentBadge({ row }: { row: Row }) {
-  const feePaid = !!row.registration_fee_paid_at
   const packagePaid = !!row.package_paid_at
   const totalCents = row.package_amount_cents
 
@@ -345,38 +329,11 @@ function PaymentBadge({ row }: { row: Row }) {
     )
   }
 
-  if (feePaid && totalCents) {
-    const remaining = computeRemainingCents(row)
-    if (remaining !== null && remaining > 0) {
-      return (
-        <Badge color="var(--adm-status-soldee)">
-          <Icon name="check" size={11} strokeWidth={3} />
-          100€ · reste {formatEuro(remaining)}
-        </Badge>
-      )
-    }
-    return (
-      <Badge color="var(--adm-status-validee)">
-        <Icon name="check" size={11} strokeWidth={3} />
-        Soldé · {formatEuro(totalCents)}
-      </Badge>
-    )
-  }
-
-  if (feePaid) {
-    return (
-      <Badge color="var(--adm-status-validee)">
-        <Icon name="check" size={11} strokeWidth={3} />
-        100€ payés
-      </Badge>
-    )
-  }
-
   if (totalCents && totalCents > 0) {
     return (
       <Badge color="var(--adm-status-reportee)">
         <Icon name="euro" size={11} strokeWidth={2.5} />
-        À payer {formatEuro(totalCents)}
+        À régler {formatEuro(totalCents)}
       </Badge>
     )
   }

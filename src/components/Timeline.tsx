@@ -86,7 +86,7 @@ export default function Timeline() {
                 </div>
                 <div className="timeline-num">03</div>
                 <h3 className="timeline-step-title">CONFIRMATION</h3>
-                <p className="timeline-step-body">Sélection confirmée, contrat signé, acompte versé. Ta place est réservée. On lance ta préparation à distance avec le guide pré-camp personnalisé.</p>
+                <p className="timeline-step-body">Visio validée, package réglé par virement, contrat signé. Ta place est réservée. On lance ta préparation à distance avec le guide pré-camp personnalisé.</p>
               </div>
             </div>
             <div className="timeline-dot-wrap">
