@@ -56,7 +56,7 @@ export default function AudienceSwitcher({ withHeader = true, compact = false }:
               QUATRE FAÇONS DE VENIR
             </span>
             <h2 id="audiences-heading" className="audience-switcher-title">
-              QUEL CAMP<br/>TE RESSEMBLE ?
+              CHOISIS TON FORMAT<br/>D&apos;INSCRIPTION
             </h2>
             <p className="audience-switcher-sub">
               Tu pars seul, en duo, en famille ou avec ton club ? On a un format pour chaque profil. Visa, vol intérieur
