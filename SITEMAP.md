@@ -43,24 +43,43 @@
 
 ---
 
+## 🆕 Changements 2026-05-04 (suppression du paiement Stripe / 100 €)
+
+> **BREAKING** : décision Ruslan + David. On abandonne Stripe et les frais 100 € upfront. L'inscription redevient gratuite ; Ruslan valide chaque candidature manuellement en visio puis envoie le RIB pour un paiement intégral post-visio (virement bancaire ou espèces).
+
+**Migration Supabase appliquée** : `drop_stripe_columns_add_manual_payment_fields`
+- DROP : `registration_fee_cents`, `registration_fee_currency`, `registration_fee_paid_at`, `stripe_payment_intent_id`, `stripe_checkout_session_id`
+- ADD : `payment_method` (CHECK virement/cash/autre), `payment_date` (date)
+- KEEP : `package_amount_cents`, `package_paid_at`
+
+**Code mis à jour** :
+- `src/lib/admin-transitions.ts` : `TRANSITION_REMINDER` réécrits (envoi RIB, vérif virement, refund manuel grille CGV).
+- `src/components/admin/AdminActions.tsx` : retire toggle « Frais 100€ payés », ajoute select méthode + input date paiement.
+- `src/components/admin/InscriptionsList.tsx` + `app/admin/inscriptions/[id]/page.tsx` + `app/admin/inscriptions/page.tsx` : query nettoyée, badge simplifié, section paiement refactor.
+- `src/app/api/admin/candidature/[id]/route.ts` : retire handler `fee_paid`, ajoute `payment_method` + `payment_date`.
+- Pages publiques : suppression de toutes les mentions Stripe / PayPal / acompte 30 % (CGV, comment-ca-marche, sessions, familles, sur-mesure, clubs-groupes, mkr-camp-2026, merci, faq.ts, Timeline.tsx).
+
+**Spec** : `PLAN_GESTION_INSCRIPTIONS.md` a une bannière BREAKING CHANGE en haut + sections §1.1, §1.3, §1.7, §3.2, §4.2, §7.1 révisées.
+
+---
+
 ## 🆕 Changements 2026-05-02 (backend Supabase v1 — capture des candidatures)
 
-- **Projet Supabase** `mkr-inscriptions` (id `bgwvrzgnoqlqqrvflwav`, eu-central-1) — voir spec complète dans [`PLAN_GESTION_INSCRIPTIONS.md`](./PLAN_GESTION_INSCRIPTIONS.md). V1 simplifié, sans Stripe ni Resend (ces deux services seront branchés quand David aura email pro + compte Stripe).
-- **3 tables** : `candidates` (déduplique par email), `candidatures` (form_data jsonb, status enum, champs Stripe nullable pour activer plus tard sans migration), `audit_log` (append-only).
-- **API route** `POST /api/inscription` (`src/app/api/inscription/route.ts`) : valide payload, upsert candidate, insert candidature en status `recue`, insère audit_log. Retourne `{ ok, candidatureId }`. Stub TODO Resend.
+- **Projet Supabase** `mkr-inscriptions` (id `bgwvrzgnoqlqqrvflwav`, eu-central-1) — voir spec complète dans [`PLAN_GESTION_INSCRIPTIONS.md`](./PLAN_GESTION_INSCRIPTIONS.md).
+- **3 tables** : `candidates` (déduplique par email), `candidatures` (form_data jsonb, status enum, paiement post-visio en colonnes `package_amount_cents` / `package_paid_at` / `payment_method` / `payment_date`), `audit_log` (append-only).
+- **API route** `POST /api/inscription` (`src/app/api/inscription/route.ts`) : valide payload, upsert candidate, insert candidature en status `recue`, insère audit_log + Slack webhook fire-and-forget. Retourne `{ ok, candidatureId }`.
 - **Lib serveur** `src/lib/supabase-admin.ts` : client Supabase service_role (cached, pas de session).
-- **InscriptionLayout** branché sur l'API (`handleSubmit` async, fetch POST, états `isSubmitting` + `submitError`, bouton désactivé pendant envoi). Plus de `console.log`.
-- **Page admin** `/admin/inscriptions?token=XXX` (`src/app/admin/inscriptions/page.tsx`) : token vérifié contre `ADMIN_TOKEN`, 404 si invalide. Liste 200 dossiers récents avec filtres tunnel + status, chaque card affiche candidat, contact tel/mail cliquables, métadonnées dossier, et form_data complet en `<details>`. **Read-only** pour l'instant (mutations dans P2).
-- **Env vars requises** : `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, `ADMIN_TOKEN`. Voir `.env.local` (pas commité). À ajouter sur Vercel avant prod.
+- **InscriptionLayout** branché sur l'API (`handleSubmit` async, fetch POST, états `isSubmitting` + `submitError`, bouton désactivé pendant envoi).
+- **Page admin** `/admin/inscriptions` : protégée par cookie httpOnly + `ADMIN_TOKEN` (proxy.ts). Kanban list + filtres tunnel + status + session, recherche client-side. Page détail `/admin/inscriptions/[id]` avec mutations status + saisie manuelle paiement (montant + méthode + date) + notes admin/visio + timeline audit_log.
+- **Env vars requises** : `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, `ADMIN_TOKEN` + optionnel `SLACK_WEBHOOK_URL` + `NEXT_PUBLIC_SITE_URL`.
 - **Dépendance ajoutée** : `@supabase/supabase-js` (^2.105).
-- **Bulk script accents** : `/tmp/fix-accents-v2.py` a tourné le 2026-05-01 sur 24 fichiers (mais pas encore appliqué aux commentaires JSX/CSS).
 
-### Backlog P2/P3 (à activer quand prérequis présents)
+### Backlog V2 (optionnel, plus de bloquant côté Stripe)
 
-- **Stripe Checkout EUR** (frais 100€) → webhook qui passe candidature `draft → recue`. Champs DB déjà prêts (`stripe_payment_intent_id`, `registration_fee_paid_at`).
-- **Resend transactional** (8 emails listés dans PLAN_GESTION_INSCRIPTIONS §7.4) → besoin de domaine `mkrcamp.com` vérifié (SPF + DKIM + DMARC).
-- **Dashboard kanban admin** (mutations status, génération PDF facture, refund) → nécessite Stripe + service_role. Spec complète §5 du plan.
-- **Tables additionnelles** : `credits`, `waitlist`, `session_capacity`, vue `v_session_places` — à créer quand Stripe + capacité 15 places activées.
+- **Resend transactional** (emails à Ruslan + au candidat) → besoin de domaine `mkrcamp.com` vérifié (SPF + DKIM + DMARC).
+- **Tables additionnelles** : `waitlist`, `session_capacity`, vue `v_session_places` — pour la capacité live 15 places.
+- **Vercel Cron** : alerte 7j sans visio, cleanup, etc.
+- **Multi-admin** : Supabase Auth (email/pwd ou Magic Link) à la place du cookie partagé `ADMIN_TOKEN`.
 
 ### Anti-patterns à respecter (rappel des audits 2026-04-30 / 05-01)
 
@@ -256,9 +275,9 @@ mkrcamp.com/
 ### 🛫 `/comment-ca-marche` — Process inscription
 **Fichier** : `src/app/(site)/comment-ca-marche/page.tsx`
 **Tableaux** :
-- `STEPS` (l.~14) : 6 étapes — 1.Inscription 5min · 2.Appel 48h · 3.Acompte 30% · 4.Guide · 5.Départ · 6.Camp **1 à 3 semaines**
+- `STEPS` (l.~14) : 6 étapes — 1.Inscription 5min · 2.Appel 48h · 3.**Paiement post-visio** (RIB envoyé après validation, virement/espèces) · 4.Guide · 5.Départ · 6.Camp **1 à 3 semaines**
 - `PROCESS_FAQ` (l.53) : 4 Q/R sur le processus
-**Sections** : PageHero · CinematicReveal · Process flow (6 divs alternés) · Politique annulation (>60j 100%, 30-60j 50%, <30j 0%) · Moyens paiement grid-3 (Virement/Stripe/PayPal) · `<FAQAccordion>` · SectionCTA
+**Sections** : PageHero · CinematicReveal · Process flow (6 divs alternés) · Politique annulation (>60j 100%, 30-60j 50%, <30j 0%) · Moyens paiement grid-3 (Virement / Espèces / Autre) · `<FAQAccordion>` · SectionCTA
 
 ---
 
@@ -365,7 +384,7 @@ mkrcamp.com/
 ### 🙏 `/merci` — Confirmation candidature
 **Fichier** : `src/app/(site)/merci/page.tsx`
 **Métadonnées** : `robots: { index: false }`
-**Sections** : Icon check · CANDIDATURE REÇUE · 3 étapes prochaines (Appel 48h, Confirmation+acompte, Guide) · 2 boutons retour
+**Sections** : Icon check · CANDIDATURE REÇUE · 3 étapes prochaines (Appel 48h, Validation+paiement post-visio, Guide) · 2 boutons retour
 
 ---
 
@@ -727,6 +746,22 @@ GEO = { latitude: 42.9849, longitude: 47.5047, country: 'RU', region: 'Daghestan
 ### Destination Daghestan uniquement (Tchétchénie/Grozny supprimée)
 **Recherche d'audit** : `grep -i "tchetch|grozny|GRV"` doit retourner 0 résultats. Confirmé propre 2026-04-30.
 
+### Modèle de paiement (post-visio, virement / cash, pas de Stripe)
+> Révision 2026-05-04. Si on rebranche un paiement upfront un jour, retoucher TOUS ces fichiers.
+
+| Fichier | Forme |
+|---|---|
+| `app/(site)/cgv/page.tsx` | Article 3 « Tarifs et paiement » |
+| `app/(site)/comment-ca-marche/page.tsx` | étape 03 + FAQ « Quand est-ce que je paye ? » + grid 3 moyens (Virement/Espèces/Autre) |
+| `app/(site)/sessions/page.tsx` | section MODALITÉS PAIEMENT + reassurance « Sans paiement initial » |
+| `app/(site)/familles/page.tsx` | étape 03 « Validation et paiement » |
+| `app/(site)/sur-mesure/page.tsx` | étape 03 PROCESS |
+| `app/(site)/clubs-groupes/page.tsx` | étape 04 PROCESS |
+| `app/(site)/mkr-camp-2026/page.tsx` | TIMELINE J-60 « Visio + paiement » |
+| `app/(site)/merci/page.tsx` | étape 02 « Validation et paiement » |
+| `data/faq.ts` | 3 réponses (processus, annulation, moyens) — FAQ_CATEGORIES Inscription |
+| `components/Timeline.tsx` | étape 03 homepage « Visio validée, package réglé par virement » |
+
 ### Email contact
 | Fichier | Forme |
 |---|---|
@@ -844,6 +879,7 @@ GEO = { latitude: 42.9849, longitude: 47.5047, country: 'RU', region: 'Daghestan
 12. **Programme lutte = libre uniquement**, pas de gréco-romaine.
 13. **Sessions 2026** : actuellement **UNE SEULE** session (`aout-2026`, 17 août → 5 septembre).
 14. **Pas d'em dash** ("—") dans le contenu (préférence DKDP globale, à appliquer ici aussi le cas échéant).
+15. **Pas de paiement upfront, pas de Stripe, pas de PayPal, pas d'acompte 30 %** (révision 2026-05-04). L'inscription en ligne est gratuite. Validation manuelle Ruslan en visio puis paiement intégral du package par **virement bancaire ou espèces** (RIB envoyé manuellement post-visio). Toutes les pages publiques doivent suivre cette logique.
 
 ---
 
@@ -853,14 +889,17 @@ GEO = { latitude: 42.9849, longitude: 47.5047, country: 'RU', region: 'Daghestan
 2. **Pour les changements de contenu CEO** (téléphone, sessions, disciplines, horaires, repas, etc.) : aller directement à **§6bis Propagation Map** et toucher TOUS les endroits listés pour cette info, sinon une page restera incohérente.
 3. **Pour les autres changements** : utiliser §6 Quick lookup pour identifier le fichier.
 4. **Identifie les single sources of truth** : si la donnée est dans `data/`, modifie-y en priorité ; puis répète dans les tableaux hardcodés des pages.
-5. **Audit grep automatique** avant de finir : pour les règles CEO, lancer ces greps pour confirmer 0 résidu :
+5. **Audit grep automatique** avant de finir : pour les règles CEO, lancer ces greps pour confirmer 0 résidu (sur `src/` uniquement, hors commentaires admin internes) :
    ```
-   grep -i "tchetch|grozny|GRV"      → doit être vide
-   grep "3 repas|trois repas"        → doit être vide
-   grep "2-3 heures|2 a 3 heures"    → doit être vide
-   grep "240+|240 \+"                → doit être vide
-   grep "wa\.me/41|XXXXXXXXX"        → doit être vide
-   grep "PRINTEMPS GEORGIEN|GÉORGIEN" → doit être vide
+   grep -i "tchetch|grozny|GRV"           → doit être vide
+   grep "3 repas|trois repas"             → doit être vide
+   grep "2-3 heures|2 a 3 heures"         → doit être vide
+   grep "240+|240 \+"                     → doit être vide
+   grep "wa\.me/41|XXXXXXXXX"             → doit être vide
+   grep "PRINTEMPS GEORGIEN|GÉORGIEN"     → doit être vide
+   grep -i "stripe|paypal|acompte"        → doit être vide (révision 2026-05-04)
+   grep -i "carte bancaire|mastercard"    → doit être vide (révision 2026-05-04)
+   grep -i "frais d'inscription|100\s*€"  → ne doit apparaître que dans les commentaires admin legacy archive
    ```
 6. **Toujours `rm -rf .next && npx next build`** après modification structurelle pour confirmer 35 routes statiques OK.
 7. **Vérifie la propagation Nav/Footer/mobile** — c'est l'erreur classique : modifier un texte sur une page mais l'oublier dans le mega menu desktop, dans le menu mobile, dans le footer. Toujours vérifier ces 3 surfaces transverses.
