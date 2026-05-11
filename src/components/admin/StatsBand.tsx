@@ -1,5 +1,5 @@
 // Bande de KPIs en haut de la liste admin.
-// 4 indicateurs essentiels pour Ruslan : à traiter, retard, validees, soldees+camp_fait.
+// "À traiter" en hero, 3 secondaires en row compact.
 
 import Icon from './ui/Icon'
 import type { Status } from '@/lib/admin-transitions'
@@ -14,38 +14,60 @@ export default function StatsBand({ countsByStatus, staleVisioCount, total }: Pr
   const aTraiter = countsByStatus.recue ?? 0
   const validees = countsByStatus.validee ?? 0
   const enCours = (countsByStatus.soldee ?? 0) + (countsByStatus.camp_fait ?? 0)
+  const aTraiterAlert = aTraiter >= 5
 
   return (
-    <div className="adm-stats" aria-label="Indicateurs clés">
-      <StatCard
-        icon="inbox"
-        label="À traiter"
-        value={aTraiter}
-        accent="var(--adm-status-recue)"
+    <div className="adm-stats-band" aria-label="Indicateurs clés">
+      {/* Hero : À traiter (le KPI qui doit attirer l'œil de Ruslan) */}
+      <div
+        className={`adm-stat-hero${aTraiterAlert ? ' adm-stat-hero--alert' : ''}`}
+        style={{ ['--adm-stat-accent' as string]: 'var(--adm-status-recue)' }}
         title={`${aTraiter} candidatures reçues à traiter`}
-      />
-      <StatCard
-        icon="alert-triangle"
-        label="Visio en retard"
-        value={staleVisioCount}
-        accent="var(--adm-status-refusee)"
-        alert={staleVisioCount > 0}
-        title={`${staleVisioCount} dossiers en attente depuis plus de 7 jours`}
-      />
-      <StatCard
-        icon="check-circle"
-        label="Validées"
-        value={validees}
-        accent="var(--adm-status-validee)"
-        title={`${validees} dossiers validés en attente de paiement`}
-      />
-      <StatCard
-        icon="sparkles"
-        label="Soldées + Camp fait"
-        value={enCours}
-        accent="var(--adm-status-soldee)"
-        title={`${enCours} dossiers soldés ou campement effectué (sur ${total} au total)`}
-      />
+      >
+        <div className="adm-stat-hero-content">
+          <p className="adm-stat-hero-label">
+            <span style={{ color: 'var(--adm-status-recue)', display: 'inline-flex' }}>
+              <Icon name="inbox" size={18} strokeWidth={2.2} />
+            </span>
+            À traiter
+          </p>
+          <p className="adm-stat-hero-value">{aTraiter}</p>
+          <p className="adm-stat-hero-hint">
+            {aTraiter === 0
+              ? 'Aucun dossier en attente d\'appel'
+              : aTraiter === 1
+                ? 'dossier à appeler aujourd\'hui'
+                : 'dossiers à appeler aujourd\'hui'}
+          </p>
+        </div>
+        <div className="adm-stat-hero-decor" aria-hidden="true" />
+      </div>
+
+      {/* Row des 3 KPI secondaires */}
+      <div className="adm-stats-secondary">
+        <StatCard
+          icon="alert-triangle"
+          label="Visio en retard"
+          value={staleVisioCount}
+          accent="var(--adm-status-refusee)"
+          alert={staleVisioCount > 0}
+          title={`${staleVisioCount} dossiers en attente depuis plus de 7 jours`}
+        />
+        <StatCard
+          icon="check-circle"
+          label="Validées · à régler"
+          value={validees}
+          accent="var(--adm-status-validee)"
+          title={`${validees} dossiers validés en attente de paiement`}
+        />
+        <StatCard
+          icon="sparkles"
+          label="Soldées + Camp fait"
+          value={enCours}
+          accent="var(--adm-status-soldee)"
+          title={`${enCours} dossiers soldés ou camp effectué (sur ${total} au total)`}
+        />
+      </div>
     </div>
   )
 }

@@ -317,7 +317,12 @@ export default async function CandidatureDetailPage({
 
   return (
     <>
-      <Topbar subtitle="Dossier" />
+      <Topbar
+        crumbs={[
+          { label: 'Candidatures', href: '/admin/inscriptions' },
+          { label: c ? `${c.prenom ?? ''} ${c.nom ?? ''}`.trim() || 'Dossier' : 'Dossier' },
+        ]}
+      />
       <BackShortcut to="/admin/inscriptions" />
       <main className="adm-container" style={{ paddingBottom: '6rem' }}>
         <Link href="/admin/inscriptions" className="adm-back-link">
@@ -489,16 +494,18 @@ export default async function CandidatureDetailPage({
                 </div>
                 <div
                   style={{
-                    fontSize: '2rem',
+                    fontFamily: 'var(--adm-font-display)',
+                    fontSize: '3rem',
                     fontWeight: 700,
-                    letterSpacing: '-0.02em',
+                    letterSpacing: '0.01em',
+                    lineHeight: 0.95,
                     color: packagePaid
                       ? 'var(--adm-status-validee)'
                       : remainingCents && remainingCents > 0
                         ? 'var(--adm-status-reportee)'
                         : 'var(--adm-text-secondary)',
                     fontVariantNumeric: 'tabular-nums',
-                    marginBottom: '0.75rem',
+                    marginBottom: '0.9rem',
                   }}
                 >
                   {packagePaid
@@ -616,7 +623,7 @@ export default async function CandidatureDetailPage({
           </div>
 
           {/* RIGHT : actions admin (sticky desktop) */}
-          <div style={{ position: 'sticky', top: '78px' }}>
+          <div id="admin-actions" style={{ position: 'sticky', top: '78px', scrollMarginTop: '78px' }}>
             <AdminActions
               candidatureId={candidature.id}
               currentStatus={candidature.status}
@@ -633,6 +640,17 @@ export default async function CandidatureDetailPage({
         {/* Danger zone — full width, en bas, separe du workflow normal */}
         <DangerSection candidatureId={candidature.id} candidateName={fullName} />
       </main>
+
+      {/* FAB mobile vers les actions admin (caché desktop, sticky desktop suffit) */}
+      <a
+        href="#admin-actions"
+        className="adm-fab adm-hide-desktop"
+        aria-label="Aller aux actions admin"
+        title="Actions admin"
+      >
+        <Icon name="zap" size={18} strokeWidth={2.2} />
+        <span>Actions</span>
+      </a>
     </>
   )
 }

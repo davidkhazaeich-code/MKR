@@ -370,6 +370,7 @@ function CandidatureRow({
       href={`/admin/inscriptions/${row.id}`}
       className={focused ? 'adm-list-item adm-list-item--focused' : 'adm-list-item'}
       onMouseEnter={onMouseEnter}
+      style={{ ['--adm-list-status-color' as string]: STATUS_COLOR[row.status] }}
     >
       <div className="adm-list-row">
         <Avatar prenom={c?.prenom ?? '?'} nom={c?.nom ?? ''} seed={row.id} />

@@ -198,7 +198,7 @@ export default async function AdminInscriptionsPage({
 
   return (
     <>
-      <Topbar subtitle="Candidatures" />
+      <Topbar crumbs={[{ label: 'Candidatures' }]} />
       <main className="adm-container">
         <h1 className="adm-h1">Candidatures</h1>
         <p className="adm-h-meta">
