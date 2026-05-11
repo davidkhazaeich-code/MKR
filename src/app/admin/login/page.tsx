@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Image from 'next/image'
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
@@ -21,8 +22,15 @@ export default async function AdminLoginPage({
     <div className="adm-login-shell">
       <form method="POST" action="/api/admin/login" className="adm-login-card">
         <div className="adm-login-logo">
-          <span className="adm-brand-mark-dot" aria-hidden="true" />
-          MKR Admin
+          <Image
+            src="/logo-white.webp"
+            alt="MKR Caucasian Camp"
+            width={320}
+            height={193}
+            className="adm-brand-logo"
+            priority
+          />
+          <span className="adm-brand-mark-tagline" aria-hidden="true">Admin</span>
         </div>
 
         <h1 className="adm-login-title">Bienvenue</h1>

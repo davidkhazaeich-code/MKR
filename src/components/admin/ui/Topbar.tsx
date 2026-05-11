@@ -1,7 +1,8 @@
-// Topbar partagée admin : logo MKR (montagne) + breadcrumb + déconnexion.
+// Topbar partagée admin : logo MKR + breadcrumb + déconnexion.
 // Sticky avec backdrop blur. Server component.
 
 import Link from 'next/link'
+import Image from 'next/image'
 import Icon from './Icon'
 
 interface TopbarProps {
@@ -15,24 +16,15 @@ export default function Topbar({ subtitle, crumbs }: TopbarProps) {
     <header className="adm-topbar">
       <div className="adm-topbar-inner">
         <Link href="/admin/inscriptions" className="adm-brand-mark" aria-label="Tableau de bord MKR Caucasian Camp">
-          <span className="adm-brand-mark-logo" aria-hidden="true">
-            {/* Pic montagneux inspiré du logo MKR (M = sommets) */}
-            <svg viewBox="0 0 32 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <path
-                d="M2 22 L8 8 L13 16 L16 4 L19 16 L24 8 L30 22 Z"
-                fill="currentColor"
-                opacity="0.9"
-              />
-              <path
-                d="M14 8 L16 4 L18 8 Z"
-                fill="var(--adm-brand)"
-              />
-            </svg>
-          </span>
-          <span className="adm-brand-mark-text">
-            <span className="adm-brand-mark-title">MKR</span>
-            <span className="adm-brand-mark-tagline">Admin</span>
-          </span>
+          <Image
+            src="/logo-white.webp"
+            alt="MKR Caucasian Camp"
+            width={320}
+            height={193}
+            className="adm-brand-logo"
+            priority
+          />
+          <span className="adm-brand-mark-tagline" aria-hidden="true">Admin</span>
           {subtitle && !crumbs && <span className="adm-brand-mark-sub">· {subtitle}</span>}
         </Link>
 
