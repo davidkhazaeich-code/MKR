@@ -356,19 +356,42 @@
 }
 
 .adm-logout-btn {
-  padding: 0.45rem 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  padding: 0 0.95rem;
+  height: 38px;
   border-radius: var(--adm-r-md);
   border: 1px solid var(--adm-border-default);
   background: transparent;
   color: var(--adm-text-secondary);
-  font-size: 0.82rem;
-  font-weight: 500;
+  font-family: var(--adm-font-condensed);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
   transition: all var(--adm-tr-fast);
+  line-height: 1;
 }
 
 .adm-logout-btn:hover {
   background: var(--adm-bg-hover);
   color: var(--adm-text-primary);
+  border-color: var(--adm-border-strong);
+}
+
+/* Mobile : bouton carré icon-only (cohérent avec adm-icon-btn) + span flex-centered pour l'icône */
+@media (max-width: 767px) {
+  .adm-logout-btn {
+    width: 38px;
+    padding: 0;
+  }
+  .adm-logout-btn .adm-hide-desktop {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 /* ========================================================================

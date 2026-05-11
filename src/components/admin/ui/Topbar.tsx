@@ -58,7 +58,7 @@ export default function Topbar({ subtitle, crumbs }: TopbarProps) {
           <form method="POST" action="/api/admin/logout">
             <button type="submit" className="adm-logout-btn" aria-label="Déconnexion">
               <span className="adm-hide-mobile">Déconnexion</span>
-              <span className="adm-hide-desktop" style={{ display: 'inline-flex' }}>
+              <span className="adm-hide-desktop">
                 <Icon name="log-out" size={16} />
               </span>
             </button>
