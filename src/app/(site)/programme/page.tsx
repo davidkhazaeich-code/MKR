@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
+import { FAMILY_BASE_PROSE, FAMILY_EXTRA_CHILD_1WEEK_LABEL } from '@/lib/pricing-copy'
 
 export const metadata: Metadata = {
   title: 'Programme MMA et Lutte au Daghestan | MKR Caucasian Camp',
@@ -132,7 +133,7 @@ export default function ProgrammePage() {
               <p className="card-body">
                 Au Daghestan, on commence la lutte très jeune. MKR ouvre cet accès aux 8-17 ans dans un cadre
                 adapté : coach jeunesse dédié, ratio 1 pour 5, sécurité renforcée. Enfant 8-17 ans toujours
-                accompagné d&apos;un parent participant. Tarif enfant 1 000 € / 1 sem · 1 400 € / 2 sem · 1 900 € / 3 sem.
+                accompagné d&apos;un parent participant. Forfait Famille (1P + 1E inclus) : {FAMILY_BASE_PROSE}. Chaque enfant supplémentaire : {FAMILY_EXTRA_CHILD_1WEEK_LABEL}.
               </p>
               <div style={{ marginTop: '1.25rem', display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
                 <Link href="/programme/lutte-enfants" className="btn-ghost" style={{ fontSize: '0.8rem', padding: '0.55rem 1.25rem' }}>

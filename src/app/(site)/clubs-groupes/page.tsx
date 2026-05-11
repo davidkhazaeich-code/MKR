@@ -6,6 +6,7 @@ import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 import CinematicReveal from '@/components/CinematicReveal'
 import PricingTable from '@/components/PricingTable'
 import FacilitatorBand from '@/components/FacilitatorBand'
+import { PRICING_TIERS, formatEUR } from '@/data/pricing'
 
 export const metadata: Metadata = {
   title: 'Clubs et Groupes | MKR Caucasian Camp | Camp dédié 5 à 20 personnes',
@@ -31,8 +32,8 @@ const ADVANTAGES = [
     desc: "Un coach principal MKR est attribué à ton groupe pour toute la durée du camp. Tu gardes le même interlocuteur de la première à la dernière session.",
   },
   {
-    title: 'Tarif par tête fixe',
-    desc: "Chaque membre paie le tarif individuel public. Pas de remise affichée, mais les coûts logistiques (transferts, hébergement bloc) sont mutualisés.",
+    title: 'Tarif dégressif par tête',
+    desc: `Plus vous êtes nombreux, plus le tarif par personne baisse. Palier Trio à 5 (${formatEUR(PRICING_TIERS.trio.perAdult[1])} / sem / pers), palier Club 6 à 10 (${formatEUR(PRICING_TIERS.club.perAdult[1])} / sem / pers), 11+ ou salle entière sur devis personnalisé.`,
   },
   {
     title: 'Bilan groupe',

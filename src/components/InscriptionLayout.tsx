@@ -4,7 +4,16 @@ import Link from 'next/link'
 import { useState, FormEvent } from 'react'
 import dynamic from 'next/dynamic'
 import { REGISTRATION_TYPES, type RegistrationTypeId, getRegistrationType } from '@/data/registration-types'
-import { calculatePrice, formatEUR, type Duration } from '@/data/pricing'
+import {
+  calculatePrice,
+  formatEUR,
+  pricePerAdult,
+  parseDuration,
+  isOnQuote,
+  FAMILY_PRICING,
+  PRICING_TIERS,
+  type Duration,
+} from '@/data/pricing'
 import { SESSIONS } from '@/data/sessions'
 
 const DEFAULT_SESSION_ID = SESSIONS[0]?.id ?? 'aout-2026'
@@ -60,6 +69,8 @@ type FormData = {
   nombreEnfants: string
   enfantsAges: string // legacy: garde pour compat, mais on remplit aussi enfants[]
   enfants: FamilyChild[]
+  // Famille — conjoint(e) qui participe aussi (tarif Duo 1490/2290/2790 par parent + enfants à 790/sem)
+  conjointParticipe: boolean
   // Groupe (audience='groupe')
   nomClub: string
   nombreParticipants: string
@@ -83,6 +94,7 @@ const INITIAL: FormData = {
   dateDebutSouhaitee: '',
   vientAvecFamille: false, nombreEnfants: '', enfantsAges: '',
   enfants: [],
+  conjointParticipe: false,
   nomClub: '', nombreParticipants: '', niveauGroupe: '',
   palmaresClub: '', certifsGroupeConfirme: '', restrictionsGroupe: '',
   autresParticipants: [],
@@ -446,6 +458,8 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
         famille: audience === 'famille' ? {
           format: form.session, // 'aout-2026' ou 'sur-mesure'
           enfants: form.enfants,
+          conjoint_participe: form.conjointParticipe,
+          nombre_parents: form.conjointParticipe ? 2 : 1,
         } : null,
         custom: audience === 'custom' ? {
           composition: form.nombreParticipants,
@@ -817,13 +831,13 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                 </p>
 
                 <div className="cand-row">
-                  <Field label="Nombre approximatif de participants" hint="5 à 20 personnes">
+                  <Field label="Nombre approximatif de participants" hint="5 à 10 = tarifs publics. 11+ = privatisation, sur devis.">
                     <select className="cand-select" value={form.nombreParticipants}
                       onChange={e => set('nombreParticipants', e.target.value)}>
                       <option value="" disabled>Sélectionner</option>
-                      <option value="5-9">5 à 9 personnes</option>
-                      <option value="10-15">10 à 15 personnes</option>
-                      <option value="16-20">16 à 20 personnes</option>
+                      <option value="5">5 personnes (tarif palier 3-5)</option>
+                      <option value="6-10">6 à 10 personnes (tarif palier Club)</option>
+                      <option value="11-20">11 personnes et plus (sur devis)</option>
                     </select>
                   </Field>
                   <Field label="Niveau global du groupe">
@@ -1098,13 +1112,13 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                         ))}
                       </select>
                     </Field>
-                    <Field label="Durée souhaitée" hint="Tu choisis 1, 2 ou 3 semaines au sein de la fenêtre de session officielle">
+                    <Field label="Durée souhaitée" hint="Tu choisis 1, 2 ou 3 semaines au sein de la fenêtre de session officielle. Tarif par adulte appliqué à la session.">
                       <select className="cand-select" value={form.duree}
                         onChange={e => set('duree', e.target.value)}>
                         <option value="" disabled>Sélectionner</option>
-                        <option value="1-semaine">1 semaine · 1 500 € / adulte</option>
-                        <option value="2-semaines">2 semaines · 2 200 € / adulte</option>
-                        <option value="3-semaines">3 semaines · 2 900 € / adulte (immersion complète)</option>
+                        <option value="1-semaine">1 semaine · {formatEUR(PRICING_TIERS.duo.perAdult[1])} / adulte</option>
+                        <option value="2-semaines">2 semaines · {formatEUR(PRICING_TIERS.duo.perAdult[2])} / adulte</option>
+                        <option value="3-semaines">3 semaines · {formatEUR(PRICING_TIERS.duo.perAdult[3])} / adulte (immersion complète)</option>
                       </select>
                     </Field>
                   </>
@@ -1173,14 +1187,19 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                           value={form.dateDebutSouhaitee}
                           onChange={e => set('dateDebutSouhaitee', e.target.value)} />
                       </Field>
-                      <Field label="Durée souhaitée">
-                        <select className="cand-select" value={form.duree}
-                          onChange={e => set('duree', e.target.value)}>
-                          <option value="" disabled>Sélectionner</option>
-                          <option value="1-semaine">1 semaine · 1 500 € / adulte</option>
-                          <option value="2-semaines">2 semaines · 2 200 € / adulte</option>
-                          <option value="3-semaines">3 semaines · 2 900 € / adulte</option>
-                        </select>
+                      <Field label="Durée souhaitée" hint={`Tarif par adulte selon la composition (1-2 personnes : palier Solo/Duo · 3 à 4 personnes : palier Trio/Quatuor).`}>
+                        {(() => {
+                          const adults = Math.max(1, parseInt(form.nombreParticipants || '1', 10))
+                          return (
+                            <select className="cand-select" value={form.duree}
+                              onChange={e => set('duree', e.target.value)}>
+                              <option value="" disabled>Sélectionner</option>
+                              <option value="1-semaine">1 semaine · {formatEUR(pricePerAdult(adults, 1))} / adulte</option>
+                              <option value="2-semaines">2 semaines · {formatEUR(pricePerAdult(adults, 2))} / adulte</option>
+                              <option value="3-semaines">3 semaines · {formatEUR(pricePerAdult(adults, 3))} / adulte</option>
+                            </select>
+                          )
+                        })()}
                       </Field>
                     </div>
                   </>
@@ -1283,6 +1302,33 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                       </div>
                     )}
 
+                    <Field label="Ton conjoint(e) participe aussi ?" hint={`Si les deux parents participent : les deux passent au tarif Solo/Duo (${formatEUR(PRICING_TIERS.duo.perAdult[1])} par adulte et par semaine) et chaque enfant est ajouté à ${formatEUR(FAMILY_PRICING.extraChildPerWeek[1])} par semaine. Sinon : forfait Parent + Enfant à ${formatEUR(FAMILY_PRICING.base[1])} (1 sem) avec 1er enfant inclus, +${formatEUR(FAMILY_PRICING.extraChildPerWeek[1])} par enfant supplémentaire.`}>
+                      <label className={`cand-confirm${form.conjointParticipe ? ' selected' : ''}`} style={{ marginTop: '0.4rem' }}>
+                        <input type="checkbox" checked={form.conjointParticipe}
+                          onChange={e => set('conjointParticipe', e.target.checked)} />
+                        <span>Oui, mon conjoint(e) participe aussi au camp</span>
+                      </label>
+                    </Field>
+
+                    {(() => {
+                      const weeks = parseDuration(form.duree)
+                      if (!weeks || form.enfants.length === 0) return null
+                      const adults = form.conjointParticipe ? 2 : 1
+                      const total = calculatePrice({ adults, children: form.enfants.length, weeks })
+                      if (total <= 0) return null
+                      return (
+                        <div className="logi-updated" style={{ background: 'rgba(200,75,49,0.08)', border: '1px solid rgba(200,75,49,0.3)', padding: '0.9rem 1rem', borderRadius: '3px', textAlign: 'left', marginTop: '0.85rem' }}>
+                          <strong style={{ color: 'var(--primary)' }}>Estimation : {formatEUR(total)}</strong>
+                          {' '}pour {adults} parent{adults > 1 ? 's' : ''} + {form.enfants.length} enfant{form.enfants.length > 1 ? 's' : ''} sur {weeks} semaine{weeks > 1 ? 's' : ''}.
+                          <span style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: '0.3rem' }}>
+                            {adults === 1
+                              ? `Forfait base ${formatEUR(FAMILY_PRICING.base[weeks])} (1P+1E inclus)${form.enfants.length > 1 ? ` + ${form.enfants.length - 1} × ${formatEUR(FAMILY_PRICING.extraChildPerWeek[weeks])}` : ''}`
+                              : `2 × ${formatEUR(PRICING_TIERS.duo.perAdult[weeks])} (tarif Solo/Duo) + ${form.enfants.length} × ${formatEUR(FAMILY_PRICING.extraChildPerWeek[weeks])} (enfant)`}
+                          </span>
+                        </div>
+                      )
+                    })()}
+
                     <p className="logi-updated" style={{ background: 'rgba(255,255,255,0.03)', padding: '0.85rem 1rem', borderRadius: '3px', textAlign: 'left' }}>
                       <strong>{form.enfants.length}</strong> enfant{form.enfants.length > 1 ? 's' : ''} à inscrire (collecté à l&apos;étape Santé). Tu peux revenir en arrière pour ajuster.
                     </p>
@@ -1292,7 +1338,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                 {/* Note redirection pour Session : pas de famille ici */}
                 {audience === 'session' && (
                   <p className="logi-updated" style={{ background: 'rgba(255,255,255,0.03)', padding: '0.85rem 1rem', borderRadius: '3px', textAlign: 'left' }}>
-                    Tu viens avec ton enfant 8-17 ans ? <Link href="/inscription?type=famille" style={{ color: 'var(--primary)', textDecoration: 'underline' }}>Choisis le tunnel Famille</Link> à la place : le formulaire est adapté (tarif enfant 1 900 € / 3 sem inclus).
+                    Tu viens avec ton enfant 8-17 ans ? <Link href="/inscription?type=famille" style={{ color: 'var(--primary)', textDecoration: 'underline' }}>Choisis le tunnel Famille</Link> à la place : le formulaire est adapté (forfait Parent + Enfant à {formatEUR(FAMILY_PRICING.base[1])} pour 1 semaine, 1er enfant inclus).
                   </p>
                 )}
 
@@ -1391,13 +1437,19 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                     </div>
                   )}
 
-                  {/* Famille : enfants détaillés */}
+                  {/* Famille : enfants détaillés + conjoint */}
                   {audience === 'famille' && form.enfants.length > 0 && (
                     <div className="cand-recap-row">
                       <span>Enfants</span>
                       <strong>
                         {form.enfants.map((c, i) => `${c.prenom || `Enfant ${i+1}`} (${c.age || '?'} ans)`).join(', ')}
                       </strong>
+                    </div>
+                  )}
+                  {audience === 'famille' && (
+                    <div className="cand-recap-row">
+                      <span>Parents participants</span>
+                      <strong>{form.conjointParticipe ? '2 (toi + conjoint·e)' : '1 (toi seul·e)'}</strong>
                     </div>
                   )}
 
@@ -1423,9 +1475,32 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
 
                   <div className="cand-recap-row"><span>Départ</span><strong>{form.villeDepart}</strong></div>
 
-                  {/* Tarif estimé : pas pour groupe (devis sur mesure) */}
+                  {/* Tarif estimé : devis sur mesure si Club 11+ ou config indéterminée */}
                   {(() => {
-                    if (audience === 'groupe') {
+                    const weeks = parseDuration(form.duree)
+                    let enfants = 0
+                    let adults = 0
+                    let isQuoteOnly = false
+
+                    if (audience === 'famille') {
+                      adults = form.conjointParticipe ? 2 : 1
+                      enfants = form.enfants.length
+                    } else if (audience === 'session') {
+                      adults = 1
+                    } else if (audience === 'custom') {
+                      adults = parseInt(form.nombreParticipants || '1', 10)
+                    } else if (audience === 'groupe') {
+                      // Range based : "5" = exact ; "6-10" = on prend 6 comme minimum estimé ; "11-20" = devis
+                      if (form.nombreParticipants === '5') {
+                        adults = 5
+                      } else if (form.nombreParticipants === '6-10') {
+                        adults = 6
+                      } else {
+                        isQuoteOnly = true
+                      }
+                    }
+
+                    if (isQuoteOnly || isOnQuote(adults)) {
                       return (
                         <div className="cand-recap-row">
                           <span>Tarif</span>
@@ -1433,20 +1508,13 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                         </div>
                       )
                     }
-                    const weeks = form.duree === '1-semaine' ? 1 : form.duree === '2-semaines' ? 2 : 3
-                    let enfants = 0
-                    let adults = 0
-                    if (audience === 'famille') {
-                      adults = 1
-                      enfants = form.enfants.length
-                    } else if (audience === 'session') {
-                      adults = 1
-                    } else if (audience === 'custom') {
-                      adults = parseInt(form.nombreParticipants || '1', 10)
-                    }
                     if (weeks && adults > 0) {
-                      const total = calculatePrice({ adults, children: enfants, weeks: weeks as Duration })
-                      return <div className="cand-recap-row"><span>Tarif estimé</span><strong style={{ color: 'var(--primary)' }}>{formatEUR(total)}</strong></div>
+                      const total = calculatePrice({ adults, children: enfants, weeks })
+                      if (total <= 0) return null
+                      const label = audience === 'groupe' && form.nombreParticipants === '6-10'
+                        ? 'Tarif estimé (à partir de)'
+                        : 'Tarif estimé'
+                      return <div className="cand-recap-row"><span>{label}</span><strong style={{ color: 'var(--primary)' }}>{formatEUR(total)}</strong></div>
                     }
                     return null
                   })()}

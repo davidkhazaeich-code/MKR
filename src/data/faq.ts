@@ -1,3 +1,14 @@
+import {
+  DUO_ONE_LINE_BARE,
+  TRIO_ONE_LINE_BARE,
+  CLUB_ONE_LINE_BARE,
+  FAMILY_BASE_PROSE,
+  FAMILY_BASE_1WEEK_LABEL,
+  FAMILY_EXTRA_CHILD_1WEEK_LABEL,
+  SOLO_PRICE_1WEEK_LABEL,
+} from '@/lib/pricing-copy'
+import { PRICING_TIERS, FAMILY_PRICING, formatEUR } from './pricing'
+
 export interface FAQItem {
   question: string
   answer: string
@@ -37,7 +48,7 @@ export const FAQ_HOMEPAGE: FAQItem[] = [
   },
   {
     question: "Quelles sont les dates des prochains camps ?",
-    answer: "Quatre sessions officielles par an, calées sur les vacances scolaires francophones. Été 2026 : 17 août - 5 septembre. Toussaint 2026 : 17 octobre - 7 novembre. Hiver 2027 : 13 février - 6 mars. Pâques 2027 : 3 - 24 avril. Toutes au Daghestan, fenêtre de 3 semaines au sein de laquelle tu choisis 1, 2 ou 3 semaines, 15 places max, à partir de 1 500 € / adulte (1 sem) jusqu'à 2 900 € / adulte (3 sem) tout compris.",
+    answer: `Quatre sessions officielles par an, calées sur les vacances scolaires francophones. Été 2026 : 17 août - 5 septembre. Toussaint 2026 : 17 octobre - 7 novembre. Hiver 2027 : 13 février - 6 mars. Pâques 2027 : 3 - 24 avril. Toutes au Daghestan, fenêtre de 3 semaines au sein de laquelle tu choisis 1, 2 ou 3 semaines, 15 places max. Tarif Solo / Duo : ${formatEUR(PRICING_TIERS.duo.perAdult[1])} / adulte (1 sem) à ${formatEUR(PRICING_TIERS.duo.perAdult[3])} / adulte (3 sem) tout compris. Tarif dégressif à partir de 3 personnes.`,
   },
 ]
 
@@ -127,7 +138,7 @@ export const FAQ_CATEGORIES: FAQCategory[] = [
       },
       {
         question: 'Je viens avec mon club, y a-t-il un tarif groupe ?',
-        answer: "Le tarif par tête reste identique au tarif individuel : pas de remise. L'avantage du groupe : réservation simultanée, hébergement bloc, transferts groupés, programme adapté au niveau collectif. Le tunnel Club et Groupe est réservé aux groupes organisés de 5 à 20 personnes. Pour 1 à 4 amis adultes, prends Sur Mesure.",
+        answer: `Oui, tarif dégressif par taille de groupe. 1 à 2 personnes (Solo / Duo) : ${formatEUR(PRICING_TIERS.duo.perAdult[1])} / 1 sem par adulte. 3 à 5 personnes (Trio à 5) : ${formatEUR(PRICING_TIERS.trio.perAdult[1])} / 1 sem par adulte. 6 à 10 personnes (Club) : ${formatEUR(PRICING_TIERS.club.perAdult[1])} / 1 sem par adulte. 11 personnes et plus ou privatisation complète d'une session : devis sur mesure. Le tunnel Club et Groupe est réservé aux groupes organisés de 5 à 20 personnes ; pour 1 à 4 amis adultes, prends Sur Mesure.`,
       },
       {
         question: "Quels sont les 4 types d'inscription ?",
@@ -135,7 +146,7 @@ export const FAQ_CATEGORIES: FAQCategory[] = [
       },
       {
         question: "Quelles sont les 4 sessions officielles 2026 / 2027 ?",
-        answer: "Quatre sessions par an, calées sur les vacances scolaires des trois zones françaises, suisses romandes et belges, pour permettre aux pratiquants francophones (et aux familles) de partir sans poser de congés. Été 2026 : 17 août - 5 septembre 2026 (fenêtre 3 sem, vacances été). Toussaint 2026 : 17 octobre - 7 novembre 2026 (fenêtre 3 sem, Toussaint FR + octobre CH + Toussaint BE). Hiver 2027 : 13 février - 6 mars 2027 (fenêtre 3 sem, vacances d'hiver zones A/B/C FR + relâche CH + carnaval BE). Pâques 2027 : 3 - 24 avril 2027 (fenêtre 3 sem, vacances de printemps FR + Pâques CH + BE). Au sein de chaque fenêtre, tu choisis 1, 2 ou 3 semaines. Toutes au Daghestan, 15 places max, à partir de 1 500 € / adulte (1 sem) jusqu'à 2 900 € / adulte (3 sem) tout compris.",
+        answer: `Quatre sessions par an, calées sur les vacances scolaires des trois zones françaises, suisses romandes et belges, pour permettre aux pratiquants francophones (et aux familles) de partir sans poser de congés. Été 2026 : 17 août - 5 septembre 2026 (fenêtre 3 sem, vacances été). Toussaint 2026 : 17 octobre - 7 novembre 2026 (fenêtre 3 sem, Toussaint FR + octobre CH + Toussaint BE). Hiver 2027 : 13 février - 6 mars 2027 (fenêtre 3 sem, vacances d'hiver zones A/B/C FR + relâche CH + carnaval BE). Pâques 2027 : 3 - 24 avril 2027 (fenêtre 3 sem, vacances de printemps FR + Pâques CH + BE). Au sein de chaque fenêtre, tu choisis 1, 2 ou 3 semaines. Toutes au Daghestan, 15 places max. Tarif Solo / Duo : ${formatEUR(PRICING_TIERS.duo.perAdult[1])} / adulte (1 sem) à ${formatEUR(PRICING_TIERS.duo.perAdult[3])} / adulte (3 sem) tout compris. Tarif dégressif à partir de 3 personnes.`,
       },
       {
         question: 'Quel est le délai minimum pour réserver un camp sur mesure ?',
@@ -149,11 +160,11 @@ export const FAQ_CATEGORIES: FAQCategory[] = [
     items: [
       {
         question: 'Mon enfant peut-il venir au camp ?',
-        answer: "Oui, dès 8 ans, mais il doit obligatoirement être accompagné d'un parent participant au camp. C'est notre règle de sécurité : pas de prise en charge enfant seul. Tarif enfant 8-17 ans fixe : 1 000 € / 1 sem, 1 400 € / 2 sem, 1 900 € / 3 sem.",
+        answer: `Oui, dès 8 ans, mais il doit obligatoirement être accompagné d'un parent participant au camp. C'est notre règle de sécurité : pas de prise en charge enfant seul. Forfait Parent + Enfant à ${formatEUR(FAMILY_PRICING.base[1])} (1 sem) avec 1er enfant inclus, ${formatEUR(FAMILY_PRICING.base[2])} (2 sem), ${formatEUR(FAMILY_PRICING.base[3])} (3 sem). Chaque enfant supplémentaire : ${FAMILY_EXTRA_CHILD_1WEEK_LABEL}.`,
       },
       {
         question: "Comment s'inscrire en famille ?",
-        answer: "Sur le tunnel Rejoindre la session ou Camp sur mesure, tu trouves une option « Tu viens avec ta famille ? ». Coche oui, indique le nombre d'enfants (1, 2 ou 3) et leurs âges. Le tarif total se calcule automatiquement (parent au tarif adulte + chaque enfant au tarif enfant).",
+        answer: `Choisis le tunnel Famille sur /inscription. Tu indiques tes enfants (1 à 4, âges 8-17). Si ton conjoint(e) participe aussi au camp, coche la case dédiée : les deux parents passent au tarif Solo/Duo (${formatEUR(PRICING_TIERS.duo.perAdult[1])} / pers / sem) + chaque enfant à ${formatEUR(FAMILY_PRICING.extraChildPerWeek[1])} / sem. Sinon, le forfait Parent + Enfant (1er enfant inclus dans les ${FAMILY_BASE_1WEEK_LABEL} la semaine) s'applique. Le tarif total se calcule automatiquement.`,
       },
       {
         question: "Comment l'enfant est-il encadré pendant les sessions ?",
@@ -165,7 +176,7 @@ export const FAQ_CATEGORIES: FAQCategory[] = [
       },
       {
         question: 'Quel âge minimum et maximum pour les enfants ?',
-        answer: "Minimum 8 ans, maximum 17 ans. En dessous de 8 ans, le camp est physiquement et culturellement trop intense. À partir de 18 ans, ton ado est inscrit comme adulte au tarif adulte (1 500 / 2 200 / 2 900 € selon durée).",
+        answer: `Minimum 8 ans, maximum 17 ans. En dessous de 8 ans, le camp est physiquement et culturellement trop intense. À partir de 18 ans, ton ado est inscrit comme adulte au tarif Solo / Duo (${DUO_ONE_LINE_BARE}, par adulte).`,
       },
       {
         question: 'Faut-il un certificat médical pour les enfants ?',

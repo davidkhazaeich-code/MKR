@@ -2,6 +2,10 @@ import type { Metadata } from 'next'
 import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
+import {
+  PACKAGE_PER_ADULT_RANGE_LABEL,
+  FAMILY_BASE_RANGE_LABEL,
+} from '@/lib/pricing-copy'
 
 export const metadata: Metadata = {
   title: 'Logistique Camp Daghestan : Visa, Vol, Budget | MKR Caucasian Camp',
@@ -35,7 +39,8 @@ export default function LogistiquePage() {
               <table className="table-tonal">
                 <thead><tr><th>Poste</th><th>Estimation</th></tr></thead>
                 <tbody>
-                  <tr><td>Package MKR (camp complet)</td><td>2 750 - 3 200 €</td></tr>
+                  <tr><td>Package MKR par adulte (selon taille de groupe et durée)</td><td>{PACKAGE_PER_ADULT_RANGE_LABEL}</td></tr>
+                  <tr><td>Forfait Famille (1 parent + 1 enfant)</td><td>{FAMILY_BASE_RANGE_LABEL}</td></tr>
                   <tr><td>Vol international A/R</td><td>400 - 700 EUR</td></tr>
                   <tr><td>Visa (si nécessaire)</td><td>60 - 100 EUR</td></tr>
                   <tr><td>Assurance voyage</td><td>80 - 150 EUR</td></tr>

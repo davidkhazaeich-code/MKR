@@ -1,7 +1,52 @@
 # SITEMAP MKR Caucasian Camp — Cartographie complète
 
-> **Fichier de référence pour Claude Code.** Mise à jour : 2026-05-02 (post ajout 3 sessions saisonnières + backend Supabase v1).
+> **Fichier de référence pour Claude Code.** Mise à jour : 2026-05-11 (refonte grille tarifaire par taille de groupe + forfait Parent + Enfant).
 > Lis ce fichier en priorité avant toute intervention sur le site MKR. Il évite de re-explorer.
+
+## 🆕 Changements 2026-05-11 (refonte grille tarifaire par paliers de groupe)
+
+> **BREAKING (pricing)** : décision Ruslan. La grille publique passe d'un modèle 2D (adulte vs enfant × durée) à un modèle par taille de groupe (1-2 / 3-5 / 6-10 / 11+) + forfait dédié Parent + Enfant.
+
+**Nouvelle grille** :
+- **1 à 2 personnes** (Solo / Duo) : 1 490 / 2 290 / 2 790 € par adulte (1/2/3 sem)
+- **3 à 5 personnes** (Trio à 5) : 1 390 / 1 990 / 2 690 € par adulte
+- **6 à 10 personnes** (Club) : 1 290 / 1 790 / 2 390 € par adulte
+- **11 personnes et plus / salle entière** : devis sur mesure
+- **Forfait Famille (1 parent + 1 enfant inclus)** : 2 590 / 4 790 / 6 890 € selon durée
+- **Enfant supplémentaire** : +790 / +1 580 / +2 370 € par semaine
+- **Famille avec 2 parents participants** : 2 × tarif Solo/Duo (1 490 €/pers/sem) + 790 €/enfant/sem (le 1er enfant n'est plus inclus)
+
+**Implémentation** :
+- `data/pricing.ts` réécrit avec `PRICING_TIERS`, `FAMILY_PRICING`, `getTierForAdults()`, `pricePerAdult()`, `calculatePrice()`, `isOnQuote()`, `parseDuration()`, `priceBreakdown()`. Plus de `ADULT_PRICING` / `CHILD_PRICING`.
+- `PricingTable.tsx` refondu : 3 cards paliers + bande "Sur devis" + section dédiée forfait Famille (forfait base + enfant supp).
+- `InscriptionLayout.tsx` : ajout `conjointParticipe: boolean` au `FormData`, recap step 5 tarif dynamique (devis sur mesure si club 11+ ou groupe 6-10 → "à partir de"), nouvelle estimation famille live en step 3 avec breakdown.
+- Tunnel `groupe` : options "5 personnes / 6-10 personnes / 11-20 (devis)" remplacent les anciens "5-9 / 10-15 / 16-20".
+- Payload API `famille` : ajout `conjoint_participe` et `nombre_parents`.
+- CSS `globals.css` : `.pricing-grid` passe à 3 cols desktop, 2 cols ≤960px, 1 col ≤720px. Nouvelle classe `.pricing-quote-band`.
+
+**Pages mises à jour** :
+- `/sessions` : SESSIONS[].price `à partir de 1 290 €`, section "TU VIENS AVEC TON CLUB ?" copy révisée, sub-price card mentionne Solo/Duo + Club + Famille.
+- `/familles` : pilier "Tarifs famille publics" + étape 02 inscription = nouvelle formule.
+- `/programme/lutte-enfants` : section "Pour les parents" = forfait famille (plus de tarif enfant isolé).
+- `/programme` : section JEUNESSE mentionne forfait Famille au lieu de tarif enfant.
+- `/mkr-camp-2026` : stats band `1 490` (au lieu de 1 500).
+- `/sur-mesure` : stats band `1 390 € à partir de 3 pers`.
+- `/clubs-groupes` : pilier "Tarif dégressif par tête" avec mention paliers Trio / Club / Devis.
+- `/cgv` Article 3 : grille publique complète détaillée.
+- `/logistique` : tableau budget = `1 290 - 2 790 € / pers` + nouvelle ligne `Forfait Famille 2 590 - 6 890 €`.
+- `data/registration-types.ts` : longDescription Famille + Groupe mises à jour.
+- `data/faq.ts` : 5 réponses révisées (tarif groupe, sessions, enfants, inscription famille, âge max).
+- `data/sessions.ts` : `formatPriceFrom()` retourne `À partir de 1 490 €`.
+- `components/Sessions.tsx` : sub-price card mentionne nouvelle grille.
+- `components/admin/AdminActions.tsx` : référence pricing actualisée.
+
+**Audit grep** (à relancer si retouche pricing) :
+```
+grep -E "1 ?500 ?€|2 ?200 ?€|2 ?900 ?€|1 ?000 ?€|1 ?400 ?€|1 ?900 ?€"   → doit être vide dans src/
+grep -E "ADULT_PRICING|CHILD_PRICING"                                    → doit être vide
+```
+
+---
 
 ## 🆕 Changements 2026-05-02 (4 sessions officielles, calendrier 2026 / 2027)
 
@@ -779,17 +824,35 @@ GEO = { latitude: 42.9849, longitude: 47.5047, country: 'RU', region: 'Daghestan
 | `components/Contact.tsx` | bloc Instagram homepage |
 | `app/(site)/contact/page.tsx` | carte Instagram |
 
-### Tarifs publics (grille fixe adulte/enfant)
-**Source unique** : `data/pricing.ts` (ADULT_PRICING, CHILD_PRICING, FAMILY_EXAMPLES, helpers)
+### Tarifs publics (grille par taille de groupe + forfait Famille — refonte 2026-05-11)
+
+> **Propagation 100% dynamique** depuis 2026-05-11 : changer un nombre dans `data/pricing.ts` → toutes les pages re-bake automatiquement au prochain `next build`. Aucun chiffre n'est répété en dur dans le runtime (les commentaires JSDoc d'`pricing.ts` et `pricing-copy.ts` ne sont que de la doc).
+
+**Source unique technique** : `data/pricing.ts` (`PRICING_TIERS`, `FAMILY_PRICING`, helpers `getTierForAdults`, `pricePerAdult`, `calculatePrice`, `isOnQuote`, `parseDuration`)
+
+**Source unique marketing copy** : `lib/pricing-copy.ts` (`MIN_PRICE_PER_ADULT_LABEL`, `SOLO_PRICE_1WEEK_LABEL`, `DUO_ONE_LINE_BARE`, `TRIO_ONE_LINE_BARE`, `CLUB_ONE_LINE_BARE`, `FAMILY_BASE_PROSE`, `FAMILY_BASE_1WEEK_LABEL`, `FAMILY_BASE_RANGE_LABEL`, `FAMILY_EXTRA_CHILD_1WEEK_LABEL`, `FAMILY_EXTRA_CHILD_FULL`, `PACKAGE_PER_ADULT_RANGE_LABEL`, `ADMIN_SOLO_DUO_HINT`, `FAMILY_FORFAIT_DETAIL`, `FAMILY_FORFAIT_TEASER`, `PRICING_GRID_PROSE`, `pricePerAdultLabel(adults, weeks)`) — toutes les phrases marketing dérivées de `pricing.ts`.
+
+**Pour changer un prix demain** : éditer UNIQUEMENT `data/pricing.ts`. Lancer `rm -rf .next && npx next build`. Toutes les pages, FAQ, CGV, registration types, admin dashboard, hero stats, sub-prices se mettent à jour automatiquement.
 | Fichier | Forme |
 |---|---|
-| `data/pricing.ts` | source of truth complète (1500/2200/2900 adulte, 1000/1400/1900 enfant) |
-| `components/PricingTable.tsx` | composant réutilisable (sur `/sessions` et `/familles`) |
-| `app/(site)/sessions/page.tsx` | utilise `<PricingTable />` après la session officielle |
-| `app/(site)/familles/page.tsx` | utilise `<PricingTable />` au milieu de la page |
-| `components/InscriptionLayout.tsx` | step 3 affiche tarifs dans select durée + recap step 4 calcule via `calculatePrice()` |
-| `app/(site)/programme/lutte-enfants/page.tsx` | section "Pour les parents" mentionne 1000/1400/1900 |
-**⚠️** Si on change un tarif : modifier UNIQUEMENT `data/pricing.ts`. Tous les autres endroits propagent automatiquement.
+| `data/pricing.ts` | source of truth complète (4 paliers groupe + forfait Famille + enfant supp) |
+| `components/PricingTable.tsx` | composant réutilisable (sur `/sessions`, `/familles`, `/mkr-camp-2026`) |
+| `components/InscriptionLayout.tsx` | options select durée tarifées dynamiquement, estimation famille live (step 3), recap step 5 via `calculatePrice()` + checkbox `conjointParticipe` |
+| `app/(site)/sessions/page.tsx` | sub-price cards + section "TU VIENS AVEC TON CLUB ?" |
+| `app/(site)/familles/page.tsx` | pilier tarifs + étape 02 inscription |
+| `app/(site)/programme/lutte-enfants/page.tsx` | section "Pour les parents" (forfait Famille) |
+| `app/(site)/programme/page.tsx` | section JEUNESSE |
+| `app/(site)/mkr-camp-2026/page.tsx` | stats band 1 490 € |
+| `app/(site)/sur-mesure/page.tsx` | stats band 1 390 € à partir de 3 pers |
+| `app/(site)/clubs-groupes/page.tsx` | pilier tarif dégressif |
+| `app/(site)/cgv/page.tsx` | Article 3 grille publique complète |
+| `app/(site)/logistique/page.tsx` | tableau budget par adulte + ligne forfait Famille |
+| `data/registration-types.ts` | longDescription Famille et Groupe |
+| `data/faq.ts` | 5 Q/R tarifs (groupe, sessions, enfants, inscription famille, âge max) |
+| `data/sessions.ts` | helper `formatPriceFrom()` retourne `À partir de 1 490 €` |
+| `components/Sessions.tsx` (homepage) | sub-price card |
+| `components/admin/AdminActions.tsx` | hint montant package |
+**⚠️** Si on change un tarif : modifier UNIQUEMENT `data/pricing.ts`. La plupart des autres endroits propagent. Les pages textuelles avec mention de chiffres en dur (CGV, FAQ, hero stats, sessions sub-price) doivent être retouchées séparément — voir la liste exhaustive ci-dessus.
 
 ### 4 types d'inscription (session / custom / famille / groupe)
 **Source unique** : `data/registration-types.ts` (REGISTRATION_TYPES)

@@ -1,3 +1,5 @@
+import { SOLO_PRICE_1WEEK_LABEL } from '@/lib/pricing-copy'
+
 export type SessionStatus = 'open' | 'limited' | 'closed'
 
 export interface Session {
@@ -110,13 +112,16 @@ export function formatPrice(session: Session): string {
 }
 
 /**
- * Prix "à partir de" pour une session officielle (1 sem adulte = 1 500 €).
+ * Prix "à partir de" pour une session officielle (1 sem adulte palier Solo/Duo).
  * Utiliser ce helper sur les pages publiques où la durée est variable (1 à 3 sem).
+ * Source unique : `PRICING_TIERS.duo.perAdult[1]` via `MIN_PRICE_PER_ADULT_LABEL` n'est pas utilisé ici
+ * car on veut le tarif Solo/Duo, pas le min absolu. Voir `SOLO_PRICE_1WEEK_LABEL` dans `lib/pricing-copy.ts`.
  */
 export function formatPriceFrom(session: Session): string {
-  const symbol = session.priceCurrency === 'EUR' ? '€' : session.priceCurrency
-  // Min adulte = 1 500 € (1 sem). Voir ADULT_PRICING dans data/pricing.ts.
-  return `À partir de 1 500 ${symbol}`
+  if (session.priceCurrency !== 'EUR') {
+    return `${session.price.toLocaleString('fr-FR')} ${session.priceCurrency}`
+  }
+  return `À partir de ${SOLO_PRICE_1WEEK_LABEL}`
 }
 
 export function sessionFormLabel(session: Session): string {

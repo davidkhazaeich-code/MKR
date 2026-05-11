@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { SESSIONS, formatPriceFrom } from '@/data/sessions'
 import PlacesRestantes from '@/components/PlacesRestantes'
+import { DUO_ONE_LINE_BARE, FAMILY_BASE_1WEEK_LABEL } from '@/lib/pricing-copy'
 
 export default function Sessions() {
   return (
@@ -55,7 +56,7 @@ export default function Sessions() {
               <div className="session-card-footer">
                 <div>
                   <div className="session-price">{formatPriceFrom(session)}</div>
-                  <div className="session-price-sub">Tarif adulte selon durée (1 500 € / 1 sem · 2 200 € / 2 sem · 2 900 € / 3 sem). Hébergement, 2 repas/jour, vol Istanbul-Makhachkala inclus.</div>
+                  <div className="session-price-sub">Tarif Solo / Duo : {DUO_ONE_LINE_BARE} par adulte. Dégressif dès 3 personnes. Forfait Famille (1P+1E) à partir de {FAMILY_BASE_1WEEK_LABEL}. Hébergement, 2 repas/jour, vol Istanbul-Makhachkala inclus.</div>
                 </div>
                 <Link href={`/inscription?type=session&session=${session.id}`} className="session-cta">POSTULER</Link>
               </div>

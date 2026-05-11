@@ -5,6 +5,12 @@
  * transferts, hébergement, encadrement, repas, programme).
  */
 
+import {
+  FAMILY_BASE_1WEEK_LABEL,
+  FAMILY_EXTRA_CHILD_1WEEK_LABEL,
+} from '@/lib/pricing-copy'
+import { PRICING_TIERS, formatEUR } from './pricing'
+
 export type RegistrationTypeId = 'session' | 'custom' | 'famille' | 'groupe'
 
 export interface RegistrationType {
@@ -72,8 +78,8 @@ export const REGISTRATION_TYPES: RegistrationType[] = [
     label: 'Famille',
     shortLabel: 'Famille',
     badge: 'Parent + enfant 8-17',
-    description: 'Camp en famille au Daghestan. Parent et enfant 8-17 ans côte à côte, encadrement jeunesse dédié.',
-    longDescription: "Tu pars en famille avec tes enfants 8-17 ans (parent participant obligatoire, c'est notre règle de sécurité). Programme parallèle : sessions adultes pour toi, programme Lutte enfants pour l'ado. Tu peux rejoindre une des quatre sessions officielles (Été 2026, Toussaint 2026, Hiver 2027, Pâques 2027), ou choisir tes propres dates (90 jours minimum).",
+    description: `Camp en famille au Daghestan. Parent et enfant 8-17 ans côte à côte, encadrement jeunesse dédié. Forfait à partir de ${FAMILY_BASE_1WEEK_LABEL}.`,
+    longDescription: `Tu pars en famille avec tes enfants 8-17 ans (parent participant obligatoire, c'est notre règle de sécurité). Programme parallèle : sessions adultes pour toi, programme Lutte enfants pour l'ado. Tu peux rejoindre une des quatre sessions officielles (Été 2026, Toussaint 2026, Hiver 2027, Pâques 2027), ou choisir tes propres dates (90 jours minimum). Forfait Parent + Enfant à ${FAMILY_BASE_1WEEK_LABEL} (1 sem) avec 1er enfant inclus, ${FAMILY_EXTRA_CHILD_1WEEK_LABEL} par enfant supplémentaire. Si ton conjoint(e) participe : les deux parents passent au tarif Solo/Duo (${formatEUR(PRICING_TIERS.duo.perAdult[1])} / pers / sem) + enfants au tarif supplément (${FAMILY_EXTRA_CHILD_1WEEK_LABEL} chacun).`,
     cta: 'Découvrir le Camp Famille',
     href: '/familles',
     formHref: '/inscription?type=famille',
@@ -90,8 +96,8 @@ export const REGISTRATION_TYPES: RegistrationType[] = [
     label: 'Club et Groupe',
     shortLabel: 'Club et Groupe',
     badge: 'Devis sur mesure · 5 à 20',
-    description: 'Tu viens avec ton club ou un groupe organisé de 5 à 20 personnes ? Camp dédié à vos dates, hébergement bloc.',
-    longDescription: "Tu fédères ton club (ou un groupe d'au moins 5 personnes) autour d'un objectif commun. On organise un camp dédié : dates choisies, hébergement bloc, transferts groupés, programme adapté au niveau collectif. Le tarif par tête reste identique au tarif individuel. Si vous êtes 1 à 4 amis adultes, prenez plutôt Sur Mesure. Si tu pars en famille, c'est le tunnel Famille.",
+    description: 'Tu viens avec ton club ou un groupe organisé de 5 à 20 personnes ? Tarif dégressif, camp dédié à vos dates, hébergement bloc.',
+    longDescription: `Tu fédères ton club (ou un groupe d'au moins 5 personnes) autour d'un objectif commun. On organise un camp dédié : dates choisies, hébergement bloc, transferts groupés, programme adapté au niveau collectif. Tarif par tête dégressif : ${formatEUR(PRICING_TIERS.trio.perAdult[1])} / 1 sem pour 5 personnes (palier Trio), ${formatEUR(PRICING_TIERS.club.perAdult[1])} / 1 sem pour 6 à 10 personnes (palier Club). À partir de 11 personnes ou pour une privatisation complète : devis personnalisé. Si vous êtes 1 à 4 amis adultes, prenez plutôt Sur Mesure. Si tu pars en famille, c'est le tunnel Famille.`,
     cta: 'Découvrir Club et Groupe',
     href: '/clubs-groupes',
     formHref: '/inscription?type=groupe',

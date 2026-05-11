@@ -1,4 +1,12 @@
 import type { Metadata } from 'next'
+import { PRICING_TIERS, FAMILY_PRICING, formatEUR } from '@/data/pricing'
+import {
+  DUO_ONE_LINE_BARE,
+  TRIO_ONE_LINE_BARE,
+  CLUB_ONE_LINE_BARE,
+  FAMILY_BASE_PROSE,
+  FAMILY_EXTRA_CHILD_FULL,
+} from '@/lib/pricing-copy'
 
 export const metadata: Metadata = {
   title: 'CGV | MKR Caucasian Camp | Conditions Générales de Vente',
@@ -19,8 +27,16 @@ export default function CGVPage() {
           <p>L&apos;inscription se fait via le formulaire en ligne sur mkrcamp.com. Toute candidature est soumise à validation par l&apos;équipe MKR lors d&apos;un entretien téléphonique ou vidéo. L&apos;Organisateur se réserve le droit de refuser toute candidature sans justification.</p>
 
           <h2>Article 3 : Tarifs et paiement</h2>
-          <p>Les tarifs sont indiqués en euros (EUR) sur la page Sessions du site. Aucun paiement n&apos;est demandé au moment de l&apos;inscription en ligne.</p>
-          <p>Le paiement intégral du package est dû après l&apos;entretien de validation en visioconférence avec l&apos;équipe MKR. Les coordonnées bancaires (RIB) sont communiquées au candidat à l&apos;issue de cet entretien.</p>
+          <p>Les tarifs sont indiqués en euros (EUR) sur la page Sessions du site et appliqués selon la grille publique suivante (par adulte, sans réduction discrétionnaire) :</p>
+          <ul>
+            <li><strong>1 à 2 personnes</strong> (Solo / Duo) : {DUO_ONE_LINE_BARE} par adulte.</li>
+            <li><strong>3 à 5 personnes</strong> (Trio à 5) : {TRIO_ONE_LINE_BARE} par adulte.</li>
+            <li><strong>6 à 10 personnes</strong> (Club / Groupe) : {CLUB_ONE_LINE_BARE} par adulte.</li>
+            <li><strong>11 personnes et plus / salle entière privatisée</strong> : tarif sur devis personnalisé.</li>
+            <li><strong>Forfait Famille (1 parent + 1 enfant inclus)</strong> : {FAMILY_BASE_PROSE}. Chaque enfant supplémentaire : {FAMILY_EXTRA_CHILD_FULL}.</li>
+            <li><strong>Famille avec 2 parents participants</strong> : tarif Solo / Duo appliqué aux deux parents ({formatEUR(PRICING_TIERS.duo.perAdult[1])} / pers / sem) + {formatEUR(FAMILY_PRICING.extraChildPerWeek[1])} par enfant et par semaine.</li>
+          </ul>
+          <p>Aucun paiement n&apos;est demandé au moment de l&apos;inscription en ligne. Le paiement intégral du package est dû après l&apos;entretien de validation en visioconférence avec l&apos;équipe MKR. Les coordonnées bancaires (RIB) sont communiquées au candidat à l&apos;issue de cet entretien.</p>
           <p>Moyens de paiement acceptés : virement bancaire ou espèces. Toute autre modalité est étudiée au cas par cas.</p>
 
           <h2>Article 4 : Politique d&apos;annulation</h2>

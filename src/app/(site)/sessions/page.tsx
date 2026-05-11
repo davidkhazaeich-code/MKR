@@ -7,6 +7,14 @@ import CinematicReveal from '@/components/CinematicReveal'
 import AudienceSwitcher from '@/components/AudienceSwitcher'
 import PricingTable from '@/components/PricingTable'
 import PlacesRestantes from '@/components/PlacesRestantes'
+import {
+  MIN_PRICE_PER_ADULT_LABEL,
+  FAMILY_BASE_1WEEK_LABEL,
+  SOLO_PRICE_1WEEK_LABEL,
+} from '@/lib/pricing-copy'
+import { PRICING_TIERS, formatEUR } from '@/data/pricing'
+
+const PRICE_FROM_LABEL = `à partir de ${MIN_PRICE_PER_ADULT_LABEL}`
 
 export const metadata: Metadata = {
   title: 'Sessions et Tarifs 2026 - 2027 | MKR Caucasian Camp au Daghestan',
@@ -24,7 +32,7 @@ const SESSIONS = [
     intensity: 'Maximale',
     maxCapacity: 15,
     duration: '1 à 3 semaines',
-    price: 'à partir de 1 500 €',
+    price: PRICE_FROM_LABEL,
     status: 'open' as const,
     statusLabel: 'Places disponibles',
     delay: '0s',
@@ -38,7 +46,7 @@ const SESSIONS = [
     intensity: 'Élevée',
     maxCapacity: 15,
     duration: '1 à 3 semaines',
-    price: 'à partir de 1 500 €',
+    price: PRICE_FROM_LABEL,
     status: 'open' as const,
     statusLabel: 'Places disponibles',
     delay: '0.08s',
@@ -52,7 +60,7 @@ const SESSIONS = [
     intensity: 'Maximale',
     maxCapacity: 15,
     duration: '1 à 3 semaines',
-    price: 'à partir de 1 500 €',
+    price: PRICE_FROM_LABEL,
     status: 'open' as const,
     statusLabel: 'Places disponibles',
     delay: '0.16s',
@@ -66,7 +74,7 @@ const SESSIONS = [
     intensity: 'Élevée',
     maxCapacity: 15,
     duration: '1 à 3 semaines',
-    price: 'à partir de 1 500 €',
+    price: PRICE_FROM_LABEL,
     status: 'open' as const,
     statusLabel: 'Places disponibles',
     delay: '0.24s',
@@ -201,7 +209,7 @@ export default function SessionsPage() {
                 <div className="session-card-footer">
                   <div>
                     <div className="session-price">{s.price}</div>
-                    <div className="session-price-sub">Tarif adulte selon durée choisie (1 500 € / 1 sem · 2 200 € / 2 sem · 2 900 € / 3 sem). Enfant 8-17 (avec parent) à partir de 1 000 €.</div>
+                    <div className="session-price-sub">Tarif par adulte selon la taille du groupe et la durée. Solo/Duo : {SOLO_PRICE_1WEEK_LABEL} / 1 sem. Club 6-10 : {formatEUR(PRICING_TIERS.club.perAdult[1])} / 1 sem. Forfait Famille (1P+1E) à partir de {FAMILY_BASE_1WEEK_LABEL} la semaine.</div>
                   </div>
                   <Link href={`/inscription?type=session&session=${s.id}`} className="session-cta">POSTULER</Link>
                 </div>
@@ -259,7 +267,7 @@ export default function SessionsPage() {
         <div className="inner">
           <div className="group-card fx-grain fx-corner-glow reveal">
             <h2 id="group-heading">TU VIENS AVEC TON CLUB ?</h2>
-            <p>Prix dégressif à partir de 5 personnes. Contacte-nous directement pour un devis sur mesure.</p>
+            <p>Tarif dégressif dès 3 personnes (palier Trio à {formatEUR(PRICING_TIERS.trio.perAdult[1])} / pers / sem). À partir de 6, palier Club à {formatEUR(PRICING_TIERS.club.perAdult[1])} / pers / sem. Club entier ou 11+ personnes : devis personnalisé.</p>
             <img
               src="/images/environment/communal-meal.webp"
               alt="Groupe d'athlètes au camp MKR Caucasian Camp"

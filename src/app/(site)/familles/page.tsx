@@ -5,6 +5,11 @@ import SectionCTA from '@/components/SectionCTA'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 import CinematicReveal from '@/components/CinematicReveal'
 import PricingTable from '@/components/PricingTable'
+import {
+  FAMILY_BASE_1WEEK_LABEL,
+  FAMILY_EXTRA_CHILD_1WEEK_LABEL,
+} from '@/lib/pricing-copy'
+import { FAMILY_PRICING, formatEUR } from '@/data/pricing'
 
 export const metadata: Metadata = {
   title: 'Camp Famille | MKR Caucasian Camp | MMA et Lutte parent-enfant au Daghestan',
@@ -35,7 +40,7 @@ const PILLARS = [
   },
   {
     title: 'Tarifs famille publics',
-    desc: "Pas de remise affichée. Tarif adulte fixe et tarif enfant fixe (1 900 € / 3 sem par enfant). Total transparent.",
+    desc: `Forfait Parent + Enfant à ${FAMILY_BASE_1WEEK_LABEL} (1 sem) avec 1er enfant inclus, ${FAMILY_EXTRA_CHILD_1WEEK_LABEL} par enfant supplémentaire. Grille publique, pas de remise discrétionnaire.`,
   },
 ]
 
@@ -259,8 +264,9 @@ export default function FamillesPage() {
               <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.4rem', fontSize: '0.6rem' }}>ÉTAPE 02</span>
               <h3 className="card-title" style={{ fontSize: '0.95rem' }}>Indique tes enfants</h3>
               <p className="card-body" style={{ fontSize: '0.85rem' }}>
-                Précise le nombre d&apos;enfants (1, 2 ou 3) et leurs âges (entre 8 et 17 ans).
-                Tarif enfant selon durée : 1 000 € / 1 sem · 1 400 € / 2 sem · 1 900 € / 3 sem.
+                Précise le nombre d&apos;enfants (1 à 4) et leurs âges (entre 8 et 17 ans).
+                Forfait 1 parent + 1 enfant : {formatEUR(FAMILY_PRICING.base[1])} (1 sem) / {formatEUR(FAMILY_PRICING.base[2])} (2 sem) / {formatEUR(FAMILY_PRICING.base[3])} (3 sem).
+                Chaque enfant supplémentaire : {FAMILY_EXTRA_CHILD_1WEEK_LABEL}.
               </p>
             </div>
             <div className="content-card fx-grain fx-corner-glow reveal" style={{ transitionDelay: '0.16s' }}>

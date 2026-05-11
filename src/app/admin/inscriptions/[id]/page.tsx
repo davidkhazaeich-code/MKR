@@ -129,6 +129,8 @@ const FIELD_LABELS: Record<string, string> = {
   restrictions: 'Restrictions',
   format: 'Format',
   enfants: 'Enfants',
+  conjoint_participe: 'Conjoint(e) participe aussi',
+  nombre_parents: 'Nombre de parents participants',
   composition: 'Composition',
   autres_participants: 'Autres participants',
   source_decouverte: 'Comment il/elle nous a connus',

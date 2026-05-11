@@ -12,6 +12,7 @@ import Switch from './ui/Switch'
 import ConfirmModal from './ui/ConfirmModal'
 import Icon from './ui/Icon'
 import { useToast } from './ui/Toast'
+import { ADMIN_SOLO_DUO_HINT } from '@/lib/pricing-copy'
 
 type PaymentMethod = 'virement' | 'cash' | 'autre'
 
@@ -396,7 +397,7 @@ export default function AdminActions(props: Props) {
             <label className="adm-input-row-label" htmlFor="package-amount">
               Montant package (€)
               <span style={{ display: 'block', fontSize: '0.75rem', color: 'var(--adm-text-muted)', marginTop: '0.15rem' }}>
-                Total convenu avec le candidat (référence : 1500/2200/2900 € adulte selon durée).
+                Total convenu avec le candidat. Référence adulte palier Solo/Duo : {ADMIN_SOLO_DUO_HINT}. Voir data/pricing.ts pour la grille complète.
               </span>
             </label>
             <input

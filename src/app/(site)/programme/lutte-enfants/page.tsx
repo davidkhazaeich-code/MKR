@@ -3,6 +3,7 @@ import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 import CinematicReveal from '@/components/CinematicReveal'
+import { FAMILY_FORFAIT_DETAIL } from '@/lib/pricing-copy'
 
 export const metadata: Metadata = {
   title: 'Programme Lutte Enfants | MKR Caucasian Camp | Lutte jeunesse au Daghestan',
@@ -188,7 +189,7 @@ export default function ProgrammeLutteEnfantsPage() {
                 <li><strong>Ratio sécurité</strong> : 1 coach pour 5 enfants maximum</li>
                 <li><strong>Communication parents</strong> : briefing chaque fin de session, photos quotidiennes</li>
                 <li><strong>Cadre adapté</strong> : tapis olympiques homologués, salle dédiée, surveillance permanente</li>
-                <li><strong>Tarif enfant selon durée</strong> : 1 000 € / 1 sem · 1 400 € / 2 sem · 1 900 € / 3 sem (au choix)</li>
+                <li><strong>Forfait Famille</strong> : {FAMILY_FORFAIT_DETAIL.replace('Forfait Famille : ', '')}</li>
               </ul>
               <p className="pull-quote" style={{ marginTop: '1.5rem' }}>
                 &laquo; Mon fils est revenu transformé. Plus discipliné, plus confiant. Et il a appris des choses

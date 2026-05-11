@@ -6,10 +6,11 @@ import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 import CinematicReveal from '@/components/CinematicReveal'
 import PricingTable from '@/components/PricingTable'
 import FacilitatorBand from '@/components/FacilitatorBand'
+import { SOLO_PRICE_1WEEK_LABEL, SOLO_PRICE_1WEEK_EUR } from '@/lib/pricing-copy'
 
 export const metadata: Metadata = {
   title: 'MKR Camp 2026 | Session officielle 17 août - 5 sept | MKR Caucasian Camp',
-  description: 'Rejoins le MKR Camp 2026, session officielle du 17 août au 5 septembre 2026 au Daghestan. Fenêtre de 3 semaines, tu choisis 1, 2 ou 3 semaines. Adultes uniquement, 15 places max. À partir de 1 500 € tout inclus.',
+  description: `Rejoins le MKR Camp 2026, session officielle du 17 août au 5 septembre 2026 au Daghestan. Fenêtre de 3 semaines, tu choisis 1, 2 ou 3 semaines. Adultes uniquement, 15 places max. À partir de ${SOLO_PRICE_1WEEK_LABEL} tout inclus.`,
   alternates: { canonical: 'https://mkrcamp.com/mkr-camp-2026' },
 }
 
@@ -69,8 +70,8 @@ export default function MkrCamp2026Page() {
             <span className="parents-stat-label">Coachs expérimentés</span>
           </div>
           <div>
-            <span className="parents-stat-num">1 500</span>
-            <span className="parents-stat-label">€ minimum · à partir de (1 sem)</span>
+            <span className="parents-stat-num">{SOLO_PRICE_1WEEK_EUR.toLocaleString('fr-FR').replace(/ /g, ' ')}</span>
+            <span className="parents-stat-label">€ minimum · adulte · 1 sem</span>
           </div>
         </div>
       </section>

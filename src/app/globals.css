@@ -6675,8 +6675,23 @@ html.is-loading body {
   margin: 0 auto 3rem;
 }
 
+@media (max-width: 960px) {
+  .pricing-grid { grid-template-columns: repeat(2, 1fr) !important; }
+}
+
 @media (max-width: 720px) {
-  .pricing-grid { grid-template-columns: 1fr; }
+  .pricing-grid { grid-template-columns: 1fr !important; }
+}
+
+.pricing-quote-band {
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+@media (max-width: 600px) {
+  .pricing-quote-band {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+  }
 }
 
 .pricing-card {

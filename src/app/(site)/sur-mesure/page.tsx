@@ -6,6 +6,9 @@ import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 import CinematicReveal from '@/components/CinematicReveal'
 import PricingTable from '@/components/PricingTable'
 import FacilitatorBand from '@/components/FacilitatorBand'
+import { PRICING_TIERS } from '@/data/pricing'
+
+const TRIO_PRICE_1WEEK_NUM = PRICING_TIERS.trio.perAdult[1].toLocaleString('fr-FR').replace(/ /g, ' ')
 
 export const metadata: Metadata = {
   title: 'Camp Sur Mesure | MKR Caucasian Camp | Tes dates au Daghestan',
@@ -68,8 +71,8 @@ export default function SurMesurePage() {
             <span className="parents-stat-label">Semaines au choix</span>
           </div>
           <div>
-            <span className="parents-stat-num">1 500</span>
-            <span className="parents-stat-label">€ · 1 sem · à partir de</span>
+            <span className="parents-stat-num">{TRIO_PRICE_1WEEK_NUM}</span>
+            <span className="parents-stat-label">€ · 1 sem · à partir de 3 pers</span>
           </div>
         </div>
       </section>
