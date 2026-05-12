@@ -24,7 +24,7 @@ export interface FAQCategory {
 export const FAQ_HOMEPAGE: FAQItem[] = [
   {
     question: 'Quel niveau est requis ?',
-    answer: "Le camp est ouvert aux pratiquants intermédiaires et avancés. Une pratique régulière d'au moins 2 ans en MMA, lutte ou art martial de combat est requise. Le niveau est évalué lors de l'entretien vidéo.",
+    answer: "Cela dépend de la discipline. Lutte (Daghestan) : ouverte à tous les niveaux, y compris débutants. MMA (Tchétchénie) : niveau Avancé minimum (5+ ans de pratique régulière) ou Compétiteur, car les sparring partners locaux sont des pros de l'écurie Akhmat. Le niveau est confirmé lors de l'entretien vidéo.",
   },
   {
     question: 'Le visa est-il nécessaire ?',
@@ -44,7 +44,7 @@ export const FAQ_HOMEPAGE: FAQItem[] = [
   },
   {
     question: 'Quel niveau est exigé pour le camp MMA ?',
-    answer: "Niveau Avancé minimum (plus de 5 ans de pratique régulière) ou Compétiteur (régional, national, international). Le formulaire d'inscription bloque les niveaux Intermédiaire et en-dessous quand tu choisis MMA. Cette exigence vient du rythme du camp et du niveau des sparring partners locaux : tu vas t'entraîner avec des combattants pros de l'écurie Akhmat. Si tu n'es pas encore au niveau, choisis Lutte (Daghestan) qui accepte tous les niveaux à partir de 2 ans de pratique. Ruslan refine la sélection en visio finale.",
+    answer: "Niveau Avancé minimum (plus de 5 ans de pratique régulière) ou Compétiteur (régional, national, international). Le formulaire d'inscription bloque les niveaux Intermédiaire et en-dessous quand tu choisis MMA. Cette exigence vient du rythme du camp et du niveau des sparring partners locaux : tu vas t'entraîner avec des combattants pros de l'écurie Akhmat. Si tu n'es pas encore au niveau, choisis Lutte (Daghestan), ouverte à tous les niveaux y compris débutants motivés. Ruslan refine la sélection en visio finale.",
   },
   {
     question: "Quelle est la langue d'entraînement ?",
@@ -112,7 +112,7 @@ export const FAQ_CATEGORIES: FAQCategory[] = [
     items: [
       {
         question: 'Quel niveau est requis pour participer ?',
-        answer: "Le camp est ouvert aux pratiquants intermédiaires et avancés. Une pratique régulière d'au moins 2 ans en MMA, lutte ou art martial de combat est requise. Le niveau est évalué lors de l'entretien vidéo.",
+        answer: "Cela dépend de la discipline choisie. Lutte (Daghestan) : ouverte à tous les niveaux, y compris débutants motivés. Tu progresses dans un cadre adapté à ton point de départ. MMA (Tchétchénie) : niveau Avancé minimum (plus de 5 ans de pratique régulière) ou Compétiteur, car les sparring partners locaux sont des combattants pros. Le niveau est confirmé lors de l'entretien vidéo dans tous les cas.",
       },
       {
         question: "Quelle est la langue d'entraînement ?",

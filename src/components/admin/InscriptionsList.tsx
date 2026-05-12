@@ -49,9 +49,9 @@ interface Row {
 }
 
 const DISCIPLINE_LABEL: Record<CampDiscipline, string> = {
-  lutte: '🤼 Lutte',
-  mma: '🥊 MMA',
-  combo_quote: '🔀 Combo (devis)',
+  lutte: 'Lutte',
+  mma: 'MMA',
+  combo_quote: 'Combo (devis)',
 }
 
 const DISCIPLINE_COLOR: Record<CampDiscipline, string> = {

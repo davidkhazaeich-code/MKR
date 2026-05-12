@@ -104,6 +104,36 @@ type FormData = {
 // et niveau en-dessous d'avancé. Ruslan filtre ensuite en visio.
 const MMA_ACCEPTED_LEVELS = new Set(['avance', 'competiteur-regional', 'competiteur-national', 'competiteur-international'])
 
+// Icônes des disciplines (SVG inline, jamais d'emoji).
+const ICON_LUTTE = (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <circle cx="9" cy="5.5" r="2.2"/>
+    <circle cx="15" cy="5.5" r="2.2"/>
+    <path d="M3 21l2-7 2.5-2.5 2 1 1-1 1 1 2-1 2.5 2.5 2 7"/>
+    <path d="M11 13l1-2.2 1 2.2"/>
+  </svg>
+)
+
+const ICON_MMA = (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <path d="M7 13.5V10c0-2.6 2-4.6 4.6-4.6h.5c2.6 0 4.6 1.8 4.9 4.4l.4 3.7-.9 5.6c-.2 1-.8 1.4-1.8 1.4H9.8c-1 0-1.6-.5-1.8-1.4L7 13.5z"/>
+    <line x1="7" y1="13.5" x2="16.4" y2="13.5"/>
+    <path d="M9.5 10.5v3"/>
+    <path d="M12 9.7v3.8"/>
+    <path d="M14.5 10.5v3"/>
+  </svg>
+)
+
+const ICON_COMBO = (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <polyline points="16 3 21 3 21 8"/>
+    <line x1="4" y1="20" x2="21" y2="3"/>
+    <polyline points="21 16 21 21 16 21"/>
+    <line x1="15" y1="15" x2="21" y2="21"/>
+    <line x1="4" y1="4" x2="9" y2="9"/>
+  </svg>
+)
+
 const INITIAL: FormData = {
   prenom: '', nom: '', dateNaissance: '', pays: '', email: '', telephone: '',
   disciplinePrincipale: '', disciplinesSecondaires: [], anneesPratique: '',
@@ -1282,10 +1312,10 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                             onChange={() => set('campDiscipline', 'lutte')}
                             className="insc-sr"
                           />
-                          <span className="insc-discipline-card-emoji" aria-hidden="true">🤼</span>
+                          <span className="insc-discipline-card-icon">{ICON_LUTTE}</span>
                           <span className="insc-discipline-card-name">LUTTE</span>
                           <span className="insc-discipline-card-place">Daghestan · Makhachkala</span>
-                          <span className="insc-discipline-card-meta">15 places · tous niveaux à partir de 2 ans de pratique</span>
+                          <span className="insc-discipline-card-meta">15 places · ouvert à tous les niveaux</span>
                           {form.session && (
                             <PlacesRestantes
                               sessionId={form.session}
@@ -1304,7 +1334,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                             onChange={() => set('campDiscipline', 'mma')}
                             className="insc-sr"
                           />
-                          <span className="insc-discipline-card-emoji" aria-hidden="true">🥊</span>
+                          <span className="insc-discipline-card-icon">{ICON_MMA}</span>
                           <span className="insc-discipline-card-name">MMA</span>
                           <span className="insc-discipline-card-place">Tchétchénie · Grozny</span>
                           <span className="insc-discipline-card-meta">15 places · niveau Avancé minimum</span>
@@ -1494,21 +1524,21 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                       <div className="insc-discipline-grid">
                         <label className={`insc-discipline-card insc-discipline-card--lutte${form.campDiscipline === 'lutte' ? ' is-active' : ''}`}>
                           <input type="radio" name="campDiscipline" value="lutte" checked={form.campDiscipline === 'lutte'} onChange={() => set('campDiscipline', 'lutte')} className="insc-sr" />
-                          <span className="insc-discipline-card-emoji" aria-hidden="true">🤼</span>
+                          <span className="insc-discipline-card-icon">{ICON_LUTTE}</span>
                           <span className="insc-discipline-card-name">LUTTE</span>
                           <span className="insc-discipline-card-place">Daghestan · Makhachkala</span>
-                          <span className="insc-discipline-card-meta">Tout le club au camp Lutte</span>
+                          <span className="insc-discipline-card-meta">Tout le club au camp Lutte, ouvert à tous les niveaux</span>
                         </label>
                         <label className={`insc-discipline-card insc-discipline-card--mma${form.campDiscipline === 'mma' ? ' is-active' : ''}`}>
                           <input type="radio" name="campDiscipline" value="mma" checked={form.campDiscipline === 'mma'} onChange={() => set('campDiscipline', 'mma')} className="insc-sr" />
-                          <span className="insc-discipline-card-emoji" aria-hidden="true">🥊</span>
+                          <span className="insc-discipline-card-icon">{ICON_MMA}</span>
                           <span className="insc-discipline-card-name">MMA</span>
                           <span className="insc-discipline-card-place">Tchétchénie · Grozny</span>
                           <span className="insc-discipline-card-meta">Profil avancé requis pour tout le groupe</span>
                         </label>
                         <label className={`insc-discipline-card${form.campDiscipline === 'combo_quote' ? ' is-active' : ''}`} style={{ gridColumn: '1 / -1' }}>
                           <input type="radio" name="campDiscipline" value="combo_quote" checked={form.campDiscipline === 'combo_quote'} onChange={() => set('campDiscipline', 'combo_quote')} className="insc-sr" />
-                          <span className="insc-discipline-card-emoji" aria-hidden="true">🔀</span>
+                          <span className="insc-discipline-card-icon">{ICON_COMBO}</span>
                           <span className="insc-discipline-card-name">COMBO LUTTE + MMA</span>
                           <span className="insc-discipline-card-place">Daghestan puis Tchétchénie</span>
                           <span className="insc-discipline-card-meta">Tarif et split fixés après cadrage visio</span>

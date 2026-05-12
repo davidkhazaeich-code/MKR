@@ -70,12 +70,14 @@ export default function PreparerSonCampPage() {
               <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>PRÉREQUIS</span>
               <h2 style={{ fontSize: 'clamp(1.5rem, 3vw, 2rem)', textTransform: 'uppercase' }}>NIVEAU MINIMUM</h2>
               <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1rem' }}>
-                Tu n&apos;as pas besoin d&apos;être un professionnel. Mais tu dois être un pratiquant sérieux
-                avec au moins 2 ans de pratique régulière en sport de combat.
+                Le niveau exigé dépend de la discipline. <strong>Camp Lutte au Daghestan : ouvert à tous les
+                niveaux</strong>, y compris débutants motivés. Tu progresses dans un cadre adapté à ton point
+                de départ. <strong>Camp MMA en Tchétchénie : niveau Avancé minimum</strong> (plus de 5 ans de
+                pratique régulière) ou Compétiteur, car les sparring partners locaux sont des combattants pros.
               </p>
               <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1rem' }}>
-                Le camp est intense. Si tu arrives sans préparation, tu ne tiendras pas la première semaine.
-                On te fournit donc un programme de préparation de 6 semaines.
+                Dans les deux cas le camp est intense. Si tu arrives sans préparation physique, tu ne tiendras
+                pas la première semaine. On te fournit donc un programme de préparation de 6 semaines.
               </p>
             </div>
             <div className="content-card fx-grain fx-corner-glow reveal" style={{ transitionDelay: '0.1s' }}>

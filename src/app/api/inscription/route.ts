@@ -287,13 +287,13 @@ async function notifySlack(p: SlackPayload): Promise<void> {
     groupe: 'Club & Groupe',
   }
   const disciplineLabel: Record<CampDiscipline, string> = {
-    lutte: '🤼 Lutte · Daghestan',
-    mma: '🥊 MMA · Tchetchenie',
-    combo_quote: '🔀 Combo Lutte+MMA · sur devis',
+    lutte: 'Lutte · Daghestan',
+    mma: 'MMA · Tchetchenie',
+    combo_quote: 'Combo Lutte+MMA · sur devis',
   }
   const adminBase = process.env.NEXT_PUBLIC_SITE_URL || 'https://mkrcamp.com'
   const text = [
-    `🆕 *Nouvelle candidature MKR* (${tunnelLabel[p.tunnel] ?? p.tunnel})`,
+    `*Nouvelle candidature MKR* (${tunnelLabel[p.tunnel] ?? p.tunnel})`,
     `*${p.prenom} ${p.nom}* — ${p.email}${p.pays ? ` — ${p.pays}` : ''}${p.duree_semaines ? ` — ${p.duree_semaines} sem.` : ''}`,
     p.camp_discipline ? `*Camp* : ${disciplineLabel[p.camp_discipline]}` : null,
     `<${adminBase}/admin/inscriptions/${p.candidature_id}|Voir le dossier>`,

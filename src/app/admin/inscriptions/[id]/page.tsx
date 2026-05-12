@@ -407,7 +407,14 @@ export default async function CandidatureDetailPage({
             }}
           >
             <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
-              <span style={{ fontSize: '1.5rem', lineHeight: 1 }} aria-hidden="true">🔀</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="#a78bfa" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" width="28" height="28" aria-hidden="true" style={{ flexShrink: 0, marginTop: '0.1rem' }}>
+                <path d="M3 7h11"/>
+                <path d="M14 7l-3-3"/>
+                <path d="M14 7l-3 3"/>
+                <path d="M21 17H10"/>
+                <path d="M10 17l3-3"/>
+                <path d="M10 17l3 3"/>
+              </svg>
               <div>
                 <strong style={{ color: '#a78bfa', display: 'block', fontSize: '0.95rem', marginBottom: '0.2rem' }}>
                   Demande de devis Club & Groupe
@@ -544,11 +551,18 @@ export default async function CandidatureDetailPage({
                     marginBottom: '0.9rem',
                   }}
                 >
-                  {packagePaid
-                    ? '✓ Soldé'
-                    : remainingEur !== null
-                      ? `${remainingEur} €`
-                      : '— € (montant à définir)'}
+                  {packagePaid ? (
+                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}>
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" width="32" height="32" aria-hidden="true">
+                        <polyline points="5 13 9 17 19 7"/>
+                      </svg>
+                      Soldé
+                    </span>
+                  ) : remainingEur !== null ? (
+                    `${remainingEur} €`
+                  ) : (
+                    '— € (montant à définir)'
+                  )}
                 </div>
                 {totalCents && totalCents > 0 && (
                   <div
@@ -582,8 +596,11 @@ export default async function CandidatureDetailPage({
                   [
                     'Package soldé',
                     candidature.package_paid_at ? (
-                      <span style={{ color: 'var(--adm-status-validee)' }}>
-                        ✓ Soldé le {formatDateTime(candidature.package_paid_at)}
+                      <span style={{ color: 'var(--adm-status-validee)', display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" width="14" height="14" aria-hidden="true">
+                          <polyline points="5 13 9 17 19 7"/>
+                        </svg>
+                        Soldé le {formatDateTime(candidature.package_paid_at)}
                       </span>
                     ) : (
                       <span className="adm-def-val--muted">Non soldé</span>

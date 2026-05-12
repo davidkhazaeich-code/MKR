@@ -381,7 +381,7 @@ export default async function AdminInscriptionsPage({
               style={{ ['--adm-pill-accent' as string]: '#4ade80' }}
               title="Lutte · Daghestan"
             >
-              🤼 Lutte
+              Lutte
               <span style={{ color: 'var(--adm-text-faint)', fontWeight: 500 }}>{disciplineCounts.lutte}</span>
             </a>
             <a
@@ -391,7 +391,7 @@ export default async function AdminInscriptionsPage({
               style={{ ['--adm-pill-accent' as string]: '#f59e0b' }}
               title="MMA · Tchétchénie (niveau avancé à vérifier)"
             >
-              🥊 MMA
+              MMA
               <span style={{ color: 'var(--adm-text-faint)', fontWeight: 500 }}>{disciplineCounts.mma}</span>
             </a>
             <a
@@ -401,7 +401,7 @@ export default async function AdminInscriptionsPage({
               style={{ ['--adm-pill-accent' as string]: '#a78bfa' }}
               title="Combo Lutte + MMA · sur devis"
             >
-              🔀 Combo
+              Combo
               <span style={{ color: 'var(--adm-text-faint)', fontWeight: 500 }}>{disciplineCounts.combo_quote}</span>
             </a>
           </div>
