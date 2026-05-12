@@ -2,6 +2,15 @@ import { SOLO_PRICE_1WEEK_LABEL } from '@/lib/pricing-copy'
 
 export type SessionStatus = 'open' | 'limited' | 'closed'
 
+export type CampDiscipline = 'lutte' | 'mma'
+
+export interface SessionCapacity {
+  /** Places Lutte (Daghestan). Programme adultes + enfants en parallèle. */
+  lutte: number
+  /** Places MMA (Tchétchénie). Niveau avancé minimum requis. */
+  mma: number
+}
+
 export interface Session {
   id: string
   season: string
@@ -15,12 +24,13 @@ export interface Session {
   endDate: string
   price: number
   priceCurrency: string
-  maxCapacity: number
+  /** Capacité séparée par discipline. Total = lutte + mma. */
+  maxCapacity: SessionCapacity
   spotsLabel: string
   status: SessionStatus
   intensity: string
   duration: string
-  destination: 'Dagestan'
+  destination: 'Daghestan ou Tchétchénie'
 }
 
 export const SESSIONS: Session[] = [
@@ -29,7 +39,7 @@ export const SESSIONS: Session[] = [
     season: 'Été',
     seasonLabel: 'Session Été · Août 2026',
     label: 'AOÛT 2026',
-    name: 'CAMP DAGHESTANAIS',
+    name: 'CAMP CAUCASIEN',
     monthAbbr: 'AOÛ',
     dates: '17 Août - 5 Septembre',
     datesFull: '17 AOÛT · 5 SEPTEMBRE 2026',
@@ -37,12 +47,12 @@ export const SESSIONS: Session[] = [
     endDate: '2026-09-05',
     price: 2900,
     priceCurrency: 'EUR',
-    maxCapacity: 15,
+    maxCapacity: { lutte: 15, mma: 15 },
     spotsLabel: 'Places disponibles',
     status: 'open',
     intensity: 'Maximale',
     duration: '1 à 3 semaines',
-    destination: 'Dagestan',
+    destination: 'Daghestan ou Tchétchénie',
   },
   {
     id: 'toussaint-2026',
@@ -57,12 +67,12 @@ export const SESSIONS: Session[] = [
     endDate: '2026-11-07',
     price: 2900,
     priceCurrency: 'EUR',
-    maxCapacity: 15,
+    maxCapacity: { lutte: 15, mma: 15 },
     spotsLabel: 'Places disponibles',
     status: 'open',
     intensity: 'Élevée',
     duration: '1 à 3 semaines',
-    destination: 'Dagestan',
+    destination: 'Daghestan ou Tchétchénie',
   },
   {
     id: 'fevrier-2027',
@@ -77,12 +87,12 @@ export const SESSIONS: Session[] = [
     endDate: '2027-03-06',
     price: 2900,
     priceCurrency: 'EUR',
-    maxCapacity: 15,
+    maxCapacity: { lutte: 15, mma: 15 },
     spotsLabel: 'Places disponibles',
     status: 'open',
     intensity: 'Maximale',
     duration: '1 à 3 semaines',
-    destination: 'Dagestan',
+    destination: 'Daghestan ou Tchétchénie',
   },
   {
     id: 'paques-2027',
@@ -97,12 +107,12 @@ export const SESSIONS: Session[] = [
     endDate: '2027-04-24',
     price: 2900,
     priceCurrency: 'EUR',
-    maxCapacity: 15,
+    maxCapacity: { lutte: 15, mma: 15 },
     spotsLabel: 'Places disponibles',
     status: 'open',
     intensity: 'Élevée',
     duration: '1 à 3 semaines',
-    destination: 'Dagestan',
+    destination: 'Daghestan ou Tchétchénie',
   },
 ]
 

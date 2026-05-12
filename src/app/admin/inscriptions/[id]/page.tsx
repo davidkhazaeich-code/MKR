@@ -54,6 +54,14 @@ const PAYMENT_METHOD_LABEL: Record<PaymentMethod, string> = {
   autre: 'Autre',
 }
 
+type CampDiscipline = 'lutte' | 'mma' | 'combo_quote'
+
+const DISCIPLINE_LABEL_FULL: Record<CampDiscipline, string> = {
+  lutte: 'Lutte · Daghestan (Makhachkala / Kaspiysk)',
+  mma: 'MMA · Tchétchénie (Grozny, Akhmat)',
+  combo_quote: 'Combo Lutte + MMA · sur devis',
+}
+
 interface CandidatureRow {
   id: string
   created_at: string
@@ -62,6 +70,7 @@ interface CandidatureRow {
   session_id: string | null
   duree_semaines: number | null
   date_debut_souhaitee: string | null
+  camp_discipline: CampDiscipline | null
   status: Status
   status_changed_at: string
   status_changed_by_email: string | null
@@ -257,7 +266,7 @@ export default async function CandidatureDetailPage({
       supabase
         .from('candidatures')
         .select(`
-          id, created_at, updated_at, tunnel_type, session_id, duree_semaines,
+          id, created_at, updated_at, tunnel_type, session_id, duree_semaines, camp_discipline,
           date_debut_souhaitee, status, status_changed_at, status_changed_by_email,
           package_amount_cents, package_paid_at, payment_method, payment_date,
           notes_admin, notes_visio, form_data, group_members,
@@ -429,6 +438,7 @@ export default async function CandidatureDetailPage({
               <DefList
                 items={[
                   ['Tunnel', TUNNEL_LABEL[candidature.tunnel_type]],
+                  ['Camp choisi', candidature.camp_discipline ? DISCIPLINE_LABEL_FULL[candidature.camp_discipline] : '—'],
                   ['Session', candidature.session_id ?? '—'],
                   [
                     'Durée souhaitée',

@@ -15,7 +15,7 @@ export default function Sessions() {
             LES 4<br />SESSIONS
           </h2>
           <p style={{ color: 'var(--text-secondary)', marginTop: '0.8rem', maxWidth: '640px' }}>
-            Une session par saison, calée sur les vacances scolaires francophones (France, Suisse romande, Belgique).
+            Une session par saison, calée sur les vacances scolaires francophones (France, Suisse romande, Belgique). Lutte au Daghestan ou MMA en Tchétchénie selon la discipline choisie à l&apos;inscription.
           </p>
         </div>
 
@@ -42,8 +42,7 @@ export default function Sessions() {
                   <span className="session-meta-value">
                     <PlacesRestantes
                       sessionId={session.id}
-                      fallbackMax={session.maxCapacity}
-                      variant="compact"
+                      variant="dual"
                     />
                   </span>
                 </div>
@@ -56,7 +55,7 @@ export default function Sessions() {
               <div className="session-card-footer">
                 <div>
                   <div className="session-price">{formatPriceFrom(session)}</div>
-                  <div className="session-price-sub">Tarif Solo / Duo : {DUO_ONE_LINE_BARE} par adulte. Dégressif dès 3 personnes. Forfait Famille (1P+1E) à partir de {FAMILY_BASE_1WEEK_LABEL}. Hébergement, 2 repas/jour, vol Istanbul-Makhachkala inclus.</div>
+                  <div className="session-price-sub">Tarif Solo / Duo : {DUO_ONE_LINE_BARE} par adulte. Dégressif dès 3 personnes. Forfait Famille (1P+1E) à partir de {FAMILY_BASE_1WEEK_LABEL}. Hébergement, 2 repas/jour, vol intérieur depuis Istanbul (Makhachkala pour Lutte ou Grozny pour MMA) inclus.</div>
                 </div>
                 <Link href={`/inscription?type=session&session=${session.id}`} className="session-cta">POSTULER</Link>
               </div>

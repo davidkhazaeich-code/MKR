@@ -28,15 +28,27 @@ export const FAQ_HOMEPAGE: FAQItem[] = [
   },
   {
     question: 'Le visa est-il nécessaire ?',
-    answer: "Le camp se déroule au Daghestan (Fédération de Russie). Un visa russe est nécessaire pour la majorité des nationalités. Pour les ressortissants UE, MKR fournit un questionnaire visa à compléter avec ton passeport (validité 6 mois minimum) et t'accompagne dans toute la procédure après confirmation de ta candidature.",
+    answer: "Que tu partes au Daghestan (Lutte) ou en Tchétchénie (MMA), le camp se déroule en Fédération de Russie : un visa russe est nécessaire pour la majorité des nationalités. Pour les ressortissants UE, MKR fournit un questionnaire visa à compléter avec ton passeport (validité 6 mois minimum) et t'accompagne dans toute la procédure après confirmation de ta candidature.",
   },
   {
     question: "Qu'est-ce qui est inclus dans le prix ?",
-    answer: "Le tarif comprend l'hébergement en logement de camp, les repas (2 repas/jour), les séances d'entraînement biquotidiennes, le vol intérieur Istanbul-Makhachkala, les transferts aéroport-camp et le suivi préparatoire à distance. Le vol international n'est pas inclus.",
+    answer: "Le tarif comprend l'hébergement en logement de camp, les repas (2 repas/jour), les séances d'entraînement biquotidiennes, le vol intérieur depuis Istanbul (Makhachkala pour le Daghestan, Grozny pour la Tchétchénie), les transferts aéroport-camp et le suivi préparatoire à distance. Le vol international n'est pas inclus.",
+  },
+  {
+    question: 'Où se déroule le camp : Daghestan ou Tchétchénie ?',
+    answer: "Cela dépend de la discipline que tu choisis. Lutte adultes et Lutte enfants : camp au Daghestan, dans les salles de Makhachkala et Kaspiysk. MMA : camp en Tchétchénie, à Grozny, dans l'écosystème de l'Akhmat Fight Club. Sur les sessions officielles, c'est exclusif : 15 places Lutte + 15 places MMA par session, tu choisis l'une OU l'autre à l'inscription. Le combo Daghestan + Tchétchénie est possible uniquement sur les inscriptions Sur Mesure ou Club & Groupe (devis personnalisé).",
+  },
+  {
+    question: 'Lutte ou MMA, comment je choisis ?',
+    answer: "Tu choisis selon ta discipline d'origine et tes objectifs. Si tu pratiques la lutte libre, le grappling, le BJJ ou le sambo : choisis Lutte (Daghestan, héritage des champions olympiques). Si tu pratiques le MMA, la boxe, le kickboxing ou la muay thaï et que tu veux progresser dans l'écosystème MMA russe : choisis MMA (Tchétchénie, Akhmat Fight Club). Le MMA exige un niveau Avancé minimum. Pour les indécis ou les athlètes complets : option Combo en Sur Mesure (devis).",
+  },
+  {
+    question: 'Quel niveau est exigé pour le camp MMA ?',
+    answer: "Niveau Avancé minimum (plus de 5 ans de pratique régulière) ou Compétiteur (régional, national, international). Le formulaire d'inscription bloque les niveaux Intermédiaire et en-dessous quand tu choisis MMA. Cette exigence vient du rythme du camp et du niveau des sparring partners locaux : tu vas t'entraîner avec des combattants pros de l'écurie Akhmat. Si tu n'es pas encore au niveau, choisis Lutte (Daghestan) qui accepte tous les niveaux à partir de 2 ans de pratique. Ruslan refine la sélection en visio finale.",
   },
   {
     question: "Quelle est la langue d'entraînement ?",
-    answer: "Les entraînements se déroulent principalement en russe (et quelques mots d'avar selon la salle). Un interprète est présent pour le français et l'anglais. L'immersion linguistique fait partie de l'expérience.",
+    answer: "Les entraînements se déroulent principalement en russe (et quelques mots d'avar au Daghestan ou de tchétchène/vaïnakh en Tchétchénie selon la salle). Un interprète francophone est présent. L'immersion linguistique fait partie de l'expérience.",
   },
   {
     question: 'Quel équipement dois-je apporter ?',
@@ -48,7 +60,7 @@ export const FAQ_HOMEPAGE: FAQItem[] = [
   },
   {
     question: "Quelles sont les dates des prochains camps ?",
-    answer: `Quatre sessions officielles par an, calées sur les vacances scolaires francophones. Été 2026 : 17 août - 5 septembre. Toussaint 2026 : 17 octobre - 7 novembre. Hiver 2027 : 13 février - 6 mars. Pâques 2027 : 3 - 24 avril. Toutes au Daghestan, fenêtre de 3 semaines au sein de laquelle tu choisis 1, 2 ou 3 semaines, 15 places max. Tarif Solo / Duo : ${formatEUR(PRICING_TIERS.duo.perAdult[1])} / adulte (1 sem) à ${formatEUR(PRICING_TIERS.duo.perAdult[3])} / adulte (3 sem) tout compris. Tarif dégressif à partir de 3 personnes.`,
+    answer: `Quatre sessions officielles par an, calées sur les vacances scolaires francophones. Été 2026 : 17 août - 5 septembre. Toussaint 2026 : 17 octobre - 7 novembre. Hiver 2027 : 13 février - 6 mars. Pâques 2027 : 3 - 24 avril. Chaque session se vit au Daghestan (Lutte) ou en Tchétchénie (MMA), au choix. Fenêtre de 3 semaines au sein de laquelle tu choisis 1, 2 ou 3 semaines, 15 places max par destination. Tarif Solo / Duo : ${formatEUR(PRICING_TIERS.duo.perAdult[1])} / adulte (1 sem) à ${formatEUR(PRICING_TIERS.duo.perAdult[3])} / adulte (3 sem) tout compris. Tarif dégressif à partir de 3 personnes.`,
   },
 ]
 
@@ -59,8 +71,8 @@ export const FAQ_CATEGORIES: FAQCategory[] = [
     label: 'Sécurité',
     items: [
       {
-        question: 'Est-ce que le Daghestan est sûr ?',
-        answer: "La région où se déroule le camp est stable et fréquentée par des athlètes du monde entier. Nous suivons en permanence les recommandations du Quai d'Orsay et du DFAE. Un protocole de sécurité MKR est en place : contacts d'urgence 24/7, assurance rapatriement recommandée, équipe locale présente en permanence.",
+        question: 'Est-ce que le Daghestan et la Tchétchénie sont sûrs ?',
+        answer: "Les zones urbaines où se déroulent les camps (Makhachkala, Kaspiysk au Daghestan et Grozny en Tchétchénie) sont stables, fréquentées par des athlètes du monde entier et sous forte présence policière. Nous suivons en permanence les recommandations du Quai d'Orsay et du DFAE. Protocole MKR : contacts d'urgence 24/7, assurance rapatriement recommandée, équipe locale présente en permanence dans chaque destination.",
       },
       {
         question: 'Dois-je souscrire une assurance voyage ?',
@@ -78,11 +90,11 @@ export const FAQ_CATEGORIES: FAQCategory[] = [
     items: [
       {
         question: 'Le visa est-il nécessaire ?',
-        answer: "Le camp se déroule au Daghestan (Fédération de Russie). Un visa russe est nécessaire pour la majorité des nationalités. Pour les ressortissants UE, MKR fournit un questionnaire visa à compléter avec ton passeport (validité 6 mois minimum) et t'accompagne dans toute la procédure après confirmation de ta candidature.",
+        answer: "Le camp se déroule en Fédération de Russie (au Daghestan pour la Lutte, en Tchétchénie pour le MMA). Un visa russe est nécessaire pour la majorité des nationalités. Pour les ressortissants UE, MKR fournit un questionnaire visa à compléter avec ton passeport (validité 6 mois minimum) et t'accompagne dans toute la procédure après confirmation de ta candidature.",
       },
       {
         question: "Qu'est-ce qui est inclus dans le prix ?",
-        answer: "Le tarif comprend l'hébergement en logement de camp, les repas (2 repas/jour), les séances d'entraînement biquotidiennes, le vol intérieur Istanbul-Makhachkala, les transferts aéroport-camp et le suivi préparatoire à distance. Le vol international n'est pas inclus.",
+        answer: "Le tarif comprend l'hébergement en logement de camp, les repas (2 repas/jour), les séances d'entraînement biquotidiennes, le vol intérieur depuis Istanbul (Makhachkala pour Daghestan ou Grozny pour Tchétchénie), les transferts aéroport-camp et le suivi préparatoire à distance. Le vol international n'est pas inclus.",
       },
       {
         question: 'Quel équipement dois-je apporter ?',
@@ -90,7 +102,7 @@ export const FAQ_CATEGORIES: FAQCategory[] = [
       },
       {
         question: "Comment se passe le transfert depuis l'aéroport ?",
-        answer: "Le transfert aéroport-camp est inclus dans le prix. Un véhicule MKR t'attend à l'arrivée. Le trajet entre Makhachkala et le lieu d'entraînement dure environ 1h30.",
+        answer: "Le transfert aéroport-camp est inclus dans le prix. Un véhicule MKR t'attend à l'arrivée. Trajet d'environ 1h30 depuis Makhachkala (Daghestan, camp Lutte) ou d'environ 30 minutes depuis Grozny (Tchétchénie, camp MMA).",
       },
     ],
   },
@@ -112,7 +124,11 @@ export const FAQ_CATEGORIES: FAQCategory[] = [
       },
       {
         question: 'Puis-je choisir entre MMA, lutte adultes et lutte enfants ?',
-        answer: "Oui. Le camp propose 3 disciplines : Lutte adultes, Lutte enfants et MMA. Tu choisis ta discipline à l'inscription. Lutte adultes et enfants : sessions à 10h30 et 17h30. MMA : sessions à 11h00 et 18h00.",
+        answer: "Oui. Le camp propose 3 disciplines : Lutte adultes, Lutte enfants et MMA. Tu choisis ta discipline à l'inscription, et ta destination en découle : Lutte adultes et Lutte enfants au Daghestan (sessions à 10h30 et 17h30), MMA en Tchétchénie (sessions à 11h00 et 18h00). Sur les sessions officielles, c'est exclusif : 15 places Lutte + 15 places MMA. Le combo Lutte + MMA dans le même camp se vit uniquement en Sur Mesure (séquentiel : X jours au Daghestan puis Y jours en Tchétchénie, tarif sur devis).",
+      },
+      {
+        question: "Comment se passe le combo Lutte + MMA en Sur Mesure ?",
+        answer: "Le combo est séquentiel : tu commences au Daghestan pour la partie Lutte (X jours), puis MKR organise ton transfert vers la Tchétchénie pour la partie MMA (Y jours). Durée minimum totale : 2 semaines. Le split (par exemple 1 sem Lutte + 1 sem MMA) est cadré pendant ta visio avec Ruslan, en fonction de tes objectifs et de ton niveau. Le tarif n'est pas public : il est fixé sur devis en visio (logistique double destination, vols intérieurs Makhachkala + Grozny, transferts). Le combo n'est pas disponible sur les sessions officielles ni en Famille.",
       },
       {
         question: 'Y a-t-il des jours de repos ?',
@@ -146,7 +162,7 @@ export const FAQ_CATEGORIES: FAQCategory[] = [
       },
       {
         question: "Quelles sont les 4 sessions officielles 2026 / 2027 ?",
-        answer: `Quatre sessions par an, calées sur les vacances scolaires des trois zones françaises, suisses romandes et belges, pour permettre aux pratiquants francophones (et aux familles) de partir sans poser de congés. Été 2026 : 17 août - 5 septembre 2026 (fenêtre 3 sem, vacances été). Toussaint 2026 : 17 octobre - 7 novembre 2026 (fenêtre 3 sem, Toussaint FR + octobre CH + Toussaint BE). Hiver 2027 : 13 février - 6 mars 2027 (fenêtre 3 sem, vacances d'hiver zones A/B/C FR + relâche CH + carnaval BE). Pâques 2027 : 3 - 24 avril 2027 (fenêtre 3 sem, vacances de printemps FR + Pâques CH + BE). Au sein de chaque fenêtre, tu choisis 1, 2 ou 3 semaines. Toutes au Daghestan, 15 places max. Tarif Solo / Duo : ${formatEUR(PRICING_TIERS.duo.perAdult[1])} / adulte (1 sem) à ${formatEUR(PRICING_TIERS.duo.perAdult[3])} / adulte (3 sem) tout compris. Tarif dégressif à partir de 3 personnes.`,
+        answer: `Quatre sessions par an, calées sur les vacances scolaires des trois zones françaises, suisses romandes et belges, pour permettre aux pratiquants francophones (et aux familles) de partir sans poser de congés. Été 2026 : 17 août - 5 septembre 2026 (fenêtre 3 sem, vacances été). Toussaint 2026 : 17 octobre - 7 novembre 2026 (fenêtre 3 sem, Toussaint FR + octobre CH + Toussaint BE). Hiver 2027 : 13 février - 6 mars 2027 (fenêtre 3 sem, vacances d'hiver zones A/B/C FR + relâche CH + carnaval BE). Pâques 2027 : 3 - 24 avril 2027 (fenêtre 3 sem, vacances de printemps FR + Pâques CH + BE). Au sein de chaque fenêtre, tu choisis 1, 2 ou 3 semaines. Chaque session se vit au Daghestan (Lutte adultes et Lutte enfants) ou en Tchétchénie (MMA), 15 places max par destination. Tarif Solo / Duo : ${formatEUR(PRICING_TIERS.duo.perAdult[1])} / adulte (1 sem) à ${formatEUR(PRICING_TIERS.duo.perAdult[3])} / adulte (3 sem) tout compris. Tarif dégressif à partir de 3 personnes.`,
       },
       {
         question: 'Quel est le délai minimum pour réserver un camp sur mesure ?',

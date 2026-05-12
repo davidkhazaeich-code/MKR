@@ -13,7 +13,7 @@ export default function CTAFinal() {
           PRÊT POUR<br /><span>LE CAUCASE ?</span>
         </h2>
         <p className="cta-subtitle reveal" style={{ transitionDelay: '0.1s' }}>
-          Prochain camp · {next.dates} {year} · Daghestan
+          Prochain camp · {next.dates} {year} · Daghestan (Lutte) ou Tchétchénie (MMA)
         </p>
         <Link href="/inscription" className="cta-btn reveal" style={{ transitionDelay: '0.2s' }}>
           DÉPOSER MA CANDIDATURE

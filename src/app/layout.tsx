@@ -2,7 +2,6 @@ import type { Metadata } from 'next'
 import { Teko, Barlow, Barlow_Condensed } from 'next/font/google'
 import { SITE_URL, SITE_NAME, SITE_EMAIL, SITE_DESCRIPTION, SOCIALS, GEO } from '@/data/site'
 import { SESSIONS } from '@/data/sessions'
-import { COACHES } from '@/data/coaches'
 import SiteLoader from '@/components/SiteLoader'
 import './globals.css'
 
@@ -80,8 +79,6 @@ const jsonLdWebSite = {
 // ---------------------------------------------------------------------------
 // 2. Main @graph - generated from data layer
 // ---------------------------------------------------------------------------
-const coachPerformers = COACHES.map(c => ({ '@id': `${SITE_URL}/#person-${c.id}` }))
-
 const jsonLdMain = {
   '@context': 'https://schema.org',
   '@graph': [
@@ -102,14 +99,14 @@ const jsonLdMain = {
     },
     {
       '@type': 'SportsActivityLocation',
-      '@id': `${SITE_URL}/#location`,
-      name: SITE_NAME,
-      url: `${SITE_URL}/le-camp`,
-      description: "Camp d'entraînement MMA et Lutte (adultes et enfants) au cœur du Caucase, au Daghestan. Salles d'entraînement avec tapis olympiques, cage MMA et équipement de frappe.",
+      '@id': `${SITE_URL}/#location-dagestan`,
+      name: `${SITE_NAME} · Camp Lutte Daghestan`,
+      url: `${SITE_URL}/destinations/dagestan`,
+      description: "Camp d'entraînement Lutte libre (adultes et enfants) au cœur du Daghestan, Caucase russe. Salles avec tapis olympiques, méthodes daghestanaises.",
       image: `${SITE_URL}/images/environment/gym-interior.webp`,
-      address: { '@type': 'PostalAddress', addressCountry: GEO.country, addressRegion: GEO.region },
-      geo: { '@type': 'GeoCoordinates', latitude: GEO.latitude, longitude: GEO.longitude },
-      sport: ['MMA', 'Lutte libre', 'Lutte enfants'],
+      address: { '@type': 'PostalAddress', addressCountry: 'RU', addressRegion: 'Daghestan' },
+      geo: { '@type': 'GeoCoordinates', latitude: 42.9849, longitude: 47.5047 },
+      sport: ['Lutte libre', 'Lutte enfants'],
       openingHoursSpecification: { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'], opens: '07:00', closes: '22:00' },
       amenityFeature: [
         { '@type': 'LocationFeatureSpecification', name: 'Hébergement inclus', value: true },
@@ -118,20 +115,40 @@ const jsonLdMain = {
         { '@type': 'LocationFeatureSpecification', name: 'Vol intérieur Istanbul-Makhachkala', value: true },
       ],
     },
+    {
+      '@type': 'SportsActivityLocation',
+      '@id': `${SITE_URL}/#location-tchetchenie`,
+      name: `${SITE_NAME} · Camp MMA Tchétchénie`,
+      url: `${SITE_URL}/destinations/tchetchenie`,
+      description: "Camp d'entraînement MMA en Tchétchénie, Caucase russe. Salles équipées cage MMA et équipement de frappe, sparring quotidien avec combattants locaux.",
+      image: `${SITE_URL}/images/environment/gym-interior.webp`,
+      address: { '@type': 'PostalAddress', addressCountry: 'RU', addressRegion: 'Tchétchénie' },
+      geo: { '@type': 'GeoCoordinates', latitude: 43.3168, longitude: 45.6981 },
+      sport: ['MMA', 'Arts martiaux mixtes'],
+      openingHoursSpecification: { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'], opens: '07:00', closes: '22:00' },
+      amenityFeature: [
+        { '@type': 'LocationFeatureSpecification', name: 'Hébergement inclus', value: true },
+        { '@type': 'LocationFeatureSpecification', name: '2 repas/jour', value: true },
+        { '@type': 'LocationFeatureSpecification', name: 'Transfert aéroport', value: true },
+        { '@type': 'LocationFeatureSpecification', name: 'Vol intérieur Istanbul-Grozny', value: true },
+      ],
+    },
     ...SESSIONS.map(s => ({
       '@type': 'Event',
       '@id': `${SITE_URL}/#event-${s.id}`,
       name: `${SITE_NAME} - Session ${s.season} 2026`,
-      description: `Session ${s.season.toLowerCase()} de ${s.duration} en MMA et lutte au Caucase. Coaching d'élite, hébergement et repas inclus. Maximum ${s.maxCapacity} participants.`,
+      description: `Session ${s.season.toLowerCase()} de ${s.duration} : ${s.maxCapacity.lutte} places Lutte au Daghestan + ${s.maxCapacity.mma} places MMA en Tchétchénie (exclusif). Coaching d'élite, hébergement et repas inclus.`,
       startDate: s.startDate,
       endDate: s.endDate,
       eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
       eventStatus: 'https://schema.org/EventScheduled',
-      location: { '@id': `${SITE_URL}/#location` },
+      location: [
+        { '@id': `${SITE_URL}/#location-dagestan` },
+        { '@id': `${SITE_URL}/#location-tchetchenie` },
+      ],
       image: `${SITE_URL}/images/social/og-image.webp`,
       url: `${SITE_URL}/sessions`,
       organizer: { '@id': `${SITE_URL}/#organization` },
-      performer: coachPerformers,
       offers: {
         '@type': 'Offer',
         name: `Session ${s.season} 2026`,
@@ -141,19 +158,8 @@ const jsonLdMain = {
         url: `${SITE_URL}/inscription`,
         validFrom: '2025-12-01',
       },
-      maximumAttendeeCapacity: s.maxCapacity,
+      maximumAttendeeCapacity: s.maxCapacity.lutte + s.maxCapacity.mma,
       inLanguage: ['fr', 'en'],
-    })),
-    ...COACHES.map(c => ({
-      '@type': 'Person',
-      '@id': `${SITE_URL}/#person-${c.id}`,
-      name: `${c.firstName} ${c.lastName}`,
-      jobTitle: c.jobTitle,
-      description: c.bioShort,
-      image: `${SITE_URL}${c.image}`,
-      url: `${SITE_URL}/coachs`,
-      worksFor: { '@id': `${SITE_URL}/#organization` },
-      knowsAbout: c.knowsAbout,
     })),
   ],
 }

@@ -5,8 +5,8 @@ import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 import CinematicReveal from '@/components/CinematicReveal'
 
 export const metadata: Metadata = {
-  title: 'Programme MMA au Daghestan | MKR Caucasian Camp',
-  description: "Programme MMA complet au Caucase : techniques debout, clinch, takedowns, soumissions, transitions. Sparring quotidien et coaching d'élite au Daghestan.",
+  title: 'Programme MMA en Tchétchénie | MKR Caucasian Camp',
+  description: "Programme MMA complet à Grozny, Tchétchénie : techniques debout, clinch, takedowns, soumissions, transitions. Sparring quotidien avec les combattants de l'écurie Akhmat.",
   alternates: { canonical: 'https://mkrcamp.com/programme/mma' },
 }
 
@@ -36,9 +36,9 @@ export default function ProgrammeMMAPage() {
         { name: 'MMA', url: 'https://mkrcamp.com/programme/mma' },
       ]} />
       <PageHero
-        label="MMA"
+        label="MMA · TCHÉTCHÉNIE"
         title="FRAPPE. PROJETTE.<br/>SOUMETS."
-        subtitle="Programme MMA complet. Des méthodes forgées dans les salles du Caucase."
+        subtitle="Programme MMA complet à Grozny, Tchétchénie. Les méthodes de l'écurie Akhmat et de la nouvelle génération du combat."
         breadcrumb={[
           { href: '/programme', label: 'Programme' },
           { href: '/programme/mma', label: 'MMA' },
@@ -52,15 +52,15 @@ export default function ProgrammeMMAPage() {
           <div className="layout-split reveal">
             <div>
               <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>LE PROGRAMME</span>
-              <h2 style={{ fontSize: 'clamp(1.5rem, 3vw, 2rem)', textTransform: 'uppercase' }}>MMA AU CAUCASE</h2>
+              <h2 style={{ fontSize: 'clamp(1.5rem, 3vw, 2rem)', textTransform: 'uppercase' }}>MMA EN TCHÉTCHÉNIE</h2>
               <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1rem' }}>
-                Le MMA au Caucase n&apos;est pas un sport de salle climatisée. C&apos;est une discipline forgée dans
-                la tradition de la lutte, enrichie par des décennies de compétition internationale. Les coachs MKR
-                enseignent un MMA complet, avec un accent particulier sur les transitions et le contrôle.
+                La Tchétchénie est l&apos;un des écosystèmes MMA les plus durs au monde. Les coachs partenaires de
+                MKR enseignent un MMA complet, hérité de la tradition de la lutte et enrichi par des années de
+                compétition internationale au sein de l&apos;Akhmat Fight Club et des structures de Grozny.
               </p>
               <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1rem' }}>
                 Chaque session est structurée : technique, drills, sparring. Le niveau s&apos;adapte à chaque
-                participant, mais l&apos;intensité reste élevée pour tous.
+                participant, mais l&apos;intensité reste élevée pour tous. Le camp MMA est exclusivement basé à Grozny.
               </p>
             </div>
             <div>
@@ -92,10 +92,10 @@ export default function ProgrammeMMAPage() {
       {/* Cinematic reveal */}
       <CinematicReveal
         image="/images/action/ground-control.webp"
-        alt="Contrôle au sol MMA dans une salle du Caucase"
+        alt="Contrôle au sol MMA dans une salle de Grozny, Tchétchénie"
         label="GROUND GAME"
         title="LE CONTRÔLE AU SOL"
-        tagline="Position dominante, soumissions, transitions. Le MMA caucasien commence par le sol."
+        tagline="Position dominante, soumissions, transitions. Le MMA tchétchène commence par le sol."
       />
 
       {/* Techniques grid */}
@@ -142,10 +142,10 @@ export default function ProgrammeMMAPage() {
       </section>
 
       <SectionCTA
-        primaryHref="/sessions"
-        primaryLabel="VOIR LES SESSIONS"
-        ghostHref="/programme/lutte"
-        ghostLabel="VOIR AUSSI : LUTTE"
+        primaryHref="/inscription?type=session"
+        primaryLabel="POSTULER · MMA TCHÉTCHÉNIE"
+        ghostHref="/destinations/tchetchenie"
+        ghostLabel="DÉCOUVRIR LA DESTINATION"
       />
     </>
   )

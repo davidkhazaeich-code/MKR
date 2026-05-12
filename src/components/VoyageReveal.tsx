@@ -52,11 +52,11 @@ export default function VoyageReveal() {
               </div>
               <div className="voyage-reveal-step">
                 <span className="voyage-reveal-num">02</span>
-                <span>Istanbul → Makhachkala (vol intérieur inclus)</span>
+                <span>Istanbul → Makhachkala (Lutte) ou Grozny (MMA), vol intérieur inclus</span>
               </div>
               <div className="voyage-reveal-step">
                 <span className="voyage-reveal-num">03</span>
-                <span>Transfert au camp (1h30, inclus)</span>
+                <span>Transfert au camp (Daghestan ~1h30 / Tchétchénie ~30 min, inclus)</span>
               </div>
             </div>
 

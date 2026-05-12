@@ -57,7 +57,7 @@ export default function Footer() {
             </Link>
             <p className="footer-tagline">Camp d&apos;entraînement au Caucase.</p>
             <p className="footer-desc">
-              Camps d&apos;entraînement intensifs de MMA et de lutte (adultes et enfants) au cœur du Daghestan. Coachs locaux. Immersion totale. Zéro distraction.
+              Camps d&apos;entraînement intensifs au cœur du Caucase. Lutte adultes et enfants au Daghestan, MMA en Tchétchénie. Coachs locaux. Immersion totale. Zéro distraction.
             </p>
             <div className="footer-socials">
               <a href="https://instagram.com/mkr.caucasiancamp" target="_blank" rel="noopener noreferrer"
@@ -108,8 +108,8 @@ export default function Footer() {
               <li><Link href="/programme/lutte">Lutte adultes</Link></li>
               <li><Link href="/programme/lutte-enfants">Lutte enfants</Link></li>
               <li><Link href="/familles">Camp Famille</Link></li>
-              <li><Link href="/coachs">Nos coachs</Link></li>
-              <li><Link href="/destinations/dagestan">Daghestan</Link></li>
+              <li><Link href="/destinations/dagestan">Daghestan · Lutte</Link></li>
+              <li><Link href="/destinations/tchetchenie">Tchétchénie · MMA</Link></li>
               <li><Link href="/le-camp">Le Camp</Link></li>
               <li><Link href="/preparer-son-camp">Préparer son camp</Link></li>
               <li><Link href="/logistique">Logistique et visa</Link></li>

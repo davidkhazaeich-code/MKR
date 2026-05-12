@@ -187,7 +187,7 @@ export default function Nav() {
                     {id === 'programme' && ICO.overview}
                     {id === 'destinations' && ICO.dagestan}
                     {id === 'infos' && ICO.about}
-                    {id === 'camp' ? 'Le Camp' : id === 'programme' ? 'Programme' : id === 'destinations' ? 'Destination' : 'Découvrir'}
+                    {id === 'camp' ? 'Le Camp' : id === 'programme' ? 'Programme' : id === 'destinations' ? 'Destinations' : 'Découvrir'}
                     {CHEVRON}
                   </button>
                 </li>
@@ -319,7 +319,7 @@ export default function Nav() {
             </div>
             <div className="mega-prog-secondary">
               <Link href="/programme" className="mega-prog-secondary-link">{ICO.overview} Vue d&apos;ensemble du programme {ARROW_SM}</Link>
-              <Link href="/coachs" className="mega-prog-secondary-link">{ICO.coaches} Nos coachs {ARROW_SM}</Link>
+              <Link href="/temoignages" className="mega-prog-secondary-link">{ICO.testimonials} Témoignages athlètes {ARROW_SM}</Link>
             </div>
           </div>
         </div>
@@ -334,23 +334,34 @@ export default function Nav() {
           onMouseLeave={scheduleClose}
         >
           <div className="mega-inner">
-            <span className="mega-section-label">Destination · Daghestan, Caucase</span>
-            <div className="mega-dest-layout">
-              <Link href="/destinations/dagestan" className="mega-dest-card" aria-label="Explorer le Daghestan">
-                <Image src="/images/environment/dagestan-panorama.webp" alt="" className="mega-dest-img" fill sizes="(max-width: 768px) 100vw, 60vw" aria-hidden="true" />
+            <span className="mega-section-label">Deux destinations, une discipline par camp</span>
+            <div className="mega-dest-layout mega-dest-layout--dual">
+              <Link href="/destinations/dagestan" className="mega-dest-card mega-dest-card--dual" aria-label="Daghestan · destination Lutte">
+                <Image src="/images/environment/dagestan-panorama.webp" alt="" className="mega-dest-img" fill sizes="(max-width: 768px) 100vw, 40vw" aria-hidden="true" />
                 <div className="mega-dest-overlay" aria-hidden="true"/>
                 <div className="mega-dest-content">
-                  <span className="mega-dest-region">Caucase · Russie</span>
+                  <span className="mega-dest-region">Caucase · Russie · Lutte</span>
                   <h2 className="mega-dest-name">DAGHESTAN</h2>
-                  <p className="mega-dest-tagline">La terre qui a forgé les meilleurs combattants de la planète.</p>
-                  <span className="mega-dest-cta">Explorer le Daghestan {ARROW_RIGHT}</span>
+                  <p className="mega-dest-tagline">Berceau de la lutte libre mondiale. Pour les camps Lutte adultes et enfants.</p>
+                  <span className="mega-dest-cta">Découvrir le Daghestan {ARROW_RIGHT}</span>
+                </div>
+              </Link>
+              <Link href="/destinations/tchetchenie" className="mega-dest-card mega-dest-card--dual" aria-label="Tchétchénie · destination MMA">
+                <Image src="/images/environment/dagestan-panorama.webp" alt="" className="mega-dest-img" fill sizes="(max-width: 768px) 100vw, 40vw" aria-hidden="true" />
+                <div className="mega-dest-overlay" aria-hidden="true"/>
+                <div className="mega-dest-content">
+                  <span className="mega-dest-region">Caucase · Russie · MMA</span>
+                  <h2 className="mega-dest-name">TCHÉTCHÉNIE</h2>
+                  <p className="mega-dest-tagline">Terre des champions MMA. Pour les camps MMA adultes.</p>
+                  <span className="mega-dest-cta">Découvrir la Tchétchénie {ARROW_RIGHT}</span>
                 </div>
               </Link>
               <div className="mega-dest-aside">
                 <span className="mega-camp-links-label">Préparer le voyage</span>
                 <ul className="mega-link-list" role="list">
+                  <li><Link href="/destinations">{ICO.dagestan} Vue d&apos;ensemble {ARROW_SM}</Link></li>
                   <li><Link href="/logistique">{ICO.logistics} Logistique, vols et visa {ARROW_SM}</Link></li>
-                  <li><Link href="/guide-dagestan">{ICO.guide} Guide Daghestan PDF {ARROW_SM}</Link></li>
+                  <li><Link href="/guide-dagestan">{ICO.guide} Guide PDF Caucase {ARROW_SM}</Link></li>
                 </ul>
                 <div className="mega-dest-security" role="note">
                   <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" width="16" height="16" aria-hidden="true">
@@ -358,7 +369,7 @@ export default function Nav() {
                     <line x1="9" y1="8" x2="9" y2="12"/><circle cx="9" cy="6" r="0.5" fill="currentColor"/>
                   </svg>
                   <span className="mega-dest-security-text">
-                    Niveau d&apos;alerte Quai d&apos;Orsay mis à jour sur la fiche destination.
+                    Combo Daghestan + Tchétchénie disponible uniquement sur sur-mesure.
                   </span>
                 </div>
               </div>
@@ -443,15 +454,18 @@ export default function Nav() {
           </MobAccordion>
           <MobAccordion title="Programme" id="mob-prog">
             <Link href="/programme" className="mob-sub-link">{ICO.overview} Vue d&apos;ensemble</Link>
-            <Link href="/programme/mma" className="mob-sub-link">{ICO.mma} MMA</Link>
-            <Link href="/programme/lutte" className="mob-sub-link">{ICO.lutte} Lutte adultes</Link>
-            <Link href="/programme/lutte-enfants" className="mob-sub-link">{ICO.lutte} Jeunesse 8-17</Link>
-            <Link href="/coachs" className="mob-sub-link">{ICO.coaches} Nos coachs</Link>
+            <Link href="/programme/mma" className="mob-sub-link">{ICO.mma} MMA · Tchétchénie</Link>
+            <Link href="/programme/lutte" className="mob-sub-link">{ICO.lutte} Lutte adultes · Daghestan</Link>
+            <Link href="/programme/lutte-enfants" className="mob-sub-link">{ICO.lutte} Jeunesse 8-17 · Daghestan</Link>
           </MobAccordion>
-          <MobAccordion title="Destination" id="mob-dest">
-            <Link href="/destinations/dagestan" className="mob-sub-link">{ICO.dagestan} Daghestan, Caucase</Link>
+          <MobAccordion title="Destinations" id="mob-dest">
+            <span className="mob-sub-label">Une destination par discipline</span>
+            <Link href="/destinations/dagestan" className="mob-sub-link">{ICO.dagestan} Daghestan · Lutte</Link>
+            <Link href="/destinations/tchetchenie" className="mob-sub-link">{ICO.dagestan} Tchétchénie · MMA</Link>
+            <Link href="/destinations" className="mob-sub-link">{ICO.overview} Vue d&apos;ensemble</Link>
+            <span className="mob-sub-label">Préparer le voyage</span>
             <Link href="/logistique" className="mob-sub-link">{ICO.logistics} Logistique, vols et visa</Link>
-            <Link href="/guide-dagestan" className="mob-sub-link">{ICO.guide} Guide Daghestan PDF</Link>
+            <Link href="/guide-dagestan" className="mob-sub-link">{ICO.guide} Guide PDF Caucase</Link>
           </MobAccordion>
           <MobAccordion title="Découvrir" id="mob-decouvrir">
             <Link href="/galerie" className="mob-sub-link">{ICO.gallery} Galerie</Link>

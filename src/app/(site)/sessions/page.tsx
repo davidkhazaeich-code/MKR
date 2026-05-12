@@ -17,8 +17,8 @@ import { PRICING_TIERS, formatEUR } from '@/data/pricing'
 const PRICE_FROM_LABEL = `à partir de ${MIN_PRICE_PER_ADULT_LABEL}`
 
 export const metadata: Metadata = {
-  title: 'Sessions et Tarifs 2026 - 2027 | MKR Caucasian Camp au Daghestan',
-  description: "Calendrier des 4 camps MMA et Lutte au Caucase : Été 2026, Toussaint 2026, Hiver 2027, Pâques 2027. Prix, dates calées vacances scolaires, places disponibles.",
+  title: 'Sessions et Tarifs 2026 - 2027 | Lutte Daghestan, MMA Tchétchénie | MKR',
+  description: "Calendrier des 4 camps MMA et Lutte au Caucase : Été 2026, Toussaint 2026, Hiver 2027, Pâques 2027. Lutte au Daghestan, MMA en Tchétchénie. Prix, dates vacances scolaires, places.",
   alternates: { canonical: 'https://mkrcamp.com/sessions' },
 }
 
@@ -27,7 +27,7 @@ const SESSIONS = [
     id: 'aout-2026',
     month: 'AOÛ',
     season: 'Session Été · Août 2026',
-    name: 'CAMP\nDAGHESTANAIS',
+    name: 'CAMP\nCAUCASIEN',
     dates: '17 AOÛT · 5 SEPTEMBRE 2026',
     intensity: 'Maximale',
     maxCapacity: 15,
@@ -116,7 +116,7 @@ const INCLUDES = [
       </svg>
     ),
     title: 'Coachs locaux',
-    desc: 'Entraîneurs daghestanais, champions et vétérans. Équipe complète de 9 coachs expérimentés.',
+    desc: 'Coachs daghestanais et tchétchènes, champions et vétérans. Encadrement local complet selon la destination choisie.',
   },
   {
     icon: (
@@ -150,7 +150,7 @@ export default function SessionsPage() {
       <PageHero
         label="SESSIONS ET TARIFS"
         title="CHOISIS TON FORMAT.<br/>NOUS ORGANISONS TOUT."
-        subtitle="Quatre sessions par an calées sur les vacances scolaires francophones. Rejoins un groupe, organise ton camp sur mesure ou viens avec ton club. Tarifs publics fixes."
+        subtitle="Quatre sessions par an, calées sur les vacances scolaires francophones. Lutte au Daghestan ou MMA en Tchétchénie selon la discipline choisie. Tarifs publics fixes."
       />
 
       {/* Audience Switcher : 3 types d'inscription */}
@@ -173,9 +173,16 @@ export default function SessionsPage() {
             {SESSIONS.map((s, i) => (
               <article key={i} id={s.id} className="session-card fx-grain fx-corner-glow reveal" style={{ transitionDelay: s.delay, scrollMarginTop: '120px' }}>
                 <div className="session-month-bg" aria-hidden="true">{s.month}</div>
-                <div className="session-status-badge" data-status={s.status}>
+                <div className="session-status-badge" data-status={s.status} style={{ display: 'flex', flexDirection: 'column', gap: '0.3rem', alignItems: 'flex-end' }}>
                   <PlacesRestantes
                     sessionId={s.id}
+                    discipline="lutte"
+                    fallbackMax={s.maxCapacity}
+                    variant="badge"
+                  />
+                  <PlacesRestantes
+                    sessionId={s.id}
+                    discipline="mma"
                     fallbackMax={s.maxCapacity}
                     variant="badge"
                   />
@@ -195,8 +202,7 @@ export default function SessionsPage() {
                     <span className="session-meta-value">
                       <PlacesRestantes
                         sessionId={s.id}
-                        fallbackMax={s.maxCapacity}
-                        variant="compact"
+                        variant="dual"
                       />
                     </span>
                   </div>

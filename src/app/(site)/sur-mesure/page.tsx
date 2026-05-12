@@ -11,8 +11,8 @@ import { PRICING_TIERS } from '@/data/pricing'
 const TRIO_PRICE_1WEEK_NUM = PRICING_TIERS.trio.perAdult[1].toLocaleString('fr-FR').replace(/ /g, ' ')
 
 export const metadata: Metadata = {
-  title: 'Camp Sur Mesure | MKR Caucasian Camp | Tes dates au Daghestan',
-  description: 'Camp individuel sur mesure au Daghestan. Tu choisis tes dates, ta durée (1, 2 ou 3 sem), ton format (solo, duo, trio, quatuor). MKR coordonne tout. Délai 90 jours min.',
+  title: 'Camp Sur Mesure | MKR Caucasian Camp | Tes dates au Caucase',
+  description: 'Camp individuel sur mesure au Caucase. Lutte au Daghestan, MMA en Tchétchénie, ou combo Daghestan + Tchétchénie (sur-mesure uniquement). Tu choisis tes dates, ta durée. Délai 90 jours min.',
   alternates: { canonical: 'https://mkrcamp.com/sur-mesure' },
 }
 
@@ -36,7 +36,7 @@ const PROCESS = [
   { num: '02', title: 'Validation MKR sous 48h', desc: 'On valide la disponibilité des coachs et de l\'hébergement à tes dates. Appel vidéo de qualification.' },
   { num: '03', title: 'Validation et lettre visa', desc: 'Tu reçois la lettre d\'invitation officielle pour ton dossier visa Russie et le RIB pour le paiement intégral du package par virement bancaire.' },
   { num: '04', title: 'Préparation 6 semaines', desc: 'Programme de prep physique à distance. Tout est réglé, tu n\'as plus qu\'à te concentrer sur l\'entraînement.' },
-  { num: '05', title: 'Départ et camp', desc: 'Vol intérieur Istanbul-Makhachkala inclus. Véhicule MKR à l\'aéroport. Tu n\'as qu\'à t\'entraîner.' },
+  { num: '05', title: 'Départ et camp', desc: 'Vol intérieur depuis Istanbul inclus (Makhachkala pour Daghestan, Grozny pour Tchétchénie). Véhicule MKR à l\'aéroport. Tu n\'as qu\'à t\'entraîner.' },
 ]
 
 export default function SurMesurePage() {
@@ -50,7 +50,7 @@ export default function SurMesurePage() {
       <PageHero
         label="SUR MESURE · 1 À 4 ADULTES"
         title="TES DATES.<br/>TON AVENTURE."
-        subtitle="Camp individuel ou en petit groupe d'amis (1 à 4 adultes). Tu choisis tes dates, ta durée. MKR coordonne tout sur place."
+        subtitle="Camp individuel ou en petit groupe d'amis (1 à 4 adultes). Tu choisis tes dates, ta durée et ta ou tes destinations : Lutte au Daghestan, MMA en Tchétchénie, ou combo des deux (sur-mesure uniquement)."
         image="/images/ruslan/coaches/Antoine-portrait-makhachkala-mkr.webp"
         imageAlt="Athlète MMA solo en immersion à Makhachkala, camp sur mesure MKR"
       />
@@ -85,6 +85,27 @@ export default function SurMesurePage() {
         title="QUAND TU SAIS<br/>QUAND TU PEUX PARTIR."
         tagline="Tu as un objectif clair, et un créneau précis. On adapte le camp à ton agenda, pas l'inverse."
       />
+
+      {/* Combo Daghestan + Tchétchénie */}
+      <section className="logi-section fx-texture-concrete fx-glow fx-mask-a fx-stack-1b">
+        <div className="fx-glow-orb fx-glow-orb--top" />
+        <div className="inner">
+          <div className="reveal" style={{ maxWidth: '820px', margin: '0 auto', textAlign: 'center' }}>
+            <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>
+              EXCLUSIVITÉ SUR MESURE
+            </span>
+            <h2 style={{ fontSize: 'clamp(1.5rem, 3.5vw, 2.2rem)', textTransform: 'uppercase' }}>
+              COMBINE DAGHESTAN ET TCHÉTCHÉNIE
+            </h2>
+            <p style={{ color: 'var(--text-secondary)', lineHeight: '1.7', marginTop: '1.2rem' }}>
+              Sur les sessions officielles, c&apos;est <strong>Lutte au Daghestan</strong> OU <strong>MMA en Tchétchénie</strong>.
+              Sur le sur mesure, tu peux combiner les deux : une partie du camp à Makhachkala pour la lutte,
+              une autre partie à Grozny pour le MMA. La logistique de transfert entre les deux régions est gérée par MKR.
+              Idéal pour les athlètes MMA qui veulent renforcer leur lutte chez les Daghestanais.
+            </p>
+          </div>
+        </div>
+      </section>
 
       {/* Profils */}
       <section className="logi-section fx-grid fx-stack-2 fx-glow">

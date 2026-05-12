@@ -4,37 +4,42 @@ const LANDSCAPES = [
   {
     src: '/images/environment/canyon-sulak.webp',
     alt: 'Canyon de Sulak, Daghestan',
-    label: 'DAGHESTAN',
+    label: 'DAGHESTAN · LUTTE',
     caption: 'Canyon de Sulak',
-    text: 'Plus profond que le Grand Canyon. Excursion jour de repos.',
+    text: 'Plus profond que le Grand Canyon. Excursion jour de repos depuis Makhachkala.',
+    href: '/destinations/dagestan',
   },
   {
-    src: '/images/environment/lake-kezenoy.webp',
-    alt: 'Lac de montagne au Caucase, Daghestan',
-    label: 'DAGHESTAN',
-    caption: 'Lacs de montagne',
-    text: 'Excursion en option dans les hauteurs du Caucase Nord.',
-  },
-  {
-    src: '/images/environment/mountain-road.webp',
-    alt: 'Route de montagne au Caucase russe',
-    label: 'CAUCASE',
-    caption: 'Route du camp',
-    text: 'Les routes qui mènent au camp traversent les plus beaux paysages.',
+    src: '/images/environment/mosque-grozny.webp',
+    alt: 'Mosquée de Grozny, Tchétchénie',
+    label: 'TCHÉTCHÉNIE · MMA',
+    caption: 'Grozny',
+    text: "Capitale de la Tchétchénie, ville moderne et écosystème MMA dense.",
+    href: '/destinations/tchetchenie',
   },
   {
     src: '/images/environment/gamsutl-village.webp',
     alt: 'Village perché de Gamsutl, Daghestan',
-    label: 'DAGHESTAN',
+    label: 'DAGHESTAN · LUTTE',
     caption: 'Gamsutl',
     text: 'Village fantôme perché à 1 500 m. Daghestan ancestral.',
+    href: '/destinations/dagestan',
   },
   {
     src: '/images/environment/vainakh-towers.webp',
-    alt: 'Tours médiévales Vainakh dans les montagnes du Caucase',
-    label: 'CAUCASE',
-    caption: 'Tours Vainakh',
-    text: "Forteresses de pierre dressées il y a 800 ans, gardiennes silencieuses des cols de montagne.",
+    alt: 'Tours médiévales vaïnakh dans les montagnes de Tchétchénie',
+    label: 'TCHÉTCHÉNIE · MMA',
+    caption: 'Tours vaïnakh',
+    text: "Forteresses de pierre dressées il y a 800 ans dans les vallées tchétchènes.",
+    href: '/destinations/tchetchenie',
+  },
+  {
+    src: '/images/environment/lake-kezenoy.webp',
+    alt: 'Lac Kezenoy-Am, frontière entre Daghestan et Tchétchénie',
+    label: 'CAUCASE NORD',
+    caption: 'Lac Kezenoy-Am',
+    text: 'Plus grand lac de haute altitude du Caucase Nord, entre Daghestan et Tchétchénie.',
+    href: '/destinations',
   },
 ]
 
@@ -45,20 +50,20 @@ export default function DestinationShowcase() {
       <div className="inner">
         <div className="dest-showcase-header reveal">
           <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>
-            LE CAUCASE
+            DEUX TERRES DU CAUCASE
           </span>
           <h2 id="dest-showcase-heading" className="dest-showcase-title">
-            UN LIEU<br />HORS DU TEMPS
+            DAGHESTAN ·<br />TCHÉTCHÉNIE
           </h2>
           <p className="dest-showcase-sub">
-            Entre les montagnes les plus sauvages d&apos;Europe et des traditions millénaires,
-            le Caucase offre un cadre d&apos;entraînement qu&apos;aucune salle au monde ne peut reproduire.
+            Lutte au Daghestan, MMA en Tchétchénie. Deux destinations frontalières du Caucase russe,
+            une discipline par camp. Le combo se vit uniquement en sur-mesure.
           </p>
         </div>
 
         <div className="dest-showcase-grid">
           {LANDSCAPES.map((img, i) => (
-            <figure key={i} className="dest-showcase-card reveal" style={i > 0 ? { transitionDelay: `${i * 0.1}s` } : undefined}>
+            <Link key={i} href={img.href} className="dest-showcase-card reveal" style={i > 0 ? { transitionDelay: `${i * 0.1}s` } : undefined}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={img.src}
@@ -66,18 +71,18 @@ export default function DestinationShowcase() {
                 className="dest-showcase-img"
                 loading="lazy"
               />
-              <figcaption className="dest-showcase-caption">
+              <div className="dest-showcase-caption">
                 <span className="dest-showcase-caption-label">{img.label}</span>
                 <span className="dest-showcase-caption-title">{img.caption}</span>
                 <span className="dest-showcase-caption-text">{img.text}</span>
-              </figcaption>
-            </figure>
+              </div>
+            </Link>
           ))}
         </div>
 
         <div className="dest-showcase-footer reveal" style={{ transitionDelay: '0.3s' }}>
           <Link href="/destinations" className="btn-ghost" style={{ fontSize: '0.82rem' }}>
-            EXPLORER LES DESTINATIONS
+            EXPLORER LES DEUX DESTINATIONS
           </Link>
         </div>
       </div>

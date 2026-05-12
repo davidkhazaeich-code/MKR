@@ -37,9 +37,9 @@ export default function ProgrammeLutteEnfantsPage() {
         { name: 'Lutte enfants', url: 'https://mkrcamp.com/programme/lutte-enfants' },
       ]} />
       <PageHero
-        label="JEUNESSE 8-17 ANS"
+        label="JEUNESSE 8-17 ANS · DAGHESTAN"
         title="FORME TON ENFANT<br/>À LA SOURCE."
-        subtitle="Programme jeunesse au Daghestan. Encadrement spécialisé, pédagogie progressive, parent participant obligatoire."
+        subtitle="Programme jeunesse au Daghestan, là où la lutte se transmet depuis des générations. Encadrement spécialisé, pédagogie progressive, parent participant obligatoire."
         breadcrumb={[
           { href: '/programme', label: 'Programme' },
           { href: '/programme/lutte-enfants', label: 'Jeunesse' },

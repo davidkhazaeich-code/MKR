@@ -34,13 +34,13 @@ export default function AProposPage() {
                 POURQUOI MKR EXISTE
               </h2>
               <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1rem' }}>
-                Les meilleurs combattants viennent du même endroit. Le Caucase. Mais personne ne propose
+                Les meilleurs combattants viennent du même endroit. Le Caucase. Lutte au Daghestan, MMA en Tchétchénie : deux écoles, un héritage. Mais personne ne propose
                 un accès structuré à ces méthodes d&apos;entraînement pour les athlètes européens.
               </p>
               <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1rem' }}>
-                Après des années de voyages au Daghestan, des relations construites avec les coachs locaux,
+                Après des années de voyages au Daghestan et en Tchétchénie, des relations construites avec les coachs locaux,
                 et des dizaines d&apos;athlètes accompagnés, MKR Caucasian Camp est devenu le pont entre l&apos;Europe
-                francophone et les salles du Caucase.
+                francophone et les salles du Caucase Nord.
               </p>
             </div>
             <div>
@@ -128,9 +128,10 @@ export default function AProposPage() {
           <div className="logi-header reveal">
             <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>PARTENAIRES</span>
             <h2>SALLES PARTENAIRES</h2>
+            <p style={{ color: 'var(--text-secondary)', marginTop: '0.6rem' }}>Au Daghestan (Lutte) et en Tchétchénie (MMA), nos salles partenaires.</p>
           </div>
           <div className="grid-3 reveal">
-            {['Salle 1 · Makhachkala', 'Salle 2 · Kaspiysk', 'Salle 3 · Khasavyourt'].map((name, i) => (
+            {['Salle Lutte · Makhachkala', 'Salle Lutte · Kaspiysk', 'Salle MMA · Grozny'].map((name, i) => (
               <div key={i} className="content-card fx-grain fx-corner-glow" style={{ textAlign: 'center', padding: '2rem' }}>
                 <div style={{ width: '80px', height: '80px', background: 'var(--surface-lowest)', margin: '0 auto 1rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   <span style={{ color: 'var(--text-muted)', fontSize: '0.7rem' }}>Logo</span>

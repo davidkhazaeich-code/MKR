@@ -6,8 +6,8 @@ import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 import { FAMILY_BASE_PROSE, FAMILY_EXTRA_CHILD_1WEEK_LABEL } from '@/lib/pricing-copy'
 
 export const metadata: Metadata = {
-  title: 'Programme MMA et Lutte au Daghestan | MKR Caucasian Camp',
-  description: "Programme d'entraînement complet : MMA, Lutte adultes, Lutte enfants. Méthodes daghestanaises, sparring quotidien, coaching d'élite au cœur du Caucase.",
+  title: 'Programme MMA en Tchétchénie et Lutte au Daghestan | MKR Caucasian Camp',
+  description: "Trois disciplines, deux destinations : Lutte adultes et Lutte enfants au Daghestan, MMA en Tchétchénie. Sparring quotidien, coaching d'élite au cœur du Caucase.",
   alternates: { canonical: 'https://mkrcamp.com/programme' },
 }
 
@@ -20,8 +20,8 @@ export default function ProgrammePage() {
       ]} />
       <PageHero
         label="PROGRAMME"
-        title="TROIS DISCIPLINES.<br/>UN OBJECTIF : PROGRESSER."
-        subtitle="MMA, Lutte adultes, Lutte enfants. Chaque session te rapproche du sommet."
+        title="TROIS DISCIPLINES.<br/>DEUX TERRES DU CAUCASE."
+        subtitle="Lutte adultes et Lutte enfants au Daghestan. MMA en Tchétchénie. Le combo possible uniquement en sur-mesure."
       />
 
       {/* Stats band */}
@@ -54,9 +54,9 @@ export default function ProgrammePage() {
               className="prog-disc-bg"
             />
             <div className="prog-disc-content">
-              <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.5rem' }}>DISCIPLINE</span>
+              <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.5rem' }}>DISCIPLINE · TCHÉTCHÉNIE</span>
               <h2>MMA</h2>
-              <p>Striking, clinch, takedowns, soumissions. Sparring quotidien avec des combattants locaux. Transitions debout-sol. Méthodes inspirées des meilleurs fighters du Caucase.</p>
+              <p>Striking, clinch, takedowns, soumissions. Sparring quotidien avec les combattants de l&apos;écurie Akhmat. Camp basé à Grozny, en Tchétchénie. Le MMA tchétchène en immersion totale.</p>
               <span className="btn-ghost" style={{ marginTop: '1.5rem', fontSize: '0.9rem', padding: '0.6rem 1.5rem' }}>
                 VOIR LE PROGRAMME MMA
               </span>
@@ -71,16 +71,16 @@ export default function ProgrammePage() {
           <Link href="/programme/lutte" className="prog-discipline-card reveal">
             <img
               src="/images/action/takedown-wrestling.webp"
-              alt="Takedown de lutte libre au Caucase"
+              alt="Takedown de lutte libre au Daghestan"
               width={800}
               height={600}
               loading="lazy"
               className="prog-disc-bg"
             />
             <div className="prog-disc-content">
-              <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.5rem' }}>DISCIPLINE</span>
+              <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.5rem' }}>DISCIPLINE · DAGHESTAN</span>
               <h2>LUTTE ADULTES</h2>
-              <p>Lutte libre exclusivement. Méthodes daghestanaises transmises par des champions. Projections, contrôle au sol, scrambles. La discipline fondatrice du combat au Caucase.</p>
+              <p>Lutte libre exclusivement, au cœur du Daghestan. Méthodes daghestanaises transmises par des champions. Projections, contrôle au sol, scrambles. La discipline fondatrice du combat au Caucase.</p>
               <span className="btn-ghost" style={{ marginTop: '1.5rem', fontSize: '0.9rem', padding: '0.6rem 1.5rem' }}>
                 VOIR LE PROGRAMME LUTTE
               </span>
@@ -95,16 +95,16 @@ export default function ProgrammePage() {
           <Link href="/programme/lutte-enfants" className="prog-discipline-card reveal">
             <img
               src="/images/action/ground-control.webp"
-              alt="Lutte adaptée aux jeunes athlètes au Caucase"
+              alt="Lutte adaptée aux jeunes athlètes au Daghestan"
               width={800}
               height={600}
               loading="lazy"
               className="prog-disc-bg"
             />
             <div className="prog-disc-content">
-              <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.5rem' }}>DISCIPLINE</span>
+              <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.5rem' }}>DISCIPLINE · DAGHESTAN</span>
               <h2>LUTTE ENFANTS</h2>
-              <p>Programme jeunesse. Pédagogie progressive, encadrement spécialisé. Les fondamentaux daghestanais transmis aux nouvelles générations dans un cadre adapté et sécurisant.</p>
+              <p>Programme jeunesse au Daghestan. Pédagogie progressive, encadrement spécialisé. Les fondamentaux daghestanais transmis aux nouvelles générations dans un cadre adapté et sécurisant.</p>
               <span className="btn-ghost" style={{ marginTop: '1.5rem', fontSize: '0.9rem', padding: '0.6rem 1.5rem' }}>
                 VOIR LE PROGRAMME LUTTE ENFANTS
               </span>
@@ -183,8 +183,8 @@ export default function ProgrammePage() {
       <SectionCTA
         primaryHref="/sessions"
         primaryLabel="VOIR LES SESSIONS"
-        ghostHref="/coachs"
-        ghostLabel="DÉCOUVRIR NOS COACHS"
+        ghostHref="/destinations"
+        ghostLabel="VOIR LES DESTINATIONS"
       />
     </>
   )

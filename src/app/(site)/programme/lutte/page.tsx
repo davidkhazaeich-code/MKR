@@ -36,9 +36,9 @@ export default function ProgrammeLuttePage() {
         { name: 'Lutte', url: 'https://mkrcamp.com/programme/lutte' },
       ]} />
       <PageHero
-        label="LUTTE"
+        label="LUTTE · DAGHESTAN"
         title="LA DISCIPLINE QUI A<br/>FORGÉ LE CAUCASE"
-        subtitle="Lutte libre uniquement. Les méthodes ancestrales du Daghestan."
+        subtitle="Lutte libre uniquement, au cœur du Daghestan. Les méthodes ancestrales transmises dans les salles de Makhachkala et Kaspiysk."
         breadcrumb={[
           { href: '/programme', label: 'Programme' },
           { href: '/programme/lutte', label: 'Lutte' },
@@ -142,10 +142,10 @@ export default function ProgrammeLuttePage() {
       </section>
 
       <SectionCTA
-        primaryHref="/sessions"
-        primaryLabel="VOIR LES SESSIONS"
-        ghostHref="/programme/mma"
-        ghostLabel="VOIR AUSSI : MMA"
+        primaryHref="/inscription?type=session"
+        primaryLabel="POSTULER · LUTTE DAGHESTAN"
+        ghostHref="/destinations/dagestan"
+        ghostLabel="DÉCOUVRIR LA DESTINATION"
       />
     </>
   )

@@ -24,6 +24,7 @@ function formatDateShort(iso: string): string {
 }
 
 type TunnelType = 'session' | 'custom' | 'famille' | 'groupe'
+type CampDiscipline = 'lutte' | 'mma' | 'combo_quote'
 
 interface Row {
   id: string
@@ -33,6 +34,7 @@ interface Row {
   session_id: string | null
   duree_semaines: number | null
   date_debut_souhaitee: string | null
+  camp_discipline: CampDiscipline | null
   status: Status
   package_amount_cents: number | null
   package_paid_at: string | null
@@ -44,6 +46,18 @@ interface Row {
     telephone: string | null
     pays: string | null
   } | null
+}
+
+const DISCIPLINE_LABEL: Record<CampDiscipline, string> = {
+  lutte: '🤼 Lutte',
+  mma: '🥊 MMA',
+  combo_quote: '🔀 Combo (devis)',
+}
+
+const DISCIPLINE_COLOR: Record<CampDiscipline, string> = {
+  lutte: '#4ade80',
+  mma: '#f59e0b',
+  combo_quote: '#a78bfa',
 }
 
 function formatEuro(cents: number): string {
@@ -418,6 +432,11 @@ function CandidatureRow({
             <Badge color={TUNNEL_COLOR[row.tunnel_type]} dot>
               {TUNNEL_LABEL[row.tunnel_type]}
             </Badge>
+            {row.camp_discipline && (
+              <Badge color={DISCIPLINE_COLOR[row.camp_discipline]} dot>
+                {DISCIPLINE_LABEL[row.camp_discipline]}
+              </Badge>
+            )}
             <Badge
               color={STATUS_COLOR[row.status]}
               dot
@@ -425,6 +444,12 @@ function CandidatureRow({
             >
               {STATUS_LABEL[row.status]}
             </Badge>
+            {row.camp_discipline === 'mma' && row.status === 'recue' && (
+              <Badge color="#f59e0b">
+                <Icon name="alert-triangle" size={11} strokeWidth={2.5} />
+                MMA · niveau à vérifier
+              </Badge>
+            )}
             {isNew && <Badge color="var(--adm-brand)">Nouveau</Badge>}
             {isStaleVisio && (
               <Badge color="var(--adm-status-refusee)">

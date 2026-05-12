@@ -242,9 +242,11 @@ h1, h2, h3, h4, h5 {
 
 /* Panel: Destination */
 .mega-dest-layout { display: grid; grid-template-columns: 1.55fr 1fr; gap: 1.5rem; align-items: stretch; }
+.mega-dest-layout--dual { grid-template-columns: 1fr 1fr 0.9fr; }
 .mega-dest-aside { display: flex; flex-direction: column; gap: 1rem; }
 .mega-dest-aside .mega-link-list { flex: 1; }
 .mega-dest-layout .mega-dest-card { aspect-ratio: auto; min-height: 240px; }
+.mega-dest-card--dual { aspect-ratio: 4 / 5; min-height: 280px; }
 .mega-dest-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: .85rem; }
 .mega-dest-card { display: block; position: relative; overflow: hidden; aspect-ratio: 16 / 7; text-decoration: none; }
 .mega-dest-img { object-fit: cover; object-position: center; filter: grayscale(60%) brightness(0.55); transition: transform 400ms var(--ease-out-expo), filter 400ms linear; }
@@ -279,7 +281,10 @@ h1, h2, h3, h4, h5 {
   .mega-prog-desc { font-size: .72rem; }
   .mega-prog-secondary { gap: 1.5rem; flex-wrap: wrap; }
   .mega-dest-layout { grid-template-columns: 1fr; gap: 1rem; }
+  .mega-dest-layout--dual { grid-template-columns: 1fr 1fr; }
+  .mega-dest-layout--dual .mega-dest-aside { grid-column: 1 / -1; }
   .mega-dest-layout .mega-dest-card { min-height: 220px; aspect-ratio: 16 / 7; }
+  .mega-dest-card--dual { min-height: 220px; aspect-ratio: 4 / 5; }
   .mega-infos-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
   .mega-testi { display: none; }
 }

@@ -15,7 +15,7 @@ const FACILITATOR_ITEMS = [
   },
   {
     title: 'Vol intérieur',
-    desc: 'Istanbul vers Makhachkala inclus dans le package. Tu n\'organises que le vol international jusqu\'à Istanbul.',
+    desc: 'Depuis Istanbul vers Makhachkala (camp Lutte au Daghestan) ou Grozny (camp MMA en Tchétchénie), inclus dans le package. Tu n\'organises que le vol international jusqu\'à Istanbul.',
     icon: (
       <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
         <path d="M3 18l11-3 5-9 2 1-3 9 9 3-1 2-10-1-2 6-2 1-1-5-6-1-1-2 1-1z" />
@@ -24,7 +24,7 @@ const FACILITATOR_ITEMS = [
   },
   {
     title: 'Transferts',
-    desc: 'Aéroport Makhachkala vers camp en 1h30. Véhicule MKR à ton arrivée. Tous les déplacements sont inclus.',
+    desc: 'Véhicule MKR à ton arrivée : ~1h30 depuis Makhachkala (Daghestan) ou ~30 min depuis Grozny (Tchétchénie). Tous les déplacements sont inclus.',
     icon: (
       <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
         <path d="M4 22V14l3-7h18l3 7v8" />
@@ -62,7 +62,7 @@ const FACILITATOR_ITEMS = [
   },
   {
     title: 'Encadrement',
-    desc: '9 coachs expérimentés sur place. Sessions Lutte adultes, Lutte enfants et MMA. Un coach jeunesse dédié pour les 8-17 ans.',
+    desc: 'Coachs locaux expérimentés au Daghestan (Lutte) et en Tchétchénie (MMA). Coach jeunesse dédié pour les 8-17 ans en Lutte enfants.',
     icon: (
       <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
         <circle cx="16" cy="10" r="4" />

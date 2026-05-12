@@ -31,6 +31,8 @@ const TUNNEL_COLOR: Record<TunnelType, string> = {
   groupe: 'var(--adm-tunnel-groupe)',
 }
 
+type CampDiscipline = 'lutte' | 'mma' | 'combo_quote'
+
 interface ListRow {
   id: string
   created_at: string
@@ -39,6 +41,7 @@ interface ListRow {
   session_id: string | null
   duree_semaines: number | null
   date_debut_souhaitee: string | null
+  camp_discipline: CampDiscipline | null
   status: Status
   package_amount_cents: number | null
   package_paid_at: string | null
@@ -57,6 +60,7 @@ interface StatsRow {
   status_changed_at: string
   session_id: string | null
   tunnel_type: TunnelType
+  camp_discipline: CampDiscipline | null
 }
 
 const CONSUMING_STATUSES: Status[] = ['recue', 'validee', 'soldee']
@@ -71,7 +75,7 @@ const SESSION_NONE = 'none'
 export default async function AdminInscriptionsPage({
   searchParams,
 }: {
-  searchParams: Promise<{ tunnel?: string; status?: string; session?: string }>
+  searchParams: Promise<{ tunnel?: string; status?: string; session?: string; discipline?: string }>
 }) {
   const params = await searchParams
 
@@ -92,7 +96,7 @@ export default async function AdminInscriptionsPage({
     // Stats : toute la base avec session_id + tunnel pour pouvoir agreger
     const statsRes = await supabase
       .from('candidatures')
-      .select('status, status_changed_at, session_id, tunnel_type')
+      .select('status, status_changed_at, session_id, tunnel_type, camp_discipline')
       .limit(2000)
     allRowsForStats = (statsRes.data ?? []) as unknown as StatsRow[]
 
@@ -101,7 +105,7 @@ export default async function AdminInscriptionsPage({
       .from('candidatures')
       .select(`
         id, created_at, status_changed_at, tunnel_type, session_id, duree_semaines,
-        date_debut_souhaitee, status,
+        date_debut_souhaitee, camp_discipline, status,
         package_amount_cents, package_paid_at,
         notes_admin,
         candidate:candidates ( prenom, nom, email, telephone, pays )
@@ -114,6 +118,9 @@ export default async function AdminInscriptionsPage({
     }
     if (params.status && (STATUS_VALUES as readonly string[]).includes(params.status)) {
       q = q.eq('status', params.status)
+    }
+    if (params.discipline && (['lutte', 'mma', 'combo_quote'] as string[]).includes(params.discipline)) {
+      q = q.eq('camp_discipline', params.discipline)
     }
 
     if (params.session === SESSION_NONE) {
@@ -161,7 +168,11 @@ export default async function AdminInscriptionsPage({
   // Counts par session_id (toutes statuts confondus, pour l'affichage de la pile)
   const sessionCounts: Record<string, number> = {}
   // Counts qui consomment des places (status recue/validee/soldee + tunnel session)
+  // Detaille par discipline : sessionPlacesPrises[id] = total, sessionPlacesByDiscipline[id] = {lutte, mma}
   const sessionPlacesPrises: Record<string, number> = {}
+  const sessionPlacesByDiscipline: Record<string, { lutte: number; mma: number }> = {}
+  // Stats discipline globales
+  const disciplineCounts: Record<CampDiscipline, number> = { lutte: 0, mma: 0, combo_quote: 0 }
   let nullSessionCount = 0
   let upcomingCount = 0
   for (const r of allRowsForStats) {
@@ -172,7 +183,14 @@ export default async function AdminInscriptionsPage({
       if (upcomingIds.includes(r.session_id)) upcomingCount += 1
       if (r.tunnel_type === 'session' && CONSUMING_STATUSES.includes(r.status)) {
         sessionPlacesPrises[r.session_id] = (sessionPlacesPrises[r.session_id] ?? 0) + 1
+        const slice = sessionPlacesByDiscipline[r.session_id] ?? { lutte: 0, mma: 0 }
+        if (r.camp_discipline === 'lutte') slice.lutte += 1
+        else if (r.camp_discipline === 'mma') slice.mma += 1
+        sessionPlacesByDiscipline[r.session_id] = slice
       }
+    }
+    if (r.camp_discipline) {
+      disciplineCounts[r.camp_discipline] = (disciplineCounts[r.camp_discipline] ?? 0) + 1
     }
   }
   const orphanSessionIds = Object.keys(sessionCounts).filter((id) => !knownSessionIds.includes(id))
@@ -183,12 +201,13 @@ export default async function AdminInscriptionsPage({
     tunnelCounts[r.tunnel_type] = (tunnelCounts[r.tunnel_type] ?? 0) + 1
   }
 
-  const buildHref = (overrides: Partial<{ tunnel: string; status: string; session: string }>): string => {
-    const merged = { tunnel: params.tunnel, status: params.status, session: params.session, ...overrides }
+  const buildHref = (overrides: Partial<{ tunnel: string; status: string; session: string; discipline: string }>): string => {
+    const merged = { tunnel: params.tunnel, status: params.status, session: params.session, discipline: params.discipline, ...overrides }
     const usp = new URLSearchParams()
     if (merged.tunnel) usp.set('tunnel', merged.tunnel)
     if (merged.status) usp.set('status', merged.status)
     if (merged.session) usp.set('session', merged.session)
+    if (merged.discipline) usp.set('discipline', merged.discipline)
     const qs = usp.toString()
     return qs ? `/admin/inscriptions?${qs}` : '/admin/inscriptions'
   }
@@ -251,14 +270,18 @@ export default async function AdminInscriptionsPage({
             {sortedSessions.map((s) => {
               const isUpcoming = upcomingIds.includes(s.id)
               const prises = sessionPlacesPrises[s.id] ?? 0
-              const restantes = Math.max(0, s.maxCapacity - prises)
+              const byDisc = sessionPlacesByDiscipline[s.id] ?? { lutte: 0, mma: 0 }
+              const maxTotal = s.maxCapacity.lutte + s.maxCapacity.mma
+              const restantes = Math.max(0, maxTotal - prises)
               const isFull = restantes === 0
-              const isLimited = restantes > 0 && restantes <= 3
+              const isLimited = restantes > 0 && restantes <= 6
               const placesColor = isFull
                 ? 'var(--adm-status-refusee)'
                 : isLimited
                   ? 'var(--adm-status-reportee)'
                   : 'var(--adm-status-validee)'
+              const lutteFull = byDisc.lutte >= s.maxCapacity.lutte
+              const mmaFull = byDisc.mma >= s.maxCapacity.mma
               return (
                 <a
                   key={s.id}
@@ -270,7 +293,7 @@ export default async function AdminInscriptionsPage({
                       ? 'var(--adm-tunnel-session)'
                       : 'var(--adm-text-muted)',
                   }}
-                  title={`${s.seasonLabel} (${s.dates}) · ${prises}/${s.maxCapacity} places prises (${restantes} restantes)`}
+                  title={`${s.seasonLabel} (${s.dates}) · Lutte ${byDisc.lutte}/${s.maxCapacity.lutte}${lutteFull ? ' (COMPLET)' : ''} · MMA ${byDisc.mma}/${s.maxCapacity.mma}${mmaFull ? ' (COMPLET)' : ''} · ${restantes} places totales restantes`}
                 >
                   {s.label}
                   <span style={{ fontSize: '0.7rem', opacity: 0.7, marginLeft: '0.1rem' }}>
@@ -280,15 +303,16 @@ export default async function AdminInscriptionsPage({
                     style={{
                       color: placesColor,
                       fontWeight: 700,
-                      fontSize: '0.72rem',
+                      fontSize: '0.7rem',
                       padding: '0.05rem 0.45rem',
                       borderRadius: 999,
                       background: `color-mix(in srgb, ${placesColor} 14%, transparent)`,
                       border: `1px solid color-mix(in srgb, ${placesColor} 35%, transparent)`,
                       marginLeft: '0.25rem',
+                      whiteSpace: 'nowrap',
                     }}
                   >
-                    {prises}/{s.maxCapacity}
+                    L {byDisc.lutte}/{s.maxCapacity.lutte} · M {byDisc.mma}/{s.maxCapacity.mma}
                   </span>
                 </a>
               )
@@ -340,6 +364,46 @@ export default async function AdminInscriptionsPage({
                 </span>
               </a>
             ))}
+          </div>
+
+          <div className="adm-filter-row">
+            <span className="adm-filter-row-label">Discipline</span>
+            <a
+              href={buildHref({ discipline: undefined })}
+              className={!params.discipline ? 'adm-pill adm-pill--active' : 'adm-pill'}
+            >
+              Toutes
+            </a>
+            <a
+              href={buildHref({ discipline: 'lutte' })}
+              className={params.discipline === 'lutte' ? 'adm-pill adm-pill--active' : 'adm-pill'}
+              data-accent
+              style={{ ['--adm-pill-accent' as string]: '#4ade80' }}
+              title="Lutte · Daghestan"
+            >
+              🤼 Lutte
+              <span style={{ color: 'var(--adm-text-faint)', fontWeight: 500 }}>{disciplineCounts.lutte}</span>
+            </a>
+            <a
+              href={buildHref({ discipline: 'mma' })}
+              className={params.discipline === 'mma' ? 'adm-pill adm-pill--active' : 'adm-pill'}
+              data-accent
+              style={{ ['--adm-pill-accent' as string]: '#f59e0b' }}
+              title="MMA · Tchétchénie (niveau avancé à vérifier)"
+            >
+              🥊 MMA
+              <span style={{ color: 'var(--adm-text-faint)', fontWeight: 500 }}>{disciplineCounts.mma}</span>
+            </a>
+            <a
+              href={buildHref({ discipline: 'combo_quote' })}
+              className={params.discipline === 'combo_quote' ? 'adm-pill adm-pill--active' : 'adm-pill'}
+              data-accent
+              style={{ ['--adm-pill-accent' as string]: '#a78bfa' }}
+              title="Combo Lutte + MMA · sur devis"
+            >
+              🔀 Combo
+              <span style={{ color: 'var(--adm-text-faint)', fontWeight: 500 }}>{disciplineCounts.combo_quote}</span>
+            </a>
           </div>
 
           <div className="adm-filter-row">

@@ -1,7 +1,113 @@
 # SITEMAP MKR Caucasian Camp — Cartographie complète
 
-> **Fichier de référence pour Claude Code.** Mise à jour : 2026-05-12 (vrais témoignages vidéo Antoine + LAMP + VideoModal réutilisable).
+> **Fichier de référence pour Claude Code.** Mise à jour : 2026-05-12 (BREAKING : VideoSection + Coaches retirés + ajout destination Tchétchénie / MMA, /coachs redirigée).
 > Lis ce fichier en priorité avant toute intervention sur le site MKR. Il évite de re-explorer.
+
+## 🆕 BREAKING — 2026-05-12 (15 Lutte + 15 MMA par session officielle + Combo Sur Mesure sur devis)
+
+> **Décision David** : chaque session officielle a maintenant **2 capacités séparées** (15 Lutte au Daghestan + 15 MMA en Tchétchénie), au lieu de 15 globales. À l'inscription session, le candidat choisit Lutte OU MMA (exclusif). Le MMA exige un niveau Avancé minimum (form bloquant). Pour Sur Mesure / Club / Groupe, option "Combo Lutte + MMA" sur devis (séquentiel : X jours Daghestan + Y jours Tchétchénie). Famille forcé à Lutte.
+
+**Modèle de capacité** :
+- `data/sessions.ts` : `maxCapacity: number` → `maxCapacity: { lutte: number, mma: number }`. Toutes les sessions : `{ lutte: 15, mma: 15 }`. Type `CampDiscipline = 'lutte' | 'mma'` exporté.
+- **Migration Supabase** `add_camp_discipline_column` (projet `bgwvrzgnoqlqqrvflwav`, eu-central-1) : colonne `camp_discipline text CHECK IN ('lutte','mma','combo_quote')` ajoutée à `candidatures`. Index partiel `idx_candidatures_session_discipline` sur `(session_id, camp_discipline)` filtré `tunnel_type='session' AND status IN ('recue','validee','soldee')`. NULL toléré pour les candidatures historiques.
+
+**Comptage / API places** :
+- `lib/places.ts` refondu : `getAllSessionPlaces()` retourne un nouveau shape `{ session_id, label, dates, lutte: {…}, mma: {…}, status, total_restantes, is_full }`. Compteurs séparés par discipline. Status global = `closed` si les 2 disciplines sont pleines, `limited` si total ≤ 6 ou si une discipline closed, sinon status de base.
+- `api/places/route.ts` inchangé (passe-plat). `PlacesRestantes.tsx` accepte un nouveau prop `discipline?: 'lutte' | 'mma'` et un nouveau variant `'dual'` qui affiche 2 mini-pills côte à côte (Lutte 12/15 · MMA 8/15).
+
+**Form `InscriptionLayout.tsx`** :
+- Nouveau champ `campDiscipline: '' | 'lutte' | 'mma' | 'combo_quote'` dans `FormData`. Initial `''`. Forcé à `'lutte'` par `selectAudience()` pour le tunnel `famille`. Reset à `''` quand on change de tunnel.
+- Step 3 (Logistique) : RadioGroup discipline en TÊTE pour `session`/`custom`/`groupe`. Pour `famille`, bandeau info "Camp Lutte au Daghestan" + lien vers Sur Mesure pour les cas atypiques.
+  - Session : 2 options (Lutte Daghestan 15p · MMA Tchétchénie 15p, niveau Avancé min)
+  - Custom : 3 options (Lutte / MMA / Combo Lutte+MMA sur devis)
+  - Groupe : 3 options idem custom, mention adaptée club
+- Validation step 3 :
+  - `campDiscipline` obligatoire (sauf famille où forcé serveur)
+  - Pour `session` : doit être `lutte` ou `mma` (pas combo)
+  - Pour MMA : `niveau` doit être dans `MMA_ACCEPTED_LEVELS = {avance, competiteur-regional, competiteur-national, competiteur-international}`. Sinon erreur bloquante avec message clair pointant vers l'étape Expérience.
+- Step 5 (récap) : nouvelle ligne "Camp" avec label complet (`Lutte · Daghestan` / `MMA · Tchétchénie` / `Combo Lutte + MMA (sur devis)`).
+- Payload `/api/inscription` inclut `camp_discipline: 'lutte' | 'mma' | 'combo_quote' | null`.
+
+**API `/api/inscription/route.ts`** :
+- Accepte et valide `camp_discipline` selon le tunnel (cf. table ci-dessus).
+- Pour `session` : check capacité atomique (via `getSessionPlaces(session_id)`) avant insert. Si la discipline choisie est pleine → 409 Conflict avec message "Session complète sur le camp X. Choisis une autre session ou l'autre discipline."
+- Dedup étendu à `(candidate_id, tunnel_type, camp_discipline)`.
+- Stocke `camp_discipline` en colonne dédiée (et plus en `form_data` jsonb).
+- Notification Slack : ajoute ligne `Camp : 🤼 Lutte / 🥊 MMA / 🔀 Combo`.
+
+**Admin** :
+- `/admin/inscriptions` (liste) : nouvelle ligne de filtres "Discipline" (Toutes / Lutte / MMA / Combo) avec compteurs globaux. Pills session affichent désormais `L X/15 · M Y/15` au lieu d'un compteur global. Tooltip détaillé "Lutte X/15 (COMPLET?) · MMA Y/15 (COMPLET?) · Z places totales restantes".
+- `InscriptionsList.tsx` : badge `camp_discipline` ajouté à chaque ligne (vert Lutte / orange MMA / violet Combo). Badge alerte `⚠ MMA · niveau à vérifier` si discipline=mma et status=recue.
+- `/admin/inscriptions/[id]` : nouvelle ligne "Camp choisi" dans le panneau infos avec label complet (Daghestan/Tchétchénie/Devis).
+
+**FAQ (`data/faq.ts`)** :
+- FAQ_HOMEPAGE : nouvelles Q "Lutte ou MMA, comment je choisis ?" et "Quel niveau est exigé pour le camp MMA ?". Q existante "Où se déroule le camp" enrichie de "15 places Lutte + 15 places MMA".
+- FAQ_CATEGORIES (Entrainement) : Q "MMA, lutte adultes, lutte enfants" enrichie. Nouvelle Q "Comment se passe le combo Lutte + MMA en Sur Mesure ?".
+
+**Layout JSON-LD** :
+- 2 `SportsActivityLocation` distincts (Daghestan + Tchétchénie) — déjà fait au 2026-05-12 BREAKING précédent.
+- `maximumAttendeeCapacity` des Events = `lutte + mma` (= 30).
+- Description Event : "15 places Lutte au Daghestan + 15 places MMA en Tchétchénie (exclusif)".
+
+**À refaire dans une session future (non bloquant)** :
+- Affiner la jauge `dual` mobile (peut overflow sur très petits écrans, à confirmer en dev tools).
+- Adapter `StoryCard.tsx` (Instagram share post-inscription) pour afficher la discipline retenue.
+- Adapter email transactionnel (V2 Resend) avec mention discipline + destination dans l'objet.
+- Logs admin : ajouter event `discipline_change` dans `audit_log` si Ruslan veut basculer une candidature Lutte → MMA en visio (rare mais possible).
+- Au-delà de 11 personnes en Groupe ou cas spéciaux : ajouter un champ texte "Détails combo" pour préciser le split souhaité (Sur Mesure).
+
+---
+
+## 🆕 BREAKING — 2026-05-12 (refonte destinations + retrait Coaches/VideoSection)
+
+> **Décision David** : pas de photos de coachs (les visuels AI ne correspondent pas à la réalité) → retrait complet de la section Coaches partout. Ajout de la Tchétchénie comme 2e destination (MMA) en complément du Daghestan (Lutte).
+
+**Modèle nouveau** :
+- **Lutte adultes + Lutte enfants** → camp au **Daghestan** (Makhachkala / Kaspiysk), vol intérieur Istanbul → MCX
+- **MMA** → camp en **Tchétchénie** (Grozny), vol intérieur Istanbul → GRV
+- Une session officielle = UNE destination par participant (selon discipline choisie à l'inscription)
+- **Combo Daghestan + Tchétchénie** : possible UNIQUEMENT sur les inscriptions Sur Mesure
+
+**Changements code** :
+- `src/app/(site)/page.tsx` : retrait `<VideoSection />` et `<Coaches />` (homepage). Sections restantes : Hero · AudienceSwitcher · Testimonials · VoyageReveal · FacilitatorBand · Philosophie · DestinationShowcase · Sessions · Timeline · Contact · FAQ · CTAFinal (12 sections au lieu de 14).
+- `src/components/VideoSection.tsx` reste dans le repo mais orphelin (peut être supprimé au prochain audit).
+- `src/components/Coaches.tsx` et `src/data/coaches.ts` orphelins (idem).
+- `src/app/(site)/coachs/page.tsx` → réécrit en redirect `redirect('/programme')` + `robots: noindex,nofollow`. Conserve la route active mais bascule tout le SEO vers Programme.
+- **Nouvelle page** `src/app/(site)/destinations/tchetchenie/page.tsx` (miroir de `/destinations/dagestan` axé MMA, Grozny, Akhmat Fight Club, héritage Chimaev, mosquée Kadyrov, tours vaïnakh).
+- `src/app/(site)/destinations/page.tsx` (hub) refondu en grid 2 cards + bloc "Combo sur-mesure".
+- `src/components/Nav.tsx` : panel Destination → label "Destinations" (pluriel), 2 mega-dest-card côte à côte (Daghestan / Tchétchénie) + bloc "Combo Daghestan + Tchétchénie uniquement sur sur-mesure". Mega-prog-secondary : lien `/coachs` remplacé par `/temoignages`. Mobile : accordion Destination ajoute Tchétchénie et lien vue d'ensemble, accordion Programme retire `/coachs`, suffixes par destination ajoutés sur les liens disciplines.
+- `src/components/Footer.tsx` : colonne Programmes retire "Nos coachs", ajoute "Daghestan · Lutte" et "Tchétchénie · MMA". Description footer mentionne les 2 destinations.
+- `src/app/sitemap.ts` : retrait `/coachs`, ajout `/destinations/tchetchenie` (priority 0.85).
+- `src/app/layout.tsx` JSON-LD : retrait import COACHES + retrait des entités Person + retrait `performer` des Events. Ajout d'une 2e `SportsActivityLocation` pour la Tchétchénie (GeoCoordinates Grozny 43.3168, 45.6981, sport MMA, vol Istanbul-Grozny). Events désormais `location: [{...dagestan}, {...tchetchenie}]`.
+- `src/components/Hero.tsx` : subtitle "Lutte au Daghestan, MMA en Tchétchénie", stats : "2 Destinations" + "3 Disciplines" + "1-3 semaines" (remplace "9 coachs" et "8 athlètes"). CTA secondaire `/destinations` au lieu de `#video-section` (qui n'existe plus).
+- `src/components/CTAFinal.tsx` : "Prochain camp · {dates} {year} · Daghestan (Lutte) ou Tchétchénie (MMA)".
+- `src/components/DestinationShowcase.tsx` : 5 paysages alternant Daghestan / Tchétchénie / Caucase Nord, header "DAGHESTAN · TCHÉTCHÉNIE", chaque carte est désormais un `<Link>` vers la destination correspondante.
+- `src/components/Sessions.tsx` (homepage) : subtitle "Lutte au Daghestan ou MMA en Tchétchénie selon la discipline choisie à l'inscription". Sub-price card mentionne "vol intérieur depuis Istanbul (Makhachkala pour Lutte ou Grozny pour MMA)".
+- `src/components/VoyageReveal.tsx` : step 02 = "Istanbul → Makhachkala (Lutte) ou Grozny (MMA), vol intérieur inclus", step 03 = transfert variable selon destination.
+- `src/components/FacilitatorBand.tsx` : item Vol intérieur, Transferts et Encadrement mentionnent les 2 destinations.
+- `src/components/AudienceSwitcher.tsx` : sub mentionne "Lutte au Daghestan ou MMA en Tchétchénie".
+- `src/components/Philosophie.tsx` : copy mentionne les 2 destinations.
+- `src/components/GalerieContent.tsx` : alt photo `mosque-grozny.webp` corrigé (mosquée Akhmad Kadyrov, Grozny, Tchétchénie). Photo orphelin `coachs-salle.webp` reste comme image décorative (catégorie 'Coachs' visuelle, pas de lien).
+- `src/data/sessions.ts` : type `destination` passe de `'Dagestan'` à `'Daghestan ou Tchétchénie'`. Toutes les sessions mises à jour. Session `aout-2026` renommée "CAMP CAUCASIEN" (plus "CAMP DAGHESTANAIS").
+- `src/data/site.ts` : SITE_DESCRIPTION = "Camps d'entraînement MMA et Lutte au cœur du Caucase. Lutte adultes et enfants au Daghestan, MMA en Tchétchénie. Une discipline par camp. Immersion 1 à 3 semaines, encadrement local."
+- `src/data/registration-types.ts` : descriptions Session, Custom, Famille mises à jour pour mentionner les 2 destinations + combo sur-mesure.
+- `src/data/faq.ts` : FAQ_HOMEPAGE Q "Le visa", "Inclus", "Langue", dates des camps et nouvelle Q "Où se déroule le camp : Daghestan ou Tchétchénie ?". FAQ_CATEGORIES Q sécurité, visa, transfert, disciplines mises à jour.
+- `src/app/(site)/sessions/page.tsx` : metadata + hero + INCLUDES coachs locaux ajustés. SESSIONS hardcoded `name` passe à "CAMP\nCAUCASIEN".
+- `src/app/(site)/programme/page.tsx` : titre hero "TROIS DISCIPLINES. DEUX TERRES DU CAUCASE.", labels card "DISCIPLINE · TCHÉTCHÉNIE" / "DISCIPLINE · DAGHESTAN", ghostHref `/destinations` au lieu de `/coachs`.
+- `src/app/(site)/programme/mma/page.tsx` : metadata "Tchétchénie", PageHero label "MMA · TCHÉTCHÉNIE", body "MMA EN TCHÉTCHÉNIE", SectionCTA `/destinations/tchetchenie`.
+- `src/app/(site)/programme/lutte/page.tsx` : PageHero label "LUTTE · DAGHESTAN", subtitle Makhachkala / Kaspiysk, SectionCTA `/destinations/dagestan`.
+- `src/app/(site)/programme/lutte-enfants/page.tsx` : PageHero label "JEUNESSE 8-17 ANS · DAGHESTAN".
+- `src/app/(site)/le-camp/page.tsx` : metadata + PageHero subtitle mentionnent les 2 destinations.
+- `src/app/(site)/sur-mesure/page.tsx` : nouvelle section "EXCLUSIVITÉ SUR MESURE / COMBINE DAGHESTAN ET TCHÉTCHÉNIE" en intro après PageHero, metadata et hero mis à jour.
+- `src/app/(site)/logistique/page.tsx` : metadata, hero subtitle, step visa, vols (paragraphe intro Makhachkala/Grozny + cartes 3 villes adaptées), transferts (1h30 Makhachkala / 30 min Grozny), Infos pratiques (2 aéroports), langue (avar + tchétchène).
+- `src/app/(site)/a-propos/page.tsx` : histoire mentionne les 2 destinations, salles partenaires : "Salle Lutte · Makhachkala", "Salle Lutte · Kaspiysk", "Salle MMA · Grozny".
+- `src/app/globals.css` : nouvelle classe `.mega-dest-layout--dual` (grid 1fr 1fr 0.9fr desktop, 1fr 1fr tablet, 1fr mobile) + `.mega-dest-card--dual` (aspect 4/5).
+
+**À refaire dans une session future (non bloquant)** :
+- Générer des images Nanobanana propres pour Tchétchénie (paysages, salle MMA Grozny). Actuellement on réutilise `mosque-grozny.webp`, `vainakh-towers.webp`, `lake-kezenoy.webp`, `gym-interior.webp`, `sparring-mma-wall.webp`.
+- Mettre à jour `clubs-groupes/page.tsx`, `mkr-camp-2026/page.tsx`, `familles/page.tsx`, `cgv/page.tsx` (Article 5), `blog/[slug]/page.tsx` (articles) pour propager la dualité.
+- Supprimer ou archiver `VideoSection.tsx`, `Coaches.tsx`, `data/coaches.ts` (orphelins post-2026-05-12).
+- Mettre à jour le formulaire d'inscription : déduire la destination depuis la discipline principale choisie, afficher dans le récap.
 
 ## 🆕 Changements 2026-05-12 (vrais témoignages vidéo + VideoModal)
 

@@ -166,21 +166,21 @@ export default function Hero() {
           LES <span className="highlight">CHAMPIONS</span>
         </h1>
 
-        <p className="hero-subtitle">Camp d&apos;entraînement MMA et Lutte au Daghestan. Solo, en famille ou en club. MKR organise tout.</p>
+        <p className="hero-subtitle">Camp d&apos;entraînement au cœur du Caucase. Lutte au Daghestan, MMA en Tchétchénie. Solo, en famille ou en club, MKR organise tout.</p>
 
         <div className="hero-ctas">
           <Link href="/inscription" className="btn-primary">POSTULER AU CAMP</Link>
-          <Link href="#video-section" className="btn-ghost">VOIR LE CAMP</Link>
+          <Link href="/destinations" className="btn-ghost">VOIR LES DESTINATIONS</Link>
         </div>
 
         <div className="hero-stats">
           <div className="hero-stat-item">
-            <span className="hero-stat-num">9</span>
-            <span className="hero-stat-label">Coachs expérimentés</span>
+            <span className="hero-stat-num">2</span>
+            <span className="hero-stat-label">Destinations · Daghestan, Tchétchénie</span>
           </div>
           <div className="hero-stat-item">
-            <span className="hero-stat-num">8</span>
-            <span className="hero-stat-label">Athlètes haut niveau</span>
+            <span className="hero-stat-num">3</span>
+            <span className="hero-stat-label">Disciplines · Lutte, Lutte enfants, MMA</span>
           </div>
           <div className="hero-stat-item">
             <span className="hero-stat-num">1-3</span>
@@ -227,8 +227,7 @@ function HeroCampCarousel() {
           <span className={`hero-camps-status hero-camps-status--${session.status}`}>
             <PlacesRestantes
               sessionId={session.id}
-              fallbackMax={session.maxCapacity}
-              variant="compact"
+              variant="dual"
             />
           </span>
         </div>

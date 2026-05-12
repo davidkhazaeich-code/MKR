@@ -59,8 +59,7 @@ export default function AudienceSwitcher({ withHeader = true, compact = false }:
               CHOISIS TON FORMAT<br/>D&apos;INSCRIPTION
             </h2>
             <p className="audience-switcher-sub">
-              Tu pars seul, en duo, en famille ou avec ton club ? On a un format pour chaque profil. Visa, vol intérieur
-              Istanbul-Makhachkala, transferts, hébergement, repas et encadrement : tout est coordonné sur place par MKR.
+              Tu pars seul, en duo, en famille ou avec ton club ? On a un format pour chaque profil. Lutte au Daghestan ou MMA en Tchétchénie : visa, vol intérieur depuis Istanbul, transferts, hébergement, repas et encadrement sont coordonnés sur place par MKR.
             </p>
           </div>
         )}

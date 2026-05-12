@@ -1,8 +1,13 @@
 import { NextResponse } from 'next/server'
 import { getSupabaseAdmin } from '@/lib/supabase-admin'
+import { SESSIONS } from '@/data/sessions'
+import { getSessionPlaces } from '@/lib/places'
 
 const VALID_TUNNELS = ['session', 'custom', 'famille', 'groupe'] as const
 type TunnelType = (typeof VALID_TUNNELS)[number]
+
+const VALID_DISCIPLINES = ['lutte', 'mma', 'combo_quote'] as const
+type CampDiscipline = (typeof VALID_DISCIPLINES)[number]
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
@@ -31,6 +36,7 @@ type InscriptionPayload = {
   session_id?: string | null
   duree_semaines?: number | null
   date_debut_souhaitee?: string | null
+  camp_discipline?: string | null
   form_data?: Record<string, unknown>
   // Honeypot : champ invisible pour utilisateurs humains, rempli par bots.
   _hp?: string
@@ -70,6 +76,33 @@ export async function POST(request: Request) {
   const tunnel = body.tunnel_type
   if (!tunnel || !VALID_TUNNELS.includes(tunnel as TunnelType)) {
     return badRequest('tunnel_type invalide')
+  }
+
+  // Validation discipline du camp.
+  // - tunnel 'session' : obligatoire, 'lutte' ou 'mma' (pas combo)
+  // - tunnel 'famille' : si fourni, doit etre 'lutte'. Si absent, on force 'lutte' cote serveur.
+  // - tunnel 'custom' / 'groupe' : obligatoire, 'lutte', 'mma' ou 'combo_quote'
+  let campDiscipline: CampDiscipline | null = null
+  const rawDiscipline = body.camp_discipline?.trim() || null
+  if (rawDiscipline) {
+    if (!VALID_DISCIPLINES.includes(rawDiscipline as CampDiscipline)) {
+      return badRequest('camp_discipline invalide')
+    }
+    campDiscipline = rawDiscipline as CampDiscipline
+  }
+
+  if (tunnel === 'session') {
+    if (campDiscipline !== 'lutte' && campDiscipline !== 'mma') {
+      return badRequest('Pour une session officielle, camp_discipline doit etre "lutte" ou "mma"')
+    }
+  } else if (tunnel === 'famille') {
+    // On force 'lutte' cote serveur (pas de choix possible pour Famille).
+    campDiscipline = 'lutte'
+  } else {
+    // custom / groupe
+    if (!campDiscipline) {
+      return badRequest('camp_discipline requis (lutte, mma ou combo_quote)')
+    }
   }
 
   const candidate = body.candidate ?? {}
@@ -129,24 +162,46 @@ export async function POST(request: Request) {
     )
   }
 
-  // 3. Dedup soft : refuse si une candidature pour le meme (candidate, tunnel)
-  // a ete creee dans la fenetre DEDUP_WINDOW_SECONDS. Limite l'effet d'un user
-  // qui spam le bouton OU d'un bot qui rejoue le POST en boucle.
+  // 3. Dedup soft : refuse si une candidature pour le meme (candidate, tunnel, discipline)
+  // a ete creee dans la fenetre DEDUP_WINDOW_SECONDS.
   const dedupSince = new Date(Date.now() - DEDUP_WINDOW_SECONDS * 1000).toISOString()
-  const { data: recent, error: recentError } = await supabase
+  const dedupQuery = supabase
     .from('candidatures')
     .select('id')
     .eq('candidate_id', upsertedCandidate.id)
     .eq('tunnel_type', tunnel)
     .gte('created_at', dedupSince)
     .limit(1)
-    .maybeSingle()
+  if (campDiscipline) {
+    dedupQuery.eq('camp_discipline', campDiscipline)
+  }
+  const { data: recent, error: recentError } = await dedupQuery.maybeSingle()
 
   if (recentError) {
     console.error('[api/inscription] dedup check failed', recentError)
     // Pas de fail-fast : on log et on continue. Ne pas bloquer les vrais users.
   } else if (recent) {
     return tooMany('Une candidature recente existe deja pour ce candidat. Reessaye dans quelques secondes.')
+  }
+
+  // 4. Verif capacite pour tunnel=session : refuser si la discipline choisie est pleine.
+  // (combo_quote = pas applicable cote session, deja filtre plus haut)
+  if (tunnel === 'session' && body.session_id && (campDiscipline === 'lutte' || campDiscipline === 'mma')) {
+    const sessionExists = SESSIONS.some((s) => s.id === body.session_id)
+    if (!sessionExists) {
+      return badRequest('session_id inconnue')
+    }
+    const places = await getSessionPlaces(body.session_id)
+    if (places) {
+      const slice = campDiscipline === 'lutte' ? places.lutte : places.mma
+      if (slice.is_full) {
+        const label = campDiscipline === 'lutte' ? 'Lutte (Daghestan)' : 'MMA (Tchetchenie)'
+        return NextResponse.json(
+          { ok: false, error: `Session complete sur le camp ${label}. Choisis une autre session ou l'autre discipline.` },
+          { status: 409 },
+        )
+      }
+    }
   }
 
   const ip = clientIp(request)
@@ -156,6 +211,7 @@ export async function POST(request: Request) {
     session_id: body.session_id || null,
     duree_semaines: body.duree_semaines ?? null,
     date_debut_souhaitee: body.date_debut_souhaitee || null,
+    camp_discipline: campDiscipline,
     form_data: {
       ...formData,
       _meta: { ip: ip ?? null, ua: request.headers.get('user-agent') ?? null },
@@ -196,6 +252,7 @@ export async function POST(request: Request) {
       email,
       pays: candidate.pays?.trim() || null,
       duree_semaines: body.duree_semaines ?? null,
+      camp_discipline: campDiscipline,
       candidature_id: candidature.id,
     },
   ).catch((err) => {
@@ -216,6 +273,7 @@ interface SlackPayload {
   email: string
   pays: string | null
   duree_semaines: number | null
+  camp_discipline: CampDiscipline | null
   candidature_id: string
 }
 
@@ -223,17 +281,23 @@ async function notifySlack(p: SlackPayload): Promise<void> {
   const url = process.env.SLACK_WEBHOOK_URL
   if (!url) return
   const tunnelLabel: Record<string, string> = {
-    session: 'MKR Camp 2026',
+    session: 'Session officielle',
     custom: 'Sur Mesure',
     famille: 'Famille',
     groupe: 'Club & Groupe',
+  }
+  const disciplineLabel: Record<CampDiscipline, string> = {
+    lutte: '🤼 Lutte · Daghestan',
+    mma: '🥊 MMA · Tchetchenie',
+    combo_quote: '🔀 Combo Lutte+MMA · sur devis',
   }
   const adminBase = process.env.NEXT_PUBLIC_SITE_URL || 'https://mkrcamp.com'
   const text = [
     `🆕 *Nouvelle candidature MKR* (${tunnelLabel[p.tunnel] ?? p.tunnel})`,
     `*${p.prenom} ${p.nom}* — ${p.email}${p.pays ? ` — ${p.pays}` : ''}${p.duree_semaines ? ` — ${p.duree_semaines} sem.` : ''}`,
+    p.camp_discipline ? `*Camp* : ${disciplineLabel[p.camp_discipline]}` : null,
     `<${adminBase}/admin/inscriptions/${p.candidature_id}|Voir le dossier>`,
-  ].join('\n')
+  ].filter(Boolean).join('\n')
 
   const controller = new AbortController()
   const timeout = setTimeout(() => controller.abort(), 2000)

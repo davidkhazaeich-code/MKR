@@ -6,8 +6,8 @@ import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 import CinematicReveal from '@/components/CinematicReveal'
 
 export const metadata: Metadata = {
-  title: 'Le Camp MKR au Daghestan : MMA et Lutte au Caucase',
-  description: "Camp MMA et Lutte au Daghestan, 1 à 3 semaines d'immersion au cœur du Caucase. Coaching d'élite, hébergement, 2 repas par jour, vol intérieur Istanbul-Makhachkala inclus.",
+  title: 'Le Camp MKR : Lutte au Daghestan, MMA en Tchétchénie',
+  description: "Camp MMA en Tchétchénie ou Lutte au Daghestan, 1 à 3 semaines d'immersion au cœur du Caucase. Coaching d'élite, hébergement, 2 repas par jour, vol intérieur depuis Istanbul inclus.",
   alternates: { canonical: 'https://mkrcamp.com/le-camp' },
 }
 
@@ -98,7 +98,7 @@ export default function LeCampPage() {
       <PageHero
         label="LE CAMP"
         title="1 À 3 SEMAINES QUI CHANGENT<br/>TA MANIÈRE DE COMBATTRE."
-        subtitle="Immersion totale au Caucase, au Daghestan. Coaching, hébergement, repas. Toi, tu combats."
+        subtitle="Immersion totale au Caucase. Lutte au Daghestan, MMA en Tchétchénie. Coaching, hébergement, repas pris en charge. Toi, tu combats."
       />
 
       {/* Cinematic reveal */}

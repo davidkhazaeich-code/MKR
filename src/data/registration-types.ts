@@ -1,7 +1,8 @@
 /**
  * MKR Caucasian Camp - 4 types d'inscription / produits
  *
- * MKR = facilitateur total. On organise tout (visa, vol intérieur Istanbul-Makhachkala,
+ * MKR = facilitateur total. On organise tout (visa, vol intérieur depuis Istanbul
+ * vers Makhachkala pour Lutte au Daghestan ou Grozny pour MMA en Tchétchénie,
  * transferts, hébergement, encadrement, repas, programme).
  */
 
@@ -41,8 +42,8 @@ export const REGISTRATION_TYPES: RegistrationType[] = [
     label: 'Sessions officielles',
     shortLabel: 'Sessions',
     badge: 'Sessions officielles · Adultes',
-    description: '1 à 3 semaines au Daghestan dans un groupe constitué par MKR. Quatre sessions par an calées sur les vacances scolaires, adultes uniquement, esprit collectif.',
-    longDescription: "Tu rejoins une de nos quatre sessions officielles 2026 / 2027 (Été, Toussaint, Hiver Février, Pâques) calées sur les vacances scolaires francophones, avec des athlètes adultes venus du monde entier. Tu choisis ta durée (1, 2 ou 3 semaines) au sein de la fenêtre de session. On gère le visa, le vol intérieur Istanbul-Makhachkala, les transferts, l'hébergement, les repas, le programme et l'encadrement. Si tu pars avec un enfant 8-17 ans, choisis plutôt le tunnel Famille.",
+    description: '1 à 3 semaines au Caucase dans un groupe constitué par MKR (Lutte au Daghestan ou MMA en Tchétchénie). Quatre sessions par an calées sur les vacances scolaires, adultes uniquement, esprit collectif.',
+    longDescription: "Tu rejoins une de nos quatre sessions officielles 2026 / 2027 (Été, Toussaint, Hiver Février, Pâques) calées sur les vacances scolaires francophones, avec des athlètes adultes venus du monde entier. Tu choisis ta durée (1, 2 ou 3 semaines) au sein de la fenêtre de session. Selon ta discipline, tu pars au Daghestan (Lutte) ou en Tchétchénie (MMA). On gère le visa, le vol intérieur depuis Istanbul (Makhachkala ou Grozny), les transferts, l'hébergement, les repas, le programme et l'encadrement. Si tu pars avec un enfant 8-17 ans, choisis plutôt le tunnel Famille.",
     cta: 'Voir les 4 sessions',
     href: '/sessions#sessions-list-heading',
     formHref: '/inscription?type=session',
@@ -61,7 +62,7 @@ export const REGISTRATION_TYPES: RegistrationType[] = [
     shortLabel: 'Sur Mesure',
     badge: 'Tes dates · 1 à 4 adultes',
     description: 'Camp individuel ou en petit groupe d\'amis (1 à 4 adultes). Tu choisis tes dates et ta durée, on coordonne tout.',
-    longDescription: "Tu pars quand tu veux, pour la durée que tu veux (1, 2 ou 3 semaines), seul ou avec 2 à 3 amis adultes (max 4 personnes). On gère sur place les coachs disponibles, l'hébergement, les repas, les transferts et le vol intérieur Istanbul-Makhachkala. Si tu viens avec un enfant 8-17 ans, prends Famille. Si vous êtes un club ou un groupe organisé de 5 personnes ou plus, prends Club et Groupe.",
+    longDescription: "Tu pars quand tu veux, pour la durée que tu veux (1, 2 ou 3 semaines), seul ou avec 2 à 3 amis adultes (max 4 personnes). Tu choisis ta destination : Lutte au Daghestan, MMA en Tchétchénie, ou combo Daghestan + Tchétchénie (exclusif au sur-mesure). On gère sur place les coachs disponibles, l'hébergement, les repas, les transferts et le vol intérieur depuis Istanbul (Makhachkala et/ou Grozny). Si tu viens avec un enfant 8-17 ans, prends Famille. Si vous êtes un club ou un groupe organisé de 5 personnes ou plus, prends Club et Groupe.",
     cta: 'Découvrir le Sur Mesure',
     href: '/sur-mesure',
     formHref: '/inscription?type=custom',
@@ -78,7 +79,7 @@ export const REGISTRATION_TYPES: RegistrationType[] = [
     label: 'Famille',
     shortLabel: 'Famille',
     badge: 'Parent + enfant 8-17',
-    description: `Camp en famille au Daghestan. Parent et enfant 8-17 ans côte à côte, encadrement jeunesse dédié. Forfait à partir de ${FAMILY_BASE_1WEEK_LABEL}.`,
+    description: `Camp en famille au Daghestan (Lutte enfants). Parent et enfant 8-17 ans côte à côte, encadrement jeunesse dédié. Forfait à partir de ${FAMILY_BASE_1WEEK_LABEL}.`,
     longDescription: `Tu pars en famille avec tes enfants 8-17 ans (parent participant obligatoire, c'est notre règle de sécurité). Programme parallèle : sessions adultes pour toi, programme Lutte enfants pour l'ado. Tu peux rejoindre une des quatre sessions officielles (Été 2026, Toussaint 2026, Hiver 2027, Pâques 2027), ou choisir tes propres dates (90 jours minimum). Forfait Parent + Enfant à ${FAMILY_BASE_1WEEK_LABEL} (1 sem) avec 1er enfant inclus, ${FAMILY_EXTRA_CHILD_1WEEK_LABEL} par enfant supplémentaire. Si ton conjoint(e) participe : les deux parents passent au tarif Solo/Duo (${formatEUR(PRICING_TIERS.duo.perAdult[1])} / pers / sem) + enfants au tarif supplément (${FAMILY_EXTRA_CHILD_1WEEK_LABEL} chacun).`,
     cta: 'Découvrir le Camp Famille',
     href: '/familles',

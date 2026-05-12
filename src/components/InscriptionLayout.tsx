@@ -60,6 +60,11 @@ type FormData = {
   // Logistique commune
   session: string; duree: string; villeDepart: string; disponibleEntretien: string
   sourceDecouverte: string; message: string
+  // Discipline du camp (choix Lutte/MMA/Combo).
+  // - tunnel 'session' : 'lutte' (Daghestan, 15 places) ou 'mma' (Tchétchénie, 15 places, avancé min.)
+  // - tunnel 'custom' / 'groupe' : 'lutte', 'mma', ou 'combo_quote' (combo Lutte+MMA, sur devis)
+  // - tunnel 'famille' : forcé à 'lutte' (parent + enfants sur le même camp Daghestan)
+  campDiscipline: '' | 'lutte' | 'mma' | 'combo_quote'
   // Confirmations
   certifMedical: boolean; accepteConditions: boolean; pret: boolean
   // Camp sur mesure (audience='custom' ou 'groupe' ou famille sur-mesure)
@@ -82,6 +87,10 @@ type FormData = {
   autresParticipants: CustomParticipant[]
 }
 
+// Niveaux acceptés pour le camp MMA. Le form bloque le passage si discipline=mma
+// et niveau en-dessous d'avancé. Ruslan filtre ensuite en visio.
+const MMA_ACCEPTED_LEVELS = new Set(['avance', 'competiteur-regional', 'competiteur-national', 'competiteur-international'])
+
 const INITIAL: FormData = {
   prenom: '', nom: '', dateNaissance: '', pays: '', email: '', telephone: '',
   disciplinePrincipale: '', disciplinesSecondaires: [], anneesPratique: '',
@@ -90,6 +99,7 @@ const INITIAL: FormData = {
   contreIndications: '', contreIndicationsDetail: '', deuxFoisJour: '',
   session: '', duree: '', villeDepart: '', disponibleEntretien: '',
   sourceDecouverte: '', message: '',
+  campDiscipline: '',
   certifMedical: false, accepteConditions: false, pret: false,
   dateDebutSouhaitee: '',
   vientAvecFamille: false, nombreEnfants: '', enfantsAges: '',
@@ -225,6 +235,8 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
         next.vientAvecFamille = false
         next.enfants = []
         next.nombreEnfants = ''
+        // Pas de default : le candidat doit choisir explicitement Lutte ou MMA.
+        next.campDiscipline = ''
       } else if (id === 'famille') {
         next.session = sessionToKeep
         next.duree = '3-semaines'
@@ -233,12 +245,15 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
           next.enfants = [makeChild()]
           next.nombreEnfants = '1'
         }
+        // Famille = camp Lutte forcé (parent + enfants au Daghestan, programme jeunesse).
+        next.campDiscipline = 'lutte'
       } else if (id === 'custom') {
         next.session = ''
         next.duree = ''
         next.vientAvecFamille = false
         next.enfants = []
         next.nombreEnfants = ''
+        next.campDiscipline = ''
         // Solo par défaut
         if (!prev.nombreParticipants) {
           next.nombreParticipants = '1'
@@ -251,6 +266,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
         next.enfants = []
         next.nombreEnfants = ''
         next.autresParticipants = []
+        next.campDiscipline = ''
       }
       return next
     })
@@ -345,6 +361,23 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
 
     // ── STEP 3 — Logistique (par tunnel) ──
     if (step === 3) {
+      // Discipline du camp : obligatoire pour tous les tunnels (sauf famille où c'est forcé 'lutte')
+      if (audience === 'session') {
+        if (form.campDiscipline !== 'lutte' && form.campDiscipline !== 'mma') {
+          e.push('Choisis ta discipline pour le camp (Lutte ou MMA)')
+        }
+        if (form.campDiscipline === 'mma' && !MMA_ACCEPTED_LEVELS.has(form.niveau)) {
+          e.push('Le camp MMA est réservé aux niveaux Avancé et Compétiteur. Reviens à l\'étape Expérience pour ajuster ton niveau, ou choisis Lutte.')
+        }
+      }
+      if (audience === 'custom' || audience === 'groupe') {
+        if (form.campDiscipline !== 'lutte' && form.campDiscipline !== 'mma' && form.campDiscipline !== 'combo_quote') {
+          e.push('Choisis la discipline du camp (Lutte, MMA ou Combo Lutte+MMA sur devis)')
+        }
+        if (audience === 'custom' && form.campDiscipline === 'mma' && !MMA_ACCEPTED_LEVELS.has(form.niveau)) {
+          e.push('Le camp MMA est réservé aux niveaux Avancé et Compétiteur. Reviens à l\'étape Expérience pour ajuster ton niveau, ou choisis Lutte ou Combo.')
+        }
+      }
       if (audience === 'session') {
         // Dates verrouillées — rien à valider hors entretien/ville
       }
@@ -425,6 +458,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
         : null,
       duree_semaines: form.duree === '1-semaine' ? 1 : form.duree === '2-semaines' ? 2 : form.duree === '3-semaines' ? 3 : null,
       date_debut_souhaitee: form.dateDebutSouhaitee || null,
+      camp_discipline: form.campDiscipline || null,
       form_data: {
         // Données spécifiques par tunnel — remontent toutes en JSONB côté Supabase
         experience: audience !== 'groupe' ? {
@@ -1099,9 +1133,37 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                   </div>
                 )}
 
-                {/* Audience: SESSION GROUPE — choix parmi les 4 sessions officielles + durée libre 1/2/3 sem */}
+                {/* Audience: SESSION GROUPE — choix discipline + parmi les 4 sessions officielles + durée libre 1/2/3 sem */}
                 {audience === 'session' && (
                   <>
+                    <Field label="Quelle discipline pratiques-tu pendant le camp ?" hint="C'est exclusif sur les sessions officielles : tu pars au Daghestan pour la Lutte OU en Tchétchénie pour le MMA. Pour combiner les deux, choisis le tunnel Sur Mesure.">
+                      <div className="cand-radios">
+                        <label className={`cand-radio${form.campDiscipline === 'lutte' ? ' selected' : ''}`}>
+                          <input type="radio" name="campDiscipline" value="lutte" checked={form.campDiscipline === 'lutte'} onChange={() => set('campDiscipline', 'lutte')} />
+                          <span>
+                            <strong>Lutte (Daghestan)</strong>
+                            <span style={{ display: 'block', fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.15rem' }}>
+                              Programme Lutte libre adultes · 15 places par session · Makhachkala / Kaspiysk
+                            </span>
+                          </span>
+                        </label>
+                        <label className={`cand-radio${form.campDiscipline === 'mma' ? ' selected' : ''}`}>
+                          <input type="radio" name="campDiscipline" value="mma" checked={form.campDiscipline === 'mma'} onChange={() => set('campDiscipline', 'mma')} />
+                          <span>
+                            <strong>MMA (Tchétchénie)</strong>
+                            <span style={{ display: 'block', fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.15rem' }}>
+                              Programme MMA · 15 places par session · Grozny / Akhmat Fight Club · niveau Avancé minimum
+                            </span>
+                          </span>
+                        </label>
+                      </div>
+                      {form.campDiscipline === 'mma' && !MMA_ACCEPTED_LEVELS.has(form.niveau) && (
+                        <div className="logi-updated" style={{ background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.3)', padding: '0.75rem 1rem', borderRadius: '3px', textAlign: 'left', marginTop: '0.6rem', color: '#fca5a5' }}>
+                          ⚠ Le camp MMA exige un niveau <strong>Avancé</strong> ou <strong>Compétiteur</strong> (régional / national / international). Ton niveau actuel ({form.niveau || 'non défini'}) ne permet pas l&apos;inscription MMA. Choisis Lutte ou reviens à l&apos;étape Expérience.
+                        </div>
+                      )}
+                    </Field>
+
                     <Field label="Session officielle" hint="Quatre sessions par an, calées sur les vacances scolaires francophones. Tu choisis ta durée (1, 2 ou 3 semaines) au sein de la fenêtre de session.">
                       <select className="cand-select" value={form.session}
                         onChange={e => set('session', e.target.value)}>
@@ -1124,9 +1186,46 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                   </>
                 )}
 
-                {/* Audience: CAMP SUR MESURE — composition + autres participants + dates */}
+                {/* Audience: CAMP SUR MESURE — discipline + composition + autres participants + dates */}
                 {audience === 'custom' && (
                   <>
+                    <Field label="Quelle discipline pratiquer pendant le camp ?" hint="Tu peux choisir Lutte uniquement (Daghestan), MMA uniquement (Tchétchénie) ou le combo des deux. Le combo se vit en mode séquentiel (X jours Daghestan puis Y jours Tchétchénie) et est tarifé sur devis pendant la visio.">
+                      <div className="cand-radios">
+                        <label className={`cand-radio${form.campDiscipline === 'lutte' ? ' selected' : ''}`}>
+                          <input type="radio" name="campDiscipline" value="lutte" checked={form.campDiscipline === 'lutte'} onChange={() => set('campDiscipline', 'lutte')} />
+                          <span>
+                            <strong>Lutte uniquement (Daghestan)</strong>
+                            <span style={{ display: 'block', fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.15rem' }}>
+                              Makhachkala / Kaspiysk · tarifs publics par palier
+                            </span>
+                          </span>
+                        </label>
+                        <label className={`cand-radio${form.campDiscipline === 'mma' ? ' selected' : ''}`}>
+                          <input type="radio" name="campDiscipline" value="mma" checked={form.campDiscipline === 'mma'} onChange={() => set('campDiscipline', 'mma')} />
+                          <span>
+                            <strong>MMA uniquement (Tchétchénie)</strong>
+                            <span style={{ display: 'block', fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.15rem' }}>
+                              Grozny · niveau Avancé minimum · tarifs publics par palier
+                            </span>
+                          </span>
+                        </label>
+                        <label className={`cand-radio${form.campDiscipline === 'combo_quote' ? ' selected' : ''}`}>
+                          <input type="radio" name="campDiscipline" value="combo_quote" checked={form.campDiscipline === 'combo_quote'} onChange={() => set('campDiscipline', 'combo_quote')} />
+                          <span>
+                            <strong>Combo Lutte + MMA (sur devis)</strong>
+                            <span style={{ display: 'block', fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.15rem' }}>
+                              Partie au Daghestan + partie en Tchétchénie · durée mini 2 semaines · tarif fixé en visio
+                            </span>
+                          </span>
+                        </label>
+                      </div>
+                      {form.campDiscipline === 'mma' && !MMA_ACCEPTED_LEVELS.has(form.niveau) && (
+                        <div className="logi-updated" style={{ background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.3)', padding: '0.75rem 1rem', borderRadius: '3px', textAlign: 'left', marginTop: '0.6rem', color: '#fca5a5' }}>
+                          ⚠ Le camp MMA exige un niveau <strong>Avancé</strong> ou <strong>Compétiteur</strong>. Choisis Lutte ou Combo, ou reviens à l&apos;étape Expérience.
+                        </div>
+                      )}
+                    </Field>
+
                     <Field label="Composition de ton inscription" hint="1 à 4 adultes uniquement. Pour 5+ : Club & Groupe. Pour partir avec un enfant : Famille.">
                       <select className="cand-select" value={form.nombreParticipants}
                         onChange={e => syncCustomParticipants(e.target.value)}>
@@ -1205,9 +1304,41 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                   </>
                 )}
 
-                {/* Audience: GROUPE / CLUB — nom + dates uniquement (niveau et nb déjà collectés en step 1) */}
+                {/* Audience: GROUPE / CLUB — discipline + nom + dates */}
                 {audience === 'groupe' && (
                   <>
+                    <Field label="Discipline visée par ton groupe" hint="Lutte au Daghestan, MMA en Tchétchénie, ou combo des deux destinations (sur devis). MKR adapte le programme et la destination selon ton choix.">
+                      <div className="cand-radios">
+                        <label className={`cand-radio${form.campDiscipline === 'lutte' ? ' selected' : ''}`}>
+                          <input type="radio" name="campDiscipline" value="lutte" checked={form.campDiscipline === 'lutte'} onChange={() => set('campDiscipline', 'lutte')} />
+                          <span>
+                            <strong>Lutte (Daghestan)</strong>
+                            <span style={{ display: 'block', fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.15rem' }}>
+                              Tout le groupe au camp Lutte à Makhachkala / Kaspiysk
+                            </span>
+                          </span>
+                        </label>
+                        <label className={`cand-radio${form.campDiscipline === 'mma' ? ' selected' : ''}`}>
+                          <input type="radio" name="campDiscipline" value="mma" checked={form.campDiscipline === 'mma'} onChange={() => set('campDiscipline', 'mma')} />
+                          <span>
+                            <strong>MMA (Tchétchénie)</strong>
+                            <span style={{ display: 'block', fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.15rem' }}>
+                              Tout le groupe au camp MMA à Grozny · profil avancé requis
+                            </span>
+                          </span>
+                        </label>
+                        <label className={`cand-radio${form.campDiscipline === 'combo_quote' ? ' selected' : ''}`}>
+                          <input type="radio" name="campDiscipline" value="combo_quote" checked={form.campDiscipline === 'combo_quote'} onChange={() => set('campDiscipline', 'combo_quote')} />
+                          <span>
+                            <strong>Combo Lutte + MMA (sur devis)</strong>
+                            <span style={{ display: 'block', fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.15rem' }}>
+                              Partie au Daghestan + partie en Tchétchénie · tarif fixé après cadrage visio
+                            </span>
+                          </span>
+                        </label>
+                      </div>
+                    </Field>
+
                     <Field label="Nom du club / groupe">
                       <input className="cand-input" type="text"
                         placeholder="Ex : Geneva Fight Club"
@@ -1238,9 +1369,16 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                   </>
                 )}
 
-                {/* Audience: FAMILLE — sub-choix parmi les 4 sessions ou sur mesure (enfants déjà collectés en step 2) */}
+                {/* Audience: FAMILLE — discipline Lutte forcée + sub-choix parmi les 4 sessions ou sur mesure */}
                 {audience === 'famille' && (
                   <>
+                    <div className="logi-updated" style={{ background: 'rgba(34,197,94,0.08)', border: '1px solid rgba(34,197,94,0.3)', padding: '0.75rem 1rem', borderRadius: '3px', textAlign: 'left', marginBottom: '1rem', color: 'var(--text-secondary)' }}>
+                      <strong style={{ color: '#4ade80' }}>Camp Lutte au Daghestan</strong>
+                      <span style={{ display: 'block', fontSize: '0.85rem', marginTop: '0.25rem' }}>
+                        Le tunnel Famille se déroule exclusivement au Daghestan (Lutte adultes + programme jeunesse Lutte enfants 8-17 ans). Pas de MMA en Famille : le programme jeunesse n&apos;existe qu&apos;en Lutte et la sécurité enfants impose un parent sur le même camp. Pour une demande spécifique (combo, MMA), <a href="/inscription?type=custom" style={{ color: 'var(--primary)', textDecoration: 'underline' }}>passe par Sur Mesure</a>.
+                      </span>
+                    </div>
+
                     <Field label="Format de ton camp famille" hint="Tu peux rejoindre une de nos sessions officielles (calées sur les vacances scolaires) ou choisir tes propres dates. Durée 1, 2 ou 3 semaines dans tous les cas.">
                       <RadioGroup
                         name="formatFamille"
@@ -1450,6 +1588,18 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                     <div className="cand-recap-row">
                       <span>Parents participants</span>
                       <strong>{form.conjointParticipe ? '2 (toi + conjoint·e)' : '1 (toi seul·e)'}</strong>
+                    </div>
+                  )}
+
+                  {/* Discipline du camp — affiché pour tous les tunnels sauf si pas encore choisie */}
+                  {form.campDiscipline && (
+                    <div className="cand-recap-row">
+                      <span>Camp</span>
+                      <strong>
+                        {form.campDiscipline === 'lutte' && 'Lutte · Daghestan'}
+                        {form.campDiscipline === 'mma' && 'MMA · Tchétchénie'}
+                        {form.campDiscipline === 'combo_quote' && 'Combo Lutte + MMA (sur devis)'}
+                      </strong>
                     </div>
                   )}
 

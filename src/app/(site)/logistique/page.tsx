@@ -8,8 +8,8 @@ import {
 } from '@/lib/pricing-copy'
 
 export const metadata: Metadata = {
-  title: 'Logistique Camp Daghestan : Visa, Vol, Budget | MKR Caucasian Camp',
-  description: "Guide pratique complet : visa Russie, vols depuis Paris, Bruxelles ou Genève, budget total, assurance voyage. Tout pour partir au Daghestan en confiance.",
+  title: 'Logistique Camp Daghestan et Tchétchénie : Visa, Vol, Budget | MKR',
+  description: "Guide pratique complet : visa Russie, vols depuis Paris, Bruxelles ou Genève via Istanbul vers Makhachkala (Lutte) ou Grozny (MMA), budget, assurance. Tout pour partir au Caucase en confiance.",
   alternates: { canonical: 'https://mkrcamp.com/logistique' },
 }
 
@@ -23,7 +23,7 @@ export default function LogistiquePage() {
       <PageHero
         label="LOGISTIQUE"
         title="TOUT CE QUE TU DOIS<br/>SAVOIR AVANT DE PARTIR"
-        subtitle="Visa, vols, budget, assurance. Tout est là."
+        subtitle="Visa, vols, budget, assurance. Pour le camp Lutte (Daghestan, aéroport Makhachkala) ou MMA (Tchétchénie, aéroport Grozny)."
       />
 
       {/* Budget total */}
@@ -77,7 +77,7 @@ export default function LogistiquePage() {
           <div className="logi-visa-steps reveal">
             {[
               { num: '01', title: 'Vérifier ton passeport', desc: 'Passeport valide au moins 6 mois après la date de retour.' },
-              { num: '02', title: 'Visa Russie obligatoire', desc: "Le camp se déroule au Daghestan (Fédération de Russie). Un visa russe est nécessaire pour la majorité des nationalités. Pour les ressortissants UE, MKR fournit un questionnaire visa à remplir avec ton passeport (validité 6 mois minimum)." },
+              { num: '02', title: 'Visa Russie obligatoire', desc: "Que tu partes au Daghestan (Lutte) ou en Tchétchénie (MMA), tu rentres en Fédération de Russie : un visa russe est nécessaire pour la majorité des nationalités. Pour les ressortissants UE, MKR fournit un questionnaire visa à remplir avec ton passeport (validité 6 mois minimum)." },
               { num: '03', title: "Lettre d'invitation MKR", desc: "MKR fournit la lettre d'invitation officielle après confirmation de ta candidature. C'est le document central du dossier visa." },
               { num: '04', title: 'Documents à emporter', desc: "Passeport, confirmation de réservation MKR, attestation d'assurance, billet retour." },
             ].map((step) => (
@@ -101,11 +101,14 @@ export default function LogistiquePage() {
             <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>VOLS</span>
             <h2>COMMENT S&apos;Y RENDRE</h2>
           </div>
+          <p className="reveal" style={{ color: 'var(--text-secondary)', lineHeight: '1.6', maxWidth: '780px', marginBottom: '1.5rem' }}>
+            Toutes les routes passent par Istanbul puis par un vol intérieur inclus dans le package MKR : <strong>Istanbul - Makhachkala (MCX)</strong> pour le camp Lutte au Daghestan, ou <strong>Istanbul - Grozny (GRV)</strong> pour le camp MMA en Tchétchénie. Le bon vol est réservé selon ta destination confirmée.
+          </p>
           <div className="grid-3">
             {[
-              { city: 'Paris CDG', connections: 'Via Istanbul (Turkish Airlines) vers Makhachkala (MCX). Vol intérieur Istanbul-Makhachkala inclus dans le package MKR.', price: '450 - 700 EUR', duration: '~7-9h avec escale' },
-              { city: 'Genève / Zurich', connections: 'Via Istanbul (Turkish Airlines) vers Makhachkala (MCX). Vol intérieur Istanbul-Makhachkala inclus dans le package MKR.', price: '500 - 750 EUR', duration: '~8-10h avec escale' },
-              { city: 'Bruxelles', connections: 'Via Istanbul (Turkish Airlines) vers Makhachkala (MCX). Vol intérieur Istanbul-Makhachkala inclus dans le package MKR.', price: '480 - 720 EUR', duration: '~8-10h avec escale' },
+              { city: 'Paris CDG', connections: 'Via Istanbul (Turkish Airlines) vers Makhachkala (MCX, Daghestan) ou Grozny (GRV, Tchétchénie). Vol intérieur inclus dans le package MKR.', price: '450 - 700 EUR', duration: '~7-9h avec escale' },
+              { city: 'Genève / Zurich', connections: 'Via Istanbul (Turkish Airlines) vers Makhachkala (MCX) ou Grozny (GRV). Vol intérieur inclus dans le package MKR.', price: '500 - 750 EUR', duration: '~8-10h avec escale' },
+              { city: 'Bruxelles', connections: 'Via Istanbul (Turkish Airlines) vers Makhachkala (MCX) ou Grozny (GRV). Vol intérieur inclus dans le package MKR.', price: '480 - 720 EUR', duration: '~8-10h avec escale' },
             ].map((flight, i) => (
               <div key={i} className="content-card fx-grain fx-corner-glow reveal" style={{ transitionDelay: `${i * 0.08}s` }}>
                 <h3 className="card-title">{flight.city}</h3>
@@ -155,8 +158,8 @@ export default function LogistiquePage() {
               <h2>TRANSFERTS</h2>
               <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1rem' }}>
                 Le transfert depuis l&apos;aéroport est inclus dans le package. Un véhicule MKR t&apos;attend à ton arrivée.
-                Le trajet entre l&apos;aéroport de Makhachkala et le lieu d&apos;entraînement dure environ 1h30. Tous
-                les déplacements pendant le camp sont pris en charge.
+                Trajet aéroport - camp d&apos;environ 1h30 depuis Makhachkala (Daghestan, camp Lutte) ou environ 30 minutes
+                depuis Grozny (Tchétchénie, camp MMA). Tous les déplacements pendant le camp sont pris en charge.
               </p>
               <figure className="photo-card" style={{ marginTop: '1.5rem' }}>
                 <img
@@ -172,7 +175,8 @@ export default function LogistiquePage() {
             </div>
             <div className="content-card fx-grain fx-corner-glow">
               <h3 className="card-title">INFOS PRATIQUES</h3>
-              <p className="card-body">Aéroport : Makhachkala (MCX)</p>
+              <p className="card-body">Aéroport Lutte (Daghestan) : Makhachkala (MCX)</p>
+              <p className="card-body">Aéroport MMA (Tchétchénie) : Grozny (GRV)</p>
               <p className="card-body">Accueil à l&apos;aéroport par l&apos;équipe MKR</p>
               <p className="card-body">Véhicule privé camp et salle</p>
             </div>
@@ -194,7 +198,7 @@ export default function LogistiquePage() {
               { title: 'Monnaie', desc: 'Rouble russe (RUB). 1 EUR ≈ 100 RUB. Espèces recommandées, CB internationales souvent inutilisables.' },
               { title: 'Internet', desc: 'Wi-Fi au logement. Carte SIM locale Russie recommandée (~5 EUR).' },
               { title: 'Climat', desc: 'Continental. Printemps 12-20°C, été 25-35°C, automne 10-18°C.' },
-              { title: 'Langue', desc: 'Russe principal. Avar et autres langues du Daghestan selon la salle. Interprète MKR francophone sur place.' },
+              { title: 'Langue', desc: 'Russe principal. Avar au Daghestan, tchétchène/vaïnakh en Tchétchénie selon la salle. Interprète MKR francophone sur place.' },
               { title: 'Alimentation', desc: 'Cuisine caucasienne : riche en protéines, viande, légumes, pain. Régime adapté aux athlètes.' },
             ].map((info, i) => (
               <div key={i} className="content-card fx-grain fx-corner-glow reveal" style={{ transitionDelay: `${i * 0.06}s` }}>
