@@ -395,6 +395,32 @@ export default async function CandidatureDetailPage({
           )}
         </section>
 
+        {/* Bandeau "Devis à envoyer" pour les groupes/clubs */}
+        {candidature.tunnel_type === 'groupe' && candidature.status === 'recue' && (
+          <section
+            className="adm-card"
+            style={{
+              marginBottom: '1.25rem',
+              padding: '1rem 1.25rem',
+              borderLeft: '4px solid #a78bfa',
+              background: 'rgba(167, 139, 250, 0.07)',
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
+              <span style={{ fontSize: '1.5rem', lineHeight: 1 }} aria-hidden="true">🔀</span>
+              <div>
+                <strong style={{ color: '#a78bfa', display: 'block', fontSize: '0.95rem', marginBottom: '0.2rem' }}>
+                  Demande de devis Club & Groupe
+                </strong>
+                <p style={{ fontSize: '0.85rem', color: 'var(--adm-text-secondary)', lineHeight: 1.5, margin: 0 }}>
+                  Aucun paiement à ce stade. <strong>À contacter sous 48h</strong> pour cadrer en visio (objectifs, dates, niveau, budget)
+                  puis envoyer un devis personnalisé. La santé individuelle et les certificats médicaux seront collectés après acceptation.
+                </p>
+              </div>
+            </div>
+          </section>
+        )}
+
         <section className="adm-card" style={{ marginBottom: '1.25rem' }}>
           <h2 className="adm-card-title">
             <Icon name="check-circle" size={14} />

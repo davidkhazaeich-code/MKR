@@ -15,6 +15,7 @@ import {
   type Duration,
 } from '@/data/pricing'
 import { SESSIONS } from '@/data/sessions'
+import PlacesRestantes from '@/components/PlacesRestantes'
 
 const DEFAULT_SESSION_ID = SESSIONS[0]?.id ?? 'aout-2026'
 const SESSION_IDS = SESSIONS.map(s => s.id)
@@ -23,7 +24,19 @@ const StoryCard = dynamic(() => import('./StoryCard'))
 
 /* ─────────────── DATA ─────────────── */
 
-const STEPS = ['Identité', 'Expérience', 'Santé', 'Logistique', 'Confirmation'] as const
+// Le pipeline d'inscription depend du tunnel choisi :
+// - session / custom / famille : 5 etapes (Le camp / Identite / Experience / Sante / Confirmation)
+// - groupe : 4 etapes (Le camp / Ton club / Contact / Confirmation), pas de qualif individuelle
+//   ni de sante (c'est une demande de devis, Ruslan recontacte pour cadrer).
+const STEPS_BY_TUNNEL: Record<RegistrationTypeId, readonly string[]> = {
+  session: ['Le camp', 'Identité', 'Expérience', 'Santé', 'Confirmation'],
+  custom:  ['Le camp', 'Identité', 'Expérience', 'Santé', 'Confirmation'],
+  famille: ['Le camp', 'Identité', 'Expérience', 'Santé', 'Confirmation'],
+  groupe:  ['Le camp', 'Ton club', 'Contact', 'Confirmation'],
+} as const
+
+// Fallback affichage pre-selection (audience pas encore choisie).
+const STEPS_DEFAULT = STEPS_BY_TUNNEL.session
 
 const DISCIPLINES = [
   'MMA', 'Lutte Libre', 'Lutte Gréco-Romaine', 'Boxe Anglaise',
@@ -157,6 +170,7 @@ interface InscriptionLayoutProps {
 
 export default function InscriptionLayout({ initialAudience, initialSessionId }: InscriptionLayoutProps) {
   const [audience, setAudience] = useState<RegistrationTypeId | null>(initialAudience)
+  const STEPS = audience ? STEPS_BY_TUNNEL[audience] : STEPS_DEFAULT
   const [step, setStep] = useState(0)
   const [dir, setDir] = useState<'next' | 'prev'>('next')
   const [form, setForm] = useState<FormData>(() => {
@@ -301,87 +315,30 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
   const validate = (): boolean => {
     const e: string[] = []
 
-    // ── STEP 0 — Identité (commun) ──
+    // ───────────────────────────────────────────────────────────
+    // PIPELINE pour session / custom / famille : 5 etapes
+    //   step 0 = Le camp · step 1 = Identite · step 2 = Experience
+    //   step 3 = Sante · step 4 = Confirmation
+    // PIPELINE pour groupe : 4 etapes
+    //   step 0 = Le camp · step 1 = Ton club · step 2 = Contact
+    //   step 3 = Confirmation
+    // ───────────────────────────────────────────────────────────
+
+    // ── STEP 0 — Le camp (par tunnel) ──
     if (step === 0) {
-      if (!form.prenom.trim()) e.push('Prénom requis')
-      if (!form.nom.trim()) e.push('Nom requis')
-      if (!form.dateNaissance) e.push('Date de naissance requise')
-      else {
-        const age = new Date().getFullYear() - new Date(form.dateNaissance).getFullYear()
-        if (age < 18) e.push('Tu dois avoir au moins 18 ans')
-      }
-      if (!form.pays.trim()) e.push('Pays de résidence requis')
-      if (!form.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) e.push('Email invalide')
-    }
-
-    // ── STEP 1 — Expérience (par tunnel) ──
-    if (step === 1) {
-      if (audience === 'session' || audience === 'custom' || audience === 'famille') {
-        // Parcours individuel du responsable / parent / inscrit
-        if (!form.disciplinePrincipale) e.push('Discipline principale requise')
-        if (!form.anneesPratique) e.push('Années de pratique requises')
-        if (!form.niveau) e.push('Niveau requis')
-      }
-      if (audience === 'groupe') {
-        // Pour un club, on qualifie le groupe — pas le responsable
-        if (!form.niveauGroupe) e.push('Niveau global du groupe requis')
-        if (!form.nombreParticipants) e.push('Nombre de participants requis')
-      }
-    }
-
-    // ── STEP 2 — Santé (par tunnel) ──
-    if (step === 2) {
-      if (audience === 'session' || audience === 'custom') {
-        if (!form.conditionPhysique) e.push('Évalue ta condition physique')
-        if (!form.blessuresRecentes) e.push('Indique si tu as des blessures récentes')
-        if (!form.contreIndications) e.push('Indique si tu as des contre-indications médicales')
-        if (!form.deuxFoisJour) e.push('Confirme ta disponibilité pour les doubles séances')
-      }
-      if (audience === 'famille') {
-        // Parent : santé individuelle (sans la question 2x/jour qui ne s'applique qu'aux adultes intensifs)
-        if (!form.conditionPhysique) e.push('Évalue ta condition physique')
-        if (!form.blessuresRecentes) e.push('Indique si tu as des blessures récentes')
-        if (!form.contreIndications) e.push('Indique si tu as des contre-indications médicales')
-        // Enfants : prénom + âge + contre-indications obligatoires
-        form.enfants.forEach((c, i) => {
-          if (!c.prenom.trim()) e.push(`Enfant ${i + 1} : prénom requis`)
-          if (!c.age) e.push(`Enfant ${i + 1} : âge requis`)
-          else {
-            const a = parseInt(c.age, 10)
-            if (Number.isNaN(a) || a < 8 || a > 17) e.push(`Enfant ${i + 1} : âge entre 8 et 17 ans`)
-          }
-          if (!c.contreIndications) e.push(`Enfant ${i + 1} : contre-indications requises`)
-        })
-      }
-      if (audience === 'groupe') {
-        // Une seule question collective + restrictions optionnelles
-        if (!form.certifsGroupeConfirme) e.push('Confirme la situation des certificats médicaux du groupe')
-      }
-    }
-
-    // ── STEP 3 — Logistique (par tunnel) ──
-    if (step === 3) {
-      // Discipline du camp : obligatoire pour tous les tunnels (sauf famille où c'est forcé 'lutte')
+      // Discipline obligatoire (sauf famille auto-set 'lutte')
       if (audience === 'session') {
         if (form.campDiscipline !== 'lutte' && form.campDiscipline !== 'mma') {
-          e.push('Choisis ta discipline pour le camp (Lutte ou MMA)')
+          e.push('Choisis ta discipline (Lutte ou MMA)')
         }
-        if (form.campDiscipline === 'mma' && !MMA_ACCEPTED_LEVELS.has(form.niveau)) {
-          e.push('Le camp MMA est réservé aux niveaux Avancé et Compétiteur. Reviens à l\'étape Expérience pour ajuster ton niveau, ou choisis Lutte.')
-        }
-      }
-      if (audience === 'custom' || audience === 'groupe') {
-        if (form.campDiscipline !== 'lutte' && form.campDiscipline !== 'mma' && form.campDiscipline !== 'combo_quote') {
-          e.push('Choisis la discipline du camp (Lutte, MMA ou Combo Lutte+MMA sur devis)')
-        }
-        if (audience === 'custom' && form.campDiscipline === 'mma' && !MMA_ACCEPTED_LEVELS.has(form.niveau)) {
-          e.push('Le camp MMA est réservé aux niveaux Avancé et Compétiteur. Reviens à l\'étape Expérience pour ajuster ton niveau, ou choisis Lutte ou Combo.')
-        }
-      }
-      if (audience === 'session') {
-        // Dates verrouillées — rien à valider hors entretien/ville
+        if (!form.session) e.push('Choisis ta session officielle')
+        if (!form.duree) e.push('Choisis la durée du séjour')
       }
       if (audience === 'custom') {
+        if (form.campDiscipline !== 'lutte' && form.campDiscipline !== 'mma' && form.campDiscipline !== 'combo_quote') {
+          e.push('Choisis la discipline (Lutte, MMA ou Combo sur devis)')
+        }
+        if (!form.nombreParticipants) e.push('Choisis ta composition (1 à 4 adultes)')
         if (!form.dateDebutSouhaitee) {
           e.push('Date de début souhaitée requise')
         } else {
@@ -389,14 +346,10 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
           if (diffDays < 90) e.push('La date de début doit être au moins 90 jours après aujourd\'hui')
         }
         if (!form.duree) e.push('Durée requise')
-        if (!form.nombreParticipants) e.push('Composition requise (1 à 4 adultes)')
-        // Si Duo/Trio/Quatuor : prénom + niveau requis pour chaque autre participant
-        form.autresParticipants.forEach((p, i) => {
-          if (!p.prenom.trim()) e.push(`Participant ${i + 2} : prénom requis`)
-          if (!p.niveau) e.push(`Participant ${i + 2} : niveau requis`)
-        })
       }
       if (audience === 'famille') {
+        // session ou 'sur-mesure'
+        if (!form.session) e.push('Choisis le format (session officielle ou sur mesure)')
         if (!form.duree) e.push('Durée requise')
         if (!form.nombreEnfants) e.push('Nombre d\'enfants requis')
         if (form.session === 'sur-mesure') {
@@ -409,20 +362,98 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
         }
       }
       if (audience === 'groupe') {
-        if (!form.nomClub.trim()) e.push('Nom du club / groupe requis')
-        if (!form.dateDebutSouhaitee) {
-          e.push('Date de début souhaitée requise')
-        } else {
-          const diffDays = Math.floor((new Date(form.dateDebutSouhaitee).getTime() - Date.now()) / (1000 * 60 * 60 * 24))
-          if (diffDays < 90) e.push('La date de début doit être au moins 90 jours après aujourd\'hui')
+        if (form.campDiscipline !== 'lutte' && form.campDiscipline !== 'mma' && form.campDiscipline !== 'combo_quote') {
+          e.push('Choisis la discipline visée par ton groupe (Lutte, MMA ou Combo sur devis)')
         }
-        if (!form.duree) e.push('Durée requise')
+        if (!form.dateDebutSouhaitee) {
+          e.push('Date de début indicative requise (modifiable en visio)')
+        }
+        if (!form.duree) e.push('Durée indicative requise (1, 2 ou 3 semaines)')
       }
-      if (!form.villeDepart.trim()) e.push('Ville de départ requise')
-      if (!form.disponibleEntretien) e.push('Disponibilité pour l\'entretien requise')
     }
 
-    // ── STEP 4 — Confirmation (commun) ──
+    // ── STEP 1 — Identite (session/custom/famille) OU Ton club (groupe) ──
+    if (step === 1) {
+      if (audience !== 'groupe') {
+        // Identite + logistique perso (ville + entretien)
+        if (!form.prenom.trim()) e.push('Prénom requis')
+        if (!form.nom.trim()) e.push('Nom requis')
+        if (!form.dateNaissance) e.push('Date de naissance requise')
+        else {
+          const age = new Date().getFullYear() - new Date(form.dateNaissance).getFullYear()
+          if (age < 18) e.push('Tu dois avoir au moins 18 ans')
+        }
+        if (!form.pays.trim()) e.push('Pays de résidence requis')
+        if (!form.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) e.push('Email invalide')
+        if (!form.villeDepart.trim()) e.push('Ville de départ requise')
+        if (!form.disponibleEntretien) e.push('Disponibilité pour l\'entretien requise')
+      } else {
+        // Groupe : Ton club (qualification collective)
+        if (!form.nomClub.trim()) e.push('Nom du club / groupe requis')
+        if (!form.nombreParticipants) e.push('Nombre approximatif de participants requis')
+        if (!form.niveauGroupe) e.push('Niveau global du groupe requis')
+      }
+    }
+
+    // ── STEP 2 — Experience (session/custom/famille) OU Contact (groupe) ──
+    if (step === 2) {
+      if (audience !== 'groupe') {
+        // Experience individuelle du responsable / parent
+        if (!form.disciplinePrincipale) e.push('Discipline principale requise')
+        if (!form.anneesPratique) e.push('Années de pratique requises')
+        if (!form.niveau) e.push('Niveau requis')
+        // Custom Duo/Trio/Quatuor : prenom + niveau pour chaque autre participant
+        if (audience === 'custom') {
+          form.autresParticipants.forEach((p, i) => {
+            if (!p.prenom.trim()) e.push(`Participant ${i + 2} : prénom requis`)
+            if (!p.niveau) e.push(`Participant ${i + 2} : niveau requis`)
+          })
+        }
+        // Validation niveau MMA : on bloque si discipline MMA mais niveau insuffisant.
+        // Affichage anticipe : un message s'affiche aussi en Step 0 quand l'utilisateur clique MMA.
+        if (form.campDiscipline === 'mma' && !MMA_ACCEPTED_LEVELS.has(form.niveau)) {
+          e.push('Le camp MMA exige un niveau Avancé minimum. Ajuste ton niveau ou retourne au step 1 pour choisir Lutte.')
+        }
+      } else {
+        // Groupe : Contact responsable (identite simple)
+        if (!form.prenom.trim()) e.push('Prénom requis')
+        if (!form.nom.trim()) e.push('Nom requis')
+        if (!form.pays.trim()) e.push('Pays de résidence requis')
+        if (!form.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) e.push('Email invalide')
+        if (!form.villeDepart.trim()) e.push('Ville de départ requise')
+        if (!form.disponibleEntretien) e.push('Disponibilité pour l\'appel requise')
+      }
+    }
+
+    // ── STEP 3 — Sante (session/custom/famille) OU Confirmation (groupe) ──
+    if (step === 3) {
+      if (audience === 'session' || audience === 'custom') {
+        if (!form.conditionPhysique) e.push('Évalue ta condition physique')
+        if (!form.blessuresRecentes) e.push('Indique si tu as des blessures récentes')
+        if (!form.contreIndications) e.push('Indique si tu as des contre-indications médicales')
+        if (!form.deuxFoisJour) e.push('Confirme ta disponibilité pour les doubles séances')
+      } else if (audience === 'famille') {
+        // Parent : sante individuelle (sans 2x/jour)
+        if (!form.conditionPhysique) e.push('Évalue ta condition physique')
+        if (!form.blessuresRecentes) e.push('Indique si tu as des blessures récentes')
+        if (!form.contreIndications) e.push('Indique si tu as des contre-indications médicales')
+        form.enfants.forEach((c, i) => {
+          if (!c.prenom.trim()) e.push(`Enfant ${i + 1} : prénom requis`)
+          if (!c.age) e.push(`Enfant ${i + 1} : âge requis`)
+          else {
+            const a = parseInt(c.age, 10)
+            if (Number.isNaN(a) || a < 8 || a > 17) e.push(`Enfant ${i + 1} : âge entre 8 et 17 ans`)
+          }
+          if (!c.contreIndications) e.push(`Enfant ${i + 1} : contre-indications requises`)
+        })
+      } else if (audience === 'groupe') {
+        // Confirmation groupe : juste acceptation conditions + contact pour devis.
+        // Pas de certif medical (collectif gere apres devis), pas de "pret".
+        if (!form.accepteConditions) e.push('Accepter les conditions est requis')
+      }
+    }
+
+    // ── STEP 4 — Confirmation (session/custom/famille uniquement) ──
     if (step === 4) {
       if (!form.certifMedical) e.push('Certificat médical requis')
       if (!form.accepteConditions) e.push('Accepter les conditions est requis')
@@ -486,8 +517,8 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
           disciplines: form.disciplinesSecondaires,
           palmares_club: form.palmaresClub,
           lien_video: form.lienVideo,
-          certifs_confirme: form.certifsGroupeConfirme,
-          restrictions: form.restrictionsGroupe,
+          // Demande sur devis : santé individuelle + certificats médicaux gérés
+          // après acceptation du devis. À ce stade, on ne collecte rien à ce niveau.
         } : null,
         famille: audience === 'famille' ? {
           format: form.session, // 'aout-2026' ou 'sur-mesure'
@@ -505,9 +536,11 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
           message: form.message,
         },
         confirmations: {
-          certif_medical: form.certifMedical,
+          // Pour groupe : seul accepte_conditions (accord pour être recontacté) est requis.
+          // Pour session/custom/famille : tous les 3 sont requis.
+          certif_medical: audience === 'groupe' ? null : form.certifMedical,
           accepte_conditions: form.accepteConditions,
-          pret: form.pret,
+          pret: audience === 'groupe' ? null : form.pret,
         },
       },
     }
@@ -721,21 +754,30 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
               ÉTAPE {step + 1} / {STEPS.length}
             </span>
             <h1 className="insc-panel-title">
-              {step === 0 && 'Qui es-tu ?'}
-              {step === 1 && audience === 'groupe' && 'Qualification du club'}
-              {step === 1 && audience !== 'groupe' && 'Ton parcours sportif'}
-              {step === 2 && audience === 'groupe' && 'Santé du groupe'}
-              {step === 2 && audience === 'famille' && 'Santé parent et enfants'}
-              {step === 2 && (audience === 'session' || audience === 'custom') && 'Condition physique & Santé'}
-              {step === 3 && 'Disponibilités & logistique'}
+              {/* Step 0 : Le camp */}
+              {step === 0 && audience === 'session' && 'Quelle session, quelle discipline ?'}
+              {step === 0 && audience === 'custom' && 'Ton camp sur mesure'}
+              {step === 0 && audience === 'famille' && 'Le camp de la famille'}
+              {step === 0 && audience === 'groupe' && 'Le camp de ton groupe'}
+              {/* Step 1 : Identite OU Ton club */}
+              {step === 1 && audience !== 'groupe' && 'Qui es-tu ?'}
+              {step === 1 && audience === 'groupe' && 'Parle-nous de ton club'}
+              {/* Step 2 : Experience OU Contact */}
+              {step === 2 && audience !== 'groupe' && 'Ton parcours sportif'}
+              {step === 2 && audience === 'groupe' && 'Contact du responsable'}
+              {/* Step 3 : Sante OU Confirmation (groupe) */}
+              {step === 3 && audience === 'famille' && 'Santé parent et enfants'}
+              {step === 3 && (audience === 'session' || audience === 'custom') && 'Condition physique & Santé'}
+              {step === 3 && audience === 'groupe' && 'Confirme ta demande de devis'}
+              {/* Step 4 : Confirmation (session/custom/famille) */}
               {step === 4 && 'Confirme ta candidature'}
             </h1>
           </div>
 
           <form key={`form-${step}`} className={`insc-form insc-anim-${dir}`} onSubmit={handleSubmit} noValidate>
 
-            {/* ── STEP 1 ── */}
-            {step === 0 && (
+            {/* ── STEP 1 — Identité + logistique perso (session/custom/famille) ── */}
+            {step === 1 && audience !== 'groupe' && (
               <div className="cand-panel">
                 <div className="cand-row">
                   <Field label="Prénom">
@@ -772,11 +814,82 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                       onChange={e => set('telephone', e.target.value)} />
                   </Field>
                 </div>
+                <Field label="Ville / pays de départ" hint="Utilisé pour estimer les vols">
+                  <input className="cand-input" type="text" placeholder="Ex : Paris, Genève, Montréal..."
+                    value={form.villeDepart} onChange={e => set('villeDepart', e.target.value)} />
+                </Field>
+                <Field label="Es-tu disponible pour un entretien vidéo de sélection ?"
+                  hint="L'entretien dure 20 min. Il est obligatoire pour valider ta candidature.">
+                  <RadioGroup name="entretien" value={form.disponibleEntretien}
+                    onChange={v => set('disponibleEntretien', v)}
+                    options={[
+                      { val: 'oui', label: 'Oui, disponible dans les prochaines semaines' },
+                      { val: 'oui-delai', label: "Oui, mais avec un délai (plus d'un mois)" },
+                      { val: 'non', label: 'Non, problème de disponibilité' },
+                    ]}
+                  />
+                </Field>
               </div>
             )}
 
-            {/* ── STEP 2 — Expérience (par tunnel) ── */}
-            {step === 1 && audience !== 'groupe' && (
+            {/* ── STEP 2 — Contact (audience=groupe uniquement) ── */}
+            {step === 2 && audience === 'groupe' && (
+              <div className="cand-panel">
+                <p className="logi-updated" style={{ background: 'rgba(255,255,255,0.03)', padding: '0.85rem 1rem', borderRadius: '3px', textAlign: 'left', marginBottom: '1.5rem' }}>
+                  Tes coordonnées pour que Ruslan te recontacte et envoie un devis personnalisé. Aucun paiement n&apos;est demandé à cette étape.
+                </p>
+                <div className="cand-row">
+                  <Field label="Prénom du responsable">
+                    <input className="cand-input" type="text" autoComplete="given-name"
+                      placeholder="Ton prénom" value={form.prenom}
+                      onChange={e => set('prenom', e.target.value)} />
+                  </Field>
+                  <Field label="Nom">
+                    <input className="cand-input" type="text" autoComplete="family-name"
+                      placeholder="Ton nom" value={form.nom}
+                      onChange={e => set('nom', e.target.value)} />
+                  </Field>
+                </div>
+                <div className="cand-row">
+                  <Field label="Email">
+                    <input className="cand-input" type="email" autoComplete="email"
+                      placeholder="ton@email.com" value={form.email}
+                      onChange={e => set('email', e.target.value)} />
+                  </Field>
+                  <Field label="Téléphone / WhatsApp" hint="Pour un échange direct si besoin">
+                    <input className="cand-input" type="tel" autoComplete="tel"
+                      placeholder="+33 6 XX XX XX XX" value={form.telephone}
+                      onChange={e => set('telephone', e.target.value)} />
+                  </Field>
+                </div>
+                <div className="cand-row">
+                  <Field label="Pays de résidence">
+                    <input className="cand-input" type="text" autoComplete="country-name"
+                      placeholder="France, Suisse, Belgique..." value={form.pays}
+                      onChange={e => set('pays', e.target.value)} />
+                  </Field>
+                  <Field label="Ville de départ" hint="Origine principale du groupe">
+                    <input className="cand-input" type="text"
+                      placeholder="Ex : Paris, Lyon, Genève..."
+                      value={form.villeDepart} onChange={e => set('villeDepart', e.target.value)} />
+                  </Field>
+                </div>
+                <Field label="Es-tu disponible pour un appel de cadrage avec Ruslan ?"
+                  hint="L'appel dure ~30 min : objectifs, dates, niveau, budget. On envoie le devis ensuite.">
+                  <RadioGroup name="entretienGroupe" value={form.disponibleEntretien}
+                    onChange={v => set('disponibleEntretien', v)}
+                    options={[
+                      { val: 'oui', label: 'Oui, disponible dans les prochaines semaines' },
+                      { val: 'oui-delai', label: "Oui, mais avec un délai (plus d'un mois)" },
+                      { val: 'non', label: 'Préférons un échange par email d\'abord' },
+                    ]}
+                  />
+                </Field>
+              </div>
+            )}
+
+            {/* ── STEP 2 — Expérience individuelle (session/custom/famille) ── */}
+            {step === 2 && audience !== 'groupe' && (
               <div className="cand-panel">
                 {audience === 'famille' && (
                   <p className="logi-updated" style={{ background: 'rgba(255,255,255,0.03)', padding: '0.85rem 1rem', borderRadius: '3px', textAlign: 'left', marginBottom: '1.5rem' }}>
@@ -857,21 +970,28 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
               </div>
             )}
 
-            {/* ── STEP 2 — Qualification du club (audience=groupe) ── */}
+            {/* ── STEP 1 — Ton club (audience=groupe uniquement) ── */}
             {step === 1 && audience === 'groupe' && (
               <div className="cand-panel">
                 <p className="logi-updated" style={{ background: 'rgba(255,255,255,0.03)', padding: '0.85rem 1rem', borderRadius: '3px', textAlign: 'left', marginBottom: '1.5rem' }}>
                   On qualifie ici le <strong>collectif</strong>, pas le responsable individuel. Les infos perso de chaque participant seront collectées après validation du devis.
                 </p>
 
+                <Field label="Nom du club ou du groupe">
+                  <input className="cand-input" type="text"
+                    placeholder="Ex : Geneva Fight Club, Académie Krav Magabec..."
+                    value={form.nomClub}
+                    onChange={e => set('nomClub', e.target.value)} />
+                </Field>
                 <div className="cand-row">
-                  <Field label="Nombre approximatif de participants" hint="5 à 10 = tarifs publics. 11+ = privatisation, sur devis.">
+                  <Field label="Nombre approximatif de participants" hint="Tu pourras affiner après la visio. À partir de 11 personnes ou pour privatiser une session entière, le format est ajusté.">
                     <select className="cand-select" value={form.nombreParticipants}
                       onChange={e => set('nombreParticipants', e.target.value)}>
                       <option value="" disabled>Sélectionner</option>
-                      <option value="5">5 personnes (tarif palier 3-5)</option>
-                      <option value="6-10">6 à 10 personnes (tarif palier Club)</option>
-                      <option value="11-20">11 personnes et plus (sur devis)</option>
+                      <option value="5">5 personnes</option>
+                      <option value="6-10">6 à 10 personnes</option>
+                      <option value="11-20">11 personnes et plus</option>
+                      <option value="20+">Plus de 20 (privatisation totale)</option>
                     </select>
                   </Field>
                   <Field label="Niveau global du groupe">
@@ -911,9 +1031,9 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
               </div>
             )}
 
-            {/* ── STEP 3 — Santé (par tunnel) ── */}
+            {/* ── STEP 3 — Santé (session/custom/famille uniquement) ── */}
             {/* Variant individuel : session + custom */}
-            {step === 2 && (audience === 'session' || audience === 'custom') && (
+            {step === 3 && (audience === 'session' || audience === 'custom') && (
               <div className="cand-panel">
                 {audience === 'custom' && (
                   <p className="logi-updated" style={{ background: 'rgba(255,255,255,0.03)', padding: '0.85rem 1rem', borderRadius: '3px', textAlign: 'left', marginBottom: '1.5rem' }}>
@@ -977,7 +1097,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
             )}
 
             {/* Variant FAMILLE : santé parent (sans 2x/jour) + santé enfants */}
-            {step === 2 && audience === 'famille' && (
+            {step === 3 && audience === 'famille' && (
               <div className="cand-panel">
                 <h3 className="card-title" style={{ marginBottom: '1rem' }}>Santé du parent participant</h3>
                 <Field label="Comment évalues-tu ta condition physique actuelle ?">
@@ -1091,38 +1211,10 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
               </div>
             )}
 
-            {/* Variant GROUPE : 2 questions collectives uniquement */}
-            {step === 2 && audience === 'groupe' && (
-              <div className="cand-panel">
-                <p className="logi-updated" style={{ background: 'rgba(255,255,255,0.03)', padding: '0.85rem 1rem', borderRadius: '3px', textAlign: 'left', marginBottom: '1.5rem' }}>
-                  La santé individuelle de chaque participant sera collectée après acceptation du devis. À ce stade, on confirme juste la situation collective du club.
-                </p>
 
-                <Field label="Tous les participants pourront-ils fournir un certificat médical d'aptitude ?"
-                  hint="Certificat valable pour la pratique des sports de combat en intensif">
-                  <RadioGroup name="certifGroupe" value={form.certifsGroupeConfirme}
-                    onChange={v => set('certifsGroupeConfirme', v)}
-                    options={[
-                      { val: 'oui', label: 'Oui, tous les participants en disposent ou peuvent l\'obtenir' },
-                      { val: 'partiel', label: 'En partie - à confirmer pour quelques participants' },
-                      { val: 'inconnu', label: 'À voir au cas par cas après inscription' },
-                    ]}
-                  />
-                </Field>
-
-                <Field label="Restrictions ou particularités médicales connues à signaler ?"
-                  hint="Optionnel - blessures actuelles, contre-indications spécifiques de certains participants">
-                  <textarea className="cand-textarea" rows={4}
-                    placeholder="Ex : 1 participant en reprise post-opération épaule, 1 asthmatique léger sous traitement..."
-                    value={form.restrictionsGroupe}
-                    onChange={e => set('restrictionsGroupe', e.target.value)} />
-                </Field>
-              </div>
-            )}
-
-            {/* ── STEP 4 ── adapté par audience ── */}
-            {step === 3 && (
-              <div className="cand-panel">
+            {/* ── STEP 0 — Le camp (la PREMIÈRE question : session+discipline / composition+discipline / format+enfants / discipline-groupe) ── */}
+            {step === 0 && (
+              <div className="cand-panel insc-camp-step">
 
                 {/* Bandeau audience active */}
                 {audienceConfig && (
@@ -1133,56 +1225,132 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                   </div>
                 )}
 
-                {/* Audience: SESSION GROUPE — choix discipline + parmi les 4 sessions officielles + durée libre 1/2/3 sem */}
+                {/* ───────────────────────────────────────────────
+                    AUDIENCE: SESSION OFFICIELLE
+                    1) Choix session (4 cards visuelles)
+                    2) Choix discipline (2 cards avec compteur places live)
+                    3) Choix durée
+                    ─────────────────────────────────────────────── */}
                 {audience === 'session' && (
                   <>
-                    <Field label="Quelle discipline pratiques-tu pendant le camp ?" hint="C'est exclusif sur les sessions officielles : tu pars au Daghestan pour la Lutte OU en Tchétchénie pour le MMA. Pour combiner les deux, choisis le tunnel Sur Mesure.">
-                      <div className="cand-radios">
-                        <label className={`cand-radio${form.campDiscipline === 'lutte' ? ' selected' : ''}`}>
-                          <input type="radio" name="campDiscipline" value="lutte" checked={form.campDiscipline === 'lutte'} onChange={() => set('campDiscipline', 'lutte')} />
-                          <span>
-                            <strong>Lutte (Daghestan)</strong>
-                            <span style={{ display: 'block', fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.15rem' }}>
-                              Programme Lutte libre adultes · 15 places par session · Makhachkala / Kaspiysk
-                            </span>
-                          </span>
+                    <div className="insc-camp-section">
+                      <span className="insc-camp-section-num">1</span>
+                      <h2 className="insc-camp-section-label">Choisis ta session</h2>
+                      <p className="insc-camp-section-help">Quatre sessions par an, calées sur les vacances scolaires francophones (FR · CH · BE).</p>
+                      <div className="insc-session-grid">
+                        {SESSIONS.map(s => {
+                          const year = s.startDate.slice(0, 4)
+                          return (
+                            <label
+                              key={s.id}
+                              className={`insc-session-card${form.session === s.id ? ' is-active' : ''}`}
+                            >
+                              <input
+                                type="radio"
+                                name="sessionPick"
+                                value={s.id}
+                                checked={form.session === s.id}
+                                onChange={() => set('session', s.id)}
+                                className="insc-sr"
+                              />
+                              <span className="insc-session-card-month">{s.monthAbbr}</span>
+                              <span className="insc-session-card-season">{s.season} {year}</span>
+                              <span className="insc-session-card-dates">{s.dates}</span>
+                              <span className="insc-session-card-intensity">Intensité {s.intensity.toLowerCase()}</span>
+                              <PlacesRestantes
+                                sessionId={s.id}
+                                variant="dual"
+                                className="insc-session-card-places"
+                              />
+                            </label>
+                          )
+                        })}
+                      </div>
+                    </div>
+
+                    <div className="insc-camp-section">
+                      <span className="insc-camp-section-num">2</span>
+                      <h2 className="insc-camp-section-label">Choisis ta discipline</h2>
+                      <p className="insc-camp-section-help">C&apos;est exclusif sur les sessions officielles : Lutte (Daghestan) <strong>OU</strong> MMA (Tchétchénie). Pour combiner les deux, passe par <Link href="/inscription?type=custom" style={{ color: 'var(--primary)', textDecoration: 'underline' }}>Sur Mesure</Link>.</p>
+                      <div className="insc-discipline-grid">
+                        <label className={`insc-discipline-card insc-discipline-card--lutte${form.campDiscipline === 'lutte' ? ' is-active' : ''}`}>
+                          <input
+                            type="radio"
+                            name="campDiscipline"
+                            value="lutte"
+                            checked={form.campDiscipline === 'lutte'}
+                            onChange={() => set('campDiscipline', 'lutte')}
+                            className="insc-sr"
+                          />
+                          <span className="insc-discipline-card-emoji" aria-hidden="true">🤼</span>
+                          <span className="insc-discipline-card-name">LUTTE</span>
+                          <span className="insc-discipline-card-place">Daghestan · Makhachkala</span>
+                          <span className="insc-discipline-card-meta">15 places · tous niveaux à partir de 2 ans de pratique</span>
+                          {form.session && (
+                            <PlacesRestantes
+                              sessionId={form.session}
+                              discipline="lutte"
+                              variant="badge"
+                              className="insc-discipline-card-badge"
+                            />
+                          )}
                         </label>
-                        <label className={`cand-radio${form.campDiscipline === 'mma' ? ' selected' : ''}`}>
-                          <input type="radio" name="campDiscipline" value="mma" checked={form.campDiscipline === 'mma'} onChange={() => set('campDiscipline', 'mma')} />
-                          <span>
-                            <strong>MMA (Tchétchénie)</strong>
-                            <span style={{ display: 'block', fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.15rem' }}>
-                              Programme MMA · 15 places par session · Grozny / Akhmat Fight Club · niveau Avancé minimum
-                            </span>
-                          </span>
+                        <label className={`insc-discipline-card insc-discipline-card--mma${form.campDiscipline === 'mma' ? ' is-active' : ''}`}>
+                          <input
+                            type="radio"
+                            name="campDiscipline"
+                            value="mma"
+                            checked={form.campDiscipline === 'mma'}
+                            onChange={() => set('campDiscipline', 'mma')}
+                            className="insc-sr"
+                          />
+                          <span className="insc-discipline-card-emoji" aria-hidden="true">🥊</span>
+                          <span className="insc-discipline-card-name">MMA</span>
+                          <span className="insc-discipline-card-place">Tchétchénie · Grozny</span>
+                          <span className="insc-discipline-card-meta">15 places · niveau Avancé minimum</span>
+                          {form.session && (
+                            <PlacesRestantes
+                              sessionId={form.session}
+                              discipline="mma"
+                              variant="badge"
+                              className="insc-discipline-card-badge"
+                            />
+                          )}
                         </label>
                       </div>
-                      {form.campDiscipline === 'mma' && !MMA_ACCEPTED_LEVELS.has(form.niveau) && (
+                      {form.campDiscipline === 'mma' && form.niveau && !MMA_ACCEPTED_LEVELS.has(form.niveau) && (
                         <div className="logi-updated" style={{ background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.3)', padding: '0.75rem 1rem', borderRadius: '3px', textAlign: 'left', marginTop: '0.6rem', color: '#fca5a5' }}>
-                          ⚠ Le camp MMA exige un niveau <strong>Avancé</strong> ou <strong>Compétiteur</strong> (régional / national / international). Ton niveau actuel ({form.niveau || 'non défini'}) ne permet pas l&apos;inscription MMA. Choisis Lutte ou reviens à l&apos;étape Expérience.
+                          ⚠ Le camp MMA exige un niveau <strong>Avancé</strong> ou <strong>Compétiteur</strong>. Ton niveau actuel ({form.niveau}) ne permet pas l&apos;inscription MMA. Choisis Lutte, ou ajuste ton niveau à l&apos;étape Expérience.
                         </div>
                       )}
-                    </Field>
+                    </div>
 
-                    <Field label="Session officielle" hint="Quatre sessions par an, calées sur les vacances scolaires francophones. Tu choisis ta durée (1, 2 ou 3 semaines) au sein de la fenêtre de session.">
-                      <select className="cand-select" value={form.session}
-                        onChange={e => set('session', e.target.value)}>
-                        {SESSIONS.map(s => (
-                          <option key={s.id} value={s.id}>
-                            {s.seasonLabel} · {s.dates}
-                          </option>
+                    <div className="insc-camp-section">
+                      <span className="insc-camp-section-num">3</span>
+                      <h2 className="insc-camp-section-label">Combien de temps ?</h2>
+                      <p className="insc-camp-section-help">Tu choisis 1, 2 ou 3 semaines au sein de la fenêtre de session officielle.</p>
+                      <div className="insc-duration-grid">
+                        {[
+                          { val: '1-semaine', weeks: 1, label: '1 semaine', sub: 'Initiation intense' },
+                          { val: '2-semaines', weeks: 2, label: '2 semaines', sub: 'Vraie progression' },
+                          { val: '3-semaines', weeks: 3, label: '3 semaines', sub: 'Immersion complète' },
+                        ].map(opt => (
+                          <label key={opt.val} className={`insc-duration-card${form.duree === opt.val ? ' is-active' : ''}`}>
+                            <input
+                              type="radio"
+                              name="duree"
+                              value={opt.val}
+                              checked={form.duree === opt.val}
+                              onChange={() => set('duree', opt.val)}
+                              className="insc-sr"
+                            />
+                            <span className="insc-duration-card-label">{opt.label}</span>
+                            <span className="insc-duration-card-sub">{opt.sub}</span>
+                            <span className="insc-duration-card-price">{formatEUR(PRICING_TIERS.duo.perAdult[opt.weeks as 1|2|3])} / adulte</span>
+                          </label>
                         ))}
-                      </select>
-                    </Field>
-                    <Field label="Durée souhaitée" hint="Tu choisis 1, 2 ou 3 semaines au sein de la fenêtre de session officielle. Tarif par adulte appliqué à la session.">
-                      <select className="cand-select" value={form.duree}
-                        onChange={e => set('duree', e.target.value)}>
-                        <option value="" disabled>Sélectionner</option>
-                        <option value="1-semaine">1 semaine · {formatEUR(PRICING_TIERS.duo.perAdult[1])} / adulte</option>
-                        <option value="2-semaines">2 semaines · {formatEUR(PRICING_TIERS.duo.perAdult[2])} / adulte</option>
-                        <option value="3-semaines">3 semaines · {formatEUR(PRICING_TIERS.duo.perAdult[3])} / adulte (immersion complète)</option>
-                      </select>
-                    </Field>
+                      </div>
+                    </div>
                   </>
                 )}
 
@@ -1304,67 +1472,71 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                   </>
                 )}
 
-                {/* Audience: GROUPE / CLUB — discipline + nom + dates */}
+                {/* ───────────────────────────────────────────────
+                    AUDIENCE: GROUPE / CLUB
+                    100% devis : Ruslan recontacte.
+                    1) Discipline visée
+                    2) Dates indicatives + durée (modifiables en visio)
+                    ─────────────────────────────────────────────── */}
                 {audience === 'groupe' && (
                   <>
-                    <Field label="Discipline visée par ton groupe" hint="Lutte au Daghestan, MMA en Tchétchénie, ou combo des deux destinations (sur devis). MKR adapte le programme et la destination selon ton choix.">
-                      <div className="cand-radios">
-                        <label className={`cand-radio${form.campDiscipline === 'lutte' ? ' selected' : ''}`}>
-                          <input type="radio" name="campDiscipline" value="lutte" checked={form.campDiscipline === 'lutte'} onChange={() => set('campDiscipline', 'lutte')} />
-                          <span>
-                            <strong>Lutte (Daghestan)</strong>
-                            <span style={{ display: 'block', fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.15rem' }}>
-                              Tout le groupe au camp Lutte à Makhachkala / Kaspiysk
-                            </span>
-                          </span>
+                    <div className="logi-updated" style={{ background: 'rgba(167,139,250,0.08)', border: '1px solid rgba(167,139,250,0.3)', padding: '0.85rem 1rem', borderRadius: '3px', textAlign: 'left', color: 'var(--text-secondary)' }}>
+                      <strong style={{ color: '#a78bfa' }}>Demande de devis personnalisé</strong>
+                      <span style={{ display: 'block', fontSize: '0.85rem', marginTop: '0.25rem' }}>
+                        Aucun paiement à ce stade. On ne te demande que les infos essentielles pour que Ruslan puisse te recontacter avec une offre adaptée à ton club. Tu pourras affiner les dates, la composition et la santé après acceptation du devis.
+                      </span>
+                    </div>
+
+                    <div className="insc-camp-section">
+                      <span className="insc-camp-section-num">1</span>
+                      <h2 className="insc-camp-section-label">Discipline visée</h2>
+                      <p className="insc-camp-section-help">Lutte au Daghestan, MMA en Tchétchénie, ou un combo des deux destinations. MKR adapte le programme et la destination selon ton choix.</p>
+                      <div className="insc-discipline-grid">
+                        <label className={`insc-discipline-card insc-discipline-card--lutte${form.campDiscipline === 'lutte' ? ' is-active' : ''}`}>
+                          <input type="radio" name="campDiscipline" value="lutte" checked={form.campDiscipline === 'lutte'} onChange={() => set('campDiscipline', 'lutte')} className="insc-sr" />
+                          <span className="insc-discipline-card-emoji" aria-hidden="true">🤼</span>
+                          <span className="insc-discipline-card-name">LUTTE</span>
+                          <span className="insc-discipline-card-place">Daghestan · Makhachkala</span>
+                          <span className="insc-discipline-card-meta">Tout le club au camp Lutte</span>
                         </label>
-                        <label className={`cand-radio${form.campDiscipline === 'mma' ? ' selected' : ''}`}>
-                          <input type="radio" name="campDiscipline" value="mma" checked={form.campDiscipline === 'mma'} onChange={() => set('campDiscipline', 'mma')} />
-                          <span>
-                            <strong>MMA (Tchétchénie)</strong>
-                            <span style={{ display: 'block', fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.15rem' }}>
-                              Tout le groupe au camp MMA à Grozny · profil avancé requis
-                            </span>
-                          </span>
+                        <label className={`insc-discipline-card insc-discipline-card--mma${form.campDiscipline === 'mma' ? ' is-active' : ''}`}>
+                          <input type="radio" name="campDiscipline" value="mma" checked={form.campDiscipline === 'mma'} onChange={() => set('campDiscipline', 'mma')} className="insc-sr" />
+                          <span className="insc-discipline-card-emoji" aria-hidden="true">🥊</span>
+                          <span className="insc-discipline-card-name">MMA</span>
+                          <span className="insc-discipline-card-place">Tchétchénie · Grozny</span>
+                          <span className="insc-discipline-card-meta">Profil avancé requis pour tout le groupe</span>
                         </label>
-                        <label className={`cand-radio${form.campDiscipline === 'combo_quote' ? ' selected' : ''}`}>
-                          <input type="radio" name="campDiscipline" value="combo_quote" checked={form.campDiscipline === 'combo_quote'} onChange={() => set('campDiscipline', 'combo_quote')} />
-                          <span>
-                            <strong>Combo Lutte + MMA (sur devis)</strong>
-                            <span style={{ display: 'block', fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.15rem' }}>
-                              Partie au Daghestan + partie en Tchétchénie · tarif fixé après cadrage visio
-                            </span>
-                          </span>
+                        <label className={`insc-discipline-card${form.campDiscipline === 'combo_quote' ? ' is-active' : ''}`} style={{ gridColumn: '1 / -1' }}>
+                          <input type="radio" name="campDiscipline" value="combo_quote" checked={form.campDiscipline === 'combo_quote'} onChange={() => set('campDiscipline', 'combo_quote')} className="insc-sr" />
+                          <span className="insc-discipline-card-emoji" aria-hidden="true">🔀</span>
+                          <span className="insc-discipline-card-name">COMBO LUTTE + MMA</span>
+                          <span className="insc-discipline-card-place">Daghestan puis Tchétchénie</span>
+                          <span className="insc-discipline-card-meta">Tarif et split fixés après cadrage visio</span>
                         </label>
                       </div>
-                    </Field>
+                    </div>
 
-                    <Field label="Nom du club / groupe">
-                      <input className="cand-input" type="text"
-                        placeholder="Ex : Geneva Fight Club"
-                        value={form.nomClub}
-                        onChange={e => set('nomClub', e.target.value)} />
-                    </Field>
-                    <div className="cand-row">
-                      <Field label="Date de début souhaitée" hint="Réservation 90 jours minimum avant">
-                        <input className="cand-input" type="date"
-                          min={(() => {
-                            const d = new Date()
-                            d.setDate(d.getDate() + 90)
-                            return d.toISOString().split('T')[0]
-                          })()}
-                          value={form.dateDebutSouhaitee}
-                          onChange={e => set('dateDebutSouhaitee', e.target.value)} />
-                      </Field>
-                      <Field label="Durée souhaitée">
-                        <select className="cand-select" value={form.duree}
-                          onChange={e => set('duree', e.target.value)}>
-                          <option value="" disabled>Sélectionner</option>
-                          <option value="1-semaine">1 semaine</option>
-                          <option value="2-semaines">2 semaines</option>
-                          <option value="3-semaines">3 semaines (immersion complète)</option>
-                        </select>
-                      </Field>
+                    <div className="insc-camp-section">
+                      <span className="insc-camp-section-num">2</span>
+                      <h2 className="insc-camp-section-label">Quand, et combien de temps ?</h2>
+                      <p className="insc-camp-section-help">Indique tes <strong>dates idéales</strong> et ta durée cible. Tout est modifiable pendant la visio de cadrage. On a besoin de 90 jours minimum entre l&apos;inscription et le départ pour gérer visas, vols et organisation.</p>
+                      <div className="cand-row">
+                        <Field label="Date de début indicative">
+                          <input className="cand-input" type="date"
+                            min={(() => { const d = new Date(); d.setDate(d.getDate() + 90); return d.toISOString().split('T')[0] })()}
+                            value={form.dateDebutSouhaitee}
+                            onChange={e => set('dateDebutSouhaitee', e.target.value)} />
+                        </Field>
+                        <Field label="Durée cible">
+                          <select className="cand-select" value={form.duree}
+                            onChange={e => set('duree', e.target.value)}>
+                            <option value="" disabled>Sélectionner</option>
+                            <option value="1-semaine">1 semaine</option>
+                            <option value="2-semaines">2 semaines</option>
+                            <option value="3-semaines">3 semaines (immersion complète)</option>
+                          </select>
+                        </Field>
+                      </div>
                     </div>
                   </>
                 )}
@@ -1480,43 +1652,13 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                   </p>
                 )}
 
-                <Field label="Ville / pays de départ" hint="Utilisé pour estimer les vols">
-                  <input className="cand-input" type="text" placeholder="Ex : Paris, Genève, Montréal..."
-                    value={form.villeDepart} onChange={e => set('villeDepart', e.target.value)} />
-                </Field>
-                <Field label="Es-tu disponible pour un entretien vidéo de sélection ?"
-                  hint="L'entretien dure 20 min. Il est obligatoire pour valider ta candidature.">
-                  <RadioGroup name="entretien" value={form.disponibleEntretien}
-                    onChange={v => set('disponibleEntretien', v)}
-                    options={[
-                      { val: 'oui', label: 'Oui, disponible dans les prochaines semaines' },
-                      { val: 'oui-delai', label: 'Oui, mais avec un délai (plus d\'un mois)' },
-                      { val: 'non', label: 'Non, problème de disponibilité' },
-                    ]}
-                  />
-                </Field>
-                <Field label="Comment as-tu connu le camp ?">
-                  <select className="cand-select" value={form.sourceDecouverte}
-                    onChange={e => set('sourceDecouverte', e.target.value)}>
-                    <option value="" disabled>Sélectionner</option>
-                    <option value="instagram">Instagram</option>
-                    <option value="youtube">YouTube</option>
-                    <option value="bouche-a-oreille">Bouche à oreille</option>
-                    <option value="coach">Recommandation de mon coach</option>
-                    <option value="google">Recherche Google</option>
-                    <option value="autre">Autre</option>
-                  </select>
-                </Field>
-                <Field label="Questions ou informations complémentaires">
-                  <textarea className="cand-textarea" rows={4}
-                    placeholder="Tes objectifs, tes attentes, toute information utile..."
-                    value={form.message} onChange={e => set('message', e.target.value)} />
-                </Field>
               </div>
             )}
 
-            {/* ── STEP 5 — Recap (par tunnel) ── */}
-            {step === 4 && (
+            {/* ── STEP FINAL — Confirmation/Recap (par tunnel) ──
+                  session/custom/famille : step 4 (apres Sante)
+                  groupe : step 3 (apres Contact, pas de Sante) */}
+            {((step === 4 && audience !== 'groupe') || (step === 3 && audience === 'groupe')) && (
               <div className="cand-panel">
                 <div className="cand-recap">
                   {/* Commun */}
@@ -1670,22 +1812,58 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                   })()}
                 </div>
 
-                <div className="cand-confirms">
-                  <label className={`cand-confirm${form.certifMedical ? ' selected' : ''}`}>
-                    <input type="checkbox" checked={form.certifMedical}
-                      onChange={e => set('certifMedical', e.target.checked)} />
-                    <span>Je m&apos;engage à fournir un certificat médical d&apos;aptitude à la pratique sportive intensive avant le départ.</span>
-                  </label>
-                  <label className={`cand-confirm${form.accepteConditions ? ' selected' : ''}`}>
-                    <input type="checkbox" checked={form.accepteConditions}
-                      onChange={e => set('accepteConditions', e.target.checked)} />
-                    <span>J&apos;accepte les conditions du camp : rythme intensif, règles de vie collective, discipline de groupe.</span>
-                  </label>
-                  <label className={`cand-confirm${form.pret ? ' selected' : ''}`}>
-                    <input type="checkbox" checked={form.pret}
-                      onChange={e => set('pret', e.target.checked)} />
-                    <span>Je suis prêt(e) à passer l&apos;entretien vidéo de sélection et à fournir une vidéo de ma pratique si demandé.</span>
-                  </label>
+                {/* Source de decouverte + message libre — pour tous les tunnels */}
+                <div style={{ marginTop: '1.5rem' }}>
+                  <Field label="Comment as-tu connu le camp ?">
+                    <select className="cand-select" value={form.sourceDecouverte}
+                      onChange={e => set('sourceDecouverte', e.target.value)}>
+                      <option value="" disabled>Sélectionner (optionnel)</option>
+                      <option value="instagram">Instagram</option>
+                      <option value="youtube">YouTube</option>
+                      <option value="bouche-a-oreille">Bouche à oreille</option>
+                      <option value="coach">Recommandation de mon coach</option>
+                      <option value="google">Recherche Google</option>
+                      <option value="autre">Autre</option>
+                    </select>
+                  </Field>
+                  <Field label={audience === 'groupe' ? 'Brief de ta demande (utile pour le devis)' : 'Questions ou informations complémentaires'}>
+                    <textarea className="cand-textarea" rows={4}
+                      placeholder={audience === 'groupe'
+                        ? 'Détaille ton projet : objectifs du séjour, périodes envisagées, niveau hétérogène ou homogène, contraintes calendrier ou budget...'
+                        : 'Tes objectifs, tes attentes, toute information utile...'}
+                      value={form.message}
+                      onChange={e => set('message', e.target.value)} />
+                  </Field>
+                </div>
+
+                <div className="cand-confirms" style={{ marginTop: '1rem' }}>
+                  {audience === 'groupe' ? (
+                    <>
+                      <label className={`cand-confirm${form.accepteConditions ? ' selected' : ''}`}>
+                        <input type="checkbox" checked={form.accepteConditions}
+                          onChange={e => set('accepteConditions', e.target.checked)} />
+                        <span>J&apos;autorise Ruslan (MKR) à me contacter par email, téléphone ou WhatsApp pour cadrer le séjour et m&apos;envoyer un devis personnalisé. Aucun paiement n&apos;est prélevé à cette étape.</span>
+                      </label>
+                    </>
+                  ) : (
+                    <>
+                      <label className={`cand-confirm${form.certifMedical ? ' selected' : ''}`}>
+                        <input type="checkbox" checked={form.certifMedical}
+                          onChange={e => set('certifMedical', e.target.checked)} />
+                        <span>Je m&apos;engage à fournir un certificat médical d&apos;aptitude à la pratique sportive intensive avant le départ.</span>
+                      </label>
+                      <label className={`cand-confirm${form.accepteConditions ? ' selected' : ''}`}>
+                        <input type="checkbox" checked={form.accepteConditions}
+                          onChange={e => set('accepteConditions', e.target.checked)} />
+                        <span>J&apos;accepte les conditions du camp : rythme intensif, règles de vie collective, discipline de groupe.</span>
+                      </label>
+                      <label className={`cand-confirm${form.pret ? ' selected' : ''}`}>
+                        <input type="checkbox" checked={form.pret}
+                          onChange={e => set('pret', e.target.checked)} />
+                        <span>Je suis prêt(e) à passer l&apos;entretien vidéo de sélection et à fournir une vidéo de ma pratique si demandé.</span>
+                      </label>
+                    </>
+                  )}
                 </div>
               </div>
             )}

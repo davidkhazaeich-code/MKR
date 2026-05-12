@@ -444,10 +444,16 @@ function CandidatureRow({
             >
               {STATUS_LABEL[row.status]}
             </Badge>
-            {row.camp_discipline === 'mma' && row.status === 'recue' && (
+            {row.camp_discipline === 'mma' && row.status === 'recue' && row.tunnel_type !== 'groupe' && (
               <Badge color="#f59e0b">
                 <Icon name="alert-triangle" size={11} strokeWidth={2.5} />
                 MMA · niveau à vérifier
+              </Badge>
+            )}
+            {row.tunnel_type === 'groupe' && row.status === 'recue' && (
+              <Badge color="#a78bfa">
+                <Icon name="edit" size={11} strokeWidth={2.5} />
+                Devis à envoyer
               </Badge>
             )}
             {isNew && <Badge color="var(--adm-brand)">Nouveau</Badge>}

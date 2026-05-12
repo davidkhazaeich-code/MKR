@@ -3,6 +3,85 @@
 > **Fichier de référence pour Claude Code.** Mise à jour : 2026-05-12 (BREAKING : VideoSection + Coaches retirés + ajout destination Tchétchénie / MMA, /coachs redirigée).
 > Lis ce fichier en priorité avant toute intervention sur le site MKR. Il évite de re-explorer.
 
+## 🆕 BREAKING — 2026-05-12 (refonte form d'inscription : Step 0 « Le camp » avec cards visuelles + Groupe simplifié en 4 steps devis)
+
+> **Décision David** : la PREMIÈRE question quand le candidat arrive sur `/inscription?type=session` doit être « quelle session + quelle discipline », avec une belle mise en page. Le tunnel `groupe` est entièrement repensé : c'est une **demande de devis**, pas une inscription classique. Pas de prix affiché, pas de qualif individuelle (santé / expérience personnelle). Ruslan recontacte le club avec une offre personnalisée.
+
+**Pipeline d'inscription par tunnel** :
+
+| Tunnel | Steps | Notes |
+|---|---|---|
+| `session` | 5 : Le camp · Identité · Expérience · Santé · Confirmation | Cards visuelles 4 sessions + 2 cards Lutte/MMA + 3 cards durée |
+| `custom` | 5 : Le camp · Identité · Expérience · Santé · Confirmation | Step 0 = discipline (Lutte/MMA/Combo) + composition + dates + durée |
+| `famille` | 5 : Le camp · Identité · Expérience · Santé · Confirmation | Step 0 = format (session ou sur-mesure) + enfants + conjoint + durée |
+| `groupe` | **4** : Le camp · Ton club · Contact · Confirmation | **Demande de devis** : pas de santé/expérience individuelle, Ruslan recontacte |
+
+**Constante centrale** : `STEPS_BY_TUNNEL: Record<RegistrationTypeId, readonly string[]>` exporté dans `InscriptionLayout.tsx`. `const STEPS = audience ? STEPS_BY_TUNNEL[audience] : STEPS_DEFAULT`.
+
+**Step 0 « Le camp » — session (la PREMIÈRE question)** :
+- Sous-section **1. Choisis ta session** : grid 4 cards (Été 2026 / Toussaint 2026 / Hiver 2027 / Pâques 2027). Chaque card affiche mois + saison + dates + intensité + compteur places dual (Lutte X/15 · MMA Y/15 live). Card active : bordure + halo `var(--primary)`.
+- Sous-section **2. Choisis ta discipline** : 2 cards riches Lutte (gradient vert) / MMA (gradient orange). Chaque card a emoji, nom, destination, meta. Badge places live de la session choisie dans le coin. Si MMA + niveau < Avancé : alerte rouge inline.
+- Sous-section **3. Combien de temps** : 3 cards durée (1 sem / 2 sem / 3 sem) avec prix Solo/Duo + sous-titre marketing.
+- **Pré-remplissage URL** : `?session=paques-2027` → form.session = `paques-2027` auto-set dans `selectAudience()` ou via `initialSessionId` passé au constructor du component. La card correspondante reçoit `is-active`.
+
+**Step 0 — groupe (demande de devis)** :
+- Bandeau violet « Demande de devis personnalisé · aucun paiement à ce stade ».
+- Section 1 : 3 cards discipline (Lutte / MMA / Combo sur devis pleine largeur).
+- Section 2 : date début indicative + durée cible (modifiables en visio).
+- Aucune mention de prix, aucun compteur places (groupe = devis hors capacité officielle).
+
+**Tunnel groupe simplifié** (4 steps, pas 5) :
+- **Step 1 « Ton club »** : nom club, nombre approximatif (5 / 6-10 / 11-20 / 20+), niveau global, disciplines pratiquées par le club, palmarès, lien (Insta/YouTube). **Pas** de certifs status ni restrictions (collecté après devis).
+- **Step 2 « Contact »** : prenom/nom/email/tel + pays + ville + disponibilité appel cadrage Ruslan.
+- **Step 3 « Confirmation »** : source découverte + brief libre (utile pour devis) + 1 seule checkbox `accepteConditions` qui autorise Ruslan à recontacter par email/téléphone/WhatsApp pour cadrer + devis.
+- **Pas** de certifMedical ni de "pret" (sélection MKR). Le payload met ces champs à `null` pour groupe.
+- **Pas** de Santé ni d'Expérience individuelle (santé collectée après acceptation du devis).
+
+**CSS step 0** (`globals.css` lignes ~7415-7679) — nouvelles classes :
+- `.insc-camp-step`, `.insc-camp-section`, `.insc-camp-section-num` (badge rond rouge numéroté), `.insc-camp-section-label`, `.insc-camp-section-help`
+- `.insc-session-grid` (4 cols desktop / 2 cols ≤880px / 1 col ≤480px), `.insc-session-card`, `.insc-session-card-month/season/dates/intensity/places`
+- `.insc-discipline-grid` (2 cols / 1 col ≤640px), `.insc-discipline-card`, variantes `--lutte` (gradient vert) et `--mma` (gradient orange). Badge places en absolute top-right.
+- `.insc-duration-grid`, `.insc-duration-card` avec label/sub/price
+- `.insc-sr` (visually-hidden pour les `<input type="radio">` cachés sous les cards-radio)
+
+**Réorganisation des champs** :
+- Ancien Step 3 "Logistique" (qui agrégeait session/discipline/composition/dates/ville/entretien/source/message) → SPLIT en :
+  - Step 0 (Le camp) : session/discipline/composition/dates/durée/enfants
+  - Step 1 (Identité, session/custom/famille) ou Step 2 (Contact, groupe) : ville + disponible_entretien
+  - Step 4 (Confirmation, session/custom/famille) ou Step 3 (Confirmation, groupe) : source + message
+- L'ancien Step 0 (Identité) devient Step 1.
+- L'ancien Step 1 audience='groupe' (Qualif club) reste à step 1 mais renommé "Ton club" + ajout `nomClub`.
+- L'ancien Step 2 audience='groupe' (Santé groupe) : **supprimé**.
+- L'ancien Step 4 (Confirmation) : condition transformée en `(step === 4 && audience !== 'groupe') || (step === 3 && audience === 'groupe')` pour servir les 2 pipelines, avec rendu adaptatif (groupe : 1 seule case "accepte d'être recontacté pour devis" au lieu de 3).
+
+**Validation** : refondue par step + par tunnel. Le pipeline `groupe` a une validation différente du pipeline standard. Niveau MMA bloquant déplacé à Step 2 (Expérience) puisque le niveau n'est connu qu'à ce step pour session/custom (en Step 0, on affiche un warning si le niveau est déjà renseigné via retour arrière).
+
+**Payload backend** :
+- `tunnel_type` : inchangé
+- `camp_discipline` : `'lutte' | 'mma' | 'combo_quote' | null`. Pour `famille`, forcé à `'lutte'` côté serveur.
+- `form_data.experience` : null pour `groupe`
+- `form_data.sante` : null pour `groupe`
+- `form_data.groupe` : objet pour `groupe` UNIQUEMENT, avec nom_club/nombre_participants/niveau_groupe/disciplines/palmares_club/lien_video. Plus de certifs_confirme/restrictions (déprécié).
+- `form_data.confirmations.certif_medical/pret` : null pour `groupe`. `accepte_conditions` requis pour tous.
+
+**Admin** :
+- Liste : nouveau badge violet **« Devis à envoyer »** (icône edit) pour les candidatures `tunnel=groupe + status=recue`. Le badge "MMA · niveau à vérifier" n'apparaît plus pour groupe (puisque le niveau individuel n'est plus collecté).
+- Détail (`/admin/inscriptions/[id]`) : bandeau violet en haut **« Demande de devis Club & Groupe — à contacter sous 48h »** affiché si `tunnel=groupe + status=recue`. Précise que la santé individuelle sera collectée après acceptation.
+- Les sections santé/expérience individuelle ne s'affichent plus pour les candidatures `groupe` (car `form_data.experience` et `form_data.sante` sont `null`, donc le map `Object.entries(formData)` les skip).
+
+**Pré-remplissage depuis le site** :
+- `/inscription?type=session&session=paques-2027` → audience=session, form.session='paques-2027', Step 0 ouvert avec la card Pâques pré-sélectionnée. Le candidat n'a qu'à choisir Lutte/MMA et la durée.
+- `/inscription?type=famille&session=toussaint-2026` → audience=famille, form.session='toussaint-2026', form.duree='3-semaines' par défaut.
+- Toutes les pages du site (homepage Sessions card, mega-menu, /sessions cards, /familles, /mkr-camp-2026, etc.) construisent leurs liens avec `?type=X&session=Y`.
+
+**À refaire dans une session future (non bloquant)** :
+- StoryCard Instagram post-inscription pour afficher la discipline + session + destination.
+- Email transactionnel (V2 Resend) avec template différent pour les demandes de devis groupe.
+- Pour les Sur Mesure avec `campDiscipline='combo_quote'` : ajouter un champ texte "Combien de jours Daghestan / combien de jours Tchétchénie envisagés ?" en Step 0 pour faciliter le cadrage Ruslan.
+- Test mobile dev tools pour valider la grille 4 cards sessions sur écrans ≤480px (passe en 1 col).
+
+---
+
 ## 🆕 BREAKING — 2026-05-12 (15 Lutte + 15 MMA par session officielle + Combo Sur Mesure sur devis)
 
 > **Décision David** : chaque session officielle a maintenant **2 capacités séparées** (15 Lutte au Daghestan + 15 MMA en Tchétchénie), au lieu de 15 globales. À l'inscription session, le candidat choisit Lutte OU MMA (exclusif). Le MMA exige un niveau Avancé minimum (form bloquant). Pour Sur Mesure / Club / Groupe, option "Combo Lutte + MMA" sur devis (séquentiel : X jours Daghestan + Y jours Tchétchénie). Famille forcé à Lutte.
