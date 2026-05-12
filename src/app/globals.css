@@ -7025,6 +7025,8 @@ html.is-loading body {
 
 .audience-card--photo .audience-card-flag {
   z-index: 3;
+  top: 1rem;
+  left: 1rem;
 }
 
 .audience-card--photo .audience-card-badge {
