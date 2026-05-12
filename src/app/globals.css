@@ -72,6 +72,8 @@ html, body {
 }
 html {
   font-size: max(16px, 1rem);
+  /* Anchor jumps land below the fixed nav (nav-h = 72px) */
+  scroll-padding-top: calc(var(--nav-h) + 1rem);
 }
 
 
@@ -1414,7 +1416,8 @@ h1, h2, h3, h4, h5 {
 ═══════════════════════════════════════════════ */
 #destination-showcase {
   background: var(--bg);
-  padding: 7rem 0;
+  /* Safe bottom = clip-path peaks rise of next section (~5vw) + buffer */
+  padding: 7rem 0 calc(7rem + 6vw);
   position: relative;
   overflow: hidden;
 }
@@ -6478,7 +6481,8 @@ html.is-loading body {
 
 .audience-switcher {
   position: relative;
-  padding: 5rem 0 4.5rem;
+  /* Safe bottom = clip-path peaks rise of next section (~5vw) + buffer */
+  padding: 6rem 0 calc(6rem + 6vw);
   overflow: hidden;
 }
 
@@ -7063,7 +7067,8 @@ html.is-loading body {
 
 .facilitator-band {
   position: relative;
-  padding: 5rem 0 4.5rem;
+  /* Safe bottom = clip-path peaks rise of next section (~5vw) + buffer */
+  padding: 6rem 0 calc(6rem + 6vw);
   overflow: hidden;
 }
 
@@ -7153,7 +7158,7 @@ html.is-loading body {
   font-size: 0.92rem;
   font-style: italic;
   max-width: 720px;
-  margin: 1.5rem auto 0;
+  margin: 3rem auto 0;
 }
 
 /* ──────────────────────────────────────────
