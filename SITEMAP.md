@@ -1,7 +1,23 @@
 # SITEMAP MKR Caucasian Camp — Cartographie complète
 
-> **Fichier de référence pour Claude Code.** Mise à jour : 2026-05-11 (refonte grille tarifaire par taille de groupe + forfait Parent + Enfant).
+> **Fichier de référence pour Claude Code.** Mise à jour : 2026-05-12 (vrais témoignages vidéo Antoine + LAMP + VideoModal réutilisable).
 > Lis ce fichier en priorité avant toute intervention sur le site MKR. Il évite de re-explorer.
+
+## 🆕 Changements 2026-05-12 (vrais témoignages vidéo + VideoModal)
+
+- **Vidéos sources** dans `public/videos/testimonials/` :
+  - `antoine-testimonie.mp4` (2.7 MB, 480×848, 60s, H.264 CRF 28, AAC 96k) + `antoine-poster.jpg`
+  - `lamp-testimonie.mp4` (6.2 MB, 480×853, 108s, H.264 CRF 30, AAC 80k) + `lamp-poster.jpg`
+- **Photo LAMP** : `public/images/testimonials/lamp-w.webp` (900×1200 portrait, ~55 KB, crop centré 3:4 depuis original 1:1). LAMP est le combattant à droite (rashguard Ratel Team violet/noir) aux côtés d'un Daghestanais en rouge ACA.
+- **Type `Testimonial`** (data/testimonials.ts) : ajout champs optionnels `video` et `videoPoster`. Antoine wired sur sa vidéo, **LAMP ajouté en 2e position** avec quote dédiée "MMA pro · Session Daghestan".
+- **Nouveau composant `VideoModal.tsx`** : overlay plein écran portrait 9:16, autoplay au open, controls natifs, fermeture ESC / click overlay / bouton X. Body scroll-lock, focus management. Réutilisable (modal vidéo de témoignage).
+- **Nouveau composant `VideoTestimonialsGrid.tsx`** : client component pour la page `/temoignages` (la page reste server). 2 cards 9:16 avec poster + play button → ouvre `VideoModal`.
+- **Composant `Testimonials.tsx` (homepage)** : si `testimonial.video` existe, le play button devient un `<button>` qui ouvre le modal. Sinon, plus de play button (la fausse icône SVG décorative `.testi-play` est supprimée du JSX, seul `.testi-play--btn` reste pour les cards avec vidéo).
+- **Page `/temoignages`** : VIDEO_TESTIMONIALS passe de 4 fakes (`video-thumb-{1..4}.webp`) à **2 vraies vidéos** (Antoine + LAMP). Layout grid-2 conservé mais cards portrait 9:16 (aspectRatio + maxHeight 70vh).
+- **CSS `globals.css`** : ajout section "Video Modal" (`.video-modal-*`, `.testi-play--btn`, `.video-card-play`) en fin de fichier.
+- **Note assets** : les 4 anciens `video-thumb-{1..4}.webp` restent dans `public/images/testimonials/` (orphelins, supprimables au prochain audit images).
+
+
 
 ## 🆕 Changements 2026-05-11 (refonte grille tarifaire par paliers de groupe)
 

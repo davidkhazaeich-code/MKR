@@ -1,8 +1,9 @@
 'use client'
 
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import Image from 'next/image'
-import { TESTIMONIALS } from '@/data/testimonials'
+import { TESTIMONIALS, type Testimonial } from '@/data/testimonials'
+import VideoModal from './VideoModal'
 
 function Stars() {
   return (
@@ -18,6 +19,7 @@ function Stars() {
 
 export default function Testimonials() {
   const carouselRef = useRef<HTMLDivElement>(null)
+  const [activeVideo, setActiveVideo] = useState<Testimonial | null>(null)
 
   function scrollBy(direction: 'prev' | 'next') {
     const el = carouselRef.current
@@ -70,11 +72,18 @@ export default function Testimonials() {
                 {/* Image portrait */}
                 <div className="testi-img-wrap">
                   <Image src={c.img} alt={c.alt} className="testi-photo" width={280} height={380} />
-                  <div className="testi-play" aria-hidden="true">
-                    <svg viewBox="0 0 20 20" fill="none">
-                      <polygon points="5,3 17,10 5,17" fill="#F8F8F8" />
-                    </svg>
-                  </div>
+                  {c.video && (
+                    <button
+                      type="button"
+                      className="testi-play--btn"
+                      onClick={() => setActiveVideo(c)}
+                      aria-label={`Lire le témoignage vidéo de ${c.name}`}
+                    >
+                      <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                        <polygon points="5,3 17,10 5,17" fill="currentColor" />
+                      </svg>
+                    </button>
+                  )}
                 </div>
 
                 {/* Infos sous l'image */}
@@ -90,6 +99,14 @@ export default function Testimonials() {
         </div>
 
       </div>
+
+      <VideoModal
+        src={activeVideo?.video ?? null}
+        poster={activeVideo?.videoPoster}
+        title={activeVideo?.name}
+        subtitle={activeVideo?.discipline}
+        onClose={() => setActiveVideo(null)}
+      />
     </section>
   )
 }

@@ -4,6 +4,8 @@ export interface Testimonial {
   name: string
   discipline: string
   quote: string
+  video?: string
+  videoPoster?: string
 }
 
 export const TESTIMONIALS: Testimonial[] = [
@@ -13,6 +15,17 @@ export const TESTIMONIALS: Testimonial[] = [
     name: 'Antoine Petit-Jean',
     discipline: 'MMA · Genève',
     quote: "Avant MKR, je plafonnais sur mes patterns. Trois semaines au Daghestan ont fait sauter le verrou. Le niveau te tire vers le haut, chaque session te force à chercher plus loin. On dort bien, on mange bien, et sur le tapis c'est plein régime du matin au soir. Mon MMA d'avant et celui d'aujourd'hui, ce sont deux athlètes différents.",
+    video: '/videos/testimonials/antoine-testimonie.mp4',
+    videoPoster: '/videos/testimonials/antoine-poster.jpg',
+  },
+  {
+    img: '/images/testimonials/lamp-w.webp',
+    alt: 'LAMP - MMA professionnel, à Makhachkala avec un combattant daghestanais',
+    name: 'LAMP',
+    discipline: 'MMA pro · Session Daghestan',
+    quote: "Je suis arrivé compétiteur, je repars professionnel. Le camp m'a fait passer un palier que je n'aurais jamais atteint en Europe. Tu t'entraînes côte à côte avec des gars qui vivent le combat à un autre niveau, et ça te tire vers le haut, chaque session.",
+    video: '/videos/testimonials/lamp-testimonie.mp4',
+    videoPoster: '/videos/testimonials/lamp-poster.jpg',
   },
   {
     img: '/images/testimonials/mehdi-r.webp',

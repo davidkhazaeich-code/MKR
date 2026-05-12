@@ -3,6 +3,7 @@ import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 import CinematicReveal from '@/components/CinematicReveal'
+import VideoTestimonialsGrid from '@/components/VideoTestimonialsGrid'
 
 export const metadata: Metadata = {
   title: 'Témoignages athlètes | Camp MKR au Daghestan',
@@ -11,10 +12,20 @@ export const metadata: Metadata = {
 }
 
 const VIDEO_TESTIMONIALS = [
-  { img: '/images/testimonials/video-thumb-1.webp', name: 'Mehdi R.', discipline: 'Lutte Libre · Paris', label: 'Interview post-camp' },
-  { img: '/images/testimonials/video-thumb-2.webp', name: 'Thomas B. et Karim D.', discipline: 'Boxe · MMA', label: 'Retour de session' },
-  { img: '/images/testimonials/video-thumb-3.webp', name: 'Yassine K.', discipline: 'Grappling · Bruxelles', label: 'Coulisses du camp' },
-  { img: '/images/testimonials/video-thumb-4.webp', name: 'Le groupe', discipline: 'Session Automne 2025', label: 'Bilan collectif' },
+  {
+    name: 'Antoine Petit-Jean',
+    discipline: 'MMA · Genève',
+    label: 'Retour de session',
+    poster: '/videos/testimonials/antoine-poster.jpg',
+    video: '/videos/testimonials/antoine-testimonie.mp4',
+  },
+  {
+    name: 'LAMP',
+    discipline: 'MMA pro · Daghestan',
+    label: 'Passage pro après MKR',
+    poster: '/videos/testimonials/lamp-poster.jpg',
+    video: '/videos/testimonials/lamp-testimonie.mp4',
+  },
 ]
 
 const TESTIMONIALS = [
@@ -62,32 +73,7 @@ export default function TemoignagesPage() {
             <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>VIDÉOS</span>
             <h2>TÉMOIGNAGES VIDÉO</h2>
           </div>
-          <div className="grid-2">
-            {VIDEO_TESTIMONIALS.map((v, i) => (
-              <div key={i} className="content-card reveal" style={{ transitionDelay: `${i * 0.08}s` }}>
-                <div style={{ position: 'relative', marginBottom: '1rem' }}>
-                  <img
-                    src={v.img}
-                    alt={`Témoignage vidéo de ${v.name}`}
-                    width={800}
-                    height={450}
-                    loading="lazy"
-                    className="section-photo-img"
-                    style={{ aspectRatio: '16/9', objectFit: 'cover', width: '100%' }}
-                  />
-                  <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(0,0,0,0.3)' }}>
-                    <svg viewBox="0 0 40 40" width="48" height="48" fill="none">
-                      <circle cx="20" cy="20" r="18" stroke="#F8F8F8" strokeWidth="1.5" />
-                      <polygon points="16,12 30,20 16,28" fill="#F8F8F8" />
-                    </svg>
-                  </div>
-                  <span style={{ position: 'absolute', top: '0.6rem', left: '0.6rem', background: 'var(--primary)', color: '#fff', fontSize: '0.65rem', fontFamily: 'var(--font-barlow-condensed)', textTransform: 'uppercase', letterSpacing: '0.08em', padding: '0.2em 0.6em', fontWeight: 600 }}>{v.label}</span>
-                </div>
-                <span className="testi-name">{v.name}</span>
-                <span className="testi-discipline">{v.discipline}</span>
-              </div>
-            ))}
-          </div>
+          <VideoTestimonialsGrid items={VIDEO_TESTIMONIALS} />
         </div>
       </section>
 

@@ -7245,3 +7245,163 @@ html.is-loading body {
     transform: scale(1.18);
   }
 }
+
+/* ============================================================
+   Video Modal (used by Testimonials carousel + /temoignages page)
+   Portrait video player for athlete testimonies
+   ============================================================ */
+.video-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  background: rgba(8, 8, 10, 0.88);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4vh 4vw;
+  animation: videoModalFade 0.22s var(--ease-out-expo, ease-out);
+}
+@keyframes videoModalFade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.video-modal-close {
+  position: absolute;
+  top: 1.2rem;
+  right: 1.2rem;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid rgba(248, 248, 248, 0.28);
+  background: rgba(14, 14, 14, 0.7);
+  color: #f8f8f8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, transform 0.2s;
+  z-index: 2;
+}
+.video-modal-close:hover,
+.video-modal-close:focus-visible {
+  background: rgba(200, 75, 49, 0.25);
+  border-color: var(--primary);
+  transform: scale(1.05);
+  outline: none;
+}
+
+.video-modal-frame {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.9rem;
+  max-width: min(420px, 92vw);
+  max-height: 92vh;
+  width: auto;
+  animation: videoModalRise 0.32s var(--ease-out-expo, ease-out);
+}
+@keyframes videoModalRise {
+  from { opacity: 0; transform: translateY(18px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0)    scale(1); }
+}
+
+.video-modal-player {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 82vh;
+  aspect-ratio: 9 / 16;
+  background: #000;
+  border: 1px solid rgba(248, 248, 248, 0.12);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+  object-fit: contain;
+}
+
+.video-modal-caption {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+.video-modal-title {
+  font-family: var(--font-teko), sans-serif;
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #f8f8f8;
+}
+.video-modal-subtitle {
+  font-family: var(--font-barlow-condensed), sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(248, 248, 248, 0.7);
+}
+
+@media (max-width: 480px) {
+  .video-modal-overlay { padding: 2vh 3vw; }
+  .video-modal-close { top: 0.8rem; right: 0.8rem; width: 38px; height: 38px; }
+  .video-modal-player { max-height: 76vh; }
+}
+
+/* Video play button — used on testimonial card and on /temoignages cards */
+.testi-play--btn {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  z-index: 2;
+  padding: 0;
+}
+.testi-play--btn svg {
+  width: 38px;
+  height: 38px;
+  background: rgba(14, 14, 14, 0.55);
+  border: 1px solid rgba(248, 248, 248, 0.3);
+  border-radius: 50%;
+  padding: 9px 9px 9px 12px;
+  transition: background 0.2s, border-color 0.2s, transform 0.2s;
+  color: #f8f8f8;
+}
+.testi-play--btn:hover svg,
+.testi-play--btn:focus-visible svg {
+  background: rgba(200, 75, 49, 0.25);
+  border-color: var(--primary);
+  transform: scale(1.06);
+  outline: none;
+}
+
+/* Page /temoignages — bigger play button on grid-2 video cards */
+.video-card-play {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.3);
+  border: 0;
+  cursor: pointer;
+  transition: background 0.2s;
+  padding: 0;
+}
+.video-card-play:hover,
+.video-card-play:focus-visible {
+  background: rgba(200, 75, 49, 0.18);
+  outline: none;
+}
+.video-card-play svg {
+  transition: transform 0.2s;
+}
+.video-card-play:hover svg,
+.video-card-play:focus-visible svg {
+  transform: scale(1.08);
+}
