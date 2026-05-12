@@ -12,7 +12,7 @@ export default function SiteLoader() {
   const rootRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    if (skip) return
+    if (skip || !mounted) return
     document.documentElement.classList.add('is-loading')
 
     const reducedMotion =
@@ -92,7 +92,7 @@ export default function SiteLoader() {
       cancelled = true
       document.documentElement.classList.remove('is-loading')
     }
-  }, [skip])
+  }, [skip, mounted])
 
   if (skip || !mounted) return null
 
