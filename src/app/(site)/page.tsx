@@ -26,15 +26,15 @@ export default function Home() {
       <link rel="preload" as="video" href="/videos/hero-mountains.mp4" type="video/mp4" />
       <div data-scroll-section data-scroll-label="Accueil" className="hs-anchor"><Hero /></div>
       <div data-scroll-section data-scroll-label="Pour qui" className="hs-anchor"><AudienceSwitcher /></div>
-      <div data-scroll-section data-scroll-label="Témoignages" className="hs-anchor"><Testimonials /></div>
-      <div data-scroll-section data-scroll-label="Comment y aller" className="hs-anchor"><VoyageReveal /></div>
-      <div data-scroll-section data-scroll-label="On organise tout" className="hs-anchor"><FacilitatorBand /></div>
       <div data-scroll-section data-scroll-label="Pourquoi le Caucase" className="hs-anchor"><Philosophie /></div>
       <div data-scroll-section data-scroll-label="Les destinations" className="hs-anchor"><DestinationShowcase /></div>
+      <div data-scroll-section data-scroll-label="Témoignages" className="hs-anchor"><Testimonials /></div>
+      <div data-scroll-section data-scroll-label="On organise tout" className="hs-anchor"><FacilitatorBand /></div>
+      <div data-scroll-section data-scroll-label="Comment y aller" className="hs-anchor"><VoyageReveal /></div>
       <div data-scroll-section data-scroll-label="Sessions" className="hs-anchor"><Sessions /></div>
       <div data-scroll-section data-scroll-label="Le parcours" className="hs-anchor"><Timeline /></div>
-      <div data-scroll-section data-scroll-label="Contact" className="hs-anchor"><Contact /></div>
       <div data-scroll-section data-scroll-label="FAQ" className="hs-anchor"><FAQ /></div>
+      <div data-scroll-section data-scroll-label="Contact" className="hs-anchor"><Contact /></div>
       <div data-scroll-section data-scroll-label="Prochain camp" className="hs-anchor"><CTAFinal /></div>
     </>
   )

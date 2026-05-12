@@ -393,21 +393,19 @@ mkrcamp.com/
 ### 🏠 `/` — Homepage
 **Fichier** : `src/app/(site)/page.tsx`
 **Rôle** : Landing principal — sequence sections dynamic-imported
-**Sections (ordre)** : (mis à jour 2026-05-02 : Testimonials remontés en pos 4, VoyageReveal en pos 5 "Comment y aller")
-1. `<Hero />` — vidéos en boucle + carousel sessions inline
-2. `<VideoSection />` — titre "1 À 3 SEMAINES QUI CHANGENT TOUT" + 4 stats (2x sessions, 9 coachs, 15 max, 0 distraction)
-3. `<AudienceSwitcher />` — 4 cards "Pour qui ?" (session/custom/famille/groupe)
-4. `<Testimonials />` — carousel TÉMOIGNAGES (data/testimonials.ts) **[remonté en pos 4]**
-5. `<VoyageReveal />` — "Comment y aller" : trajet Istanbul→Makhachkala + transfert 1h30 **[remonté en pos 5]**
-6. `<FacilitatorBand />` — "MKR organise tout" 6 prestations
-7. `<Philosophie />` — bento "POURQUOI LE CAUCASE" (3 cards)
-8. `<DestinationShowcase />` — grid 4 paysages (Canyon Sulak, Lac Kezenoy, Route, Gamsutl)
-9. `<Sessions />` — cards depuis `data/sessions.ts` (1 seule actuellement)
-10. `<Timeline />` — 5 étapes parcours (Postuler → Validation → Préparation → Voyage → Immersion)
-11. `<Coaches />` — 4 cards depuis `data/coaches.ts`
-12. `<Contact />` — bloc info contact (téléphone, email, instagram)
-13. `<FAQ />` — top 6 questions (data/faq.ts FAQ_HOMEPAGE)
-14. `<CTAFinal />` — "Prochain camp · 17 août - 5 septembre 2026 · Daghestan" + montagne SVG
+**Sections (ordre)** : (mis à jour 2026-05-12 : refonte AIDA/StoryBrand — Philosophie + Destinations remontés avant Témoignages, Voyage repoussé après la rassurance, FAQ avant Contact)
+1. `<Hero />` — vidéos en boucle + carousel sessions inline (Attention)
+2. `<AudienceSwitcher />` — 4 cards "Pour qui ?" (session/custom/famille/groupe) (segmentation)
+3. `<Philosophie />` — bento "POURQUOI LE CAUCASE" (3 cards) (Why / aspiration)
+4. `<DestinationShowcase />` — grid 4 paysages (matérialisation visuelle du rêve)
+5. `<Testimonials />` — carousel TÉMOIGNAGES (data/testimonials.ts) (preuve sociale)
+6. `<FacilitatorBand />` — "MKR organise tout" 6 prestations (lever objection "c'est compliqué")
+7. `<VoyageReveal />` — "Comment y aller" : trajet Istanbul→Makhachkala + transfert 1h30 (logistique concrète)
+8. `<Sessions />` — cards depuis `data/sessions.ts` (passage à l'action : "quand")
+9. `<Timeline />` — 5 étapes parcours (Postuler → Validation → Préparation → Voyage → Immersion) ("comment je m'inscris")
+10. `<FAQ />` — top 6 questions (data/faq.ts FAQ_HOMEPAGE) (lever les dernières objections)
+11. `<Contact />` — bloc info contact (téléphone, email, instagram) (alternative pour ceux qui veulent parler)
+12. `<CTAFinal />` — "Prochain camp · {dates}" + montagne SVG (action finale)
 **Métadonnées** : title, description, canonical
 **Pour modifier le copy hero** : `components/Hero.tsx` lignes 160-188
 
