@@ -7699,3 +7699,812 @@ html.is-loading body {
   font-weight: 600;
   margin-top: 0.15rem;
 }
+
+/* ============================================================================
+   INSCRIPTION · REFONTE UX/UI 2026-05-12
+   Bannières unifiées · cards visuelles harmonisées · récap sticky · a11y
+   ============================================================================ */
+
+/* CSS vars sémantiques pour les bannières — remplacent les hex hardcodés */
+.insc-form {
+  --insc-color-info: #94a3b8;
+  --insc-color-success: #4ade80;
+  --insc-color-warning: #f59e0b;
+  --insc-color-danger: #ef4444;
+  --insc-color-quote: #a78bfa;
+  --insc-color-danger-soft: rgba(239, 68, 68, 0.5);
+}
+
+/* Honeypot anti-bot — off-screen 100% */
+.insc-hp {
+  position: absolute;
+  left: -9999px;
+  top: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* ── Bannières (info / warn / quote / success / primary) ── */
+.insc-banner {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 0.9rem 1.1rem;
+  border-radius: 4px;
+  font-size: 0.86rem;
+  line-height: 1.55;
+  text-align: left;
+  color: var(--text-secondary);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: rgba(255, 255, 255, 0.03);
+}
+.insc-banner svg {
+  flex-shrink: 0;
+  margin-top: 0.15rem;
+}
+.insc-banner strong {
+  color: var(--text-primary);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+.insc-banner span {
+  display: block;
+}
+.insc-banner--info {
+  border-color: rgba(148, 163, 184, 0.2);
+  background: rgba(148, 163, 184, 0.05);
+}
+.insc-banner--info strong { color: var(--insc-color-info); }
+
+.insc-banner--success {
+  border-color: rgba(74, 222, 128, 0.3);
+  background: rgba(34, 197, 94, 0.07);
+}
+.insc-banner--success strong { color: var(--insc-color-success); }
+
+.insc-banner--warn {
+  border-color: rgba(239, 68, 68, 0.3);
+  background: rgba(239, 68, 68, 0.08);
+  color: #fca5a5;
+  flex-direction: row;
+  align-items: flex-start;
+}
+.insc-banner--warn strong { color: #fca5a5; }
+
+.insc-banner--warn-light {
+  border-color: rgba(245, 158, 11, 0.3);
+  background: rgba(245, 158, 11, 0.07);
+  color: #fcd34d;
+  flex-direction: row;
+  align-items: center;
+  font-size: 0.82rem;
+}
+.insc-banner--warn-light svg { color: var(--insc-color-warning); }
+
+.insc-banner--quote {
+  border-color: rgba(167, 139, 250, 0.3);
+  background: rgba(167, 139, 250, 0.07);
+}
+.insc-banner--quote strong { color: var(--insc-color-quote); }
+
+.insc-banner--primary {
+  border-color: rgba(200, 75, 49, 0.35);
+  background: rgba(200, 75, 49, 0.08);
+}
+.insc-banner--primary strong { color: var(--primary); }
+
+/* ── Liens inline dans bannières / checkboxes / hints ── */
+.insc-inline-link {
+  color: var(--primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.insc-inline-link:hover {
+  color: var(--text-primary);
+}
+
+/* ── Section title (Step 3 Famille) ── */
+.insc-section-title {
+  font-family: var(--font-teko), sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-primary);
+  margin: 0 0 0.85rem;
+}
+.insc-section-title--spacer {
+  margin-top: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+/* ── Card enfant (Step 3 Famille) et card participant (Step 0 Custom) ── */
+.insc-child-card {
+  margin-bottom: 1.25rem;
+  padding: 1.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.015);
+}
+.insc-child-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.85rem;
+}
+.insc-child-card-head strong {
+  color: var(--primary);
+  font-size: 0.95rem;
+}
+.insc-child-remove {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 44px;
+  padding: 0.5rem 0.9rem;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+}
+.insc-child-remove:hover {
+  border-color: var(--insc-color-danger-soft);
+  color: #fca5a5;
+  background: rgba(239, 68, 68, 0.05);
+}
+.insc-child-remove:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+.insc-child-add {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  min-height: 48px;
+  padding: 0.85rem 1.5rem;
+  background: rgba(200, 75, 49, 0.04);
+  border: 1px dashed rgba(200, 75, 49, 0.4);
+  color: var(--text-primary);
+  font-family: var(--font-barlow), sans-serif;
+  font-size: 0.92rem;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: border-color 0.2s, background 0.2s, color 0.2s;
+}
+.insc-child-add:hover {
+  border-color: var(--primary);
+  background: rgba(200, 75, 49, 0.08);
+  color: var(--primary);
+}
+.insc-child-add:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* ── Erreurs in-place + bandeau global ── */
+.cand-input.has-error,
+.cand-select.has-error,
+.cand-textarea.has-error {
+  border-bottom-color: var(--insc-color-danger) !important;
+  box-shadow: 0 1px 0 0 var(--insc-color-danger);
+}
+.insc-radios-error .cand-radio:not(.selected),
+.insc-radios-error .cand-check:not(.selected) {
+  border-color: rgba(239, 68, 68, 0.4);
+}
+.insc-errors {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem 1.2rem;
+  margin-top: 0.5rem;
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  border-radius: 4px;
+}
+.insc-errors-head {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  color: #fca5a5;
+}
+.insc-errors-head strong {
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+.insc-errors-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+.insc-errors-list li {
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--text-secondary);
+  padding-left: 1.2rem;
+  position: relative;
+}
+.insc-errors-list li::before {
+  content: '·';
+  position: absolute;
+  left: 0.4rem;
+  top: 0;
+  color: var(--insc-color-danger);
+  font-weight: 700;
+}
+
+/* Submit error (réseau) */
+.insc-submit-error {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  margin-top: 1rem;
+  padding: 0.85rem 1rem;
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  border-radius: 4px;
+  color: #fca5a5;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  font-weight: 500;
+}
+.insc-submit-error svg { flex-shrink: 0; margin-top: 0.1rem; }
+
+/* ── Navigation buttons enrichis ── */
+.insc-nav-sticky {
+  align-items: stretch;
+}
+.cand-btn-back svg,
+.cand-btn-next svg,
+.cand-btn-submit svg {
+  margin: 0 0.45rem 0 0;
+  flex-shrink: 0;
+}
+.cand-btn-next svg:last-child,
+.cand-btn-submit svg:last-child {
+  margin: 0 0 0 0.45rem;
+}
+.insc-btn-primary {
+  background: var(--primary);
+  color: white !important;
+  border: 1px solid var(--primary);
+  font-weight: 700;
+}
+.insc-btn-primary:hover:not(:disabled) {
+  background: var(--text-primary);
+  color: var(--bg) !important;
+  border-color: var(--text-primary);
+}
+.insc-btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Spinner submit */
+.insc-spinner {
+  animation: insc-spin 0.9s linear infinite;
+  margin-right: 0.45rem;
+}
+@keyframes insc-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── Focus visible sur les cards Step 0 (a11y critique) ── */
+.insc-session-card:has(:focus-visible),
+.insc-discipline-card:has(:focus-visible),
+.insc-duration-card:has(:focus-visible),
+.insc-compo-card:has(:focus-visible),
+.insc-toggle-card:has(:focus-visible) {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+}
+/* Fallback pour browsers sans :has — utilise .focus-within */
+.insc-session-card:focus-within,
+.insc-discipline-card:focus-within,
+.insc-duration-card:focus-within,
+.insc-compo-card:focus-within,
+.insc-toggle-card:focus-within {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+}
+
+/* ── Custom : composition cards (Step 0) ── */
+.insc-compo-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.6rem;
+}
+@media (max-width: 640px) {
+  .insc-compo-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+.insc-compo-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.15rem;
+  padding: 0.85rem 0.95rem;
+  background: var(--surface-lowest, rgba(255, 255, 255, 0.025));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 5px;
+  cursor: pointer;
+  min-height: 70px;
+  transition: all 0.18s ease;
+}
+.insc-compo-card:hover {
+  border-color: rgba(200, 75, 49, 0.45);
+}
+.insc-compo-card.is-active {
+  border-color: var(--primary);
+  background: rgba(200, 75, 49, 0.08);
+  box-shadow: 0 0 0 1px var(--primary) inset;
+}
+.insc-compo-card-label {
+  font-family: var(--font-teko), sans-serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-primary);
+}
+.insc-compo-card-sub {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* ── Famille : format grid (sessions + sur mesure) ── */
+.insc-format-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.7rem;
+}
+@media (max-width: 880px) {
+  .insc-format-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 480px) {
+  .insc-format-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.insc-session-card--custom {
+  border-style: dashed;
+  border-color: rgba(200, 75, 49, 0.35);
+}
+
+/* ── Famille : toggle 1 parent / 2 parents ── */
+.insc-toggle-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.7rem;
+  margin-bottom: 1rem;
+}
+@media (max-width: 480px) {
+  .insc-toggle-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.insc-toggle-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.95rem 1.05rem;
+  background: var(--surface-lowest, rgba(255, 255, 255, 0.025));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+.insc-toggle-card:hover {
+  border-color: rgba(200, 75, 49, 0.45);
+}
+.insc-toggle-card.is-active {
+  border-color: var(--primary);
+  background: rgba(200, 75, 49, 0.08);
+  box-shadow: 0 0 0 1px var(--primary) inset;
+}
+.insc-toggle-card-label {
+  font-family: var(--font-teko), sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--text-primary);
+}
+.insc-toggle-card-sub {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  line-height: 1.45;
+}
+
+/* ── Famille : stepper +/- enfants ── */
+.insc-stepper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 1rem 1.1rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 5px;
+}
+.insc-stepper-label {
+  font-family: var(--font-barlow-condensed), sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.insc-stepper-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.insc-stepper-btn {
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 1px solid rgba(200, 75, 49, 0.35);
+  color: var(--text-primary);
+  font-size: 1.4rem;
+  line-height: 1;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+.insc-stepper-btn:hover:not(:disabled) {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: white;
+}
+.insc-stepper-btn:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+.insc-stepper-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+.insc-stepper-value {
+  font-family: var(--font-teko), sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  min-width: 2rem;
+  text-align: center;
+}
+.insc-stepper-hint {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* ── Sidebar récap sticky (desktop only) ── */
+.insc-sidebar-recap {
+  margin-top: 2.5rem;
+  padding: 1.1rem 1.1rem 0.85rem;
+  background: rgba(200, 75, 49, 0.05);
+  border: 1px solid rgba(200, 75, 49, 0.2);
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+.insc-sidebar-recap-title {
+  font-family: var(--font-barlow-condensed), sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--primary);
+  font-weight: 600;
+  margin-bottom: 0.2rem;
+}
+.insc-sidebar-recap-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.5rem;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  padding: 0.2rem 0;
+}
+.insc-sidebar-recap-row strong {
+  color: var(--text-primary);
+  font-size: 0.82rem;
+  font-weight: 500;
+  text-align: right;
+}
+.insc-sidebar-recap-row--total {
+  margin-top: 0.3rem;
+  padding-top: 0.55rem;
+  border-top: 1px solid rgba(200, 75, 49, 0.25);
+}
+.insc-sidebar-recap-row--total strong {
+  color: var(--primary);
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+/* ── Mobile header : accordion stepper révélant les steps ── */
+.insc-mobile-header {
+  flex-wrap: wrap;
+}
+.insc-mobile-progress {
+  flex: 1;
+  background: transparent;
+  border: 0;
+  padding: 0.2rem 0;
+  cursor: pointer;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-height: 44px;
+  justify-content: center;
+}
+.insc-mobile-progress:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+.insc-mobile-progress-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+.insc-mobile-chevron {
+  color: var(--text-muted);
+  transition: transform 0.25s ease;
+}
+.insc-mobile-progress.is-open .insc-mobile-chevron {
+  transform: rotate(180deg);
+}
+.insc-mobile-steps-panel {
+  width: 100%;
+  padding: 0.5rem 0 0.85rem;
+  border-top: 1px solid rgba(248, 248, 248, 0.06);
+  animation: insc-slide-up 0.25s ease both;
+}
+.insc-mobile-steps-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.insc-mobile-step {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.35rem 0;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+.insc-mobile-step-num {
+  width: 24px;
+  height: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(248, 248, 248, 0.15);
+  border-radius: 50%;
+  font-family: var(--font-teko), sans-serif;
+  font-size: 0.75rem;
+  flex-shrink: 0;
+}
+.insc-mobile-step.done .insc-mobile-step-num {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: white;
+}
+.insc-mobile-step.active .insc-mobile-step-num {
+  border-color: var(--primary);
+  color: var(--primary);
+  background: rgba(200, 75, 49, 0.12);
+}
+.insc-mobile-step.active {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+.insc-mobile-step.done {
+  color: var(--text-secondary);
+}
+
+/* ── Recap price encart (Step Confirmation) ── */
+.insc-recap-price {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  padding: 1.3rem 1.4rem;
+  background: linear-gradient(180deg, rgba(200, 75, 49, 0.1) 0%, rgba(200, 75, 49, 0.04) 100%);
+  border: 1px solid rgba(200, 75, 49, 0.3);
+  border-radius: 5px;
+  margin-bottom: 1.5rem;
+}
+.insc-recap-price-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+}
+.insc-recap-price-label {
+  font-family: var(--font-barlow-condensed), sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.insc-recap-price-value {
+  font-family: var(--font-teko), sans-serif;
+  font-size: clamp(1.8rem, 3.5vw, 2.4rem);
+  font-weight: 700;
+  color: var(--primary);
+  line-height: 1;
+}
+.insc-recap-price-breakdown {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+/* ── Recap grid (3 cards) ── */
+.insc-recap-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.8rem;
+}
+@media (max-width: 880px) {
+  .insc-recap-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.insc-recap-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  padding: 1rem 1.1rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 5px;
+}
+.insc-recap-card-head {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+.insc-recap-card-head svg {
+  color: var(--primary);
+}
+.insc-recap-card-head span {
+  font-family: var(--font-barlow-condensed), sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--primary);
+  font-weight: 600;
+}
+.insc-recap-card dl {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  margin: 0;
+}
+.insc-recap-card dl div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+.insc-recap-card dt {
+  font-family: var(--font-barlow-condensed), sans-serif;
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.insc-recap-card dd {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  font-weight: 500;
+  word-break: break-word;
+}
+
+/* ── Extra details collapsible ── */
+.insc-extra-details {
+  margin-top: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.02);
+}
+.insc-extra-details summary {
+  cursor: pointer;
+  padding: 0.85rem 1.1rem;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+  list-style: none;
+  position: relative;
+  user-select: none;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+}
+.insc-extra-details summary::-webkit-details-marker { display: none; }
+.insc-extra-details summary::after {
+  content: '+';
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--primary);
+  font-size: 1.3rem;
+  transition: transform 0.2s;
+}
+.insc-extra-details[open] summary::after {
+  content: '−';
+}
+.insc-extra-details summary:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: -2px;
+}
+.insc-extra-details-body {
+  padding: 0 1.1rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* ── Confirms wrapper ── */
+.insc-confirms {
+  margin-top: 1.25rem;
+}
+
+/* ── Stagger animation : étendre nth-child au-delà de 10 (Famille step 3 = 14 éléments) ── */
+.insc-form .cand-panel > *:nth-child(n+11) {
+  animation-delay: 0.6s;
+}
+
+/* ── Variante combo discipline card ── */
+.insc-discipline-card--combo::before {
+  background: radial-gradient(ellipse at top right, rgba(167, 139, 250, 0.12), transparent 60%);
+}
+.insc-discipline-card--combo .insc-discipline-card-icon {
+  color: var(--insc-color-quote);
+}
+
+/* ── Sticky bottom nav mobile pour boutons (mobile ≤900px) ── */
+@media (max-width: 900px) {
+  .insc-nav-sticky {
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1rem 1rem calc(1rem + env(safe-area-inset-bottom, 0px));
+    margin: 1rem -1.25rem -3rem;
+    background: linear-gradient(180deg, rgba(11, 11, 11, 0) 0%, var(--bg) 25%);
+    z-index: 5;
+  }
+  /* Sidebar récap : caché sur mobile (sidebar disparaît) */
+  .insc-sidebar-recap { display: none; }
+
+  /* Recap grid : moins de padding pour gagner de la place */
+  .insc-recap-card {
+    padding: 0.9rem 1rem;
+  }
+}
