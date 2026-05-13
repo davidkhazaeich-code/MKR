@@ -4,6 +4,8 @@ import { useState, useEffect, useCallback, useRef } from 'react'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
+import IconLutte from '@/components/icons/IconLutte'
+import IconMMA from '@/components/icons/IconMMA'
 
 const CHEVRON = (
   <svg className="nav-trigger-arrow" viewBox="0 0 10 10" fill="none"
@@ -49,8 +51,8 @@ const ICO = {
   dayType: <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" width="18" height="18" aria-hidden="true"><circle cx="10" cy="10" r="8"/><circle cx="10" cy="10" r="2" fill="currentColor"/><line x1="10" y1="2" x2="10" y2="4"/><line x1="10" y1="16" x2="10" y2="18"/><line x1="2" y1="10" x2="4" y2="10"/><line x1="16" y1="10" x2="18" y2="10"/></svg>,
   sessions: <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" width="18" height="18" aria-hidden="true"><rect x="3" y="4" width="14" height="13" rx="1.5"/><line x1="3" y1="8" x2="17" y2="8"/><line x1="7" y1="2" x2="7" y2="5"/><line x1="13" y1="2" x2="13" y2="5"/></svg>,
   overview: <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" width="18" height="18" aria-hidden="true"><rect x="2" y="2" width="7" height="7" rx="1"/><rect x="11" y="2" width="7" height="7" rx="1"/><rect x="2" y="11" width="7" height="7" rx="1"/><rect x="11" y="11" width="7" height="7" rx="1"/></svg>,
-  mma: <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" width="18" height="18" aria-hidden="true"><path d="M5 16V11C5 8.5 6.5 6 9 5.5C11 5 13.5 5.5 15 7.5C16 9 16.5 10.5 16 12.5L15 15.5C14.5 16.5 13.5 17 12 17H5Z"/><line x1="5" y1="11" x2="16" y2="11"/></svg>,
-  lutte: <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" width="18" height="18" aria-hidden="true"><circle cx="7" cy="4" r="2"/><circle cx="14" cy="4" r="2"/><path d="M4 17L6 12L8.5 10L10 11L11.5 10L14 12L16 17" strokeLinejoin="round"/></svg>,
+  mma: <IconMMA className="nav-ico-discipline" />,
+  lutte: <IconLutte className="nav-ico-discipline" />,
   coaches: <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" width="18" height="18" aria-hidden="true"><circle cx="10" cy="6" r="3.5"/><path d="M3 18c0-4 3.5-7 7-7s7 3 7 7"/></svg>,
   dagestan: <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" width="18" height="18" aria-hidden="true"><path d="M2 16L6 6l4 5 4-8 4 13"/><circle cx="15" cy="5" r="2"/></svg>,
   gallery: <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" width="18" height="18" aria-hidden="true"><rect x="2" y="3" width="16" height="14" rx="1.5"/><circle cx="7" cy="8" r="2"/><path d="M2 14l4-4 3 3 4-5 5 6"/></svg>,
@@ -274,14 +276,7 @@ export default function Nav() {
               <Link href="/programme/mma" className="mega-prog-card">
                 <Image src="/images/action/sparring-mma-wall.webp" alt="" className="mega-prog-bg" fill sizes="(max-width: 768px) 100vw, 33vw" aria-hidden="true" />
                 <div className="mega-prog-icon" aria-hidden="true">
-                  {/* Boxing glove / fist */}
-                  <svg viewBox="0 0 26 26" fill="none" stroke="currentColor" strokeWidth="1.5">
-                    <path d="M7 20V14C7 10.5 8.5 8 11 7C13.5 6 16 6.5 18 8.5C19.5 10 20 12 19.5 14L18.5 18C18 19.5 16.5 20.5 15 20.5H7Z"/>
-                    <line x1="7" y1="14" x2="19" y2="14"/>
-                    <path d="M10 14V10.5" strokeLinecap="round"/>
-                    <path d="M13 14V10" strokeLinecap="round"/>
-                    <path d="M16 14V10.5" strokeLinecap="round"/>
-                  </svg>
+                  <IconMMA />
                 </div>
                 <h3 className="mega-prog-title">MMA</h3>
                 <p className="mega-prog-desc">Striking, clinch, takedowns, submissions. Sparring quotidien avec des combattants locaux. Transitions debout-sol.</p>
@@ -290,13 +285,7 @@ export default function Nav() {
               <Link href="/programme/lutte" className="mega-prog-card">
                 <Image src="/images/action/takedown-wrestling.webp" alt="" className="mega-prog-bg" fill sizes="(max-width: 768px) 100vw, 33vw" aria-hidden="true" />
                 <div className="mega-prog-icon" aria-hidden="true">
-                  {/* Two wrestlers grappling */}
-                  <svg viewBox="0 0 26 26" fill="none" stroke="currentColor" strokeWidth="1.5">
-                    <circle cx="8" cy="5" r="2.5"/>
-                    <circle cx="18" cy="5" r="2.5"/>
-                    <path d="M5 22L7 16L10 13L13 14L16 13L19 16L21 22" strokeLinejoin="round"/>
-                    <path d="M10 13L11.5 10L14.5 10L16 13" strokeLinejoin="round"/>
-                  </svg>
+                  <IconLutte />
                 </div>
                 <h3 className="mega-prog-title">LUTTE ADULTES</h3>
                 <p className="mega-prog-desc">Lutte libre. Méthodes daghestanaises transmises par des champions, sparring quotidien.</p>
@@ -305,12 +294,7 @@ export default function Nav() {
               <Link href="/programme/lutte-enfants" className="mega-prog-card">
                 <Image src="/images/ruslan/kids/kids-coach-cercle-mkr.webp" alt="" className="mega-prog-bg" fill sizes="(max-width: 768px) 100vw, 33vw" aria-hidden="true" />
                 <div className="mega-prog-icon" aria-hidden="true">
-                  {/* Wrestler kid */}
-                  <svg viewBox="0 0 26 26" fill="none" stroke="currentColor" strokeWidth="1.5">
-                    <circle cx="13" cy="6" r="2.5"/>
-                    <path d="M8 22L9.5 16L13 13L16.5 16L18 22" strokeLinejoin="round"/>
-                    <path d="M11 13V10H15V13" strokeLinejoin="round"/>
-                  </svg>
+                  <IconLutte />
                 </div>
                 <h3 className="mega-prog-title">JEUNESSE</h3>
                 <p className="mega-prog-desc">Programme 8-17 ans avec parent participant. Pédagogie progressive, ratio 1 coach pour 5 enfants, sécurité renforcée.</p>

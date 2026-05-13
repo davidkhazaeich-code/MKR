@@ -8513,3 +8513,24 @@ html.is-loading body {
     padding: 0.9rem 1rem;
   }
 }
+
+/* ============================================================================
+   Icônes disciplines (IconLutte / IconMMA / IconCombo) — propagation site
+   ============================================================================ */
+
+/* Version mini 18px utilisée dans le menu mobile + secondary links Nav */
+.nav-ico-discipline {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  display: inline-block;
+}
+.nav-ico-discipline svg { width: 100%; height: 100%; }
+
+/* Mega menu Programme : 26x26 défini par .mega-prog-icon déjà,
+   mais on s'assure que les SVG enfants prennent toute la place sans déformation. */
+.mega-prog-icon > svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
