@@ -7620,8 +7620,8 @@ html.is-loading body {
   position: relative;
   z-index: 1;
 }
-.insc-discipline-card--lutte .insc-discipline-card-icon { color: #4ade80; }
-.insc-discipline-card--mma .insc-discipline-card-icon { color: #f59e0b; }
+.insc-discipline-card--lutte .insc-discipline-card-icon { color: var(--insc-color-success, #4ade80); }
+.insc-discipline-card--mma .insc-discipline-card-icon { color: var(--insc-color-warning, #f59e0b); }
 .insc-discipline-card-name {
   font-family: var(--font-teko), sans-serif;
   font-size: 1.5rem;
@@ -8486,6 +8486,11 @@ html.is-loading body {
 }
 .insc-discipline-card--combo .insc-discipline-card-icon {
   color: var(--insc-color-quote);
+  /* L'icône combo a un viewBox 48x24 (2:1) et contient 2 icônes côte à côte.
+     On garde une hauteur réduite pour qu'elle reste visuellement comparable
+     aux icônes simples Lutte/MMA (36x36) au lieu de doubler la largeur. */
+  width: 56px;
+  height: 28px;
 }
 
 /* ── Sticky bottom nav mobile pour boutons (mobile ≤900px) ── */

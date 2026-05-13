@@ -16,6 +16,9 @@ import {
 } from '@/data/pricing'
 import { SESSIONS } from '@/data/sessions'
 import PlacesRestantes from '@/components/PlacesRestantes'
+import IconLutte from '@/components/icons/IconLutte'
+import IconMMA from '@/components/icons/IconMMA'
+import IconCombo from '@/components/icons/IconCombo'
 
 const DEFAULT_SESSION_ID = SESSIONS[0]?.id ?? 'aout-2026'
 const SESSION_IDS = SESSIONS.map(s => s.id)
@@ -102,35 +105,13 @@ type FormData = {
 // et niveau en-dessous d'avancé. Ruslan filtre ensuite en visio.
 const MMA_ACCEPTED_LEVELS = new Set(['avance', 'competiteur-regional', 'competiteur-national', 'competiteur-international'])
 
-// Icônes des disciplines (SVG inline, jamais d'emoji).
-const ICON_LUTTE = (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <circle cx="9" cy="5.5" r="2.2"/>
-    <circle cx="15" cy="5.5" r="2.2"/>
-    <path d="M3 21l2-7 2.5-2.5 2 1 1-1 1 1 2-1 2.5 2.5 2 7"/>
-    <path d="M11 13l1-2.2 1 2.2"/>
-  </svg>
-)
-
-const ICON_MMA = (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <path d="M7 13.5V10c0-2.6 2-4.6 4.6-4.6h.5c2.6 0 4.6 1.8 4.9 4.4l.4 3.7-.9 5.6c-.2 1-.8 1.4-1.8 1.4H9.8c-1 0-1.6-.5-1.8-1.4L7 13.5z"/>
-    <line x1="7" y1="13.5" x2="16.4" y2="13.5"/>
-    <path d="M9.5 10.5v3"/>
-    <path d="M12 9.7v3.8"/>
-    <path d="M14.5 10.5v3"/>
-  </svg>
-)
-
-const ICON_COMBO = (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <polyline points="16 3 21 3 21 8"/>
-    <line x1="4" y1="20" x2="21" y2="3"/>
-    <polyline points="21 16 21 21 16 21"/>
-    <line x1="15" y1="15" x2="21" y2="21"/>
-    <line x1="4" y1="4" x2="9" y2="9"/>
-  </svg>
-)
+// Icônes des disciplines (composants dédiés dans @/components/icons/)
+// IconLutte = vectorisation de la ref PNG (2 lutteurs en stance)
+// IconMMA = gant ouvert MMA stroke
+// IconCombo = Lutte + Gant côte à côte dans un viewBox 48x24
+const ICON_LUTTE = <IconLutte />
+const ICON_MMA = <IconMMA />
+const ICON_COMBO = <IconCombo />
 
 const INITIAL: FormData = {
   prenom: '', nom: '', dateNaissance: '', pays: '', email: '', telephone: '',
@@ -1614,11 +1595,6 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                               <span className="insc-session-card-season">{s.season} {year}</span>
                               <span className="insc-session-card-dates">{s.dates}</span>
                               <span className="insc-session-card-intensity">Intensité {s.intensity.toLowerCase()}</span>
-                              <PlacesRestantes
-                                sessionId={s.id}
-                                variant="dual"
-                                className="insc-session-card-places"
-                              />
                             </label>
                           )
                         })}
