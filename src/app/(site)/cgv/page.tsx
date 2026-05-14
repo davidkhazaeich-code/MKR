@@ -89,10 +89,13 @@ export default function CGVPage() {
           </ul>
           <p>Le parent ou responsable légal accompagnant demeure pleinement responsable du mineur pendant toute la durée du séjour, y compris en dehors des sessions d&apos;entraînement encadrées par MKR. L&apos;Organisateur fournit un encadrement spécialisé pendant les sessions Lutte enfants (coach jeunesse dédié, ratio 1 coach pour 5 enfants maximum, supervision constante).</p>
 
-          <h2>Article 11 : Droit applicable</h2>
-          <p>Les présentes CGV sont soumises au droit suisse. Tout litige sera porté devant les juridictions compétentes du canton de [À compléter], Suisse.</p>
+          <h2>Article 11 : Droit applicable et résolution des litiges</h2>
+          <p>Les présentes Conditions Générales de Vente sont régies par le droit français. La langue contractuelle est le français.</p>
+          <p>Avant toute action contentieuse, le Client est invité à contacter MKR Caucasian Camp à l&apos;adresse <a href="mailto:contact@mkrcamp.com">contact@mkrcamp.com</a> afin de tenter une résolution amiable du différend.</p>
+          <p>Conformément aux articles L611-1 et suivants du Code de la consommation, le Client consommateur peut recourir gratuitement à un médiateur de la consommation en vue de la résolution amiable du litige. Les coordonnées du médiateur compétent sont communiquées sur demande à <a href="mailto:contact@mkrcamp.com">contact@mkrcamp.com</a>. Le Client peut également utiliser la plateforme européenne de règlement en ligne des litiges accessible à l&apos;adresse <a href="https://ec.europa.eu/consumers/odr" target="_blank" rel="noopener noreferrer">ec.europa.eu/consumers/odr</a>.</p>
+          <p>À défaut de résolution amiable, tout litige relatif à la formation, à l&apos;exécution ou à l&apos;interprétation des présentes CGV sera porté devant les tribunaux français compétents. Pour les Clients consommateurs, le tribunal compétent est celui du lieu de résidence du consommateur ou du lieu d&apos;exécution de la prestation, conformément aux articles L211-3 et suivants du Code de la consommation et à l&apos;article R631-3 du même Code. Pour les Clients professionnels, le tribunal compétent est celui du siège social de MKR Caucasian Camp.</p>
 
-          <p style={{ marginTop: '2rem', fontStyle: 'italic' }}>Dernière mise à jour : avril 2026</p>
+          <p style={{ marginTop: '2rem', fontStyle: 'italic' }}>Dernière mise à jour : 14 mai 2026</p>
         </div>
       </div>
     </section>
