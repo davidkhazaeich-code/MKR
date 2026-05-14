@@ -85,6 +85,24 @@ body {
   line-height: 1.6;
 }
 
+/* ─── LIENS TEXTUELS GLOBAUX ───
+ * Tous les <a> sans classe (= contenu rédactionnel) en orange souligné.
+ * Les boutons, liens nav, cards, etc. ont des classes spécifiques et ne sont pas touchés.
+ */
+a:not([class]) {
+  color: var(--primary);
+  text-decoration: underline;
+  text-decoration-color: var(--primary);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+  transition: text-decoration-thickness 150ms ease-out, filter 150ms ease-out;
+}
+a:not([class]):hover,
+a:not([class]):focus-visible {
+  text-decoration-thickness: 2px;
+  filter: brightness(1.15);
+}
+
 /* ─── TYPOGRAPHY ─── */
 h1, h2, h3, h4, h5 {
   font-family: var(--font-teko), sans-serif;
