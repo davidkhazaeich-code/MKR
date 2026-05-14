@@ -8,8 +8,8 @@ import {
 } from '@/lib/pricing-copy'
 
 export const metadata: Metadata = {
-  title: 'Logistique Camp Daghestan et Tchétchénie : Visa, Vol, Budget | MKR',
-  description: "Guide pratique complet : visa Russie, vols depuis Paris, Bruxelles ou Genève via Istanbul vers Makhachkala (Lutte) ou Grozny (MMA), budget, assurance. Tout pour partir au Caucase en confiance.",
+  title: 'Logistique Camp Caucase : Visa, Vols, Budget | MKR',
+  description: "Visa Russie, vols Paris/Bruxelles/Genève via Istanbul vers Makhachkala (Lutte) ou Grozny (MMA), budget complet, assurance. Tout pour partir au Caucase.",
   alternates: { canonical: 'https://mkrcamp.com/logistique' },
 }
 

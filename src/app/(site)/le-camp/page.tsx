@@ -7,7 +7,7 @@ import CinematicReveal from '@/components/CinematicReveal'
 
 export const metadata: Metadata = {
   title: 'Le Camp MKR : Lutte au Daghestan, MMA en Tchétchénie',
-  description: "Camp MMA en Tchétchénie ou Lutte au Daghestan, 1 à 3 semaines d'immersion au cœur du Caucase. Coaching d'élite, hébergement, 2 repas par jour, vol intérieur depuis Istanbul inclus.",
+  description: "Camp MMA Tchétchénie ou Lutte Daghestan, 1 à 3 semaines au Caucase. Coaching local, hébergement, 2 repas/jour, vol intérieur Istanbul inclus.",
   alternates: { canonical: 'https://mkrcamp.com/le-camp' },
 }
 

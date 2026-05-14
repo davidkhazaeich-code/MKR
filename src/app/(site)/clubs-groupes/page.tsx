@@ -9,8 +9,8 @@ import FacilitatorBand from '@/components/FacilitatorBand'
 import { PRICING_TIERS, formatEUR } from '@/data/pricing'
 
 export const metadata: Metadata = {
-  title: 'Clubs et Groupes au Caucase | MKR Caucasian Camp | Lutte Daghestan et MMA Tchétchénie',
-  description: "Camp dédié pour ton club ou groupe organisé (5 à 20 personnes) au Caucase. Lutte au Daghestan, MMA en Tchétchénie ou combo sur devis. Hébergement bloc, transferts groupés, programme adapté au niveau collectif.",
+  title: 'Camp Clubs et Groupes au Caucase | MKR Caucasian Camp',
+  description: "Camp dédié à ton club ou groupe (5 à 20 personnes). Lutte au Daghestan, MMA en Tchétchénie ou combo sur devis. Hébergement bloc, devis personnalisé.",
   alternates: { canonical: 'https://mkrcamp.com/clubs-groupes' },
 }
 

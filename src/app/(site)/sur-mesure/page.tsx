@@ -11,8 +11,8 @@ import { PRICING_TIERS } from '@/data/pricing'
 const TRIO_PRICE_1WEEK_NUM = PRICING_TIERS.trio.perAdult[1].toLocaleString('fr-FR').replace(/ /g, ' ')
 
 export const metadata: Metadata = {
-  title: 'Camp Sur Mesure | MKR Caucasian Camp | Tes dates au Caucase',
-  description: 'Camp individuel sur mesure au Caucase. Lutte au Daghestan, MMA en Tchétchénie, ou combo Daghestan + Tchétchénie (sur-mesure uniquement). Tu choisis tes dates, ta durée. Délai 90 jours min.',
+  title: 'Camp Sur Mesure au Caucase | MKR Caucasian Camp',
+  description: 'Camp individuel sur mesure au Caucase. Lutte Daghestan, MMA Tchétchénie ou combo (sur-mesure uniquement). Tes dates, ta durée. Délai 90 jours min.',
   alternates: { canonical: 'https://mkrcamp.com/sur-mesure' },
 }
 

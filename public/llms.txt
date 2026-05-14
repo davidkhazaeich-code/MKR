@@ -1,9 +1,10 @@
 # MKR Caucasian Camp
 
-> Camp d'entrainement MMA et Lutte au Daghestan (Russie, Caucase), de 1 a 3 semaines.
-> Sessions adultes, famille (8-17 ans avec parent) et clubs/groupes.
-> Methode daghestanaise authentique, 9 coachs experimentes, vol interieur Istanbul-Makhachkala
-> et 2 repas/jour inclus. Fonde en 2018 par Ruslan.
+> Camps d'entrainement de combat au coeur du Caucase russe.
+> Lutte (adultes et enfants 8-17 ans) au Daghestan, MMA en Tchetchenie.
+> 4 sessions officielles par an calees sur les vacances scolaires francophones.
+> Adultes, familles et clubs. Fonde en 2018 par Ruslan.
+> Equipe francophone permanente sur place.
 
 ## Informations cles
 
@@ -11,37 +12,70 @@
 - **Site** : https://mkrcamp.com
 - **Email** : contact@mkrcamp.com
 - **WhatsApp** : +33 6 66 17 76 91
+- **Instagram** : @mkr.caucasiancamp
 - **Fonde** : 2018
-- **Langue** : Francais (equipe francophone sur place)
-- **Cible** : Athletes de combat francophones (France, Suisse, Belgique, Canada, Maroc)
-- **Discipline phare** : Lutte daghestanaise (methode Khabib Nurmagomedov)
+- **Langue** : Francais (interprete russe sur le tapis)
+- **Cible** : athletes de combat francophones (France, Suisse, Belgique, Canada, Maroc)
 
-## Session officielle 2026
+## Modele du camp (deux destinations distinctes)
 
-- **MKR Camp 2026** : 17 aout au 5 septembre 2026 (3 semaines), Daghestan, 2 900 EUR, 15 places max, adultes uniquement.
+Une session officielle = UNE destination par participant, selon la discipline choisie a l'inscription.
 
-## Formats d'inscription disponibles
+- **Lutte adultes + Lutte enfants 8-17 ans** -> Daghestan
+  - Salles a Makhachkala et Kaspiysk
+  - Vol interieur Istanbul-Makhachkala inclus
+  - Berceau du MMA mondial : Khabib Nurmagomedov, Islam Makhachev, Magomed Ankalaev
+  - Plus de 30 medailles olympiques de lutte
+  - 3 champions UFC actuels
+- **MMA** -> Tchetchenie
+  - Salles a Grozny
+  - Vol interieur Istanbul-Grozny inclus
+  - Heritage Akhmat Fight Club (Khamzat Chimaev)
+  - Niveau Avance minimum (5+ ans de pratique reguliere) ou Competiteur
+- **Combo Lutte + MMA** : disponible uniquement en Sur Mesure (sequentiel, sur devis)
 
-1. **MKR Camp 2026** (session officielle) : adultes uniquement, 17/08-05/09/2026, format collectif.
-2. **Sur Mesure** : 1 a 4 adultes (Solo/Duo/Trio/Quatuor), tes dates, duree 1/2/3 semaines, delai 90 jours min.
-3. **Famille** : parent + enfant 8-17 ans obligatoire. Sub-choix session officielle ou sur mesure.
-4. **Clubs et Groupes** : 5 a 20 personnes, devis sur mesure, dates flexibles.
+## 4 sessions officielles 2026 / 2027
 
-## Tarifs publics (EUR, tout inclus sauf vol international)
+Chaque session officielle est une fenetre de 3 semaines avec 15 places Lutte au Daghestan + 15 places MMA en Tchetchenie (exclusif). Le participant choisit 1, 2 ou 3 semaines au sein de la fenetre.
 
-- Adulte : 1 500 EUR (1 sem) / 2 200 EUR (2 sem) / 2 900 EUR (3 sem)
-- Enfant 8-17 ans (avec parent) : 1 000 EUR / 1 400 EUR / 1 900 EUR
-- Frais d'inscription : 100 EUR
+- **Ete 2026** : 17 aout au 5 septembre 2026
+- **Toussaint 2026** : 17 octobre au 7 novembre 2026
+- **Hiver 2027** : 13 fevrier au 6 mars 2027
+- **Paques 2027** : 3 au 24 avril 2027
+
+## Tarifs publics (EUR, vol international non inclus)
+
+Grille par taille de groupe :
+
+- **1 a 2 adultes (Solo / Duo)** : 1 490 EUR (1 sem) / 2 290 EUR (2 sem) / 2 790 EUR (3 sem) par adulte
+- **3 a 5 adultes (Trio a Quinquet)** : 1 390 EUR / 1 990 EUR / 2 690 EUR par adulte
+- **6 a 10 adultes (Club)** : 1 290 EUR / 1 790 EUR / 2 390 EUR par adulte
+- **11 personnes et plus (salle entiere)** : devis sur mesure
+- **Forfait Famille (1 parent + 1 enfant inclus)** : 2 590 EUR / 4 790 EUR / 6 890 EUR
+- **Enfant supplementaire** : +790 EUR / +1 580 EUR / +2 370 EUR
+- **Famille avec 2 parents** : 2 x tarif Solo/Duo + 790 EUR/enfant/sem (le 1er enfant n'est plus inclus)
+
+## 4 tunnels d'inscription
+
+1. **Session officielle** : adultes uniquement, 4 par an, format collectif
+2. **Sur Mesure** : 1 a 4 adultes (Solo/Duo/Trio/Quatuor), tes dates, delai 90 jours min
+3. **Famille** : parent + enfant 8-17 ans obligatoire (sub-choix session ou sur mesure)
+4. **Clubs et Groupes** : 5 a 20 personnes, devis sur mesure, dates flexibles
+
+## Modele de paiement
+
+L'inscription en ligne est 100% gratuite. Aucun paiement upfront, pas de Stripe, pas de PayPal, pas d'acompte 30%. Ruslan valide chaque candidature manuellement en visioconference, puis envoie le RIB pour un paiement integral du package post-visio par virement bancaire ou especes.
 
 ## Inclus dans le tarif
 
 - Hebergement complet
 - 2 repas par jour
-- 2 sessions d'entrainement par jour (matin et apres-midi)
-- Encadrement par 9 coachs locaux
-- Transfert aeroport Makhachkala vers camp (1h30)
-- **Vol interieur Istanbul vers Makhachkala**
-- Excursions culturelles (en option, sur jour de repos)
+- 2 sessions d'entrainement quotidiennes (matin et apres-midi)
+- Encadrement local
+- Transferts aeroport (1h30 Makhachkala ou 30 min Grozny)
+- Vol interieur Istanbul-Makhachkala (Lutte) ou Istanbul-Grozny (MMA)
+- Suivi preparatoire 6 semaines avant le depart
+- Excursions culturelles en option sur jours de repos
 
 ## Non inclus
 
@@ -52,58 +86,62 @@
 
 ## 3 disciplines proposees
 
-1. **MMA** : Stand-up, clinch, takedowns, ground & pound, soumissions, transitions. Sessions a 11h00 et 18h00.
-2. **Lutte adultes (libre uniquement)** : Lutte libre, leg rides, chain wrestling, funk rolls, mat returns. Sessions a 10h30 et 17h30.
-3. **Lutte enfants (8-17 ans)** : Pedagogie progressive, encadrement specialise, transmission de l'heritage daghestanais.
+1. **MMA** : Stand-up, clinch, takedowns, ground and pound, soumissions, transitions. Sessions a 11h00 et 18h00. Tchetchenie.
+2. **Lutte adultes (libre uniquement)** : Lutte libre, leg rides, chain wrestling, funk rolls, mat returns, defense de takedown. Sessions a 10h30 et 17h30. Daghestan.
+3. **Lutte enfants (8-17 ans, avec parent)** : pedagogie progressive, encadrement specialise, transmission de l'heritage daghestanais. Memes horaires que la lutte adultes.
 
-## Coachs
+## Destinations
 
-- Magomed Magomedov : Coach Lutte libre, 18 ans d'experience.
-- Khasan Akhmedov : Coach MMA, 14 ans d'experience.
-- Akhmed Bashaev : Coach Boxe (background), 20 ans d'experience.
-- Shamil Khalilov : Coach Sambo (background), 16 ans d'experience.
-
-(L'equipe complete compte 9 coachs avec assistants.)
-
-## Destination unique
-
-**Daghestan** (Federation de Russie, Caucase du Nord) : Makhachkala, Kaspiysk. Berceau du MMA mondial, 30+ medailles olympiques, 3 champions UFC actuels (Khabib Nurmagomedov, Islam Makhachev, Magomed Ankalaev), salles d'entrainement legendaires.
+- **Daghestan** (Federation de Russie, Caucase du Nord) : Makhachkala, Kaspiysk. Berceau du MMA mondial. Plus de 30 medailles olympiques de lutte. 3 champions UFC actuels (Khabib Nurmagomedov, Islam Makhachev, Magomed Ankalaev).
+- **Tchetchenie** (Federation de Russie, Caucase du Nord) : Grozny. Ecosysteme Akhmat Fight Club. Heritage Khamzat Chimaev. Salles MMA equipees cage et frappe.
 
 ## Pages principales
 
 - Accueil : https://mkrcamp.com/
-- Le Camp (1-3 semaines) : https://mkrcamp.com/le-camp
-- Programme MMA : https://mkrcamp.com/programme/mma
-- Programme Lutte : https://mkrcamp.com/programme/lutte
-- Programme Lutte Enfants : https://mkrcamp.com/programme/lutte-enfants
+- Le Camp (1 a 3 semaines) : https://mkrcamp.com/le-camp
+- Programme MMA (Tchetchenie) : https://mkrcamp.com/programme/mma
+- Programme Lutte (Daghestan) : https://mkrcamp.com/programme/lutte
+- Programme Lutte Enfants (Daghestan) : https://mkrcamp.com/programme/lutte-enfants
+- Daghestan : https://mkrcamp.com/destinations/dagestan
+- Tchetchenie : https://mkrcamp.com/destinations/tchetchenie
 - Camp Famille : https://mkrcamp.com/familles
-- MKR Camp 2026 (session) : https://mkrcamp.com/mkr-camp-2026
 - Sur Mesure : https://mkrcamp.com/sur-mesure
 - Clubs et Groupes : https://mkrcamp.com/clubs-groupes
 - Sessions et tarifs : https://mkrcamp.com/sessions
-- Daghestan (destination) : https://mkrcamp.com/destinations/dagestan
-- Coachs : https://mkrcamp.com/coachs
 - Logistique (visa, vols, budget) : https://mkrcamp.com/logistique
 - Preparation 6 semaines : https://mkrcamp.com/preparer-son-camp
 - FAQ complete : https://mkrcamp.com/faq
+- Guide Caucase (PDF gratuit) : https://mkrcamp.com/guide-caucase
 - Blog : https://mkrcamp.com/blog
 
 ## FAQ courtes (citables par IA)
 
 ### Quel niveau faut-il pour participer ?
-Minimum 2 ans de pratique reguliere en sport de combat, condition physique solide. Du serieux amateur jusqu'au professionnel.
+Minimum 2 ans de pratique reguliere en sport de combat et une condition physique solide. Pour le camp MMA en Tchetchenie, niveau Avance minimum (5+ ans) ou Competiteur exige.
 
-### Le camp est-il securise au Daghestan ?
-Oui. Equipe francophone permanente, contact d'urgence 24/7, assurance rapatriement obligatoire, briefing securite avant depart. Makhachkala et Kaspiysk sont des zones urbaines stables.
+### Lutte ou MMA, comment je choisis ?
+La Lutte se fait au Daghestan (Makhachkala, Kaspiysk), la methode des champions olympiques et UFC du Caucase Nord. Le MMA se fait en Tchetchenie (Grozny), ecosysteme Akhmat Fight Club. Une session officielle = une seule discipline par participant. Le combo Lutte + MMA est possible uniquement sur Sur Mesure (sequentiel).
+
+### Le camp est-il securise ?
+Oui. Equipe francophone permanente, contact d'urgence 24/7, assurance rapatriement obligatoire, briefing securite avant depart. Makhachkala et Grozny sont des zones urbaines stables, hors zones frontalieres recommandees par le Quai d'Orsay.
 
 ### Peut-on venir en famille avec un enfant ?
-Oui, a partir de 8 ans, parent obligatoire. Le tunnel "Famille" est dedie : programme adapte, encadrement specialise, hebergement famille.
+Oui, a partir de 8 ans, avec un parent participant obligatoire. Le tunnel Famille est dedie : programme adapte (enfant en Lutte au Daghestan), encadrement specialise, hebergement famille, tarif forfait public.
 
 ### Que comprend le prix ?
-Hebergement, 2 repas/jour, 2 sessions d'entrainement quotidiennes, transfert aeroport, vol interieur Istanbul-Makhachkala, encadrement complet. Vol international, visa et assurance voyage NON inclus.
+Hebergement, 2 repas par jour, 2 sessions d'entrainement quotidiennes, transferts aeroport, vol interieur Istanbul-Makhachkala (Lutte) ou Istanbul-Grozny (MMA), encadrement local et suivi preparatoire. Vol international, visa et assurance voyage NON inclus.
 
 ### Combien de participants par session ?
-Maximum 15 athletes pour le MKR Camp 2026 (session officielle), 1 a 4 pour le Sur Mesure, 5 a 20 pour les clubs.
+Chaque session officielle a 15 places Lutte au Daghestan + 15 places MMA en Tchetchenie (exclusif), soit 30 places au total. Sur Mesure : 1 a 4 personnes. Famille : jusqu'a 6 (parents + enfants). Clubs et Groupes : 5 a 20.
 
-### Quelle est la prochaine date ?
-17 aout au 5 septembre 2026 (session officielle MKR Camp 2026, 3 semaines, Daghestan).
+### Quelle est la prochaine session ?
+17 aout au 5 septembre 2026 (Ete 2026). Suivent Toussaint 2026 (17 octobre - 7 novembre), Hiver 2027 (13 fevrier - 6 mars) et Paques 2027 (3 - 24 avril).
+
+### Comment se passe l'inscription ?
+Inscription gratuite en ligne (formulaire 5 min, 5 etapes). Ruslan recontacte sous 48h pour caler une visio. Apres la visio, validation puis envoi du RIB pour paiement integral par virement ou especes. Pas de paiement upfront, pas de Stripe.
+
+### Quel visa pour aller au Caucase russe ?
+Visa Russie obligatoire pour les ressortissants UE. MKR fournit un questionnaire pre-rempli et une lettre d'invitation. Passeport valide 6 mois minimum apres la date de retour.
+
+### Le combo Lutte + MMA est-il possible ?
+Oui, mais uniquement en Sur Mesure : sequentiel, X jours de Lutte au Daghestan puis Y jours de MMA en Tchetchenie. Tarif sur devis personnalise. Pas possible dans le cadre d'une session officielle (15 + 15 places exclusives).

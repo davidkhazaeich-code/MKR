@@ -9,8 +9,8 @@ import DisciplineSessionFlow from '@/components/DisciplineSessionFlow'
 import { FAMILY_BASE_1WEEK_LABEL } from '@/lib/pricing-copy'
 
 export const metadata: Metadata = {
-  title: 'Programme Lutte Enfants | MKR Caucasian Camp | Lutte jeunesse au Daghestan',
-  description: "Programme de lutte adapté aux jeunes athlètes (8-17 ans avec parent). Pédagogie progressive, encadrement spécialisé, fondamentaux daghestanais transmis dans un cadre adapté.",
+  title: 'Lutte Enfants 8-17 ans au Daghestan | MKR Caucasian Camp',
+  description: "Programme de lutte pour jeunes athlètes 8-17 ans avec parent. Pédagogie progressive, encadrement spécialisé, fondamentaux daghestanais.",
   alternates: { canonical: 'https://mkrcamp.com/programme/lutte-enfants' },
 }
 

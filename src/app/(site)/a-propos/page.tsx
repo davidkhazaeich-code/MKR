@@ -5,7 +5,7 @@ import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 import CinematicReveal from '@/components/CinematicReveal'
 
 export const metadata: Metadata = {
-  title: 'À propos de MKR Caucasian Camp : notre histoire et notre mission',
+  title: 'À propos | Notre histoire et mission | MKR Caucasian Camp',
   description: "L'histoire de MKR Caucasian Camp. Pourquoi le Caucase, notre mission, notre équipe, nos partenaires.",
   alternates: { canonical: 'https://mkrcamp.com/a-propos' },
 }

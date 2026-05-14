@@ -6,7 +6,7 @@ import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 import CinematicReveal from '@/components/CinematicReveal'
 
 export const metadata: Metadata = {
-  title: 'Guide gratuit Caucase : Lutte au Daghestan, MMA en Tchetchenie | MKR',
+  title: 'Guide PDF gratuit Caucase : Lutte et MMA | MKR',
   description: "Guide complet de 20 pages pour partir t'entrainer au Caucase. Visa, vols, budget, preparation, equipement, culture. Telechargement instantane, gratuit.",
   alternates: { canonical: 'https://mkrcamp.com/guide-caucase' },
 }

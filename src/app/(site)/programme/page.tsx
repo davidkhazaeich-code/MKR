@@ -6,8 +6,8 @@ import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 import { FAMILY_BASE_PROSE, FAMILY_EXTRA_CHILD_1WEEK_LABEL } from '@/lib/pricing-copy'
 
 export const metadata: Metadata = {
-  title: 'Programme MMA en Tchétchénie et Lutte au Daghestan | MKR Caucasian Camp',
-  description: "Trois disciplines, deux destinations : Lutte adultes et Lutte enfants au Daghestan, MMA en Tchétchénie. Sparring quotidien, coaching d'élite au cœur du Caucase.",
+  title: 'Programme MMA Tchétchénie et Lutte Daghestan | MKR',
+  description: "Trois disciplines, deux destinations : Lutte adultes et enfants au Daghestan, MMA en Tchétchénie. Sparring quotidien, coaching local au Caucase.",
   alternates: { canonical: 'https://mkrcamp.com/programme' },
 }
 

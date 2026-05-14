@@ -9,8 +9,8 @@ import FacilitatorBand from '@/components/FacilitatorBand'
 import { SOLO_PRICE_1WEEK_LABEL, SOLO_PRICE_1WEEK_EUR } from '@/lib/pricing-copy'
 
 export const metadata: Metadata = {
-  title: 'MKR Camp 2026 | Session officielle 17 août - 5 sept | MKR Caucasian Camp',
-  description: `Rejoins le MKR Camp 2026, session officielle du 17 août au 5 septembre 2026 au Daghestan. Fenêtre de 3 semaines, tu choisis 1, 2 ou 3 semaines. Adultes uniquement, 15 places max. À partir de ${SOLO_PRICE_1WEEK_LABEL} tout inclus.`,
+  title: 'MKR Camp 2026 · Session 17 août - 5 sept au Daghestan',
+  description: `Session officielle 17 août - 5 septembre 2026 au Daghestan. 1, 2 ou 3 semaines. Adultes, 15 places. Dès ${SOLO_PRICE_1WEEK_LABEL} tout inclus.`,
   alternates: { canonical: 'https://mkrcamp.com/mkr-camp-2026' },
 }
 

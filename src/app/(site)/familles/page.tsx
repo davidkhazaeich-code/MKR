@@ -9,7 +9,7 @@ import FacilitatorBand from '@/components/FacilitatorBand'
 import { FAMILY_EXTRA_CHILD_1WEEK_LABEL } from '@/lib/pricing-copy'
 
 export const metadata: Metadata = {
-  title: 'Camp Famille | MKR Caucasian Camp | MMA et Lutte parent-enfant au Daghestan',
+  title: 'Camp Famille Parent-Enfant au Daghestan | MKR',
   description: "Viens t'entraîner en famille au Daghestan. Parent et enfant 8-17 ans côte à côte sur le tapis. Programme adapté, tarifs famille publics, encadrement spécialisé.",
   alternates: { canonical: 'https://mkrcamp.com/familles' },
 }

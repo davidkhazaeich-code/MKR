@@ -100,12 +100,12 @@ export default function TemoignagesPage() {
           <span className="stat-label">Sessions par an</span>
         </div>
         <div className="stat-item">
-          <span className="stat-num">30</span>
-          <span className="stat-label">Places par session</span>
+          <span className="stat-num">2</span>
+          <span className="stat-label">Destinations Caucase</span>
         </div>
         <div className="stat-item">
-          <span className="stat-num">87%</span>
-          <span className="stat-label">Taux de retour</span>
+          <span className="stat-num">2018</span>
+          <span className="stat-label">Année de fondation</span>
         </div>
       </div>
 

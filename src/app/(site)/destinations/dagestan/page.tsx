@@ -17,7 +17,7 @@ export default function DagestanPage() {
     <>
       <PageHero
         label="DAGHESTAN"
-        title="LA TERRE QUI FORGE<br/>LES CHAMPIONS"
+        title="LA TERRE QUI FORGE LES CHAMPIONS"
         subtitle="Berceau du MMA mondial. Khabib, Makhachev, et des centaines de champions olympiques de lutte."
         breadcrumb={[
           { href: '/destinations', label: 'Destinations' },

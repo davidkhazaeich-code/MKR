@@ -17,8 +17,8 @@ import { PRICING_TIERS, formatEUR } from '@/data/pricing'
 const PRICE_FROM_LABEL = `à partir de ${MIN_PRICE_PER_ADULT_LABEL}`
 
 export const metadata: Metadata = {
-  title: 'Sessions et Tarifs 2026 - 2027 | Lutte Daghestan, MMA Tchétchénie | MKR',
-  description: "Calendrier des 4 camps MMA et Lutte au Caucase : Été 2026, Toussaint 2026, Hiver 2027, Pâques 2027. Lutte au Daghestan, MMA en Tchétchénie. Prix, dates vacances scolaires, places.",
+  title: 'Sessions et Tarifs 2026-2027 Caucase | MKR Camp',
+  description: "Calendrier 4 sessions au Caucase : Été 2026, Toussaint 2026, Hiver 2027, Pâques 2027. Lutte Daghestan, MMA Tchétchénie. Prix, dates, places.",
   alternates: { canonical: 'https://mkrcamp.com/sessions' },
 }
 

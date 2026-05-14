@@ -1,34 +1,61 @@
-# TEMPORARY: block all indexing until site is ready to launch
-# TODO: when going live, replace everything below with the launch version:
-#
-# --- LAUNCH VERSION (copy below this line) ---
-# User-agent: *
-# Allow: /
-# Disallow: /inscription
-# Disallow: /merci
-#
-# # AI Search Bots - Allow for visibility
-# User-agent: GPTBot
-# Allow: /
-#
-# User-agent: OAI-SearchBot
-# Allow: /
-#
-# User-agent: ClaudeBot
-# Allow: /
-#
-# User-agent: PerplexityBot
-# Allow: /
-#
-# # AI Training Only - Block
-# User-agent: CCBot
-# Disallow: /
-#
-# User-agent: anthropic-ai
-# Disallow: /
-#
-# Sitemap: https://mkrcamp.com/sitemap.xml
-# --- END LAUNCH VERSION ---
-
 User-agent: *
+Allow: /
+Disallow: /inscription
+Disallow: /merci
+Disallow: /admin
+Disallow: /api/
+
+# AI Search visibility — ALLOW
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+# AI training only — DISALLOW
+User-agent: CCBot
 Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: cohere-ai
+Disallow: /
+
+User-agent: Bytespider
+Disallow: /
+
+User-agent: Amazonbot
+Disallow: /
+
+User-agent: Diffbot
+Disallow: /
+
+User-agent: meta-externalagent
+Disallow: /
+
+User-agent: FacebookBot
+Disallow: /
+
+Sitemap: https://mkrcamp.com/sitemap.xml

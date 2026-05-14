@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { usePathname } from 'next/navigation'
 
-const MIN_DURATION = 1700
+const MIN_DURATION = 600
 
 export default function SiteLoader() {
   const pathname = usePathname()
@@ -22,6 +22,14 @@ export default function SiteLoader() {
     const finish = () => {
       setMounted(false)
       document.documentElement.classList.remove('is-loading')
+    }
+
+    if (reducedMotion) {
+      finish()
+      return () => {
+        cancelled = true
+        document.documentElement.classList.remove('is-loading')
+      }
     }
 
     const run = async () => {

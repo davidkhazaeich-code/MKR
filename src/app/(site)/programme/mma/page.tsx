@@ -8,7 +8,7 @@ import DisciplineSessionFlow from '@/components/DisciplineSessionFlow'
 
 export const metadata: Metadata = {
   title: 'Programme MMA en Tchétchénie | MKR Caucasian Camp',
-  description: "Programme MMA complet à Grozny, Tchétchénie : techniques debout, clinch, takedowns, soumissions, transitions. Sparring quotidien avec les combattants de l'écurie Akhmat.",
+  description: "Programme MMA complet à Grozny : stand-up, clinch, takedowns, soumissions, transitions. Sparring quotidien avec les combattants Akhmat.",
   alternates: { canonical: 'https://mkrcamp.com/programme/mma' },
 }
 

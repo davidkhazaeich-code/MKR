@@ -6,8 +6,8 @@ import DestinationReveal from '@/components/DestinationReveal'
 import DestinationSafetyProtocol from '@/components/DestinationSafetyProtocol'
 
 export const metadata: Metadata = {
-  title: 'Tchétchénie : Camp MMA au cœur du Caucase | MKR Caucasian Camp',
-  description: "Tout savoir sur la Tchétchénie : salles MMA de Grozny, sécurité, culture, logistique. La terre qui a vu naître Khamzat Chimaev et la nouvelle génération du MMA mondial.",
+  title: 'Tchétchénie : Camp MMA au Caucase | MKR Caucasian Camp',
+  description: "Tout sur la Tchétchénie : salles MMA de Grozny, sécurité, culture, logistique. La terre qui a vu naître Khamzat Chimaev et la nouvelle génération MMA.",
   alternates: { canonical: 'https://mkrcamp.com/destinations/tchetchenie' },
 }
 
@@ -16,7 +16,7 @@ export default function TchetcheniePage() {
     <>
       <PageHero
         label="TCHÉTCHÉNIE"
-        title="LA TERRE QUI FORGE<br/>LA NOUVELLE GÉNÉRATION DU MMA"
+        title="LA TERRE QUI FORGE LA NOUVELLE GÉNÉRATION DU MMA"
         subtitle="Akhmat Fight Club, Khamzat Chimaev, et un écosystème MMA parmi les plus durs au monde."
         breadcrumb={[
           { href: '/destinations', label: 'Destinations' },

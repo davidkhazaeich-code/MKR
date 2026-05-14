@@ -6,7 +6,7 @@ import { SESSIONS } from '@/data/sessions'
 export const metadata: Metadata = {
   title: "Inscription · MKR Caucasian Camp",
   description:
-    "Dépose ta candidature pour rejoindre un camp d'entraînement MMA et Lutte au Caucase. Quatre sessions par an, camp sur mesure, famille ou clubs : 4 tunnels d'inscription.",
+    "Dépose ta candidature pour rejoindre un camp MMA et Lutte au Caucase. 4 sessions par an, sur mesure, famille ou clubs : 4 tunnels.",
   alternates: {
     canonical: 'https://mkrcamp.com/inscription',
   },
