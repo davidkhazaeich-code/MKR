@@ -5900,6 +5900,49 @@ h1, h2, h3, h4, h5 {
   color: var(--text-secondary);
 }
 
+/* Schéma SVG inline dans un article */
+.article-svg {
+  margin: clamp(2rem, 4vh, 3rem) 0;
+  padding: clamp(1rem, 2.5vw, 1.75rem);
+  background: var(--surface);
+  border-left: 3px solid var(--primary);
+  display: block;
+}
+.article-svg svg {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+}
+.article-svg figcaption {
+  margin-top: 0.75rem;
+  font-family: var(--font-barlow-condensed), sans-serif;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* Image illustration dans un article */
+.article-illustration {
+  margin: clamp(2rem, 4vh, 3rem) 0;
+}
+.article-illustration img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.article-illustration figcaption {
+  margin-top: 0.6rem;
+  font-family: var(--font-barlow-condensed), sans-serif;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
 /* À lire ensuite — section articles connexes */
 .blog-related {
   padding: clamp(3rem, 8vh, 5rem) 0;

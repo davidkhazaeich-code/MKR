@@ -92,6 +92,55 @@ export const BLOG_POSTS: BlogPost[] = [
 
     <p>Cet article décortique les <strong>3 piliers</strong> qui font la domination daghestanaise, ce qui est reproductible chez toi, et ce qu'un camp MKR peut concrètement t'apporter en 1 à 3 semaines.</p>
 
+    <figure class="article-svg" aria-labelledby="svg-piliers-dagestan-title">
+      <svg viewBox="0 0 800 360" role="img" aria-labelledby="svg-piliers-dagestan-title" xmlns="http://www.w3.org/2000/svg">
+        <title id="svg-piliers-dagestan-title">3 piliers qui expliquent la domination du Daghestan en MMA et lutte</title>
+        <text x="400" y="30" text-anchor="middle" fill="#1a1a1a" font-family="Barlow Condensed, sans-serif" font-size="18" font-weight="700" letter-spacing="3">POURQUOI LE DAGHESTAN DOMINE</text>
+        <text x="400" y="50" text-anchor="middle" fill="#666" font-family="Barlow Condensed, sans-serif" font-size="11" font-weight="500" letter-spacing="2">3 MILLIONS D'HABITANTS, 4 CHAMPIONS UFC ACTIFS OU RÉCENTS</text>
+        <g>
+          <rect x="20" y="80" width="240" height="36" fill="#9C2A2A"/>
+          <text x="140" y="105" text-anchor="middle" fill="#fff" font-family="Barlow Condensed, sans-serif" font-size="14" font-weight="700" letter-spacing="2">PILIER 1</text>
+        </g>
+        <g>
+          <rect x="20" y="116" width="240" height="180" fill="#1a1a1a" stroke="#9C2A2A" stroke-width="2"/>
+          <text x="140" y="148" text-anchor="middle" fill="#fff" font-family="Barlow Condensed, sans-serif" font-size="18" font-weight="700">CULTURE LUTTE</text>
+          <text x="140" y="170" text-anchor="middle" fill="#fff" font-family="Barlow Condensed, sans-serif" font-size="18" font-weight="700">MILLÉNAIRE</text>
+          <text x="140" y="205" text-anchor="middle" fill="#aaa" font-family="sans-serif" font-size="12">Lutte dès 5 ans</text>
+          <text x="140" y="225" text-anchor="middle" fill="#aaa" font-family="sans-serif" font-size="12">Tournois inter-villages</text>
+          <text x="140" y="245" text-anchor="middle" fill="#aaa" font-family="sans-serif" font-size="12">5 000h de mat-time</text>
+          <text x="140" y="265" text-anchor="middle" fill="#aaa" font-family="sans-serif" font-size="12">à 18 ans</text>
+        </g>
+        <g>
+          <rect x="280" y="80" width="240" height="36" fill="#C84B31"/>
+          <text x="400" y="105" text-anchor="middle" fill="#fff" font-family="Barlow Condensed, sans-serif" font-size="14" font-weight="700" letter-spacing="2">PILIER 2</text>
+        </g>
+        <g>
+          <rect x="280" y="116" width="240" height="180" fill="#1a1a1a" stroke="#C84B31" stroke-width="2"/>
+          <text x="400" y="148" text-anchor="middle" fill="#fff" font-family="Barlow Condensed, sans-serif" font-size="18" font-weight="700">SYSTÈME</text>
+          <text x="400" y="170" text-anchor="middle" fill="#fff" font-family="Barlow Condensed, sans-serif" font-size="18" font-weight="700">EAGLE MMA</text>
+          <text x="400" y="205" text-anchor="middle" fill="#aaa" font-family="sans-serif" font-size="12">2 sessions par jour</text>
+          <text x="400" y="225" text-anchor="middle" fill="#aaa" font-family="sans-serif" font-size="12">Sparring 4j / semaine</text>
+          <text x="400" y="245" text-anchor="middle" fill="#aaa" font-family="sans-serif" font-size="12">Débrief vidéo systématique</text>
+          <text x="400" y="265" text-anchor="middle" fill="#aaa" font-family="sans-serif" font-size="12">Compétition mensuelle</text>
+        </g>
+        <g>
+          <rect x="540" y="80" width="240" height="36" fill="#C49B3D"/>
+          <text x="660" y="105" text-anchor="middle" fill="#fff" font-family="Barlow Condensed, sans-serif" font-size="14" font-weight="700" letter-spacing="2">PILIER 3</text>
+        </g>
+        <g>
+          <rect x="540" y="116" width="240" height="180" fill="#1a1a1a" stroke="#C49B3D" stroke-width="2"/>
+          <text x="660" y="148" text-anchor="middle" fill="#fff" font-family="Barlow Condensed, sans-serif" font-size="18" font-weight="700">SÉLECTION</text>
+          <text x="660" y="170" text-anchor="middle" fill="#fff" font-family="Barlow Condensed, sans-serif" font-size="18" font-weight="700">PERMANENTE</text>
+          <text x="660" y="205" text-anchor="middle" fill="#aaa" font-family="sans-serif" font-size="12">Pression sociale</text>
+          <text x="660" y="225" text-anchor="middle" fill="#aaa" font-family="sans-serif" font-size="12">1000 lutteurs à 15 ans</text>
+          <text x="660" y="245" text-anchor="middle" fill="#aaa" font-family="sans-serif" font-size="12">10 à 25 ans</text>
+          <text x="660" y="265" text-anchor="middle" fill="#aaa" font-family="sans-serif" font-size="12">1 niveau mondial à 30</text>
+        </g>
+        <text x="400" y="335" text-anchor="middle" fill="#666" font-family="Barlow Condensed, sans-serif" font-size="11" font-weight="500" letter-spacing="2">CULTURE + SYSTÈME + SÉLECTION : LA RECETTE INCOPIABLE</text>
+      </svg>
+      <figcaption>Les 3 piliers qui produisent les champions du Caucase, croisés sur trois générations.</figcaption>
+    </figure>
+
     <h2>PILIER 1 : UNE CULTURE DE LA LUTTE MILLÉNAIRE</h2>
 
     <p>Au Daghestan, la lutte n'est pas un sport au sens occidental. C'est un fait social total. Dans les villages de montagne, chaque communauté a son lutteur emblématique. Les tournois inter-villages, organisés à chaque grande fête, sont des événements majeurs qui mobilisent toute la région. Un bon lutteur est respecté à vie. Un mauvais lutteur garde une réputation à porter.</p>
@@ -101,6 +150,11 @@ export const BLOG_POSTS: BlogPost[] = [
     <blockquote><p>La différence entre un athlète occidental moyen et un athlète daghestanais moyen ne se mesure pas en force, en explosivité ou en QI tactique. Elle se mesure en heures cumulées de combat contrôlé contre des partenaires sérieux. C'est une dette de mat-time qu'aucun stage intensif de 6 mois ne peut combler totalement.</p></blockquote>
 
     <p>Cette accumulation crée des automatismes que tu ne peux pas obtenir par drills isolés. Les bascules, les contrôles de poignet, les transitions au sol deviennent des réflexes neurologiques, pas des techniques apprises. C'est la différence entre "savoir faire une technique" et "ne pas pouvoir faire autrement".</p>
+
+    <figure class="article-illustration">
+      <img src="/images/blog/dagestan-wrestling-sparring.webp" alt="Sparring de lutte libre daghestanaise sur tapis rond traditionnel rouge ocre et navy, hangar lumineux baigné de golden hour, technique de single-leg takedown" loading="lazy" width="1600" height="900" />
+      <figcaption>Sparring de lutte libre sur tapis traditionnel à Makhachkala. La technique du single-leg que tu vois ici, un jeune Daghestanais en a fait des dizaines de milliers de répétitions avant ses 18 ans.</figcaption>
+    </figure>
 
     <h2>PILIER 2 : LE SYSTÈME EAGLE MMA</h2>
 
@@ -227,6 +281,20 @@ export const BLOG_POSTS: BlogPost[] = [
 
     <p>Le but n'est pas d'arriver au pic de forme. C'est d'arriver capable d'absorber le volume sans te blesser dès le troisième jour. Le rythme du camp est de <strong>2 sessions techniques par jour, 6 jours sur 7</strong>, avec un volume de sparring que tu ne reproduiras nulle part en Europe.</p>
 
+    <figure class="article-svg" aria-labelledby="svg-timeline-prep-title">
+      <svg viewBox="0 0 800 200" role="img" aria-labelledby="svg-timeline-prep-title" xmlns="http://www.w3.org/2000/svg">
+        <title id="svg-timeline-prep-title">Plan de préparation 6 semaines avant un camp MKR</title>
+        <line x1="40" y1="100" x2="760" y2="100" stroke="#444" stroke-width="2" stroke-dasharray="4 4"/>
+        <g><rect x="20" y="60" width="130" height="80" fill="#9C2A2A"/><text x="85" y="92" text-anchor="middle" fill="#fff" font-family="Barlow Condensed, sans-serif" font-size="13" font-weight="600" letter-spacing="2">SEMAINE 1-2</text><text x="85" y="118" text-anchor="middle" fill="#fff" font-family="Barlow Condensed, sans-serif" font-size="20" font-weight="700">REPRISE</text></g>
+        <g><rect x="165" y="55" width="130" height="90" fill="#B8332E"/><text x="230" y="87" text-anchor="middle" fill="#fff" font-family="Barlow Condensed, sans-serif" font-size="13" font-weight="600" letter-spacing="2">SEMAINE 3-4</text><text x="230" y="113" text-anchor="middle" fill="#fff" font-family="Barlow Condensed, sans-serif" font-size="20" font-weight="700">INTENSITÉ</text></g>
+        <g><rect x="310" y="50" width="130" height="100" fill="#C84B31"/><text x="375" y="82" text-anchor="middle" fill="#fff" font-family="Barlow Condensed, sans-serif" font-size="13" font-weight="600" letter-spacing="2">SEMAINE 5-6</text><text x="375" y="108" text-anchor="middle" fill="#fff" font-family="Barlow Condensed, sans-serif" font-size="20" font-weight="700">AFFÛTAGE</text></g>
+        <g><rect x="455" y="45" width="130" height="110" fill="#C49B3D"/><text x="520" y="77" text-anchor="middle" fill="#fff" font-family="Barlow Condensed, sans-serif" font-size="13" font-weight="600" letter-spacing="2">JOUR 0</text><text x="520" y="103" text-anchor="middle" fill="#fff" font-family="Barlow Condensed, sans-serif" font-size="20" font-weight="700">DÉPART</text></g>
+        <g><rect x="600" y="40" width="160" height="120" fill="#1a1a1a" stroke="#C84B31" stroke-width="2"/><text x="680" y="72" text-anchor="middle" fill="#C84B31" font-family="Barlow Condensed, sans-serif" font-size="13" font-weight="600" letter-spacing="2">JOUR 1 à 21</text><text x="680" y="100" text-anchor="middle" fill="#fff" font-family="Barlow Condensed, sans-serif" font-size="22" font-weight="700">CAMP MKR</text><text x="680" y="124" text-anchor="middle" fill="#aaa" font-family="sans-serif" font-size="11">2 sessions par jour</text></g>
+        <text x="400" y="185" text-anchor="middle" fill="#666" font-family="Barlow Condensed, sans-serif" font-size="11" font-weight="500" letter-spacing="2">6 SEMAINES POUR ARRIVER PRÊT A ABSORBER LE VOLUME</text>
+      </svg>
+      <figcaption>Plan de préparation physique recommandé sur 6 semaines avant ton départ.</figcaption>
+    </figure>
+
     <h3>Semaine 1 et 2 : Reprise et capacité aérobie</h3>
     <p>3 séances cardio par semaine en zone 2 (course, vélo, rameur) de 40 à 50 minutes, plus 2 séances de renforcement général full body (squats, tractions, pompes, gainage). Le but est de réveiller le moteur sans accumuler de fatigue.</p>
 
@@ -239,6 +307,11 @@ export const BLOG_POSTS: BlogPost[] = [
     <h2>L'ÉQUIPEMENT À EMPORTER</h2>
 
     <p>Pas de location sur place pour l'équipement personnel. Ce que tu apportes est ce que tu auras. Voici la liste exhaustive validée par les coachs sur place.</p>
+
+    <figure class="article-illustration">
+      <img src="/images/blog/prep-camp-flatlay.webp" alt="Flat-lay équipement complet à emporter pour un camp MKR au Caucase : gants 4oz et 16oz, protège-tibias, rashguards, passeport, billet Istanbul-Makhachkala" loading="lazy" width="1600" height="900" />
+      <figcaption>Tout l'équipement étalé avant de boucler le sac : les coachs ne prêtent pas, tu utilises ce que tu apportes.</figcaption>
+    </figure>
 
     <h3>Combat et protection</h3>
     <ul>
@@ -411,6 +484,11 @@ export const BLOG_POSTS: BlogPost[] = [
 
     <h2>CE QUE VIVENT RÉELLEMENT LES PARTICIPANTS MKR DEPUIS 2018</h2>
 
+    <figure class="article-illustration">
+      <img src="/images/blog/securite-makhachkala-salle.webp" alt="Athlètes occidentaux et Dagestani en pause détendue dans la salle d'entraînement MKR à Makhachkala, atmosphère professionnelle apaisée" loading="lazy" width="1600" height="900" />
+      <figcaption>Pause entre deux sessions à Makhachkala. L'ambiance que personne ne te montre dans les reportages sur le Caucase.</figcaption>
+    </figure>
+
     <p>Depuis le premier camp organisé en 2018, plus de 200 participants occidentaux sont passés par MKR. Le bilan factuel :</p>
 
     <ul>
@@ -425,6 +503,20 @@ export const BLOG_POSTS: BlogPost[] = [
     <h2>LE PROTOCOLE DE SÉCURITÉ MKR EN 5 NIVEAUX</h2>
 
     <p>Le protocole MKR encadre chaque participant depuis le départ d'Europe jusqu'au retour. Il s'articule en 5 niveaux successifs.</p>
+
+    <figure class="article-svg" aria-labelledby="svg-protocole-securite-title">
+      <svg viewBox="0 0 800 380" role="img" aria-labelledby="svg-protocole-securite-title" xmlns="http://www.w3.org/2000/svg">
+        <title id="svg-protocole-securite-title">Pyramide du protocole de sécurité MKR en 5 niveaux</title>
+        <g><polygon points="120,320 680,320 620,360 180,360" fill="#2C3E50"/><text x="400" y="338" text-anchor="middle" fill="#fff" font-family="Barlow Condensed, sans-serif" font-size="13" font-weight="600" letter-spacing="2">NIVEAU 1</text><text x="400" y="355" text-anchor="middle" fill="#fff" font-family="Barlow Condensed, sans-serif" font-size="14" font-weight="500">AVANT LE DÉPART : briefing visio, visa, assurance, certif. médical</text></g>
+        <g><polygon points="155,265 645,265 605,310 195,310" fill="#34495E"/><text x="400" y="283" text-anchor="middle" fill="#fff" font-family="Barlow Condensed, sans-serif" font-size="13" font-weight="600" letter-spacing="2">NIVEAU 2</text><text x="400" y="300" text-anchor="middle" fill="#fff" font-family="Barlow Condensed, sans-serif" font-size="14" font-weight="500">TRANSFERT : chauffeur MKR, jamais de taxi inconnu après 22h</text></g>
+        <g><polygon points="195,210 605,210 565,255 235,255" fill="#C49B3D"/><text x="400" y="228" text-anchor="middle" fill="#fff" font-family="Barlow Condensed, sans-serif" font-size="13" font-weight="600" letter-spacing="2">NIVEAU 3</text><text x="400" y="245" text-anchor="middle" fill="#fff" font-family="Barlow Condensed, sans-serif" font-size="14" font-weight="500">VIE QUOTIDIENNE : équipe francophone permanente, zones balisées</text></g>
+        <g><polygon points="235,155 565,155 525,200 275,200" fill="#C84B31"/><text x="400" y="173" text-anchor="middle" fill="#fff" font-family="Barlow Condensed, sans-serif" font-size="13" font-weight="600" letter-spacing="2">NIVEAU 4</text><text x="400" y="190" text-anchor="middle" fill="#fff" font-family="Barlow Condensed, sans-serif" font-size="14" font-weight="500">URGENCE SUR PLACE : médecin sportif sous 30 min, hôpital partenaire</text></g>
+        <g><polygon points="275,100 525,100 485,145 315,145" fill="#9C2A2A"/><text x="400" y="118" text-anchor="middle" fill="#fff" font-family="Barlow Condensed, sans-serif" font-size="13" font-weight="600" letter-spacing="2">NIVEAU 5</text><text x="400" y="135" text-anchor="middle" fill="#fff" font-family="Barlow Condensed, sans-serif" font-size="13" font-weight="500">RAPATRIEMENT : assurance, vols Istanbul-Caucase quotidiens</text></g>
+        <text x="400" y="55" text-anchor="middle" fill="#1a1a1a" font-family="Barlow Condensed, sans-serif" font-size="18" font-weight="700" letter-spacing="3">PROTOCOLE MKR</text>
+        <text x="400" y="78" text-anchor="middle" fill="#666" font-family="Barlow Condensed, sans-serif" font-size="11" font-weight="500" letter-spacing="2">5 NIVEAUX, DU DÉPART AU RETOUR</text>
+      </svg>
+      <figcaption>Le protocole 5 niveaux qui encadre chaque participant depuis l'Europe jusqu'au camp et retour.</figcaption>
+    </figure>
 
     <h3>Niveau 1 : Avant le départ</h3>
     <p>Briefing sécurité en visio avec Ruslan ou un membre de l'équipe. Vérification de l'assurance rapatriement (obligatoire), du passeport valide 6 mois minimum, du visa Russie. Communication des coordonnées du consulat de France à Moscou. Pour les profils sensibles (journalistes, doubles nationaux russes, militaires en activité), refus possible de l'inscription après évaluation au cas par cas.</p>
