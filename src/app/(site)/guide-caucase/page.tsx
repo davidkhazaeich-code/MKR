@@ -76,7 +76,8 @@ export default function GuideCaucasePage() {
                   alt="Guide Caucase ouvert sur deux pages, couverture et sommaire"
                   width={800}
                   height={600}
-                  loading="lazy"
+                  loading="eager"
+                  fetchPriority="high"
                   className="section-photo-img"
                   style={{ width: '100%', maxWidth: '520px', display: 'block', margin: '0 auto' }}
                 />
@@ -101,7 +102,7 @@ export default function GuideCaucasePage() {
                   alt="Couverture du Guide Caucase MKR"
                   width={400}
                   height={600}
-                  loading="lazy"
+                  loading="eager"
                   className="section-photo-img"
                   style={{ maxWidth: '280px', margin: '0 auto', display: 'block' }}
                 />
