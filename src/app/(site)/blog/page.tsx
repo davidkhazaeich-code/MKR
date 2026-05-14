@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import PageHero from '@/components/PageHero'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
+import { BLOG_POSTS } from '@/data/blog'
 
 export const metadata: Metadata = {
   title: 'Blog MKR Caucasian Camp : MMA, Lutte et Caucase',
@@ -9,61 +10,9 @@ export const metadata: Metadata = {
   alternates: { canonical: 'https://mkrcamp.com/blog' },
 }
 
-const ARTICLES = [
-  {
-    slug: 'pourquoi-le-dagestan-domine-le-mma',
-    title: 'Pourquoi le Daghestan domine le MMA mondial',
-    excerpt: "Analyse des méthodes d'entraînement, de la culture et du système qui produit les meilleurs fighters de la planète.",
-    date: '15 mars 2026',
-    category: 'Culture',
-    featured: true,
-    img: '/images/blog/dagestan-mma.webp',
-  },
-  {
-    slug: 'preparer-son-premier-camp',
-    title: 'Comment préparer son premier camp au Caucase',
-    excerpt: "Guide pratique : condition physique, équipement, mindset. Tout ce qu'il faut savoir avant de partir.",
-    date: '28 février 2026',
-    category: 'Préparation',
-    img: '/images/blog/prep-camp.webp',
-  },
-  {
-    slug: 'lutte-daghestanaise-guide-complet',
-    title: 'La lutte daghestanaise : guide complet',
-    excerpt: "Techniques, histoire et philosophie de la lutte au Daghestan. Pourquoi ces méthodes sont supérieures.",
-    date: '10 février 2026',
-    category: 'Technique',
-    img: '/images/blog/lutte-guide.webp',
-  },
-  {
-    slug: 'securite-dagestan-2026',
-    title: 'Sécurité au Daghestan en 2026 : la réalité du terrain',
-    excerpt: "État des lieux factuel. Ce que disent les autorités, ce que vivent les athlètes sur place.",
-    date: '25 janvier 2026',
-    category: 'Logistique',
-    img: '/images/blog/securite-dagestan.webp',
-  },
-  {
-    slug: 'nutrition-athlete-combat',
-    title: "Nutrition d'un athlète de combat au Caucase",
-    excerpt: "Ce qu'on mange pendant le camp. Cuisine caucasienne, protéines et régime adapté à l'effort.",
-    date: '8 janvier 2026',
-    category: 'Préparation',
-    img: '/images/blog/nutrition.webp',
-  },
-  {
-    slug: 'khabib-methode-entrainement',
-    title: "La méthode d'entraînement de Khabib",
-    excerpt: "Analyse de la préparation de Khabib Nurmagomedov. Ce que le camp MKR partage avec ses méthodes.",
-    date: '20 décembre 2025',
-    category: 'Culture',
-    img: '/images/blog/khabib-methode.webp',
-  },
-]
-
 export default function BlogPage() {
-  const featured = ARTICLES.find(a => a.featured)
-  const rest = ARTICLES.filter(a => !a.featured)
+  const featured = BLOG_POSTS.find(a => a.featured)
+  const rest = BLOG_POSTS.filter(a => !a.featured)
 
   return (
     <>

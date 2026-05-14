@@ -3,6 +3,8 @@ import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 import CinematicReveal from '@/components/CinematicReveal'
+import DisciplineTechniques from '@/components/DisciplineTechniques'
+import DisciplineSessionFlow from '@/components/DisciplineSessionFlow'
 
 export const metadata: Metadata = {
   title: 'Programme MMA en Tchétchénie | MKR Caucasian Camp',
@@ -98,48 +100,12 @@ export default function ProgrammeMMAPage() {
         tagline="Position dominante, soumissions, transitions. Le MMA tchétchène commence par le sol."
       />
 
-      {/* Techniques grid */}
-      <section className="logi-section fx-texture-basalt fx-mask-b fx-stack-3">
-        <div className="inner">
-          <div className="logi-header reveal">
-            <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>TECHNIQUES</span>
-            <h2>CE QUE TU VAS TRAVAILLER</h2>
-          </div>
-          <div className="grid-3x2">
-            {TECHNIQUES.map((t, i) => (
-              <div key={i} className="content-card fx-grain fx-corner-glow reveal" style={{ transitionDelay: `${i * 0.06}s` }}>
-                <h3 className="card-title" style={{ fontSize: '0.95rem' }}>{t.title}</h3>
-                <p className="card-body" style={{ fontSize: '0.85rem' }}>{t.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <DisciplineTechniques items={TECHNIQUES} />
 
-      {/* Session type timeline */}
-      <section className="logi-section fx-grid fx-mask-c fx-stack-4 fx-glow">
-        <div className="fx-glow-orb fx-glow-orb--left" />
-        <div className="inner">
-          <div className="logi-header reveal">
-            <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>SESSION TYPE</span>
-            <h2>DÉROULEMENT D&apos;UNE SESSION</h2>
-          </div>
-          <div className="daily-timeline">
-            {SESSION_FLOW.map((step, i) => (
-              <div key={i} className="daily-step reveal" style={{ transitionDelay: `${i * 0.06}s` }}>
-                <span className="daily-time">{step.time}</span>
-                <div className="daily-step-content">
-                  <h3>{step.activity}</h3>
-                  <p>{step.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-          <p className="logi-updated" style={{ marginTop: '1.5rem', textAlign: 'center' }}>
-            Horaires officiels MMA : <strong>matin 11h00</strong> et <strong>après-midi 18h00</strong>. Pas de chevauchement avec les sessions Lutte.
-          </p>
-        </div>
-      </section>
+      <DisciplineSessionFlow
+        steps={SESSION_FLOW}
+        hoursNote={<>Horaires officiels MMA : <strong>matin 11h00</strong> et <strong>après-midi 18h00</strong>. Pas de chevauchement avec les sessions Lutte.</>}
+      />
 
       <SectionCTA
         primaryHref="/inscription?type=session"

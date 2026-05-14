@@ -114,20 +114,6 @@ export default function SessionsPage() {
             {SESSIONS.map((s, i) => (
               <article key={i} id={s.id} className="session-card fx-grain fx-corner-glow reveal" style={{ transitionDelay: s.delay, scrollMarginTop: '120px' }}>
                 <div className="session-month-bg" aria-hidden="true">{s.month}</div>
-                <div className="session-status-badge" data-status={s.status} style={{ display: 'flex', flexDirection: 'column', gap: '0.3rem', alignItems: 'flex-end' }}>
-                  <PlacesRestantes
-                    sessionId={s.id}
-                    discipline="lutte"
-                    fallbackMax={s.maxCapacity}
-                    variant="badge"
-                  />
-                  <PlacesRestantes
-                    sessionId={s.id}
-                    discipline="mma"
-                    fallbackMax={s.maxCapacity}
-                    variant="badge"
-                  />
-                </div>
                 <div className="session-card-body">
                   <span className="session-season">{s.season}</span>
                   <h3 className="session-name" dangerouslySetInnerHTML={{ __html: s.name.replace('\n', '<br/>') }} />
@@ -137,15 +123,6 @@ export default function SessionsPage() {
                   <div className="session-meta-item">
                     <span className="session-meta-label">Intensité</span>
                     <span className="session-meta-value">{s.intensity}</span>
-                  </div>
-                  <div className="session-meta-item">
-                    <span className="session-meta-label">Places</span>
-                    <span className="session-meta-value">
-                      <PlacesRestantes
-                        sessionId={s.id}
-                        variant="dual"
-                      />
-                    </span>
                   </div>
                   <div className="session-meta-item">
                     <span className="session-meta-label">Durée</span>
@@ -159,6 +136,20 @@ export default function SessionsPage() {
                     <div className="session-price-sub">Tarif par adulte selon la taille du groupe et la durée. Solo/Duo : {SOLO_PRICE_1WEEK_LABEL} / 1 sem. Club 6-10 : {formatEUR(PRICING_TIERS.club.perAdult[1])} / 1 sem. Forfait Famille (1P+1E) à partir de {FAMILY_BASE_1WEEK_LABEL} la semaine.</div>
                   </div>
                   <Link href={`/inscription?type=session&session=${s.id}`} className="session-cta">POSTULER</Link>
+                  <div className="session-places-bottom" data-status={s.status}>
+                    <PlacesRestantes
+                      sessionId={s.id}
+                      discipline="lutte"
+                      fallbackMax={s.maxCapacity}
+                      variant="badge"
+                    />
+                    <PlacesRestantes
+                      sessionId={s.id}
+                      discipline="mma"
+                      fallbackMax={s.maxCapacity}
+                      variant="badge"
+                    />
+                  </div>
                 </div>
               </article>
             ))}

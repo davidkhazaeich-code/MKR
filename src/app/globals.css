@@ -1288,6 +1288,18 @@ h1, h2, h3, h4, h5 {
 }
 .session-cta:hover { background: var(--cta-hover); }
 
+/* Places restantes sous le bouton POSTULER (2 badges Lutte/MMA) */
+.session-places-bottom {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  justify-content: center;
+}
+.session-places-bottom > * {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
 /* ═══════════════════════════════════════════════
    TIMELINE -VOTRE PARCOURS
 ═══════════════════════════════════════════════ */

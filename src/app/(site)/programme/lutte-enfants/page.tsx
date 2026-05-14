@@ -4,6 +4,8 @@ import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 import CinematicReveal from '@/components/CinematicReveal'
+import DisciplineTechniques from '@/components/DisciplineTechniques'
+import DisciplineSessionFlow from '@/components/DisciplineSessionFlow'
 import { FAMILY_BASE_1WEEK_LABEL } from '@/lib/pricing-copy'
 
 export const metadata: Metadata = {
@@ -125,48 +127,12 @@ export default function ProgrammeLutteEnfantsPage() {
         tagline="Fondamentaux d&apos;abord. Confiance, technique, respect du tapis. Tout commence là."
       />
 
-      {/* Piliers */}
-      <section className="logi-section fx-texture-basalt fx-mask-b fx-stack-3">
-        <div className="inner">
-          <div className="logi-header reveal">
-            <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>PILIERS</span>
-            <h2>NOTRE APPROCHE</h2>
-          </div>
-          <div className="grid-3x2">
-            {PILLARS.map((p, i) => (
-              <div key={i} className="content-card fx-grain fx-corner-glow reveal" style={{ transitionDelay: `${i * 0.06}s` }}>
-                <h3 className="card-title" style={{ fontSize: '0.95rem' }}>{p.title}</h3>
-                <p className="card-body" style={{ fontSize: '0.85rem' }}>{p.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <DisciplineTechniques items={PILLARS} label="PILIERS" title="NOTRE APPROCHE" />
 
-      {/* Session type */}
-      <section className="logi-section fx-grid fx-mask-c fx-stack-4 fx-glow">
-        <div className="fx-glow-orb fx-glow-orb--right" />
-        <div className="inner">
-          <div className="logi-header reveal">
-            <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>SESSION TYPE</span>
-            <h2>DÉROULEMENT D&apos;UNE SESSION</h2>
-          </div>
-          <div className="daily-timeline">
-            {SESSION_FLOW.map((step, i) => (
-              <div key={i} className="daily-step reveal" style={{ transitionDelay: `${i * 0.06}s` }}>
-                <span className="daily-time">{step.time}</span>
-                <div className="daily-step-content">
-                  <h3>{step.activity}</h3>
-                  <p>{step.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-          <p className="logi-updated" style={{ marginTop: '1.5rem', textAlign: 'center' }}>
-            Sessions matin à 10h30 et après-midi à 17h30. Pas de chevauchement avec les sessions adultes.
-          </p>
-        </div>
-      </section>
+      <DisciplineSessionFlow
+        steps={SESSION_FLOW}
+        hoursNote={<>Sessions matin à <strong>10h30</strong> et après-midi à <strong>17h30</strong>. Pas de chevauchement avec les sessions adultes.</>}
+      />
 
       {/* Pour les parents : version compacte, le détail vit sur /familles */}
       <section className="logi-section fx-texture-concrete fx-mask-d fx-stack-5">
