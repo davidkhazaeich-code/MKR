@@ -89,10 +89,11 @@ export default function PlacesRestantes({
   }, [sessionId])
 
   // Variant DUAL : 2 mini-pills cote a cote (Lutte 12/15 · MMA 8/15)
+  // Toujours sur une seule ligne, sans encadré coloré : juste dot + texte coloré.
   if (variant === 'dual') {
     if (!data) {
       return (
-        <span className={className} style={{ color: 'var(--text-muted)', fontSize: '0.72rem' }}>
+        <span className={className} style={{ color: 'var(--text-muted)', fontSize: '0.72rem', whiteSpace: 'nowrap' }}>
           Chargement places…
         </span>
       )
@@ -100,10 +101,19 @@ export default function PlacesRestantes({
     return (
       <span
         className={className}
-        style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', flexWrap: 'wrap' }}
+        style={{
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: '0.45rem',
+          flexWrap: 'nowrap',
+          whiteSpace: 'nowrap',
+          // Pour les containers très étroits (ex : mobile portrait), on autorise
+          // une légère réduction font-size via clamp pour rester sur 1 ligne.
+          fontSize: 'clamp(0.62rem, 1.8vw, 0.72rem)',
+        }}
       >
         <DualPill label="Lutte" places={data.lutte} />
-        <span style={{ color: 'var(--text-muted)', fontSize: '0.7rem' }}>·</span>
+        <span style={{ color: 'var(--text-muted)', opacity: 0.6 }}>·</span>
         <DualPill label="MMA" places={data.mma} />
       </span>
     )
@@ -224,21 +234,19 @@ function DualPill({ label, places }: { label: string; places: DisciplinePlaces }
   const isFull = places.is_full
   const isLimited = places.status === 'limited'
   const color = isFull ? '#ef4444' : isLimited ? '#fbbf24' : '#4ade80'
+  // Pas d'encadré coloré : juste un dot coloré + texte coloré, sur 1 ligne forcée.
   return (
     <span
       style={{
         display: 'inline-flex',
         alignItems: 'center',
         gap: '0.3rem',
-        padding: '0.18rem 0.55rem',
-        borderRadius: 999,
-        fontSize: '0.7rem',
+        padding: 0,
         fontWeight: 700,
         letterSpacing: '0.04em',
         textTransform: 'uppercase',
-        background: `${color}22`,
         color,
-        border: `1px solid ${color}66`,
+        whiteSpace: 'nowrap',
       }}
     >
       <span
@@ -248,6 +256,7 @@ function DualPill({ label, places }: { label: string; places: DisciplinePlaces }
           borderRadius: '50%',
           background: 'currentColor',
           display: 'inline-block',
+          flexShrink: 0,
         }}
       />
       {label}{' '}
