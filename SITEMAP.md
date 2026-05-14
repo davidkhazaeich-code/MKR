@@ -623,11 +623,17 @@ mkrcamp.com/
 
 ---
 
-### 📥 `/guide-dagestan` — Guide PDF gratuit
-**Fichier** : `src/app/(site)/guide-dagestan/page.tsx`
-**Tableau** : `GUIDE_CONTENTS` (l.13) : 6 items (Visa, Vols, Budget, Prep, Équipement, Conseils)
-**Composant** : `<GuideForm />` (formulaire email simple)
-**Sections** : PageHero · CinematicReveal · Layout split GUIDE_CONTENTS + GuideForm
+### 📥 `/guide-caucase` — Guide PDF gratuit (Daghestan + Tchétchénie)
+**Fichier** : `src/app/(site)/guide-caucase/page.tsx`
+**Migration 2026-05-14** : ancienne route `/guide-dagestan` supprimée + redirect 301 dans `next.config.ts`. Le guide couvre désormais les 2 destinations (Daghestan/Lutte + Tchétchénie/MMA).
+**Tableaux locaux** : `GUIDE_CONTENTS` (6 items : Visa, Vols, Budget, Prep, Équipement, Culture), `PERSONAS` (3 micro-personas Solo/Famille/Club), `FAQ_QUICK` (4 Q/R), `TESTIMONIAL_QUICK` (2 quotes)
+**Composant** : `<GuideForm />` async (fetch POST `/api/guide-caucase`, capture Supabase `guide_leads`, retourne `downloadUrl`, auto-open PDF en nouvel onglet, fallback bouton, honeypot, UTM tracking via `useSearchParams`)
+**Sections** : PageHero · Mockup open-book + form (layout split GUIDE_CONTENTS + form sticky) · CinematicReveal "DEUX TERRES DE COMBAT" · Pour qui c'est (3 personas) · Sneak peek (3 thumbnails) · 2 témoignages courts · FAQ rapide (4 Q/R) · Form sticky bas
+**JSON-LD** : `DigitalDocument` ajouté (lead magnet declarable)
+**PDF source** : `docs/guide-caucase/guide.html` + `docs/guide-caucase/styles/print.css` + `docs/guide-caucase/build.sh` (WeasyPrint 68.1)
+**PDF livré** : `public/guide-caucase.pdf` (20 pages A4 portrait, 2.2 MB, palette MKR)
+**Backend** : route `POST /api/guide-caucase` (`src/app/api/guide-caucase/route.ts`) → table Supabase `guide_leads` (projet `bgwvrzgnoqlqqrvflwav`)
+**Images** : 5 visuels landing (`public/images/guide-caucase/`) + 7 chapter openers (`public/images/guide-caucase/pdf-internal/`)
 
 ---
 
@@ -1115,6 +1121,28 @@ GEO = { latitude: 42.9849, longitude: 47.5047, country: 'RU', region: 'Daghestan
 | `components/Nav.tsx` | menu mobile accordion Programme |
 | `app/sitemap.ts` | URL `/familles` priority 0.85 |
 
+### Guide Caucase (lead magnet PDF 20 pages, mai 2026)
+| Fichier | Forme |
+|---|---|
+| `src/app/(site)/guide-caucase/page.tsx` | landing page enrichie (mockup, personas, sneak peek, FAQ, témoignages, form sticky) |
+| `src/app/api/guide-caucase/route.ts` | API POST capture lead Supabase `guide_leads` + Slack notif |
+| `src/components/GuideForm.tsx` | form async honeypot UTM, ouvre PDF instant + fallback bouton download |
+| `src/lib/supabase-admin.ts` | client Supabase service_role (réutilisé depuis `/api/inscription`) |
+| `next.config.ts` | redirect 301 `/guide-dagestan` → `/guide-caucase` |
+| `src/app/sitemap.ts` | URL `/guide-caucase` priority 0.6 |
+| `src/app/(site)/logistique/page.tsx` | SectionCTA ghostHref `/guide-caucase` |
+| `src/app/(site)/preparer-son-camp/page.tsx` | CTA inline + SectionCTA ghostHref `/guide-caucase` |
+| `src/components/Nav.tsx` | mega menu Destination + menu mobile accordion |
+| `public/guide-caucase.pdf` | livrable PDF 20 pages, 2.2 MB, servi statiquement |
+| `docs/guide-caucase/guide.html` | source HTML du PDF |
+| `docs/guide-caucase/styles/print.css` | CSS print A4 portrait avec palette MKR |
+| `docs/guide-caucase/build.sh` | script weasyprint pour rebuild |
+| `public/images/guide-caucase/*.webp` | 5 visuels landing (cover, mockup, 3 thumbnails) |
+| `public/images/guide-caucase/pdf-internal/*.webp` | 7 chapter openers PDF |
+| Supabase table `guide_leads` (projet `bgwvrzgnoqlqqrvflwav`) | capture leads, unique index (email, source) |
+**⚠️** Si on rebuild le PDF, lancer `./docs/guide-caucase/build.sh` puis commit le nouveau `public/guide-caucase.pdf`.
+**⚠️** `SUPABASE_SERVICE_ROLE_KEY` est vide dans `.env.local` local : l'API fonctionne uniquement en prod Vercel ou avec la clé renseignée.
+
 ### Photos Ruslan — mapping audience/page
 | Photo | Usage actuel |
 |---|---|
@@ -1133,7 +1161,7 @@ GEO = { latitude: 42.9849, longitude: 47.5047, country: 'RU', region: 'Daghestan
 
 ## 7 — Conventions importantes (rules)
 
-1. **Pas de Tchétchénie / Grozny** — supprimé partout (CEO 2026-04-30). Ne pas réintroduire.
+1. **2 destinations** : Daghestan (Lutte adultes + Lutte enfants, vol Istanbul-Makhachkala) et Tchétchénie (MMA, vol Istanbul-Grozny). Une session officielle = une destination par participant. Combo Daghestan + Tchétchénie uniquement en Sur Mesure. *(refonte 2026-05-12, remplace l'ancienne règle "pas de Tchétchénie")*
 2. **3 disciplines proposées** : Lutte adultes, Lutte enfants, MMA. **Pas** Boxe ni Sambo en discipline proposée. Les coachs Boxe/Sambo restent affichés sur `/coachs` (background).
 3. **Camp 1 à 3 semaines** dans la copy publique (pas "3 semaines" en absolu).
 4. **9 coachs / 8 athlètes** stats publiques.
@@ -1175,4 +1203,4 @@ GEO = { latitude: 42.9849, longitude: 47.5047, country: 'RU', region: 'Daghestan
 
 ---
 
-*Dernière régénération : 2026-04-30 — après refactor CEO (Tchétchénie supprimée, 3 disciplines, 1 session unique, +33 phone).*
+*Dernière régénération : 2026-05-14 — ajout Guide Caucase (PDF 20 pages + landing + capture Supabase `guide_leads` + redirect 301 /guide-dagestan).*
