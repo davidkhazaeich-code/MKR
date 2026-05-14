@@ -3,6 +3,7 @@ import PageHero from '@/components/PageHero'
 import FAQAccordion from '@/components/FAQAccordion'
 import SectionCTA from '@/components/SectionCTA'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
+import RefundPolicyTable from '@/components/RefundPolicyTable'
 
 export const metadata: Metadata = {
   title: "Comment ça marche : 6 étapes pour rejoindre le camp | MKR",
@@ -94,14 +95,7 @@ export default function CommentCaMarchePage() {
             <h2>POLITIQUE D&apos;ANNULATION</h2>
           </div>
           <div className="reveal" style={{ maxWidth: '600px' }}>
-            <table className="table-tonal">
-              <thead><tr><th>Délai avant le camp</th><th>Remboursement</th></tr></thead>
-              <tbody>
-                <tr><td>Plus de 60 jours</td><td style={{ color: '#22c55e' }}>100%</td></tr>
-                <tr><td>30 à 60 jours</td><td style={{ color: '#facc15' }}>50%</td></tr>
-                <tr><td>Moins de 30 jours</td><td style={{ color: '#ef4444' }}>Non remboursable</td></tr>
-              </tbody>
-            </table>
+            <RefundPolicyTable />
           </div>
         </div>
       </section>

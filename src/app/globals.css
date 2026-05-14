@@ -5780,6 +5780,198 @@ h1, h2, h3, h4, h5 {
 .blog-article-hero .section-photo-img {
   max-height: 480px;
 }
+.blog-article-category {
+  background: var(--primary);
+  color: #fff;
+  padding: 0.2rem 0.6rem;
+  letter-spacing: 0.14em;
+}
+.blog-article-byline {
+  font-family: var(--font-barlow-condensed), sans-serif;
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 2rem;
+}
+.blog-article-updated {
+  color: var(--text-secondary);
+}
+
+/* TL;DR — bloc à retenir en tête d'article */
+.blog-tldr {
+  background: var(--surface);
+  border-left: 4px solid var(--primary);
+  padding: clamp(1.25rem, 2.5vw, 1.75rem) clamp(1.25rem, 3vw, 2rem);
+  margin: 0 0 2.5rem;
+}
+.blog-tldr-label {
+  font-family: var(--font-barlow-condensed), sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--primary);
+  margin-bottom: 0.75rem;
+}
+.blog-tldr-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+.blog-tldr-list li {
+  position: relative;
+  padding-left: 1.4rem;
+  font-size: 1rem;
+  line-height: 1.55;
+  color: var(--text-primary);
+}
+.blog-tldr-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.55rem;
+  width: 0.55rem;
+  height: 0.55rem;
+  background: var(--primary);
+  border-radius: 50%;
+}
+
+/* FAQ inline en bas d'article */
+.blog-faq {
+  margin-top: clamp(3rem, 6vh, 4.5rem);
+  padding-top: clamp(2rem, 4vh, 3rem);
+  border-top: 1px solid var(--border, rgba(255, 255, 255, 0.08));
+}
+.blog-faq-title {
+  font-size: clamp(1.4rem, 3vw, 1.9rem);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 1.5rem;
+}
+.blog-faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.blog-faq-item {
+  background: var(--surface);
+  padding: 1rem 1.25rem;
+  transition: background 200ms linear;
+}
+.blog-faq-item[open] {
+  background: var(--surface-lowest, var(--surface));
+}
+.blog-faq-question {
+  font-weight: 600;
+  cursor: pointer;
+  list-style: none;
+  position: relative;
+  padding-right: 1.75rem;
+  font-size: 1rem;
+  line-height: 1.4;
+  color: var(--text-primary);
+}
+.blog-faq-question::-webkit-details-marker {
+  display: none;
+}
+.blog-faq-question::after {
+  content: '+';
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.3rem;
+  font-weight: 400;
+  color: var(--primary);
+  transition: transform 200ms linear;
+}
+.blog-faq-item[open] .blog-faq-question::after {
+  content: '\2212';
+}
+.blog-faq-answer {
+  padding-top: 0.85rem;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+/* À lire ensuite — section articles connexes */
+.blog-related {
+  padding: clamp(3rem, 8vh, 5rem) 0;
+  background: var(--surface-lowest, var(--surface));
+}
+.blog-related-header {
+  margin-bottom: clamp(1.5rem, 3vh, 2.5rem);
+}
+.blog-related-label {
+  display: block;
+  font-family: var(--font-barlow-condensed), sans-serif;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--primary);
+  margin-bottom: 0.5rem;
+}
+.blog-related-title {
+  font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.blog-related-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(1.25rem, 2.5vw, 2rem);
+}
+@media (max-width: 880px) { .blog-related-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .blog-related-grid { grid-template-columns: 1fr; } }
+.blog-related-card {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 250ms ease-out;
+}
+.blog-related-card:hover {
+  transform: translateY(-4px);
+}
+.blog-related-img {
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+.blog-related-img img {
+  transition: transform 400ms ease-out;
+  filter: grayscale(100%) contrast(1.08) brightness(0.85);
+}
+.blog-related-card:hover .blog-related-img img {
+  transform: scale(1.05);
+}
+.blog-related-category {
+  display: inline-block;
+  font-family: var(--font-barlow-condensed), sans-serif;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--primary);
+  margin-bottom: 0.4rem;
+}
+.blog-related-card-title {
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  line-height: 1.15;
+  margin-bottom: 0.5rem;
+}
+.blog-related-excerpt {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
 
 /* ─── GALERIE ─── */
 .galerie-section {

@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
 import DestinationReveal from '@/components/DestinationReveal'
+import DestinationSafetyProtocol from '@/components/DestinationSafetyProtocol'
 
 export const metadata: Metadata = {
   title: 'Tchétchénie : Camp MMA au cœur du Caucase | MKR Caucasian Camp',
@@ -59,46 +60,25 @@ export default function TchetcheniePage() {
       </section>
 
       {/* Section sécurité */}
-      <section className="dag-security fx-texture-concrete fx-glow fx-glow-breathe fx-mask-b fx-stack-2">
-        <div className="fx-glow-orb" />
-        <div className="inner">
-          <div className="reveal">
-            <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>SÉCURITÉ</span>
-            <h2 style={{ fontSize: 'clamp(1.5rem, 3.5vw, 2.2rem)', textTransform: 'uppercase' }}>
-              LA QUESTION QUE TOUT LE MONDE POSE
-            </h2>
-          </div>
-          <div className="layout-split reveal" style={{ marginTop: '2rem' }}>
-            <div>
-              <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6' }}>
-                Pas de formule creuse. La réalité du terrain en 2026 :
-                Grozny est aujourd&apos;hui l&apos;une des villes les plus sûres du Caucase en termes de criminalité urbaine.
-                Police visible, vie nocturne quasi inexistante, hospitalité forte envers les sportifs étrangers.
-              </p>
-              <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1rem' }}>
-                Le Quai d&apos;Orsay maintient une vigilance régionale. MKR opère uniquement dans les zones urbaines
-                et les salles partenaires accréditées. Chaque participant reçoit un briefing détaillé.
-              </p>
-              <p className="pull-quote">
-                &laquo; Le respect pour les combattants est total. Sur le tapis, on ne te fait aucun cadeau. &raquo;
-              </p>
-              <span style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>Mehdi R. · MMA Pro · Marseille</span>
-            </div>
-            <div>
-              <div className="content-card">
-                <h3 className="card-title">PROTOCOLE MKR</h3>
-                <ul className="logi-check-list">
-                  <li>Contact d&apos;urgence 24/7 sur place</li>
-                  <li>Équipe francophone permanente</li>
-                  <li>Assurance rapatriement obligatoire</li>
-                  <li>Briefing sécurité avant départ</li>
-                  <li>Suivi Quai d&apos;Orsay en continu</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <DestinationSafetyProtocol
+        narrative={
+          <>
+            <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6' }}>
+              Pas de formule creuse. La réalité du terrain en 2026 :
+              Grozny est aujourd&apos;hui l&apos;une des villes les plus sûres du Caucase en termes de criminalité urbaine.
+              Police visible, vie nocturne quasi inexistante, hospitalité forte envers les sportifs étrangers.
+            </p>
+            <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1rem' }}>
+              Le Quai d&apos;Orsay maintient une vigilance régionale. MKR opère uniquement dans les zones urbaines
+              et les salles partenaires accréditées. Chaque participant reçoit un briefing détaillé.
+            </p>
+          </>
+        }
+        testimonial={{
+          quote: "Le respect pour les combattants est total. Sur le tapis, on ne te fait aucun cadeau.",
+          author: 'Mehdi R. · MMA Pro · Marseille',
+        }}
+      />
 
       {/* Lieux d'entraînement */}
       <section className="logi-section fx-grid fx-stack-3">

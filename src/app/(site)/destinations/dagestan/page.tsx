@@ -4,6 +4,7 @@ import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
 import DestinationReveal from '@/components/DestinationReveal'
 import CinematicReveal from '@/components/CinematicReveal'
+import DestinationSafetyProtocol from '@/components/DestinationSafetyProtocol'
 
 export const metadata: Metadata = {
   title: 'Daghestan : Camps MMA et Lutte au cœur du Caucase | MKR',
@@ -59,47 +60,25 @@ export default function DagestanPage() {
         </div>
       </section>
 
-      {/* Section sécurité */}
-      <section className="dag-security fx-texture-concrete fx-glow fx-glow-breathe fx-mask-b fx-stack-2">
-        <div className="fx-glow-orb" />
-        <div className="inner">
-          <div className="reveal">
-            <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>SÉCURITÉ</span>
-            <h2 style={{ fontSize: 'clamp(1.5rem, 3.5vw, 2.2rem)', textTransform: 'uppercase' }}>
-              LA QUESTION QUE TOUT LE MONDE POSE
-            </h2>
-          </div>
-          <div className="layout-split reveal" style={{ marginTop: '2rem' }}>
-            <div>
-              <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6' }}>
-                Pas de formule creuse. La réalité du terrain en 2026 :
-                la région où se déroule le camp est stable et fréquentée par des athlètes du monde entier.
-                Les villes d&apos;entraînement (Makhachkala, Kaspiysk) sont des zones urbaines normales.
-              </p>
-              <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1rem' }}>
-                Le Quai d&apos;Orsay déconseille certaines zones frontalières, pas les zones urbaines où nous opérons.
-                Chaque participant est informé en détail avant le départ.
-              </p>
-              <p className="pull-quote">
-                &laquo; Je suis parti seul, sans parler russe. L&apos;accueil est incroyable. Sur le tapis, le niveau est brutal. &raquo;
-              </p>
-              <span style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>Romain V. · Sambo · Toulouse</span>
-            </div>
-            <div>
-              <div className="content-card">
-                <h3 className="card-title">PROTOCOLE MKR</h3>
-                <ul className="logi-check-list">
-                  <li>Contact d&apos;urgence 24/7 sur place</li>
-                  <li>Équipe francophone permanente</li>
-                  <li>Assurance rapatriement obligatoire</li>
-                  <li>Briefing sécurité avant départ</li>
-                  <li>Suivi Quai d&apos;Orsay en continu</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <DestinationSafetyProtocol
+        narrative={
+          <>
+            <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6' }}>
+              Pas de formule creuse. La réalité du terrain en 2026 :
+              la région où se déroule le camp est stable et fréquentée par des athlètes du monde entier.
+              Les villes d&apos;entraînement (Makhachkala, Kaspiysk) sont des zones urbaines normales.
+            </p>
+            <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1rem' }}>
+              Le Quai d&apos;Orsay déconseille certaines zones frontalières, pas les zones urbaines où nous opérons.
+              Chaque participant est informé en détail avant le départ.
+            </p>
+          </>
+        }
+        testimonial={{
+          quote: "Je suis parti seul, sans parler russe. L'accueil est incroyable. Sur le tapis, le niveau est brutal.",
+          author: 'Romain V. · Sambo · Toulouse',
+        }}
+      />
 
       {/* Lieux d'entraînement */}
       <section className="logi-section fx-grid fx-stack-3">

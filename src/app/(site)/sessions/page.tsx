@@ -6,6 +6,7 @@ import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 import AudienceSwitcher from '@/components/AudienceSwitcher'
 import PricingTable from '@/components/PricingTable'
 import PlacesRestantes from '@/components/PlacesRestantes'
+import RefundPolicyTable from '@/components/RefundPolicyTable'
 import {
   MIN_PRICE_PER_ADULT_LABEL,
   FAMILY_BASE_1WEEK_LABEL,
@@ -235,16 +236,7 @@ export default function SessionsPage() {
               </div>
             </div>
             <div>
-              <table className="table-tonal">
-                <thead>
-                  <tr><th>Délai</th><th>Remboursement</th></tr>
-                </thead>
-                <tbody>
-                  <tr><td>&gt; 60 jours</td><td>100%</td></tr>
-                  <tr><td>30 - 60 jours</td><td>50%</td></tr>
-                  <tr><td>&lt; 30 jours</td><td>Non remboursable</td></tr>
-                </tbody>
-              </table>
+              <RefundPolicyTable delayHeader="Délai" />
             </div>
           </div>
         </div>

@@ -3,41 +3,25 @@ import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 import VideoTestimonialsGrid from '@/components/VideoTestimonialsGrid'
+import { TESTIMONIALS } from '@/data/testimonials'
 
 export const metadata: Metadata = {
-  title: 'Témoignages athlètes | Camp MKR au Daghestan',
-  description: "Ils sont venus, ils racontent. Témoignages vidéo et écrits d'athlètes qui ont vécu l'expérience MKR au Caucase.",
+  title: 'Témoignages athlètes | Camp MKR au Caucase',
+  description: "Ils sont venus, ils racontent. Témoignages vidéo et écrits d'athlètes qui ont vécu l'expérience MKR au Caucase (Lutte au Daghestan, MMA en Tchétchénie).",
   alternates: { canonical: 'https://mkrcamp.com/temoignages' },
 }
 
-const VIDEO_TESTIMONIALS = [
-  {
-    name: 'Antoine Petit-Jean',
-    discipline: 'MMA · Genève',
-    label: 'Retour de session',
-    poster: '/videos/testimonials/antoine-poster.jpg',
-    video: '/videos/testimonials/antoine-testimonie.mp4',
-  },
-  {
-    name: 'LAMP',
-    discipline: 'MMA pro · Daghestan',
-    label: 'Passage pro après MKR',
-    poster: '/videos/testimonials/lamp-poster.jpg',
-    video: '/videos/testimonials/lamp-testimonie.mp4',
-  },
-]
+const VIDEO_ITEMS = TESTIMONIALS
+  .filter(t => t.video && t.videoPoster)
+  .map(t => ({
+    name: t.name,
+    discipline: t.discipline,
+    label: t.videoLabel ?? 'Témoignage vidéo',
+    poster: t.videoPoster!,
+    video: t.video!,
+  }))
 
-const TESTIMONIALS = [
-  { name: 'Mehdi R.', discipline: 'Lutte Libre · Paris', quote: "Trois semaines qui ont changé ma façon de me battre. La dureté des entraînements m'a obligé à aller chercher ce que je n'avais jamais touché.", img: '/images/testimonials/mehdi-r.webp' },
-  { name: 'Karim D.', discipline: 'MMA · Genève', quote: "Le niveau des coachs est rare. Magomed t'apprend des prises que tu ne verras nulle part en Europe. J'y retourne l'année prochaine.", img: '/images/testimonials/karim-d.webp' },
-  { name: 'Thomas B.', discipline: 'Boxe · Lyon', quote: "Deux semaines après le retour, j'ai remporté mon premier titre régional. Ce que j'ai construit là-bas, aucune salle en France ne pouvait me le donner.", img: '/images/testimonials/thomas-b.webp' },
-  { name: 'Yassine K.', discipline: 'Grappling · Bruxelles', quote: "Un mois de camp qui vaut deux ans de salle. Les Daghestanais t'apprennent à souffrir avec le sourire. Je suis revenu transformé.", img: '/images/testimonials/yassine-k.webp' },
-  { name: 'Romain V.', discipline: 'Sambo · Toulouse', quote: "Je suis parti seul, sans parler russe. L'accueil est chaleureux. Sur le tapis, le niveau est brutal. Exactement ce que je cherchais.", img: '/images/testimonials/romain-v.webp' },
-  { name: 'Adam S.', discipline: 'Lutte · Montréal', quote: "Le Caucase, c'est une autre planète. Les entraînements du matin à 6h t'apprennent ce qu'est la discipline. Je repars l'été prochain.", img: '/images/testimonials/adam-s.webp' },
-  { name: 'Lucas M.', discipline: 'MMA · Zurich', quote: "Trois semaines, six kilos de transpiration et une vision du combat totalement différente. Ce camp m'a redonné faim de compétition.", img: '/images/testimonials/lucas-m.webp' },
-  { name: 'Amine B.', discipline: 'Jiu-Jitsu · Lyon', quote: "Les coachs du camp connaissent des techniques que tu ne trouveras dans aucun livre. Une expérience sportive et humaine que je conseille à tout compétiteur.", img: '/images/testimonials/amine-b.webp' },
-  { name: 'Pierre L.', discipline: 'Kickboxing · Nantes', quote: "Le groupe, l'ambiance, les montagnes en fond de tapis. On touche quelque chose de rare. Revenu avec une médaille et des souvenirs pour la vie.", img: '/images/testimonials/pierre-l.webp' },
-]
+const TEXT_TESTIMONIALS = TESTIMONIALS.filter(t => !t.video)
 
 function Stars() {
   return (
@@ -72,7 +56,7 @@ export default function TemoignagesPage() {
             <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>VIDÉOS</span>
             <h2>TÉMOIGNAGES VIDÉO</h2>
           </div>
-          <VideoTestimonialsGrid items={VIDEO_TESTIMONIALS} />
+          <VideoTestimonialsGrid items={VIDEO_ITEMS} />
         </div>
       </section>
 
@@ -84,12 +68,12 @@ export default function TemoignagesPage() {
             <h2>TÉMOIGNAGES</h2>
           </div>
           <div className="grid-3">
-            {TESTIMONIALS.map((t, i) => (
+            {TEXT_TESTIMONIALS.map((t, i) => (
               <div key={i} className="testi-page-card fx-grain fx-corner-glow reveal" style={{ transitionDelay: `${i * 0.06}s` }}>
                 <div className="testi-page-header">
                   <img
                     src={t.img}
-                    alt={`${t.name}, ${t.discipline}`}
+                    alt={t.alt}
                     width={48}
                     height={48}
                     loading="lazy"
