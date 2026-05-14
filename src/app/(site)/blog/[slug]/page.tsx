@@ -47,6 +47,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     alternates: { canonical: url },
     keywords: article.keywords,
     authors: [{ name: article.authorName ?? 'MKR Caucasian Camp' }],
+    robots: { index: false, follow: false },
     openGraph: {
       type: 'article',
       url,

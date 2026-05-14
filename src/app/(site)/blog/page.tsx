@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   title: 'Blog MKR Caucasian Camp : MMA, Lutte et Caucase',
   description: "Articles sur le MMA, la lutte, le Daghestan, la préparation et la culture du combat. Par MKR Caucasian Camp.",
   alternates: { canonical: 'https://mkrcamp.com/blog' },
+  robots: { index: false, follow: false },
 }
 
 export default function BlogPage() {

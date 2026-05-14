@@ -377,7 +377,6 @@ export default function Nav() {
                 <ul className="mega-link-list" role="list">
                   <li><Link href="/galerie">{ICO.gallery} Galerie photos et vidéos {ARROW_SM}</Link></li>
                   <li><Link href="/temoignages">{ICO.testimonials} Témoignages athlètes {ARROW_SM}</Link></li>
-                  <li><Link href="/blog">{ICO.blog} Blog et articles {ARROW_SM}</Link></li>
                 </ul>
               </div>
               <div>
@@ -453,7 +452,6 @@ export default function Nav() {
           <MobAccordion title="Découvrir" id="mob-decouvrir">
             <Link href="/galerie" className="mob-sub-link">{ICO.gallery} Galerie</Link>
             <Link href="/temoignages" className="mob-sub-link">{ICO.testimonials} Témoignages</Link>
-            <Link href="/blog" className="mob-sub-link">{ICO.blog} Blog</Link>
             <Link href="/faq" className="mob-sub-link">{ICO.faq} FAQ</Link>
             <Link href="/a-propos" className="mob-sub-link">{ICO.about} À propos</Link>
             <Link href="/contact" className="mob-sub-link">{ICO.contact} Contact</Link>
