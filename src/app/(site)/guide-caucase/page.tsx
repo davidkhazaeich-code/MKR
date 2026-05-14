@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 const GUIDE_CONTENTS = [
   { title: 'Visa Russie : on s’en occupe', desc: 'Prise en charge complète A à Z. Tu fournis 3 pièces, MKR gère lettre, formulaire, dépôt, suivi.' },
   { title: 'Vols et itinéraires', desc: 'Istanbul vers Makhachkala (Lutte) ou Grozny (MMA). Comparatif, fenêtres de prix, vol intérieur inclus.' },
-  { title: 'Budget réel et complet', desc: 'Tous les postes détaillés : package, vol intl, frais consulaires, assurance, équipement.' },
+  { title: 'Ce qui est inclus', desc: 'Le détail clair de ce que couvre ton package MKR et ce qui reste à ta charge. Pas de zone grise.' },
   { title: 'Prép physique 6 semaines', desc: 'Cardio, force, endurance spécifique, affûtage. Adapté selon discipline.' },
   { title: 'Équipement complet', desc: 'Liste exhaustive : vêtements, protection, hygiène, admin. Pas de superflu.' },
   { title: 'Culture et immersion', desc: 'Codes à connaître, mots avar et tchétchènes utiles, gastronomie locale.' },
