@@ -223,6 +223,8 @@ export default async function AdminInscriptionsPage({
         <p className="adm-h-meta">
           {total} dossier{total > 1 ? 's' : ''} au total · Mis à jour à {generatedAt}{' '}
           <a href="/admin/inscriptions">↻ Rafraîchir</a>
+          {' · '}
+          <a href="/admin/guide-leads">Voir les leads Guide Caucase</a>
         </p>
 
         <StatsBand countsByStatus={statusCounts} staleVisioCount={staleVisioCount} total={total} />
