@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import type { Metadata } from 'next'
+import { buildMetadata } from '@/lib/seo'
 import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
 import DestinationReveal from '@/components/DestinationReveal'
@@ -7,12 +7,11 @@ import CinematicReveal from '@/components/CinematicReveal'
 import DestinationSafetyProtocol from '@/components/DestinationSafetyProtocol'
 import TldrBox from '@/components/TldrBox'
 
-export const metadata: Metadata = {
+export const metadata = buildMetadata({
   title: 'Daghestan : Camps MMA et Lutte au cœur du Caucase | MKR',
   description: "Tout savoir sur le Daghestan : salles d'entraînement, sécurité, culture, excursions. La terre qui forge les champions du MMA et de la lutte mondiale.",
-  alternates: { canonical: 'https://mkrcamp.com/destinations/dagestan' },
-}
-
+  path: '/destinations/dagestan',
+})
 export default function DagestanPage() {
   return (
     <>

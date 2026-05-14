@@ -1,11 +1,12 @@
 import Link from 'next/link'
-import type { Metadata } from 'next'
+import { buildMetadata } from '@/lib/seo'
 
-export const metadata: Metadata = {
+export const metadata = buildMetadata({
   title: 'Merci | MKR Caucasian Camp',
   description: "Ta candidature a bien été reçue. On te recontacte sous 48h.",
-  robots: { index: false },
-}
+  path: '/merci',
+  noindex: true,
+})
 
 export default function MerciPage() {
   return (

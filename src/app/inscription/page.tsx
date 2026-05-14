@@ -1,17 +1,13 @@
-import type { Metadata } from 'next'
+import { buildMetadata } from '@/lib/seo'
 import InscriptionLayout from '@/components/InscriptionLayout'
 import type { RegistrationTypeId } from '@/data/registration-types'
 import { SESSIONS } from '@/data/sessions'
 
-export const metadata: Metadata = {
+export const metadata = buildMetadata({
   title: "Inscription · MKR Caucasian Camp",
-  description:
-    "Dépose ta candidature pour rejoindre un camp MMA et Lutte au Caucase. 4 sessions par an, sur mesure, famille ou clubs : 4 tunnels.",
-  alternates: {
-    canonical: 'https://mkrcamp.com/inscription',
-  },
-}
-
+  description: "Dépose ta candidature pour rejoindre un camp MMA et Lutte au Caucase. 4 sessions par an, sur mesure, famille ou clubs : 4 tunnels.",
+  path: '/inscription',
+})
 const VALID_TYPES: RegistrationTypeId[] = ['session', 'custom', 'famille', 'groupe']
 const VALID_SESSION_IDS = SESSIONS.map(s => s.id)
 

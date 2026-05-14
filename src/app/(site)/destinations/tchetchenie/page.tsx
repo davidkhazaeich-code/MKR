@@ -1,17 +1,16 @@
 import Link from 'next/link'
-import type { Metadata } from 'next'
+import { buildMetadata } from '@/lib/seo'
 import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
 import DestinationReveal from '@/components/DestinationReveal'
 import DestinationSafetyProtocol from '@/components/DestinationSafetyProtocol'
 import TldrBox from '@/components/TldrBox'
 
-export const metadata: Metadata = {
+export const metadata = buildMetadata({
   title: 'Tchétchénie : Camp MMA au Caucase | MKR Caucasian Camp',
   description: "Tout sur la Tchétchénie : salles MMA de Grozny, sécurité, culture, logistique. La terre qui a vu naître Khamzat Chimaev et la nouvelle génération MMA.",
-  alternates: { canonical: 'https://mkrcamp.com/destinations/tchetchenie' },
-}
-
+  path: '/destinations/tchetchenie',
+})
 export default function TchetcheniePage() {
   return (
     <>

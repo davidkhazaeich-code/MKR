@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import { buildMetadata } from '@/lib/seo'
 import { PRICING_TIERS, FAMILY_PRICING, formatEUR } from '@/data/pricing'
 import {
   DUO_ONE_LINE_BARE,
@@ -8,12 +8,11 @@ import {
   FAMILY_EXTRA_CHILD_FULL,
 } from '@/lib/pricing-copy'
 
-export const metadata: Metadata = {
+export const metadata = buildMetadata({
   title: 'CGV | MKR Caucasian Camp | Conditions Générales de Vente',
   description: "Conditions générales de vente de MKR Caucasian Camp. Modalités d'inscription, paiement, annulation et remboursement.",
-  alternates: { canonical: 'https://mkrcamp.com/cgv' },
-}
-
+  path: '/cgv',
+})
 export default function CGVPage() {
   return (
     <section className="legal-page">
@@ -50,23 +49,29 @@ export default function CGVPage() {
           <h2>Article 5 : Prestations incluses</h2>
           <p>Le tarif du camp comprend :</p>
           <ul>
+            <li><strong>Visa russe</strong> : frais consulaires, lettre d&apos;invitation officielle, questionnaire UE et accompagnement complet du dossier</li>
+            <li><strong>Vol intérieur</strong> Istanbul-Makhachkala (pour le camp Lutte au Daghestan) ou Istanbul-Grozny (pour le camp MMA en Tchétchénie)</li>
+            <li>Transferts aéroport-camp et déplacements pendant le séjour</li>
             <li>Hébergement en logement de camp</li>
             <li>2 repas par jour (petit-déjeuner et déjeuner)</li>
             <li>Sessions d&apos;entraînement biquotidiennes (6 jours par semaine)</li>
-            <li>Vol intérieur Istanbul-Makhachkala</li>
-            <li>Transferts aéroport-camp</li>
             <li>Excursions culturelles (en option)</li>
             <li>Suivi préparatoire à distance avant le départ</li>
           </ul>
 
           <h2>Article 6 : Prestations non incluses</h2>
           <ul>
-            <li>Vol international aller-retour</li>
-            <li>Visa (si applicable)</li>
-            <li>Assurance voyage (obligatoire)</li>
-            <li>Équipement personnel</li>
-            <li>Dépenses personnelles</li>
+            <li><strong>Vol international aller-retour jusqu&apos;à Istanbul</strong> : à réserver librement par le Participant. Le vol doit arriver à Istanbul (IST ou SAW) au moins 4 heures avant l&apos;horaire du vol intérieur MKR. MKR communique l&apos;horaire du vol intérieur dès la validation de la candidature.</li>
+            <li>Assurance voyage couvrant le rapatriement médical et la pratique de sports de contact (obligatoire, à souscrire par le Participant)</li>
+            <li>Équipement personnel (gants, protège-tibias, protège-dents, coquille)</li>
+            <li>Dépenses personnelles sur place (boissons, achats, pourboires, communication mobile)</li>
+            <li>Frais éventuels liés au passeport (renouvellement, etc.)</li>
           </ul>
+
+          <h2>Article 6 bis : Supplément traitement express (candidatures à moins de 30 jours du départ)</h2>
+          <p>Pour toute candidature acceptée à moins de trente (30) jours du début du camp, MKR applique un supplément forfaitaire de traitement express. Ce supplément couvre la procédure visa accélérée, la sécurisation du vol intérieur en haute-saison et la coordination logistique en délai contraint.</p>
+          <p>Le montant du supplément est communiqué au Participant lors de l&apos;entretien de validation, en fonction de la date de départ et de la complexité du dossier. Il est dû en sus du tarif du package et s&apos;ajoute au paiement intégral après validation.</p>
+          <p>L&apos;Organisateur se réserve le droit de refuser une candidature reçue à moins de trente (30) jours du départ si les délais administratifs (visa, vol intérieur) ne peuvent être tenus dans des conditions raisonnables.</p>
 
           <h2>Article 7 : Assurance</h2>
           <p>Le Participant est tenu de souscrire une assurance voyage couvrant le rapatriement médical et la pratique de sports de contact avant le départ. La preuve d&apos;assurance doit être fournie à l&apos;Organisateur au plus tard 15 jours avant le départ.</p>

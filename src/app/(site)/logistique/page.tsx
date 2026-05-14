@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import { buildMetadata } from '@/lib/seo'
 import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
@@ -7,12 +7,11 @@ import {
   FAMILY_BASE_RANGE_LABEL,
 } from '@/lib/pricing-copy'
 
-export const metadata: Metadata = {
+export const metadata = buildMetadata({
   title: 'Logistique Camp Caucase : Visa, Vols, Budget | MKR',
-  description: "Visa Russie, vols Paris/Bruxelles/Genève via Istanbul vers Makhachkala (Lutte) ou Grozny (MMA), budget complet, assurance. Tout pour partir au Caucase.",
-  alternates: { canonical: 'https://mkrcamp.com/logistique' },
-}
-
+  description: "Visa russe et vol intérieur Istanbul-Caucase inclus dans le package MKR. Vol international jusqu'à Istanbul à organiser. Budget complet, assurance, transferts.",
+  path: '/logistique',
+})
 export default function LogistiquePage() {
   return (
     <>
@@ -23,7 +22,7 @@ export default function LogistiquePage() {
       <PageHero
         label="LOGISTIQUE"
         title="TOUT CE QUE TU DOIS<br/>SAVOIR AVANT DE PARTIR"
-        subtitle="Visa, vols, budget, assurance. Pour le camp Lutte (Daghestan, aéroport Makhachkala) ou MMA (Tchétchénie, aéroport Grozny)."
+        subtitle="Visa russe et vol intérieur inclus. Vol international jusqu'à Istanbul à organiser librement. MKR pilote ton dossier pour le camp Lutte (Daghestan, aéroport Makhachkala) ou MMA (Tchétchénie, aéroport Grozny)."
       />
 
       {/* Budget total */}
@@ -41,23 +40,26 @@ export default function LogistiquePage() {
                 <tbody>
                   <tr><td>Package MKR par adulte (selon taille de groupe et durée)</td><td>{PACKAGE_PER_ADULT_RANGE_LABEL}</td></tr>
                   <tr><td>Forfait Famille (1 parent + 1 enfant)</td><td>{FAMILY_BASE_RANGE_LABEL}</td></tr>
-                  <tr><td>Vol international A/R</td><td>400 - 700 EUR</td></tr>
-                  <tr><td>Visa (si nécessaire)</td><td>60 - 100 EUR</td></tr>
-                  <tr><td>Assurance voyage</td><td>80 - 150 EUR</td></tr>
+                  <tr><td>Vol international A/R jusqu&apos;à Istanbul (à ta charge)</td><td>400 - 700 EUR</td></tr>
+                  <tr><td>Assurance voyage (obligatoire)</td><td>80 - 150 EUR</td></tr>
                   <tr><td>Équipement personnel</td><td>100 - 200 EUR</td></tr>
+                  <tr><td>Dépenses personnelles sur place</td><td>50 - 150 EUR</td></tr>
+                  <tr><td>Supplément express MKR (candidature &lt; 30 jours du départ)</td><td>sur devis</td></tr>
                 </tbody>
               </table>
               <p style={{ color: 'var(--text-muted)', fontSize: '0.8rem', marginTop: '1rem' }}>
-                Estimations basées sur les départs depuis l&apos;Europe francophone. Prix sujets à variation.
+                Visa russe (frais et dossier), vol intérieur Istanbul-Caucase et transferts inclus dans le package MKR. Estimations basées sur un départ depuis l&apos;Europe francophone. Prix sujets à variation.
               </p>
             </div>
             <div className="content-card fx-grain fx-corner-glow">
               <h3 className="card-title">CE QUI EST INCLUS</h3>
               <ul className="logi-check-list">
+                <li>Visa russe (frais et dossier complet)</li>
+                <li>Vol intérieur Istanbul-Caucase (Makhachkala ou Grozny)</li>
+                <li>Transferts aéroport-camp et sur place</li>
                 <li>Hébergement de camp</li>
                 <li>2 repas par jour</li>
                 <li>2 sessions d&apos;entraînement par jour</li>
-                <li>Transferts aéroport-camp</li>
                 <li>Excursions culturelles (en option)</li>
                 <li>Suivi préparatoire à distance</li>
               </ul>
@@ -76,10 +78,10 @@ export default function LogistiquePage() {
           </div>
           <div className="logi-visa-steps reveal">
             {[
-              { num: '01', title: 'Vérifier ton passeport', desc: 'Passeport valide au moins 6 mois après la date de retour.' },
-              { num: '02', title: 'Visa Russie obligatoire', desc: "Que tu partes au Daghestan (Lutte) ou en Tchétchénie (MMA), tu rentres en Fédération de Russie : un visa russe est nécessaire pour la majorité des nationalités. Pour les ressortissants UE, MKR fournit un questionnaire visa à remplir avec ton passeport (validité 6 mois minimum)." },
-              { num: '03', title: "Lettre d'invitation MKR", desc: "MKR fournit la lettre d'invitation officielle après confirmation de ta candidature. C'est le document central du dossier visa." },
-              { num: '04', title: 'Documents à emporter', desc: "Passeport, confirmation de réservation MKR, attestation d'assurance, billet retour." },
+              { num: '01', title: 'Vérifier ton passeport', desc: 'Passeport valide au moins 6 mois après la date de retour. C\'est le seul document que tu fournis pour le visa : tout le reste est piloté par MKR.' },
+              { num: '02', title: 'Visa russe pris en charge', desc: "Frais consulaires inclus dans le package. Que tu partes au Daghestan (Lutte) ou en Tchétchénie (MMA), MKR fournit le questionnaire UE, la lettre d'invitation officielle et accompagne ton dossier de bout en bout. Compte 3 à 4 semaines de traitement." },
+              { num: '03', title: "Lettre d'invitation MKR", desc: "MKR transmet la lettre d'invitation officielle dès la confirmation de ta candidature. C'est le document central du dossier visa." },
+              { num: '04', title: 'Documents à emporter', desc: "Passeport, visa russe, confirmation de réservation MKR, attestation d'assurance, billet aller-retour international que tu as réservé jusqu'à Istanbul. MKR édite le vol intérieur Istanbul-Caucase." },
             ].map((step) => (
               <div key={step.num} className="logi-step">
                 <span className="logi-step-num">{step.num}</span>
@@ -102,13 +104,13 @@ export default function LogistiquePage() {
             <h2>COMMENT S&apos;Y RENDRE</h2>
           </div>
           <p className="reveal" style={{ color: 'var(--text-secondary)', lineHeight: '1.6', maxWidth: '780px', marginBottom: '1.5rem' }}>
-            Toutes les routes passent par Istanbul puis par un vol intérieur inclus dans le package MKR : <strong>Istanbul - Makhachkala (MCX)</strong> pour le camp Lutte au Daghestan, ou <strong>Istanbul - Grozny (GRV)</strong> pour le camp MMA en Tchétchénie. Le bon vol est réservé selon ta destination confirmée.
+            Toutes les routes passent par Istanbul. <strong>Le vol intérieur Istanbul-Makhachkala (MCX) pour la Lutte au Daghestan ou Istanbul-Grozny (GRV) pour le MMA en Tchétchénie est inclus dans le package MKR.</strong> Le vol international jusqu&apos;à Istanbul reste à ton organisation : tu choisis ta compagnie, ton aéroport de départ et ta classe selon ton budget.
           </p>
           <div className="grid-3">
             {[
-              { city: 'Paris CDG', connections: 'Via Istanbul (Turkish Airlines) vers Makhachkala (MCX, Daghestan) ou Grozny (GRV, Tchétchénie). Vol intérieur inclus dans le package MKR.', price: '450 - 700 EUR', duration: '~7-9h avec escale' },
-              { city: 'Genève / Zurich', connections: 'Via Istanbul (Turkish Airlines) vers Makhachkala (MCX) ou Grozny (GRV). Vol intérieur inclus dans le package MKR.', price: '500 - 750 EUR', duration: '~8-10h avec escale' },
-              { city: 'Bruxelles', connections: 'Via Istanbul (Turkish Airlines) vers Makhachkala (MCX) ou Grozny (GRV). Vol intérieur inclus dans le package MKR.', price: '480 - 720 EUR', duration: '~8-10h avec escale' },
+              { city: 'Paris CDG', connections: 'Vers Istanbul puis vol intérieur MKR vers Makhachkala (MCX, Daghestan) ou Grozny (GRV, Tchétchénie). Turkish Airlines, Air France ou Pegasus.', price: '450 - 700 EUR', duration: '~7-9h avec escale' },
+              { city: 'Genève / Zurich', connections: 'Vers Istanbul puis vol intérieur MKR vers Makhachkala (MCX) ou Grozny (GRV). Turkish Airlines, Pegasus ou Swiss.', price: '500 - 750 EUR', duration: '~8-10h avec escale' },
+              { city: 'Bruxelles', connections: 'Vers Istanbul puis vol intérieur MKR vers Makhachkala (MCX) ou Grozny (GRV). Turkish Airlines, Brussels Airlines ou Pegasus.', price: '480 - 720 EUR', duration: '~8-10h avec escale' },
             ].map((flight, i) => (
               <div key={i} className="content-card fx-grain fx-corner-glow reveal" style={{ transitionDelay: `${i * 0.08}s` }}>
                 <h3 className="card-title">{flight.city}</h3>
@@ -127,6 +129,9 @@ export default function LogistiquePage() {
               </div>
             ))}
           </div>
+          <p className="reveal" style={{ color: 'var(--text-muted)', fontSize: '0.85rem', marginTop: '1.5rem', maxWidth: '780px' }}>
+            Pour réserver, vise un vol arrivant à Istanbul (IST ou SAW) au moins 4 heures avant ton vol intérieur. MKR confirme l&apos;horaire du vol intérieur dès la validation de ta candidature. <strong>Inscription à moins de 30 jours du départ</strong> : un supplément MKR s&apos;applique pour le traitement express du dossier (visa, logistique, billet intérieur).
+          </p>
         </div>
       </section>
 

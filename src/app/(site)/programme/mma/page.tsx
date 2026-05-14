@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import { buildMetadata } from '@/lib/seo'
 import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
@@ -7,12 +7,11 @@ import DisciplineTechniques from '@/components/DisciplineTechniques'
 import DisciplineSessionFlow from '@/components/DisciplineSessionFlow'
 import TldrBox from '@/components/TldrBox'
 
-export const metadata: Metadata = {
+export const metadata = buildMetadata({
   title: 'Programme MMA en Tchétchénie | MKR Caucasian Camp',
   description: "Programme MMA complet à Grozny : stand-up, clinch, takedowns, soumissions, transitions. Sparring quotidien avec les combattants Akhmat.",
-  alternates: { canonical: 'https://mkrcamp.com/programme/mma' },
-}
-
+  path: '/programme/mma',
+})
 const TECHNIQUES = [
   { title: 'Stand-up', desc: 'Boxe, kickboxing, coups de coude et de genou. Travail de distance et de timing.' },
   { title: 'Clinch', desc: 'Contrôle mural, dirty boxing, projections depuis le clinch. Spécialité caucasienne.' },

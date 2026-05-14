@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import type { Metadata } from 'next'
+import { buildMetadata } from '@/lib/seo'
 import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
@@ -10,12 +10,11 @@ import { PRICING_TIERS } from '@/data/pricing'
 
 const TRIO_PRICE_1WEEK_NUM = PRICING_TIERS.trio.perAdult[1].toLocaleString('fr-FR').replace(/ /g, ' ')
 
-export const metadata: Metadata = {
+export const metadata = buildMetadata({
   title: 'Camp Sur Mesure au Caucase | MKR Caucasian Camp',
   description: 'Camp individuel sur mesure au Caucase. Lutte Daghestan, MMA Tchétchénie ou combo (sur-mesure uniquement). Tes dates, ta durée. Délai 90 jours min.',
-  alternates: { canonical: 'https://mkrcamp.com/sur-mesure' },
-}
-
+  path: '/sur-mesure',
+})
 const PROFILES = [
   {
     title: 'Pro ou semi-pro en préparation',

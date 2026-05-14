@@ -1,15 +1,14 @@
-import type { Metadata } from 'next'
+import { buildMetadata } from '@/lib/seo'
 import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 import CinematicReveal from '@/components/CinematicReveal'
 
-export const metadata: Metadata = {
-  title: 'À propos | Notre histoire et mission | MKR Caucasian Camp',
-  description: "L'histoire de MKR Caucasian Camp. Pourquoi le Caucase, notre mission, notre équipe, nos partenaires.",
-  alternates: { canonical: 'https://mkrcamp.com/a-propos' },
-}
-
+export const metadata = buildMetadata({
+  title: 'À propos | Ruslan Mukhtarov, fondateur | MKR Caucasian Camp',
+  description: "Ruslan Mukhtarov, fondateur de MKR Caucasian Camp. Ancien équipe de France de lutte, INSEP 2012-2016. MKR organise tout pour les athlètes francophones au Caucase.",
+  path: '/a-propos',
+})
 export default function AProposPage() {
   return (
     <>
@@ -20,8 +19,8 @@ export default function AProposPage() {
 
       <PageHero
         label="À PROPOS"
-        title="NOTRE HISTOIRE"
-        subtitle="Comment MKR Caucasian Camp est né, et pourquoi on fait ça."
+        title="L'IMMERSION AU MILIEU DES CHAMPIONS."
+        subtitle="MKR Caucasian Camp est fondé par Ruslan Mukhtarov, ancien équipe de France de lutte (INSEP 2012-2016). Voici pourquoi il a créé ce camp."
       />
 
       {/* L'histoire */}
@@ -37,9 +36,13 @@ export default function AProposPage() {
               un accès structuré à ces méthodes d&apos;entraînement pour les athlètes européens.
             </p>
             <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1rem' }}>
-              Après des années de voyages au Daghestan et en Tchétchénie, des relations construites avec les coachs locaux,
-              et des dizaines d&apos;athlètes accompagnés, MKR Caucasian Camp est devenu le pont entre l&apos;Europe
-              francophone et les salles du Caucase Nord.
+              Ruslan Mukhtarov a passé quatre ans à l&apos;INSEP en équipe olympique de lutte (2012-2016), sous les couleurs de l&apos;équipe de France.
+              De ses voyages au Daghestan et en Tchétchénie est née une conviction simple : il fallait ouvrir cette porte aux athlètes francophones, en levant
+              tous les obstacles logistiques. MKR, c&apos;est le diminutif de Mukhtarov, son nom de famille.
+            </p>
+            <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1rem' }}>
+              «&nbsp;Je souhaitais mettre en place ce camp pour qu&apos;un maximum d&apos;athlètes, MMA comme lutte, puissent y accéder. Faciliter leur trajet, leur séjour.
+              Il n&apos;y a besoin de penser à rien, juste à préparer son sac.&nbsp;»
             </p>
           </div>
         </div>
@@ -85,7 +88,7 @@ export default function AProposPage() {
               <div className="coach-ext-photo">
                 <img
                   src="/images/coaches/ruslan.webp"
-                  alt="Ruslan, fondateur de MKR Caucasian Camp"
+                  alt="Ruslan Mukhtarov, fondateur de MKR Caucasian Camp et ancien équipe de France de lutte"
                   width={600}
                   height={990}
                   loading="lazy"
@@ -96,11 +99,37 @@ export default function AProposPage() {
                 <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.5rem' }}>
                   FONDATEUR
                 </span>
-                <h3>RUSLAN</h3>
+                <h3>RUSLAN MUKHTAROV</h3>
+                <p className="coach-ext-bio" style={{ marginBottom: '0.9rem' }}>
+                  32 ans, entraîneur de lutte et de MMA. Ruslan a commencé la lutte à 12 ans et a intégré l&apos;équipe olympique
+                  à l&apos;INSEP de 2012 à 2016, sous les couleurs de l&apos;équipe de France.
+                </p>
                 <p className="coach-ext-bio">
-                  Fondateur de MKR Caucasian Camp. Pratiquant de sports de combat depuis plus de 15 ans.
-                  Connecté au Caucase depuis 2018. Organise les camps, accompagne chaque candidat en visio
-                  et gère les relations avec les coachs et salles partenaires au Daghestan et en Tchétchénie.
+                  Aujourd&apos;hui, il organise les camps MKR au Caucase, accompagne chaque candidat en visio et gère
+                  les relations avec les coachs et salles partenaires au Daghestan (Lutte) et en Tchétchénie (MMA).
+                  Sur place, il s&apos;entraîne lui-même dans les salles avec les participants.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Notre force : équipe en France + référents sur place */}
+          <div className="reveal" style={{ maxWidth: '860px', margin: '2.5rem auto 0' }}>
+            <div className="layout-split layout-split--balanced" style={{ gap: '1.25rem' }}>
+              <div className="content-card fx-grain">
+                <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.6rem' }}>EN FRANCE</span>
+                <h3 className="card-title">UNE VRAIE ÉQUIPE</h3>
+                <p className="card-body">
+                  Toute l&apos;administratif et les réseaux sociaux sont gérés depuis la France. Visa, vol, navette, hébergement,
+                  préparation : tu as un interlocuteur francophone à chaque étape, avant et pendant ton camp.
+                </p>
+              </div>
+              <div className="content-card fx-grain">
+                <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.6rem' }}>SUR PLACE</span>
+                <h3 className="card-title">DES RÉFÉRENTS DANS LES SALLES</h3>
+                <p className="card-body">
+                  Au Daghestan comme en Tchétchénie, MKR a ses référents locaux. Ils t&apos;accompagnent dans les salles
+                  d&apos;entraînement, avec Ruslan lui-même, et font le lien avec les coachs caucasiens du quotidien.
                 </p>
               </div>
             </div>

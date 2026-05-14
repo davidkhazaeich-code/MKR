@@ -1,11 +1,10 @@
-import type { Metadata } from 'next'
+import { buildMetadata } from '@/lib/seo'
 
-export const metadata: Metadata = {
+export const metadata = buildMetadata({
   title: 'Politique de confidentialité | MKR Caucasian Camp',
   description: "Politique de confidentialité de MKR Caucasian Camp. Collecte, utilisation et protection de tes données personnelles.",
-  alternates: { canonical: 'https://mkrcamp.com/politique-de-confidentialite' },
-}
-
+  path: '/politique-de-confidentialite',
+})
 export default function PolitiqueConfidentialitePage() {
   return (
     <section className="legal-page">

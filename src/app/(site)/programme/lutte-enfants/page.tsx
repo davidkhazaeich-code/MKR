@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import type { Metadata } from 'next'
+import { buildMetadata } from '@/lib/seo'
 import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
@@ -8,12 +8,11 @@ import DisciplineTechniques from '@/components/DisciplineTechniques'
 import DisciplineSessionFlow from '@/components/DisciplineSessionFlow'
 import { FAMILY_BASE_1WEEK_LABEL } from '@/lib/pricing-copy'
 
-export const metadata: Metadata = {
+export const metadata = buildMetadata({
   title: 'Lutte Enfants 8-17 ans au Daghestan | MKR Caucasian Camp',
   description: "Programme de lutte pour jeunes athlètes 8-17 ans avec parent. Pédagogie progressive, encadrement spécialisé, fondamentaux daghestanais.",
-  alternates: { canonical: 'https://mkrcamp.com/programme/lutte-enfants' },
-}
-
+  path: '/programme/lutte-enfants',
+})
 const PILLARS = [
   { title: 'Pédagogie progressive', desc: "Les fondamentaux d'abord. On construit le geste juste avant l'intensité. Chaque enfant progresse à son rythme." },
   { title: 'Encadrement spécialisé', desc: 'Coachs formés à la pédagogie jeunesse. Sécurité renforcée, communication adaptée, suivi individuel.' },

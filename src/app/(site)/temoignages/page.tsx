@@ -1,16 +1,15 @@
-import type { Metadata } from 'next'
+import { buildMetadata } from '@/lib/seo'
 import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 import VideoTestimonialsGrid from '@/components/VideoTestimonialsGrid'
 import { TESTIMONIALS } from '@/data/testimonials'
 
-export const metadata: Metadata = {
+export const metadata = buildMetadata({
   title: 'Témoignages athlètes | Camp MKR au Caucase',
   description: "Ils sont venus, ils racontent. Témoignages vidéo et écrits d'athlètes qui ont vécu l'expérience MKR au Caucase (Lutte au Daghestan, MMA en Tchétchénie).",
-  alternates: { canonical: 'https://mkrcamp.com/temoignages' },
-}
-
+  path: '/temoignages',
+})
 const VIDEO_ITEMS = TESTIMONIALS
   .filter(t => t.video && t.videoPoster)
   .map(t => ({

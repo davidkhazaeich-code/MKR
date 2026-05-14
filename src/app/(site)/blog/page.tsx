@@ -1,15 +1,14 @@
-import type { Metadata } from 'next'
+import { buildMetadata } from '@/lib/seo'
 import Link from 'next/link'
 import PageHero from '@/components/PageHero'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 import { BLOG_POSTS } from '@/data/blog'
 
-export const metadata: Metadata = {
+export const metadata = buildMetadata({
   title: 'Blog MKR Caucasian Camp : MMA, Lutte et Caucase',
   description: "Articles sur le MMA, la lutte, le Daghestan, la préparation et la culture du combat. Par MKR Caucasian Camp.",
-  alternates: { canonical: 'https://mkrcamp.com/blog' },
-}
-
+  path: '/blog',
+})
 export default function BlogPage() {
   const featured = BLOG_POSTS.find(a => a.featured)
   const rest = BLOG_POSTS.filter(a => !a.featured)

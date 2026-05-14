@@ -1,11 +1,10 @@
-import type { Metadata } from 'next'
+import { buildMetadata } from '@/lib/seo'
 
-export const metadata: Metadata = {
+export const metadata = buildMetadata({
   title: 'Mentions légales | MKR Caucasian Camp',
   description: "Mentions légales du site mkrcamp.com édité par MKR Caucasian Camp (France). Éditeur, hébergeur, responsable de publication, propriété intellectuelle, RGPD.",
-  alternates: { canonical: 'https://mkrcamp.com/mentions-legales' },
-}
-
+  path: '/mentions-legales',
+})
 export default function MentionsLegalesPage() {
   return (
     <section className="legal-page">
@@ -30,7 +29,7 @@ export default function MentionsLegalesPage() {
 
           <h2>2. Directeur de la publication</h2>
           <p>
-            Ruslan, fondateur de MKR Caucasian Camp.<br/>
+            Ruslan Mukhtarov, fondateur de MKR Caucasian Camp, ancien équipe de France de lutte (INSEP 2012-2016).<br/>
             Contact : <a href="mailto:contact@mkrcamp.com">contact@mkrcamp.com</a>
           </p>
 

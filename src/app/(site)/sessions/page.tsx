@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import type { Metadata } from 'next'
+import { buildMetadata } from '@/lib/seo'
 import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
@@ -16,12 +16,11 @@ import { PRICING_TIERS, formatEUR } from '@/data/pricing'
 
 const PRICE_FROM_LABEL = `à partir de ${MIN_PRICE_PER_ADULT_LABEL}`
 
-export const metadata: Metadata = {
+export const metadata = buildMetadata({
   title: 'Sessions et Tarifs 2026-2027 Caucase | MKR Camp',
   description: "Calendrier 4 sessions au Caucase : Été 2026, Toussaint 2026, Hiver 2027, Pâques 2027. Lutte Daghestan, MMA Tchétchénie. Prix, dates, places.",
-  alternates: { canonical: 'https://mkrcamp.com/sessions' },
-}
-
+  path: '/sessions',
+})
 const SESSIONS = [
   {
     id: 'aout-2026',
@@ -173,9 +172,9 @@ export default function SessionsPage() {
         <div className="inner">
           <div className="group-card reveal" style={{ textAlign: 'center' }}>
             <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>TOUT COMPRIS</span>
-            <h2 style={{ fontSize: 'clamp(1.4rem, 2.8vw, 1.9rem)' }}>VOL INTÉRIEUR, HÉBERGEMENT, 2 REPAS/JOUR, COACHING</h2>
+            <h2 style={{ fontSize: 'clamp(1.4rem, 2.8vw, 1.9rem)' }}>VISA, VOL INTÉRIEUR, HÉBERGEMENT, 2 REPAS/JOUR, COACHING</h2>
             <p style={{ color: 'var(--text-secondary)', marginTop: '0.8rem', maxWidth: '620px', margin: '0.8rem auto 0' }}>
-              Le tarif couvre le transfert depuis Istanbul (vol intérieur inclus), l&apos;hébergement de camp, 2 repas par jour, les 2 sessions d&apos;entraînement quotidiennes et l&apos;encadrement local. Le détail complet (inclus / non inclus + journée type) est sur la page Le Camp.
+              Le tarif couvre le visa russe (frais et dossier), le vol intérieur depuis Istanbul (Makhachkala pour la Lutte, Grozny pour le MMA), les transferts aéroport-camp, l&apos;hébergement, 2 repas par jour, les 2 sessions d&apos;entraînement quotidiennes et l&apos;encadrement local. Le vol international jusqu&apos;à Istanbul reste à ton organisation. Le détail complet est sur la page Le Camp.
             </p>
             <div style={{ marginTop: '1.4rem' }}>
               <Link href="/le-camp" className="btn-ghost" style={{ fontSize: '0.85rem', padding: '0.6rem 1.4rem' }}>

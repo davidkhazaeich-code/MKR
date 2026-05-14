@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import type { Metadata } from 'next'
+import { buildMetadata } from '@/lib/seo'
 import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
@@ -8,12 +8,11 @@ import PricingTable from '@/components/PricingTable'
 import FacilitatorBand from '@/components/FacilitatorBand'
 import { PRICING_TIERS, formatEUR } from '@/data/pricing'
 
-export const metadata: Metadata = {
+export const metadata = buildMetadata({
   title: 'Camp Clubs et Groupes au Caucase | MKR Caucasian Camp',
   description: "Camp dédié à ton club ou groupe (5 à 20 personnes). Lutte au Daghestan, MMA en Tchétchénie ou combo sur devis. Hébergement bloc, devis personnalisé.",
-  alternates: { canonical: 'https://mkrcamp.com/clubs-groupes' },
-}
-
+  path: '/clubs-groupes',
+})
 const ADVANTAGES = [
   {
     title: 'Hébergement bloc',
@@ -21,7 +20,7 @@ const ADVANTAGES = [
   },
   {
     title: 'Transferts groupés',
-    desc: "Un seul véhicule MKR pour tout le groupe à l'aéroport de Makhachkala. Pas d'attente, pas de logistique éclatée.",
+    desc: "Un seul véhicule MKR pour tout le groupe à l'aéroport de Makhachkala (Lutte au Daghestan) ou de Grozny (MMA en Tchétchénie). Pas d'attente, pas de logistique éclatée.",
   },
   {
     title: 'Programme adapté au niveau',

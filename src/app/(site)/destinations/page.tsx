@@ -1,15 +1,14 @@
 import Link from 'next/link'
-import type { Metadata } from 'next'
+import { buildMetadata } from '@/lib/seo'
 import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 
-export const metadata: Metadata = {
+export const metadata = buildMetadata({
   title: 'Destinations Daghestan et Tchétchénie | MKR Caucasian Camp',
   description: "Deux destinations, deux disciplines : Lutte adultes et enfants au Daghestan, MMA en Tchétchénie. Combo possible uniquement en sur-mesure.",
-  alternates: { canonical: 'https://mkrcamp.com/destinations' },
-}
-
+  path: '/destinations',
+})
 const DESTINATIONS = [
   {
     href: '/destinations/dagestan',

@@ -1,6 +1,6 @@
-import type { Metadata } from 'next'
 import dynamic from 'next/dynamic'
 import Hero from '@/components/Hero'
+import { buildMetadata } from '@/lib/seo'
 
 const AudienceSwitcher = dynamic(() => import('@/components/AudienceSwitcher'), { ssr: true })
 const FacilitatorBand = dynamic(() => import('@/components/FacilitatorBand'), { ssr: true })
@@ -13,11 +13,11 @@ const FAQ = dynamic(() => import('@/components/FAQ'), { ssr: true })
 const CTAFinal = dynamic(() => import('@/components/CTAFinal'), { ssr: true })
 const VoyageReveal = dynamic(() => import('@/components/VoyageReveal'))
 
-export const metadata: Metadata = {
+export const metadata = buildMetadata({
   title: "Camp MMA Tchétchénie et Lutte Daghestan | MKR Caucasian",
   description: "Entraîne-toi là où naissent les champions. Lutte au Daghestan, MMA en Tchétchénie. 1 à 3 semaines au Caucase, 4 sessions par an, vol intérieur inclus.",
-  alternates: { canonical: 'https://mkrcamp.com/' },
-}
+  path: '/',
+})
 
 export default function Home() {
   return (

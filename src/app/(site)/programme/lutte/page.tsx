@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import { buildMetadata } from '@/lib/seo'
 import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
@@ -7,12 +7,11 @@ import DisciplineTechniques from '@/components/DisciplineTechniques'
 import DisciplineSessionFlow from '@/components/DisciplineSessionFlow'
 import TldrBox from '@/components/TldrBox'
 
-export const metadata: Metadata = {
+export const metadata = buildMetadata({
   title: 'Programme Lutte libre au Daghestan | MKR Caucasian Camp',
   description: "Programme de lutte libre au Caucase. Méthodes daghestanaises ancestrales, leg rides, chain wrestling, sparring quotidien, coachs champions du monde.",
-  alternates: { canonical: 'https://mkrcamp.com/programme/lutte' },
-}
-
+  path: '/programme/lutte',
+})
 const TECHNIQUES = [
   { title: 'Lutte libre', desc: 'Takedowns explosifs, contrôle des jambes, scrambles. La base du combat au Daghestan.' },
   { title: 'Leg rides', desc: 'Spécialité daghestanaise. Contrôle au sol avec les jambes. Technique introuvable en Europe.' },

@@ -1,16 +1,15 @@
 import Link from 'next/link'
-import type { Metadata } from 'next'
+import { buildMetadata } from '@/lib/seo'
 import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 import { FAMILY_BASE_PROSE, FAMILY_EXTRA_CHILD_1WEEK_LABEL } from '@/lib/pricing-copy'
 
-export const metadata: Metadata = {
+export const metadata = buildMetadata({
   title: 'Programme MMA Tchétchénie et Lutte Daghestan | MKR',
   description: "Trois disciplines, deux destinations : Lutte adultes et enfants au Daghestan, MMA en Tchétchénie. Sparring quotidien, coaching local au Caucase.",
-  alternates: { canonical: 'https://mkrcamp.com/programme' },
-}
-
+  path: '/programme',
+})
 export default function ProgrammePage() {
   return (
     <>

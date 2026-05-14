@@ -1,16 +1,15 @@
-import type { Metadata } from 'next'
+import { buildMetadata } from '@/lib/seo'
 import PageHero from '@/components/PageHero'
 import FAQTabs from '@/components/FAQTabs'
 import SectionCTA from '@/components/SectionCTA'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 import { getAllFaqItems } from '@/data/faq'
 
-export const metadata: Metadata = {
+export const metadata = buildMetadata({
   title: 'FAQ Camp MMA Daghestan | MKR Caucasian Camp',
   description: "Toutes les réponses à tes questions : sécurité, visa Russie, niveau requis, prix, équipement, inscription. FAQ complète du camp MKR.",
-  alternates: { canonical: 'https://mkrcamp.com/faq' },
-}
-
+  path: '/faq',
+})
 const allFaqItems = getAllFaqItems()
 const jsonLdFaq = {
   '@context': 'https://schema.org',

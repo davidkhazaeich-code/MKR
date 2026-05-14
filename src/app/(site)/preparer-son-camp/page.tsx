@@ -1,16 +1,15 @@
 import Link from 'next/link'
-import type { Metadata } from 'next'
+import { buildMetadata } from '@/lib/seo'
 import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 import CinematicReveal from '@/components/CinematicReveal'
 
-export const metadata: Metadata = {
+export const metadata = buildMetadata({
   title: 'Préparer son camp MMA au Daghestan : guide 6 semaines | MKR',
   description: "Tout ce qu'il faut savoir pour arriver prêt au camp MKR. Niveau minimum, programme de préparation 6 semaines, équipement, préparation mentale.",
-  alternates: { canonical: 'https://mkrcamp.com/preparer-son-camp' },
-}
-
+  path: '/preparer-son-camp',
+})
 const WEEKS = [
   { week: 'Semaine 1', focus: 'Cardio', desc: 'Base aérobique. Course 30 à 45 min, natation, vélo. Test de Cooper initial.' },
   { week: 'Semaine 2', focus: 'Force', desc: 'Squats, tractions, pompes, deadlifts. Circuits fonctionnels.' },

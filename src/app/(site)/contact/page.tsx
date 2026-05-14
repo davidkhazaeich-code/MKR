@@ -1,14 +1,13 @@
-import type { Metadata } from 'next'
+import { buildMetadata } from '@/lib/seo'
 import PageHero from '@/components/PageHero'
 import ContactForm from '@/components/ContactForm'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 
-export const metadata: Metadata = {
+export const metadata = buildMetadata({
   title: 'Contact | MKR Caucasian Camp',
   description: "Contacte MKR Caucasian Camp. Question générale, partenariat, clubs, presse. Réponse sous 48h.",
-  alternates: { canonical: 'https://mkrcamp.com/contact' },
-}
-
+  path: '/contact',
+})
 export default function ContactPage() {
   return (
     <>

@@ -1,18 +1,41 @@
 import Link from 'next/link'
-import type { Metadata } from 'next'
 import PageHero from '@/components/PageHero'
+import { buildMetadata } from '@/lib/seo'
 import SectionCTA from '@/components/SectionCTA'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 import CinematicReveal from '@/components/CinematicReveal'
 import TldrBox from '@/components/TldrBox'
 
-export const metadata: Metadata = {
+export const metadata = buildMetadata({
   title: 'Le Camp MKR : Lutte au Daghestan, MMA en Tchétchénie',
-  description: "Camp MMA Tchétchénie ou Lutte Daghestan, 1 à 3 semaines au Caucase. Coaching local, hébergement, 2 repas/jour, vol intérieur Istanbul inclus.",
-  alternates: { canonical: 'https://mkrcamp.com/le-camp' },
-}
+  description: "Camp MMA Tchétchénie ou Lutte Daghestan, 1 à 3 semaines au Caucase. Visa russe, vol intérieur Istanbul, hébergement, 2 repas/jour et coaching local inclus.",
+  path: '/le-camp',
+})
 
 const INCLUDES = [
+  {
+    icon: (
+      <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <rect x="6" y="4" width="20" height="24" rx="1.5" />
+        <line x1="10" y1="9" x2="22" y2="9" />
+        <line x1="10" y1="13" x2="22" y2="13" />
+        <line x1="10" y1="17" x2="18" y2="17" />
+        <circle cx="22" cy="22" r="3" />
+        <path d="M20 22l1.5 1.5L24 21" />
+      </svg>
+    ),
+    title: 'Visa Russie',
+    desc: "Frais consulaires, lettre d'invitation, questionnaire UE et accompagnement du dossier. Tout est inclus.",
+  },
+  {
+    icon: (
+      <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <path d="M3 18l11-3 5-9 2 1-3 9 9 3-1 2-10-1-2 6-2 1-1-5-6-1-1-2 1-1z" />
+      </svg>
+    ),
+    title: 'Vol intérieur',
+    desc: "Depuis Istanbul jusqu'à Makhachkala (Lutte) ou Grozny (MMA). Tu n'organises que le vol jusqu'à Istanbul.",
+  },
   {
     icon: (
       <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5">
@@ -71,10 +94,11 @@ const INCLUDES = [
 ]
 
 const NOT_INCLUDED = [
-  'Vol international aller-retour',
-  'Visa (si applicable à ta nationalité)',
-  'Assurance voyage (obligatoire)',
-  'Équipement personnel (gants, protège-tibias, etc.)',
+  'Vol international jusqu\'à Istanbul (à organiser librement)',
+  'Assurance voyage (obligatoire, à souscrire de ton côté)',
+  'Équipement personnel (gants, protège-tibias, protège-dents, coquille)',
+  'Dépenses personnelles sur place (boissons, achats, pourboires)',
+  'Supplément MKR pour candidature à moins de 30 jours du départ (traitement express)',
 ]
 
 const DAILY_SCHEDULE = [
@@ -109,7 +133,7 @@ export default function LeCampPage() {
             "Durée flexible : 1, 2 ou 3 semaines au sein d'une fenêtre de 3 semaines (4 sessions par an).",
             "Deux destinations exclusives par session : Lutte au Daghestan (Makhachkala/Kaspiysk) ou MMA en Tchétchénie (Grozny).",
             "2 sessions d'entraînement par jour, 6 jours sur 7. Lutte 10h30/17h30, MMA 11h00/18h00.",
-            "Tout inclus sauf vol international : hébergement, 2 repas/jour, vol intérieur Istanbul-Caucase, transferts, encadrement local.",
+            "Inclus : visa russe, vol intérieur Istanbul-Caucase, hébergement, 2 repas/jour, transferts, encadrement local. Vol international à organiser de ton côté.",
             "Capacité : 15 places Lutte + 15 places MMA par session (exclusif). Combo Lutte + MMA disponible uniquement en Sur Mesure.",
           ]}
         />

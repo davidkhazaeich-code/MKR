@@ -1,16 +1,15 @@
-import type { Metadata } from 'next'
+import { buildMetadata } from '@/lib/seo'
 import { Suspense } from 'react'
 import PageHero from '@/components/PageHero'
 import GuideForm from '@/components/GuideForm'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 import CinematicReveal from '@/components/CinematicReveal'
 
-export const metadata: Metadata = {
+export const metadata = buildMetadata({
   title: 'Guide PDF gratuit Caucase : Lutte et MMA | MKR',
   description: "Guide complet de 20 pages pour partir t'entrainer au Caucase. Visa, vols, budget, preparation, equipement, culture. Telechargement instantane, gratuit.",
-  alternates: { canonical: 'https://mkrcamp.com/guide-caucase' },
-}
-
+  path: '/guide-caucase',
+})
 const GUIDE_CONTENTS = [
   { title: 'Visa Russie : on s’en occupe', desc: 'Prise en charge complète A à Z. Tu fournis 3 pièces, MKR gère lettre, formulaire, dépôt, suivi.' },
   { title: 'Vols et itinéraires', desc: 'Istanbul vers Makhachkala (Lutte) ou Grozny (MMA). Comparatif, fenêtres de prix, vol intérieur inclus.' },

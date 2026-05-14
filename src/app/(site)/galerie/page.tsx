@@ -1,15 +1,14 @@
-import type { Metadata } from 'next'
+import { buildMetadata } from '@/lib/seo'
 import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 import GalerieContent from '@/components/GalerieContent'
 
-export const metadata: Metadata = {
+export const metadata = buildMetadata({
   title: 'Galerie photos du camp MMA au Daghestan | MKR Caucasian Camp',
   description: "Photos et vidéos du camp MKR au Caucase. Entraînements, montagnes, coachs, culture. Découvre le camp en images.",
-  alternates: { canonical: 'https://mkrcamp.com/galerie' },
-}
-
+  path: '/galerie',
+})
 export default function GaleriePage() {
   return (
     <>

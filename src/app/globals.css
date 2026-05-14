@@ -7547,6 +7547,44 @@ html.is-loading body {
   margin: 3rem auto 0;
 }
 
+.facilitator-force {
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) 1.6fr;
+  gap: clamp(1.2rem, 3vw, 2.5rem);
+  align-items: center;
+  max-width: 1080px;
+  margin: 3rem auto 0;
+  padding: clamp(1.4rem, 3vw, 2.2rem) clamp(1.4rem, 3vw, 2.2rem);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(200, 75, 49, 0.07), rgba(255, 255, 255, 0.02));
+  backdrop-filter: blur(2px);
+}
+
+.facilitator-force-title {
+  font-family: var(--font-teko), sans-serif;
+  font-size: clamp(1.3rem, 2.6vw, 1.8rem);
+  line-height: 1.05;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  margin: 0;
+  color: var(--text-primary);
+}
+
+.facilitator-force-text {
+  color: var(--text-secondary);
+  font-size: 0.96rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+@media (max-width: 720px) {
+  .facilitator-force {
+    grid-template-columns: 1fr;
+    gap: 0.8rem;
+  }
+}
+
 /* ──────────────────────────────────────────
    PAGE HERO avec image de fond
    ────────────────────────────────────────── */

@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import type { Metadata } from 'next'
+import { buildMetadata } from '@/lib/seo'
 import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
@@ -8,12 +8,11 @@ import PricingTable from '@/components/PricingTable'
 import FacilitatorBand from '@/components/FacilitatorBand'
 import { FAMILY_EXTRA_CHILD_1WEEK_LABEL } from '@/lib/pricing-copy'
 
-export const metadata: Metadata = {
+export const metadata = buildMetadata({
   title: 'Camp Famille Parent-Enfant au Daghestan | MKR',
   description: "Viens t'entraîner en famille au Daghestan. Parent et enfant 8-17 ans côte à côte sur le tapis. Programme adapté, tarifs famille publics, encadrement spécialisé.",
-  alternates: { canonical: 'https://mkrcamp.com/familles' },
-}
-
+  path: '/familles',
+})
 const PILLARS = [
   {
     title: 'Parent obligatoire',
@@ -89,9 +88,9 @@ export default function FamillesPage() {
                 Vous vous retrouvez aux repas, excursions, et moments libres.
               </p>
               <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1rem' }}>
-                MKR organise tout : visa, vol intérieur Istanbul-Makhachkala, transferts, hébergement famille,
-                2 repas par jour, encadrement par 9 coachs expérimentés.
-                Tu embarques ton sac et celui de ton enfant.
+                MKR organise tout : visa russe, vol intérieur Istanbul-Makhachkala, transferts, hébergement famille,
+                2 repas par jour, encadrement par 9 coachs expérimentés. Tu organises uniquement le vol jusqu&apos;à Istanbul,
+                puis tu embarques ton sac et celui de ton enfant.
               </p>
               <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1rem' }}>
                 <strong>Important</strong> : l&apos;enfant 8-17 ans doit être obligatoirement accompagné d&apos;un parent

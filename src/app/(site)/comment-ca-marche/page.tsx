@@ -1,16 +1,15 @@
-import type { Metadata } from 'next'
+import { buildMetadata } from '@/lib/seo'
 import PageHero from '@/components/PageHero'
 import FAQAccordion from '@/components/FAQAccordion'
 import SectionCTA from '@/components/SectionCTA'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 import RefundPolicyTable from '@/components/RefundPolicyTable'
 
-export const metadata: Metadata = {
+export const metadata = buildMetadata({
   title: "Comment ça marche : 6 étapes pour rejoindre le camp | MKR",
   description: "De l'inscription au premier tapis : découvre les 6 étapes pour rejoindre le camp MKR au Daghestan. Processus clair, transparent, sans surprise.",
-  alternates: { canonical: 'https://mkrcamp.com/comment-ca-marche' },
-}
-
+  path: '/comment-ca-marche',
+})
 const STEPS = [
   {
     num: '01',
@@ -39,8 +38,8 @@ const STEPS = [
   {
     num: '05',
     title: 'DÉPART',
-    desc: "Vol à ta charge. Un véhicule MKR t'attend à l'aéroport. Le transfert vers le camp est inclus. Tu n'as plus qu'à embarquer.",
-    detail: 'Transfert inclus',
+    desc: "Tu prends ton vol jusqu'à Istanbul (à organiser librement). MKR a réservé ton vol intérieur Istanbul → Caucase et un véhicule t'attend à l'aéroport. Tu n'as plus qu'à embarquer.",
+    detail: 'Vol intérieur et transfert inclus',
   },
   {
     num: '06',
@@ -52,6 +51,8 @@ const STEPS = [
 
 const PROCESS_FAQ = [
   { question: "Que se passe-t-il si ma candidature est refusée ?", answer: "On t'explique les raisons et on te donne des pistes pour te préparer à une prochaine session. Le refus est souvent lié au niveau sportif : on te recommande un programme de préparation. Pour les autres questions (durée du processus, paiement, report), consulte la FAQ Inscription." },
+  { question: "Et si je m'inscris à moins de 30 jours du départ ?", answer: "C'est possible quand il reste de la place, mais un supplément MKR de traitement express s'applique. Il couvre la procédure visa accélérée, la sécurisation du vol intérieur Istanbul-Caucase en haute-saison et la coordination logistique en délai contraint. Le montant est communiqué lors de la visio de validation, en sus du tarif du package. MKR se réserve le droit de refuser une candidature à moins de 30 jours si les délais administratifs (visa russe, vol intérieur) ne peuvent être tenus dans des conditions raisonnables." },
+  { question: "MKR organise mon vol jusqu'à Istanbul ?", answer: "Non, le vol international jusqu'à Istanbul reste à ton organisation : tu choisis ta compagnie, ton aéroport de départ et ta classe selon ton budget. Ton vol doit arriver à Istanbul (IST ou SAW) au moins 4 heures avant ton vol intérieur MKR. MKR confirme l'horaire du vol intérieur Istanbul → Makhachkala (Lutte au Daghestan) ou Istanbul → Grozny (MMA en Tchétchénie) dès la validation de ta candidature, et te transmet le billet correspondant." },
 ]
 
 export default function CommentCaMarchePage() {

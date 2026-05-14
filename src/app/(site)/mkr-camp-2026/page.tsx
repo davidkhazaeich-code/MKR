@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import type { Metadata } from 'next'
+import { buildMetadata } from '@/lib/seo'
 import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
@@ -8,12 +8,11 @@ import PricingTable from '@/components/PricingTable'
 import FacilitatorBand from '@/components/FacilitatorBand'
 import { SOLO_PRICE_1WEEK_LABEL, SOLO_PRICE_1WEEK_EUR } from '@/lib/pricing-copy'
 
-export const metadata: Metadata = {
+export const metadata = buildMetadata({
   title: 'MKR Camp 2026 · Session 17 août - 5 sept au Daghestan',
   description: `Session officielle 17 août - 5 septembre 2026 au Daghestan. 1, 2 ou 3 semaines. Adultes, 15 places. Dès ${SOLO_PRICE_1WEEK_LABEL} tout inclus.`,
-  alternates: { canonical: 'https://mkrcamp.com/mkr-camp-2026' },
-}
-
+  path: '/mkr-camp-2026',
+})
 const REASONS = [
   {
     title: 'Esprit collectif',
@@ -31,11 +30,11 @@ const REASONS = [
 
 const TIMELINE = [
   { time: 'J-90', label: 'Inscription', desc: 'Tu remplis le formulaire. Réponse sous 48h.' },
-  { time: 'J-60', label: 'Visio + paiement', desc: 'Visio de validation avec Ruslan. Si validé : RIB envoyé, paiement intégral par virement. Lettre d\'invitation visa Russie déclenchée.' },
-  { time: 'J-45', label: 'Programme prep 6 sem', desc: 'Tu reçois le programme prep physique à distance. Visa russe en cours de finalisation.' },
-  { time: 'J-30', label: 'Visa finalisé', desc: 'Visa russe en main. Tu peux acheter ton vol international en confiance.' },
+  { time: 'J-60', label: 'Visio + paiement', desc: 'Visio de validation avec Ruslan. Si validé : RIB envoyé, paiement intégral par virement. Dossier visa Russie déclenché par MKR.' },
+  { time: 'J-45', label: 'Programme prep 6 sem', desc: 'Tu reçois le programme prep physique à distance. Visa russe en cours de finalisation, MKR confirme l\'horaire du vol intérieur Istanbul-Makhachkala.' },
+  { time: 'J-30', label: 'Visa finalisé', desc: 'Visa russe en main. Tu peux réserver ton vol international jusqu\'à Istanbul (vol intérieur MKR déjà calé).' },
   { time: 'J-7', label: 'Briefing final', desc: 'Brief logistique, vol, transferts, packing list confirmée.' },
-  { time: 'JOUR J', label: 'Départ', desc: 'Vol intl à charge. Vol intérieur Istanbul-Makhachkala inclus. Véhicule MKR à l\'aéroport.' },
+  { time: 'JOUR J', label: 'Départ', desc: 'Tu prends ton vol jusqu\'à Istanbul. Vol intérieur Istanbul-Makhachkala inclus. Véhicule MKR à l\'aéroport au Daghestan.' },
 ]
 
 export default function MkrCamp2026Page() {
