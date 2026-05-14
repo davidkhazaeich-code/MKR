@@ -28,7 +28,7 @@ export default function GuideDagestanPage() {
       ]} />
       <PageHero
         label="GUIDE GRATUIT"
-        title="PARTIR S'ENTRAÎNER<br/>AU DAGHESTAN"
+        title="TU PARS T'ENTRAÎNER<br/>AU DAGHESTAN."
         subtitle="Visa, vols, budget, préparation. Tout dans un guide de 20 pages."
         compact
       />
