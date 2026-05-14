@@ -1138,11 +1138,20 @@ h1, h2, h3, h4, h5 {
 
 .sessions-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 1rem;
 }
-@media (max-width: 1023px) { .sessions-grid { grid-template-columns: 1fr 1fr; } }
-@media (max-width: 600px)  { .sessions-grid { grid-template-columns: 1fr; } }
+@media (max-width: 1200px) { .sessions-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 640px)  { .sessions-grid { grid-template-columns: 1fr; } }
+
+/* Cards plus étroites en 4-col desktop : padding et watermark réduits */
+@media (min-width: 1201px) {
+  .session-card-body { padding: 1.6rem 1.4rem 0; }
+  .session-meta { padding: 0 1.4rem 1.2rem; }
+  .session-divider { margin: 0 1.4rem; }
+  .session-card-footer { padding: 1.2rem 1.4rem 1.6rem; }
+  .session-month-bg { font-size: 5.5rem; right: 0.6rem; }
+}
 
 .session-card {
   background: var(--surface);
@@ -1202,7 +1211,8 @@ h1, h2, h3, h4, h5 {
 
 .session-meta {
   display: flex;
-  gap: 1.5rem;
+  flex-wrap: wrap;
+  gap: 1rem 1.2rem;
   padding: 0 1.8rem 1.5rem;
   position: relative;
   z-index: 1;
@@ -1211,6 +1221,7 @@ h1, h2, h3, h4, h5 {
   display: flex;
   flex-direction: column;
   gap: 0.1rem;
+  min-width: 0;
 }
 .session-meta-label {
   font-family: var(--font-barlow-condensed), sans-serif;
@@ -1234,17 +1245,20 @@ h1, h2, h3, h4, h5 {
 .session-card-footer {
   padding: 1.4rem 1.8rem 1.8rem;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 1rem;
   position: relative;
   z-index: 1;
 }
+.session-card-footer > div { min-width: 0; }
 .session-price {
   font-family: var(--font-teko), sans-serif;
   font-weight: 600;
   font-size: 1.5rem;
   color: var(--text-primary);
   line-height: 1;
+  margin-bottom: 0.5rem;
 }
 .session-price-sub {
   font-family: var(--font-barlow-condensed), sans-serif;
@@ -1252,6 +1266,7 @@ h1, h2, h3, h4, h5 {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--text-muted);
+  line-height: 1.5;
 }
 .session-cta {
   font-family: var(--font-barlow-condensed), sans-serif;
@@ -1262,12 +1277,13 @@ h1, h2, h3, h4, h5 {
   text-decoration: none;
   color: #fff;
   background: var(--cta);
-  padding: 0.65rem 1.3rem;
+  padding: 0.85rem 1.3rem;
   border: none;
   cursor: pointer;
   transition: background 0.2s linear;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   min-height: 44px;
 }
 .session-cta:hover { background: var(--cta-hover); }

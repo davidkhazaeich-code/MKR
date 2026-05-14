@@ -1,9 +1,10 @@
+import Link from 'next/link'
 import type { Metadata } from 'next'
 import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 import CinematicReveal from '@/components/CinematicReveal'
-import { FAMILY_FORFAIT_DETAIL } from '@/lib/pricing-copy'
+import { FAMILY_BASE_1WEEK_LABEL, FAMILY_FORFAIT_DETAIL } from '@/lib/pricing-copy'
 
 export const metadata: Metadata = {
   title: 'Programme Lutte Enfants | MKR Caucasian Camp | Lutte jeunesse au Daghestan',
@@ -64,8 +65,8 @@ export default function ProgrammeLutteEnfantsPage() {
             <span className="parents-stat-label">Sessions/jour à 10h30 et 17h30</span>
           </div>
           <div>
-            <span className="parents-stat-num">1 000</span>
-            <span className="parents-stat-label">€ minimum · à partir de (enfant 1 sem)</span>
+            <span className="parents-stat-num">{FAMILY_BASE_1WEEK_LABEL.replace(/\s*€/, '')}</span>
+            <span className="parents-stat-label">Forfait Famille · 1 sem (1 parent + 1 enfant)</span>
           </div>
         </div>
       </section>
@@ -115,10 +116,10 @@ export default function ProgrammeLutteEnfantsPage() {
         </div>
       </section>
 
-      {/* Cinematic reveal : coach et cercle d'enfants */}
+      {/* Cinematic reveal : jeune lutteur en posture */}
       <CinematicReveal
-        image="/images/ruslan/kids/kids-coach-cercle-mkr.webp"
-        alt="Cercle de jeunes lutteurs autour d'un coach daghestanais, transmission technique"
+        image="/images/ruslan/kids/kid-lutteur-rouge-rossiya.webp"
+        alt="Jeune lutteur daghestanais en posture, salle d'entraînement de Makhachkala"
         label="TRANSMISSION"
         title="LE GESTE JUSTE,<br/>AVANT TOUT"
         tagline="Fondamentaux d&apos;abord. Confiance, technique, respect du tapis. Tout commence là."
@@ -167,47 +168,20 @@ export default function ProgrammeLutteEnfantsPage() {
         </div>
       </section>
 
-      {/* Pour les parents : section rassurance */}
-      <section className="dag-security fx-texture-concrete fx-glow fx-mask-d fx-stack-5">
-        <div className="fx-glow-orb fx-glow-orb--top fx-glow-breathe" />
+      {/* Pour les parents : version compacte, le détail vit sur /familles */}
+      <section className="logi-section fx-texture-concrete fx-mask-d fx-stack-5">
         <div className="inner">
-          <div className="layout-split layout-split--balanced layout-split--center reveal">
-            <div>
-              <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>
-                POUR LES PARENTS
-              </span>
-              <h2 style={{ fontSize: 'clamp(1.5rem, 3.5vw, 2.2rem)', textTransform: 'uppercase' }}>
-                TON ENFANT EST<br/>ENTRE DE BONNES MAINS
-              </h2>
-              <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1.5rem' }}>
-                Le programme Lutte enfants est <strong>strictement encadré par un coach jeunesse</strong> formé
-                à la pédagogie sportive des plus jeunes. Pas de KO, sparring contrôlé, supervision constante.
-                Tu participes au camp en parallèle, et tu peux assister aux sessions de ton enfant quand tu le souhaites.
-              </p>
-              <ul className="logi-check-list" style={{ marginTop: '1.5rem' }}>
-                <li><strong>Parent obligatoire</strong> : enfant 8-17 ans toujours accompagné d&apos;un parent participant au camp</li>
-                <li><strong>Ratio sécurité</strong> : 1 coach pour 5 enfants maximum</li>
-                <li><strong>Communication parents</strong> : briefing chaque fin de session, photos quotidiennes</li>
-                <li><strong>Cadre adapté</strong> : tapis olympiques homologués, salle dédiée, surveillance permanente</li>
-                <li><strong>Forfait Famille</strong> : {FAMILY_FORFAIT_DETAIL.replace('Forfait Famille : ', '')}</li>
-              </ul>
-              <p className="pull-quote" style={{ marginTop: '1.5rem' }}>
-                &laquo; Mon fils est revenu transformé. Plus discipliné, plus confiant. Et il a appris des choses
-                qu&apos;aucun coach en France ne lui aurait montrées. &raquo;
-              </p>
-              <span style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>Karim D. · Père · Genève</span>
-            </div>
-            <div>
-              <figure className="photo-card">
-                <img
-                  src="/images/ruslan/kids/kids-sparring-encadre-mkr.webp"
-                  alt="Sparring contrôlé entre jeunes lutteurs, supervision constante du coach"
-                  width={800}
-                  height={600}
-                  loading="lazy"
-                  className="section-photo-img"
-                />
-              </figure>
+          <div className="group-card reveal" style={{ textAlign: 'center' }}>
+            <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.6rem' }}>POUR LES PARENTS</span>
+            <h2 style={{ fontSize: 'clamp(1.4rem, 2.8vw, 1.9rem)' }}>TON ENFANT EST ENTRE DE BONNES MAINS</h2>
+            <p style={{ color: 'var(--text-secondary)', marginTop: '0.8rem', maxWidth: '680px', margin: '0.8rem auto 0', lineHeight: '1.6' }}>
+              Coach jeunesse dédié, ratio 1 pour 5, parent participant obligatoire, briefing après chaque session.
+              Le détail complet du cadre famille (sécurité, hébergement, programme parallèle, forfait Famille à partir de {FAMILY_BASE_1WEEK_LABEL}) est sur la page Camp Famille.
+            </p>
+            <div style={{ marginTop: '1.4rem' }}>
+              <Link href="/familles" className="btn-ghost" style={{ fontSize: '0.85rem', padding: '0.6rem 1.4rem' }}>
+                DÉCOUVRIR LE CAMP FAMILLE
+              </Link>
             </div>
           </div>
         </div>
