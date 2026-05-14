@@ -82,7 +82,7 @@ export default function SurMesurePage() {
         image="/images/ruslan/action/mma-cercle-session-demo-mkr.webp"
         alt="Cercle de combattants en démonstration grappling au Daghestan"
         label="POUR QUI"
-        title="POUR CEUX QUI<br/>FIXENT LEURS DATES."
+        title="TU SAIS QUAND PARTIR.<br/>ON FAIT LE RESTE."
         tagline="Tu as un objectif clair et un créneau précis. On adapte le camp à ton agenda, pas l'inverse."
       />
 
