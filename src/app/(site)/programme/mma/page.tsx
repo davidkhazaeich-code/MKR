@@ -5,6 +5,7 @@ import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 import CinematicReveal from '@/components/CinematicReveal'
 import DisciplineTechniques from '@/components/DisciplineTechniques'
 import DisciplineSessionFlow from '@/components/DisciplineSessionFlow'
+import TldrBox from '@/components/TldrBox'
 
 export const metadata: Metadata = {
   title: 'Programme MMA en Tchétchénie | MKR Caucasian Camp',
@@ -39,13 +40,26 @@ export default function ProgrammeMMAPage() {
       ]} />
       <PageHero
         label="MMA · TCHÉTCHÉNIE"
-        title="FRAPPE. PROJETTE.<br/>SOUMETS."
+        title="FRAPPE. PROJETTE. SOUMETS."
         subtitle="Programme MMA complet à Grozny, Tchétchénie. Les méthodes de l'écurie Akhmat et de la nouvelle génération du combat."
         breadcrumb={[
           { href: '/programme', label: 'Programme' },
           { href: '/programme/mma', label: 'MMA' },
         ]}
       />
+
+      <div className="inner">
+        <TldrBox
+          title="En bref · Programme MMA"
+          facts={[
+            "Camp MMA exclusif à Grozny, Tchétchénie. 15 places par session officielle.",
+            "Niveau Avancé minimum exigé (5+ ans de pratique régulière ou compétiteur).",
+            "6 modules techniques : stand-up, clinch, takedowns, ground & pound, soumissions, transitions.",
+            "Sparring quotidien avec les combattants de l'écurie Akhmat Fight Club et de la scène MMA tchétchène.",
+            "Horaires : sessions à 11h00 et 18h00, 6 jours sur 7. Combo Lutte + MMA disponible en Sur Mesure.",
+          ]}
+        />
+      </div>
 
       {/* Description */}
       <section className="logi-section fx-grid fx-stack-1 fx-glow">

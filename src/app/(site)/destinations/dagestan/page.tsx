@@ -5,6 +5,7 @@ import SectionCTA from '@/components/SectionCTA'
 import DestinationReveal from '@/components/DestinationReveal'
 import CinematicReveal from '@/components/CinematicReveal'
 import DestinationSafetyProtocol from '@/components/DestinationSafetyProtocol'
+import TldrBox from '@/components/TldrBox'
 
 export const metadata: Metadata = {
   title: 'Daghestan : Camps MMA et Lutte au cœur du Caucase | MKR',
@@ -24,6 +25,19 @@ export default function DagestanPage() {
           { href: '/destinations/dagestan', label: 'Daghestan' },
         ]}
       />
+
+      <div className="inner">
+        <TldrBox
+          title="En bref · Daghestan"
+          facts={[
+            "Région du Caucase Nord (Fédération de Russie), capitale Makhachkala, 3,1 millions d'habitants.",
+            "Berceau du MMA mondial : Khabib Nurmagomedov, Islam Makhachev, Magomed Ankalaev (3 champions UFC actuels).",
+            "Plus de 30 médailles olympiques de lutte rapportées par la région, méthode daghestanaise mondialement reconnue.",
+            "Camp MKR : salles de Makhachkala et Kaspiysk, vol intérieur Istanbul-Makhachkala inclus, transfert 1h30.",
+            "Lutte (adultes et enfants 8-17 avec parent) — pour le MMA, voir la Tchétchénie.",
+          ]}
+        />
+      </div>
 
       <DestinationReveal
         image="/images/environment/dagestan-horses.webp"

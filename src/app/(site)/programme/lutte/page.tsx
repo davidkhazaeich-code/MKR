@@ -5,6 +5,7 @@ import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 import CinematicReveal from '@/components/CinematicReveal'
 import DisciplineTechniques from '@/components/DisciplineTechniques'
 import DisciplineSessionFlow from '@/components/DisciplineSessionFlow'
+import TldrBox from '@/components/TldrBox'
 
 export const metadata: Metadata = {
   title: 'Programme Lutte libre au Daghestan | MKR Caucasian Camp',
@@ -39,13 +40,26 @@ export default function ProgrammeLuttePage() {
       ]} />
       <PageHero
         label="LUTTE · DAGHESTAN"
-        title="LA DISCIPLINE QUI A<br/>FORGÉ LE CAUCASE"
+        title="LA DISCIPLINE QUI A FORGÉ LE CAUCASE"
         subtitle="Lutte libre uniquement, au cœur du Daghestan. Les méthodes ancestrales transmises dans les salles de Makhachkala et Kaspiysk."
         breadcrumb={[
           { href: '/programme', label: 'Programme' },
           { href: '/programme/lutte', label: 'Lutte' },
         ]}
       />
+
+      <div className="inner">
+        <TldrBox
+          title="En bref · Programme Lutte"
+          facts={[
+            "Lutte libre exclusivement (pas de gréco-romaine) au Daghestan, Makhachkala et Kaspiysk.",
+            "15 places par session officielle. Ouvert aux adultes et enfants 8-17 ans avec parent (tunnel Famille).",
+            "6 modules techniques : takedowns, leg rides daghestanais, chain wrestling, funk rolls, mat returns, défense.",
+            "Sparring quotidien avec lutteurs locaux issus de la filière qui a produit 30+ médaillés olympiques.",
+            "Horaires : sessions à 10h30 et 17h30, 6 jours sur 7. Combo Lutte + MMA disponible en Sur Mesure.",
+          ]}
+        />
+      </div>
 
       {/* Description */}
       <section className="logi-section fx-grid fx-stack-1 fx-glow">

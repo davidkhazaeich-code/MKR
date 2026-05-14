@@ -4,6 +4,7 @@ import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 import CinematicReveal from '@/components/CinematicReveal'
+import TldrBox from '@/components/TldrBox'
 
 export const metadata: Metadata = {
   title: 'Le Camp MKR : Lutte au Daghestan, MMA en Tchétchénie',
@@ -97,9 +98,22 @@ export default function LeCampPage() {
 
       <PageHero
         label="LE CAMP"
-        title="1 À 3 SEMAINES QUI CHANGENT<br/>TA MANIÈRE DE COMBATTRE."
+        title="1 À 3 SEMAINES QUI CHANGENT TA MANIÈRE DE COMBATTRE."
         subtitle="Immersion totale au Caucase. Lutte au Daghestan, MMA en Tchétchénie. Coaching, hébergement, repas pris en charge. Toi, tu combats."
       />
+
+      <div className="inner">
+        <TldrBox
+          title="En bref · Le Camp MKR"
+          facts={[
+            "Durée flexible : 1, 2 ou 3 semaines au sein d'une fenêtre de 3 semaines (4 sessions par an).",
+            "Deux destinations exclusives par session : Lutte au Daghestan (Makhachkala/Kaspiysk) ou MMA en Tchétchénie (Grozny).",
+            "2 sessions d'entraînement par jour, 6 jours sur 7. Lutte 10h30/17h30, MMA 11h00/18h00.",
+            "Tout inclus sauf vol international : hébergement, 2 repas/jour, vol intérieur Istanbul-Caucase, transferts, encadrement local.",
+            "Capacité : 15 places Lutte + 15 places MMA par session (exclusif). Combo Lutte + MMA disponible uniquement en Sur Mesure.",
+          ]}
+        />
+      </div>
 
       {/* Cinematic reveal */}
       <CinematicReveal

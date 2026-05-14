@@ -8989,3 +8989,58 @@ html.is-loading body {
   height: 100%;
   display: block;
 }
+
+/* ============================================================================
+   TLDR Box — passage-level extraction pour LLMs + lecture rapide
+   ============================================================================ */
+.tldr-box {
+  margin: 1.5rem auto 2.5rem;
+  max-width: 880px;
+  padding: 1.4rem 1.6rem;
+  background: var(--surface-lowest, rgba(28, 28, 28, 0.55));
+  border-left: 3px solid var(--primary, #C0392B);
+  border-radius: 4px;
+  display: block;
+}
+.tldr-box-label {
+  display: block;
+  font-family: var(--font-barlow-condensed, sans-serif);
+  font-weight: 700;
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--primary, #C0392B);
+  margin-bottom: 0.7rem;
+}
+.tldr-box-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+.tldr-box-item {
+  position: relative;
+  padding-left: 1.2rem;
+  font-size: 0.96rem;
+  line-height: 1.55;
+  color: var(--text-primary, #f0f0f0);
+}
+.tldr-box-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.6em;
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 50%;
+  background: var(--primary, #C0392B);
+}
+@media (max-width: 640px) {
+  .tldr-box {
+    margin: 1rem 0 2rem;
+    padding: 1.2rem 1.2rem;
+  }
+  .tldr-box-item { font-size: 0.92rem; }
+}

@@ -4,6 +4,7 @@ import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
 import DestinationReveal from '@/components/DestinationReveal'
 import DestinationSafetyProtocol from '@/components/DestinationSafetyProtocol'
+import TldrBox from '@/components/TldrBox'
 
 export const metadata: Metadata = {
   title: 'Tchétchénie : Camp MMA au Caucase | MKR Caucasian Camp',
@@ -23,6 +24,19 @@ export default function TchetcheniePage() {
           { href: '/destinations/tchetchenie', label: 'Tchétchénie' },
         ]}
       />
+
+      <div className="inner">
+        <TldrBox
+          title="En bref · Tchétchénie"
+          facts={[
+            "République du Caucase Nord (Fédération de Russie), capitale Grozny, 1,5 million d'habitants.",
+            "Épicentre du MMA moderne : Akhmat Fight Club, héritage Khamzat Chimaev, écuries State et privées.",
+            "Plus de 15 combattants au top mondial MMA, 30+ salles professionnelles dans la région.",
+            "Camp MKR : salles MMA de Grozny, vol intérieur Istanbul-Grozny inclus, transfert 30 min.",
+            "MMA uniquement (niveau Avancé minimum, 5+ ans de pratique) — pour la Lutte, voir le Daghestan.",
+          ]}
+        />
+      </div>
 
       <DestinationReveal
         image="/images/environment/mosque-grozny.webp"
