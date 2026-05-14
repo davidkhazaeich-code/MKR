@@ -1,0 +1,242 @@
+/* Guide Caucase — Print stylesheet (WeasyPrint 68.1) */
+
+@page {
+  size: A4 portrait;
+  margin: 0;
+  @bottom-center {
+    content: counter(page);
+    font-family: 'Roboto Condensed', sans-serif;
+    font-size: 9pt;
+    color: #888;
+  }
+  @bottom-right {
+    content: "mkrcamp.com";
+    font-family: 'Roboto Condensed', sans-serif;
+    font-size: 8pt;
+    color: #aaa;
+    margin-right: 12mm;
+  }
+}
+
+@page :first {
+  @bottom-center { content: none; }
+  @bottom-right { content: none; }
+}
+
+* { box-sizing: border-box; }
+
+:root {
+  --c-primary: #E11D2A;
+  --c-mountain-glow: #C84B31;
+  --c-dark: #0E0E0E;
+  --c-text: #1A1A1A;
+  --c-text-soft: #5A5A5A;
+  --c-cream: #F8F5F0;
+  --c-line: #D9D5CE;
+  --c-daghestan: #2C4A7C;
+  --c-tchetchenie: #1A4D3A;
+}
+
+body {
+  font-family: 'Crimson Text', Georgia, serif;
+  color: var(--c-text);
+  background: var(--c-cream);
+  margin: 0;
+  font-size: 11pt;
+  line-height: 1.55;
+}
+
+h1, h2, h3, .uc {
+  font-family: 'Roboto Condensed', 'Arial Narrow', sans-serif;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  line-height: 1.05;
+  margin: 0;
+}
+
+.page {
+  width: 210mm;
+  height: 297mm;
+  padding: 22mm 18mm;
+  page-break-after: always;
+  position: relative;
+  overflow: hidden;
+  background: var(--c-cream);
+}
+
+.page.dark { background: var(--c-dark); color: var(--c-cream); }
+.page.dark h1, .page.dark h2, .page.dark h3 { color: var(--c-cream); }
+
+/* === Cover === */
+.cover { padding: 0; }
+.cover-img { position: absolute; top: 0; right: 0; bottom: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
+.cover-overlay {
+  position: absolute; top: 0; right: 0; bottom: 0; left: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.55) 60%, rgba(0,0,0,0.85) 100%);
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 24mm 18mm;
+  color: #fff;
+}
+.cover-eyebrow {
+  font-family: 'Roboto Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 10pt;
+  letter-spacing: 0.4em;
+  color: var(--c-mountain-glow);
+  margin-bottom: 6mm;
+}
+.cover-title {
+  font-family: 'Roboto Condensed', sans-serif;
+  font-weight: 900;
+  text-transform: uppercase;
+  font-size: 56pt;
+  line-height: 0.95;
+  margin: 0 0 8mm 0;
+  color: #fff;
+}
+.cover-sub {
+  font-family: 'Crimson Text', serif;
+  font-size: 14pt;
+  font-style: italic;
+  max-width: 130mm;
+  margin: 0 0 28mm 0;
+  color: #f0eee9;
+}
+.cover-footer {
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 9pt;
+  letter-spacing: 0.3em;
+  color: #d8d3c9;
+}
+
+/* === Chapter opener === */
+.chapter { padding: 0; color: #fff; }
+.chapter-img { position: absolute; top: 0; right: 0; bottom: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
+.chapter-overlay {
+  position: absolute; top: 0; right: 0; bottom: 0; left: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.65) 100%);
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 24mm 18mm;
+}
+.chapter-eyebrow {
+  font-family: 'Roboto Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 10pt;
+  letter-spacing: 0.4em;
+  margin-bottom: 6mm;
+}
+.chapter-eyebrow.daghestan { color: #B8D4FF; }
+.chapter-eyebrow.tchetchenie { color: #C6E2D2; }
+.chapter-eyebrow.glow { color: var(--c-mountain-glow); }
+.chapter-title {
+  font-family: 'Roboto Condensed', sans-serif;
+  font-weight: 900;
+  text-transform: uppercase;
+  font-size: 36pt;
+  line-height: 1;
+  margin: 0 0 8mm 0;
+  color: #fff;
+}
+.chapter-tagline {
+  font-family: 'Crimson Text', serif;
+  font-style: italic;
+  font-size: 13pt;
+  max-width: 140mm;
+}
+
+/* === Typography blocks === */
+.eyebrow {
+  font-family: 'Roboto Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 9pt;
+  letter-spacing: 0.35em;
+  color: var(--c-primary);
+  text-transform: uppercase;
+  margin-bottom: 6mm;
+}
+h1.page-title { font-size: 32pt; margin-bottom: 6mm; }
+h2.section-title { font-size: 18pt; margin: 8mm 0 4mm; }
+h3.sub-title { font-size: 13pt; margin: 5mm 0 2mm; }
+
+p { margin: 0 0 4mm 0; }
+p.lede { font-size: 13pt; color: var(--c-text-soft); }
+
+.rule { border: 0; border-top: 1px solid var(--c-line); margin: 6mm 0; }
+
+ul, ol { margin: 0 0 4mm 5mm; padding: 0; }
+ul li, ol li { margin-bottom: 1.5mm; }
+
+/* === Tables === */
+table {
+  width: 100%; border-collapse: collapse; margin: 4mm 0;
+  font-family: 'Roboto Condensed', sans-serif; font-size: 10pt;
+}
+th, td { padding: 2mm 3mm; text-align: left; border-bottom: 1px solid var(--c-line); }
+th { background: #ECE7DD; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; font-size: 9pt; }
+td.num { text-align: right; font-variant-numeric: tabular-nums; }
+tr.total td { font-weight: 700; border-top: 2px solid var(--c-text); }
+
+/* === Stats grid === */
+.stats { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6mm; margin: 6mm 0; }
+.stat { padding: 5mm; background: #fff; border-left: 3px solid var(--c-primary); }
+.stat .num { font-family: 'Roboto Condensed', sans-serif; font-weight: 900; font-size: 24pt; line-height: 1; color: var(--c-primary); }
+.stat .lbl { font-family: 'Roboto Condensed', sans-serif; font-size: 9pt; text-transform: uppercase; letter-spacing: 0.1em; color: var(--c-text-soft); margin-top: 2mm; }
+
+/* === Checklists === */
+.check { list-style: none; margin: 4mm 0; padding: 0; }
+.check li { padding-left: 7mm; position: relative; margin-bottom: 2.5mm; }
+.check li::before {
+  content: ""; position: absolute; left: 0; top: 1.5mm;
+  width: 4mm; height: 4mm; border: 1.5px solid var(--c-text);
+}
+
+/* === Two-column layout === */
+.cols-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8mm; }
+
+/* === Spread === */
+.spread-left, .spread-right { padding: 22mm 14mm; }
+
+/* === Region badges === */
+.badge-region {
+  display: inline-block; padding: 1mm 3mm;
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 8pt; font-weight: 700;
+  letter-spacing: 0.15em; text-transform: uppercase; color: #fff;
+}
+.badge-region.daghestan { background: var(--c-daghestan); }
+.badge-region.tchetchenie { background: var(--c-tchetchenie); }
+
+/* === Quote === */
+.quote {
+  font-family: 'Crimson Text', serif; font-style: italic;
+  font-size: 12pt; padding-left: 6mm;
+  border-left: 3px solid var(--c-primary);
+  margin: 5mm 0;
+}
+.quote .who {
+  display: block; margin-top: 3mm; font-style: normal;
+  font-family: 'Roboto Condensed', sans-serif;
+  font-weight: 700; font-size: 9pt;
+  letter-spacing: 0.1em; text-transform: uppercase;
+}
+
+/* === Final page CTA === */
+.final { background: var(--c-dark); color: var(--c-cream); padding: 28mm 22mm; }
+.final h1 { color: #fff; font-size: 30pt; }
+.final h2 { color: #fff; }
+.final .cta-box { background: var(--c-primary); color: #fff; padding: 10mm; margin: 6mm 0; }
+.final .cta-box .cta-title {
+  font-family: 'Roboto Condensed', sans-serif;
+  font-weight: 900; text-transform: uppercase; font-size: 16pt;
+}
+
+/* === Sessions list (page 20) === */
+.sessions-list { margin: 5mm 0; padding: 0; list-style: none; }
+.sessions-list li {
+  display: flex; justify-content: space-between;
+  padding: 2mm 0; border-bottom: 1px solid #2a2a2a;
+  font-family: 'Roboto Condensed', sans-serif;
+}
+.sessions-list .season { font-weight: 700; letter-spacing: 0.1em; }
+.sessions-list .dates { color: #B5B0A6; }
