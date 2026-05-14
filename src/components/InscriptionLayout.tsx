@@ -19,6 +19,7 @@ import PlacesRestantes from '@/components/PlacesRestantes'
 import IconLutte from '@/components/icons/IconLutte'
 import IconMMA from '@/components/icons/IconMMA'
 import IconCombo from '@/components/icons/IconCombo'
+import IconFamille from '@/components/icons/IconFamille'
 
 const DEFAULT_SESSION_ID = SESSIONS[0]?.id ?? 'aout-2026'
 const SESSION_IDS = SESSIONS.map(s => s.id)
@@ -1948,9 +1949,15 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                 {/* Audience: FAMILLE — cards visuelles harmonisées (format + composition + durée) */}
                 {audience === 'famille' && (
                   <>
-                    <div className="insc-banner insc-banner--success">
-                      <strong>Camp Lutte au Daghestan (parent + enfant)</strong>
-                      <span>Le tunnel Famille se déroule au Daghestan : Lutte adultes + programme jeunesse 8-17 ans. Pas de MMA en Famille (programme jeunesse Lutte uniquement, parent sur le même camp). Pour une demande combo ou MMA, passe par <Link href="/inscription?type=custom" className="insc-inline-link">Sur Mesure</Link>.</span>
+                    <div className="insc-famille-hero">
+                      <span className="insc-famille-hero-icon" aria-hidden="true">
+                        <IconFamille />
+                      </span>
+                      <div className="insc-famille-hero-content">
+                        <span className="insc-famille-hero-label">TUNNEL FAMILLE</span>
+                        <strong className="insc-famille-hero-title">Camp Lutte au Daghestan (parent + enfant)</strong>
+                        <span className="insc-famille-hero-help">Lutte adultes + programme jeunesse 8-17 ans, sur le même camp. Pas de MMA en Famille (programme jeunesse Lutte uniquement). Pour une demande combo ou MMA, passe par <Link href="/inscription?type=custom" className="insc-inline-link">Sur Mesure</Link>.</span>
+                      </div>
                     </div>
 
                     <div className="insc-camp-section">

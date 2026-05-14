@@ -18,6 +18,11 @@
 
 **Constante centrale** : `STEPS_BY_TUNNEL: Record<RegistrationTypeId, readonly string[]>` exporté dans `InscriptionLayout.tsx`. `const STEPS = audience ? STEPS_BY_TUNNEL[audience] : STEPS_DEFAULT`.
 
+**Step 0 famille — Hero icône (ajouté 2026-05-14)** :
+- Nouveau composant `src/components/icons/IconFamille.tsx` (silhouette adulte + enfant, stroke-based, style aligné sur IconMMA).
+- Affiché en haut du Step 0 famille dans un wrapper `.insc-famille-hero` (bandeau vert succès avec disque icône à gauche + label "TUNNEL FAMILLE" + titre + help). Remplace l'ancien `.insc-banner--success` simple texte.
+- CSS dans `globals.css` ~l.7497 (avant `.insc-session-grid`) : `.insc-famille-hero`, `.insc-famille-hero-icon`, `.insc-famille-hero-content`, `.insc-famille-hero-label`, `.insc-famille-hero-title`, `.insc-famille-hero-help` + media query 540px.
+
 **Step 0 « Le camp » — session (la PREMIÈRE question)** :
 - Sous-section **1. Choisis ta session** : grid 4 cards (Été 2026 / Toussaint 2026 / Hiver 2027 / Pâques 2027). Chaque card affiche mois + saison + dates + intensité + compteur places dual (Lutte X/15 · MMA Y/15 live). Card active : bordure + halo `var(--primary)`.
 - Sous-section **2. Choisis ta discipline** : 2 cards riches Lutte (gradient vert) / MMA (gradient orange). Chaque card a emoji, nom, destination, meta. Badge places live de la session choisie dans le coin. Si MMA + niveau < Avancé : alerte rouge inline.
@@ -466,9 +471,10 @@ mkrcamp.com/
 **Tableaux locaux** :
 - `PILLARS` (l.~17) : 6 piliers — Parent obligatoire · Programme adapté · Coach jeunesse · Hébergement famille · Communication · Tarifs publics
 - `FAMILY_TESTIMONIALS` (l.~38) : 3 quotes (Karim D · Sophie L · Marc T)
-**Sections** : PageHero "VIENS T'ENTRAÎNER EN FAMILLE" · CinematicReveal `priere-collective-mkr.webp` "L'HÉRITAGE SE TRANSMET" · Description split (kids-alignes + Antoine portrait) · PILLARS grid-3x2 · Section sécurité split (kids-course-flou-1) · `<PricingTable />` complet · 3 témoignages parents · 3-step process inscription · SectionCTA `/inscription?type=session`
+**Sections (ordre 2026-05-14)** : PageHero "VIENS T'ENTRAÎNER EN FAMILLE" · CinematicReveal `priere-collective-mkr.webp` "L'HÉRITAGE SE TRANSMET" · Description split (kids-alignes + Antoine portrait) · PILLARS grid-3x2 · Section sécurité split (kids-course-flou-1) · 3 témoignages parents · `<PricingTable />` complet · 3-step process inscription (sans CTA inline) · SectionCTA `/inscription?type=famille`
 **Métadonnées** : title canonical /familles · description 8-17 ans avec parent
 **Important** : utilise `<PricingTable withHeader={true} />` (réutilisable)
+**Changement 2026-05-14** : témoignages remontés AVANT pricing (preuve sociale avant le prix), CTA dupliqués du process supprimés, SectionCTA href corrigé `?type=famille` (était `?type=session`).
 
 ### 👧 `/programme/lutte-enfants` — Lutte enfants (NOUVELLE)
 **Fichier** : `src/app/(site)/programme/lutte-enfants/page.tsx`

@@ -1,4 +1,3 @@
-import Link from 'next/link'
 import type { Metadata } from 'next'
 import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
@@ -207,9 +206,6 @@ export default function FamillesPage() {
         </div>
       </section>
 
-      {/* Tarifs famille */}
-      <PricingTable withHeader={true} />
-
       {/* Témoignages parents */}
       <section className="logi-section fx-grid fx-mask-a fx-stack-6 fx-glow">
         <div className="fx-glow-orb fx-glow-orb--left fx-glow-breathe" />
@@ -242,6 +238,9 @@ export default function FamillesPage() {
           </div>
         </div>
       </section>
+
+      {/* Tarifs famille */}
+      <PricingTable withHeader={true} />
 
       {/* Process inscription famille */}
       <section className="logi-section fx-texture-concrete fx-mask-b fx-stack-7">
@@ -277,19 +276,11 @@ export default function FamillesPage() {
               </p>
             </div>
           </div>
-          <div className="reveal" style={{ marginTop: '2rem', textAlign: 'center' }}>
-            <Link href="/inscription?type=famille" className="btn-primary" style={{ marginRight: '1rem' }}>
-              INSCRIRE MA FAMILLE
-            </Link>
-            <Link href="/sessions" className="btn-ghost">
-              VOIR LES 4 SESSIONS
-            </Link>
-          </div>
         </div>
       </section>
 
       <SectionCTA
-        primaryHref="/inscription?type=session"
+        primaryHref="/inscription?type=famille"
         primaryLabel="INSCRIRE MA FAMILLE"
         ghostHref="/contact"
         ghostLabel="POSER UNE QUESTION"
