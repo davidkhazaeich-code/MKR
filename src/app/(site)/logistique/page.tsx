@@ -213,7 +213,7 @@ export default function LogistiquePage() {
       <SectionCTA
         primaryHref="/faq"
         primaryLabel="DES QUESTIONS ?"
-        ghostHref="/guide-dagestan"
+        ghostHref="/guide-caucase"
         ghostLabel="TÉLÉCHARGER LE GUIDE PDF"
       />
     </>

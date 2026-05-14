@@ -344,7 +344,7 @@ export default function Nav() {
                 <ul className="mega-link-list" role="list">
                   <li><Link href="/destinations">{ICO.dagestan} Vue d&apos;ensemble {ARROW_SM}</Link></li>
                   <li><Link href="/logistique">{ICO.logistics} Logistique, vols et visa {ARROW_SM}</Link></li>
-                  <li><Link href="/guide-dagestan">{ICO.guide} Guide PDF Caucase {ARROW_SM}</Link></li>
+                  <li><Link href="/guide-caucase">{ICO.guide} Guide PDF Caucase {ARROW_SM}</Link></li>
                 </ul>
                 <div className="mega-dest-security" role="note">
                   <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" width="16" height="16" aria-hidden="true">
@@ -448,7 +448,7 @@ export default function Nav() {
             <Link href="/destinations" className="mob-sub-link">{ICO.overview} Vue d&apos;ensemble</Link>
             <span className="mob-sub-label">Préparer le voyage</span>
             <Link href="/logistique" className="mob-sub-link">{ICO.logistics} Logistique, vols et visa</Link>
-            <Link href="/guide-dagestan" className="mob-sub-link">{ICO.guide} Guide PDF Caucase</Link>
+            <Link href="/guide-caucase" className="mob-sub-link">{ICO.guide} Guide PDF Caucase</Link>
           </MobAccordion>
           <MobAccordion title="Découvrir" id="mob-decouvrir">
             <Link href="/galerie" className="mob-sub-link">{ICO.gallery} Galerie</Link>

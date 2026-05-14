@@ -44,7 +44,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/blog`, lastModified: '2026-03-15', changeFrequency: 'weekly', priority: 0.6 },
     ...blogEntries,
     { url: `${base}/inscription`, lastModified: '2026-03-01', changeFrequency: 'monthly', priority: 0.7 },
-    { url: `${base}/guide-dagestan`, lastModified: '2026-03-01', changeFrequency: 'yearly', priority: 0.5 },
+    { url: `${base}/guide-caucase`, lastModified: '2026-05-14', changeFrequency: 'yearly', priority: 0.6 },
     { url: `${base}/a-propos`, lastModified: '2026-03-01', changeFrequency: 'yearly', priority: 0.4 },
     { url: `${base}/contact`, lastModified: '2026-03-01', changeFrequency: 'yearly', priority: 0.5 },
     { url: `${base}/mentions-legales`, lastModified: '2026-01-01', changeFrequency: 'yearly', priority: 0.1 },

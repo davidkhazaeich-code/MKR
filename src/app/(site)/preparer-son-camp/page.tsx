@@ -115,7 +115,7 @@ export default function PreparerSonCampPage() {
             ))}
           </div>
           <div className="reveal" style={{ marginTop: '2rem' }}>
-            <Link href="/guide-dagestan" className="btn-ghost">TÉLÉCHARGER LE PROGRAMME PDF</Link>
+            <Link href="/guide-caucase" className="btn-ghost">TÉLÉCHARGER LE GUIDE COMPLET</Link>
           </div>
         </div>
       </section>
@@ -199,7 +199,7 @@ export default function PreparerSonCampPage() {
       <SectionCTA
         primaryHref="/sessions"
         primaryLabel="VOIR LES SESSIONS"
-        ghostHref="/guide-dagestan"
+        ghostHref="/guide-caucase"
         ghostLabel="TÉLÉCHARGER LE GUIDE COMPLET"
       />
     </>
