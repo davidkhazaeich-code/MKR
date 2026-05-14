@@ -197,7 +197,6 @@ export default function Nav() {
             </ul>
 
             <div className="nav-right">
-              <Link href="/sessions" className="nav-sessions-link">Sessions 2026</Link>
               <Link href="/inscription" className="nav-cta" aria-label="Postuler au camp">POSTULER</Link>
               <button
                 className={`nav-hamburger${menuOpen ? ' open' : ''}`}

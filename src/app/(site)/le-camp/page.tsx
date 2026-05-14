@@ -137,11 +137,7 @@ export default function LeCampPage() {
               </div>
               <div className="content-card fx-grain fx-corner-glow reveal" style={{ marginTop: '1.25rem', transitionDelay: '0.18s' }}>
                 <h3 className="card-title">HÉRITAGE DU CAUCASE</h3>
-                <p className="card-body">Des méthodes qui ont produit Khabib, Makhachev, et des centaines de champions olympiques de lutte.</p>
-              </div>
-              <div className="content-card fx-grain fx-corner-glow reveal" style={{ marginTop: '1.25rem', transitionDelay: '0.26s' }}>
-                <h3 className="card-title">TOUT COMPRIS</h3>
-                <p className="card-body">Transport, hébergement, repas, entraînement. Tu te concentres sur une seule chose : progresser.</p>
+                <p className="card-body">Des méthodes qui ont produit Khabib, Makhachev, et des centaines de champions olympiques de lutte. À Grozny, l&apos;Akhmat Fight Club a façonné Khamzat Chimaev et la nouvelle génération du MMA.</p>
               </div>
             </div>
           </div>

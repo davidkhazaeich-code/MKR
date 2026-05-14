@@ -9,8 +9,8 @@ import FacilitatorBand from '@/components/FacilitatorBand'
 import { PRICING_TIERS, formatEUR } from '@/data/pricing'
 
 export const metadata: Metadata = {
-  title: 'Clubs et Groupes | MKR Caucasian Camp | Camp dédié 5 à 20 personnes',
-  description: 'Camp dédié pour ton club ou groupe organisé (5 à 20 personnes). Dates au choix, hébergement bloc, transferts groupés, programme adapté au niveau collectif. Devis sur mesure.',
+  title: 'Clubs et Groupes au Caucase | MKR Caucasian Camp | Lutte Daghestan et MMA Tchétchénie',
+  description: "Camp dédié pour ton club ou groupe organisé (5 à 20 personnes) au Caucase. Lutte au Daghestan, MMA en Tchétchénie ou combo sur devis. Hébergement bloc, transferts groupés, programme adapté au niveau collectif.",
   alternates: { canonical: 'https://mkrcamp.com/clubs-groupes' },
 }
 
@@ -60,8 +60,8 @@ export default function ClubsGroupesPage() {
 
       <PageHero
         label="CLUBS ET GROUPES · 5 À 20 PERSONNES"
-        title="TON CLUB<br/>AU DAGHESTAN."
-        subtitle="Camp dédié pour ton club ou groupe organisé (5 à 20 personnes). Hébergement bloc, transferts groupés, programme adapté au niveau."
+        title="TON CLUB<br/>AU CAUCASE."
+        subtitle="Camp dédié pour ton club ou groupe organisé (5 à 20 personnes). Lutte au Daghestan, MMA en Tchétchénie ou combo sur devis. Hébergement bloc, transferts groupés, programme adapté au niveau."
         image="/images/ruslan/action/mma-adultes-cercle.webp"
         imageAlt="Cercle de fighters caucasiens en formation, équipe et fraternité du tapis"
       />

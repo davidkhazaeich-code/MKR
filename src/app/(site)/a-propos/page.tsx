@@ -27,45 +27,31 @@ export default function AProposPage() {
       {/* L'histoire */}
       <section className="logi-section fx-grid fx-stack-1">
         <div className="inner">
-          <div className="layout-split layout-split--balanced layout-split--center reveal">
-            <div>
-              <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>NOTRE HISTOIRE</span>
-              <h2 style={{ fontSize: 'clamp(1.5rem, 3vw, 2rem)', textTransform: 'uppercase' }}>
-                POURQUOI MKR EXISTE
-              </h2>
-              <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1rem' }}>
-                Les meilleurs combattants viennent du même endroit. Le Caucase. Lutte au Daghestan, MMA en Tchétchénie : deux écoles, un héritage. Mais personne ne propose
-                un accès structuré à ces méthodes d&apos;entraînement pour les athlètes européens.
-              </p>
-              <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1rem' }}>
-                Après des années de voyages au Daghestan et en Tchétchénie, des relations construites avec les coachs locaux,
-                et des dizaines d&apos;athlètes accompagnés, MKR Caucasian Camp est devenu le pont entre l&apos;Europe
-                francophone et les salles du Caucase Nord.
-              </p>
-            </div>
-            <div>
-              <figure className="photo-card">
-                <img
-                  src="/images/coaches/ruslan.webp"
-                  alt="Ruslan, fondateur de MKR Caucasian Camp"
-                  width={600}
-                  height={990}
-                  loading="lazy"
-                  className="coach-photo-img"
-                />
-              </figure>
-            </div>
+          <div className="reveal" style={{ maxWidth: '780px', margin: '0 auto' }}>
+            <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>NOTRE HISTOIRE</span>
+            <h2 style={{ fontSize: 'clamp(1.6rem, 3.2vw, 2.2rem)', textTransform: 'uppercase' }}>
+              POURQUOI MKR EXISTE
+            </h2>
+            <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1rem' }}>
+              Les meilleurs combattants viennent du même endroit. Le Caucase. Lutte au Daghestan, MMA en Tchétchénie : deux écoles, un héritage. Mais personne ne propose
+              un accès structuré à ces méthodes d&apos;entraînement pour les athlètes européens.
+            </p>
+            <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1rem' }}>
+              Après des années de voyages au Daghestan et en Tchétchénie, des relations construites avec les coachs locaux,
+              et des dizaines d&apos;athlètes accompagnés, MKR Caucasian Camp est devenu le pont entre l&apos;Europe
+              francophone et les salles du Caucase Nord.
+            </p>
           </div>
         </div>
       </section>
 
       {/* Cinematic reveal */}
       <CinematicReveal
-        image="/images/environment/communal-meal.webp"
-        alt="Repas communautaire au camp MKR au Caucase"
-        label="COMMUNAUTÉ"
+        image="/images/heritage/priere-collective-mkr.webp"
+        alt="Athlètes en prière collective au camp MKR, héritage et discipline du Caucase"
+        label="HÉRITAGE"
         title="PLUS QU'UN CAMP"
-        tagline="Repas partagés, liens forgés sur le tapis. Une fraternité entre athlètes qui dépasse les frontières."
+        tagline="Discipline, héritage caucasien, fraternité du tapis. Une expérience qui marque autant le corps que l'esprit."
       />
 
       {/* Mission */}
@@ -94,8 +80,8 @@ export default function AProposPage() {
             <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>ÉQUIPE</span>
             <h2>QUI SOMMES-NOUS</h2>
           </div>
-          <div className="grid-2">
-            <div className="coach-extended-card reveal">
+          <div className="reveal" style={{ maxWidth: '860px', margin: '0 auto' }}>
+            <div className="coach-extended-card">
               <div className="coach-ext-photo">
                 <img
                   src="/images/coaches/ruslan.webp"
@@ -113,8 +99,8 @@ export default function AProposPage() {
                 <h3>RUSLAN</h3>
                 <p className="coach-ext-bio">
                   Fondateur de MKR Caucasian Camp. Pratiquant de sports de combat depuis plus de 15 ans.
-                  Connecté au Caucase depuis 2018. Organise les camps et gère les relations avec les coachs
-                  et salles partenaires sur place.
+                  Connecté au Caucase depuis 2018. Organise les camps, accompagne chaque candidat en visio
+                  et gère les relations avec les coachs et salles partenaires au Daghestan et en Tchétchénie.
                 </p>
               </div>
             </div>
@@ -128,18 +114,20 @@ export default function AProposPage() {
           <div className="logi-header reveal">
             <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>PARTENAIRES</span>
             <h2>SALLES PARTENAIRES</h2>
-            <p style={{ color: 'var(--text-secondary)', marginTop: '0.6rem' }}>Au Daghestan (Lutte) et en Tchétchénie (MMA), nos salles partenaires.</p>
+            <p style={{ color: 'var(--text-secondary)', marginTop: '0.6rem' }}>Au Daghestan (Lutte) et en Tchétchénie (MMA), MKR collabore avec des salles d&apos;entraînement de référence locales.</p>
           </div>
-          <div className="grid-3 reveal">
-            {['Salle Lutte · Makhachkala', 'Salle Lutte · Kaspiysk', 'Salle MMA · Grozny'].map((name, i) => (
-              <div key={i} className="content-card fx-grain fx-corner-glow" style={{ textAlign: 'center', padding: '2rem' }}>
-                <div style={{ width: '80px', height: '80px', background: 'var(--surface-lowest)', margin: '0 auto 1rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <span style={{ color: 'var(--text-muted)', fontSize: '0.7rem' }}>Logo</span>
-                </div>
-                <span style={{ color: 'var(--text-secondary)', fontSize: '0.85rem' }}>{name}</span>
-              </div>
+          <ul className="reveal" style={{ listStyle: 'none', padding: 0, margin: '1.5rem 0 0', display: 'flex', flexWrap: 'wrap', gap: '0.75rem', justifyContent: 'center' }}>
+            {[
+              { label: 'Lutte · Makhachkala', desc: 'Daghestan' },
+              { label: 'Lutte · Kaspiysk', desc: 'Daghestan' },
+              { label: 'MMA · Grozny', desc: 'Tchétchénie' },
+            ].map((p, i) => (
+              <li key={i} style={{ padding: '0.75rem 1.1rem', border: '1px solid var(--surface-lowest)', borderRadius: '999px', display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}>
+                <span style={{ color: 'var(--text-primary)', fontFamily: 'var(--font-teko), sans-serif', fontSize: '1rem', letterSpacing: '0.04em' }}>{p.label}</span>
+                <span style={{ color: 'var(--text-muted)', fontSize: '0.75rem' }}>{p.desc}</span>
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
       </section>
 

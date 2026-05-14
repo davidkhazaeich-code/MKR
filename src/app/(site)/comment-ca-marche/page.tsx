@@ -3,7 +3,6 @@ import PageHero from '@/components/PageHero'
 import FAQAccordion from '@/components/FAQAccordion'
 import SectionCTA from '@/components/SectionCTA'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
-import CinematicReveal from '@/components/CinematicReveal'
 
 export const metadata: Metadata = {
   title: "Comment ça marche : 6 étapes pour rejoindre le camp | MKR",
@@ -51,10 +50,7 @@ const STEPS = [
 ]
 
 const PROCESS_FAQ = [
-  { question: "Combien de temps dure le processus d'inscription ?", answer: "De l'envoi du formulaire à la confirmation, le processus prend 3 à 5 jours en moyenne. L'appel de validation a lieu sous 48h après réception de ta candidature." },
-  { question: "Que se passe-t-il si ma candidature est refusée ?", answer: "On t'explique les raisons et on te donne des pistes pour te préparer à une prochaine session. Le refus est souvent lié au niveau sportif : on te recommande un programme de préparation." },
-  { question: "Puis-je reporter ma session ?", answer: "Oui, sous certaines conditions. Report gratuit si demande faite plus de 60 jours avant le début du camp. Soumis à disponibilité sur la session suivante." },
-  { question: "Quand est-ce que je paye ?", answer: "Tu ne payes rien au moment de l'inscription. Le paiement intégral du package est dû après l'entretien de validation en visio, par virement bancaire ou espèces. Tu reçois le RIB une fois ta candidature validée." },
+  { question: "Que se passe-t-il si ma candidature est refusée ?", answer: "On t'explique les raisons et on te donne des pistes pour te préparer à une prochaine session. Le refus est souvent lié au niveau sportif : on te recommande un programme de préparation. Pour les autres questions (durée du processus, paiement, report), consulte la FAQ Inscription." },
 ]
 
 export default function CommentCaMarchePage() {
@@ -68,15 +64,6 @@ export default function CommentCaMarchePage() {
         label="LE PROCESSUS"
         title="DE L'INSCRIPTION<br/>AU PREMIER TAPIS"
         subtitle="Processus clair, transparent, sans surprise. 6 étapes simples."
-      />
-
-      {/* Cinematic reveal */}
-      <CinematicReveal
-        image="/images/environment/gym-interior.webp"
-        alt="Intérieur de la salle d'entraînement au Caucase"
-        label="LES SALLES"
-        title="ÉQUIPEMENT PRO, ÂME CAUCASIENNE"
-        tagline="Tapis olympiques, cage MMA, sacs lourds. L'essentiel pour progresser, rien de superflu."
       />
 
       {/* Flow 6 etapes */}

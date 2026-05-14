@@ -1,14 +1,12 @@
+import Link from 'next/link'
 import type { Metadata } from 'next'
 import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 import CinematicReveal from '@/components/CinematicReveal'
 import PricingTable from '@/components/PricingTable'
-import {
-  FAMILY_BASE_1WEEK_LABEL,
-  FAMILY_EXTRA_CHILD_1WEEK_LABEL,
-} from '@/lib/pricing-copy'
-import { FAMILY_PRICING, formatEUR } from '@/data/pricing'
+import FacilitatorBand from '@/components/FacilitatorBand'
+import { FAMILY_EXTRA_CHILD_1WEEK_LABEL } from '@/lib/pricing-copy'
 
 export const metadata: Metadata = {
   title: 'Camp Famille | MKR Caucasian Camp | MMA et Lutte parent-enfant au Daghestan',
@@ -33,14 +31,6 @@ const PILLARS = [
     title: 'Hébergement famille',
     desc: "Chambre privée pour la famille (selon disponibilité). Repas communautaires entre familles et athlètes solo.",
   },
-  {
-    title: 'Communication parents',
-    desc: "Briefing chaque fin de session, photos quotidiennes, contact d'urgence permanent. Tu peux assister aux sessions de ton enfant.",
-  },
-  {
-    title: 'Tarifs famille publics',
-    desc: `Forfait Parent + Enfant à ${FAMILY_BASE_1WEEK_LABEL} (1 sem) avec 1er enfant inclus, ${FAMILY_EXTRA_CHILD_1WEEK_LABEL} par enfant supplémentaire. Grille publique, pas de remise discrétionnaire.`,
-  },
 ]
 
 const FAMILY_TESTIMONIALS = [
@@ -49,12 +39,6 @@ const FAMILY_TESTIMONIALS = [
     role: 'Père · Genève',
     discipline: 'Avec son fils de 13 ans',
     quote: "Mon fils est revenu transformé. Plus discipliné, plus confiant. Et il a appris des choses qu'aucun coach en France ne lui aurait montrées. On y retourne l'année prochaine, en famille.",
-  },
-  {
-    name: 'Sophie L.',
-    role: 'Mère · Lyon',
-    discipline: 'Avec son fils de 11 ans et sa fille de 14 ans',
-    quote: "On hésitait à embarquer les enfants. Le coach jeunesse les a captivés dès la première session. Trois semaines plus tard, ma fille veut faire de la lutte en compétition. Une expérience qu'on n'oubliera jamais.",
   },
   {
     name: 'Marc T.',
@@ -125,16 +109,6 @@ export default function FamillesPage() {
                   className="section-photo-img"
                 />
               </figure>
-              <figure className="photo-card" style={{ marginTop: '1.25rem' }}>
-                <img
-                  src="/images/ruslan/coaches/Antoine-portrait-makhachkala-mkr.webp"
-                  alt="Athlète adulte au camp MKR, programme parallèle aux enfants"
-                  width={800}
-                  height={600}
-                  loading="lazy"
-                  className="section-photo-img"
-                />
-              </figure>
             </div>
           </div>
         </div>
@@ -149,7 +123,7 @@ export default function FamillesPage() {
             </span>
             <h2>NOTRE APPROCHE FAMILLE</h2>
           </div>
-          <div className="grid-3x2">
+          <div className="grid-2">
             {PILLARS.map((p, i) => (
               <div key={i} className="content-card fx-grain fx-corner-glow reveal" style={{ transitionDelay: `${i * 0.06}s` }}>
                 <h3 className="card-title" style={{ fontSize: '0.95rem' }}>{p.title}</h3>
@@ -159,6 +133,9 @@ export default function FamillesPage() {
           </div>
         </div>
       </section>
+
+      {/* MKR organise tout */}
+      <FacilitatorBand withHeader={true} />
 
       {/* Section dynamique kids */}
       <section className="dag-security fx-texture-concrete fx-glow fx-mask-d fx-stack-4">
@@ -264,8 +241,8 @@ export default function FamillesPage() {
               <h3 className="card-title" style={{ fontSize: '0.95rem' }}>Indique tes enfants</h3>
               <p className="card-body" style={{ fontSize: '0.85rem' }}>
                 Précise le nombre d&apos;enfants (1 à 4) et leurs âges (entre 8 et 17 ans).
-                Forfait 1 parent + 1 enfant : {formatEUR(FAMILY_PRICING.base[1])} (1 sem) / {formatEUR(FAMILY_PRICING.base[2])} (2 sem) / {formatEUR(FAMILY_PRICING.base[3])} (3 sem).
-                Chaque enfant supplémentaire : {FAMILY_EXTRA_CHILD_1WEEK_LABEL}.
+                Le tarif Famille s&apos;applique automatiquement : 1er enfant inclus, chaque enfant supplémentaire au tarif fixe {FAMILY_EXTRA_CHILD_1WEEK_LABEL}.
+                Le détail de la grille tarifaire est plus haut dans la page.
               </p>
             </div>
             <div className="content-card fx-grain fx-corner-glow reveal" style={{ transitionDelay: '0.16s' }}>
@@ -275,6 +252,41 @@ export default function FamillesPage() {
                 Réponse sous 48h. Si validée en visio : paiement intégral par virement bancaire (RIB envoyé après l&apos;entretien), certificat médical pour chaque membre, guide de préparation.
               </p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Cross-sell autres formats */}
+      <section className="logi-section fx-texture-basalt fx-mask-c fx-stack-8">
+        <div className="inner">
+          <div className="logi-header reveal">
+            <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>
+              AUTRES FORMATS
+            </span>
+            <h2>TU CHERCHES UN AUTRE FORMAT ?</h2>
+          </div>
+          <div className="grid-3" style={{ gap: '1.5rem' }}>
+            <Link href="/mkr-camp-2026" className="content-card fx-grain fx-corner-glow reveal" style={{ textDecoration: 'none' }}>
+              <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.4rem', fontSize: '0.65rem' }}>SESSION OFFICIELLE</span>
+              <h3 className="card-title" style={{ fontSize: '1rem' }}>MKR Camp 2026</h3>
+              <p className="card-body" style={{ fontSize: '0.85rem' }}>
+                Sessions adultes uniquement, 4 fenêtres calées sur les vacances scolaires francophones. 30 places par session (15 Lutte + 15 MMA).
+              </p>
+            </Link>
+            <Link href="/sur-mesure" className="content-card fx-grain fx-corner-glow reveal" style={{ textDecoration: 'none', transitionDelay: '0.08s' }}>
+              <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.4rem', fontSize: '0.65rem' }}>SUR MESURE</span>
+              <h3 className="card-title" style={{ fontSize: '1rem' }}>Sur Mesure</h3>
+              <p className="card-body" style={{ fontSize: '0.85rem' }}>
+                1 à 4 adultes (Solo, Duo, Trio, Quatuor). Tes dates, 90 jours minimum. Combo Lutte au Daghestan + MMA en Tchétchénie possible.
+              </p>
+            </Link>
+            <Link href="/clubs-groupes" className="content-card fx-grain fx-corner-glow reveal" style={{ textDecoration: 'none', transitionDelay: '0.16s' }}>
+              <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.4rem', fontSize: '0.65rem' }}>CLUB ET GROUPE</span>
+              <h3 className="card-title" style={{ fontSize: '1rem' }}>Clubs et Groupes</h3>
+              <p className="card-body" style={{ fontSize: '0.85rem' }}>
+                Camp dédié 5 à 20 personnes pour ton club. Hébergement bloc, transferts groupés, programme adapté au niveau collectif. Devis sur mesure.
+              </p>
+            </Link>
           </div>
         </div>
       </section>

@@ -135,37 +135,6 @@ export default function MkrCamp2026Page() {
         </div>
       </section>
 
-      {/* Autres sessions officielles */}
-      <section className="logi-section fx-texture-basalt fx-stack-6">
-        <div className="inner">
-          <div className="logi-header reveal">
-            <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>
-              AOÛT 2026 NE TE CONVIENT PAS ?
-            </span>
-            <h2>3 AUTRES SESSIONS OFFICIELLES</h2>
-            <p style={{ color: 'var(--text-secondary)', marginTop: '0.8rem', maxWidth: '720px' }}>
-              On a calé les 4 sessions sur les vacances scolaires francophones (France, Suisse romande, Belgique). Même format, même tarif, mêmes coachs.
-            </p>
-          </div>
-          <div className="grid-3 reveal" style={{ gap: '1.5rem' }}>
-            <Link href="/sessions#toussaint-2026" className="content-card fx-grain fx-corner-glow" style={{ textDecoration: 'none', display: 'block' }}>
-              <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.5rem', fontSize: '0.65rem' }}>AUTOMNE · TOUSSAINT</span>
-              <h3 className="card-title">17 oct - 7 nov 2026</h3>
-              <p className="card-body">Vacances de la Toussaint en France et octobre en Suisse. Idéal pour partir 1 à 3 semaines pendant les congés.</p>
-            </Link>
-            <Link href="/sessions#fevrier-2027" className="content-card fx-grain fx-corner-glow" style={{ textDecoration: 'none', display: 'block' }}>
-              <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.5rem', fontSize: '0.65rem' }}>HIVER · FÉVRIER</span>
-              <h3 className="card-title">13 fév - 6 mars 2027</h3>
-              <p className="card-body">Vacances d&apos;hiver des trois zones françaises, relâche genevoise et carnaval belge.</p>
-            </Link>
-            <Link href="/sessions#paques-2027" className="content-card fx-grain fx-corner-glow" style={{ textDecoration: 'none', display: 'block' }}>
-              <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.5rem', fontSize: '0.65rem' }}>PRINTEMPS · PÂQUES</span>
-              <h3 className="card-title">3 - 24 avril 2027</h3>
-              <p className="card-body">Vacances de printemps françaises, Pâques en Belgique et en Suisse romande.</p>
-            </Link>
-          </div>
-        </div>
-      </section>
 
       {/* Cross-sell autres tunnels */}
       <section className="logi-section fx-grid fx-stack-7">
@@ -189,8 +158,8 @@ export default function MkrCamp2026Page() {
             </Link>
             <Link href="/clubs-groupes" className="content-card fx-grain fx-corner-glow" style={{ textDecoration: 'none', display: 'block' }}>
               <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.5rem', fontSize: '0.65rem' }}>CLUB ET GROUPE</span>
-              <h3 className="card-title">Ton club au Daghestan</h3>
-              <p className="card-body">Tu fédères 5+ personnes (club ou groupe organisé) ? Camp dédié.</p>
+              <h3 className="card-title">Ton club au Caucase</h3>
+              <p className="card-body">Tu fédères 5+ personnes (club ou groupe organisé) ? Camp dédié, Lutte au Daghestan ou MMA en Tchétchénie. Devis sur mesure.</p>
             </Link>
           </div>
         </div>

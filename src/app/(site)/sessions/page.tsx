@@ -3,7 +3,6 @@ import type { Metadata } from 'next'
 import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
-import CinematicReveal from '@/components/CinematicReveal'
 import AudienceSwitcher from '@/components/AudienceSwitcher'
 import PricingTable from '@/components/PricingTable'
 import PlacesRestantes from '@/components/PlacesRestantes'
@@ -78,64 +77,6 @@ const SESSIONS = [
     status: 'open' as const,
     statusLabel: 'Places disponibles',
     delay: '0.24s',
-  },
-]
-
-const INCLUDES = [
-  {
-    icon: (
-      <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5">
-        <path d="M4 28 L16 6 L28 28 Z" /><line x1="10" y1="20" x2="22" y2="20" />
-      </svg>
-    ),
-    title: 'Transport local',
-    desc: 'Transferts aéroport-camp et déplacements sur place pris en charge.',
-  },
-  {
-    icon: (
-      <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5">
-        <rect x="4" y="10" width="24" height="18" /><path d="M4 16 L16 10 L28 16" />
-      </svg>
-    ),
-    title: 'Hébergement',
-    desc: 'Logement de camp partagé, propre et fonctionnel.',
-  },
-  {
-    icon: (
-      <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5">
-        <circle cx="16" cy="16" r="10" /><path d="M10 16 L16 12 L22 16 L16 20 Z" />
-      </svg>
-    ),
-    title: '2 sessions/jour',
-    desc: 'Entraînement biquotidien avec des coachs locaux.',
-  },
-  {
-    icon: (
-      <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5">
-        <circle cx="16" cy="10" r="5" /><path d="M6 28 C6 20 10 16 16 16 S26 20 26 28" />
-      </svg>
-    ),
-    title: 'Coachs locaux',
-    desc: 'Coachs daghestanais et tchétchènes, champions et vétérans. Encadrement local complet selon la destination choisie.',
-  },
-  {
-    icon: (
-      <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5">
-        <path d="M4 24 L10 14 L16 20 L22 10 L28 18" /><circle cx="6" cy="8" r="2" />
-      </svg>
-    ),
-    title: 'Excursions (en option)',
-    desc: 'Sorties culturelles et randonnées en montagne le jour de repos, en option.',
-  },
-  {
-    icon: (
-      <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5">
-        <rect x="6" y="6" width="20" height="20" /><line x1="6" y1="14" x2="26" y2="14" />
-        <line x1="14" y1="14" x2="14" y2="26" />
-      </svg>
-    ),
-    title: '2 repas/jour',
-    desc: "Petit-déjeuner et déjeuner pris en charge. Nutrition adaptée à l'effort, cuisine locale.",
   },
 ]
 
@@ -235,35 +176,20 @@ export default function SessionsPage() {
       {/* Pricing Table : grille tarifaire publique */}
       <PricingTable />
 
-      {/* Cinematic reveal */}
-      <CinematicReveal
-        image="/images/action/shadowboxing-group.webp"
-        alt="Groupe d'athlètes en shadowboxing dans une salle du Caucase"
-        label="INTENSITÉ"
-        title="CHAQUE SESSION COMPTE"
-        tagline="Groupe réduit, coaching personnalisé. L'énergie collective pousse chacun au-delà de ses limites."
-      />
-
-      {/* Ce qui est inclus */}
-      <section className="sessions-includes fx-texture-concrete fx-glow fx-mask-b fx-stack-4" aria-labelledby="includes-heading">
-        <div className="fx-glow-orb fx-glow-orb--left fx-glow-breathe" />
+      {/* Renvoi /le-camp pour le détail "Inclus / Non inclus" */}
+      <section className="logi-section fx-grid fx-stack-3b">
         <div className="inner">
-          <div className="sessions-includes-header reveal">
-            <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>
-              TOUT COMPRIS
-            </span>
-            <h2 id="includes-heading" className="sessions-includes-title">
-              CE QUI EST INCLUS
-            </h2>
-          </div>
-          <div className="include-grid">
-            {INCLUDES.map((item, i) => (
-              <div key={i} className="include-card fx-grain reveal" style={{ transitionDelay: `${i * 0.08}s` }}>
-                {item.icon}
-                <h3>{item.title}</h3>
-                <p>{item.desc}</p>
-              </div>
-            ))}
+          <div className="group-card reveal" style={{ textAlign: 'center' }}>
+            <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>TOUT COMPRIS</span>
+            <h2 style={{ fontSize: 'clamp(1.4rem, 2.8vw, 1.9rem)' }}>VOL INTÉRIEUR, HÉBERGEMENT, 2 REPAS/JOUR, COACHING</h2>
+            <p style={{ color: 'var(--text-secondary)', marginTop: '0.8rem', maxWidth: '620px', margin: '0.8rem auto 0' }}>
+              Le tarif couvre le transfert depuis Istanbul (vol intérieur inclus), l&apos;hébergement de camp, 2 repas par jour, les 2 sessions d&apos;entraînement quotidiennes et l&apos;encadrement local. Le détail complet (inclus / non inclus + journée type) est sur la page Le Camp.
+            </p>
+            <div style={{ marginTop: '1.4rem' }}>
+              <Link href="/le-camp" className="btn-ghost" style={{ fontSize: '0.85rem', padding: '0.6rem 1.4rem' }}>
+                VOIR LE DÉTAIL SUR LA PAGE LE CAMP
+              </Link>
+            </div>
           </div>
         </div>
       </section>
@@ -333,25 +259,9 @@ export default function SessionsPage() {
         </div>
       </section>
 
-      {/* Reassurance band */}
-      <div className="reassurance-band">
-        {[
-          { label: 'Tout compris', icon: <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5"><polyline points="3,10 8,15 17,5"/></svg> },
-          { label: 'Coachs locaux', icon: <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5"><circle cx="10" cy="7" r="3"/><path d="M4 18c0-4 2.5-6 6-6s6 2 6 6"/></svg> },
-          { label: 'Transport géré', icon: <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M2 14 L10 4 L18 14"/><line x1="6" y1="10" x2="14" y2="10"/></svg> },
-          { label: 'Places limitées', icon: <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="3" y="3" width="14" height="14"/><line x1="10" y1="7" x2="10" y2="13"/><line x1="7" y1="10" x2="13" y2="10"/></svg> },
-          { label: 'Sans paiement initial', icon: <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="4" y="8" width="12" height="10"/><path d="M7 8V5a3 3 0 016 0v3"/></svg> },
-        ].map((r, i) => (
-          <div key={i} className="reassurance-item">
-            {r.icon}
-            {r.label}
-          </div>
-        ))}
-      </div>
-
       <SectionCTA
         primaryHref="/inscription"
-        primaryLabel="RÉSERVE TA PLACE"
+        primaryLabel="POSTULER AU CAMP"
         ghostHref="/faq"
         ghostLabel="DES QUESTIONS ?"
       />

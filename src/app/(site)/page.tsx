@@ -9,7 +9,6 @@ const DestinationShowcase = dynamic(() => import('@/components/DestinationShowca
 const Sessions = dynamic(() => import('@/components/Sessions'), { ssr: true })
 const Timeline = dynamic(() => import('@/components/Timeline'), { ssr: true })
 const Testimonials = dynamic(() => import('@/components/Testimonials'), { ssr: true })
-const Contact = dynamic(() => import('@/components/Contact'), { ssr: true })
 const FAQ = dynamic(() => import('@/components/FAQ'), { ssr: true })
 const CTAFinal = dynamic(() => import('@/components/CTAFinal'), { ssr: true })
 const VoyageReveal = dynamic(() => import('@/components/VoyageReveal'))
@@ -34,7 +33,6 @@ export default function Home() {
       <div data-scroll-section data-scroll-label="Sessions" className="hs-anchor"><Sessions /></div>
       <div data-scroll-section data-scroll-label="Le parcours" className="hs-anchor"><Timeline /></div>
       <div data-scroll-section data-scroll-label="FAQ" className="hs-anchor"><FAQ /></div>
-      <div data-scroll-section data-scroll-label="Contact" className="hs-anchor"><Contact /></div>
       <div data-scroll-section data-scroll-label="Prochain camp" className="hs-anchor"><CTAFinal /></div>
     </>
   )

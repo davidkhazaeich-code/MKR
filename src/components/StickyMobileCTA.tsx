@@ -16,9 +16,9 @@ export default function StickyMobileCTA() {
     <a
       href="/inscription"
       className={`sticky-cta-mobile${visible ? ' is-visible' : ''}`}
-      aria-label="Réserver ton camp"
+      aria-label="Postuler au camp MKR Caucasian Camp"
     >
-      RÉSERVE TON CAMP
+      POSTULER AU CAMP
     </a>
   )
 }

@@ -102,49 +102,14 @@ export default function ProgrammePage() {
               className="prog-disc-bg"
             />
             <div className="prog-disc-content">
-              <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.5rem' }}>DISCIPLINE · DAGHESTAN</span>
+              <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.5rem' }}>DISCIPLINE · DAGHESTAN · 8-17 ANS</span>
               <h2>LUTTE ENFANTS</h2>
-              <p>Programme jeunesse au Daghestan. Pédagogie progressive, encadrement spécialisé. Les fondamentaux daghestanais transmis aux nouvelles générations dans un cadre adapté et sécurisant.</p>
+              <p>Programme jeunesse au Daghestan. Pédagogie progressive, encadrement spécialisé, ratio 1 coach pour 5 enfants, sessions à 10h30 et 17h30. Enfant 8-17 ans toujours accompagné d&apos;un parent participant. Forfait Famille : {FAMILY_BASE_PROSE}. Chaque enfant supplémentaire : {FAMILY_EXTRA_CHILD_1WEEK_LABEL}.</p>
               <span className="btn-ghost" style={{ marginTop: '1.5rem', fontSize: '0.9rem', padding: '0.6rem 1.5rem' }}>
                 VOIR LE PROGRAMME LUTTE ENFANTS
               </span>
             </div>
           </Link>
-        </div>
-      </section>
-
-      {/* Jeunesse — remplace S&C */}
-      <section id="jeunesse" className="logi-section fx-grid fx-stack-4">
-        <div className="inner">
-          <div className="layout-split layout-split--balanced layout-split--center reveal">
-            <figure className="photo-card">
-              <img
-                src="/images/ruslan/kids/kids-coach-cercle-mkr.webp"
-                alt="Cercle de jeunes lutteurs autour d'un coach daghestanais, programme jeunesse MKR"
-                width={800}
-                height={600}
-                loading="lazy"
-                className="section-photo-img"
-              />
-            </figure>
-            <div className="content-card fx-grain fx-corner-glow">
-              <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.5rem' }}>JEUNESSE</span>
-              <h3 className="card-title" style={{ fontSize: '1.3rem' }}>PROGRAMME 8-17 ANS</h3>
-              <p className="card-body">
-                Au Daghestan, on commence la lutte très jeune. MKR ouvre cet accès aux 8-17 ans dans un cadre
-                adapté : coach jeunesse dédié, ratio 1 pour 5, sécurité renforcée. Enfant 8-17 ans toujours
-                accompagné d&apos;un parent participant. Forfait Famille (1P + 1E inclus) : {FAMILY_BASE_PROSE}. Chaque enfant supplémentaire : {FAMILY_EXTRA_CHILD_1WEEK_LABEL}.
-              </p>
-              <div style={{ marginTop: '1.25rem', display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
-                <Link href="/programme/lutte-enfants" className="btn-ghost" style={{ fontSize: '0.8rem', padding: '0.55rem 1.25rem' }}>
-                  PROGRAMME LUTTE ENFANTS
-                </Link>
-                <Link href="/familles" className="btn-ghost" style={{ fontSize: '0.8rem', padding: '0.55rem 1.25rem' }}>
-                  CAMP FAMILLE
-                </Link>
-              </div>
-            </div>
-          </div>
         </div>
       </section>
 

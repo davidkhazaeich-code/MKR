@@ -4,7 +4,7 @@ import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 import CinematicReveal from '@/components/CinematicReveal'
-import { FAMILY_BASE_1WEEK_LABEL, FAMILY_FORFAIT_DETAIL } from '@/lib/pricing-copy'
+import { FAMILY_BASE_1WEEK_LABEL } from '@/lib/pricing-copy'
 
 export const metadata: Metadata = {
   title: 'Programme Lutte Enfants | MKR Caucasian Camp | Lutte jeunesse au Daghestan',

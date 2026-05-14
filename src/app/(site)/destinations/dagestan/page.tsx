@@ -43,28 +43,18 @@ export default function DagestanPage() {
       {/* Presentation */}
       <section className="logi-section fx-grid fx-stack-1">
         <div className="inner">
-          <div className="layout-split reveal">
-            <div>
-              <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>PRÉSENTATION</span>
-              <h2 style={{ fontSize: 'clamp(1.5rem, 3vw, 2rem)', textTransform: 'uppercase' }}>LE DAGHESTAN</h2>
-              <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1rem' }}>
-                République du Caucase russe, le Daghestan est une terre de montagnes et de traditions.
-                C&apos;est ici que la lutte se transmet de père en fils depuis des siècles. Les villages de montagne
-                ont produit plus de champions olympiques par habitant que n&apos;importe quel autre endroit sur Terre.
-              </p>
-              <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1rem' }}>
-                Makhachkala, la capitale, abrite des dizaines de salles de combat où s&apos;entraînent quotidiennement
-                des centaines d&apos;athlètes de niveau international. C&apos;est dans ces salles que MKR t&apos;emmène.
-              </p>
-            </div>
-            <div className="content-card">
-              <h3 className="card-title">CHIFFRES CLÉS</h3>
-              <div className="dag-stat"><span>Surface</span><strong>50 300 km²</strong></div>
-              <div className="dag-stat"><span>Population</span><strong>3.1 millions</strong></div>
-              <div className="dag-stat"><span>Altitude moyenne</span><strong>1 000 m</strong></div>
-              <div className="dag-stat"><span>Champions olympiques</span><strong>30+</strong></div>
-              <div className="dag-stat"><span>Champions UFC</span><strong>3</strong></div>
-            </div>
+          <div className="reveal" style={{ maxWidth: '780px', margin: '0 auto' }}>
+            <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>PRÉSENTATION</span>
+            <h2 style={{ fontSize: 'clamp(1.6rem, 3.2vw, 2.2rem)', textTransform: 'uppercase' }}>LE DAGHESTAN</h2>
+            <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1rem' }}>
+              République du Caucase russe, le Daghestan est une terre de montagnes et de traditions.
+              C&apos;est ici que la lutte se transmet de père en fils depuis des siècles. Les villages de montagne
+              ont produit plus de champions olympiques par habitant que n&apos;importe quel autre endroit sur Terre.
+            </p>
+            <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1rem' }}>
+              Makhachkala, la capitale, abrite des dizaines de salles de combat où s&apos;entraînent quotidiennement
+              des centaines d&apos;athlètes de niveau international. C&apos;est dans ces salles que MKR t&apos;emmène.
+            </p>
           </div>
         </div>
       </section>
@@ -199,10 +189,10 @@ export default function DagestanPage() {
       </section>
 
       <SectionCTA
-        primaryHref="/sessions"
-        primaryLabel="VOIR LES SESSIONS DAGHESTAN"
-        ghostHref="/programme"
-        ghostLabel="DÉCOUVRIR LE PROGRAMME"
+        primaryHref="/inscription?type=session"
+        primaryLabel="POSTULER · CAMP LUTTE DAGHESTAN"
+        ghostHref="/destinations/tchetchenie"
+        ghostLabel="VOIR LA TCHÉTCHÉNIE · MMA"
       />
     </>
   )

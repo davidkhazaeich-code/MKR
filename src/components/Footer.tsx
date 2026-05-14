@@ -33,15 +33,6 @@ export default function Footer() {
                 </svg>
                 contact@mkrcamp.com
               </a>
-              <a href="https://instagram.com/mkr.caucasiancamp" target="_blank" rel="noopener noreferrer"
-                className="footer-contact-link" aria-label="Instagram MKR Caucasian Camp">
-                <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-                  <rect x="1.5" y="1.5" width="15" height="15" rx="4"/>
-                  <circle cx="9" cy="9" r="3.2"/>
-                  <circle cx="13.2" cy="4.8" r="0.7" fill="currentColor" stroke="none"/>
-                </svg>
-                @mkr.caucasiancamp
-              </a>
               <Link href="/inscription" className="footer-contact-cta">POSTULER</Link>
             </div>
           </div>
@@ -107,7 +98,6 @@ export default function Footer() {
               <li><Link href="/programme/mma">MMA</Link></li>
               <li><Link href="/programme/lutte">Lutte adultes</Link></li>
               <li><Link href="/programme/lutte-enfants">Lutte enfants</Link></li>
-              <li><Link href="/familles">Camp Famille</Link></li>
               <li><Link href="/destinations/dagestan">Daghestan · Lutte</Link></li>
               <li><Link href="/destinations/tchetchenie">Tchétchénie · MMA</Link></li>
               <li><Link href="/le-camp">Le Camp</Link></li>

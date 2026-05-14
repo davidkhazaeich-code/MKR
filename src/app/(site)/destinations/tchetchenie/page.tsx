@@ -3,7 +3,6 @@ import type { Metadata } from 'next'
 import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
 import DestinationReveal from '@/components/DestinationReveal'
-import CinematicReveal from '@/components/CinematicReveal'
 
 export const metadata: Metadata = {
   title: 'Tchétchénie : Camp MMA au cœur du Caucase | MKR Caucasian Camp',
@@ -43,28 +42,18 @@ export default function TchetcheniePage() {
       {/* Presentation */}
       <section className="logi-section fx-grid fx-stack-1">
         <div className="inner">
-          <div className="layout-split reveal">
-            <div>
-              <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>PRÉSENTATION</span>
-              <h2 style={{ fontSize: 'clamp(1.5rem, 3vw, 2rem)', textTransform: 'uppercase' }}>LA TCHÉTCHÉNIE</h2>
-              <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1rem' }}>
-                République du Caucase russe à l&apos;ouest du Daghestan, la Tchétchénie est l&apos;épicentre du MMA moderne.
-                En quinze ans, Grozny est devenue un point de passage obligé pour les combattants mondiaux : structures
-                d&apos;État, écuries privées et sparring de très haut niveau.
-              </p>
-              <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1rem' }}>
-                L&apos;Akhmat Fight Club rassemble une concentration unique de combattants pro. C&apos;est dans cet écosystème
-                que MKR ouvre l&apos;accès pour ses camps MMA, avec un encadrement francophone et des partenariats locaux.
-              </p>
-            </div>
-            <div className="content-card">
-              <h3 className="card-title">CHIFFRES CLÉS</h3>
-              <div className="dag-stat"><span>Surface</span><strong>17 300 km²</strong></div>
-              <div className="dag-stat"><span>Population</span><strong>1.5 millions</strong></div>
-              <div className="dag-stat"><span>Altitude moyenne</span><strong>600 m</strong></div>
-              <div className="dag-stat"><span>Combattants top mondial</span><strong>15+</strong></div>
-              <div className="dag-stat"><span>Salles MMA pro</span><strong>30+</strong></div>
-            </div>
+          <div className="reveal" style={{ maxWidth: '780px', margin: '0 auto' }}>
+            <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>PRÉSENTATION</span>
+            <h2 style={{ fontSize: 'clamp(1.6rem, 3.2vw, 2.2rem)', textTransform: 'uppercase' }}>LA TCHÉTCHÉNIE</h2>
+            <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1rem' }}>
+              République du Caucase russe à l&apos;ouest du Daghestan, la Tchétchénie est l&apos;épicentre du MMA moderne.
+              En quinze ans, Grozny est devenue un point de passage obligé pour les combattants mondiaux : structures
+              d&apos;État, écuries privées et sparring de très haut niveau.
+            </p>
+            <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1rem' }}>
+              L&apos;Akhmat Fight Club rassemble une concentration unique de combattants pro. C&apos;est dans cet écosystème
+              que MKR ouvre l&apos;accès pour ses camps MMA, avec un encadrement francophone et des partenariats locaux.
+            </p>
           </div>
         </div>
       </section>
@@ -175,15 +164,6 @@ export default function TchetcheniePage() {
           </div>
         </div>
       </section>
-
-      {/* Cinematic reveal */}
-      <CinematicReveal
-        image="/images/environment/vainakh-towers.webp"
-        alt="Tours vaïnakh dans les montagnes de Tchétchénie"
-        label="TCHÉTCHÉNIE"
-        title="L'HÉRITAGE VAÏNAKH"
-        tagline="Une terre de guerriers, de pierre et d'honneur. Chaque entraînement s'inscrit dans cet héritage."
-      />
 
       {/* Logistique resume */}
       <section className="logi-section fx-grid fx-stack-5">

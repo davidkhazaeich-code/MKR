@@ -2,7 +2,6 @@ import type { Metadata } from 'next'
 import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
-import CinematicReveal from '@/components/CinematicReveal'
 import VideoTestimonialsGrid from '@/components/VideoTestimonialsGrid'
 
 export const metadata: Metadata = {
@@ -77,15 +76,6 @@ export default function TemoignagesPage() {
         </div>
       </section>
 
-      {/* Cinematic reveal */}
-      <CinematicReveal
-        image="/images/environment/communal-meal.webp"
-        alt="Athlètes et coachs réunis autour d'un repas au camp"
-        label="FRATERNITÉ"
-        title="CE QU&apos;ILS EN DISENT"
-        tagline="Des liens forgés sur le tapis et autour de la table. Une expérience qui marque."
-      />
-
       {/* Grid temoignages texte */}
       <section className="logi-section logi-alt fx-texture-concrete fx-stack-3">
         <div className="inner">
@@ -122,12 +112,12 @@ export default function TemoignagesPage() {
       <div className="stats-band fx-glow fx-glow-breathe fx-stack-4">
         <div className="fx-glow-orb" />
         <div className="stat-item">
-          <span className="stat-num">8</span>
-          <span className="stat-label">Athlètes haut niveau</span>
+          <span className="stat-num">4</span>
+          <span className="stat-label">Sessions par an</span>
         </div>
         <div className="stat-item">
-          <span className="stat-num">9</span>
-          <span className="stat-label">Coachs expérimentés</span>
+          <span className="stat-num">30</span>
+          <span className="stat-label">Places par session</span>
         </div>
         <div className="stat-item">
           <span className="stat-num">87%</span>

@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import PageHero from '@/components/PageHero'
+import SectionCTA from '@/components/SectionCTA'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 
 export const metadata: Metadata = {
@@ -85,6 +86,80 @@ export default function DestinationsPage() {
           </div>
         </div>
       </section>
+
+      {/* Comparatif Daghestan vs Tchétchénie */}
+      <section className="logi-section fx-texture-basalt fx-mask-b fx-stack-3">
+        <div className="inner">
+          <div className="logi-header reveal">
+            <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>
+              COMMENT CHOISIR
+            </span>
+            <h2>DAGHESTAN OU TCHÉTCHÉNIE ?</h2>
+            <p style={{ color: 'var(--text-secondary)', marginTop: '0.6rem', maxWidth: '720px' }}>
+              Ta destination dépend de la discipline choisie à l&apos;inscription. Voici les différences concrètes entre les deux camps.
+            </p>
+          </div>
+          <div className="reveal" style={{ marginTop: '1.5rem', overflowX: 'auto' }}>
+            <table className="table-tonal" style={{ minWidth: '640px', width: '100%' }}>
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Daghestan</th>
+                  <th>Tchétchénie</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Discipline</strong></td>
+                  <td>Lutte adultes · Lutte enfants 8-17 ans</td>
+                  <td>MMA adultes (niveau Avancé minimum)</td>
+                </tr>
+                <tr>
+                  <td><strong>Capitale du camp</strong></td>
+                  <td>Makhachkala · Kaspiysk</td>
+                  <td>Grozny</td>
+                </tr>
+                <tr>
+                  <td><strong>Aéroport</strong></td>
+                  <td>Makhachkala (MCX) · vol intérieur Istanbul → MCX inclus</td>
+                  <td>Grozny (GRV) · vol intérieur Istanbul → GRV inclus</td>
+                </tr>
+                <tr>
+                  <td><strong>Transfert vers le camp</strong></td>
+                  <td>1h30 environ depuis MCX, inclus</td>
+                  <td>30 min environ depuis GRV, inclus</td>
+                </tr>
+                <tr>
+                  <td><strong>Signature</strong></td>
+                  <td>Berceau de la lutte libre. Khabib Nurmagomedov, Islam Makhachev, plus de 30 champions olympiques de lutte.</td>
+                  <td>Épicentre du MMA moderne. Akhmat Fight Club, héritage de Khamzat Chimaev, sparring très haut niveau.</td>
+                </tr>
+                <tr>
+                  <td><strong>Ambiance</strong></td>
+                  <td>Tradition montagnarde, villages de lutteurs, transmission père-fils, esprit fondateur.</td>
+                  <td>MMA moderne, écuries pro, ambiance urbaine forte, architecture spectaculaire (mosquée Akhmad Kadyrov).</td>
+                </tr>
+                <tr>
+                  <td><strong>Pour qui</strong></td>
+                  <td>Tout niveau adulte (Pro / Inter / Amateur sérieux) · enfants 8-17 ans avec parent participant.</td>
+                  <td>Niveau Avancé minimum exigé (form bloquant). Compétiteurs régionaux à internationaux.</td>
+                </tr>
+                <tr>
+                  <td><strong>Combo Lutte + MMA</strong></td>
+                  <td colSpan={2} style={{ textAlign: 'center' }}>Possible uniquement sur les inscriptions Sur Mesure (séquentiel : X jours Daghestan + Y jours Tchétchénie).</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <SectionCTA
+        primaryHref="/inscription?type=session"
+        primaryLabel="POSTULER AU CAMP"
+        ghostHref="/programme"
+        ghostLabel="VOIR LES DISCIPLINES"
+      />
     </>
   )
 }
