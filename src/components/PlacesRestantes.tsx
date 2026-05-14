@@ -175,7 +175,9 @@ export default function PlacesRestantes({
         {isFull
           ? disciplineLabel ? `${disciplineLabel} complète` : 'Session complète'
           : restantes !== null && max !== null
-            ? `${restantes}/${max} ${disciplineLabel ? disciplineLabel + ' ' : ''}places`
+            ? disciplineLabel
+              ? `${restantes}/${max} ${disciplineLabel}`
+              : `${restantes}/${max} places`
             : 'Chargement…'}
       </span>
     )
