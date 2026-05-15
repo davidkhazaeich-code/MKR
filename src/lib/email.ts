@@ -4,7 +4,10 @@ import { Resend } from 'resend'
 // on no-op silencieusement (comme SLACK_WEBHOOK_URL). Ne JAMAIS bloquer
 // le user — l'envoi mail est best-effort, la source de verite reste Supabase.
 
-const FROM_DEFAULT = process.env.MKR_EMAIL_FROM || 'MKR Caucasian Camp <notifications@mkrcamp.com>'
+// From envoye depuis dkdp.ch (domaine agence DKDP deja verifie sur Resend) pour
+// eviter d'avoir a configurer le DNS DKIM/SPF/DMARC sur mkrcamp.com. La mailbox
+// destinataire contact@mkrcamp.com reste sur Google Workspace.
+const FROM_DEFAULT = process.env.MKR_EMAIL_FROM || 'MKR Caucasian Camp <mkr@dkdp.ch>'
 const TO_DEFAULT = process.env.MKR_EMAIL_TO || 'contact@mkrcamp.com'
 
 let cached: Resend | null = null
