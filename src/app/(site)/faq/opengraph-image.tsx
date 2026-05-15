@@ -7,8 +7,8 @@ export const contentType = OG_CONTENT_TYPE
 
 export default async function OG() {
   return createOgImageResponse({
-    label: 'Questions fréquentes',
-    title: 'Tout savoir avant de partir',
-    subtitle: 'Sécurité, logistique, entraînement, inscription. Les réponses aux 25+ questions clés.',
+    keywords: 'FAQ · Sécurité · Logistique',
+    title: 'Toutes tes questions',
+    subtitle: 'Sécurité, visa, paiement, niveau, équipement. 25+ réponses claires.',
   })
 }

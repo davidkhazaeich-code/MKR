@@ -7,8 +7,8 @@ export const contentType = OG_CONTENT_TYPE
 
 export default async function OG() {
   return createOgImageResponse({
-    label: 'MKR Caucasian Camp',
-    title: 'Camp MMA et Lutte au Caucase',
-    subtitle: 'Lutte au Daghestan, MMA en Tchétchénie. 4 sessions par an.',
+    keywords: 'Caucase · Lutte · MMA',
+    title: 'Naissent les champions',
+    subtitle: 'Khabib. Makhachev. Akhmat. Lutte au Daghestan, MMA en Tchétchénie.',
   })
 }

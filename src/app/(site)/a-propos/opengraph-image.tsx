@@ -1,14 +1,14 @@
 import { createOgImageResponse, OG_SIZE, OG_CONTENT_TYPE } from '@/lib/og-template'
 
 export const runtime = 'nodejs'
-export const alt = 'À propos MKR · Notre histoire'
+export const alt = 'À propos MKR · Notre fondateur Ruslan Mukhtarov'
 export const size = OG_SIZE
 export const contentType = OG_CONTENT_TYPE
 
 export default async function OG() {
   return createOgImageResponse({
-    label: 'À propos',
-    title: 'Notre histoire',
-    subtitle: 'Ruslan Mukhtarov, ancien équipe de France de lutte. MKR depuis 2018.',
+    keywords: 'Fondateur · Ruslan · INSEP',
+    title: 'Ruslan Mukhtarov',
+    subtitle: 'Ancien équipe de France de lutte, INSEP. MKR depuis 2018.',
   })
 }

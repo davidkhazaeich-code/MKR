@@ -7,8 +7,8 @@ export const contentType = OG_CONTENT_TYPE
 
 export default async function OG() {
   return createOgImageResponse({
-    label: 'Préparation',
-    title: 'Programme 6 semaines avant le départ',
+    keywords: 'Prépa · 6 semaines · Programme',
+    title: '6 semaines pour être prêt',
     subtitle: 'Cardio, force, mobilité, équipement, préparation mentale.',
   })
 }

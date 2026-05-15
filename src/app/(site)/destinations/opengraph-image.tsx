@@ -7,8 +7,8 @@ export const contentType = OG_CONTENT_TYPE
 
 export default async function OG() {
   return createOgImageResponse({
-    label: 'Destinations',
-    title: 'Daghestan et Tchétchénie',
-    subtitle: 'Deux terres du Caucase Nord. Une discipline par camp.',
+    keywords: 'Destinations · Caucase Nord',
+    title: 'Deux terres de combat',
+    subtitle: 'Daghestan pour la Lutte. Tchétchénie pour le MMA. Une discipline par camp.',
   })
 }

@@ -7,8 +7,8 @@ export const contentType = OG_CONTENT_TYPE
 
 export default async function OG() {
   return createOgImageResponse({
-    label: 'Témoignages',
-    title: 'Ils sont revenus transformés',
-    subtitle: 'Antoine Petit-Jean, LAMP et 10+ autres athlètes racontent leur camp.',
+    keywords: 'Témoignages · Antoine · LAMP',
+    title: 'Ils sont revenus changés',
+    subtitle: 'Antoine Petit-Jean, LAMP et 10+ athlètes racontent leur camp.',
   })
 }

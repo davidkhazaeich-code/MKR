@@ -7,8 +7,8 @@ export const contentType = OG_CONTENT_TYPE
 
 export default async function OG() {
   return createOgImageResponse({
-    label: 'Comment ça marche',
-    title: '6 étapes pour rejoindre le camp',
-    subtitle: 'Inscription 5 min, visio Ruslan 48h, validation puis paiement post-visio.',
+    keywords: 'Process · 6 étapes · 48h',
+    title: '6 étapes vers le Caucase',
+    subtitle: 'Inscription gratuite. Visio Ruslan sous 48h. Paiement après validation.',
   })
 }

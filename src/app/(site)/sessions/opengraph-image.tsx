@@ -7,8 +7,8 @@ export const contentType = OG_CONTENT_TYPE
 
 export default async function OG() {
   return createOgImageResponse({
-    label: 'Sessions et tarifs',
+    keywords: 'Sessions · 2026 · 2027',
     title: '4 sessions par an',
-    subtitle: 'Été 2026, Toussaint 2026, Hiver 2027, Pâques 2027. Lutte ou MMA, 1 à 3 semaines.',
+    subtitle: 'Été 2026. Toussaint. Hiver 2027. Pâques. 1, 2 ou 3 semaines au choix.',
   })
 }

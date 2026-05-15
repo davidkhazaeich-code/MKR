@@ -7,8 +7,8 @@ export const contentType = OG_CONTENT_TYPE
 
 export default async function OG() {
   return createOgImageResponse({
-    label: 'Inscription',
-    title: 'Postuler en 5 minutes',
-    subtitle: '4 tunnels : session officielle, sur mesure, famille, club. Réponse sous 48h.',
+    keywords: 'Inscription · Gratuite · 5 min',
+    title: 'Postule au camp',
+    subtitle: '4 tunnels : session, sur mesure, famille, club. Ruslan recontacte en 48h.',
   })
 }

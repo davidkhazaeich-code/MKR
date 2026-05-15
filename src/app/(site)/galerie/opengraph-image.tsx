@@ -7,8 +7,8 @@ export const contentType = OG_CONTENT_TYPE
 
 export default async function OG() {
   return createOgImageResponse({
-    label: 'Galerie',
+    keywords: 'Galerie · Salles · Caucase',
     title: 'Le Caucase en images',
-    subtitle: 'Salles, paysages, sparring, héritage culturel.',
+    subtitle: 'Salles, paysages, sparring, héritage culturel du Caucase Nord.',
   })
 }
