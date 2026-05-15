@@ -75,7 +75,7 @@ type FormData = {
   conditionPhysique: string; blessuresRecentes: string; blessuresDetail: string
   contreIndications: string; contreIndicationsDetail: string; deuxFoisJour: string
   // Logistique commune
-  session: string; duree: string; villeDepart: string; disponibleEntretien: string
+  session: string; duree: string; villeDepart: string
   sourceDecouverte: string; message: string
   // Discipline du camp (choix Lutte/MMA/Combo).
   // - tunnel 'session' : 'lutte' (Daghestan, 15 places) ou 'mma' (Tchétchénie, 15 places, avancé min.)
@@ -120,7 +120,7 @@ const INITIAL: FormData = {
   niveau: '', club: '', coach: '', palmares: '', lienVideo: '',
   conditionPhysique: '', blessuresRecentes: '', blessuresDetail: '',
   contreIndications: '', contreIndicationsDetail: '', deuxFoisJour: '',
-  session: '', duree: '', villeDepart: '', disponibleEntretien: '',
+  session: '', duree: '', villeDepart: '',
   sourceDecouverte: '', message: '',
   campDiscipline: '',
   certifMedical: false, accepteConditions: false, pret: false,
@@ -437,7 +437,6 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
         if (!form.pays.trim()) push('Pays de résidence requis', 'pays')
         if (!form.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) push('Email invalide', 'email')
         if (!form.villeDepart.trim()) push('Ville de départ requise', 'villeDepart')
-        if (!form.disponibleEntretien) push('Disponibilité pour l\'entretien requise', 'disponibleEntretien')
       } else {
         if (!form.nomClub.trim()) push('Nom du club / groupe requis', 'nomClub')
         if (!form.nombreParticipants) push('Nombre approximatif de participants requis', 'nombreParticipants')
@@ -466,7 +465,6 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
         if (!form.pays.trim()) push('Pays de résidence requis', 'pays')
         if (!form.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) push('Email invalide', 'email')
         if (!form.villeDepart.trim()) push('Ville de départ requise', 'villeDepart')
-        if (!form.disponibleEntretien) push('Disponibilité pour l\'appel requise', 'disponibleEntretien')
       }
     }
 
@@ -589,7 +587,6 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
         } : null,
         logistique: {
           source_decouverte: form.sourceDecouverte,
-          disponible_entretien: form.disponibleEntretien,
           message: form.message,
         },
         confirmations: {
@@ -1064,19 +1061,6 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                     aria-invalid={errorFields.has('villeDepart') || undefined}
                     onChange={e => set('villeDepart', e.target.value)} />
                 </Field>
-                <Field label="Es-tu disponible pour un entretien vidéo de sélection ?"
-                  hint="L'entretien dure 20 min. Il est obligatoire pour valider ta candidature.">
-                  <div className={errorFields.has('disponibleEntretien') ? 'insc-radios-error' : ''}>
-                    <RadioGroup name="entretien" value={form.disponibleEntretien}
-                      onChange={v => set('disponibleEntretien', v)}
-                      options={[
-                        { val: 'oui', label: 'Disponible dans les 4 semaines' },
-                        { val: 'oui-delai', label: 'Disponible sous 1 à 3 mois' },
-                        { val: 'non', label: 'Plus de 3 mois ou ne sait pas' },
-                      ]}
-                    />
-                  </div>
-                </Field>
               </div>
             )}
 
@@ -1141,19 +1125,6 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                       onChange={e => set('villeDepart', e.target.value)} />
                   </Field>
                 </div>
-                <Field label="Es-tu disponible pour un appel de cadrage avec Ruslan ?"
-                  hint="L'appel dure ~30 min : objectifs, dates, niveau, budget. On envoie le devis ensuite.">
-                  <div className={errorFields.has('disponibleEntretien') ? 'insc-radios-error' : ''}>
-                    <RadioGroup name="entretienGroupe" value={form.disponibleEntretien}
-                      onChange={v => set('disponibleEntretien', v)}
-                      options={[
-                        { val: 'oui', label: 'Disponible dans les 4 semaines' },
-                        { val: 'oui-delai', label: 'Disponible sous 1 à 3 mois' },
-                        { val: 'non', label: 'Préfère un échange par email d\'abord' },
-                      ]}
-                    />
-                  </div>
-                </Field>
               </div>
             )}
 

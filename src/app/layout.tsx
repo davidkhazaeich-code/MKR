@@ -39,7 +39,7 @@ export const metadata: Metadata = {
   alternates: { canonical: `${SITE_URL}/` },
   icons: {
     icon: [
-      { url: '/favicon.ico', sizes: 'any', rel: 'icon' },
+      { url: '/favicon.ico', sizes: 'any' },
       { url: '/icon.png', type: 'image/png', sizes: '512x512' },
     ],
     shortcut: '/favicon.ico',

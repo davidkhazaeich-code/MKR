@@ -636,7 +636,7 @@ mkrcamp.com/
 - Identité : prenom, nom, dateNaissance, pays, email, telephone
 - Expérience : disciplinePrincipale, disciplinesSecondaires[], anneesPratique, niveau, club, coach, palmares, lienVideo
 - Santé : conditionPhysique, blessuresRecentes, blessuresDetail, contreIndications, contreIndicationsDetail, deuxFoisJour
-- Logistique : **session** ('aout-2026' uniquement maintenant), **duree** (1/2/3 semaines, plus de "1 mois"), villeDepart, disponibleEntretien
+- Logistique : **session** ('aout-2026' uniquement maintenant), **duree** (1/2/3 semaines, plus de "1 mois"), villeDepart
 - Méta : sourceDecouverte, message, certifMedical, accepteConditions, pret
 **Validations** : par step (l.94)
 **Submit success** : génère `<StoryCard />` Instagram téléchargeable (avec `SESSION_MAP` l.~145 → 1 entrée actuellement)
@@ -808,7 +808,7 @@ GEO = { latitude: 42.9849, longitude: 47.5047, country: 'RU', region: 'Daghestan
 | 2 Santé | conditionPhysique, blessuresRecentes, contreIndications, deuxFoisJour | required |
 | – | blessuresDetail, contreIndicationsDetail | conditionnels |
 | 3 Logistique | session ('aout-2026'), duree (1/2/3 semaines) | required |
-| – | villeDepart, disponibleEntretien, sourceDecouverte, message | optionnel |
+| – | villeDepart, sourceDecouverte, message | optionnel |
 | 4 Confirmation | certifMedical, accepteConditions, pret | checkbox required |
 
 **Submit success** : génère `<StoryCard />` (Instagram story téléchargeable PNG via html2canvas).
@@ -872,6 +872,7 @@ GEO = { latitude: 42.9849, longitude: 47.5047, country: 'RU', region: 'Daghestan
 | Je veux changer… | Fichier(s) à modifier |
 |---|---|
 | **Logo** | `public/logo-white.webp` (Nav, SiteLoader, StoryCard) · `public/logo-{dark,light,transparent,white}.png` haute-res · `public/images/logo-mkr.png` (JSON-LD Organization). Source : `brand-identity/LOGO/mkr-cmc-{fullcolor,white}.png`. Anciens logos loup+aigle dans `public/_old-logos-loup-aigle/` |
+| **Favicon / icônes** | `src/app/favicon.ico` (multi-tailles 16/32/48 — Google + navigateurs) · `src/app/icon.png` (512×512 — auto-link Next.js) · `src/app/apple-icon.png` (180×180 — iOS) · `public/icons/icon-{192,512}.png` + `icon-maskable-512.png` (PWA Android) · `src/app/manifest.ts` (servi à `/manifest.webmanifest`) · déclaration explicite dans `metadata.icons` + `metadata.manifest` (`src/app/layout.tsx`) |
 | **Coordonnées contact (téléphone, email)** | `components/Contact.tsx` (homepage) + `app/(site)/contact/page.tsx` + `app/(site)/sessions/page.tsx:195` (WhatsApp groupes) + `data/site.ts` (SITE_EMAIL) |
 | **Hero homepage (titre/subtitle)** | `components/Hero.tsx` lignes 160-170 |
 | **Hero stats (9 coachs / 8 athlètes / 1-3 semaines)** | `components/Hero.tsx` l.175-188 |
