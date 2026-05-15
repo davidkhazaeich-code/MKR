@@ -1,7 +1,7 @@
 const FACILITATOR_ITEMS = [
   {
-    title: 'Visa Russie',
-    desc: 'Lettre d\'invitation officielle, questionnaire UE, accompagnement complet du dossier.',
+    title: 'Visa Russie inclus',
+    desc: "Frais consulaires, lettre d'invitation officielle, questionnaire UE et accompagnement complet du dossier. Tu fournis ton passeport, MKR pilote la procédure.",
     icon: (
       <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
         <rect x="6" y="4" width="20" height="24" rx="1.5" />
@@ -15,7 +15,7 @@ const FACILITATOR_ITEMS = [
   },
   {
     title: 'Vol intérieur',
-    desc: 'Depuis Istanbul vers Makhachkala (camp Lutte au Daghestan) ou Grozny (camp MMA en Tchétchénie), inclus dans le package. Tu n\'organises que le vol international jusqu\'à Istanbul.',
+    desc: "Depuis Istanbul vers Makhachkala (Lutte au Daghestan) ou Grozny (MMA en Tchétchénie), inclus dans le package. Tu n'organises que le vol international jusqu'à Istanbul.",
     icon: (
       <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
         <path d="M3 18l11-3 5-9 2 1-3 9 9 3-1 2-10-1-2 6-2 1-1-5-6-1-1-2 1-1z" />
@@ -98,8 +98,8 @@ export default function FacilitatorBand({ withHeader = true }: FacilitatorBandPr
               TOI, TU T&apos;ENTRAÎNES.
             </h2>
             <p className="facilitator-sub">
-              Du dossier visa à ton arrivée sur le tapis : six prestations incluses dans chaque camp,
-              quel que soit le format choisi.
+              Visa, vol intérieur, navette, hébergement, repas et entraînement : six prestations incluses dans chaque camp,
+              quel que soit le format choisi. Tu organises uniquement ton vol jusqu&apos;à Istanbul.
             </p>
           </div>
         )}
@@ -120,8 +120,21 @@ export default function FacilitatorBand({ withHeader = true }: FacilitatorBandPr
           ))}
         </div>
 
+        <div className="facilitator-force reveal" aria-labelledby="facilitator-force-heading">
+          <div className="facilitator-force-col">
+            <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.4rem' }}>NOTRE FORCE</span>
+            <h3 id="facilitator-force-heading" className="facilitator-force-title">UNE ÉQUIPE EN FRANCE, DES RÉFÉRENTS SUR PLACE</h3>
+          </div>
+          <div className="facilitator-force-col">
+            <p className="facilitator-force-text">
+              Toute l&apos;administration et les réseaux sont gérés depuis la France, par une équipe francophone qui prend ton dossier en main de A à Z.
+              Sur le terrain, des référents locaux t&apos;accompagnent dans les salles avec Ruslan Mukhtarov, fondateur et entraîneur de Lutte et MMA.
+            </p>
+          </div>
+        </div>
+
         <p className="facilitator-footnote reveal">
-          Tu n&apos;as qu&apos;une chose à faire : t&apos;entraîner et progresser. Le reste, on s&apos;en charge.
+          Tu n&apos;as qu&apos;une chose à faire : préparer ton sac. Le reste, on s&apos;en charge.
         </p>
       </div>
     </section>

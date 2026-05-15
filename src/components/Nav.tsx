@@ -235,7 +235,7 @@ export default function Nav() {
             <div className="mega-camp-grid">
               <div>
                 <h2 className="mega-camp-feature-title">CHOISIS<br/>TA SESSION.</h2>
-                <p className="mega-camp-feature-body">Quatre sessions par an calées sur les vacances scolaires francophones. MKR organise tout : visa, vol intérieur, transferts, hébergement, repas, encadrement.</p>
+                <p className="mega-camp-feature-body">Quatre sessions par an calées sur les vacances scolaires francophones. MKR organise tout : visa, vol intérieur, transferts, hébergement, repas, encadrement. Vol international à organiser.</p>
                 <Link href="/sessions" className="mega-arrow-link">Voir les 4 sessions {ARROW_RIGHT}</Link>
               </div>
               <div>

@@ -48,7 +48,7 @@ export default function VoyageReveal() {
             <div className="voyage-reveal-steps">
               <div className="voyage-reveal-step">
                 <span className="voyage-reveal-num">01</span>
-                <span>Genève ou Montréal → Istanbul</span>
+                <span>Ton aéroport européen → Istanbul (vol international à organiser)</span>
               </div>
               <div className="voyage-reveal-step">
                 <span className="voyage-reveal-num">02</span>
@@ -61,8 +61,8 @@ export default function VoyageReveal() {
             </div>
 
             <div className="voyage-reveal-badges">
-              <span className="voyage-badge">VISA ASSISTÉ</span>
-              <span className="voyage-badge">GROUPE ENCADRÉ</span>
+              <span className="voyage-badge">VISA INCLUS</span>
+              <span className="voyage-badge">VOL INTÉRIEUR INCLUS</span>
               <span className="voyage-badge">TRANSFERTS INCLUS</span>
               <span className="voyage-badge voyage-badge--green">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="12" height="12" aria-hidden="true">

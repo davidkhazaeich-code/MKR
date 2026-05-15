@@ -28,11 +28,11 @@ export const FAQ_HOMEPAGE: FAQItem[] = [
   },
   {
     question: 'Le visa est-il nécessaire ?',
-    answer: "Que tu partes au Daghestan (Lutte) ou en Tchétchénie (MMA), le camp se déroule en Fédération de Russie : un visa russe est nécessaire pour la majorité des nationalités. Pour les ressortissants UE, MKR fournit un questionnaire visa à compléter avec ton passeport (validité 6 mois minimum) et t'accompagne dans toute la procédure après confirmation de ta candidature.",
+    answer: "Que tu partes au Daghestan (Lutte) ou en Tchétchénie (MMA), le camp se déroule en Fédération de Russie : un visa russe est nécessaire pour la majorité des nationalités. Le visa est inclus dans le package MKR : frais consulaires, lettre d'invitation officielle, questionnaire UE, et accompagnement complet de ton dossier. Tu fournis ton passeport (validité 6 mois minimum), on s'occupe du reste.",
   },
   {
     question: "Qu'est-ce qui est inclus dans le prix ?",
-    answer: "Le tarif comprend l'hébergement en logement de camp, les repas (2 repas/jour), les séances d'entraînement biquotidiennes, le vol intérieur depuis Istanbul (Makhachkala pour le Daghestan, Grozny pour la Tchétchénie), les transferts aéroport-camp et le suivi préparatoire à distance. Le vol international n'est pas inclus.",
+    answer: "Le tarif comprend le visa russe (frais consulaires et dossier complet), le vol intérieur depuis Istanbul (Makhachkala pour le Daghestan, Grozny pour la Tchétchénie), les transferts aéroport-camp, l'hébergement en logement de camp, 2 repas par jour, les séances d'entraînement biquotidiennes et le suivi préparatoire à distance. Le vol international jusqu'à Istanbul reste à la charge du candidat (réservation libre). Un supplément MKR peut s'appliquer pour les candidatures à moins de 30 jours du départ (traitement express).",
   },
   {
     question: 'Où se déroule le camp : Daghestan ou Tchétchénie ?',
@@ -90,11 +90,11 @@ export const FAQ_CATEGORIES: FAQCategory[] = [
     items: [
       {
         question: 'Le visa est-il nécessaire ?',
-        answer: "Le camp se déroule en Fédération de Russie (au Daghestan pour la Lutte, en Tchétchénie pour le MMA). Un visa russe est nécessaire pour la majorité des nationalités. Pour les ressortissants UE, MKR fournit un questionnaire visa à compléter avec ton passeport (validité 6 mois minimum) et t'accompagne dans toute la procédure après confirmation de ta candidature.",
+        answer: "Le camp se déroule en Fédération de Russie (au Daghestan pour la Lutte, en Tchétchénie pour le MMA). Un visa russe est nécessaire pour la majorité des nationalités. Bonne nouvelle : le visa est inclus dans le package MKR (frais consulaires, lettre d'invitation officielle, questionnaire UE, accompagnement complet). Tu fournis ton passeport (validité 6 mois minimum), MKR pilote toute la procédure après confirmation de ta candidature.",
       },
       {
         question: "Qu'est-ce qui est inclus dans le prix ?",
-        answer: "Le tarif comprend l'hébergement en logement de camp, les repas (2 repas/jour), les séances d'entraînement biquotidiennes, le vol intérieur depuis Istanbul (Makhachkala pour Daghestan ou Grozny pour Tchétchénie), les transferts aéroport-camp et le suivi préparatoire à distance. Le vol international n'est pas inclus.",
+        answer: "Le tarif comprend le visa russe (frais consulaires et dossier complet), le vol intérieur depuis Istanbul (Makhachkala pour le Daghestan, Grozny pour la Tchétchénie), les transferts aéroport-camp, l'hébergement en logement de camp, 2 repas par jour, les séances d'entraînement biquotidiennes et le suivi préparatoire à distance. Le vol international jusqu'à Istanbul est à organiser par le candidat (à sa charge). Un supplément MKR peut s'appliquer pour les candidatures à moins de 30 jours du départ (traitement express visa + logistique).",
       },
       {
         question: 'Quel équipement dois-je apporter ?',
@@ -166,7 +166,7 @@ export const FAQ_CATEGORIES: FAQCategory[] = [
       },
       {
         question: 'Quel est le délai minimum pour réserver un camp sur mesure ?',
-        answer: "90 jours minimum avant la date de début souhaitée. Ce délai permet de gérer le visa russe (3 à 4 semaines), réserver un vol international à un bon prix, et compléter la préparation physique de 6 semaines. Pour les camps sur dates fixes (session officielle), inscription jusqu'à 30 jours avant le départ.",
+        answer: "90 jours minimum avant la date de début souhaitée. Ce délai permet à MKR de gérer le visa russe (3 à 4 semaines), à toi de réserver ton vol international dans de bonnes conditions, et te laisse 6 semaines pour la préparation physique. Pour les camps sur dates fixes (session officielle), inscription jusqu'à 30 jours avant le départ. En deçà de 30 jours, un supplément MKR est appliqué pour le traitement express (visa, logistique).",
       },
     ],
   },

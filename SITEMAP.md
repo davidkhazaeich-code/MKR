@@ -1,7 +1,42 @@
 # SITEMAP MKR Caucasian Camp — Cartographie complète
 
-> **Fichier de référence pour Claude Code.** Mise à jour : 2026-05-12 (BREAKING : VideoSection + Coaches retirés + ajout destination Tchétchénie / MMA, /coachs redirigée).
+> **Fichier de référence pour Claude Code.** Mise à jour : 2026-05-14 (BREAKING : modèle Ruslan = visa inclus + vol intérieur inclus, vol intl à charge candidat, supplément MKR -30j, bio Ruslan INSEP, tagline "immersion au milieu des champions", Person JSON-LD).
 > Lis ce fichier en priorité avant toute intervention sur le site MKR. Il évite de re-explorer.
+
+## 🆕 BREAKING — 2026-05-14 (modèle commercial post-interview Ruslan + storytelling fondateur)
+
+> **Décision David (post-interview Ruslan)** : alignement du discours sur l'interview Ruslan. Le **visa russe** est désormais inclus dans le package (frais consulaires + dossier + lettre d'invitation + questionnaire UE). Le **vol intérieur Istanbul-Caucase** reste inclus comme avant. Le **vol international jusqu'à Istanbul** reste à charge du candidat (réservation libre). Un **supplément MKR** s'applique pour les candidatures acceptées à moins de 30 jours du départ (traitement express).
+
+**Modèle commercial final** :
+- **Inclus dans le package** : visa russe + vol intérieur Istanbul-Caucase (MCX/GRV) + transferts + hébergement + 2 repas/jour + encadrement + suivi prépa.
+- **À charge du candidat** : vol international jusqu'à Istanbul (IST ou SAW, doit arriver ≥4h avant le vol intérieur) + assurance voyage obligatoire + équipement personnel + dépenses personnelles.
+- **Supplément MKR -30j** : montant forfaitaire pour candidatures à moins de 30 jours du départ. Couvre le traitement visa accéléré + sécurisation vol intérieur + coordination logistique. Documenté CGV Article 6 bis. MKR se réserve le droit de refuser une candidature à -30j si les délais administratifs ne peuvent être tenus.
+
+**Articles CGV mis à jour** :
+- Article 5 (Prestations incluses) ajoute le visa russe. Conserve le vol intérieur.
+- Article 6 (Prestations non incluses) liste le vol international jusqu'à Istanbul + assurance + équipement + dépenses persos.
+- Article 6 bis (NOUVEAU) — Supplément traitement express pour candidatures à -30j.
+
+**JSON-LD `amenityFeature`** des 2 `SportsActivityLocation` (Daghestan + Tchétchénie) ajoute : "Visa russe inclus" en plus du vol intérieur déjà présent.
+
+**Fichiers touchés (15)** : `data/site.ts` (SITE_DESCRIPTION), `data/faq.ts` (Q visa + Q inclus FAQ_HOMEPAGE + FAQ_CATEGORIES Logistique + Q délai 90j), `data/blog.ts` (FAQ blog l.264), `data/registration-types.ts` (commentaire haut), `components/Hero.tsx` (pill + subtitle), `components/CTAFinal.tsx` (label), `components/FacilitatorBand.tsx` (Visa Russie inclus + Vol intérieur item + sub + footnote + nouveau bloc `.facilitator-force` USP équipe France/référents), `components/Sessions.tsx` (session-price-sub), `components/PricingTable.tsx` (liste inclus/non inclus + mention -30j), `components/VoyageReveal.tsx` (3 steps + 3 badges), `components/Nav.tsx` (mega-camp-feature-body), `app/layout.tsx` (Person Ruslan + amenityFeature visa+vol intérieur + slogan Org + founder), `app/(site)/a-propos/page.tsx` (PageHero + section enrichie INSEP + Ruslan card 32 ans + nouveau bloc "Notre force"), `app/(site)/le-camp/page.tsx` (TldrBox + INCLUDES + NOT_INCLUDED + metadata), `app/(site)/sessions/page.tsx` (bandeau TOUT COMPRIS), `app/(site)/logistique/page.tsx` (PageHero + Budget table + INCLUS list + visa steps + vols section + mention -30j), `app/(site)/cgv/page.tsx` (Articles 5, 6 et nouveau 6 bis), `app/(site)/mkr-camp-2026/page.tsx` (TIMELINE), `app/(site)/familles/page.tsx` (l.92), `app/(site)/comment-ca-marche/page.tsx` (step 05 DÉPART), `app/globals.css` (`.facilitator-force` styles).
+
+**Storytelling Ruslan ajouté** : Ruslan Mukhtarov, 32 ans, ancien équipe de France de lutte, INSEP olympique 2012-2016, lutte depuis 12 ans, MKR = diminutif de Mukhtarov (son nom). Tagline officielle : **"L'immersion au milieu des champions"** (intégrée à SITE_DESCRIPTION + Organization.slogan JSON-LD + CTAFinal label + PageHero /a-propos).
+
+**Person JSON-LD `#person-ruslan`** ajouté à `app/layout.tsx` @graph : alumniOf INSEP, memberOf Équipe de France de lutte, jobTitle, knowsAbout, worksFor Organization, sameAs Instagram. Organization renvoie `founder` + `employee` vers cette Person + `slogan: "L'immersion au milieu des champions"`.
+
+**À arbitrer ensuite** :
+1. Montant exact du supplément -30j (grille graduée ou forfait unique).
+2. Politique de remboursement si refus de visa par le consulat russe.
+
+**Audit grep à relancer** si retouche modèle :
+```
+grep -i "vols aller-retour|Vols aller-retour"                  → doit être vide (rollback fait)
+grep -i "vol international.{0,20}(inclus)"                     → doit être vide (rollback fait)
+grep -i "aéroport européen de référence"                       → doit être vide (rollback fait)
+```
+
+---
 
 ## 🆕 BREAKING — 2026-05-12 (refonte form d'inscription : Step 0 « Le camp » avec cards visuelles + Groupe simplifié en 4 steps devis)
 

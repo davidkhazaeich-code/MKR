@@ -158,7 +158,7 @@ export default function Hero() {
 
       {/* Hero content */}
       <div className="hero-content">
-        <span className="hero-pill">MKR Caucasian Camp · MMA / Lutte</span>
+        <span className="hero-pill">L&apos;immersion au milieu des champions · MMA / Lutte</span>
 
         <h1 className="hero-h1">
           ENTRAÎNE-TOI LÀ<br />
@@ -166,7 +166,7 @@ export default function Hero() {
           LES <span className="highlight">CHAMPIONS</span>
         </h1>
 
-        <p className="hero-subtitle">Camp d&apos;entraînement au cœur du Caucase. Lutte au Daghestan, MMA en Tchétchénie. Solo, en famille ou en club, MKR organise tout.</p>
+        <p className="hero-subtitle">Camp d&apos;entraînement au cœur du Caucase. Lutte au Daghestan, MMA en Tchétchénie. Tu n&apos;as qu&apos;à préparer ton sac, MKR organise tout.</p>
 
         <div className="hero-ctas">
           <Link href="/inscription" className="btn-primary">POSTULER AU CAMP</Link>

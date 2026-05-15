@@ -8,7 +8,7 @@ export default function CTAFinal() {
     <section id="cta-final" aria-labelledby="cta-heading">
       <div className="cta-glow" aria-hidden="true"></div>
       <div className="cta-inner">
-        <span className="cta-label reveal">15 places par session. Sélection sur dossier. {SESSIONS.length} sessions par an.</span>
+        <span className="cta-label reveal">L&apos;immersion au milieu des champions · {SESSIONS.length} sessions par an · 15 places par destination.</span>
         <h2 id="cta-heading" className="cta-title reveal">
           PRÊT POUR<br /><span>LE CAUCASE ?</span>
         </h2>

@@ -2,12 +2,10 @@ export const SITE_URL = 'https://mkrcamp.com'
 export const SITE_NAME = 'MKR Caucasian Camp'
 export const SITE_EMAIL = 'contact@mkrcamp.com'
 export const SITE_DESCRIPTION =
-  "Camps d'entraînement MMA et Lutte au cœur du Caucase. Lutte adultes et enfants au Daghestan, MMA en Tchétchénie. Une discipline par camp. Immersion 1 à 3 semaines, encadrement local."
+  "Camps d'entraînement MMA et Lutte au cœur du Caucase, fondés par Ruslan Mukhtarov (équipe de France de lutte, INSEP 2012-2016). Lutte adultes et enfants au Daghestan, MMA en Tchétchénie. Visa, vol intérieur, hébergement, repas, encadrement : MKR organise tout. L'immersion au milieu des champions."
 
 export const SOCIALS = {
   instagram: 'https://instagram.com/mkr.caucasiancamp',
-  facebook: 'https://facebook.com/mkrcaucasiancamp',
-  youtube: 'https://youtube.com/@mkrcaucasiancamp',
 } as const
 
 export const GEO = {

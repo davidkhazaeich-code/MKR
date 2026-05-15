@@ -55,7 +55,7 @@ export default function Sessions() {
               <div className="session-card-footer">
                 <div>
                   <div className="session-price">{formatPriceFrom(session)}</div>
-                  <div className="session-price-sub">Tarif Solo / Duo : {DUO_ONE_LINE_BARE} par adulte. Dégressif dès 3 personnes. Forfait Famille (1P+1E) à partir de {FAMILY_BASE_1WEEK_LABEL}. Hébergement, 2 repas/jour, vol intérieur depuis Istanbul (Makhachkala pour Lutte ou Grozny pour MMA) inclus.</div>
+                  <div className="session-price-sub">Tarif Solo / Duo : {DUO_ONE_LINE_BARE} par adulte. Dégressif dès 3 personnes. Forfait Famille (1P+1E) à partir de {FAMILY_BASE_1WEEK_LABEL}. Visa russe, vol intérieur Istanbul → Makhachkala ou Grozny, transferts, hébergement et 2 repas/jour inclus. Vol international à charge.</div>
                 </div>
                 <Link href={`/inscription?type=session&session=${session.id}`} className="session-cta">POSTULER</Link>
               </div>

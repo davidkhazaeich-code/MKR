@@ -331,9 +331,9 @@ export default function CandidatureForm() {
                 value={form.palmares} onChange={e => set('palmares', e.target.value)} />
             </Field>
 
-            <Field label="Lien vidéo" hint="YouTube, Instagram, footage de compétition -fortement recommandé">
+            <Field label="Lien vidéo" hint="Instagram, Vimeo, footage de compétition -fortement recommandé">
               <input className="cand-input" type="url"
-                placeholder="https://youtube.com/..."
+                placeholder="https://instagram.com/..."
                 value={form.lienVideo} onChange={e => set('lienVideo', e.target.value)} />
             </Field>
           </div>
@@ -456,7 +456,6 @@ export default function CandidatureForm() {
                   onChange={e => set('sourceDecouverte', e.target.value)}>
                   <option value="" disabled>Sélectionner</option>
                   <option value="instagram">Instagram</option>
-                  <option value="youtube">YouTube</option>
                   <option value="bouche-a-oreille">Bouche à oreille</option>
                   <option value="coach">Recommandation de mon coach</option>
                   <option value="google">Recherche Google</option>

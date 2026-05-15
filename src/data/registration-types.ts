@@ -1,9 +1,10 @@
 /**
  * MKR Caucasian Camp - 4 types d'inscription / produits
  *
- * MKR = facilitateur total. On organise tout (visa, vol intérieur depuis Istanbul
- * vers Makhachkala pour Lutte au Daghestan ou Grozny pour MMA en Tchétchénie,
- * transferts, hébergement, encadrement, repas, programme).
+ * MKR = facilitateur total. On organise tout (visa russe inclus, vol intérieur
+ * depuis Istanbul vers Makhachkala pour Lutte au Daghestan ou Grozny pour MMA
+ * en Tchétchénie, transferts, hébergement, encadrement, repas, programme).
+ * Vol international jusqu'à Istanbul reste à charge du candidat.
  */
 
 import {

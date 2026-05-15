@@ -177,16 +177,17 @@ export default function PricingTable({ withHeader = true, compact = false }: Pri
           <h3 className="pricing-included-title">INCLUS DANS TOUS LES TARIFS</h3>
           <ul className="pricing-included-list">
             <li>Hébergement de camp</li>
+            <li>Visa russe (frais et dossier complet)</li>
+            <li>Vol intérieur Istanbul → Makhachkala (Lutte) ou Grozny (MMA)</li>
+            <li>Transferts aéroport-camp</li>
+            <li>Hébergement de camp</li>
             <li>2 repas par jour</li>
             <li>2 sessions d&apos;entraînement / jour</li>
-            <li>Vol intérieur Istanbul → Makhachkala</li>
-            <li>Transferts aéroport-camp</li>
-            <li>Encadrement par 9 coachs expérimentés</li>
-            <li>Lettre d&apos;invitation visa Russie</li>
+            <li>Encadrement par les coachs locaux du Caucase</li>
             <li>Suivi préparatoire à distance</li>
           </ul>
           <p className="pricing-not-included">
-            <strong>Non inclus</strong> : vol international aller-retour, frais de visa, assurance voyage, équipement personnel.
+            <strong>Non inclus</strong> : vol international jusqu&apos;à Istanbul (à organiser par le candidat), assurance voyage (obligatoire), équipement personnel, dépenses personnelles. Supplément MKR pour candidature à moins de 30 jours du départ (traitement express).
           </p>
         </div>
 
