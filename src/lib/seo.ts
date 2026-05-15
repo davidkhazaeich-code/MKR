@@ -54,8 +54,15 @@ export function buildMetadata(input: PageMetaInput): Metadata {
   } = input
 
   const url = `${SITE_URL}${path}`
-  const ogImage = image ? (image.startsWith('http') ? image : `${SITE_URL}${image}`) : DEFAULT_OG_IMAGE
   const ogAlt = imageAlt || title
+
+  // Si `image` est fourni explicitement, on l'utilise. Sinon on omet `images`
+  // pour laisser Next.js détecter automatiquement `opengraph-image.tsx`
+  // (route dynamique avec ImageResponse) ou le fichier `og-image.webp` du root layout en fallback.
+  const hasCustomImage = Boolean(image)
+  const ogImageUrl = image
+    ? (image.startsWith('http') ? image : `${SITE_URL}${image}`)
+    : undefined
 
   const metadata: Metadata = {
     title,
@@ -68,7 +75,9 @@ export function buildMetadata(input: PageMetaInput): Metadata {
       title,
       description,
       siteName: SITE_NAME,
-      images: [{ url: ogImage, width: imageWidth, height: imageHeight, alt: ogAlt }],
+      ...(hasCustomImage && ogImageUrl
+        ? { images: [{ url: ogImageUrl, width: imageWidth, height: imageHeight, alt: ogAlt }] }
+        : {}),
       ...(ogType === 'article' && publishedTime ? { publishedTime } : {}),
       ...(ogType === 'article' && modifiedTime ? { modifiedTime } : {}),
       ...(ogType === 'article' && authors ? { authors } : {}),
@@ -77,7 +86,7 @@ export function buildMetadata(input: PageMetaInput): Metadata {
       card: 'summary_large_image',
       title,
       description,
-      images: [ogImage],
+      ...(hasCustomImage && ogImageUrl ? { images: [ogImageUrl] } : {}),
     },
   }
 
