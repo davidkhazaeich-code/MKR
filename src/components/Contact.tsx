@@ -33,10 +33,10 @@ export default function Contact() {
                   <polyline points="2,4 12,13 22,4" stroke="currentColor" strokeWidth="1.5" />
                 </svg>
                 <div>
-                  <span className="contact-info-label">Email</span>
-                  <a href="mailto:contact@mkrcamp.com" className="contact-info-value">
-                    contact@mkrcamp.com
-                  </a>
+                  <span className="contact-info-label">Formulaire</span>
+                  <Link href="/contact" className="contact-info-value">
+                    Page contact
+                  </Link>
                 </div>
               </div>
 

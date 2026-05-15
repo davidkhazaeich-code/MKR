@@ -611,7 +611,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
       })
       const data = await res.json().catch(() => ({}))
       if (!res.ok || !data.ok) {
-        setSubmitError(data.error || 'Une erreur est survenue. Reessaie ou ecris-nous a contact@mkrcamp.com')
+        setSubmitError(data.error || 'Une erreur est survenue. Reessaie ou ecris-nous via le formulaire de contact.')
         return
       }
       setSubmitted(true)
@@ -1245,8 +1245,8 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                     value={form.palmares} onChange={e => set('palmares', e.target.value)} />
                 </Field>
 
-                <Field label="Lien vidéo" hint="YouTube, Instagram, footage de compétition">
-                  <input className="cand-input" type="url" placeholder="https://youtube.com/..."
+                <Field label="Lien vidéo" hint="Instagram, Vimeo, footage de compétition">
+                  <input className="cand-input" type="url" placeholder="https://instagram.com/..."
                     value={form.lienVideo} onChange={e => set('lienVideo', e.target.value)} />
                 </Field>
               </div>
@@ -1317,7 +1317,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                     value={form.palmaresClub} onChange={e => set('palmaresClub', e.target.value)} />
                 </Field>
 
-                <Field label="Lien vidéo ou réseau du club" hint="Optionnel : Instagram, YouTube, site du club">
+                <Field label="Lien vidéo ou réseau du club" hint="Optionnel : Instagram, site du club">
                   <input className="cand-input" type="url" inputMode="url" placeholder="https://instagram.com/..."
                     value={form.lienVideo} onChange={e => set('lienVideo', e.target.value)} />
                 </Field>
@@ -2279,7 +2279,6 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                         onChange={e => set('sourceDecouverte', e.target.value)}>
                         <option value="">— Optionnel —</option>
                         <option value="instagram">Instagram</option>
-                        <option value="youtube">YouTube</option>
                         <option value="bouche-a-oreille">Bouche à oreille</option>
                         <option value="coach">Recommandation de mon coach</option>
                         <option value="google">Recherche Google</option>

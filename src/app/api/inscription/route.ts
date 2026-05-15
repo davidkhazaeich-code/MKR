@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server'
 import { getSupabaseAdmin } from '@/lib/supabase-admin'
 import { SESSIONS } from '@/data/sessions'
 import { getSessionPlaces } from '@/lib/places'
+import { sendMail, wrapEmail, row, escapeHtml } from '@/lib/email'
+import { rateLimit, clientIp as rlClientIp } from '@/lib/rate-limit'
 
 const VALID_TUNNELS = ['session', 'custom', 'famille', 'groupe'] as const
 type TunnelType = (typeof VALID_TUNNELS)[number]
@@ -54,13 +56,15 @@ function tooMany(message: string) {
   return NextResponse.json({ ok: false, error: message }, { status: 429 })
 }
 
-function clientIp(request: Request): string | null {
-  const xff = request.headers.get('x-forwarded-for')
-  if (xff) return xff.split(',')[0]?.trim() ?? null
-  return request.headers.get('x-real-ip')
-}
-
 export async function POST(request: Request) {
+  // Rate-limit IP : 10 candidatures par 15 min pour eviter le spam tunnel.
+  // Largement plus permissif que /api/contact (les vrais users peuvent refaire un dossier).
+  const ip = rlClientIp(request)
+  const rl = rateLimit({ key: `inscription:${ip}`, limit: 10, windowSeconds: 900 })
+  if (!rl.allowed) {
+    return tooMany(`Trop de candidatures depuis cette IP. Reessaie dans ${Math.ceil(rl.resetIn / 60)} min.`)
+  }
+
   let body: InscriptionPayload
   try {
     body = (await request.json()) as InscriptionPayload
@@ -204,7 +208,6 @@ export async function POST(request: Request) {
     }
   }
 
-  const ip = clientIp(request)
   const candidatureRow = {
     candidate_id: upsertedCandidate.id,
     tunnel_type: tunnel,
@@ -241,23 +244,27 @@ export async function POST(request: Request) {
     actor_email: 'system',
   })
 
-  // Notification Slack (optionnelle — silencieux si SLACK_WEBHOOK_URL non defini).
-  // Fait avant return mais avec timeout 2s pour ne jamais bloquer le user.
-  // TODO V2: remplacer par Resend email quand domaine pro est configure.
-  await notifySlack(
-    {
-      tunnel,
-      prenom,
-      nom,
-      email,
-      pays: candidate.pays?.trim() || null,
-      duree_semaines: body.duree_semaines ?? null,
-      camp_discipline: campDiscipline,
-      candidature_id: candidature.id,
-    },
-  ).catch((err) => {
-    console.error('[api/inscription] Slack notify failed (non-fatal)', err)
-  })
+  // Notifs fire-and-forget : Slack + email Resend. Aucune ne bloque le user.
+  const notifyPayload = {
+    tunnel,
+    prenom,
+    nom,
+    email,
+    pays: candidate.pays?.trim() || null,
+    telephone: candidate.telephone?.trim() || null,
+    duree_semaines: body.duree_semaines ?? null,
+    camp_discipline: campDiscipline,
+    candidature_id: candidature.id,
+  }
+
+  await Promise.all([
+    notifySlack(notifyPayload).catch((err) => {
+      console.error('[api/inscription] Slack notify failed (non-fatal)', err)
+    }),
+    notifyEmail(notifyPayload).catch((err) => {
+      console.error('[api/inscription] Email notify failed (non-fatal)', err)
+    }),
+  ])
 
   return NextResponse.json({
     ok: true,
@@ -272,30 +279,64 @@ interface SlackPayload {
   nom: string
   email: string
   pays: string | null
+  telephone: string | null
   duree_semaines: number | null
   camp_discipline: CampDiscipline | null
   candidature_id: string
 }
 
+const TUNNEL_LABELS: Record<string, string> = {
+  session: 'Session officielle',
+  custom: 'Sur Mesure',
+  famille: 'Famille',
+  groupe: 'Club & Groupe',
+}
+
+const DISCIPLINE_LABELS: Record<CampDiscipline, string> = {
+  lutte: 'Lutte · Daghestan',
+  mma: 'MMA · Tchetchenie',
+  combo_quote: 'Combo Lutte+MMA · sur devis',
+}
+
+async function notifyEmail(p: SlackPayload): Promise<void> {
+  const tunnelLabel = TUNNEL_LABELS[p.tunnel] ?? p.tunnel
+  const discipline = p.camp_discipline ? DISCIPLINE_LABELS[p.camp_discipline] : null
+  const adminBase = process.env.NEXT_PUBLIC_SITE_URL || 'https://mkrcamp.com'
+
+  const bodyHtml = `
+    <table style="width:100%;border-collapse:collapse;background:#0b1220;border:1px solid #1e293b;border-radius:6px">
+      ${row('Tunnel', tunnelLabel)}
+      ${row('Camp', discipline)}
+      ${row('Nom', `${p.prenom} ${p.nom}`)}
+      ${row('Email', p.email)}
+      ${row('Telephone', p.telephone)}
+      ${row('Pays', p.pays)}
+      ${row('Duree (semaines)', p.duree_semaines ? String(p.duree_semaines) : null)}
+    </table>
+    <p style="margin:20px 0 8px;color:#e2e8f0;font-size:14px">
+      <a href="${adminBase}/admin/inscriptions/${p.candidature_id}" style="background:#C0392B;color:#fff;padding:10px 16px;border-radius:6px;text-decoration:none;font-weight:600;display:inline-block">Voir le dossier</a>
+    </p>
+  `
+  const html = wrapEmail(`Nouvelle candidature · ${tunnelLabel}`, bodyHtml, 'Notif automatique envoyee par /api/inscription · Reply-To = candidat.')
+  const text = `Nouvelle candidature ${tunnelLabel}\n${p.prenom} ${p.nom} <${p.email}>\nDossier: ${adminBase}/admin/inscriptions/${p.candidature_id}`
+
+  await sendMail({
+    subject: `[MKR candidature] ${tunnelLabel} — ${p.prenom} ${p.nom}`,
+    html,
+    text,
+    replyTo: p.email,
+    tag: 'inscription',
+  })
+}
+
 async function notifySlack(p: SlackPayload): Promise<void> {
   const url = process.env.SLACK_WEBHOOK_URL
   if (!url) return
-  const tunnelLabel: Record<string, string> = {
-    session: 'Session officielle',
-    custom: 'Sur Mesure',
-    famille: 'Famille',
-    groupe: 'Club & Groupe',
-  }
-  const disciplineLabel: Record<CampDiscipline, string> = {
-    lutte: 'Lutte · Daghestan',
-    mma: 'MMA · Tchetchenie',
-    combo_quote: 'Combo Lutte+MMA · sur devis',
-  }
   const adminBase = process.env.NEXT_PUBLIC_SITE_URL || 'https://mkrcamp.com'
   const text = [
-    `*Nouvelle candidature MKR* (${tunnelLabel[p.tunnel] ?? p.tunnel})`,
+    `*Nouvelle candidature MKR* (${TUNNEL_LABELS[p.tunnel] ?? p.tunnel})`,
     `*${p.prenom} ${p.nom}* — ${p.email}${p.pays ? ` — ${p.pays}` : ''}${p.duree_semaines ? ` — ${p.duree_semaines} sem.` : ''}`,
-    p.camp_discipline ? `*Camp* : ${disciplineLabel[p.camp_discipline]}` : null,
+    p.camp_discipline ? `*Camp* : ${DISCIPLINE_LABELS[p.camp_discipline]}` : null,
     `<${adminBase}/admin/inscriptions/${p.candidature_id}|Voir le dossier>`,
   ].filter(Boolean).join('\n')
 

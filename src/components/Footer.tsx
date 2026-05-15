@@ -26,13 +26,13 @@ export default function Footer() {
                 </svg>
                 +33 6 66 17 76 91
               </a>
-              <a href="mailto:contact@mkrcamp.com" className="footer-contact-link">
+              <Link href="/contact" className="footer-contact-link" aria-label="Formulaire de contact">
                 <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
                   <rect x="1.5" y="3.5" width="15" height="11"/>
                   <polyline points="1.5,3.5 9,10 16.5,3.5"/>
                 </svg>
-                contact@mkrcamp.com
-              </a>
+                Formulaire de contact
+              </Link>
               <Link href="/inscription" className="footer-contact-cta">POSTULER</Link>
             </div>
           </div>
@@ -59,21 +59,6 @@ export default function Footer() {
                   <circle cx="13.2" cy="4.8" r="0.7" fill="currentColor" stroke="none"/>
                 </svg>
                 Instagram
-              </a>
-              <a href="https://facebook.com/mkrcaucasiancamp" target="_blank" rel="noopener noreferrer"
-                className="footer-social-link" aria-label="MKR sur Facebook">
-                <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-                  <path d="M15 1.5H12a5 5 0 0 0-5 5v3H4.5v4H7v6h4v-6h3l1-4h-4V6.5a1 1 0 0 1 1-1H15z"/>
-                </svg>
-                Facebook
-              </a>
-              <a href="https://youtube.com/@mkrcaucasiancamp" target="_blank" rel="noopener noreferrer"
-                className="footer-social-link" aria-label="MKR sur YouTube">
-                <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-                  <rect x="1" y="3.5" width="16" height="11" rx="3"/>
-                  <polygon points="7.5,7 12.5,9 7.5,11" fill="currentColor" stroke="none"/>
-                </svg>
-                YouTube
               </a>
             </div>
           </div>

@@ -23,14 +23,14 @@ export default function MentionsLegalesPage() {
             Pays d&apos;immatriculation : France<br/>
             Forme juridique et numéro SIRET : <em>à confirmer par MKR — sera renseigné dès l&apos;obtention du Kbis ou de l&apos;avis de situation Insee</em><br/>
             Siège social : <em>adresse à confirmer par MKR</em><br/>
-            Email : <a href="mailto:contact@mkrcamp.com">contact@mkrcamp.com</a><br/>
+            Contact : <a href="/contact">formulaire de contact</a><br/>
             Téléphone / WhatsApp : <a href="https://wa.me/33666177691" target="_blank" rel="noopener noreferrer">+33 6 66 17 76 91</a>
           </p>
 
           <h2>2. Directeur de la publication</h2>
           <p>
             Ruslan Mukhtarov, fondateur de MKR Caucasian Camp, ancien équipe de France de lutte (INSEP 2012-2016).<br/>
-            Contact : <a href="mailto:contact@mkrcamp.com">contact@mkrcamp.com</a>
+            Contact : <a href="/contact">formulaire de contact</a>
           </p>
 
           <h2>3. Hébergeur du site</h2>
@@ -51,7 +51,7 @@ export default function MentionsLegalesPage() {
               Les transferts vers les États-Unis sont encadrés par les clauses contractuelles types de la Commission européenne.
             </li>
             <li>
-              <strong>Supabase Inc.</strong> (Singapore) : base de données des candidatures.
+              <strong>Supabase Inc.</strong> : base de données des candidatures.
               Le projet MKR est hébergé sur l&apos;infrastructure européenne de Supabase, en région eu-central-1 (Francfort, Allemagne), ce qui garantit le stockage des données dans l&apos;Union européenne.
             </li>
           </ul>
@@ -79,7 +79,7 @@ export default function MentionsLegalesPage() {
             droit d&apos;accès, droit de rectification, droit à l&apos;effacement, droit à la limitation du traitement, droit à la portabilité et droit d&apos;opposition.
           </p>
           <p>
-            Pour exercer ces droits ou pour toute question relative au traitement de tes données, contacte-nous à <a href="mailto:contact@mkrcamp.com">contact@mkrcamp.com</a>.
+            Pour exercer ces droits ou pour toute question relative au traitement de tes données, écris-nous via le <a href="/contact">formulaire de contact</a>.
             Tu disposes également du droit d&apos;introduire une réclamation auprès de la Commission nationale de l&apos;informatique et des libertés (CNIL), <a href="https://www.cnil.fr" target="_blank" rel="noopener noreferrer">www.cnil.fr</a>.
           </p>
           <p>

@@ -207,7 +207,7 @@ export const BLOG_POSTS: BlogPost[] = [
 
     <h2>L'AVIS DE RUSLAN, FONDATEUR MKR</h2>
 
-    <p>Ruslan Magomedov, fondateur de MKR Caucasian Camp et facilitateur depuis 2018 : <em>"Les gens viennent souvent au Daghestan en pensant qu'ils vont copier Khabib. Ce n'est pas l'angle. L'angle, c'est de comprendre que Khabib n'est pas exceptionnel parce qu'il est Khabib. Il est exceptionnel parce qu'il est sorti d'un système qui produit des Khabib en série. Ce que tu viens chercher, c'est ce système, pas un individu."</em></p>
+    <p>Ruslan Mukhtarov, fondateur de MKR Caucasian Camp, ancien équipe de France de lutte (INSEP 2012-2016) : <em>"Les gens viennent souvent au Daghestan en pensant qu'ils vont copier Khabib. Ce n'est pas l'angle. L'angle, c'est de comprendre que Khabib n'est pas exceptionnel parce qu'il est Khabib. Il est exceptionnel parce qu'il est sorti d'un système qui produit des Khabib en série. Ce que tu viens chercher, c'est ce système, pas un individu."</em></p>
 
     <h2>CE QUE MKR T'APPORTE EN 1 À 3 SEMAINES</h2>
 
@@ -261,7 +261,7 @@ export const BLOG_POSTS: BlogPost[] = [
       },
       {
         q: 'Combien coûte un camp et qu\'est-ce qui est inclus dans le prix ?',
-        a: "Les tarifs publics démarrent à 1 490 € pour une semaine en Solo ou Duo, et descendent à 1 290 €/personne pour les groupes de 6 à 10. Le forfait Famille (1 parent + 1 enfant inclus) démarre à 2 590 €. Sont inclus : vol intérieur Istanbul-Makhachkala (Lutte au Daghestan) ou Istanbul-Grozny (MMA en Tchétchénie), transferts aéroport-camp, hébergement, 2 repas par jour, encadrement coachs locaux, accès salles. Non inclus : vol international, visa, assurance, équipement personnel.",
+        a: "Les tarifs publics démarrent à 1 490 € pour une semaine en Solo ou Duo, et descendent à 1 290 €/personne pour les groupes de 6 à 10. Le forfait Famille (1 parent + 1 enfant inclus) démarre à 2 590 €. Sont inclus dans le package : visa russe (frais et dossier complet), vol intérieur Istanbul → Makhachkala (Lutte au Daghestan) ou Istanbul → Grozny (MMA en Tchétchénie), transferts aéroport-camp, hébergement, 2 repas par jour, encadrement coachs locaux, accès salles. Non inclus : vol international jusqu'à Istanbul (à organiser par le candidat), assurance voyage (obligatoire), équipement personnel et dépenses personnelles. Un supplément express s'applique pour les candidatures à moins de 30 jours du départ.",
       },
       {
         q: "Comment se passe une journée type ?",
@@ -370,7 +370,7 @@ export const BLOG_POSTS: BlogPost[] = [
 
     <h2>L'AVIS DE RUSLAN</h2>
 
-    <p>Ruslan Magomedov, fondateur MKR, ancien combattant et facilitateur depuis 2018 : <em>"Les athlètes qui repartent transformés ne sont pas forcément ceux qui avaient le meilleur niveau en arrivant. Ce sont ceux qui ont accepté de redevenir débutants pendant 1 ou 2 semaines. C'est ce qui fait toute la différence."</em></p>
+    <p>Ruslan Mukhtarov, fondateur MKR, ancien équipe de France de lutte (INSEP 2012-2016) et entraîneur de Lutte et MMA : <em>"Les athlètes qui repartent transformés ne sont pas forcément ceux qui avaient le meilleur niveau en arrivant. Ce sont ceux qui ont accepté de redevenir débutants pendant 1 ou 2 semaines. C'est ce qui fait toute la différence."</em></p>
 
     <p>Si tu veux discuter de ton dossier avant inscription, l'équipe MKR organise un appel de cadrage gratuit. Réserve directement sur <a href="/inscription">la page inscription</a> ou contacte-nous via WhatsApp.</p>
 
@@ -653,7 +653,7 @@ export const BLOG_POSTS: BlogPost[] = [
 
     <p>Tu veux préparer ton dossier ? Vois la <a href="/logistique">page logistique complète</a> (visa, vols, assurance, transferts). Tu hésites entre Daghestan et Tchétchénie ? Consulte la <a href="/destinations">page destinations</a> ou réserve un appel de cadrage avec Ruslan via <a href="https://wa.me/33666177691">WhatsApp +33 6 66 17 76 91</a>. Tu prépares un groupe ou un club ? La <a href="/clubs-groupes">page Clubs et Groupes</a> détaille les modalités spécifiques.</p>
 
-    <p>Si tu as une question précise non couverte par cet article, écris-nous directement à <a href="mailto:contact@mkrcamp.com">contact@mkrcamp.com</a>. On répond systématiquement sous 24h.</p>
+    <p>Si tu as une question précise non couverte par cet article, écris-nous via le <a href="/contact">formulaire de contact</a> ou contacte Ruslan sur <a href="https://wa.me/33666177691">WhatsApp +33 6 66 17 76 91</a>. On répond systématiquement sous 24h.</p>
   `,
   },
   {
@@ -913,7 +913,7 @@ export const BLOG_POSTS: BlogPost[] = [
 
     <h2>L'AVIS DE RUSLAN</h2>
 
-    <p>Ruslan Magomedov, fondateur MKR : <em>"Tout le monde nous demande si on peut faire de lui un nouveau Khabib en 3 semaines. La réponse est non. Ce qu'on peut faire, c'est te donner accès à 18 ans de méthode condensée en 3 semaines d'immersion. C'est déjà énorme. À toi de prolonger le travail chez toi pendant les 18 prochaines années."</em></p>
+    <p>Ruslan Mukhtarov, fondateur MKR : <em>"Tout le monde nous demande si on peut faire de lui un nouveau Khabib en 3 semaines. La réponse est non. Ce qu'on peut faire, c'est te donner accès à 18 ans de méthode condensée en 3 semaines d'immersion. C'est déjà énorme. À toi de prolonger le travail chez toi pendant les 18 prochaines années."</em></p>
 
     <p>Pour discuter de ton dossier et de ton objectif (préparer un combat, progresser en lutte, première immersion MMA), contacte directement Ruslan via <a href="https://wa.me/33666177691">WhatsApp +33 6 66 17 76 91</a> ou la <a href="/inscription">page inscription</a>.</p>
   `,

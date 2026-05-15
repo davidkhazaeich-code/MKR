@@ -203,9 +203,9 @@ export default function SessionsPage() {
               <a href="https://wa.me/33666177691" target="_blank" rel="noopener noreferrer" className="btn-primary">
                 CONTACTER PAR WHATSAPP
               </a>
-              <a href="mailto:contact@mkrcamp.com" className="btn-ghost">
-                ENVOYER UN EMAIL
-              </a>
+              <Link href="/contact?type=clubs" className="btn-ghost">
+                DEMANDER UN DEVIS
+              </Link>
             </div>
           </div>
         </div>

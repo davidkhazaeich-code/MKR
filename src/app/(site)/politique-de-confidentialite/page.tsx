@@ -65,7 +65,7 @@ export default function PolitiqueConfidentialitePage() {
             <li>Droit à la portabilité</li>
             <li>Droit d&apos;opposition au traitement</li>
           </ul>
-          <p>Pour exercer ces droits, contacte-nous à contact@mkrcamp.com.</p>
+          <p>Pour exercer ces droits, écris-nous via le <a href="/contact">formulaire de contact</a>.</p>
 
           <h2>Sécurité</h2>
           <p>Nous mettons en œuvre des mesures techniques et organisationnelles appropriées pour protéger tes données contre tout accès non autorisé, modification, divulgation ou destruction.</p>
