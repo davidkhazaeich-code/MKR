@@ -10,5 +10,6 @@ export default async function OG() {
     keywords: 'FAQ · Sécurité · Logistique',
     title: 'Toutes tes questions',
     subtitle: 'Sécurité, visa, paiement, niveau, équipement. 25+ réponses claires.',
+    bgImage: '/og-bg/dagestan-panorama.png',
   })
 }

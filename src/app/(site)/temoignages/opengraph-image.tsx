@@ -10,5 +10,6 @@ export default async function OG() {
     keywords: 'Témoignages · Antoine · LAMP',
     title: 'Ils sont revenus changés',
     subtitle: 'Antoine Petit-Jean, LAMP et 10+ athlètes racontent leur camp.',
+    bgImage: '/og-bg/sparring-mma-wall.png',
   })
 }

@@ -10,5 +10,6 @@ export default async function OG() {
     keywords: 'Contact · WhatsApp · 48h',
     title: 'Parle à Ruslan',
     subtitle: 'WhatsApp, email, Instagram. Réponse personnelle en moins de 48h.',
+    bgImage: '/og-bg/dagestan-panorama.png',
   })
 }

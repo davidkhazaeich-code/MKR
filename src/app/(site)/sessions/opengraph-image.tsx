@@ -10,5 +10,6 @@ export default async function OG() {
     keywords: 'Sessions · 2026 · 2027',
     title: '4 sessions par an',
     subtitle: 'Été 2026. Toussaint. Hiver 2027. Pâques. 1, 2 ou 3 semaines au choix.',
+    bgImage: '/og-bg/sparring-mma-wall.png',
   })
 }

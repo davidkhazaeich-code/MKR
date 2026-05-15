@@ -10,5 +10,6 @@ export default async function OG() {
     keywords: 'Galerie · Salles · Caucase',
     title: 'Le Caucase en images',
     subtitle: 'Salles, paysages, sparring, héritage culturel du Caucase Nord.',
+    bgImage: '/og-bg/dagestan-panorama.png',
   })
 }

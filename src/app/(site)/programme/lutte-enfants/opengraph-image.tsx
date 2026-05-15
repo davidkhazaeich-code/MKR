@@ -10,6 +10,7 @@ export default async function OG() {
     keywords: 'Jeunesse 8-17 ans · Daghestan',
     title: 'La nouvelle génération',
     subtitle: 'Lutte adaptée 8-17 ans avec parent. Pédagogie progressive, cadre sécurisant.',
+    bgImage: '/og-bg/takedown-wrestling.png',
     accent: 'green',
   })
 }

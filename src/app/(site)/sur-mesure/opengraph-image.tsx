@@ -10,5 +10,6 @@ export default async function OG() {
     keywords: 'Sur Mesure · Solo · Duo · Trio',
     title: 'Tes dates au Caucase',
     subtitle: 'Solo à Quatuor. Lutte, MMA ou combo Daghestan + Tchétchénie sur devis.',
+    bgImage: '/og-bg/sparring-mma-wall.png',
   })
 }

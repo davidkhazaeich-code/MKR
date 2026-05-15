@@ -10,6 +10,7 @@ export default async function OG() {
     keywords: 'Daghestan · Makhachkala · Lutte',
     title: 'La terre de Khabib',
     subtitle: '30+ champions olympiques. 3 champions UFC. Berceau du MMA mondial.',
+    bgImage: '/og-bg/dagestan-panorama.png',
     accent: 'green',
   })
 }

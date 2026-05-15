@@ -10,5 +10,6 @@ export default async function OG() {
     keywords: 'Le Camp · Caucase · 1-3 sem',
     title: '1 à 3 semaines au Caucase',
     subtitle: 'Visa, vol intérieur, hébergement, 2 repas/jour, coaching local inclus.',
+    bgImage: '/og-bg/sparring-mma-wall.png',
   })
 }

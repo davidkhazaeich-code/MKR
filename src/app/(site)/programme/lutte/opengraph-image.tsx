@@ -10,6 +10,7 @@ export default async function OG() {
     keywords: 'Lutte · Daghestan · Khabib',
     title: 'Méthode daghestanaise',
     subtitle: 'Leg rides, chain wrestling, takedowns. 30+ médaillés olympiques.',
+    bgImage: '/og-bg/takedown-wrestling.png',
     accent: 'green',
   })
 }

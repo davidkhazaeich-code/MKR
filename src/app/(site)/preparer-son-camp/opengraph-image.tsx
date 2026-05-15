@@ -10,5 +10,6 @@ export default async function OG() {
     keywords: 'Prépa · 6 semaines · Programme',
     title: '6 semaines pour être prêt',
     subtitle: 'Cardio, force, mobilité, équipement, préparation mentale.',
+    bgImage: '/og-bg/sparring-mma-wall.png',
   })
 }

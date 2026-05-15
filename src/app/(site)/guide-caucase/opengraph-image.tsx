@@ -10,6 +10,7 @@ export default async function OG() {
     keywords: 'Guide gratuit · PDF · 20 pages',
     title: 'Le guide du Caucase',
     subtitle: 'Visa, vols, budget, prépa, équipement. 20 pages. Téléchargement instantané.',
+    bgImage: '/og-bg/dagestan-panorama.png',
     accent: 'gold',
   })
 }

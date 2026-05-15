@@ -10,5 +10,6 @@ export default async function OG() {
     keywords: 'Blog · Méthodes · Récits',
     title: 'Au cœur du Caucase',
     subtitle: 'Pourquoi le Daghestan, méthode Khabib, sécurité, nutrition, préparation.',
+    bgImage: '/og-bg/sparring-mma-wall.png',
   })
 }

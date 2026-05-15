@@ -10,5 +10,6 @@ export default async function OG() {
     keywords: 'Inscription · Gratuite · 5 min',
     title: 'Postule au camp',
     subtitle: '4 tunnels : session, sur mesure, famille, club. Ruslan recontacte en 48h.',
+    bgImage: '/og-bg/sparring-mma-wall.png',
   })
 }

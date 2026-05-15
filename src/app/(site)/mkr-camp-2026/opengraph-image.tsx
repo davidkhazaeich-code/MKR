@@ -10,5 +10,6 @@ export default async function OG() {
     keywords: 'Été 2026 · Caucase · Officiel',
     title: '17 août · 5 septembre',
     subtitle: 'Session officielle MKR 2026 au Caucase. Adultes, 15 places par camp.',
+    bgImage: '/og-bg/dagestan-panorama.png',
   })
 }

@@ -10,5 +10,6 @@ export default async function OG() {
     keywords: 'Programme · 3 disciplines',
     title: 'Forge ton arme',
     subtitle: 'MMA Tchétchénie. Lutte adultes Daghestan. Lutte jeunesse 8-17 ans.',
+    bgImage: '/og-bg/sparring-mma-wall.png',
   })
 }

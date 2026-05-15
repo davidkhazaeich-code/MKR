@@ -37,6 +37,15 @@ export const metadata: Metadata = {
   description: META_DESC,
   metadataBase: new URL(SITE_URL),
   alternates: { canonical: `${SITE_URL}/` },
+  icons: {
+    icon: [
+      { url: '/favicon.ico', sizes: 'any', rel: 'icon' },
+      { url: '/icon.png', type: 'image/png', sizes: '512x512' },
+    ],
+    shortcut: '/favicon.ico',
+    apple: [{ url: '/apple-icon.png', sizes: '180x180', type: 'image/png' }],
+  },
+  manifest: '/manifest.webmanifest',
   openGraph: {
     type: 'website',
     locale: 'fr_CH',

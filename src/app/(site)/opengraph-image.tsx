@@ -10,5 +10,6 @@ export default async function OG() {
     keywords: 'Caucase · Lutte · MMA',
     title: 'Naissent les champions',
     subtitle: 'Khabib. Makhachev. Akhmat. Lutte au Daghestan, MMA en Tchétchénie.',
+    bgImage: '/og-bg/dagestan-panorama.png',
   })
 }

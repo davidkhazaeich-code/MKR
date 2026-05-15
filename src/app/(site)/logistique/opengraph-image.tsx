@@ -10,5 +10,6 @@ export default async function OG() {
     keywords: 'Visa · Vols · Budget',
     title: 'On gère ton départ',
     subtitle: 'Visa russe inclus. Vols depuis Istanbul. Budget complet détaillé.',
+    bgImage: '/og-bg/dagestan-panorama.png',
   })
 }

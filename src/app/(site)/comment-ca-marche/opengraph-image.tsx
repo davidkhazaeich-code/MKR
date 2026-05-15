@@ -10,5 +10,6 @@ export default async function OG() {
     keywords: 'Process · 6 étapes · 48h',
     title: '6 étapes vers le Caucase',
     subtitle: 'Inscription gratuite. Visio Ruslan sous 48h. Paiement après validation.',
+    bgImage: '/og-bg/dagestan-panorama.png',
   })
 }

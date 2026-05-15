@@ -10,5 +10,6 @@ export default async function OG() {
     keywords: 'Destinations · Caucase Nord',
     title: 'Deux terres de combat',
     subtitle: 'Daghestan pour la Lutte. Tchétchénie pour le MMA. Une discipline par camp.',
+    bgImage: '/og-bg/dagestan-panorama.png',
   })
 }

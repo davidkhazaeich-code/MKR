@@ -10,6 +10,7 @@ export default async function OG() {
     keywords: 'Famille · 8-17 ans · Daghestan',
     title: 'Père & fils sur le tapis',
     subtitle: 'Parent + enfant 8-17 ans. Programme adapté, encadrement spécialisé.',
+    bgImage: '/og-bg/takedown-wrestling.png',
     accent: 'green',
   })
 }

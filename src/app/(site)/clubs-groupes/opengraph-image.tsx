@@ -10,5 +10,6 @@ export default async function OG() {
     keywords: 'Club · Groupe · 5 à 20',
     title: 'Ton club au Caucase',
     subtitle: '5 à 20 personnes. Hébergement bloc, programme adapté, devis personnalisé.',
+    bgImage: '/og-bg/sparring-mma-wall.png',
   })
 }

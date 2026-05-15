@@ -10,5 +10,6 @@ export default async function OG() {
     keywords: 'Fondateur · Ruslan · INSEP',
     title: 'Ruslan Mukhtarov',
     subtitle: 'Ancien équipe de France de lutte, INSEP. MKR depuis 2018.',
+    bgImage: '/og-bg/dagestan-panorama.png',
   })
 }
