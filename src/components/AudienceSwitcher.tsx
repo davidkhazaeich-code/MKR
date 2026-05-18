@@ -22,6 +22,15 @@ const ICONS: Record<string, React.ReactNode> = {
       <circle cx="21" cy="18" r="1.2" fill="currentColor" />
     </svg>
   ),
+  famille: (
+    <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <circle cx="11" cy="9.5" r="3.4" />
+      <path d="M4.5 26c0-3.6 2.9-6.2 6.5-6.2s6.5 2.6 6.5 6.2" />
+      <circle cx="22.5" cy="12.5" r="2.5" />
+      <path d="M17.5 26c0-2.7 2.2-4.9 5-4.9s5 2.2 5 4.9" />
+      <path d="M14.4 17.6 L 20 17" />
+    </svg>
+  ),
   groupe: (
     <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
       <circle cx="16" cy="9" r="3.5" />
