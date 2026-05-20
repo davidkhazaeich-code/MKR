@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { useState, useRef, useEffect, FormEvent } from 'react'
 import dynamic from 'next/dynamic'
+import Icon from './Icon'
 import { REGISTRATION_TYPES, type RegistrationTypeId, getRegistrationType } from '@/data/registration-types'
 import {
   calculatePrice,
@@ -677,10 +678,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                   </ul>
                   <span className="audience-card-cta" style={{ width: '100%', justifyContent: 'center' }}>
                     {type.cta}
-                    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" width="14" height="14" aria-hidden="true">
-                      <line x1="3" y1="8" x2="13" y2="8" strokeLinecap="round" />
-                      <polyline points="9,4 13,8 9,12" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
+                    <Icon name="arrow-right" size={14} />
                   </span>
                 </button>
               ))}
@@ -707,11 +705,8 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
         <div className="insc-success-page">
           <Link href="/" className="insc-back-home">← Retour au site</Link>
           <div className="cand-success">
-            <div className="cand-success-icon">
-              <svg viewBox="0 0 48 48" fill="none">
-                <circle cx="24" cy="24" r="23" stroke="var(--primary)" strokeWidth="2" />
-                <polyline points="14,24 21,31 34,16" stroke="var(--primary)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
+            <div className="cand-success-icon" style={{ color: 'var(--primary)' }}>
+              <Icon name="check-circle" size={48} />
             </div>
             <span className="label-tag" style={{ color: 'var(--primary)' }}>INSCRIPTION RECUE</span>
             <h2 className="cand-success-title">DOSSIER ENVOYÉ</h2>
@@ -763,9 +758,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
               <div key={i} className={`insc-step${i < step ? ' done' : ''}${i === step ? ' active' : ''}`}>
                 <div className="insc-step-dot">
                   {i < step ? (
-                    <svg viewBox="0 0 12 12" fill="none">
-                      <polyline points="2,6 5,9 10,3" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
+                    <Icon name="check" size={12} />
                   ) : (
                     <span>{i + 1}</span>
                   )}
@@ -901,9 +894,9 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
         >
           <div className="insc-mobile-progress-top">
             <span className="insc-mobile-step-label">Étape {step + 1}/{STEPS.length} · {STEPS[step]}</span>
-            <svg className="insc-mobile-chevron" viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
-              <polyline points="3,4 6,8 9,4" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
+            <span className="insc-mobile-chevron">
+              <Icon name="chevron-down" size={12} />
+            </span>
           </div>
           <div className="insc-mobile-bar">
             <div className="insc-mobile-bar-fill" style={{ width: `${((step + 1) / STEPS.length) * 100}%` }} />
@@ -918,11 +911,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                   className={`insc-mobile-step${i < step ? ' done' : ''}${i === step ? ' active' : ''}`}
                 >
                   <span className="insc-mobile-step-num">
-                    {i < step ? (
-                      <svg viewBox="0 0 12 12" width="11" height="11" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
-                        <polyline points="2,6 5,9 10,3" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                    ) : i + 1}
+                    {i < step ? <Icon name="check" size={11} /> : i + 1}
                   </span>
                   <span className="insc-mobile-step-text">{label}</span>
                 </li>
@@ -1437,10 +1426,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                           className="insc-child-remove"
                           aria-label={`Retirer l'enfant ${i + 1}`}
                         >
-                          <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
-                            <line x1="4" y1="4" x2="12" y2="12" strokeLinecap="round" />
-                            <line x1="12" y1="4" x2="4" y2="12" strokeLinecap="round" />
-                          </svg>
+                          <Icon name="x" size={14} />
                           Retirer
                         </button>
                       )}
@@ -1511,10 +1497,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                     onClick={addChild}
                     className="insc-child-add"
                   >
-                    <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
-                      <line x1="8" y1="3" x2="8" y2="13" strokeLinecap="round" />
-                      <line x1="3" y1="8" x2="13" y2="8" strokeLinecap="round" />
-                    </svg>
+                    <Icon name="plus" size={16} />
                     Ajouter un enfant
                   </button>
                 )}
@@ -1626,20 +1609,12 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                       {form.campDiscipline === 'mma' && (
                         form.niveau && !MMA_ACCEPTED_LEVELS.has(form.niveau) ? (
                           <div className="insc-banner insc-banner--warn">
-                            <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
-                              <path d="M8 1.5L15 14H1L8 1.5z" strokeLinejoin="round" />
-                              <line x1="8" y1="6" x2="8" y2="10" strokeLinecap="round" />
-                              <circle cx="8" cy="12" r="0.6" fill="currentColor" />
-                            </svg>
+                            <Icon name="alert" size={16} />
                             <span>Le camp MMA exige un niveau <strong>Avancé</strong> ou <strong>Compétiteur</strong>. Ton niveau actuel ({form.niveau}) ne permet pas l&apos;inscription. Choisis Lutte, ou ajuste ton niveau à l&apos;étape Expérience.</span>
                           </div>
                         ) : (
                           <div className="insc-banner insc-banner--warn-light">
-                            <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
-                              <circle cx="8" cy="8" r="7" />
-                              <line x1="8" y1="4" x2="8" y2="9" strokeLinecap="round" />
-                              <circle cx="8" cy="12" r="0.6" fill="currentColor" />
-                            </svg>
+                            <Icon name="info" size={14} />
                             <span>Niveau Avancé minimum exigé pour le camp MMA. Tu confirmeras ton niveau à l&apos;étape Expérience.</span>
                           </div>
                         )
@@ -1707,11 +1682,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                       </div>
                       {form.campDiscipline === 'mma' && (
                         <div className="insc-banner insc-banner--warn-light">
-                          <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
-                            <circle cx="8" cy="8" r="7" />
-                            <line x1="8" y1="4" x2="8" y2="9" strokeLinecap="round" />
-                            <circle cx="8" cy="12" r="0.6" fill="currentColor" />
-                          </svg>
+                          <Icon name="info" size={14} />
                           <span>Niveau Avancé minimum exigé pour le camp MMA. Tu confirmeras ton niveau à l&apos;étape Expérience.</span>
                         </div>
                       )}
@@ -2144,10 +2115,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
 
                   <section className="insc-recap-card" aria-label="Identité">
                     <header className="insc-recap-card-head">
-                      <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
-                        <circle cx="8" cy="6" r="3" />
-                        <path d="M2 14c0-3 2.5-5 6-5s6 2 6 5" strokeLinecap="round" />
-                      </svg>
+                      <Icon name="user" size={16} />
                       <span>{audience === 'groupe' ? 'Responsable' : 'Candidat'}</span>
                     </header>
                     <dl>
@@ -2161,10 +2129,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
 
                   <section className="insc-recap-card" aria-label="Camp">
                     <header className="insc-recap-card-head">
-                      <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
-                        <path d="M8 2l5 9H3l5-9z" strokeLinejoin="round" />
-                        <line x1="3" y1="14" x2="13" y2="14" strokeLinecap="round" />
-                      </svg>
+                      <Icon name="mountain" size={16} />
                       <span>Camp</span>
                     </header>
                     <dl>
@@ -2196,11 +2161,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
 
                   <section className="insc-recap-card" aria-label="Détails">
                     <header className="insc-recap-card-head">
-                      <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
-                        <circle cx="8" cy="8" r="7" />
-                        <line x1="8" y1="4" x2="8" y2="9" strokeLinecap="round" />
-                        <circle cx="8" cy="12" r="0.6" fill="currentColor" />
-                      </svg>
+                      <Icon name="info" size={16} />
                       <span>{audience === 'groupe' ? 'Club' : 'Profil'}</span>
                     </header>
                     <dl>
@@ -2319,11 +2280,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
             {errors.length > 0 && (
               <div ref={errorsRef} className="cand-errors insc-errors" role="alert" aria-live="assertive">
                 <div className="insc-errors-head">
-                  <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
-                    <circle cx="8" cy="8" r="7" />
-                    <line x1="8" y1="4" x2="8" y2="9" strokeLinecap="round" />
-                    <circle cx="8" cy="12" r="0.6" fill="currentColor" />
-                  </svg>
+                  <Icon name="alert" size={16} />
                   <strong>{errors.length === 1 ? 'Un champ à compléter' : `${errors.length} champs à compléter`}</strong>
                 </div>
                 <ul className="insc-errors-list">
@@ -2335,20 +2292,14 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
             <div className="cand-nav insc-nav-sticky">
               {step > 0 && (
                 <button type="button" className="cand-btn-back" onClick={prev}>
-                  <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
-                    <line x1="13" y1="8" x2="3" y2="8" strokeLinecap="round" />
-                    <polyline points="7,4 3,8 7,12" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
+                  <Icon name="arrow-left" size={14} />
                   Retour
                 </button>
               )}
               {step < STEPS.length - 1 ? (
                 <button type="button" className="cand-btn-next insc-btn-primary" onClick={next}>
                   Étape suivante
-                  <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
-                    <line x1="3" y1="8" x2="13" y2="8" strokeLinecap="round" />
-                    <polyline points="9,4 13,8 9,12" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
+                  <Icon name="arrow-right" size={14} />
                 </button>
               ) : (
                 <button
@@ -2359,17 +2310,15 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                 >
                   {isSubmitting ? (
                     <>
-                      <svg className="insc-spinner" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true">
-                        <circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" strokeWidth="1.6" strokeDasharray="20 30" strokeLinecap="round" />
-                      </svg>
+                      <span className="insc-spinner">
+                        <Icon name="spinner" size={14} />
+                      </span>
                       ENVOI EN COURS…
                     </>
                   ) : (
                     <>
                       ENVOYER MA CANDIDATURE
-                      <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
-                        <polyline points="3,8 7,12 13,4" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
+                      <Icon name="check" size={14} />
                     </>
                   )}
                 </button>
@@ -2377,11 +2326,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
             </div>
             {submitError && (
               <p ref={submitErrorRef} className="insc-submit-error" role="alert">
-                <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
-                  <circle cx="8" cy="8" r="7" />
-                  <line x1="8" y1="4" x2="8" y2="9" strokeLinecap="round" />
-                  <circle cx="8" cy="12" r="0.6" fill="currentColor" />
-                </svg>
+                <Icon name="alert" size={16} />
                 <span>{submitError}</span>
               </p>
             )}

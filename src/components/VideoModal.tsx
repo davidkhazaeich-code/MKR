@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
+import Icon from './Icon'
 
 interface VideoModalProps {
   src: string | null
@@ -81,9 +82,7 @@ export default function VideoModal({ src, poster, title, subtitle, onClose }: Vi
         aria-label="Fermer la vidéo"
         onClick={onClose}
       >
-        <svg viewBox="0 0 24 24" fill="none" width="22" height="22">
-          <path d="M6 6 L18 18 M18 6 L6 18" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-        </svg>
+        <Icon name="x" size={22} />
       </button>
 
       <div className="video-modal-frame" onClick={(e) => e.stopPropagation()}>

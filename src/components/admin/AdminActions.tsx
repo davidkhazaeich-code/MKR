@@ -543,43 +543,27 @@ function formatDateFr(iso: string): string {
 function NotesStatusIndicator({ state }: { state: SaveState }) {
   if (state === 'idle') return <div className="adm-notes-status" />
   const cls = `adm-notes-status adm-notes-status--${state}`
-  const iconBox = { width: 13, height: 13, marginRight: 6, verticalAlign: '-2px' } as const
+  const iconStyle = { marginRight: 6, verticalAlign: '-2px' } as const
   return (
     <div className={cls}>
       {state === 'dirty' && (
-        <span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" style={iconBox} aria-hidden="true">
-            <path d="M12 20h9"/>
-            <path d="M16.5 3.5a2.121 2.121 0 1 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/>
-          </svg>
-          Modifié — enregistrement automatique…
+        <span style={iconStyle}>
+          <Icon name="edit" size={13} /> Modifié — enregistrement automatique…
         </span>
       )}
       {state === 'saving' && (
-        <span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" style={iconBox} aria-hidden="true">
-            <circle cx="12" cy="12" r="9"/>
-            <polyline points="12 7 12 12 15 14"/>
-          </svg>
-          Enregistrement…
+        <span style={iconStyle}>
+          <Icon name="clock" size={13} /> Enregistrement…
         </span>
       )}
       {state === 'saved' && (
-        <span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={iconBox} aria-hidden="true">
-            <polyline points="5 13 9 17 19 7"/>
-          </svg>
-          Enregistré
+        <span style={iconStyle}>
+          <Icon name="check" size={13} strokeWidth={2.4} /> Enregistré
         </span>
       )}
       {state === 'error' && (
-        <span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" style={iconBox} aria-hidden="true">
-            <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
-            <line x1="12" y1="9" x2="12" y2="13"/>
-            <line x1="12" y1="17" x2="12.01" y2="17"/>
-          </svg>
-          Erreur — réessaye
+        <span style={iconStyle}>
+          <Icon name="alert-triangle" size={13} /> Erreur — réessaye
         </span>
       )}
     </div>

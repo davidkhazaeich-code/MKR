@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import VideoModal from './VideoModal'
+import Icon from './Icon'
 
 export interface VideoTestimonialItem {
   name: string
@@ -37,10 +38,7 @@ export default function VideoTestimonialsGrid({ items }: Props) {
                 onClick={() => setActive(v)}
                 aria-label={`Lire le témoignage vidéo de ${v.name}`}
               >
-                <svg viewBox="0 0 40 40" width="56" height="56" fill="none" aria-hidden="true">
-                  <circle cx="20" cy="20" r="18" stroke="#F8F8F8" strokeWidth="1.5" />
-                  <polygon points="16,12 30,20 16,28" fill="#F8F8F8" />
-                </svg>
+                <Icon name="play" size={56} color="#F8F8F8" />
               </button>
               <span
                 style={{

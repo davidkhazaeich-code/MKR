@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Icon from './Icon'
 
 type Status = 'idle' | 'submitting' | 'success' | 'error'
 
@@ -48,10 +49,9 @@ export default function ContactForm() {
     return (
       <div className="contact-form" role="status" aria-live="polite">
         <div className="cand-field" style={{ textAlign: 'center', padding: '1rem 0' }}>
-          <svg viewBox="0 0 24 24" fill="none" stroke="var(--primary)" strokeWidth="1.5" width="40" height="40" style={{ margin: '0 auto 0.8rem', display: 'block' }} aria-hidden="true">
-            <circle cx="12" cy="12" r="10" />
-            <path d="M8 12l3 3 5-5" />
-          </svg>
+          <div style={{ color: 'var(--primary)', margin: '0 auto 0.8rem', display: 'flex', justifyContent: 'center' }}>
+            <Icon name="check-circle" size={40} />
+          </div>
           <h3 style={{ color: 'var(--text-primary)', fontSize: '1.1rem', marginBottom: '0.4rem' }}>MESSAGE BIEN REÇU</h3>
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: 1.6 }}>
             On revient vers toi sous 48h sur l&apos;email indiqué. Tu peux aussi nous écrire sur WhatsApp si ta question est urgente.

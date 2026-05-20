@@ -6,64 +6,38 @@ import Link from 'next/link'
 import Image from 'next/image'
 import IconLutte from '@/components/icons/IconLutte'
 import IconMMA from '@/components/icons/IconMMA'
+import Icon from './Icon'
 
-const CHEVRON = (
-  <svg className="nav-trigger-arrow" viewBox="0 0 10 10" fill="none"
-    stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-    <polyline points="2,3 5,7 8,3"/>
-  </svg>
-)
+const CHEVRON = <Icon name="chevron-down" size={10} className="nav-trigger-arrow" />
+const ARROW_RIGHT = <Icon name="arrow-right" size={13} />
+const ARROW_SM = <Icon name="chevron-right" size={10} />
+const CHECK_SM = <Icon name="check" size={12} />
+const MOBILE_CHEVRON = <Icon name="chevron-down" size={18} />
 
-const ARROW_RIGHT = (
-  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5"
-    width="13" height="13" aria-hidden="true">
-    <line x1="2" y1="8" x2="14" y2="8"/>
-    <polyline points="9,3 14,8 9,13"/>
-  </svg>
-)
-
-const ARROW_SM = (
-  <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" strokeWidth="1.5"
-    width="10" height="10" aria-hidden="true">
-    <polyline points="3,2 7,5 3,8"/>
-  </svg>
-)
-
-const CHECK_SM = (
-  <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5"
-    width="12" height="12" aria-hidden="true">
-    <polyline points="2,7 6,11 12,3"/>
-  </svg>
-)
-
-const MOBILE_CHEVRON = (
-  <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-    <polyline points="3,6 9,12 15,6"/>
-  </svg>
-)
-
-/* ── Mobile & mega menu link icons ── */
-const ICO = {
-  camp: <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" width="18" height="18" aria-hidden="true"><path d="M10 2L2 18h16L10 2z"/><line x1="10" y1="10" x2="10" y2="14"/><circle cx="10" cy="16" r=".5" fill="currentColor"/></svg>,
-  howItWorks: <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" width="18" height="18" aria-hidden="true"><circle cx="10" cy="10" r="8"/><polyline points="10,5 10,10 14,12"/></svg>,
-  prepare: <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" width="18" height="18" aria-hidden="true"><rect x="5" y="2" width="10" height="16" rx="1"/><line x1="8" y1="6" x2="12" y2="6"/><line x1="8" y1="9" x2="12" y2="9"/><line x1="8" y1="12" x2="12" y2="12"/></svg>,
-  logistics: <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" width="18" height="18" aria-hidden="true"><path d="M2 14l4-10h8l4 10"/><circle cx="6" cy="14" r="2"/><circle cx="14" cy="14" r="2"/><line x1="8" y1="14" x2="12" y2="14"/></svg>,
-  dayType: <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" width="18" height="18" aria-hidden="true"><circle cx="10" cy="10" r="8"/><circle cx="10" cy="10" r="2" fill="currentColor"/><line x1="10" y1="2" x2="10" y2="4"/><line x1="10" y1="16" x2="10" y2="18"/><line x1="2" y1="10" x2="4" y2="10"/><line x1="16" y1="10" x2="18" y2="10"/></svg>,
-  sessions: <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" width="18" height="18" aria-hidden="true"><rect x="3" y="4" width="14" height="13" rx="1.5"/><line x1="3" y1="8" x2="17" y2="8"/><line x1="7" y1="2" x2="7" y2="5"/><line x1="13" y1="2" x2="13" y2="5"/></svg>,
-  overview: <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" width="18" height="18" aria-hidden="true"><rect x="2" y="2" width="7" height="7" rx="1"/><rect x="11" y="2" width="7" height="7" rx="1"/><rect x="2" y="11" width="7" height="7" rx="1"/><rect x="11" y="11" width="7" height="7" rx="1"/></svg>,
+/* ── Mobile & mega menu link icons ──
+ * Wrapper React.ReactNode pour pouvoir mixer Icon Remix + composants métier
+ * (IconLutte / IconMMA) sans casser le mapping existant Record<string, ReactNode>. */
+const ICO: Record<string, React.ReactNode> = {
+  camp: <Icon name="mountain" size={18} />,
+  howItWorks: <Icon name="clock" size={18} />,
+  prepare: <Icon name="book-open" size={18} />,
+  logistics: <Icon name="taxi" size={18} />,
+  dayType: <Icon name="sparkles" size={18} />,
+  sessions: <Icon name="calendar-event" size={18} />,
+  overview: <Icon name="filter" size={18} />,
   mma: <IconMMA className="nav-ico-discipline" />,
   lutte: <IconLutte className="nav-ico-discipline" />,
-  coaches: <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" width="18" height="18" aria-hidden="true"><circle cx="10" cy="6" r="3.5"/><path d="M3 18c0-4 3.5-7 7-7s7 3 7 7"/></svg>,
-  dagestan: <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" width="18" height="18" aria-hidden="true"><path d="M2 16L6 6l4 5 4-8 4 13"/><circle cx="15" cy="5" r="2"/></svg>,
-  gallery: <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" width="18" height="18" aria-hidden="true"><rect x="2" y="3" width="16" height="14" rx="1.5"/><circle cx="7" cy="8" r="2"/><path d="M2 14l4-4 3 3 4-5 5 6"/></svg>,
-  testimonials: <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" width="18" height="18" aria-hidden="true"><path d="M3 3h14v10H8L3 17V3z" strokeLinejoin="round"/><line x1="7" y1="7" x2="13" y2="7"/><line x1="7" y1="10" x2="11" y2="10"/></svg>,
-  faq: <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" width="18" height="18" aria-hidden="true"><circle cx="10" cy="10" r="8"/><path d="M7.5 7.5C7.5 6 9 5 10.5 5.5S12.5 7 12 8.5C11.5 10 10 10 10 11.5"/><circle cx="10" cy="14" r=".7" fill="currentColor"/></svg>,
-  blog: <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" width="18" height="18" aria-hidden="true"><path d="M3 17L13 7l4 4L7 21H3v-4z" transform="translate(0,-2)"/><line x1="11" y1="7" x2="15" y2="3" transform="translate(0,-2)"/></svg>,
-  about: <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" width="18" height="18" aria-hidden="true"><circle cx="10" cy="10" r="8"/><line x1="10" y1="9" x2="10" y2="14"/><circle cx="10" cy="6.5" r=".7" fill="currentColor"/></svg>,
-  contact: <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" width="18" height="18" aria-hidden="true"><rect x="2" y="4" width="16" height="12" rx="1.5"/><polyline points="2,4 10,11 18,4"/></svg>,
-  inscription: <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" width="18" height="18" aria-hidden="true"><path d="M14 2l4 4-9 9H5v-4L14 2z"/><line x1="12" y1="4" x2="16" y2="8"/></svg>,
-  guide: <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" width="18" height="18" aria-hidden="true"><path d="M4 2h9l5 5v11a1 1 0 01-1 1H4a1 1 0 01-1-1V3a1 1 0 011-1z"/><polyline points="13,2 13,7 18,7"/><line x1="6" y1="11" x2="14" y2="11"/><line x1="6" y1="14" x2="11" y2="14"/></svg>,
-  calendar: <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" width="18" height="18" aria-hidden="true"><rect x="3" y="4" width="14" height="13" rx="1.5"/><line x1="3" y1="8" x2="17" y2="8"/><line x1="7" y1="2" x2="7" y2="5"/><line x1="13" y1="2" x2="13" y2="5"/><circle cx="7" cy="12" r="1" fill="currentColor"/><circle cx="10" cy="12" r="1" fill="currentColor"/></svg>,
+  coaches: <Icon name="user" size={18} />,
+  dagestan: <Icon name="map-pin" size={18} />,
+  gallery: <Icon name="image" size={18} />,
+  testimonials: <Icon name="quote" size={18} />,
+  faq: <Icon name="question" size={18} />,
+  blog: <Icon name="edit" size={18} />,
+  about: <Icon name="info" size={18} />,
+  contact: <Icon name="mail" size={18} />,
+  inscription: <Icon name="send" size={18} />,
+  guide: <Icon name="book-open" size={18} />,
+  calendar: <Icon name="calendar" size={18} />,
 }
 
 type PanelId = 'camp' | 'programme' | 'destinations' | 'infos'
@@ -291,7 +265,7 @@ export default function Nav() {
                 <span className="mega-arrow-link">Voir le programme {ARROW_RIGHT}</span>
               </Link>
               <Link href="/programme/lutte-enfants" className="mega-prog-card">
-                <Image src="/images/ruslan/kids/kids-coach-cercle-mkr.webp" alt="" className="mega-prog-bg" fill sizes="(max-width: 768px) 100vw, 33vw" aria-hidden="true" />
+                <Image src="/images/ruslan/lutte/kids-briefing.webp" alt="" className="mega-prog-bg" fill sizes="(max-width: 768px) 100vw, 33vw" aria-hidden="true" />
                 <div className="mega-prog-icon" aria-hidden="true">
                   <IconLutte />
                 </div>
@@ -347,10 +321,7 @@ export default function Nav() {
                   <li><Link href="/guide-caucase">{ICO.guide} Guide PDF Caucase {ARROW_SM}</Link></li>
                 </ul>
                 <div className="mega-dest-security" role="note">
-                  <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" width="16" height="16" aria-hidden="true">
-                    <polygon points="9,1.5 16.5,5 16.5,13 9,16.5 1.5,13 1.5,5"/>
-                    <line x1="9" y1="8" x2="9" y2="12"/><circle cx="9" cy="6" r="0.5" fill="currentColor"/>
-                  </svg>
+                  <Icon name="alert" size={16} />
                   <span className="mega-dest-security-text">
                     Combo Daghestan + Tchétchénie disponible uniquement sur sur-mesure.
                   </span>
@@ -459,9 +430,7 @@ export default function Nav() {
             <Link href="/contact" className="mob-sub-link">{ICO.contact} Contact</Link>
           </MobAccordion>
           <a href="https://wa.me/33666177691" target="_blank" rel="noopener noreferrer" className="mob-direct">
-            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" width="18" height="18" aria-hidden="true">
-              <path d="M3 17l1.4-3.4a7.5 7.5 0 1 1 2.9 2.6L3 17"/>
-            </svg>
+            <Icon name="whatsapp" size={18} />
             WhatsApp +33 6 66 17 76 91
           </a>
           <div className="mob-cta-wrap">

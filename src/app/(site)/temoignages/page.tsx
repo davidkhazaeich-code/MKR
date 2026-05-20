@@ -3,6 +3,7 @@ import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 import VideoTestimonialsGrid from '@/components/VideoTestimonialsGrid'
+import Icon from '@/components/Icon'
 import { TESTIMONIALS } from '@/data/testimonials'
 
 export const metadata = buildMetadata({
@@ -26,9 +27,7 @@ function Stars() {
   return (
     <div className="testi-stars" role="img" aria-label="5 étoiles sur 5">
       {[...Array(5)].map((_, i) => (
-        <svg key={i} viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <polygon points="7,1 9,5 13,5.5 10,8.5 10.5,13 7,11 3.5,13 4,8.5 1,5.5 5,5" />
-        </svg>
+        <Icon key={i} name="star-fill" size={14} />
       ))}
     </div>
   )

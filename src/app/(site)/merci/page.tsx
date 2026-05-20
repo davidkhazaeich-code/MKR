@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { buildMetadata } from '@/lib/seo'
+import Icon from '@/components/Icon'
 
 export const metadata = buildMetadata({
   title: 'Merci | MKR Caucasian Camp',
@@ -13,11 +14,8 @@ export default function MerciPage() {
     <section className="merci-page">
       <div className="inner">
         <div className="merci-content reveal">
-          <div className="merci-icon" aria-hidden="true">
-            <svg viewBox="0 0 64 64" fill="none" stroke="var(--primary)" strokeWidth="2.5">
-              <circle cx="32" cy="32" r="28" />
-              <polyline points="20,32 28,40 44,24" />
-            </svg>
+          <div className="merci-icon" aria-hidden="true" style={{ color: 'var(--primary)' }}>
+            <Icon name="check-circle" size={64} />
           </div>
           <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>
             CANDIDATURE REÇUE

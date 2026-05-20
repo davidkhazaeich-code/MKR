@@ -3,6 +3,7 @@
 import { motion, useTransform } from 'framer-motion'
 import { WorldMap } from '@/components/WorldMap'
 import { useScrollReveal } from '@/hooks/useScrollReveal'
+import Icon from './Icon'
 
 const ROUTES = [
   { start: { lat: 46.2044, lng: 6.1432,   label: 'Genève'   }, end: { lat: 41.0082, lng: 28.9784, label: 'Istanbul' } },
@@ -65,10 +66,7 @@ export default function VoyageReveal() {
               <span className="voyage-badge">VOL INTÉRIEUR INCLUS</span>
               <span className="voyage-badge">TRANSFERTS INCLUS</span>
               <span className="voyage-badge voyage-badge--green">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="12" height="12" aria-hidden="true">
-                  <path d="M12 2L3 7v5c0 5.25 3.75 10.15 9 11.25C17.25 22.15 21 17.25 21 12V7l-9-5z" fill="currentColor" fillOpacity="0.2"/>
-                  <polyline points="9 12 11 14 15 10" stroke="currentColor" strokeWidth="2.5"/>
-                </svg>
+                <Icon name="shield-check" size={12} />
                 DESTINATION SÉCURISÉE
               </span>
             </div>

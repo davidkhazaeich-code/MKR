@@ -4,14 +4,13 @@ import { useRef, useState } from 'react'
 import Image from 'next/image'
 import { TESTIMONIALS, type Testimonial } from '@/data/testimonials'
 import VideoModal from './VideoModal'
+import Icon from './Icon'
 
 function Stars() {
   return (
     <div className="testi-stars" role="img" aria-label="5 étoiles sur 5">
       {[...Array(5)].map((_, i) => (
-        <svg key={i} viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <polygon points="7,1 9,5 13,5.5 10,8.5 10.5,13 7,11 3.5,13 4,8.5 1,5.5 5,5" />
-        </svg>
+        <Icon key={i} name="star-fill" size={14} />
       ))}
     </div>
   )
@@ -49,14 +48,10 @@ export default function Testimonials() {
           </p>
           <div className="testi-nav" aria-label="Navigation du carousel">
             <button className="testi-nav-btn" onClick={() => scrollBy('prev')} aria-label="Témoignage précédent">
-              <svg viewBox="0 0 24 24" fill="none">
-                <polyline points="15,6 9,12 15,18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
+              <Icon name="chevron-left" size={24} />
             </button>
             <button className="testi-nav-btn" onClick={() => scrollBy('next')} aria-label="Témoignage suivant">
-              <svg viewBox="0 0 24 24" fill="none">
-                <polyline points="9,6 15,12 9,18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
+              <Icon name="chevron-right" size={24} />
             </button>
           </div>
         </div>
@@ -79,9 +74,7 @@ export default function Testimonials() {
                       onClick={() => setActiveVideo(c)}
                       aria-label={`Lire le témoignage vidéo de ${c.name}`}
                     >
-                      <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
-                        <polygon points="5,3 17,10 5,17" fill="currentColor" />
-                      </svg>
+                      <Icon name="play" size={20} />
                     </button>
                   )}
                 </div>

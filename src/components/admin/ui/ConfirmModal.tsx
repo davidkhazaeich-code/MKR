@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
+import Icon from './Icon'
 
 interface Props {
   open: boolean
@@ -64,11 +65,7 @@ export default function ConfirmModal({
           }}
           aria-hidden="true"
         >
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M12 9v4" />
-            <path d="M12 17h.01" />
-            <circle cx="12" cy="12" r="10" />
-          </svg>
+          <Icon name="alert-triangle" size={22} strokeWidth={2.2} />
         </div>
         <h2 id="adm-modal-title" className="adm-modal-title">{title}</h2>
         <p className="adm-modal-message">{message}</p>

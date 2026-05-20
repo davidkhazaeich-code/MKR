@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
+import Icon from './Icon'
 
 export default function Footer() {
   return (
@@ -21,16 +22,11 @@ export default function Footer() {
             <div className="footer-contact-right">
               <a href="https://wa.me/33666177691" target="_blank" rel="noopener noreferrer"
                 className="footer-contact-link" aria-label="WhatsApp MKR Caucasian Camp">
-                <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-                  <path d="M2.5 15.5l1.3-3.2a7 7 0 1 1 2.7 2.4L2.5 15.5"/>
-                </svg>
+                <Icon name="whatsapp" size={18} />
                 +33 6 66 17 76 91
               </a>
               <Link href="/contact" className="footer-contact-link" aria-label="Formulaire de contact">
-                <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-                  <rect x="1.5" y="3.5" width="15" height="11"/>
-                  <polyline points="1.5,3.5 9,10 16.5,3.5"/>
-                </svg>
+                <Icon name="mail" size={18} />
                 Formulaire de contact
               </Link>
               <Link href="/inscription" className="footer-contact-cta">POSTULER</Link>
@@ -53,11 +49,7 @@ export default function Footer() {
             <div className="footer-socials">
               <a href="https://instagram.com/mkr.caucasiancamp" target="_blank" rel="noopener noreferrer"
                 className="footer-social-link" aria-label="MKR sur Instagram">
-                <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-                  <rect x="1.5" y="1.5" width="15" height="15" rx="4"/>
-                  <circle cx="9" cy="9" r="3.2"/>
-                  <circle cx="13.2" cy="4.8" r="0.7" fill="currentColor" stroke="none"/>
-                </svg>
+                <Icon name="instagram" size={18} />
                 Instagram
               </a>
             </div>

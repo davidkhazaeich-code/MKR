@@ -1,3 +1,5 @@
+import Icon from './Icon'
+
 export default function VideoSection() {
   return (
     <section id="video-section" aria-labelledby="video-heading">
@@ -28,9 +30,7 @@ export default function VideoSection() {
           />
           <div className="video-main-inner">
             <div className="play-btn" aria-hidden="true">
-              <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <polygon points="8,4 24,14 8,24" fill="#F8F8F8" />
-              </svg>
+              <Icon name="play" size={28} color="#F8F8F8" />
             </div>
             <span className="video-caption">Découvre l&apos;immersion en vidéo</span>
           </div>

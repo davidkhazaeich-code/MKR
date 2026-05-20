@@ -1,76 +1,37 @@
-const FACILITATOR_ITEMS = [
+import Icon, { type IconName } from './Icon'
+
+type FacilitatorItem = { title: string; desc: string; icon: IconName }
+
+const FACILITATOR_ITEMS: FacilitatorItem[] = [
   {
     title: 'Visa Russie inclus',
     desc: "Frais consulaires, lettre d'invitation officielle, questionnaire UE et accompagnement complet du dossier. Tu fournis ton passeport, MKR pilote la procédure.",
-    icon: (
-      <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-        <rect x="6" y="4" width="20" height="24" rx="1.5" />
-        <line x1="10" y1="9" x2="22" y2="9" />
-        <line x1="10" y1="13" x2="22" y2="13" />
-        <line x1="10" y1="17" x2="18" y2="17" />
-        <circle cx="22" cy="22" r="3" />
-        <path d="M20 22l1.5 1.5L24 21" />
-      </svg>
-    ),
+    icon: 'passport',
   },
   {
     title: 'Vol intérieur',
     desc: "Depuis Istanbul vers Makhachkala (Lutte au Daghestan) ou Grozny (MMA en Tchétchénie), inclus dans le package. Tu n'organises que le vol international jusqu'à Istanbul.",
-    icon: (
-      <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-        <path d="M3 18l11-3 5-9 2 1-3 9 9 3-1 2-10-1-2 6-2 1-1-5-6-1-1-2 1-1z" />
-      </svg>
-    ),
+    icon: 'plane',
   },
   {
     title: 'Transferts',
     desc: 'Véhicule MKR à ton arrivée : ~1h30 depuis Makhachkala (Daghestan) ou ~30 min depuis Grozny (Tchétchénie). Tous les déplacements sont inclus.',
-    icon: (
-      <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-        <path d="M4 22V14l3-7h18l3 7v8" />
-        <circle cx="9" cy="22" r="2.5" />
-        <circle cx="23" cy="22" r="2.5" />
-        <line x1="11.5" y1="22" x2="20.5" y2="22" />
-        <line x1="4" y1="14" x2="28" y2="14" />
-      </svg>
-    ),
+    icon: 'taxi',
   },
   {
     title: 'Hébergement',
     desc: 'Logement de camp confortable, chambre famille disponible. Tu dors et tu manges avec ton groupe.',
-    icon: (
-      <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-        <path d="M4 14L16 4l12 10" />
-        <path d="M7 13v15h18V13" />
-        <rect x="13" y="20" width="6" height="8" />
-      </svg>
-    ),
+    icon: 'hotel',
   },
   {
     title: '2 repas par jour',
     desc: 'Petit-déjeuner et déjeuner inclus. Cuisine caucasienne adaptée aux athlètes : protéines, légumes, pain frais.',
-    icon: (
-      <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-        <circle cx="16" cy="16" r="11" />
-        <line x1="9" y1="4" x2="9" y2="13" />
-        <path d="M9 13c0 2 0 4 0 4" />
-        <line x1="13" y1="4" x2="13" y2="13" />
-        <line x1="11" y1="4" x2="11" y2="11" />
-        <path d="M22 4c-2 2-3 5-3 9s1 5 3 5v10" />
-      </svg>
-    ),
+    icon: 'food',
   },
   {
     title: 'Encadrement',
     desc: 'Coachs locaux expérimentés au Daghestan (Lutte) et en Tchétchénie (MMA). Coach jeunesse dédié pour les 8-17 ans en Lutte enfants.',
-    icon: (
-      <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-        <circle cx="16" cy="10" r="4" />
-        <path d="M6 27c0-5 4-9 10-9s10 4 10 9" />
-        <path d="M11 18l-2 6" />
-        <path d="M21 18l2 6" />
-      </svg>
-    ),
+    icon: 'team',
   },
 ]
 
@@ -112,7 +73,7 @@ export default function FacilitatorBand({ withHeader = true }: FacilitatorBandPr
               style={{ transitionDelay: `${i * 0.06}s` }}
             >
               <div className="facilitator-card-icon" aria-hidden="true">
-                {item.icon}
+                <Icon name={item.icon} size={32} />
               </div>
               <h3 className="facilitator-card-title">{item.title}</h3>
               <p className="facilitator-card-desc">{item.desc}</p>

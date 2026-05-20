@@ -5,6 +5,7 @@ import SectionCTA from '@/components/SectionCTA'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 import CinematicReveal from '@/components/CinematicReveal'
 import TldrBox from '@/components/TldrBox'
+import Icon, { type IconName } from '@/components/Icon'
 
 export const metadata = buildMetadata({
   title: 'Le Camp MKR : Lutte au Daghestan, MMA en Tchétchénie',
@@ -12,85 +13,25 @@ export const metadata = buildMetadata({
   path: '/le-camp',
 })
 
-const INCLUDES = [
-  {
-    icon: (
-      <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5">
-        <rect x="6" y="4" width="20" height="24" rx="1.5" />
-        <line x1="10" y1="9" x2="22" y2="9" />
-        <line x1="10" y1="13" x2="22" y2="13" />
-        <line x1="10" y1="17" x2="18" y2="17" />
-        <circle cx="22" cy="22" r="3" />
-        <path d="M20 22l1.5 1.5L24 21" />
-      </svg>
-    ),
-    title: 'Visa Russie',
-    desc: "Frais consulaires, lettre d'invitation, questionnaire UE et accompagnement du dossier. Tout est inclus.",
-  },
-  {
-    icon: (
-      <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5">
-        <path d="M3 18l11-3 5-9 2 1-3 9 9 3-1 2-10-1-2 6-2 1-1-5-6-1-1-2 1-1z" />
-      </svg>
-    ),
-    title: 'Vol intérieur',
-    desc: "Depuis Istanbul jusqu'à Makhachkala (Lutte) ou Grozny (MMA). Tu n'organises que le vol jusqu'à Istanbul.",
-  },
-  {
-    icon: (
-      <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5">
-        <path d="M4 28 L16 6 L28 28 Z" /><line x1="10" y1="20" x2="22" y2="20" />
-      </svg>
-    ),
-    title: 'Transport local',
-    desc: 'Transferts aéroport-camp et tous les déplacements sur place.',
-  },
-  {
-    icon: (
-      <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5">
-        <rect x="4" y="10" width="24" height="18" /><path d="M4 16 L16 10 L28 16" />
-      </svg>
-    ),
-    title: 'Hébergement',
-    desc: 'Logement de camp partagé, propre et fonctionnel. Tu te concentres sur l&apos;entraînement.',
-  },
-  {
-    icon: (
-      <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5">
-        <circle cx="16" cy="16" r="10" /><path d="M10 16 L16 12 L22 16 L16 20 Z" />
-      </svg>
-    ),
-    title: '2 sessions/jour',
-    desc: 'Entraînement biquotidien dans ta discipline. Matin et fin d’après-midi.',
-  },
-  {
-    icon: (
-      <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5">
-        <circle cx="16" cy="10" r="5" /><path d="M6 28 C6 20 10 16 16 16 S26 20 26 28" />
-      </svg>
-    ),
-    title: 'Coachs locaux',
-    desc: 'Champions et vétérans du Caucase. Méthodes transmises de génération en génération.',
-  },
-  {
-    icon: (
-      <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5">
-        <path d="M4 24 L10 14 L16 20 L22 10 L28 18" /><circle cx="6" cy="8" r="2" />
-      </svg>
-    ),
-    title: 'Excursions',
-    desc: 'Randonnées en montagne et visites culturelles le jour de repos.',
-  },
-  {
-    icon: (
-      <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5">
-        <rect x="6" y="6" width="20" height="20" /><line x1="6" y1="14" x2="26" y2="14" />
-        <line x1="14" y1="14" x2="14" y2="26" />
-      </svg>
-    ),
-    title: '2 repas/jour',
-    desc: 'Cuisine caucasienne riche en protéines. Régime adapté aux athlètes.',
-  },
+type IncludeItem = { icon: IconName; title: string; desc: string }
+
+const INCLUDES: IncludeItem[] = [
+  { icon: 'passport', title: 'Visa Russie',
+    desc: "Frais consulaires, lettre d'invitation, questionnaire UE et accompagnement du dossier. Tout est inclus." },
+  { icon: 'plane', title: 'Vol intérieur',
+    desc: "Depuis Istanbul jusqu'à Makhachkala (Lutte) ou Grozny (MMA). Tu n'organises que le vol jusqu'à Istanbul." },
+  { icon: 'taxi', title: 'Transport local',
+    desc: 'Transferts aéroport-camp et tous les déplacements sur place.' },
+  { icon: 'hotel', title: 'Hébergement',
+    desc: "Logement de camp partagé, propre et fonctionnel. Tu te concentres sur l'entraînement." },
+  { icon: 'fire', title: '2 sessions/jour',
+    desc: "Entraînement biquotidien dans ta discipline. Matin et fin d'après-midi." },
+  { icon: 'team', title: 'Coachs locaux',
+    desc: 'Champions et vétérans du Caucase. Méthodes transmises de génération en génération.' },
+  { icon: 'mountain', title: 'Excursions',
+    desc: 'Randonnées en montagne et visites culturelles le jour de repos.' },
+  { icon: 'food', title: '2 repas/jour',
+    desc: 'Cuisine caucasienne riche en protéines. Régime adapté aux athlètes.' },
 ]
 
 const NOT_INCLUDED = [
@@ -193,7 +134,7 @@ export default function LeCampPage() {
           <div className="include-grid">
             {INCLUDES.map((item, i) => (
               <div key={i} className="include-card fx-grain reveal" style={{ transitionDelay: `${i * 0.08}s` }}>
-                {item.icon}
+                <Icon name={item.icon} size={32} />
                 <h3>{item.title}</h3>
                 <p>{item.desc}</p>
               </div>

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Icon from './Icon'
 
 const FILTERS = ['Tout', 'Entraînement', 'Montagnes', 'Coachs', 'Culture']
 
@@ -102,10 +103,9 @@ export default function GalerieContent() {
             {[1, 2].map(i => (
               <div key={i} className="content-card reveal" style={{ transitionDelay: `${i * 0.1}s` }}>
                 <div style={{ aspectRatio: '16/9', background: 'var(--surface-lowest)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <svg viewBox="0 0 40 40" width="40" height="40" fill="none" style={{ opacity: 0.3 }}>
-                    <circle cx="20" cy="20" r="18" stroke="currentColor" strokeWidth="1.5" />
-                    <polygon points="16,12 30,20 16,28" fill="currentColor" />
-                  </svg>
+                  <div style={{ opacity: 0.3 }}>
+                    <Icon name="play" size={40} />
+                  </div>
                 </div>
               </div>
             ))}

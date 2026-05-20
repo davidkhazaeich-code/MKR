@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import type { FAQItem } from '@/data/faq'
+import Icon from './Icon'
 
 export type { FAQItem }
 
@@ -35,9 +36,9 @@ export default function FAQAccordion({ items, id = 'faq' }: FAQAccordionProps) {
               onClick={() => toggle(i)}
             >
               <span>{item.question}</span>
-              <svg className="faq-chevron" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <polyline points="6,9 12,15 18,9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
+              <span className="faq-chevron">
+                <Icon name="chevron-down" size={24} />
+              </span>
             </button>
             <div
               id={`${id}-answer-${i}`}

@@ -1,3 +1,5 @@
+import Icon from './Icon'
+
 export default function Timeline() {
   return (
     <section id="timeline" aria-labelledby="timeline-heading">
@@ -22,13 +24,8 @@ export default function Timeline() {
                 <div className="timeline-step-img-inner"></div>
               </div>
               <div className="timeline-text">
-                <div className="timeline-step-icon" aria-hidden="true">
-                  <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="5" y="3" width="22" height="26" stroke="#C84B31" strokeWidth="2" />
-                    <line x1="10" y1="11" x2="22" y2="11" stroke="#C84B31" strokeWidth="1.5" />
-                    <line x1="10" y1="16" x2="22" y2="16" stroke="#C84B31" strokeWidth="1.5" />
-                    <line x1="10" y1="21" x2="16" y2="21" stroke="#C84B31" strokeWidth="1.5" />
-                  </svg>
+                <div className="timeline-step-icon" aria-hidden="true" style={{ color: 'var(--primary)' }}>
+                  <Icon name="edit" size={32} />
                 </div>
                 <div className="timeline-num">01</div>
                 <h3 className="timeline-step-title">CANDIDATURE</h3>
@@ -49,13 +46,8 @@ export default function Timeline() {
             </div>
             <div className="timeline-panel">
               <div className="timeline-text">
-                <div className="timeline-step-icon" aria-hidden="true">
-                  <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="3" y="4" width="20" height="16" stroke="#C84B31" strokeWidth="2" />
-                    <polyline points="3,20 13,27 23,20" stroke="#C84B31" strokeWidth="2" fill="none" />
-                    <line x1="8" y1="10" x2="18" y2="10" stroke="#C84B31" strokeWidth="1.5" />
-                    <line x1="8" y1="15" x2="14" y2="15" stroke="#C84B31" strokeWidth="1.5" />
-                  </svg>
+                <div className="timeline-step-icon" aria-hidden="true" style={{ color: 'var(--primary)' }}>
+                  <Icon name="chat" size={32} />
                 </div>
                 <div className="timeline-num">02</div>
                 <h3 className="timeline-step-title">ENTRETIEN</h3>
@@ -78,11 +70,8 @@ export default function Timeline() {
                 <div className="timeline-step-img-inner"></div>
               </div>
               <div className="timeline-text">
-                <div className="timeline-step-icon" aria-hidden="true">
-                  <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <polygon points="16,3 29,8 29,18 16,29 3,18 3,8" stroke="#C84B31" strokeWidth="2" fill="none" />
-                    <polyline points="10,16 14,21 22,11" stroke="#C84B31" strokeWidth="2" fill="none" />
-                  </svg>
+                <div className="timeline-step-icon" aria-hidden="true" style={{ color: 'var(--primary)' }}>
+                  <Icon name="shield-check" size={32} />
                 </div>
                 <div className="timeline-num">03</div>
                 <h3 className="timeline-step-title">CONFIRMATION</h3>
@@ -103,13 +92,8 @@ export default function Timeline() {
             </div>
             <div className="timeline-panel">
               <div className="timeline-text">
-                <div className="timeline-step-icon" aria-hidden="true">
-                  <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="2" y="13" width="6" height="6" stroke="#C84B31" strokeWidth="2" />
-                    <rect x="24" y="13" width="6" height="6" stroke="#C84B31" strokeWidth="2" />
-                    <line x1="8" y1="16" x2="24" y2="16" stroke="#C84B31" strokeWidth="2.5" />
-                    <rect x="11" y="11" width="10" height="10" stroke="#C84B31" strokeWidth="1.5" />
-                  </svg>
+                <div className="timeline-step-icon" aria-hidden="true" style={{ color: 'var(--primary)' }}>
+                  <Icon name="fire" size={32} />
                 </div>
                 <div className="timeline-num">04</div>
                 <h3 className="timeline-step-title">PRÉPARATION</h3>
@@ -132,11 +116,8 @@ export default function Timeline() {
                 <div className="timeline-step-img-inner"></div>
               </div>
               <div className="timeline-text">
-                <div className="timeline-step-icon" aria-hidden="true">
-                  <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <polyline points="2,30 10,10 16,18 22,6 30,30" stroke="#C41E3A" strokeWidth="2" fill="none" />
-                    <polygon points="22,6 18,14 26,14" stroke="#C41E3A" strokeWidth="1.5" fill="rgba(196,30,58,0.2)" />
-                  </svg>
+                <div className="timeline-step-icon" aria-hidden="true" style={{ color: 'var(--cta)' }}>
+                  <Icon name="mountain" size={32} />
                 </div>
                 <div className="timeline-num" style={{ color: 'var(--cta)' }}>05</div>
                 <h3 className="timeline-step-title">IMMERSION</h3>

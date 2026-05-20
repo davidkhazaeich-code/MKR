@@ -4,6 +4,7 @@ import { useState, FormEvent } from 'react'
 import dynamic from 'next/dynamic'
 import { DISCIPLINES } from '@/data/disciplines'
 import { SESSIONS, sessionFormLabel } from '@/data/sessions'
+import Icon from './Icon'
 
 const StoryCard = dynamic(() => import('./StoryCard'))
 
@@ -178,11 +179,8 @@ export default function CandidatureForm() {
 
     return (
       <div className="cand-success">
-        <div className="cand-success-icon">
-          <svg viewBox="0 0 48 48" fill="none">
-            <circle cx="24" cy="24" r="23" stroke="var(--primary)" strokeWidth="2" />
-            <polyline points="14,24 21,31 34,16" stroke="var(--primary)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
+        <div className="cand-success-icon" style={{ color: 'var(--primary)' }}>
+          <Icon name="check-circle" size={48} />
         </div>
         <span className="label-tag" style={{ color: 'var(--primary)' }}>INSCRIPTION RECUE</span>
         <h2 className="cand-success-title">DOSSIER ENVOYÉ</h2>
@@ -209,9 +207,7 @@ export default function CandidatureForm() {
           <div key={i} className={`cand-step${i <= step ? ' done' : ''}${i === step ? ' active' : ''}`}>
             <div className="cand-step-dot">
               {i < step ? (
-                <svg viewBox="0 0 12 12" fill="none">
-                  <polyline points="2,6 5,9 10,3" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
+                <Icon name="check" size={12} />
               ) : (
                 <span>{i + 1}</span>
               )}

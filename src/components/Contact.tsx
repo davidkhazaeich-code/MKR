@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Icon from './Icon'
 
 export default function Contact() {
   return (
@@ -28,10 +29,7 @@ export default function Contact() {
               <h3 className="contact-info-title">Autres moyens de contact</h3>
 
               <div className="contact-info-row">
-                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <rect x="2" y="4" width="20" height="16" rx="2" stroke="currentColor" strokeWidth="1.5" />
-                  <polyline points="2,4 12,13 22,4" stroke="currentColor" strokeWidth="1.5" />
-                </svg>
+                <Icon name="mail" />
                 <div>
                   <span className="contact-info-label">Formulaire</span>
                   <Link href="/contact" className="contact-info-value">
@@ -41,9 +39,7 @@ export default function Contact() {
               </div>
 
               <div className="contact-info-row">
-                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.81.36 1.6.68 2.35a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.73-1.25a2 2 0 0 1 2.11-.45c.75.32 1.54.55 2.35.68A2 2 0 0 1 22 16.92z" stroke="currentColor" strokeWidth="1.5" />
-                </svg>
+                <Icon name="whatsapp" />
                 <div>
                   <span className="contact-info-label">WhatsApp</span>
                   <a href="https://wa.me/33666177691" target="_blank" rel="noopener noreferrer" className="contact-info-value">
@@ -53,11 +49,7 @@ export default function Contact() {
               </div>
 
               <div className="contact-info-row">
-                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" strokeWidth="1.5" />
-                  <circle cx="12" cy="12" r="5" stroke="currentColor" strokeWidth="1.5" />
-                  <circle cx="18" cy="6" r="1.5" fill="currentColor" />
-                </svg>
+                <Icon name="instagram" />
                 <div>
                   <span className="contact-info-label">Instagram</span>
                   <a href="https://instagram.com/mkr.caucasiancamp" target="_blank" rel="noopener noreferrer" className="contact-info-value">
@@ -100,31 +92,19 @@ export default function Contact() {
         {/* Badges de reassurance */}
         <div className="contact-badges reveal" style={{ transitionDelay: '0.2s' }}>
           <div className="contact-badge">
-            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <polygon points="12,2 15,9 22,9 16.5,14 18.5,21 12,17 5.5,21 7.5,14 2,9 9,9" stroke="currentColor" strokeWidth="1.5"/>
-            </svg>
+            <Icon name="star" />
             <span>Sélection sur dossier</span>
           </div>
           <div className="contact-badge">
-            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="1.5"/>
-              <path d="M8 12l3 3 5-5" stroke="currentColor" strokeWidth="1.5"/>
-            </svg>
+            <Icon name="check-circle" />
             <span>15 places max par session</span>
           </div>
           <div className="contact-badge">
-            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <rect x="3" y="4" width="18" height="16" rx="2" stroke="currentColor" strokeWidth="1.5"/>
-              <line x1="3" y1="10" x2="21" y2="10" stroke="currentColor" strokeWidth="1.5"/>
-              <line x1="8" y1="4" x2="8" y2="10" stroke="currentColor" strokeWidth="1.5"/>
-              <line x1="16" y1="4" x2="16" y2="10" stroke="currentColor" strokeWidth="1.5"/>
-            </svg>
+            <Icon name="calendar" />
             <span>Réponse sous 72h</span>
           </div>
           <div className="contact-badge">
-            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M12 22s-8-4.5-8-11V5l8-3 8 3v6c0 6.5-8 11-8 11z" stroke="currentColor" strokeWidth="1.5"/>
-            </svg>
+            <Icon name="shield" />
             <span>Transferts inclus</span>
           </div>
         </div>
