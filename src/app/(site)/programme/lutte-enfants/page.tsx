@@ -46,8 +46,8 @@ export default function ProgrammeLutteEnfantsPage() {
           { href: '/programme', label: 'Programme' },
           { href: '/programme/lutte-enfants', label: 'Jeunesse' },
         ]}
-        image="/images/ruslan/kids/kids-coach-cercle-mkr.webp"
-        imageAlt="Cercle de jeunes lutteurs autour d'un coach daghestanais"
+        image="/images/ruslan/lutte/kids-briefing.webp"
+        imageAlt="Jeunes lutteurs daghestanais attentifs aux consignes de leur coach avant la session, vrai briefing en école russe de lutte"
       />
 
       {/* Stats parents — bande de réassurance */}
