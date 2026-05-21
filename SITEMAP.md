@@ -875,7 +875,7 @@ GEO = { latitude: 42.9849, longitude: 47.5047, country: 'RU', region: 'Daghestan
 | **Favicon / icônes** | `src/app/favicon.ico` (multi-tailles 16/32/48 — Google + navigateurs) · `src/app/icon.png` (512×512 — auto-link Next.js) · `src/app/apple-icon.png` (180×180 — iOS) · `public/icons/icon-{192,512}.png` + `icon-maskable-512.png` (PWA Android) · `src/app/manifest.ts` (servi à `/manifest.webmanifest`) · déclaration explicite dans `metadata.icons` + `metadata.manifest` (`src/app/layout.tsx`) |
 | **Coordonnées contact (téléphone, email)** | `components/Contact.tsx` (homepage) + `app/(site)/contact/page.tsx` + `app/(site)/sessions/page.tsx:195` (WhatsApp groupes) + `data/site.ts` (SITE_EMAIL) |
 | **Hero homepage (titre/subtitle)** | `components/Hero.tsx` lignes 160-170 |
-| **Hero stats (9 coachs / 8 athlètes / 1-3 semaines)** | `components/Hero.tsx` l.175-188 |
+| **Hero stats (2 destinations / 3 disciplines / 1-3 semaines)** | `components/Hero.tsx` l.175-188 |
 | **Stats homepage video section** | `components/VideoSection.tsx` l.40-57 |
 | **Sessions (dates, prix, places)** | `data/sessions.ts` ⚠️ + `app/(site)/sessions/page.tsx` (SESSIONS l.14) + `components/InscriptionLayout.tsx` (SESSION_MAP l.~145, options select l.~445) |
 | **Coachs (nom, bio, photo)** | `data/coaches.ts` (homepage) + `app/(site)/coachs/page.tsx` (COACHES local l.13) |
@@ -934,18 +934,21 @@ GEO = { latitude: 42.9849, longitude: 47.5047, country: 'RU', region: 'Daghestan
 
 > **Note refacto mega menu (2026-05-02)** : panel Le Camp restructuré en 3 colonnes (Feature / Formats / Préparer ma venue). L'ancien `mega-camp-accent` (box visuelle "SESSION OFFICIELLE") a été supprimé pour éviter le doublon avec le 1er lien de la liste. Mobile : 4 accordions (Le Camp, Programme, Destination, Découvrir) au lieu de 5, suppression du doublon "Famille". Logistique + Guide PDF déplacés du panel "Infos" vers "Destination". Inscription retirée du panel (CTA POSTULER suffit).
 
-### Stats hero (9 coachs / 8 athlètes / 1-3 semaines)
+### Stats hero (1-3 semaines / 2 destinations / 3 disciplines)
+> Décision 2026-05-20 : retrait définitif des chiffres "9 coachs / 8 athlètes" partout. On ne publie plus de nombre exact de coachs (le nombre fluctue par session). Remplacé par "coachs locaux" ou "coachs daghestanais et tchétchènes en poste à l'année".
+
 | Fichier | Ligne | Forme |
 |---|---|---|
-| `components/Hero.tsx` | 175-188 | hero-stats homepage (3 stat-item) |
-| `components/VideoSection.tsx` | 11, 45-48 | titre "1 À 3 SEMAINES" + stat "9 Coachs experimentes" |
-| `app/(site)/temoignages/page.tsx` | ~138-148 | stats-band (8 athletes / 9 coachs / 87%) |
+| `components/Hero.tsx` | 175-188 | hero-stats homepage : "2 Destinations" + "3 Disciplines" + "1-3 semaines" (audit OK 2026-05-20) |
+| `components/VideoSection.tsx` | 11, 45-48 | orphelin post-2026-05-12, peut être supprimé |
+| `app/(site)/temoignages/page.tsx` | ~138-148 | stats-band à auditer si "9 coachs" encore présent |
 | `app/(site)/programme/page.tsx` | ~28-39 | stats-band (2 sessions/jour / 6 jours / 3 disciplines) |
-| `app/(site)/page.tsx` | 19 | metadata description "9 coachs experimentes" |
-| `app/(site)/coachs/page.tsx` | 9 | metadata description "9 coachs experimentes" |
-| `components/Philosophie.tsx` | 25 | "ce séjour au Daghestan (1 à 3 semaines)" |
-| `components/Timeline.tsx` | 143 | "Une à trois semaines au Daghestan" |
-**⚠️** Si la stat évolue (ex: 11 coachs), modifier ces 8 endroits.
+| `app/(site)/page.tsx` | 19 | metadata description |
+| `app/(site)/coachs/page.tsx` | 9 | page redirect, metadata désormais générique |
+| `components/Philosophie.tsx` | 25 | "ce séjour au Caucase (1 à 3 semaines)" |
+| `components/Timeline.tsx` | 143 | "Une à trois semaines au Caucase" |
+| `app/(site)/familles/page.tsx` | 92 | "encadrement par des coachs locaux expérimentés" (corrigé 2026-05-20) |
+**⚠️** Si jamais on rebascule sur un chiffre de coachs (ex: 11 coachs), modifier ces 9 endroits + Instagram CAPTIONS.md + 4 caption.md individuels + manifest.mjs.
 
 ### 3 disciplines : Lutte adultes, Lutte enfants, MMA
 **Routes URL** : `/programme/lutte`, `/programme/lutte-enfants`, `/programme/mma`
@@ -1200,7 +1203,7 @@ GEO = { latitude: 42.9849, longitude: 47.5047, country: 'RU', region: 'Daghestan
 1. **2 destinations** : Daghestan (Lutte adultes + Lutte enfants, vol Istanbul-Makhachkala) et Tchétchénie (MMA, vol Istanbul-Grozny). Une session officielle = une destination par participant. Combo Daghestan + Tchétchénie uniquement en Sur Mesure. *(refonte 2026-05-12, remplace l'ancienne règle "pas de Tchétchénie")*
 2. **3 disciplines proposées** : Lutte adultes, Lutte enfants, MMA. **Pas** Boxe ni Sambo en discipline proposée. Les coachs Boxe/Sambo restent affichés sur `/coachs` (background).
 3. **Camp 1 à 3 semaines** dans la copy publique (pas "3 semaines" en absolu).
-4. **9 coachs / 8 athlètes** stats publiques.
+4. **Pas de chiffre de coachs publié** (décision 2026-05-20). On dit "coachs locaux" ou "coachs daghestanais et tchétchènes en poste à l'année", jamais un nombre exact (le nombre fluctue selon la session).
 5. **2 repas/jour** (jamais 3).
 6. **Excursions (en option)**.
 7. **Vol Istanbul → Makhachkala** inclus dans le package.

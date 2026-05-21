@@ -89,7 +89,7 @@ export default function FamillesPage() {
               </p>
               <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1rem' }}>
                 MKR organise tout : visa russe, vol intérieur Istanbul-Makhachkala, transferts, hébergement famille,
-                2 repas par jour, encadrement par 9 coachs expérimentés. Tu organises uniquement le vol jusqu&apos;à Istanbul,
+                2 repas par jour, encadrement par des coachs locaux expérimentés. Tu organises uniquement le vol jusqu&apos;à Istanbul,
                 puis tu embarques ton sac et celui de ton enfant.
               </p>
               <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1rem' }}>
