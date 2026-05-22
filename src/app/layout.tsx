@@ -37,6 +37,11 @@ export const metadata: Metadata = {
   description: META_DESC,
   metadataBase: new URL(SITE_URL),
   alternates: { canonical: `${SITE_URL}/` },
+  verification: {
+    other: {
+      'msvalidate.01': 'E07A9AFC977FF65FAA32EA2E2033D513',
+    },
+  },
   icons: {
     icon: [
       { url: '/favicon.ico', sizes: 'any' },
