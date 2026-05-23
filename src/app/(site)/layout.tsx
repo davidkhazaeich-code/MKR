@@ -8,16 +8,19 @@ const ScrollParallax = dynamic(() => import('@/components/ScrollParallax'))
 const StickyMobileCTA = dynamic(() => import('@/components/StickyMobileCTA'))
 const RouteScrollReset = dynamic(() => import('@/components/RouteScrollReset'))
 const ScrollNav = dynamic(() => import('@/components/ScrollNav'))
+const ScrollSmootherProvider = dynamic(() => import('@/components/ScrollSmootherProvider'))
 
 export default function SiteLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <Link href="#main" className="skip-link">Aller au contenu principal</Link>
-      <Nav />
-      <main id="main">
-        {children}
-      </main>
-      <Footer />
+      <ScrollSmootherProvider>
+        <Nav />
+        <main id="main">
+          {children}
+        </main>
+        <Footer />
+      </ScrollSmootherProvider>
       <StickyMobileCTA />
       <RevealObserver />
       <ScrollParallax />

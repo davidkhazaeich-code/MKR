@@ -1,60 +1,88 @@
 'use client'
 
-import { useRef } from 'react'
-import {
-  useMotionTemplate,
-  useMotionValue,
-  useMotionValueEvent,
-  useScroll,
-  useSpring,
-  useTransform,
-} from 'framer-motion'
+import { useEffect, useRef } from 'react'
 
-const DEFAULT_OFFSET = ['start end', 'center center'] as const
-
-const SMOOTHING = {
-  stiffness: 120,
-  damping: 30,
-  mass: 0.55,
-  restDelta: 0.0005,
+interface ScrollRevealOptions {
+  imgScale?: { from: number; to: number }
 }
 
-export function useScrollReveal() {
+export function useScrollReveal(options: ScrollRevealOptions = {}) {
   const containerRef = useRef<HTMLDivElement>(null)
+  const imgFrom = options.imgScale?.from ?? 1.25
+  const imgTo = options.imgScale?.to ?? 1
 
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: [...DEFAULT_OFFSET],
-  })
+  useEffect(() => {
+    const container = containerRef.current
+    if (!container) return
 
-  // Reveal is one-way: progress only ever increases. Scrolling back up never
-  // unravels the reveal, so the user keeps a fully native scroll on the way up.
-  const maxProgress = useMotionValue(0)
+    let cancelled = false
+    let cleanup: (() => void) | undefined
 
-  useMotionValueEvent(scrollYProgress, 'change', (latest) => {
-    if (latest > maxProgress.get()) {
-      maxProgress.set(latest)
+    function applyVars(p: number) {
+      if (!container) return
+      const clipP = 30 * (1 - p)
+      const clipQ = 70 + 30 * p
+      const imgScale = imgFrom + (imgTo - imgFrom) * p
+      const textT = Math.min(1, Math.max(0, (p - 0.5) * 2))
+      const indT = Math.min(1, Math.max(0, p / 0.15))
+      container.style.setProperty('--reveal-p', clipP.toFixed(2))
+      container.style.setProperty('--reveal-q', clipQ.toFixed(2))
+      container.style.setProperty('--reveal-img-scale', imgScale.toFixed(4))
+      container.style.setProperty('--reveal-text-opacity', textT.toFixed(3))
+      container.style.setProperty('--reveal-text-y', (30 * (1 - textT)).toFixed(2))
+      container.style.setProperty('--reveal-indicator-opacity', (1 - indT).toFixed(3))
     }
-  })
 
-  const progress = useSpring(maxProgress, SMOOTHING)
+    async function init() {
+      const { gsap } = await import('gsap')
+      const { ScrollTrigger } = await import('gsap/ScrollTrigger')
+      gsap.registerPlugin(ScrollTrigger)
+      if (cancelled || !container) return
 
-  const clipP = useTransform(progress, [0, 1], [30, 0])
-  const clipQ = useTransform(progress, [0, 1], [70, 100])
-  const clipPath = useMotionTemplate`polygon(${clipP}% ${clipP}%, ${clipQ}% ${clipP}%, ${clipQ}% ${clipQ}%, ${clipP}% ${clipQ}%)`
+      applyVars(0)
 
-  const imgScale = useTransform(progress, [0, 1], [1.25, 1])
-  const textOpacity = useTransform(progress, [0.5, 1], [0, 1])
-  const textY = useTransform(progress, [0.5, 1], [30, 0])
-  const indicatorOpacity = useTransform(progress, [0, 0.15], [1, 0])
+      const mm = gsap.matchMedia()
 
-  return {
-    containerRef,
-    scrollYProgress: progress,
-    clipPath,
-    imgScale,
-    textOpacity,
-    textY,
-    indicatorOpacity,
-  }
+      mm.add('(prefers-reduced-motion: no-preference)', () => {
+        const state = { progress: 0 }
+        let maxProgress = 0
+
+        const st = ScrollTrigger.create({
+          trigger: container,
+          start: 'top bottom',
+          end: 'center center',
+          invalidateOnRefresh: true,
+          onUpdate: (self) => {
+            if (self.progress > maxProgress) {
+              maxProgress = self.progress
+              gsap.to(state, {
+                progress: maxProgress,
+                duration: 0.6,
+                ease: 'power3.out',
+                overwrite: true,
+                onUpdate: () => applyVars(state.progress),
+              })
+            }
+          },
+        })
+
+        return () => st.kill()
+      })
+
+      mm.add('(prefers-reduced-motion: reduce)', () => {
+        applyVars(1)
+      })
+
+      cleanup = () => mm.revert()
+    }
+
+    init()
+
+    return () => {
+      cancelled = true
+      cleanup?.()
+    }
+  }, [imgFrom, imgTo])
+
+  return { containerRef }
 }

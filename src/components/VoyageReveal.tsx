@@ -1,6 +1,5 @@
 'use client'
 
-import { motion, useTransform } from 'framer-motion'
 import { WorldMap } from '@/components/WorldMap'
 import { useScrollReveal } from '@/hooks/useScrollReveal'
 import Icon from './Icon'
@@ -12,9 +11,7 @@ const ROUTES = [
 ]
 
 export default function VoyageReveal() {
-  const { containerRef, scrollYProgress, clipPath, textOpacity, textY } = useScrollReveal()
-
-  const mapScale = useTransform(scrollYProgress, [0, 1], [1.8, 1.35])
+  const { containerRef } = useScrollReveal({ imgScale: { from: 1.8, to: 1.35 } })
 
   return (
     <div
@@ -22,24 +19,15 @@ export default function VoyageReveal() {
       className="voyage-reveal-outer"
       style={{ height: 'calc(1400px + 100vh)' }}
     >
-      <motion.div
-        className="voyage-reveal-sticky"
-        style={{ clipPath }}
-      >
-        <motion.div
-          className="voyage-reveal-map"
-          style={{ scale: mapScale, transformOrigin: '58% 26%' }}
-        >
+      <div className="voyage-reveal-sticky">
+        <div className="voyage-reveal-map" style={{ transformOrigin: '58% 26%' }}>
           <WorldMap dots={ROUTES} lineColor="#C84B31" loop animationDuration={2.2} />
-        </motion.div>
+        </div>
 
         <div className="voyage-reveal-overlay" aria-hidden="true" />
 
         <div className="voyage-reveal-container">
-          <motion.div
-            className="voyage-reveal-content"
-            style={{ opacity: textOpacity, y: textY }}
-          >
+          <div className="voyage-reveal-content">
             <span className="label-tag">COMMENT Y ALLER</span>
             <h2>
               LE CHEMIN<br />
@@ -70,9 +58,9 @@ export default function VoyageReveal() {
                 DESTINATION SÉCURISÉE
               </span>
             </div>
-          </motion.div>
+          </div>
         </div>
-      </motion.div>
+      </div>
     </div>
   )
 }

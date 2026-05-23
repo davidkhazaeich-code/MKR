@@ -1,6 +1,5 @@
 'use client'
 
-import { motion } from 'framer-motion'
 import Image from 'next/image'
 import { useScrollReveal } from '@/hooks/useScrollReveal'
 import ScrollIndicator from '@/components/ScrollIndicator'
@@ -15,7 +14,7 @@ interface DestinationRevealProps {
 }
 
 export default function DestinationReveal({ image, alt, label, title, facts, badges }: DestinationRevealProps) {
-  const { containerRef, clipPath, imgScale, textOpacity, textY, indicatorOpacity } = useScrollReveal()
+  const { containerRef } = useScrollReveal()
 
   return (
     <div
@@ -23,14 +22,8 @@ export default function DestinationReveal({ image, alt, label, title, facts, bad
       className="dest-reveal-outer"
       style={{ height: 'calc(1400px + 100vh)' }}
     >
-      <motion.div
-        className="dest-reveal-sticky"
-        style={{ clipPath }}
-      >
-        <motion.div
-          className="dest-reveal-img-wrap"
-          style={{ scale: imgScale, transformOrigin: '50% 40%' }}
-        >
+      <div className="dest-reveal-sticky">
+        <div className="dest-reveal-img-wrap" style={{ transformOrigin: '50% 40%' }}>
           <Image
             src={image}
             alt={alt}
@@ -39,17 +32,14 @@ export default function DestinationReveal({ image, alt, label, title, facts, bad
             className="dest-reveal-img"
             priority
           />
-        </motion.div>
+        </div>
 
         <div className="dest-reveal-overlay" aria-hidden="true" />
 
-        <ScrollIndicator opacity={indicatorOpacity} />
+        <ScrollIndicator />
 
         <div className="dest-reveal-container">
-          <motion.div
-            className="dest-reveal-content"
-            style={{ opacity: textOpacity, y: textY }}
-          >
+          <div className="dest-reveal-content">
             <span className="label-tag">{label}</span>
             <h2 dangerouslySetInnerHTML={{ __html: title }} />
 
@@ -69,9 +59,9 @@ export default function DestinationReveal({ image, alt, label, title, facts, bad
                 ))}
               </div>
             )}
-          </motion.div>
+          </div>
         </div>
-      </motion.div>
+      </div>
     </div>
   )
 }

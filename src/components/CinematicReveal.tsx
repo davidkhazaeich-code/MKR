@@ -1,6 +1,5 @@
 'use client'
 
-import { motion } from 'framer-motion'
 import Image from 'next/image'
 import { useScrollReveal } from '@/hooks/useScrollReveal'
 import ScrollIndicator from '@/components/ScrollIndicator'
@@ -15,8 +14,7 @@ interface CinematicRevealProps {
 }
 
 export default function CinematicReveal({ image, alt, label, title, tagline, className }: CinematicRevealProps) {
-  const { containerRef, clipPath, imgScale, textOpacity, textY, indicatorOpacity } = useScrollReveal()
-
+  const { containerRef } = useScrollReveal()
   const hasContent = label || title || tagline
 
   return (
@@ -26,14 +24,8 @@ export default function CinematicReveal({ image, alt, label, title, tagline, cla
       data-scroll-section
       data-scroll-label={label || (title ? title.replace(/<[^>]+>/g, '') : 'Image')}
     >
-      <motion.div
-        className="cine-reveal-sticky"
-        style={{ clipPath }}
-      >
-        <motion.div
-          className="cine-reveal-img-wrap"
-          style={{ scale: imgScale, transformOrigin: '50% 40%' }}
-        >
+      <div className="cine-reveal-sticky">
+        <div className="cine-reveal-img-wrap" style={{ transformOrigin: '50% 40%' }}>
           <Image
             src={image}
             alt={alt}
@@ -41,25 +33,22 @@ export default function CinematicReveal({ image, alt, label, title, tagline, cla
             sizes="100vw"
             className="cine-reveal-img"
           />
-        </motion.div>
+        </div>
 
         <div className="cine-reveal-overlay" aria-hidden="true" />
 
-        <ScrollIndicator opacity={indicatorOpacity} />
+        <ScrollIndicator />
 
         {hasContent && (
           <div className="cine-reveal-container">
-            <motion.div
-              className="cine-reveal-content"
-              style={{ opacity: textOpacity, y: textY }}
-            >
+            <div className="cine-reveal-content">
               {label && <span className="label-tag">{label}</span>}
               {title && <h3 dangerouslySetInnerHTML={{ __html: title }} />}
               {tagline && <p className="cine-reveal-tagline">{tagline}</p>}
-            </motion.div>
+            </div>
           </div>
         )}
-      </motion.div>
+      </div>
     </div>
   )
 }
