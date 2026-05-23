@@ -69,6 +69,21 @@ export function useScrollReveal(options: ScrollRevealOptions = {}) {
         return () => st.kill()
       })
 
+      mm.add('(min-width: 769px) and (prefers-reduced-motion: no-preference)', () => {
+        const snap = ScrollTrigger.create({
+          trigger: container,
+          start: 'top top',
+          end: 'bottom bottom',
+          snap: {
+            snapTo: [0, 1],
+            duration: { min: 0.3, max: 0.7 },
+            delay: 0.12,
+            ease: 'power2.inOut',
+          },
+        })
+        return () => snap.kill()
+      })
+
       mm.add('(prefers-reduced-motion: reduce)', () => {
         applyVars(1)
       })
