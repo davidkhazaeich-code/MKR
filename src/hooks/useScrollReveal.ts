@@ -25,11 +25,11 @@ export function useScrollReveal(options: ScrollRevealOptions = {}) {
       const imgScale = imgFrom + (imgTo - imgFrom) * p
       const textT = Math.min(1, Math.max(0, (p - 0.5) * 2))
       const indT = Math.min(1, Math.max(0, p / 0.15))
-      container.style.setProperty('--reveal-p', clipP.toFixed(2))
-      container.style.setProperty('--reveal-q', clipQ.toFixed(2))
+      container.style.setProperty('--reveal-p', `${clipP.toFixed(2)}%`)
+      container.style.setProperty('--reveal-q', `${clipQ.toFixed(2)}%`)
       container.style.setProperty('--reveal-img-scale', imgScale.toFixed(4))
       container.style.setProperty('--reveal-text-opacity', textT.toFixed(3))
-      container.style.setProperty('--reveal-text-y', (30 * (1 - textT)).toFixed(2))
+      container.style.setProperty('--reveal-text-y', `${(30 * (1 - textT)).toFixed(2)}px`)
       container.style.setProperty('--reveal-indicator-opacity', (1 - indT).toFixed(3))
     }
 

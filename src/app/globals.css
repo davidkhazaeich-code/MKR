@@ -3769,10 +3769,10 @@ h1, h2, h3, h4, h5 {
 .cine-reveal-sticky,
 .dest-reveal-sticky {
   clip-path: polygon(
-    calc(var(--reveal-p, 30) * 1%) calc(var(--reveal-p, 30) * 1%),
-    calc(var(--reveal-q, 70) * 1%) calc(var(--reveal-p, 30) * 1%),
-    calc(var(--reveal-q, 70) * 1%) calc(var(--reveal-q, 70) * 1%),
-    calc(var(--reveal-p, 30) * 1%) calc(var(--reveal-q, 70) * 1%)
+    var(--reveal-p, 30%) var(--reveal-p, 30%),
+    var(--reveal-q, 70%) var(--reveal-p, 30%),
+    var(--reveal-q, 70%) var(--reveal-q, 70%),
+    var(--reveal-p, 30%) var(--reveal-q, 70%)
   );
   will-change: clip-path;
 }
@@ -3786,7 +3786,7 @@ h1, h2, h3, h4, h5 {
 .cine-reveal-content,
 .dest-reveal-content {
   opacity: var(--reveal-text-opacity, 0);
-  transform: translate3d(0, calc(var(--reveal-text-y, 30) * 1px), 0);
+  transform: translate3d(0, var(--reveal-text-y, 30px), 0);
   will-change: opacity, transform;
 }
 .dest-reveal-scroll-hint {
