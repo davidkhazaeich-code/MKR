@@ -423,10 +423,9 @@ h1, h2, h3, h4, h5 {
   font-family: var(--font-barlow-condensed), sans-serif;
   font-weight: 700;
   font-size: 0.65rem;
-  line-height: 1.6;
   letter-spacing: 0.28em;
   text-transform: uppercase;
-  padding: 0.5em 0.9em;
+  padding: 0.35em 0.9em;
   border-radius: 0;
   margin-bottom: 1.4rem;
 }
