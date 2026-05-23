@@ -1,6 +1,7 @@
 'use client'
 
 import { motion, useTransform } from 'framer-motion'
+import { useEffect } from 'react'
 import { WorldMap } from '@/components/WorldMap'
 import { useScrollReveal } from '@/hooks/useScrollReveal'
 import Icon from './Icon'
@@ -15,6 +16,50 @@ export default function VoyageReveal() {
   const { containerRef, scrollYProgress, clipPath, textOpacity, textY } = useScrollReveal()
 
   const mapScale = useTransform(scrollYProgress, [0, 1], [1.8, 1.35])
+
+  useEffect(() => {
+    const container = containerRef.current
+    if (!container) return
+
+    let cancelled = false
+    let cleanup: (() => void) | undefined
+
+    async function init() {
+      const { gsap } = await import('gsap')
+      const { ScrollTrigger } = await import('gsap/ScrollTrigger')
+      gsap.registerPlugin(ScrollTrigger)
+
+      if (cancelled) return
+
+      const mm = gsap.matchMedia()
+      mm.add(
+        '(min-width: 769px) and (prefers-reduced-motion: no-preference)',
+        () => {
+          const st = ScrollTrigger.create({
+            trigger: container,
+            start: 'top top',
+            end: 'bottom bottom',
+            snap: {
+              snapTo: [0, 1],
+              duration: { min: 0.3, max: 0.7 },
+              delay: 0.12,
+              ease: 'power2.inOut',
+            },
+          })
+          return () => st.kill()
+        },
+      )
+
+      cleanup = () => mm.revert()
+    }
+
+    init()
+
+    return () => {
+      cancelled = true
+      cleanup?.()
+    }
+  }, [containerRef])
 
   return (
     <div
