@@ -202,7 +202,7 @@ export default function AProposPage() {
                 width={702}
                 height={840}
               />
-              <span className="ruslan-portrait-card-caption">FONDATEUR · INSEP</span>
+              <span className="ruslan-portrait-card-caption">FONDATEUR MKR</span>
             </div>
             <div>
               <span
