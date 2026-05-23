@@ -3840,7 +3840,7 @@ h1, h2, h3, h4, h5 {
     overflow: hidden;
   }
   .voyage-reveal-map .world-map-wrap {
-    transform: scale(1.6) translateX(15px);
+    transform: translateY(150px) scale(1.6) translateX(15px);
     transform-origin: 56% 30%;
   }
   .voyage-reveal-overlay {
@@ -4581,15 +4581,24 @@ h1, h2, h3, h4, h5 {
   text-transform: uppercase;
   text-align: center;
   text-decoration: none;
-  padding: 1rem;
-  min-height: 56px;
+  /* iOS home indicator + Android gesture bar + landscape notch — safe-area aware.
+     Le padding-bottom garde 1rem de marge tappable au-dessus du bord physique. */
+  padding-top: 1rem;
+  padding-bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+  padding-left: calc(1rem + env(safe-area-inset-left, 0px));
+  padding-right: calc(1rem + env(safe-area-inset-right, 0px));
+  min-height: calc(56px + env(safe-area-inset-bottom, 0px));
+  box-sizing: border-box;
+  touch-action: manipulation;
   transform: translateY(100%);
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
 }
 .sticky-cta-mobile.is-visible { transform: translateY(0); }
 @media (max-width: 768px) {
   .sticky-cta-mobile { display: block; }
-  footer { padding-bottom: 56px !important; }
+  /* Compense la hauteur du CTA + safe-area pour que le contenu du footer reste visible */
+  footer { padding-bottom: calc(56px + env(safe-area-inset-bottom, 0px) + 1rem) !important; }
 }
 
 /* ─── LEGAL PAGES ─── */
