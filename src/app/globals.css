@@ -9275,7 +9275,7 @@ html.is-loading body {
 .reveal-slider-after-wrap {
   position: absolute;
   inset: 0;
-  clip-path: inset(0 calc(100% - var(--slider-pos, 62%)) 0 0);
+  clip-path: inset(0 0 0 calc(100% - var(--slider-pos, 28%)));
 }
 .reveal-slider-knob-line {
   position: absolute;

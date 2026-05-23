@@ -96,7 +96,7 @@ export default function AProposPage() {
                 afterSrc="/images/ruslan/ruslan-superman-reveal.webp"
                 afterAlt="Ruslan Mukhtarov révèle son passé d'athlète équipe de France de lutte sous son costume"
                 afterLabel="L’ATHLÈTE INSEP"
-                initialPosition={62}
+                initialPosition={28}
                 beforeObjectPosition="center 18%"
                 afterObjectPosition="center 22%"
               />
