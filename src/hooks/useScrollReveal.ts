@@ -57,8 +57,8 @@ export function useScrollReveal(options: ScrollRevealOptions = {}) {
               maxProgress = self.progress
               gsap.to(state, {
                 progress: maxProgress,
-                duration: 0.6,
-                ease: 'power3.out',
+                duration: 0.18,
+                ease: 'power2.out',
                 overwrite: true,
                 onUpdate: () => applyVars(state.progress),
               })

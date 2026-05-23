@@ -45,7 +45,7 @@ export default function ScrollParallax() {
                     trigger: section,
                     start: 'top bottom',
                     end: 'bottom top',
-                    scrub: 0.6,
+                    scrub: 0.3,
                   },
                 },
               )
@@ -64,7 +64,7 @@ export default function ScrollParallax() {
                   trigger: el.closest('section') || el.parentElement,
                   start: 'top bottom',
                   end: 'bottom top',
-                  scrub: 1.2,
+                  scrub: 0.3,
                 },
               })
             })
@@ -82,7 +82,7 @@ export default function ScrollParallax() {
                     trigger: '#coaches',
                     start: 'top bottom',
                     end: 'bottom top',
-                    scrub: 0.8,
+                    scrub: 0.3,
                   },
                 },
               )
@@ -101,7 +101,7 @@ export default function ScrollParallax() {
                     trigger: '#sessions',
                     start: 'top bottom',
                     end: 'bottom top',
-                    scrub: 0.8,
+                    scrub: 0.3,
                   },
                 },
               )
@@ -120,7 +120,7 @@ export default function ScrollParallax() {
                     trigger: '#philosophie',
                     start: 'top bottom',
                     end: 'bottom top',
-                    scrub: 0.7,
+                    scrub: 0.3,
                   },
                 },
               )
@@ -139,7 +139,7 @@ export default function ScrollParallax() {
                     trigger: timelineTrack,
                     start: 'top 70%',
                     end: 'bottom 30%',
-                    scrub: 0.4,
+                    scrub: 0.3,
                   },
                 },
               )
