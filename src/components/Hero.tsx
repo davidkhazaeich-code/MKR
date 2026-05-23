@@ -208,21 +208,6 @@ export default function Hero() {
 
         {/* Camp carousel - inline on mobile, absolute on desktop */}
         <HeroCampCarousel />
-
-        {/* Scroll cue (visible tablette + mobile) */}
-        <a
-          href="#audiences"
-          className="hero-scroll-cue"
-          aria-label="Faire défiler pour découvrir le camp"
-        >
-          <span className="hero-scroll-cue-label">DÉCOUVRIR</span>
-          <span className="hero-scroll-cue-line" aria-hidden="true">
-            <span className="hero-scroll-cue-line-fill"></span>
-          </span>
-          <svg className="hero-scroll-cue-arrow" viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-        </a>
       </div>
 
     </section>

@@ -738,67 +738,9 @@ h1, h2, h3, h4, h5 {
   .hero-camps-card { padding: 1.1rem 1.2rem; }
 }
 
-/* ═══════════════════════════════════════════════
-   HERO SCROLL CUE (flèche scroll-down visible tablette/mobile)
-═══════════════════════════════════════════════ */
-.hero-scroll-cue {
-  display: none; /* desktop : caché, on a la version absolute centrée */
-}
-@media (max-width: 1024px) {
-  .hero-scroll-cue {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.6rem;
-    position: absolute;
-    bottom: 1.6rem;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 11;
-    color: var(--text-muted);
-    text-decoration: none;
-    padding: 0.4rem 0.6rem;
-  }
-  .hero-scroll-cue-label {
-    font-family: var(--font-barlow-condensed), sans-serif;
-    font-size: 0.62rem;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--text-muted);
-  }
-  .hero-scroll-cue-line {
-    width: 1px;
-    height: 36px;
-    background: rgba(255,255,255,0.14);
-    position: relative;
-    overflow: hidden;
-  }
-  .hero-scroll-cue-line-fill {
-    position: absolute;
-    top: -100%;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(to bottom, transparent, var(--primary) 50%, transparent);
-    animation: scroll-pulse 1.6s ease-in-out infinite;
-  }
-  .hero-scroll-cue-arrow {
-    width: 18px;
-    height: 18px;
-    color: var(--primary);
-    animation: hero-scroll-cue-bounce 1.6s ease-in-out infinite;
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .hero-scroll-cue-arrow,
-    .hero-scroll-cue-line-fill {
-      animation: none;
-    }
-  }
-}
-@keyframes hero-scroll-cue-bounce {
-  0%, 100% { transform: translateY(0); opacity: 0.7; }
-  50%      { transform: translateY(4px); opacity: 1; }
-}
+/* Note : ancien .hero-scroll-cue retiré (2026-05-22) — faisait doublon
+   avec le .hs-chevron global du composant ScrollNav qui est déjà présent
+   sur toutes les pages via (site)/layout.tsx. */
 
 /* ═══════════════════════════════════════════════
    VIDEO / IMMERSION SECTION
