@@ -120,12 +120,18 @@ export default function Nav() {
      pattern `position: fixed; top: -scrollY` (cf. VideoModal.tsx) qui fige
      vraiment le body et restaure la position de scroll à la fermeture.
      Couvre aussi `activePanel` au cas où un mega panel serait ouvert au
-     touch sur tablette (boutons .nav-list visibles ≥1024px). */
+     touch sur tablette (boutons .nav-list visibles ≥1024px).
+
+     IMPORTANT : on capture `lockedPath = pathname` à l'ouverture et on ne
+     restaure window.scrollTo(0, scrollY) QUE si on est encore sur la
+     meme page. Sinon le cleanup ecraserait le scrollTo(0,0) de
+     RouteScrollReset quand l'utilisateur clique un lien dans le menu. */
   useEffect(() => {
     const locked = menuOpen || activePanel !== null
     if (!locked) return
 
     const scrollY = window.scrollY
+    const lockedPath = pathname
     const body = document.body
     const html = document.documentElement
     const prev = {
@@ -153,9 +159,11 @@ export default function Nav() {
       body.style.width = prev.bodyWidth
       body.style.overflow = prev.bodyOverflow
       html.style.overflow = prev.htmlOverflow
-      window.scrollTo(0, scrollY)
+      if (window.location.pathname === lockedPath) {
+        window.scrollTo(0, scrollY)
+      }
     }
-  }, [menuOpen, activePanel])
+  }, [menuOpen, activePanel, pathname])
 
   const openPanel = useCallback((id: PanelId) => {
     if (closeTimerRef.current) { clearTimeout(closeTimerRef.current); closeTimerRef.current = null }
