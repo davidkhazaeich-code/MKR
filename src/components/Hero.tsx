@@ -175,7 +175,11 @@ export default function Hero() {
 
       {/* Hero content */}
       <div className="hero-content">
-        <span className="hero-pill">L&apos;immersion au milieu des champions · MMA / Lutte</span>
+        <span className="hero-pill">
+          L&apos;immersion au milieu des champions
+          <br />
+          MMA en Tchétchénie et Lutte au Daghestan
+        </span>
 
         <h1 className="hero-h1">
           ENTRAÎNE-TOI LÀ<br />

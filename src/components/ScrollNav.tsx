@@ -336,7 +336,11 @@ export default function ScrollNav() {
           50% { transform: translateY(8px); }
         }
         @media (max-width: 600px) {
-          .hs-chevron { bottom: 90px; }
+          /* Descendu en dessous des CTAs hero (POSTULER / VOIR LES DESTINATIONS).
+             Le sticky CTA mobile n'apparait qu'apres 400 px de scroll, le chevron
+             est masque a ce moment-la (.is-hidden), donc pas de chevauchement.
+             env(safe-area-inset-bottom) preserve le clear du home indicator iOS. */
+          .hs-chevron { bottom: calc(20px + env(safe-area-inset-bottom, 0px)); }
           .hs-chevron-label { font-size: 0.65rem; }
         }
         @media (prefers-reduced-motion: reduce) {
