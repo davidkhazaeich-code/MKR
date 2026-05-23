@@ -240,8 +240,8 @@ export default function AProposPage() {
                   src="/images/team/david-khazaei.webp"
                   alt="David Khazaei, directeur de l'agence DKDP et partenaire digital de MKR Caucasian Camp"
                   loading="lazy"
-                  width={1046}
-                  height={1400}
+                  width={896}
+                  height={1200}
                 />
               </div>
               <div>

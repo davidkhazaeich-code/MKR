@@ -9395,7 +9395,7 @@ html.is-loading body {
 .david-photo-card {
   position: relative;
   width: 100%;
-  max-width: 380px;
+  max-width: 460px;
   aspect-ratio: 4 / 5;
   margin: 0 auto;
   border-radius: 16px;
@@ -9446,7 +9446,7 @@ html.is-loading body {
   filter: drop-shadow(0 14px 22px rgba(0, 0, 0, 0.5));
 }
 @media (max-width: 560px) {
-  .david-photo-card { max-width: 320px; border-radius: 14px; }
+  .david-photo-card { max-width: 360px; border-radius: 14px; }
 }
 
 /* ----------------------------------------------------------- */
