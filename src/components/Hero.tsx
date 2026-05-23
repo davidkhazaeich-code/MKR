@@ -15,8 +15,7 @@ const VIDEO_DURATION = 10000 // ms per video before crossfade
 const FADE_DURATION = 1500   // ms crossfade
 
 export default function Hero() {
-  const video1Ref = useRef<HTMLVideoElement>(null)
-  const video2Ref = useRef<HTMLVideoElement>(null)
+  const heroSectionRef = useRef<HTMLElement>(null)
   const [activeIndex, setActiveIndex] = useState(0)
   const embersCanvasRef = useRef<HTMLCanvasElement>(null)
 
@@ -27,6 +26,24 @@ export default function Hero() {
     }, VIDEO_DURATION)
     return () => clearInterval(interval)
   }, [])
+
+  // ── Force play sur mobile (iOS Safari/Android exigent .play() manuel
+  //    quand preload est limité, même avec autoPlay + muted + playsInline) ──
+  useEffect(() => {
+    const section = heroSectionRef.current
+    if (!section) return
+    const videos = section.querySelectorAll<HTMLVideoElement>('video.hero-video')
+    videos.forEach(v => {
+      // playsInline est forcé côté JS aussi (parfois ignoré côté React sur certains UA)
+      v.muted = true
+      v.setAttribute('playsinline', '')
+      v.setAttribute('webkit-playsinline', '')
+      const tryPlay = () => v.play().catch(() => { /* iOS low-power mode : silent fail */ })
+      tryPlay()
+      v.addEventListener('loadedmetadata', tryPlay, { once: true })
+      v.addEventListener('canplay', tryPlay, { once: true })
+    })
+  }, [activeIndex])
 
   // ── Embers canvas ─────────────────────────────────────────
   useEffect(() => {
@@ -131,20 +148,20 @@ export default function Hero() {
   }, [])
 
   return (
-    <section id="hero" aria-label="En-tête héroïque">
+    <section id="hero" ref={heroSectionRef} aria-label="En-tête héroïque">
 
       {/* Background videos with crossfade */}
       {HERO_VIDEOS.map((src, i) => (
         <video
           key={src}
-          ref={i === 0 ? video1Ref : video2Ref}
           className={`hero-video${i === activeIndex ? ' hero-video--active' : ''}`}
           autoPlay
           muted
           loop
           playsInline
-          preload={i === 0 ? 'auto' : 'none'}
+          preload="metadata"
           aria-hidden="true"
+          {...{ 'webkit-playsinline': '' }}
         >
           <source src={src} type="video/mp4" />
         </video>

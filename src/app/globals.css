@@ -692,7 +692,8 @@ h1, h2, h3, h4, h5 {
     height: auto;
     min-height: 100svh;
     justify-content: flex-start;
-    padding-top: clamp(5rem, 8svh, 6.5rem);
+    /* Sous la nav fixe (--nav-h: 72px) + marge de respiration */
+    padding-top: calc(var(--nav-h) + clamp(2rem, 5svh, 3.5rem));
     padding-bottom: 6.5rem;
   }
   /* Carousel sessions : inline dans le flux, sous les stats. Plus de display:none. */
@@ -714,9 +715,12 @@ h1, h2, h3, h4, h5 {
 
 @media (max-width: 768px) {
   .hero-content {
-    padding-top: clamp(4.5rem, 7svh, 6rem);
+    padding-top: calc(var(--nav-h) + clamp(1.75rem, 4svh, 2.75rem));
   }
   .hero-stats { gap: 1.5rem; }
+  /* Mobile : masquer le compteur live de places sur le carousel sessions
+     (place reservée à la lisibilité du label/dates/prix) */
+  .hero-camps-status { display: none; }
 }
 
 @media (max-width: 480px) {
