@@ -19,6 +19,9 @@ import {
 //   payment_date?: string (YYYY-MM-DD) | null     -> date de réception du paiement
 //   notes_admin?: string                          -> update notes_admin
 //   notes_visio?: string                          -> update notes_visio
+//   referral_payout_status?: 'not_applicable' | 'pending' | 'due' | 'paid' | 'cancelled' | null
+//   referral_payout_paid_at?: string (YYYY-MM-DD) | null
+//   referral_payout_method?: 'virement' | 'cash' | 'autre' | null
 // }
 
 export const dynamic = 'force-dynamic'
@@ -32,6 +35,14 @@ type ReferralPayoutStatus = (typeof REFERRAL_PAYOUT_STATUSES)[number]
 
 const REFERRAL_PAYOUT_METHODS = ['virement', 'cash', 'autre'] as const
 type ReferralPayoutMethod = (typeof REFERRAL_PAYOUT_METHODS)[number]
+
+const ALLOWED_PAYOUT_TRANSITIONS: Record<ReferralPayoutStatus, ReferralPayoutStatus[]> = {
+  not_applicable: [],
+  pending: ['cancelled'],
+  due: ['paid', 'cancelled'],
+  paid: ['due'],
+  cancelled: [],
+}
 
 interface PatchBody {
   status?: string
@@ -82,7 +93,7 @@ export async function PATCH(
   // 1. Lecture de l'etat courant pour valider transitions et generer diff audit
   const { data: current, error: readError } = await supabase
     .from('candidatures')
-    .select('id, status, package_paid_at, package_amount_cents, payment_method, payment_date, notes_admin, notes_visio, referral_code, referral_code_valid, referral_partner_name, referral_bonus_eur, referral_payout_status')
+    .select('id, status, package_paid_at, package_amount_cents, payment_method, payment_date, notes_admin, notes_visio, referral_code, referral_code_valid, referral_partner_name, referral_bonus_eur, referral_payout_status, referral_payout_paid_at, referral_payout_method')
     .eq('id', id)
     .maybeSingle()
 
@@ -241,14 +252,9 @@ export async function PATCH(
     if (next !== null && next !== undefined && !REFERRAL_PAYOUT_STATUSES.includes(next)) {
       return badRequest(`referral_payout_status inconnu: ${next}`)
     }
-    const allowedManual: Record<string, string[]> = {
-      due: ['paid', 'cancelled'],
-      paid: ['due'],
-      pending: ['cancelled'],
-    }
-    const fromState = current.referral_payout_status as string | null
+    const fromState = current.referral_payout_status as ReferralPayoutStatus | null
     if (fromState && next && next !== fromState) {
-      const allowed = allowedManual[fromState] ?? []
+      const allowed = ALLOWED_PAYOUT_TRANSITIONS[fromState] ?? []
       if (!allowed.includes(next)) {
         return badRequest(`Transition payout interdite: ${fromState} -> ${next}`)
       }
@@ -268,14 +274,19 @@ export async function PATCH(
     if (next !== null && next !== undefined && !DATE_RE.test(next)) {
       return badRequest('referral_payout_paid_at invalide (format attendu YYYY-MM-DD)')
     }
+    // Stocke en UTC midnight pour avoir une representation deterministe independante du fuseau admin.
+    // La date affichee en UI = YYYY-MM-DD de cette ISO.
     const target = next ? new Date(next + 'T00:00:00.000Z').toISOString() : null
-    updates.referral_payout_paid_at = target
-    auditEntries.push({
-      candidature_id: id,
-      event: 'referral_payout_paid_at_change',
-      to_value: { referral_payout_paid_at: target },
-      actor_email: actor,
-    })
+    if (target !== current.referral_payout_paid_at) {
+      updates.referral_payout_paid_at = target
+      auditEntries.push({
+        candidature_id: id,
+        event: 'referral_payout_paid_at_change',
+        from_value: { referral_payout_paid_at: current.referral_payout_paid_at },
+        to_value: { referral_payout_paid_at: target },
+        actor_email: actor,
+      })
+    }
   }
 
   if ('referral_payout_method' in body) {
@@ -283,13 +294,17 @@ export async function PATCH(
     if (next !== null && next !== undefined && !REFERRAL_PAYOUT_METHODS.includes(next)) {
       return badRequest(`referral_payout_method inconnue: ${next}`)
     }
-    updates.referral_payout_method = next ?? null
-    auditEntries.push({
-      candidature_id: id,
-      event: 'referral_payout_method_change',
-      to_value: { referral_payout_method: next ?? null },
-      actor_email: actor,
-    })
+    const target = next ?? null
+    if (target !== current.referral_payout_method) {
+      updates.referral_payout_method = target
+      auditEntries.push({
+        candidature_id: id,
+        event: 'referral_payout_method_change',
+        from_value: { referral_payout_method: current.referral_payout_method },
+        to_value: { referral_payout_method: target },
+        actor_email: actor,
+      })
+    }
   }
 
   // 7. Notes
