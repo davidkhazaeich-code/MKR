@@ -9390,6 +9390,66 @@ html.is-loading body {
 }
 
 /* ----------------------------------------------------------- */
+/* David Khazaei photo card — fond MKR derriere PNG detoure    */
+/* ----------------------------------------------------------- */
+.david-photo-card {
+  position: relative;
+  width: 100%;
+  max-width: 380px;
+  aspect-ratio: 4 / 5;
+  margin: 0 auto;
+  border-radius: 16px;
+  overflow: hidden;
+  isolation: isolate;
+  background:
+    linear-gradient(165deg, rgba(192, 57, 43, 0.42) 0%, rgba(192, 57, 43, 0.10) 35%, rgba(14, 14, 14, 0.95) 78%, #060606 100%);
+  box-shadow:
+    0 24px 52px rgba(0, 0, 0, 0.55),
+    0 0 0 1px rgba(255, 255, 255, 0.06) inset,
+    0 0 0 4px rgba(192, 57, 43, 0.12);
+}
+.david-photo-card::before {
+  /* Grille technique subtile */
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+  background-size: 28px 28px;
+  pointer-events: none;
+  z-index: 1;
+  mask-image: radial-gradient(ellipse at 50% 45%, #000 0%, transparent 75%);
+}
+.david-photo-card::after {
+  /* Halo rouge MKR derriere la tete */
+  content: '';
+  position: absolute;
+  top: -18%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 88%;
+  height: 70%;
+  background: radial-gradient(ellipse at 50% 50%, rgba(192, 57, 43, 0.55) 0%, rgba(192, 57, 43, 0.18) 35%, transparent 70%);
+  pointer-events: none;
+  filter: blur(8px);
+  z-index: 1;
+}
+.david-photo-card img {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center bottom;
+  display: block;
+  filter: drop-shadow(0 14px 22px rgba(0, 0, 0, 0.5));
+}
+@media (max-width: 560px) {
+  .david-photo-card { max-width: 320px; border-radius: 14px; }
+}
+
+/* ----------------------------------------------------------- */
 /* Ruslan galerie — /a-propos                                  */
 /* ----------------------------------------------------------- */
 .ruslan-galerie-grid {

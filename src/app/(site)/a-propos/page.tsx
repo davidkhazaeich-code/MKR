@@ -172,7 +172,7 @@ export default function AProposPage() {
               className="layout-split layout-split--balanced"
               style={{ gap: '3rem', alignItems: 'center' }}
             >
-              <div style={{ width: '100%', maxWidth: '360px', margin: '0 auto' }}>
+              <div className="david-photo-card">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src="/images/team/david-khazaei.webp"
@@ -180,12 +180,6 @@ export default function AProposPage() {
                   loading="lazy"
                   width={1046}
                   height={1400}
-                  style={{
-                    width: '100%',
-                    height: 'auto',
-                    display: 'block',
-                    filter: 'drop-shadow(0 20px 30px rgba(0,0,0,0.55)) drop-shadow(0 4px 8px rgba(0,0,0,0.25))',
-                  }}
                 />
               </div>
               <div>
