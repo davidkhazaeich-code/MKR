@@ -721,6 +721,17 @@ h1, h2, h3, h4, h5 {
   /* Mobile : masquer le compteur live de places sur le carousel sessions
      (place reservée à la lisibilité du label/dates/prix) */
   .hero-camps-status { display: none; }
+  /* Mobile : sur 3 stats hero, n'en garder que la première (destinations)
+     avec un label condensé. Les deux autres sont masquées. */
+  .hero-stat-item--hide-mobile { display: none; }
+}
+
+/* Hero stats : labels desktop vs mobile (variante condensée).
+   Par défaut on affiche la version desktop, on bascule à <=768px. */
+.hero-stat-label--mobile { display: none; }
+@media (max-width: 768px) {
+  .hero-stat-label--desktop { display: none; }
+  .hero-stat-label--mobile { display: inline; }
 }
 
 @media (max-width: 480px) {
@@ -4701,25 +4712,34 @@ h1, h2, h3, h4, h5 {
 .sticky-cta-mobile {
   display: none;
   position: fixed;
-  bottom: 0; left: 0; right: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   z-index: 180;
   background: var(--cta);
   color: #fff;
   font-family: var(--font-barlow-condensed), sans-serif;
   font-weight: 700;
   font-size: 0.85rem;
+  line-height: 1;
   letter-spacing: 0.15em;
   text-transform: uppercase;
   text-align: center;
   text-decoration: none;
-  /* iOS home indicator + Android gesture bar + landscape notch — safe-area aware.
-     Le padding-bottom garde 1rem de marge tappable au-dessus du bord physique. */
-  padding-top: 1rem;
-  padding-bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
-  padding-left: calc(1rem + env(safe-area-inset-left, 0px));
-  padding-right: calc(1rem + env(safe-area-inset-right, 0px));
-  min-height: calc(56px + env(safe-area-inset-bottom, 0px));
-  box-sizing: border-box;
+  /* Zone tappable du bouton TOUJOURS 56 px sur tous les devices
+     (iPhone SE, iPhone 15 Pro, Android, Samsung Internet, Firefox mobile).
+     padding-bottom: env(safe-area-inset-bottom) prolonge le fond rouge sous
+     le home indicator iOS et la gesture bar Android sans agrandir le bouton.
+     box-sizing: content-box override le border-box global pour que height
+     reste fixe à 56 px et que le padding-bottom safe-area s'ajoute par-dessous. */
+  box-sizing: content-box;
+  height: 56px;
+  padding-top: 0;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  padding-left: max(1rem, env(safe-area-inset-left, 0px));
+  padding-right: max(1rem, env(safe-area-inset-right, 0px));
+  align-items: center;
+  justify-content: center;
   touch-action: manipulation;
   transform: translateY(100%);
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
@@ -4727,7 +4747,7 @@ h1, h2, h3, h4, h5 {
 }
 .sticky-cta-mobile.is-visible { transform: translateY(0); }
 @media (max-width: 768px) {
-  .sticky-cta-mobile { display: block; }
+  .sticky-cta-mobile { display: flex; }
   /* Compense la hauteur du CTA + safe-area pour que le contenu du footer reste visible */
   footer { padding-bottom: calc(56px + env(safe-area-inset-bottom, 0px) + 1rem) !important; }
 }

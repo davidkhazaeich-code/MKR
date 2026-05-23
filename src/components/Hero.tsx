@@ -193,13 +193,14 @@ export default function Hero() {
         <div className="hero-stats">
           <div className="hero-stat-item">
             <span className="hero-stat-num">2</span>
-            <span className="hero-stat-label">Destinations · Daghestan, Tchétchénie</span>
+            <span className="hero-stat-label hero-stat-label--desktop">Destinations · Daghestan, Tchétchénie</span>
+            <span className="hero-stat-label hero-stat-label--mobile">Lutte Daghestan · MMA Tchétchénie</span>
           </div>
-          <div className="hero-stat-item">
+          <div className="hero-stat-item hero-stat-item--hide-mobile">
             <span className="hero-stat-num">3</span>
             <span className="hero-stat-label">Disciplines · Lutte, Lutte enfants, MMA</span>
           </div>
-          <div className="hero-stat-item">
+          <div className="hero-stat-item hero-stat-item--hide-mobile">
             <span className="hero-stat-num">1-3</span>
             <span className="hero-stat-label">Semaines d&apos;immersion</span>
           </div>
