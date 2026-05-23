@@ -27,6 +27,12 @@ const MAX_NOTES = 5000
 const PAYMENT_METHODS = ['virement', 'cash', 'autre'] as const
 type PaymentMethod = (typeof PAYMENT_METHODS)[number]
 
+const REFERRAL_PAYOUT_STATUSES = ['not_applicable', 'pending', 'due', 'paid', 'cancelled'] as const
+type ReferralPayoutStatus = (typeof REFERRAL_PAYOUT_STATUSES)[number]
+
+const REFERRAL_PAYOUT_METHODS = ['virement', 'cash', 'autre'] as const
+type ReferralPayoutMethod = (typeof REFERRAL_PAYOUT_METHODS)[number]
+
 interface PatchBody {
   status?: string
   package_paid?: boolean
@@ -35,6 +41,9 @@ interface PatchBody {
   payment_date?: string | null
   notes_admin?: string
   notes_visio?: string
+  referral_payout_status?: ReferralPayoutStatus | null
+  referral_payout_paid_at?: string | null
+  referral_payout_method?: ReferralPayoutMethod | null
 }
 
 interface AuditEntry {
@@ -73,7 +82,7 @@ export async function PATCH(
   // 1. Lecture de l'etat courant pour valider transitions et generer diff audit
   const { data: current, error: readError } = await supabase
     .from('candidatures')
-    .select('id, status, package_paid_at, package_amount_cents, payment_method, payment_date, notes_admin, notes_visio')
+    .select('id, status, package_paid_at, package_amount_cents, payment_method, payment_date, notes_admin, notes_visio, referral_code, referral_code_valid, referral_partner_name, referral_bonus_eur, referral_payout_status')
     .eq('id', id)
     .maybeSingle()
 
@@ -105,6 +114,49 @@ export async function PATCH(
         from_value: { status: current.status },
         to_value: { status: next },
         data: TRANSITION_REMINDER[next] ? { reminder: TRANSITION_REMINDER[next] } : {},
+        actor_email: actor,
+      })
+    }
+  }
+
+  // 2 bis. Auto-trigger du bonus referral selon la transition de status.
+  // - status -> soldee + referral_code_valid=true + payout=pending  -> payout devient 'due'.
+  // - status -> annulee/refusee + payout in (pending, due)          -> payout devient 'cancelled'.
+  // Si payout deja 'paid', on ne touche pas (decision business manuelle).
+  if (updates.status) {
+    const newStatus = updates.status as Status
+    const currentPayout = current.referral_payout_status as ReferralPayoutStatus | null
+
+    if (
+      newStatus === 'soldee'
+      && current.referral_code_valid === true
+      && currentPayout === 'pending'
+    ) {
+      updates.referral_payout_status = 'due'
+      auditEntries.push({
+        candidature_id: id,
+        event: 'referral_due',
+        from_value: { referral_payout_status: 'pending' },
+        to_value: { referral_payout_status: 'due' },
+        data: {
+          partner: current.referral_partner_name,
+          bonus_eur: current.referral_bonus_eur,
+        },
+        actor_email: actor,
+      })
+    }
+
+    if (
+      (newStatus === 'annulee' || newStatus === 'refusee')
+      && (currentPayout === 'pending' || currentPayout === 'due')
+    ) {
+      updates.referral_payout_status = 'cancelled'
+      auditEntries.push({
+        candidature_id: id,
+        event: 'referral_cancelled',
+        from_value: { referral_payout_status: currentPayout },
+        to_value: { referral_payout_status: 'cancelled' },
+        data: { reason: `candidature_${newStatus}` },
         actor_email: actor,
       })
     }
@@ -177,6 +229,69 @@ export async function PATCH(
     }
   }
 
+  // 7 bis. Mutation manuelle du payout referral (UI admin "Marquer paye" / "Annuler le paiement").
+  // Transitions autorisees (whitelist) :
+  //   due -> paid       : "Marquer paye"
+  //   due -> cancelled  : "Annuler ce bonus"
+  //   paid -> due       : "Annuler le paiement" (revert)
+  //   pending -> cancelled : retirer le partenariat avant solde
+  // Les autres transitions passent par le trigger auto ci-dessus.
+  if ('referral_payout_status' in body) {
+    const next = body.referral_payout_status
+    if (next !== null && next !== undefined && !REFERRAL_PAYOUT_STATUSES.includes(next)) {
+      return badRequest(`referral_payout_status inconnu: ${next}`)
+    }
+    const allowedManual: Record<string, string[]> = {
+      due: ['paid', 'cancelled'],
+      paid: ['due'],
+      pending: ['cancelled'],
+    }
+    const fromState = current.referral_payout_status as string | null
+    if (fromState && next && next !== fromState) {
+      const allowed = allowedManual[fromState] ?? []
+      if (!allowed.includes(next)) {
+        return badRequest(`Transition payout interdite: ${fromState} -> ${next}`)
+      }
+      updates.referral_payout_status = next
+      auditEntries.push({
+        candidature_id: id,
+        event: 'referral_payout_status_change',
+        from_value: { referral_payout_status: fromState },
+        to_value: { referral_payout_status: next },
+        actor_email: actor,
+      })
+    }
+  }
+
+  if ('referral_payout_paid_at' in body) {
+    const next = body.referral_payout_paid_at
+    if (next !== null && next !== undefined && !DATE_RE.test(next)) {
+      return badRequest('referral_payout_paid_at invalide (format attendu YYYY-MM-DD)')
+    }
+    const target = next ? new Date(next + 'T00:00:00.000Z').toISOString() : null
+    updates.referral_payout_paid_at = target
+    auditEntries.push({
+      candidature_id: id,
+      event: 'referral_payout_paid_at_change',
+      to_value: { referral_payout_paid_at: target },
+      actor_email: actor,
+    })
+  }
+
+  if ('referral_payout_method' in body) {
+    const next = body.referral_payout_method
+    if (next !== null && next !== undefined && !REFERRAL_PAYOUT_METHODS.includes(next)) {
+      return badRequest(`referral_payout_method inconnue: ${next}`)
+    }
+    updates.referral_payout_method = next ?? null
+    auditEntries.push({
+      candidature_id: id,
+      event: 'referral_payout_method_change',
+      to_value: { referral_payout_method: next ?? null },
+      actor_email: actor,
+    })
+  }
+
   // 7. Notes
   if (typeof body.notes_admin === 'string') {
     if (body.notes_admin.length > MAX_NOTES) {
@@ -214,7 +329,7 @@ export async function PATCH(
     .from('candidatures')
     .update(updates)
     .eq('id', id)
-    .select('id, status, status_changed_at, package_paid_at, package_amount_cents, payment_method, payment_date, notes_admin, notes_visio')
+    .select('id, status, status_changed_at, package_paid_at, package_amount_cents, payment_method, payment_date, notes_admin, notes_visio, referral_code, referral_code_valid, referral_partner_name, referral_partner_type, referral_bonus_eur, referral_payout_status, referral_payout_paid_at, referral_payout_method')
     .single()
 
   if (updateError || !updated) {
