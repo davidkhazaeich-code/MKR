@@ -747,6 +747,32 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
     )
   }
 
+  const renderReferralCodeField = () => (
+    <Field
+      label="Code de recommandation"
+      hint="Si un coach, un club partenaire ou un influenceur t'a recommandé MKR, note son code ici."
+    >
+      <input
+        className={`cand-input${referralFeedback.tone !== 'neutral' ? ` cand-input--${referralFeedback.tone}` : ''}`}
+        type="text"
+        autoComplete="off"
+        placeholder="Ex : STRIKE (optionnel)"
+        value={form.codeRecommandation}
+        onChange={(e) => set('codeRecommandation', e.target.value)}
+        aria-describedby={referralFeedback.message ? 'referral-feedback' : undefined}
+        maxLength={40}
+      />
+      {referralFeedback.message && (
+        <span
+          id="referral-feedback"
+          className={`cand-referral-feedback cand-referral-feedback--${referralFeedback.tone}`}
+        >
+          {referralFeedback.message}
+        </span>
+      )}
+    </Field>
+  )
+
   return (
     <div className="insc-wrapper">
 
@@ -1060,29 +1086,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                       onChange={e => set('telephone', e.target.value)} />
                   </Field>
                 </div>
-                <Field
-                  label="Code de recommandation"
-                  hint="Si un coach, un club partenaire ou un influenceur t'a recommandé MKR, note son code ici."
-                >
-                  <input
-                    className={`cand-input${referralFeedback.tone !== 'neutral' ? ` cand-input--${referralFeedback.tone}` : ''}`}
-                    type="text"
-                    autoComplete="off"
-                    placeholder="Ex : STRIKE (optionnel)"
-                    value={form.codeRecommandation}
-                    onChange={(e) => set('codeRecommandation', e.target.value)}
-                    aria-describedby={referralFeedback.message ? 'referral-feedback' : undefined}
-                    maxLength={40}
-                  />
-                  {referralFeedback.message && (
-                    <span
-                      id="referral-feedback"
-                      className={`cand-referral-feedback cand-referral-feedback--${referralFeedback.tone}`}
-                    >
-                      {referralFeedback.message}
-                    </span>
-                  )}
-                </Field>
+                {renderReferralCodeField()}
                 <Field label="Ville / pays de départ" hint="Utilisé pour estimer les vols">
                   <input
                     className={`cand-input${errorFields.has('villeDepart') ? ' has-error' : ''}`}
@@ -1155,6 +1159,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                       onChange={e => set('villeDepart', e.target.value)} />
                   </Field>
                 </div>
+                {renderReferralCodeField()}
               </div>
             )}
 
