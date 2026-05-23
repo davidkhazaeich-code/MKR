@@ -681,15 +681,109 @@ h1, h2, h3, h4, h5 {
   background: var(--primary);
 }
 
-@media (max-width: 768px) {
-  #hero { height: 100vh; min-height: 580px; }
-  .hero-content { height: 100vh; padding-top: clamp(5rem, 10vh, 7rem); padding-bottom: 3rem; }
-  .hero-camps { display: none; }
-  .hero-stats { gap: 1.5rem; }
+/* ── Tablette + Mobile : contenu en HAUT (pas en bas), carousel sessions + flèche scroll-down visibles ── */
+@media (max-width: 1024px) {
+  #hero {
+    height: auto;
+    min-height: 100svh;
+  }
+  .hero-content {
+    position: relative;
+    height: auto;
+    min-height: 100svh;
+    justify-content: flex-start;
+    padding-top: clamp(5rem, 8svh, 6.5rem);
+    padding-bottom: 6.5rem;
+  }
+  /* Carousel sessions : inline dans le flux, sous les stats. Plus de display:none. */
+  .hero-camps {
+    display: flex;
+    position: static;
+    align-self: stretch;
+    align-items: flex-start;
+    margin-top: clamp(1.25rem, 3svh, 2rem);
+    width: 100%;
+  }
+  .hero-camps-card {
+    width: 100%;
+    max-width: 460px;
+  }
+  /* L'indicateur de scroll desktop reste off — on a notre propre .hero-scroll-cue */
   .scroll-indicator { display: none; }
 }
+
+@media (max-width: 768px) {
+  .hero-content {
+    padding-top: clamp(4.5rem, 7svh, 6rem);
+  }
+  .hero-stats { gap: 1.5rem; }
+}
+
 @media (max-width: 480px) {
   .hero-content { padding-left: 1.5rem; padding-right: 1.5rem; }
+  .hero-camps-card { padding: 1.1rem 1.2rem; }
+}
+
+/* ═══════════════════════════════════════════════
+   HERO SCROLL CUE (flèche scroll-down visible tablette/mobile)
+═══════════════════════════════════════════════ */
+.hero-scroll-cue {
+  display: none; /* desktop : caché, on a la version absolute centrée */
+}
+@media (max-width: 1024px) {
+  .hero-scroll-cue {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+    position: absolute;
+    bottom: 1.6rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 11;
+    color: var(--text-muted);
+    text-decoration: none;
+    padding: 0.4rem 0.6rem;
+  }
+  .hero-scroll-cue-label {
+    font-family: var(--font-barlow-condensed), sans-serif;
+    font-size: 0.62rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .hero-scroll-cue-line {
+    width: 1px;
+    height: 36px;
+    background: rgba(255,255,255,0.14);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-scroll-cue-line-fill {
+    position: absolute;
+    top: -100%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, transparent, var(--primary) 50%, transparent);
+    animation: scroll-pulse 1.6s ease-in-out infinite;
+  }
+  .hero-scroll-cue-arrow {
+    width: 18px;
+    height: 18px;
+    color: var(--primary);
+    animation: hero-scroll-cue-bounce 1.6s ease-in-out infinite;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-scroll-cue-arrow,
+    .hero-scroll-cue-line-fill {
+      animation: none;
+    }
+  }
+}
+@keyframes hero-scroll-cue-bounce {
+  0%, 100% { transform: translateY(0); opacity: 0.7; }
+  50%      { transform: translateY(4px); opacity: 1; }
 }
 
 /* ═══════════════════════════════════════════════
