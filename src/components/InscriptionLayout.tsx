@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { useState, useRef, useEffect, FormEvent } from 'react'
+import { useState, useRef, useEffect, useMemo, FormEvent } from 'react'
 import dynamic from 'next/dynamic'
 import Icon from './Icon'
 import { REGISTRATION_TYPES, type RegistrationTypeId, getRegistrationType } from '@/data/registration-types'
@@ -16,6 +16,7 @@ import {
   type Duration,
 } from '@/data/pricing'
 import { SESSIONS } from '@/data/sessions'
+import { findReferralCode } from '@/data/referral-codes'
 import PlacesRestantes from '@/components/PlacesRestantes'
 import IconLutte from '@/components/icons/IconLutte'
 import IconMMA from '@/components/icons/IconMMA'
@@ -101,6 +102,8 @@ type FormData = {
   palmaresClub: string // collectif, optionnel
   // Custom Duo/Trio/Quatuor — autres participants que le responsable
   autresParticipants: CustomParticipant[]
+  // Code de recommandation partenaire (optionnel, non bloquant).
+  codeRecommandation: string
 }
 
 // Niveaux acceptés pour le camp MMA. Le form bloque le passage si discipline=mma
@@ -132,6 +135,7 @@ const INITIAL: FormData = {
   nomClub: '', nombreParticipants: '', niveauGroupe: '',
   palmaresClub: '',
   autresParticipants: [],
+  codeRecommandation: '',
 }
 
 // Helpers pour ajuster dynamiquement les listes
@@ -241,6 +245,19 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
       submitErrorRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' })
     }
   }, [submitError])
+
+  // Feedback live pour le champ code de recommandation.
+  // 3 états : neutral (vide), success (code reconnu), warning (code saisi non reconnu).
+  // Le champ est non bloquant : un code invalide laisse passer le submit.
+  const referralFeedback = useMemo(() => {
+    const raw = form.codeRecommandation.trim()
+    if (!raw) return { tone: 'neutral' as const, message: null as string | null }
+    const match = findReferralCode(raw)
+    if (match) {
+      return { tone: 'success' as const, message: `Recommandé par ${match.partnerName}` }
+    }
+    return { tone: 'warning' as const, message: 'Code non reconnu, on va vérifier de notre côté' }
+  }, [form.codeRecommandation])
 
   const audienceConfig = audience ? getRegistrationType(audience) : null
 
@@ -546,6 +563,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
       duree_semaines: form.duree === '1-semaine' ? 1 : form.duree === '2-semaines' ? 2 : form.duree === '3-semaines' ? 3 : null,
       date_debut_souhaitee: form.dateDebutSouhaitee || null,
       camp_discipline: form.campDiscipline || null,
+      code_recommandation: form.codeRecommandation.trim() || null,
       form_data: {
         // Données spécifiques par tunnel — remontent toutes en JSONB côté Supabase
         experience: audience !== 'groupe' ? {
@@ -1042,6 +1060,29 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                       onChange={e => set('telephone', e.target.value)} />
                   </Field>
                 </div>
+                <Field
+                  label="Code de recommandation"
+                  hint="Si un coach, un club partenaire ou un influenceur t'a recommandé MKR, note son code ici."
+                >
+                  <input
+                    className={`cand-input${referralFeedback.tone !== 'neutral' ? ` cand-input--${referralFeedback.tone}` : ''}`}
+                    type="text"
+                    autoComplete="off"
+                    placeholder="Ex : STRIKE (optionnel)"
+                    value={form.codeRecommandation}
+                    onChange={(e) => set('codeRecommandation', e.target.value)}
+                    aria-describedby={referralFeedback.message ? 'referral-feedback' : undefined}
+                    maxLength={40}
+                  />
+                  {referralFeedback.message && (
+                    <span
+                      id="referral-feedback"
+                      className={`cand-referral-feedback cand-referral-feedback--${referralFeedback.tone}`}
+                    >
+                      {referralFeedback.message}
+                    </span>
+                  )}
+                </Field>
                 <Field label="Ville / pays de départ" hint="Utilisé pour estimer les vols">
                   <input
                     className={`cand-input${errorFields.has('villeDepart') ? ' has-error' : ''}`}
