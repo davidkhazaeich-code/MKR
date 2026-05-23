@@ -90,15 +90,15 @@ export default function AProposPage() {
               style={{ gap: '2rem', alignItems: 'center' }}
             >
               <RuslanRevealSlider
-                beforeSrc="/images/ruslan/ruslan-portrait-chemise-noire.webp"
-                beforeAlt="Ruslan Mukhtarov en costume noir, fondateur de MKR Caucasian Camp"
-                beforeLabel="LE FONDATEUR"
-                afterSrc="/images/ruslan/ruslan-superman-reveal.webp"
-                afterAlt="Ruslan Mukhtarov révèle son passé d'athlète équipe de France de lutte sous son costume"
-                afterLabel="L’ATHLÈTE INSEP"
+                beforeSrc="/images/ruslan/ruslan-superman-reveal.webp"
+                beforeAlt="Ruslan Mukhtarov en singlet équipe de France de lutte, ancien INSEP"
+                beforeLabel="L’ATHLÈTE INSEP"
+                afterSrc="/images/ruslan/ruslan-portrait-chemise-noire.webp"
+                afterAlt="Ruslan Mukhtarov en costume noir, fondateur de MKR Caucasian Camp"
+                afterLabel="LE FONDATEUR"
                 initialPosition={28}
-                beforeObjectPosition="center 18%"
-                afterObjectPosition="center 22%"
+                beforeObjectPosition="center 22%"
+                afterObjectPosition="center 18%"
               />
               <div>
                 <span
