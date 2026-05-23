@@ -20,7 +20,7 @@ export default function Philosophie() {
             <span className="bento-card-label">Héritage · Tradition · Combat</span>
             <h3 className="bento-card-title">LÀ OÙ TOUT<br />A COMMENCÉ</h3>
             <p className="bento-card-body">
-              Les meilleurs combattants du monde sortent tous du même berceau : le Caucase. Khabib, Makhachev, des centaines de champions olympiques de lutte. Rien d&apos;un hasard. Ici, le combat se transmet <strong>de père en fils depuis des siècles</strong>.<br /><br />
+              Les meilleurs combattants du monde sortent tous du même berceau : le Caucase. Khabib, Makhachev, <strong>des centaines de médaillés et de champions</strong> olympiques de lutte. Rien d&apos;un hasard. Ici, le combat se transmet <strong>de père en fils depuis des siècles</strong>.<br /><br />
               MKR Caucasian Camp ouvre cet héritage aux athlètes étrangers. Mêmes salles, mêmes coachs, mêmes méthodes. Pas en touriste. En athlète venu <strong>franchir un cap</strong>.<br /><br />
               Au retour de ton camp au Caucase (Lutte au Daghestan ou MMA en Tchétchénie, de une à trois semaines), tu ne combats plus pareil. Tu ne t&apos;entraînes plus pareil. <strong>Et tu ne te vois plus pareil non plus.</strong>
             </p>
@@ -40,11 +40,11 @@ export default function Philosophie() {
           {/* Card 3 -small bottom right */}
           <article className="bento-card bento-card--small reveal" style={{ transitionDelay: '0.2s' }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img className="bento-img" src="/images/environment/communal-meal.webp" alt="" aria-hidden="true" />
-            <span className="bento-card-label">Immersion · Culture · Vie de camp</span>
-            <h3 className="bento-card-title">UNE IMMERSION<br />QUI MARQUE</h3>
+            <img className="bento-img" src="/images/action/shadowboxing-group.webp" alt="" aria-hidden="true" />
+            <span className="bento-card-label">Effort · Discipline · Fraternité</span>
+            <h3 className="bento-card-title">LA DISCIPLINE<br />EN PARTAGE</h3>
             <p className="bento-card-body">
-              Tu vis avec eux, tu manges avec eux. Zéro distraction, zéro superflu. Juste l&apos;entraînement, la culture caucasienne, et une <strong>fraternité du tapis</strong> que tu ne croiseras dans aucune salle européenne.
+              Tu partages leur discipline à travers l&apos;effort. Mêmes rounds, même intensité, mêmes courbatures. Zéro distraction, zéro superflu. Juste l&apos;entraînement, la culture caucasienne, et une <strong>fraternité du tapis</strong> que tu ne croiseras dans aucune salle européenne.
             </p>
           </article>
         </div>
