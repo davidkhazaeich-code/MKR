@@ -392,73 +392,68 @@ export default function AProposPage() {
                 <strong>cours enfants à la Strike Academy de Genève</strong>. Deux terrains, une
                 même conviction : la rigueur du tapis se transmet à l&apos;écran.
               </p>
-            </div>
-          </div>
 
-          {/* Container DKDP : logo + services + lien site */}
-          <div className="reveal dkdp-info-card" aria-label="L'agence DKDP">
-            <div className="dkdp-info-head">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                className="dkdp-info-logo"
-                src="/images/team/dkdp-logo-white.webp"
-                alt="Logo DKDP, agence digitale à Genève"
-                loading="lazy"
-                width={2180}
-                height={374}
-              />
-              <p className="dkdp-info-tagline">
-                <strong style={{ color: 'var(--text-primary)' }}>Agence digitale genevoise.</strong>{' '}
-                Sites web, SEO, intelligence artificielle et formation pour les entreprises de Suisse romande.
-              </p>
-            </div>
+              {/* Container DKDP : compact, sous le bio, dans la colonne droite */}
+              <div className="dkdp-info-card dkdp-info-card--compact" aria-label="L'agence DKDP">
+                <div className="dkdp-info-head">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    className="dkdp-info-logo"
+                    src="/images/team/dkdp-logo-white.webp"
+                    alt="Logo DKDP, agence digitale à Genève"
+                    loading="lazy"
+                    width={2180}
+                    height={374}
+                  />
+                  <p className="dkdp-info-tagline">
+                    <strong>Agence digitale genevoise.</strong> Sites web, SEO, IA et formation pour les entreprises de Suisse romande.
+                  </p>
+                </div>
 
-            <div className="dkdp-info-grid">
-              <div className="dkdp-info-service">
-                <span className="dkdp-info-service-dot" aria-hidden="true" />
-                <span className="dkdp-info-service-label">Sites web</span>
-              </div>
-              <div className="dkdp-info-service">
-                <span className="dkdp-info-service-dot" aria-hidden="true" />
-                <span className="dkdp-info-service-label">SEO &amp; GEO</span>
-              </div>
-              <div className="dkdp-info-service">
-                <span className="dkdp-info-service-dot" aria-hidden="true" />
-                <span className="dkdp-info-service-label">IA &amp; Automatisation</span>
-              </div>
-              <div className="dkdp-info-service">
-                <span className="dkdp-info-service-dot" aria-hidden="true" />
-                <span className="dkdp-info-service-label">Formation entreprise</span>
-              </div>
-            </div>
+                <div className="dkdp-info-grid">
+                  <div className="dkdp-info-service">
+                    <span className="dkdp-info-service-dot" aria-hidden="true" />
+                    <span className="dkdp-info-service-label">Sites web</span>
+                  </div>
+                  <div className="dkdp-info-service">
+                    <span className="dkdp-info-service-dot" aria-hidden="true" />
+                    <span className="dkdp-info-service-label">SEO &amp; GEO</span>
+                  </div>
+                  <div className="dkdp-info-service">
+                    <span className="dkdp-info-service-dot" aria-hidden="true" />
+                    <span className="dkdp-info-service-label">IA &amp; Automatisation</span>
+                  </div>
+                  <div className="dkdp-info-service">
+                    <span className="dkdp-info-service-dot" aria-hidden="true" />
+                    <span className="dkdp-info-service-label">Formation</span>
+                  </div>
+                </div>
 
-            <div className="dkdp-info-foot">
-              <div className="dkdp-info-stats">
-                <div>
-                  <span className="dkdp-info-stat-num">700+</span>
-                  <span className="dkdp-info-stat-label">Clients accompagnés</span>
-                </div>
-                <div>
-                  <span className="dkdp-info-stat-num">10 ans</span>
-                  <span className="dkdp-info-stat-label">D&apos;expérience</span>
-                </div>
-                <div>
-                  <span className="dkdp-info-stat-num">Genève</span>
-                  <span className="dkdp-info-stat-label">Suisse romande</span>
+                <div className="dkdp-info-foot">
+                  <div className="dkdp-info-stats">
+                    <div>
+                      <span className="dkdp-info-stat-num">700+</span>
+                      <span className="dkdp-info-stat-label">Clients</span>
+                    </div>
+                    <div>
+                      <span className="dkdp-info-stat-num">10 ans</span>
+                      <span className="dkdp-info-stat-label">D&apos;expérience</span>
+                    </div>
+                  </div>
+                  <a
+                    className="dkdp-info-cta"
+                    href="https://dkdp.ch"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <span>Découvrir l&apos;agence</span>
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <line x1="5" y1="12" x2="19" y2="12" />
+                      <polyline points="12 5 19 12 12 19" />
+                    </svg>
+                  </a>
                 </div>
               </div>
-              <a
-                className="dkdp-info-cta"
-                href="https://dkdp.ch"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <span>Découvrir l&apos;agence</span>
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                  <line x1="5" y1="12" x2="19" y2="12" />
-                  <polyline points="12 5 19 12 12 19" />
-                </svg>
-              </a>
             </div>
           </div>
         </div>

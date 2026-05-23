@@ -9734,7 +9734,7 @@ html.is-loading body {
 .dkdp-info-stat-num {
   font-family: var(--font-teko, sans-serif);
   font-size: 1.6rem;
-  color: var(--primary, #C0392B);
+  color: var(--text-primary, #fff);
   line-height: 1;
   display: block;
   margin-bottom: 0.2rem;
@@ -9776,6 +9776,57 @@ html.is-loading body {
 @media (max-width: 480px) {
   .dkdp-info-foot { flex-direction: column; align-items: flex-start; gap: 1.25rem; }
   .dkdp-info-logo { max-width: 200px; }
+}
+
+/* Variante compact : container DKDP placé dans la colonne droite */
+.dkdp-info-card--compact {
+  margin-top: clamp(1.5rem, 3vh, 2rem);
+  padding: clamp(1.25rem, 2.5vw, 1.6rem);
+  border-radius: 14px;
+}
+.dkdp-info-card--compact .dkdp-info-head {
+  gap: 1rem;
+  margin-bottom: 1.1rem;
+}
+.dkdp-info-card--compact .dkdp-info-logo {
+  max-width: 150px;
+}
+.dkdp-info-card--compact .dkdp-info-tagline {
+  font-size: 0.88rem;
+  line-height: 1.5;
+  flex-basis: 100%;
+}
+.dkdp-info-card--compact .dkdp-info-grid {
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.55rem;
+  margin: 1rem 0 1.25rem;
+}
+.dkdp-info-card--compact .dkdp-info-service {
+  padding: 0.65rem 0.85rem;
+}
+.dkdp-info-card--compact .dkdp-info-service-label {
+  font-size: 0.85rem;
+}
+.dkdp-info-card--compact .dkdp-info-foot {
+  padding-top: 1rem;
+  gap: 1rem;
+}
+.dkdp-info-card--compact .dkdp-info-stats {
+  gap: 1.25rem;
+}
+.dkdp-info-card--compact .dkdp-info-stat-num {
+  font-size: 1.35rem;
+}
+.dkdp-info-card--compact .dkdp-info-stat-label {
+  font-size: 0.7rem;
+}
+.dkdp-info-card--compact .dkdp-info-cta {
+  padding: 0.7rem 1.1rem;
+  font-size: 0.88rem;
+}
+@media (max-width: 760px) {
+  .dkdp-info-card--compact .dkdp-info-head { flex-direction: column; align-items: flex-start; }
+  .dkdp-info-card--compact .dkdp-info-foot { flex-direction: column; align-items: flex-start; }
 }
 
 /* ----------------------------------------------------------- */
