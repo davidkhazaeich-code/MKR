@@ -127,8 +127,8 @@ export default function AProposPage() {
           </div>
 
           {/* Notre force : équipe en France + référents sur place */}
-          <div className="reveal" style={{ maxWidth: '860px', margin: '2.5rem auto 0' }}>
-            <div className="layout-split layout-split--balanced" style={{ gap: '1.25rem' }}>
+          <div className="reveal" style={{ maxWidth: '860px', margin: '3.5rem auto 0' }}>
+            <div className="layout-split layout-split--balanced" style={{ gap: '1.5rem' }}>
               <div className="content-card fx-grain">
                 <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.6rem' }}>EN FRANCE</span>
                 <h3 className="card-title">UNE VRAIE ÉQUIPE</h3>
@@ -154,31 +154,33 @@ export default function AProposPage() {
       <section
         className="logi-section fx-texture-concrete fx-glow fx-mask-c fx-stack-4"
         aria-labelledby="dkdp-heading"
+        style={{ paddingTop: 'clamp(5rem, 10vh, 7rem)', paddingBottom: 'clamp(5rem, 10vh, 7rem)' }}
       >
         <div className="fx-glow-orb" />
         <div className="inner">
-          <div className="logi-header reveal">
+          <div className="logi-header reveal" style={{ marginBottom: '3rem' }}>
             <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>
               PARTENAIRE & DIGITAL
             </span>
             <h2 id="dkdp-heading">L&apos;AGENCE DKDP À LA TECH</h2>
-            <p style={{ color: 'var(--text-secondary)', marginTop: '0.6rem', maxWidth: '720px' }}>
+            <p style={{ color: 'var(--text-secondary)', marginTop: '0.8rem', maxWidth: '680px', lineHeight: 1.55 }}>
               Site, contenu, communication. MKR Caucasian Camp n&apos;avance pas seul : le camp s&apos;appuie sur une agence partenaire genevoise pour toute la partie digitale.
             </p>
           </div>
-          <div className="reveal" style={{ maxWidth: '880px', margin: '1.5rem auto 0' }}>
+          <div className="reveal" style={{ maxWidth: '880px', margin: '0 auto' }}>
             <div
               className="layout-split layout-split--balanced"
-              style={{ gap: '2rem', alignItems: 'center' }}
+              style={{ gap: '3rem', alignItems: 'center' }}
             >
               <div
                 style={{
                   borderRadius: '14px',
                   overflow: 'hidden',
                   aspectRatio: '4 / 5',
-                  maxWidth: '420px',
+                  width: '100%',
+                  maxWidth: '340px',
                   margin: '0 auto',
-                  boxShadow: '0 16px 40px rgba(0,0,0,0.28)',
+                  boxShadow: '0 20px 48px rgba(0,0,0,0.32), 0 0 0 1px rgba(255,255,255,0.04)',
                 }}
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -192,19 +194,19 @@ export default function AProposPage() {
                     width: '100%',
                     height: '100%',
                     objectFit: 'cover',
-                    objectPosition: 'center 18%',
+                    objectPosition: 'center 22%',
                   }}
                 />
               </div>
               <div>
                 <span
                   className="label-tag"
-                  style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.5rem' }}
+                  style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.6rem' }}
                 >
                   PARTENAIRE · AGENCE DKDP
                 </span>
-                <h3 style={{ marginTop: 0 }}>DAVID KHAZAEI</h3>
-                <p className="coach-ext-bio" style={{ marginBottom: '0.9rem' }}>
+                <h3 style={{ marginTop: 0, marginBottom: '1.1rem' }}>DAVID KHAZAEI</h3>
+                <p className="coach-ext-bio" style={{ marginBottom: '1rem', lineHeight: 1.65 }}>
                   Directeur de l&apos;agence{' '}
                   <a
                     href="https://dkdp.ch"
@@ -219,12 +221,10 @@ export default function AProposPage() {
                   >
                     DKDP
                   </a>
-                  , basée à Genève. Partenaire de Ruslan sur MKR Caucasian Camp depuis le début du projet : il pilote
-                  le site, le contenu et toute la communication digitale du camp.
+                  , basée à Genève. Partenaire de Ruslan sur MKR Caucasian Camp depuis le début du projet : il pilote le site, le contenu et toute la communication digitale du camp.
                 </p>
-                <p className="coach-ext-bio">
-                  Combattant amateur en kickboxing, David enseigne aussi les <strong>cours enfants à la Strike Academy
-                  de Genève</strong>. Deux terrains, une même conviction : la rigueur du tapis se transmet à l&apos;écran.
+                <p className="coach-ext-bio" style={{ lineHeight: 1.65 }}>
+                  Combattant amateur en kickboxing, David enseigne aussi les <strong>cours enfants à la Strike Academy de Genève</strong>. Deux terrains, une même conviction : la rigueur du tapis se transmet à l&apos;écran.
                 </p>
               </div>
             </div>
