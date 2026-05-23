@@ -9390,6 +9390,151 @@ html.is-loading body {
 }
 
 /* ----------------------------------------------------------- */
+/* /a-propos — layout normalise et grilles                     */
+/* ----------------------------------------------------------- */
+.apropos-history-grid {
+  display: grid;
+  grid-template-columns: minmax(260px, 4fr) minmax(0, 6fr);
+  gap: clamp(2rem, 4vw, 3.5rem);
+  align-items: start;
+}
+.apropos-history-head h2 {
+  font-size: clamp(1.75rem, 3.6vw, 2.4rem);
+  text-transform: uppercase;
+  line-height: 0.95;
+  margin: 0;
+}
+.apropos-history-rule {
+  display: block;
+  width: 60px;
+  height: 3px;
+  background: var(--primary);
+  margin-top: 1.2rem;
+  border-radius: 2px;
+}
+.apropos-history-copy p {
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin: 0 0 1.1rem;
+  font-size: 1.02rem;
+}
+.apropos-history-copy p:last-child { margin-bottom: 0; }
+.apropos-history-quote {
+  border-left: 3px solid var(--primary);
+  padding: 0.2rem 0 0.2rem 1.1rem;
+  font-style: italic;
+  color: var(--text-primary);
+  font-size: 1.05rem;
+  margin-top: 0.4rem;
+}
+@media (max-width: 760px) {
+  .apropos-history-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+  .apropos-history-rule { margin-top: 1rem; }
+}
+
+/* Pilliers */
+.apropos-pillars-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+}
+.apropos-pillar {
+  position: relative;
+  padding: 1.6rem 1.4rem 1.4rem;
+  border-radius: 14px;
+  background: linear-gradient(165deg, rgba(192, 57, 43, 0.08) 0%, rgba(20, 20, 20, 0.6) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  isolation: isolate;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+.apropos-pillar:hover {
+  transform: translateY(-3px);
+  border-color: rgba(192, 57, 43, 0.32);
+}
+.apropos-pillar-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(192, 57, 43, 0.16);
+  color: var(--primary, #C0392B);
+  margin-bottom: 1rem;
+}
+.apropos-pillar-title {
+  font-family: var(--font-teko, sans-serif);
+  font-size: 1.35rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  margin: 0 0 0.55rem;
+  line-height: 1.1;
+}
+.apropos-pillar-body {
+  color: var(--text-secondary);
+  font-size: 0.92rem;
+  line-height: 1.55;
+  margin: 0;
+}
+@media (max-width: 960px) {
+  .apropos-pillars-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 560px) {
+  .apropos-pillars-grid { grid-template-columns: 1fr; gap: 1rem; }
+  .apropos-pillar { padding: 1.4rem 1.25rem 1.2rem; }
+}
+
+/* Split full-inner pour Ruslan / David : photo a gauche, contenu a droite */
+.apropos-split {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: clamp(2rem, 4vw, 3.5rem);
+  align-items: center;
+}
+.apropos-split--featured {
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+}
+@media (max-width: 880px) {
+  .apropos-split,
+  .apropos-split--featured { grid-template-columns: 1fr; gap: 2rem; }
+}
+
+/* Equipe support grid (EN FRANCE / SUR PLACE) */
+.apropos-support-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin-top: clamp(3rem, 6vh, 4rem);
+}
+@media (max-width: 760px) {
+  .apropos-support-grid { grid-template-columns: 1fr; }
+}
+
+/* Header de section unifie */
+.apropos-section-head {
+  margin-bottom: clamp(2rem, 4vh, 2.75rem);
+}
+.apropos-section-head h2 {
+  font-size: clamp(1.75rem, 3.6vw, 2.4rem);
+  text-transform: uppercase;
+  line-height: 0.95;
+  margin: 0;
+}
+.apropos-section-head .label-tag {
+  display: block;
+  margin-bottom: 0.7rem;
+  color: var(--primary);
+}
+.apropos-section-head p {
+  color: var(--text-secondary);
+  margin-top: 0.8rem;
+  max-width: 720px;
+  line-height: 1.55;
+  font-size: 1rem;
+}
+
+/* ----------------------------------------------------------- */
 /* David Khazaei photo card — fond MKR derriere PNG detoure    */
 /* ----------------------------------------------------------- */
 .david-photo-card {
