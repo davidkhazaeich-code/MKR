@@ -3,7 +3,6 @@ import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 import CinematicReveal from '@/components/CinematicReveal'
-import RuslanRevealSlider from '@/components/RuslanRevealSlider'
 
 export const metadata = buildMetadata({
   title: 'À propos | Ruslan Mukhtarov, fondateur | MKR Caucasian Camp',
@@ -105,6 +104,21 @@ export default function AProposPage() {
               </p>
             </div>
           </div>
+
+          {/* Logo MKR — brand seal centre */}
+          <div className="reveal apropos-brand-seal" aria-hidden="true">
+            <span className="apropos-brand-seal-rule" />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/logo-white.webp"
+              alt=""
+              width={260}
+              height={120}
+              className="apropos-brand-seal-logo"
+              loading="lazy"
+            />
+            <span className="apropos-brand-seal-rule" />
+          </div>
         </div>
       </section>
 
@@ -179,17 +193,20 @@ export default function AProposPage() {
           </div>
 
           <div className="reveal apropos-split apropos-split--featured">
-            <RuslanRevealSlider
-              beforeSrc="/images/ruslan/ruslan-superman-reveal.webp"
-              beforeAlt="Ruslan Mukhtarov en singlet équipe de France de lutte, ancien INSEP"
-              beforeLabel="L’ATHLÈTE INSEP"
-              afterSrc="/images/ruslan/ruslan-portrait-chemise-noire.webp"
-              afterAlt="Ruslan Mukhtarov en costume noir, fondateur de MKR Caucasian Camp"
-              afterLabel="LE FONDATEUR"
-              initialPosition={72}
-              beforeObjectPosition="center 22%"
-              afterObjectPosition="center 18%"
-            />
+            <figure className="ruslan-founder-photo">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/images/ruslan/ruslan-championnat-france-ffl.webp"
+                alt="Ruslan Mukhtarov en finale de championnat de France de lutte, singlet bleu équipe de France, scoreboard FFL visible"
+                loading="lazy"
+                width={1600}
+                height={1066}
+              />
+              <figcaption className="ruslan-founder-caption">
+                <span className="ruslan-founder-caption-tag">FFL · FINALE</span>
+                <span className="ruslan-founder-caption-name">MOUKHTAROV R.</span>
+              </figcaption>
+            </figure>
             <div>
               <span
                 className="label-tag"
@@ -282,14 +299,14 @@ export default function AProposPage() {
             <figure className="ruslan-galerie-item">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/images/ruslan/ruslan-championnat-france-ffl.webp"
-                alt="Ruslan Mukhtarov en singlet bleu équipe de France face à un adversaire en rouge, scoreboard FFL"
+                src="/images/ruslan/ruslan-asics-equipe-france.webp"
+                alt="Ruslan Mukhtarov en veste Asics aux couleurs de l'équipe de France de lutte"
                 loading="lazy"
-                width={1600}
-                height={1066}
+                width={304}
+                height={456}
               />
               <figcaption className="ruslan-galerie-caption">
-                FFL · Mukhtarov R. en finale
+                Équipe de France · INSEP
               </figcaption>
             </figure>
             <figure className="ruslan-galerie-item">

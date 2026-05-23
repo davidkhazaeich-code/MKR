@@ -9535,6 +9535,104 @@ html.is-loading body {
 }
 
 /* ----------------------------------------------------------- */
+/* Ruslan founder photo (FFL finale) — main /a-propos portrait */
+/* ----------------------------------------------------------- */
+.ruslan-founder-photo {
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  aspect-ratio: 4 / 5;
+  margin: 0 auto;
+  border-radius: 16px;
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--surface-lowest, #141414);
+  box-shadow:
+    0 22px 50px rgba(0, 0, 0, 0.55),
+    0 0 0 1px rgba(255, 255, 255, 0.06) inset;
+}
+.ruslan-founder-photo img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 35%;
+  display: block;
+}
+.ruslan-founder-caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.5rem 1.25rem 1.1rem;
+  background: linear-gradient(180deg, transparent 0%, rgba(8, 8, 8, 0.85) 100%);
+  pointer-events: none;
+  color: #fff;
+}
+.ruslan-founder-caption-tag {
+  font-family: var(--font-teko, sans-serif);
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  background: rgba(192, 57, 43, 0.85);
+  color: #fff;
+  line-height: 1;
+}
+.ruslan-founder-caption-name {
+  font-family: var(--font-teko, sans-serif);
+  font-size: 1.1rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #fff;
+  line-height: 1;
+}
+@media (max-width: 560px) {
+  .ruslan-founder-photo { max-width: 380px; border-radius: 14px; }
+  .ruslan-founder-caption { padding: 1.1rem 1rem 0.85rem; }
+  .ruslan-founder-caption-name { font-size: 1rem; }
+}
+
+/* ----------------------------------------------------------- */
+/* Brand seal MKR — logo centre sous NOTRE HISTOIRE            */
+/* ----------------------------------------------------------- */
+.apropos-brand-seal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(1.25rem, 4vw, 3rem);
+  margin: clamp(3rem, 6vh, 4.5rem) auto 0;
+  max-width: 720px;
+}
+.apropos-brand-seal-rule {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.18) 50%, transparent 100%);
+  max-width: 220px;
+}
+.apropos-brand-seal-logo {
+  width: clamp(180px, 22vw, 260px);
+  height: auto;
+  filter: drop-shadow(0 6px 18px rgba(192, 57, 43, 0.3));
+  opacity: 0.95;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.apropos-brand-seal:hover .apropos-brand-seal-logo {
+  opacity: 1;
+  transform: scale(1.03);
+}
+@media (max-width: 480px) {
+  .apropos-brand-seal { gap: 0.85rem; }
+  .apropos-brand-seal-rule { max-width: 60px; }
+}
+
+/* ----------------------------------------------------------- */
 /* DKDP info card — container partenaire avec logo + services  */
 /* ----------------------------------------------------------- */
 .dkdp-info-card {
