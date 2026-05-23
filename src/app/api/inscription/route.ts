@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import { getSupabaseAdmin } from '@/lib/supabase-admin'
 import { SESSIONS } from '@/data/sessions'
 import { getSessionPlaces } from '@/lib/places'
-import { sendMail, wrapEmail, row, escapeHtml } from '@/lib/email'
+import { sendMail, wrapEmail, row } from '@/lib/email'
 import { rateLimit, clientIp as rlClientIp } from '@/lib/rate-limit'
 import { findReferralCode, type ReferralPartnerType } from '@/data/referral-codes'
 
@@ -364,9 +364,9 @@ async function notifyEmail(p: SlackPayload): Promise<void> {
   const adminBase = process.env.NEXT_PUBLIC_SITE_URL || 'https://mkrcamp.com'
 
   const referralLabel = p.referral_code_valid === true
-    ? `${p.referral_partner_name} (code ${escapeHtml(p.referral_code ?? '')}, bonus ${p.referral_bonus_eur} EUR pending)`
+    ? `${p.referral_partner_name} (code ${p.referral_code}, bonus ${p.referral_bonus_eur} EUR pending)`
     : p.referral_code_valid === false
-      ? `Code "${escapeHtml(p.referral_code ?? '')}" non reconnu - à vérifier`
+      ? `Code "${p.referral_code}" non reconnu - à vérifier`
       : null
 
   const bodyHtml = `
