@@ -172,29 +172,19 @@ export default function AProposPage() {
               className="layout-split layout-split--balanced"
               style={{ gap: '3rem', alignItems: 'center' }}
             >
-              <div
-                style={{
-                  borderRadius: '14px',
-                  overflow: 'hidden',
-                  aspectRatio: '4 / 5',
-                  width: '100%',
-                  maxWidth: '340px',
-                  margin: '0 auto',
-                  boxShadow: '0 20px 48px rgba(0,0,0,0.32), 0 0 0 1px rgba(255,255,255,0.04)',
-                }}
-              >
+              <div style={{ width: '100%', maxWidth: '360px', margin: '0 auto' }}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src="/images/team/david-khazaei-portrait.webp"
+                  src="/images/team/david-khazaei.webp"
                   alt="David Khazaei, directeur de l'agence DKDP et partenaire digital de MKR Caucasian Camp"
                   loading="lazy"
-                  width={1200}
-                  height={1500}
+                  width={1046}
+                  height={1400}
                   style={{
                     width: '100%',
-                    height: '100%',
-                    objectFit: 'cover',
-                    objectPosition: 'center 22%',
+                    height: 'auto',
+                    display: 'block',
+                    filter: 'drop-shadow(0 20px 30px rgba(0,0,0,0.55)) drop-shadow(0 4px 8px rgba(0,0,0,0.25))',
                   }}
                 />
               </div>
