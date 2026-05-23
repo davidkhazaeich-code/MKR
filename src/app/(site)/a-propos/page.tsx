@@ -150,74 +150,8 @@ export default function AProposPage() {
         </div>
       </section>
 
-      {/* Partenaire DKDP — David Khazaei */}
-      <section
-        className="logi-section fx-texture-concrete fx-glow fx-mask-c fx-stack-4"
-        aria-labelledby="dkdp-heading"
-        style={{ paddingTop: 'clamp(5rem, 10vh, 7rem)', paddingBottom: 'clamp(5rem, 10vh, 7rem)' }}
-      >
-        <div className="fx-glow-orb" />
-        <div className="inner">
-          <div className="logi-header reveal" style={{ marginBottom: '3rem' }}>
-            <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>
-              PARTENAIRE & DIGITAL
-            </span>
-            <h2 id="dkdp-heading">L&apos;AGENCE DKDP À LA TECH</h2>
-            <p style={{ color: 'var(--text-secondary)', marginTop: '0.8rem', maxWidth: '680px', lineHeight: 1.55 }}>
-              Site, contenu, communication. MKR Caucasian Camp n&apos;avance pas seul : le camp s&apos;appuie sur une agence partenaire genevoise pour toute la partie digitale.
-            </p>
-          </div>
-          <div className="reveal" style={{ maxWidth: '880px', margin: '0 auto' }}>
-            <div
-              className="layout-split layout-split--balanced"
-              style={{ gap: '3rem', alignItems: 'center' }}
-            >
-              <div className="david-photo-card">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="/images/team/david-khazaei.webp"
-                  alt="David Khazaei, directeur de l'agence DKDP et partenaire digital de MKR Caucasian Camp"
-                  loading="lazy"
-                  width={1046}
-                  height={1400}
-                />
-              </div>
-              <div>
-                <span
-                  className="label-tag"
-                  style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.6rem' }}
-                >
-                  PARTENAIRE · AGENCE DKDP
-                </span>
-                <h3 style={{ marginTop: 0, marginBottom: '1.1rem' }}>DAVID KHAZAEI</h3>
-                <p className="coach-ext-bio" style={{ marginBottom: '1rem', lineHeight: 1.65 }}>
-                  Directeur de l&apos;agence{' '}
-                  <a
-                    href="https://dkdp.ch"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    style={{
-                      color: 'var(--primary)',
-                      textDecoration: 'underline',
-                      textUnderlineOffset: '3px',
-                      fontWeight: 600,
-                    }}
-                  >
-                    DKDP
-                  </a>
-                  , basée à Genève. Partenaire de Ruslan sur MKR Caucasian Camp depuis le début du projet : il pilote le site, le contenu et toute la communication digitale du camp.
-                </p>
-                <p className="coach-ext-bio" style={{ lineHeight: 1.65 }}>
-                  Combattant amateur en kickboxing, David enseigne aussi les <strong>cours enfants à la Strike Academy de Genève</strong>. Deux terrains, une même conviction : la rigueur du tapis se transmet à l&apos;écran.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Galerie parcours Ruslan */}
-      <section className="logi-section fx-grid fx-stack-5" aria-labelledby="ruslan-galerie-heading">
+      <section className="logi-section fx-grid fx-stack-4" aria-labelledby="ruslan-galerie-heading">
         <div className="inner">
           <div className="logi-header reveal">
             <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>
@@ -278,26 +212,69 @@ export default function AProposPage() {
         </div>
       </section>
 
-      {/* Partenaires */}
-      <section className="logi-section logi-alt fx-texture-basalt fx-stack-6">
+      {/* Partenaire DKDP — David Khazaei */}
+      <section
+        className="logi-section fx-texture-concrete fx-glow fx-mask-c fx-stack-5"
+        aria-labelledby="dkdp-heading"
+        style={{ paddingTop: 'clamp(5rem, 10vh, 7rem)', paddingBottom: 'clamp(5rem, 10vh, 7rem)' }}
+      >
+        <div className="fx-glow-orb" />
         <div className="inner">
-          <div className="logi-header reveal">
-            <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>PARTENAIRES</span>
-            <h2>SALLES PARTENAIRES</h2>
-            <p style={{ color: 'var(--text-secondary)', marginTop: '0.6rem' }}>Au Daghestan (Lutte) et en Tchétchénie (MMA), MKR collabore avec des salles d&apos;entraînement de référence locales.</p>
+          <div className="logi-header reveal" style={{ marginBottom: '3rem' }}>
+            <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>
+              PARTENAIRE & DIGITAL
+            </span>
+            <h2 id="dkdp-heading">L&apos;AGENCE DKDP À LA TECH</h2>
+            <p style={{ color: 'var(--text-secondary)', marginTop: '0.8rem', maxWidth: '680px', lineHeight: 1.55 }}>
+              Site, contenu, communication. MKR Caucasian Camp n&apos;avance pas seul : le camp s&apos;appuie sur une agence partenaire genevoise pour toute la partie digitale.
+            </p>
           </div>
-          <ul className="reveal" style={{ listStyle: 'none', padding: 0, margin: '1.5rem 0 0', display: 'flex', flexWrap: 'wrap', gap: '0.75rem', justifyContent: 'center' }}>
-            {[
-              { label: 'Lutte · Makhachkala', desc: 'Daghestan' },
-              { label: 'Lutte · Kaspiysk', desc: 'Daghestan' },
-              { label: 'MMA · Grozny', desc: 'Tchétchénie' },
-            ].map((p, i) => (
-              <li key={i} style={{ padding: '0.75rem 1.1rem', border: '1px solid var(--surface-lowest)', borderRadius: '999px', display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}>
-                <span style={{ color: 'var(--text-primary)', fontFamily: 'var(--font-teko), sans-serif', fontSize: '1rem', letterSpacing: '0.04em' }}>{p.label}</span>
-                <span style={{ color: 'var(--text-muted)', fontSize: '0.75rem' }}>{p.desc}</span>
-              </li>
-            ))}
-          </ul>
+          <div className="reveal" style={{ maxWidth: '880px', margin: '0 auto' }}>
+            <div
+              className="layout-split layout-split--balanced"
+              style={{ gap: '3rem', alignItems: 'center' }}
+            >
+              <div className="david-photo-card">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/images/team/david-khazaei.webp"
+                  alt="David Khazaei, directeur de l'agence DKDP et partenaire digital de MKR Caucasian Camp"
+                  loading="lazy"
+                  width={1046}
+                  height={1400}
+                />
+              </div>
+              <div>
+                <span
+                  className="label-tag"
+                  style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.6rem' }}
+                >
+                  PARTENAIRE · AGENCE DKDP
+                </span>
+                <h3 style={{ marginTop: 0, marginBottom: '1.1rem' }}>DAVID KHAZAEI</h3>
+                <p className="coach-ext-bio" style={{ marginBottom: '1rem', lineHeight: 1.65 }}>
+                  Directeur de l&apos;agence{' '}
+                  <a
+                    href="https://dkdp.ch"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      color: 'var(--primary)',
+                      textDecoration: 'underline',
+                      textUnderlineOffset: '3px',
+                      fontWeight: 600,
+                    }}
+                  >
+                    DKDP
+                  </a>
+                  , basée à Genève. Partenaire de Ruslan sur MKR Caucasian Camp depuis le début du projet : il pilote le site, le contenu et toute la communication digitale du camp.
+                </p>
+                <p className="coach-ext-bio" style={{ lineHeight: 1.65 }}>
+                  Combattant amateur en kickboxing, David enseigne aussi les <strong>cours enfants à la Strike Academy de Genève</strong>. Deux terrains, une même conviction : la rigueur du tapis se transmet à l&apos;écran.
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
