@@ -150,8 +150,90 @@ export default function AProposPage() {
         </div>
       </section>
 
+      {/* Partenaire DKDP — David Khazaei */}
+      <section
+        className="logi-section fx-texture-concrete fx-glow fx-mask-c fx-stack-4"
+        aria-labelledby="dkdp-heading"
+      >
+        <div className="fx-glow-orb" />
+        <div className="inner">
+          <div className="logi-header reveal">
+            <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>
+              PARTENAIRE & DIGITAL
+            </span>
+            <h2 id="dkdp-heading">L&apos;AGENCE DKDP À LA TECH</h2>
+            <p style={{ color: 'var(--text-secondary)', marginTop: '0.6rem', maxWidth: '720px' }}>
+              Site, contenu, communication. MKR Caucasian Camp n&apos;avance pas seul : le camp s&apos;appuie sur une agence partenaire genevoise pour toute la partie digitale.
+            </p>
+          </div>
+          <div className="reveal" style={{ maxWidth: '880px', margin: '1.5rem auto 0' }}>
+            <div
+              className="layout-split layout-split--balanced"
+              style={{ gap: '2rem', alignItems: 'center' }}
+            >
+              <div
+                style={{
+                  borderRadius: '14px',
+                  overflow: 'hidden',
+                  aspectRatio: '4 / 5',
+                  maxWidth: '420px',
+                  margin: '0 auto',
+                  boxShadow: '0 16px 40px rgba(0,0,0,0.28)',
+                }}
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/images/team/david-khazaei-portrait.webp"
+                  alt="David Khazaei, directeur de l'agence DKDP et partenaire digital de MKR Caucasian Camp"
+                  loading="lazy"
+                  width={1200}
+                  height={1500}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    objectPosition: 'center 18%',
+                  }}
+                />
+              </div>
+              <div>
+                <span
+                  className="label-tag"
+                  style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.5rem' }}
+                >
+                  PARTENAIRE · AGENCE DKDP
+                </span>
+                <h3 style={{ marginTop: 0 }}>DAVID KHAZAEI</h3>
+                <p className="coach-ext-bio" style={{ marginBottom: '0.9rem' }}>
+                  Directeur de l&apos;agence{' '}
+                  <a
+                    href="https://dkdp.ch"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      color: 'var(--primary)',
+                      textDecoration: 'underline',
+                      textUnderlineOffset: '3px',
+                      fontWeight: 600,
+                    }}
+                  >
+                    DKDP
+                  </a>
+                  , basée à Genève. Partenaire de Ruslan sur MKR Caucasian Camp depuis le début du projet : il pilote
+                  le site, le contenu et toute la communication digitale du camp.
+                </p>
+                <p className="coach-ext-bio">
+                  Combattant amateur en kickboxing, David enseigne aussi les <strong>cours enfants à la Strike Academy
+                  de Genève</strong>. Deux terrains, une même conviction : la rigueur du tapis se transmet à l&apos;écran.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Galerie parcours Ruslan */}
-      <section className="logi-section fx-grid fx-stack-4" aria-labelledby="ruslan-galerie-heading">
+      <section className="logi-section fx-grid fx-stack-5" aria-labelledby="ruslan-galerie-heading">
         <div className="inner">
           <div className="logi-header reveal">
             <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>
@@ -213,7 +295,7 @@ export default function AProposPage() {
       </section>
 
       {/* Partenaires */}
-      <section className="logi-section logi-alt fx-texture-basalt fx-stack-5">
+      <section className="logi-section logi-alt fx-texture-basalt fx-stack-6">
         <div className="inner">
           <div className="logi-header reveal">
             <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>PARTENAIRES</span>
