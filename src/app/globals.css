@@ -9243,3 +9243,191 @@ html.is-loading body {
   }
   .tldr-box-item { font-size: 0.92rem; }
 }
+
+/* ----------------------------------------------------------- */
+/* Ruslan reveal slider — /a-propos triple casquette           */
+/* ----------------------------------------------------------- */
+.reveal-slider {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  max-width: 520px;
+  margin: 0 auto;
+  overflow: hidden;
+  border-radius: 14px;
+  background: var(--surface-lowest, #161616);
+  cursor: ew-resize;
+  user-select: none;
+  touch-action: none;
+  isolation: isolate;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.35);
+}
+.reveal-slider-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+.reveal-slider-after-wrap {
+  position: absolute;
+  inset: 0;
+  clip-path: inset(0 calc(100% - var(--slider-pos, 62%)) 0 0);
+}
+.reveal-slider-knob-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--slider-pos, 62%);
+  width: 2px;
+  transform: translateX(-50%);
+  background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.95) 10%, rgba(255,255,255,0.95) 90%, rgba(255,255,255,0) 100%);
+  pointer-events: none;
+  z-index: 3;
+}
+.reveal-slider-knob {
+  position: absolute;
+  top: 50%;
+  left: var(--slider-pos, 62%);
+  width: 56px;
+  height: 56px;
+  border-radius: 999px;
+  transform: translate(-50%, -50%);
+  background: var(--primary, #C0392B);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    0 10px 28px rgba(0, 0, 0, 0.45),
+    0 0 0 4px rgba(255, 255, 255, 0.88);
+  cursor: grab;
+  outline: none;
+  z-index: 4;
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+.reveal-slider:hover .reveal-slider-knob,
+.reveal-slider-knob:focus-visible {
+  transform: translate(-50%, -50%) scale(1.08);
+}
+.reveal-slider-knob:focus-visible {
+  box-shadow:
+    0 10px 28px rgba(0, 0, 0, 0.45),
+    0 0 0 4px rgba(255, 255, 255, 0.88),
+    0 0 0 8px rgba(192, 57, 43, 0.45);
+}
+.reveal-slider.is-dragging .reveal-slider-knob {
+  cursor: grabbing;
+  transform: translate(-50%, -50%) scale(1.05);
+}
+.reveal-slider-tag {
+  position: absolute;
+  bottom: 18px;
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px;
+  background: rgba(10, 10, 12, 0.72);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #fff;
+  font-family: var(--font-teko), sans-serif;
+  font-size: 0.92rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  pointer-events: none;
+  z-index: 2;
+}
+.reveal-slider-tag--before { left: 18px; }
+.reveal-slider-tag--after  { right: 18px; }
+.reveal-slider-hint {
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0.35rem 0.8rem;
+  border-radius: 999px;
+  background: rgba(192, 57, 43, 0.92);
+  color: #fff;
+  font-family: var(--font-teko), sans-serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  pointer-events: none;
+  z-index: 2;
+  animation: revealSliderHintPulse 2.6s ease-in-out infinite;
+}
+.reveal-slider.is-dragging .reveal-slider-hint,
+.reveal-slider:hover .reveal-slider-hint,
+.reveal-slider:focus-within .reveal-slider-hint {
+  opacity: 0;
+  animation: none;
+  transition: opacity 0.3s ease;
+}
+@keyframes revealSliderHintPulse {
+  0%, 100% { transform: translateX(-50%) translateY(0); opacity: 1; }
+  50%      { transform: translateX(-50%) translateY(-3px); opacity: 0.75; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal-slider-hint { animation: none; }
+  .reveal-slider-knob { transition: none; }
+}
+@media (max-width: 560px) {
+  .reveal-slider { aspect-ratio: 3 / 4; }
+  .reveal-slider-knob { width: 48px; height: 48px; }
+  .reveal-slider-tag { font-size: 0.82rem; padding: 0.35rem 0.7rem; bottom: 12px; }
+  .reveal-slider-tag--before { left: 12px; }
+  .reveal-slider-tag--after  { right: 12px; }
+  .reveal-slider-hint { font-size: 0.7rem; padding: 0.3rem 0.65rem; top: 12px; }
+}
+
+/* ----------------------------------------------------------- */
+/* Ruslan galerie — /a-propos                                  */
+/* ----------------------------------------------------------- */
+.ruslan-galerie-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.85rem;
+  margin-top: 1.5rem;
+}
+.ruslan-galerie-item {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  border-radius: 10px;
+  background: var(--surface-lowest, #161616);
+  isolation: isolate;
+}
+.ruslan-galerie-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.ruslan-galerie-item:hover img {
+  transform: scale(1.05);
+}
+.ruslan-galerie-caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 0.85rem 0.9rem 0.75rem;
+  background: linear-gradient(180deg, rgba(10,10,12,0) 0%, rgba(10,10,12,0.78) 60%, rgba(10,10,12,0.92) 100%);
+  color: #fff;
+  font-family: var(--font-teko), sans-serif;
+  font-size: 0.88rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  line-height: 1.2;
+  pointer-events: none;
+}
+@media (max-width: 900px) {
+  .ruslan-galerie-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 460px) {
+  .ruslan-galerie-grid { gap: 0.6rem; }
+  .ruslan-galerie-caption { font-size: 0.78rem; padding: 0.65rem 0.7rem 0.6rem; }
+}
+

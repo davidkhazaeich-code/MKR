@@ -3,6 +3,7 @@ import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 import CinematicReveal from '@/components/CinematicReveal'
+import RuslanRevealSlider from '@/components/RuslanRevealSlider'
 
 export const metadata = buildMetadata({
   title: 'À propos | Ruslan Mukhtarov, fondateur | MKR Caucasian Camp',
@@ -83,31 +84,43 @@ export default function AProposPage() {
             <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>ÉQUIPE</span>
             <h2>QUI SOMMES-NOUS</h2>
           </div>
-          <div className="reveal" style={{ maxWidth: '860px', margin: '0 auto' }}>
-            <div className="coach-extended-card">
-              <div className="coach-ext-photo">
-                <img
-                  src="/images/coaches/ruslan.webp"
-                  alt="Ruslan Mukhtarov, fondateur de MKR Caucasian Camp et ancien équipe de France de lutte"
-                  width={600}
-                  height={990}
-                  loading="lazy"
-                  className="coach-photo-img"
-                />
-              </div>
-              <div className="coach-ext-info">
-                <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.5rem' }}>
-                  FONDATEUR
+          <div className="reveal" style={{ maxWidth: '960px', margin: '0 auto' }}>
+            <div
+              className="layout-split layout-split--balanced"
+              style={{ gap: '2rem', alignItems: 'center' }}
+            >
+              <RuslanRevealSlider
+                beforeSrc="/images/ruslan/ruslan-portrait-chemise-noire.webp"
+                beforeAlt="Ruslan Mukhtarov en costume noir, fondateur de MKR Caucasian Camp"
+                beforeLabel="LE FONDATEUR"
+                afterSrc="/images/ruslan/ruslan-superman-reveal.webp"
+                afterAlt="Ruslan Mukhtarov révèle son passé d'athlète équipe de France de lutte sous son costume"
+                afterLabel="L’ATHLÈTE INSEP"
+                initialPosition={62}
+                beforeObjectPosition="center 18%"
+                afterObjectPosition="center 22%"
+              />
+              <div>
+                <span
+                  className="label-tag"
+                  style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.5rem' }}
+                >
+                  FONDATEUR · TRIPLE CASQUETTE
                 </span>
-                <h3>RUSLAN MUKHTAROV</h3>
+                <h3 style={{ marginTop: 0 }}>RUSLAN MUKHTAROV</h3>
                 <p className="coach-ext-bio" style={{ marginBottom: '0.9rem' }}>
-                  32 ans, entraîneur de lutte et de MMA. Ruslan a commencé la lutte à 12 ans et a intégré l&apos;équipe olympique
-                  à l&apos;INSEP de 2012 à 2016, sous les couleurs de l&apos;équipe de France.
+                  32 ans. <strong>Né au Daghestan, d&apos;origine tchétchène</strong>, formé à l&apos;équipe de France de lutte
+                  à l&apos;INSEP (2012-2016). Une triple appartenance qui ouvre des portes que personne d&apos;autre
+                  ne peut ouvrir pour un athlète francophone.
+                </p>
+                <p className="coach-ext-bio" style={{ marginBottom: '0.9rem' }}>
+                  Sous le costume, le lutteur. Sur le tapis, l&apos;ancien équipe de France. Au Caucase, l&apos;enfant
+                  du pays. C&apos;est ce qui rend l&apos;accès aux salles de Makhachkala, Kaspiysk et Grozny possible :
+                  Ruslan est connu, attendu, respecté.
                 </p>
                 <p className="coach-ext-bio">
-                  Aujourd&apos;hui, il organise les camps MKR au Caucase, accompagne chaque candidat en visio et gère
-                  les relations avec les coachs et salles partenaires au Daghestan (Lutte) et en Tchétchénie (MMA).
-                  Sur place, il s&apos;entraîne lui-même dans les salles avec les participants.
+                  Aujourd&apos;hui il organise les camps MKR, accompagne chaque candidat en visio, gère les coachs
+                  et salles partenaires, et s&apos;entraîne lui-même avec les participants sur place.
                 </p>
               </div>
             </div>
@@ -137,8 +150,70 @@ export default function AProposPage() {
         </div>
       </section>
 
+      {/* Galerie parcours Ruslan */}
+      <section className="logi-section fx-grid fx-stack-4" aria-labelledby="ruslan-galerie-heading">
+        <div className="inner">
+          <div className="logi-header reveal">
+            <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>
+              PARCOURS
+            </span>
+            <h2 id="ruslan-galerie-heading">DU TAPIS FRANÇAIS AUX SALLES DU CAUCASE</h2>
+            <p style={{ color: 'var(--text-secondary)', marginTop: '0.6rem', maxWidth: '720px' }}>
+              Compétitions FFL en bleu sous le maillot tricolore, entraînements à Besançon, retour aux sources
+              au Daghestan. Quelques images d&apos;un parcours qui rend MKR possible.
+            </p>
+          </div>
+          <div className="reveal ruslan-galerie-grid">
+            <figure className="ruslan-galerie-item">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/images/ruslan/ruslan-championnat-france-takedown.webp"
+                alt="Ruslan Mukhtarov en pleine action de takedown lors d&apos;un championnat de France de lutte, singlet bleu FRA LUTTE"
+                loading="lazy"
+                width={1600}
+                height={1066}
+              />
+              <figcaption className="ruslan-galerie-caption">Championnat de France · takedown</figcaption>
+            </figure>
+            <figure className="ruslan-galerie-item">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/images/ruslan/ruslan-championnat-france-ffl.webp"
+                alt="Ruslan Mukhtarov en singlet bleu équipe de France face à un adversaire en rouge, scoreboard FFL"
+                loading="lazy"
+                width={1600}
+                height={1066}
+              />
+              <figcaption className="ruslan-galerie-caption">FFL · Mukhtarov R. en finale</figcaption>
+            </figure>
+            <figure className="ruslan-galerie-item">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/images/ruslan/ruslan-lutte-clinch-nb.webp"
+                alt="Ruslan Mukhtarov en clinch lors d&apos;un combat de lutte, photo noir et blanc"
+                loading="lazy"
+                width={716}
+                height={1074}
+              />
+              <figcaption className="ruslan-galerie-caption">Combat · clinch</figcaption>
+            </figure>
+            <figure className="ruslan-galerie-item">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/images/ruslan/ruslan-entrainement-besancon.webp"
+                alt="Entraînement de lutte intense à Besançon, projection aérienne d&apos;un partenaire"
+                loading="lazy"
+                width={635}
+                height={635}
+              />
+              <figcaption className="ruslan-galerie-caption">Entraînement · Besançon</figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
       {/* Partenaires */}
-      <section className="logi-section logi-alt fx-texture-basalt fx-stack-4">
+      <section className="logi-section logi-alt fx-texture-basalt fx-stack-5">
         <div className="inner">
           <div className="logi-header reveal">
             <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>PARTENAIRES</span>
