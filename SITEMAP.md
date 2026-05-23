@@ -648,7 +648,7 @@ mkrcamp.com/
 **Fichier** : `src/app/(site)/contact/page.tsx`
 **Composant** : `<ContactForm />` (formulaire simple : Nom, Email, Sujet [select], Message)
 **Sujets disponibles** (ContactForm.tsx) : general, partenariat, clubs, presse, autre
-**Coordonnées affichées** : email contact@mkrcamp.com · WhatsApp **+33 6 66 17 76 91** (wa.me/33666177691) · Instagram @mkr.caucasiancamp
+**Coordonnées affichées** : email contact@mkrcamp.com · WhatsApp **+33 6 66 17 76 91** (wa.me/33666177691) · Instagram @mkrcamp
 
 ---
 
@@ -1102,7 +1102,37 @@ GEO = { latitude: 42.9849, longitude: 47.5047, country: 'RU', region: 'Daghestan
 | `data/sessions.ts` | helper `formatPriceFrom()` retourne `À partir de 1 490 €` |
 | `components/Sessions.tsx` (homepage) | sub-price card |
 | `components/admin/AdminActions.tsx` | hint montant package |
-**⚠️** Si on change un tarif : modifier UNIQUEMENT `data/pricing.ts`. La plupart des autres endroits propagent. Les pages textuelles avec mention de chiffres en dur (CGV, FAQ, hero stats, sessions sub-price) doivent être retouchées séparément — voir la liste exhaustive ci-dessus.
+**⚠️** Si on change un tarif : modifier UNIQUEMENT `data/pricing.ts`. La plupart des autres endroits propagent. Les pages textuelles avec mention de chiffres en dur (CGV, FAQ, hero stats, sessions sub-price) doivent être retouchées séparément, voir la liste exhaustive ci-dessus.
+
+### Codes de recommandation (ajouté 2026-05-23)
+
+**Source unique** : `src/data/referral-codes.ts` (3 codes V1 : STRIKE, ZEZE74, RAKHIM86 + helpers `findReferralCode` et `getActiveCodes`)
+
+| Fichier | Forme |
+|---|---|
+| `data/referral-codes.ts` | source of truth, types `ReferralCode`/`ReferralPartnerType`, bonus 50€ par défaut |
+| `components/InscriptionLayout.tsx` | champ optionnel Step Identité (tunnels session/custom/famille) + Step Contact (tunnel groupe), helper `renderReferralCodeField()`, feedback live `referralFeedback` 3 états |
+| `app/api/inscription/route.ts` | parsing + validation + 6 colonnes insert + audit_log `referral_attached` + Slack/email enrichis |
+| `app/api/admin/candidature/[id]/route.ts` | trigger auto `pending → due` quand status `soldee`, `→ cancelled` sur `annulee`/`refusee`. Whitelist transitions manuelles (`ALLOWED_PAYOUT_TRANSITIONS`) : `due → paid/cancelled`, `paid → due`, `pending → cancelled` |
+| `app/admin/inscriptions/page.tsx` | SELECT étendu avec 6 colonnes referral |
+| `app/admin/inscriptions/[id]/page.tsx` | SELECT étendu avec 8 colonnes (les 6 + paid_at + method), `<ReferralPanel />` rendu entre paiement et historique |
+| `components/admin/InscriptionsList.tsx` | `<ReferralBadge>` inline (gym bleu / influencer violet / coach vert / invalide orange / bonus dû / bonus payé), filtre dropdown "Code partenaire" dynamique via `getActiveCodes()` |
+| `components/admin/ReferralPanel.tsx` | nouveau client component : panel détail + modal "Marquer payé" (date + méthode) + modal "Annuler le paiement" |
+| Supabase `candidatures` | 8 colonnes : `referral_code, referral_code_valid, referral_partner_name, referral_partner_type, referral_bonus_eur, referral_payout_status, referral_payout_paid_at, referral_payout_method` |
+| Supabase index | `idx_candidatures_referral_payout` (partiel `due/paid`) + `idx_candidatures_referral_code` (partiel non-null) |
+
+**Lifecycle status** :
+- `not_applicable` : pas de code ou code invalide saisi.
+- `pending` : code valide, candidature en cours.
+- `due` : candidature `soldee`, bonus 50€ à payer.
+- `paid` : bonus payé (date + méthode renseignées dans l'admin).
+- `cancelled` : candidature annulée ou refusée, bonus annulé.
+
+**Ajouter un partenaire** : éditer `data/referral-codes.ts` + commit + push + Vercel redeploy.
+**Désactiver un code** : passer `active: false` (historique des candidatures préservé).
+**Bonus 50 EUR par défaut**, modifiable par partenaire via `bonusEur`. Le `partnerName` est snapshoté à l'inscription dans `referral_partner_name`, donc une modification ultérieure du data file n'affecte pas l'historique.
+
+**Audit log events** : `referral_attached` (à l'inscription), `referral_due` (trigger auto soldee), `referral_cancelled` (trigger auto annulee/refusee), `referral_payout_status_change` / `referral_payout_paid_at_change` / `referral_payout_method_change` (mutations manuelles admin).
 
 ### 4 types d'inscription (session / custom / famille / groupe)
 **Source unique** : `data/registration-types.ts` (REGISTRATION_TYPES)
