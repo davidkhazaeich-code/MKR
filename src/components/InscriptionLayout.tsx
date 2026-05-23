@@ -756,7 +756,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
         className={`cand-input${referralFeedback.tone !== 'neutral' ? ` cand-input--${referralFeedback.tone}` : ''}`}
         type="text"
         autoComplete="off"
-        placeholder="Ex : STRIKE (optionnel)"
+        placeholder="Ex : nomdetonclub (optionnel)"
         value={form.codeRecommandation}
         onChange={(e) => set('codeRecommandation', e.target.value)}
         aria-describedby={referralFeedback.message ? 'referral-feedback' : undefined}
