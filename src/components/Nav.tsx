@@ -429,11 +429,17 @@ export default function Nav() {
             <Link href="/a-propos" className="mob-sub-link">{ICO.about} À propos</Link>
             <Link href="/contact" className="mob-sub-link">{ICO.contact} Contact</Link>
           </MobAccordion>
-          <a href="https://wa.me/33666177691" target="_blank" rel="noopener noreferrer" className="mob-direct">
-            <Icon name="whatsapp" size={18} />
-            WhatsApp +33 6 66 17 76 91
-          </a>
           <div className="mob-cta-wrap">
+            <a
+              href="https://wa.me/33666177691"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mob-whatsapp"
+              aria-label="Contacter MKR sur WhatsApp"
+            >
+              <Icon name="whatsapp" size={20} />
+              WHATSAPP
+            </a>
             <Link href="/inscription" className="mob-cta">POSTULER AU CAMP</Link>
           </div>
         </div>
