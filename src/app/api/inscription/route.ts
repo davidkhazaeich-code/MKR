@@ -4,6 +4,7 @@ import { SESSIONS } from '@/data/sessions'
 import { getSessionPlaces } from '@/lib/places'
 import { sendMail, wrapEmail, row, escapeHtml } from '@/lib/email'
 import { rateLimit, clientIp as rlClientIp } from '@/lib/rate-limit'
+import { findReferralCode, type ReferralPartnerType } from '@/data/referral-codes'
 
 const VALID_TUNNELS = ['session', 'custom', 'famille', 'groupe'] as const
 type TunnelType = (typeof VALID_TUNNELS)[number]
@@ -20,6 +21,7 @@ const MAX_PHONE = 30
 const MAX_COUNTRY = 60
 const MAX_CITY = 80
 const MAX_FORM_DATA_BYTES = 20_000 // 20KB
+const MAX_REFERRAL_CODE = 40
 const DEDUP_WINDOW_SECONDS = 60
 
 type CandidatePayload = {
@@ -40,6 +42,7 @@ type InscriptionPayload = {
   date_debut_souhaitee?: string | null
   camp_discipline?: string | null
   form_data?: Record<string, unknown>
+  code_recommandation?: string | null
   // Honeypot : champ invisible pour utilisateurs humains, rempli par bots.
   _hp?: string
 }
@@ -208,6 +211,41 @@ export async function POST(request: Request) {
     }
   }
 
+  // 4 bis. Code de recommandation : optionnel, non bloquant.
+  // Si saisi mais non reconnu, on stocke quand même pour traçabilité admin
+  // (peut être une faute de frappe ; Ruslan voit le code brut + le flag is_valid=false).
+  const rawReferral = (body.code_recommandation ?? '').trim()
+  if (rawReferral.length > MAX_REFERRAL_CODE) {
+    return badRequest('code_recommandation trop long')
+  }
+  // Locale-safe upper-case so a Turkish 'i' doesn't break STRIKE-style matches on tr-TR servers.
+  const normalizedReferral = rawReferral.toLocaleUpperCase('en-US')
+  const matchedReferral = rawReferral ? findReferralCode(rawReferral) : null
+  const referralFields: {
+    referral_code: string | null
+    referral_code_valid: boolean | null
+    referral_partner_name: string | null
+    referral_partner_type: ReferralPartnerType | null
+    referral_bonus_eur: number | null
+    referral_payout_status: 'not_applicable' | 'pending'
+  } = rawReferral
+    ? {
+        referral_code: normalizedReferral,
+        referral_code_valid: matchedReferral !== null,
+        referral_partner_name: matchedReferral?.partnerName ?? null,
+        referral_partner_type: matchedReferral?.type ?? null,
+        referral_bonus_eur: matchedReferral?.bonusEur ?? null,
+        referral_payout_status: matchedReferral ? 'pending' : 'not_applicable',
+      }
+    : {
+        referral_code: null,
+        referral_code_valid: null,
+        referral_partner_name: null,
+        referral_partner_type: null,
+        referral_bonus_eur: null,
+        referral_payout_status: 'not_applicable',
+      }
+
   const candidatureRow = {
     candidate_id: upsertedCandidate.id,
     tunnel_type: tunnel,
@@ -215,6 +253,7 @@ export async function POST(request: Request) {
     duree_semaines: body.duree_semaines ?? null,
     date_debut_souhaitee: body.date_debut_souhaitee || null,
     camp_discipline: campDiscipline,
+    ...referralFields,
     form_data: {
       ...formData,
       _meta: { ip: ip ?? null, ua: request.headers.get('user-agent') ?? null },
@@ -244,6 +283,19 @@ export async function POST(request: Request) {
     actor_email: 'system',
   })
 
+  if (referralFields.referral_code_valid === true) {
+    await supabase.from('audit_log').insert({
+      candidature_id: candidature.id,
+      event: 'referral_attached',
+      to_value: {
+        code: referralFields.referral_code,
+        partner: referralFields.referral_partner_name,
+        bonus_eur: referralFields.referral_bonus_eur,
+      },
+      actor_email: 'system',
+    })
+  }
+
   // Notifs fire-and-forget : Slack + email Resend. Aucune ne bloque le user.
   const notifyPayload = {
     tunnel,
@@ -255,6 +307,10 @@ export async function POST(request: Request) {
     duree_semaines: body.duree_semaines ?? null,
     camp_discipline: campDiscipline,
     candidature_id: candidature.id,
+    referral_code: referralFields.referral_code,
+    referral_partner_name: referralFields.referral_partner_name,
+    referral_bonus_eur: referralFields.referral_bonus_eur,
+    referral_code_valid: referralFields.referral_code_valid,
   }
 
   await Promise.all([
@@ -283,6 +339,10 @@ interface SlackPayload {
   duree_semaines: number | null
   camp_discipline: CampDiscipline | null
   candidature_id: string
+  referral_code: string | null
+  referral_partner_name: string | null
+  referral_bonus_eur: number | null
+  referral_code_valid: boolean | null
 }
 
 const TUNNEL_LABELS: Record<string, string> = {
@@ -303,10 +363,17 @@ async function notifyEmail(p: SlackPayload): Promise<void> {
   const discipline = p.camp_discipline ? DISCIPLINE_LABELS[p.camp_discipline] : null
   const adminBase = process.env.NEXT_PUBLIC_SITE_URL || 'https://mkrcamp.com'
 
+  const referralLabel = p.referral_code_valid === true
+    ? `${p.referral_partner_name} (code ${escapeHtml(p.referral_code ?? '')}, bonus ${p.referral_bonus_eur} EUR pending)`
+    : p.referral_code_valid === false
+      ? `Code "${escapeHtml(p.referral_code ?? '')}" non reconnu - à vérifier`
+      : null
+
   const bodyHtml = `
     <table style="width:100%;border-collapse:collapse;background:#0b1220;border:1px solid #1e293b;border-radius:6px">
       ${row('Tunnel', tunnelLabel)}
       ${row('Camp', discipline)}
+      ${row('Recommandation', referralLabel)}
       ${row('Nom', `${p.prenom} ${p.nom}`)}
       ${row('Email', p.email)}
       ${row('Telephone', p.telephone)}
@@ -333,10 +400,18 @@ async function notifySlack(p: SlackPayload): Promise<void> {
   const url = process.env.SLACK_WEBHOOK_URL
   if (!url) return
   const adminBase = process.env.NEXT_PUBLIC_SITE_URL || 'https://mkrcamp.com'
+  const referralLine =
+    p.referral_code_valid === true
+      ? `*Recommandé par* : ${p.referral_partner_name} (code ${p.referral_code} - bonus ${p.referral_bonus_eur} EUR pending)`
+      : p.referral_code_valid === false
+        ? `*Code recommandation non reconnu* : "${p.referral_code}" (à vérifier)`
+        : null
+
   const text = [
     `*Nouvelle candidature MKR* (${TUNNEL_LABELS[p.tunnel] ?? p.tunnel})`,
     `*${p.prenom} ${p.nom}* — ${p.email}${p.pays ? ` — ${p.pays}` : ''}${p.duree_semaines ? ` — ${p.duree_semaines} sem.` : ''}`,
     p.camp_discipline ? `*Camp* : ${DISCIPLINE_LABELS[p.camp_discipline]}` : null,
+    referralLine,
     `<${adminBase}/admin/inscriptions/${p.candidature_id}|Voir le dossier>`,
   ].filter(Boolean).join('\n')
 
