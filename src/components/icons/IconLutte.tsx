@@ -1,10 +1,10 @@
 /**
- * IconLutte — 2 lutteurs face-à-face en stance basse, mains en prise.
- * Style stroke aligné sur IconMMA / IconFamille (strokeWidth 1.6, linecap round)
- * pour homogénéité visuelle dans le tunnel d'inscription et les pages programme.
+ * IconLutte — Single-leg takedown : geste signature de la lutte libre daghestanaise.
+ * Un lutteur courbé (gauche) saisit la jambe du défenseur debout (droite, en sprawl).
+ * Composition asymétrique dynamique au lieu des 2 stick figures symétriques précédents,
+ * pour signifier vraiment « lutte » plutôt que « 2 silhouettes ».
  *
- * L'ancienne version (vectorisation potrace, fill currentColor) a été remplacée
- * pour rester lisible à 24×24 et cohérente avec le reste du jeu d'icônes MKR.
+ * Style stroke aligné sur IconMMA / IconFamille (strokeWidth 1.6, linecap round).
  */
 export default function IconLutte({ className }: { className?: string }) {
   return (
@@ -18,26 +18,20 @@ export default function IconLutte({ className }: { className?: string }) {
       aria-hidden="true"
       className={className}
     >
-      {/* Lutteur gauche : tête, torse incliné, bras en prise, jambes en stance */}
-      <circle cx="5.6" cy="5" r="1.9" />
-      <path d="M5.6 6.9 L 7.4 11.2" />
-      <path d="M7.4 11.2 L 6 16" />
-      <path d="M7.4 11.2 L 11 12.6" />
-      <path d="M5.6 6.9 L 3.4 10.6" />
-      <path d="M6 16 L 3.4 20.5" />
-      <path d="M6 16 L 8.2 20.5" />
+      {/* ATTAQUANT (gauche, en shoot / plongée basse, saisit la jambe) */}
+      <circle cx="5" cy="10.5" r="1.6" />
+      <path d="M6.3 11.2 L 11.5 12.3" />              {/* torse horizontal */}
+      <path d="M9.5 11.5 L 13.5 11.3" />              {/* bras qui saisit la cuisse */}
+      <path d="M11.5 12.3 L 9.5 16 L 9.5 21.5" />     {/* jambe arrière pliée */}
+      <path d="M5.5 12 L 3.5 16 L 3 21.5" />          {/* jambe avant en propulsion */}
 
-      {/* Lutteur droite : symétrique */}
-      <circle cx="18.4" cy="5" r="1.9" />
-      <path d="M18.4 6.9 L 16.6 11.2" />
-      <path d="M16.6 11.2 L 18 16" />
-      <path d="M16.6 11.2 L 13 12.6" />
-      <path d="M18.4 6.9 L 20.6 10.6" />
-      <path d="M18 16 L 20.6 20.5" />
-      <path d="M18 16 L 15.8 20.5" />
-
-      {/* Prise centrale (mains accrochées) */}
-      <path d="M11 12.6 L 13 12.6" />
+      {/* DÉFENSEUR (droite, debout en sprawl, sa jambe gauche est saisie) */}
+      <circle cx="17" cy="3.8" r="1.5" />
+      <path d="M17 5.3 L 16 11.3" />                  {/* torse penché en avant */}
+      <path d="M16.3 8 L 12.5 10" />                  {/* bras gauche posé sur dos attaquant */}
+      <path d="M16.5 8.5 L 18.5 11" />                {/* bras droit qui s'agrippe */}
+      <path d="M16 11.3 L 13.5 11.3" />               {/* JAMBE saisie horizontale (saisie visible) */}
+      <path d="M16 11.3 L 19 17 L 21.5 21.5" />       {/* jambe debout en sprawl arrière */}
     </svg>
   )
 }

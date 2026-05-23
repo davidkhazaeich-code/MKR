@@ -37,24 +37,23 @@ export default function IconCombo({ className }: { className?: string }) {
 }
 
 // Inlining the paths avoids nested <svg> tags (which would reset viewBox).
+// Mirror of IconLutte.tsx (single-leg takedown silhouette).
 function IconLutteInner() {
   return (
     <>
-      <circle cx="5.6" cy="5" r="1.9" />
-      <path d="M5.6 6.9 L 7.4 11.2" />
-      <path d="M7.4 11.2 L 6 16" />
-      <path d="M7.4 11.2 L 11 12.6" />
-      <path d="M5.6 6.9 L 3.4 10.6" />
-      <path d="M6 16 L 3.4 20.5" />
-      <path d="M6 16 L 8.2 20.5" />
-      <circle cx="18.4" cy="5" r="1.9" />
-      <path d="M18.4 6.9 L 16.6 11.2" />
-      <path d="M16.6 11.2 L 18 16" />
-      <path d="M16.6 11.2 L 13 12.6" />
-      <path d="M18.4 6.9 L 20.6 10.6" />
-      <path d="M18 16 L 20.6 20.5" />
-      <path d="M18 16 L 15.8 20.5" />
-      <path d="M11 12.6 L 13 12.6" />
+      {/* ATTAQUANT (gauche, en shoot) */}
+      <circle cx="5" cy="10.5" r="1.6" />
+      <path d="M6.3 11.2 L 11.5 12.3" />
+      <path d="M9.5 11.5 L 13.5 11.3" />
+      <path d="M11.5 12.3 L 9.5 16 L 9.5 21.5" />
+      <path d="M5.5 12 L 3.5 16 L 3 21.5" />
+      {/* DÉFENSEUR (droite, en sprawl) */}
+      <circle cx="17" cy="3.8" r="1.5" />
+      <path d="M17 5.3 L 16 11.3" />
+      <path d="M16.3 8 L 12.5 10" />
+      <path d="M16.5 8.5 L 18.5 11" />
+      <path d="M16 11.3 L 13.5 11.3" />
+      <path d="M16 11.3 L 19 17 L 21.5 21.5" />
     </>
   )
 }
