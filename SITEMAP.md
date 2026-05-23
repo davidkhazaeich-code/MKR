@@ -654,7 +654,8 @@ mkrcamp.com/
 
 ### ℹ️ `/a-propos` — Notre histoire
 **Fichier** : `src/app/(site)/a-propos/page.tsx`
-**Sections** : PageHero · POURQUOI MKR EXISTE (split + photo Ruslan) · NOTRE MISSION (3 cards inline) · NOTRE ÉQUIPE · SALLES PARTENAIRES (3 noms : Salle Makhachkala, Kaspiysk, Khasavyourt) · SectionCTA
+**Sections (refonte 2026-05-23 — vraies photos Ruslan)** : PageHero · POURQUOI MKR EXISTE (texte) · CinematicReveal HÉRITAGE · MISSION (quote) · QUI SOMMES-NOUS (slider triple casquette + bio + "EN FRANCE / SUR PLACE") · **PARCOURS · DU TAPIS FRANÇAIS AUX SALLES DU CAUCASE (galerie 4 photos)** · SALLES PARTENAIRES · SectionCTA
+**Composant clé** : `<RuslanRevealSlider />` (client component) — slider before/after drag + keyboard, photo chemise noire ↔ photo Superman R, raconte la triple casquette Tchétchène + Daghestan + INSEP.
 
 ---
 
@@ -1212,7 +1213,20 @@ GEO = { latitude: 42.9849, longitude: 47.5047, country: 'RU', region: 'Daghestan
 **⚠️** Si on rebuild le PDF, lancer `./docs/guide-caucase/build.sh` puis commit le nouveau `public/guide-caucase.pdf`.
 **⚠️** `SUPABASE_SERVICE_ROLE_KEY` est vide dans `.env.local` local : l'API fonctionne uniquement en prod Vercel ou avec la clé renseignée.
 
-### Photos Ruslan — mapping audience/page
+### Photos Ruslan fondateur (vraies, ajoutées 2026-05-23)
+**Dossier** : `public/images/ruslan/` (racine, pas dans un sous-dossier)
+| Photo | Source | Usage |
+|---|---|---|
+| `ruslan-portrait-chemise-noire.webp` | 702×840 portrait, costume noir sous arbre | Slider /a-propos "AVANT" + carte FONDATEUR — utiliser partout où on veut le côté manager/entrepreneur |
+| `ruslan-superman-reveal.webp` | 1198×1198 square, ouvre veste sur t-shirt "R" Superman | Slider /a-propos "APRÈS" — usage exclusif slider triple casquette pour l'instant |
+| `ruslan-championnat-france-takedown.webp` | 1600×1066, singlet bleu "FRA LUTTE" en pleine action UWW | Galerie /a-propos PARCOURS · pourrait aller sur /coachs ou /programme/lutte |
+| `ruslan-championnat-france-ffl.webp` | 1600×1066, singlet bleu FFL face adversaire rouge, scoreboard "MOUKHTAROV R." | Galerie /a-propos PARCOURS · preuve équipe France |
+| `ruslan-lutte-clinch-nb.webp` | 716×1074 portrait N&B, clinch combat | Galerie /a-propos PARCOURS |
+| `ruslan-entrainement-besancon.webp` | 635×635 N&B, projection aérienne salle Besançon | Galerie /a-propos PARCOURS · pourrait aller sur /programme/lutte |
+| `ruslan-asics-equipe-france.webp` | 304×456 petit portrait veste Asics France | Usage limité (résolution faible) · thumb ou badge équipe France |
+**Règle** : ces photos sont les VRAIES photos de Ruslan (validées 2026-05-23). À privilégier sur tout placeholder AI / coach AI-généré. L'ancien `/images/coaches/ruslan.webp` (généré AI) reste sur disque mais n'est plus référencé.
+
+### Photos Ruslan — mapping audience/page (collection MKR)
 | Photo | Usage actuel |
 |---|---|
 | `Antoine-portrait-makhachkala-mkr.webp` | AudienceSwitcher card "Camp sur mesure" + section /familles |
