@@ -1,10 +1,17 @@
 import type { Metadata, Viewport } from 'next'
+import { Suspense } from 'react'
+import dynamic from 'next/dynamic'
 import { Teko, Barlow, Barlow_Condensed } from 'next/font/google'
 import { SITE_URL, SITE_NAME, SITE_EMAIL, SITE_DESCRIPTION, SOCIALS, GEO } from '@/data/site'
 import { SESSIONS } from '@/data/sessions'
 import { PRICING_TIERS } from '@/data/pricing'
 import SiteLoader from '@/components/SiteLoader'
 import './globals.css'
+
+// Reset scroll instantane a chaque changement de route, couvre tout le site
+// (site group + /inscription + /admin/*). Monte dans le root layout pour
+// rester actif entre toutes les transitions de route.
+const RouteScrollReset = dynamic(() => import('@/components/RouteScrollReset'))
 
 const teko = Teko({
   subsets: ['latin'],
@@ -251,6 +258,10 @@ export default function RootLayout({
       </head>
       <body>
         <SiteLoader />
+        {/* Suspense requis : RouteScrollReset utilise useSearchParams (Next.js 16+) */}
+        <Suspense fallback={null}>
+          <RouteScrollReset />
+        </Suspense>
         {children}
       </body>
     </html>
