@@ -748,29 +748,31 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
   }
 
   const renderReferralCodeField = () => (
-    <Field
-      label="Code de recommandation"
-      hint="Si un coach, un club partenaire ou un influenceur t'a recommandé MKR, note son code ici."
-    >
-      <input
-        className={`cand-input${referralFeedback.tone !== 'neutral' ? ` cand-input--${referralFeedback.tone}` : ''}`}
-        type="text"
-        autoComplete="off"
-        placeholder="Ex : nomdetonclub (optionnel)"
-        value={form.codeRecommandation}
-        onChange={(e) => set('codeRecommandation', e.target.value)}
-        aria-describedby={referralFeedback.message ? 'referral-feedback' : undefined}
-        maxLength={40}
-      />
-      {referralFeedback.message && (
-        <span
-          id="referral-feedback"
-          className={`cand-referral-feedback cand-referral-feedback--${referralFeedback.tone}`}
-        >
-          {referralFeedback.message}
-        </span>
-      )}
-    </Field>
+    <div className="cand-referral-highlight">
+      <Field
+        label="Code de recommandation"
+        hint="Si un coach, un club partenaire ou un influenceur t'a recommandé MKR, note son code ici."
+      >
+        <input
+          className={`cand-input${referralFeedback.tone !== 'neutral' ? ` cand-input--${referralFeedback.tone}` : ''}`}
+          type="text"
+          autoComplete="off"
+          placeholder="Ex : nomdetonclub (optionnel)"
+          value={form.codeRecommandation}
+          onChange={(e) => set('codeRecommandation', e.target.value)}
+          aria-describedby={referralFeedback.message ? 'referral-feedback' : undefined}
+          maxLength={40}
+        />
+        {referralFeedback.message && (
+          <span
+            id="referral-feedback"
+            className={`cand-referral-feedback cand-referral-feedback--${referralFeedback.tone}`}
+          >
+            {referralFeedback.message}
+          </span>
+        )}
+      </Field>
+    </div>
   )
 
   return (

@@ -2493,6 +2493,26 @@ h1, h2, h3, h4, h5 {
   color: #fbbf24;
 }
 
+/* Encadre voyant pour le champ Code de recommandation : on veut que le candidat ne le rate pas */
+.cand-referral-highlight {
+  margin: 1.25rem 0 0.5rem;
+  padding: 1rem 1.25rem 0.75rem;
+  background: rgba(200, 75, 49, 0.08);
+  border: 2px solid var(--primary);
+  border-radius: 12px;
+  box-shadow: 0 0 24px rgba(200, 75, 49, 0.18);
+}
+.cand-referral-highlight .cand-field {
+  margin: 0;
+}
+.cand-referral-highlight .cand-label {
+  color: var(--primary);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 0.95rem;
+}
+
 /* Radio pills */
 .cand-radios {
   display: flex;
