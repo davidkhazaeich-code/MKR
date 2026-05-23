@@ -9275,13 +9275,13 @@ html.is-loading body {
 .reveal-slider-after-wrap {
   position: absolute;
   inset: 0;
-  clip-path: inset(0 0 0 calc(100% - var(--slider-pos, 28%)));
+  clip-path: inset(0 0 0 var(--slider-pos, 72%));
 }
 .reveal-slider-knob-line {
   position: absolute;
   top: 0;
   bottom: 0;
-  left: var(--slider-pos, 62%);
+  left: var(--slider-pos, 72%);
   width: 2px;
   transform: translateX(-50%);
   background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.95) 10%, rgba(255,255,255,0.95) 90%, rgba(255,255,255,0) 100%);
@@ -9291,7 +9291,7 @@ html.is-loading body {
 .reveal-slider-knob {
   position: absolute;
   top: 50%;
-  left: var(--slider-pos, 62%);
+  left: var(--slider-pos, 72%);
   width: 56px;
   height: 56px;
   border-radius: 999px;

@@ -96,7 +96,7 @@ export default function AProposPage() {
                 afterSrc="/images/ruslan/ruslan-portrait-chemise-noire.webp"
                 afterAlt="Ruslan Mukhtarov en costume noir, fondateur de MKR Caucasian Camp"
                 afterLabel="LE FONDATEUR"
-                initialPosition={28}
+                initialPosition={72}
                 beforeObjectPosition="center 22%"
                 afterObjectPosition="center 18%"
               />

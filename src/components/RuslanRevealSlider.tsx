@@ -21,7 +21,7 @@ export default function RuslanRevealSlider({
   afterSrc,
   afterAlt,
   afterLabel = 'L’ATHLÈTE',
-  initialPosition = 28,
+  initialPosition = 72,
   beforeObjectPosition = 'center 22%',
   afterObjectPosition = 'center 18%',
 }: RuslanRevealSliderProps) {
@@ -122,7 +122,7 @@ export default function RuslanRevealSlider({
         aria-valuemin={0}
         aria-valuemax={100}
         aria-valuenow={Math.round(pos)}
-        aria-valuetext={pos < 50 ? beforeLabel : afterLabel}
+        aria-valuetext={pos < 50 ? afterLabel : beforeLabel}
         onKeyDown={handleKeyDown}
       >
         <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
