@@ -51,7 +51,7 @@ export default function AProposPage() {
 
       {/* Cinematic reveal */}
       <CinematicReveal
-        image="/images/heritage/priere-collective-mkr.webp"
+        image="/images/ruslan/heritage/priere-collective-mkr.webp"
         alt="Athlètes en prière collective au camp MKR, héritage et discipline du Caucase"
         label="HÉRITAGE"
         title="PLUS QU'UN CAMP"
