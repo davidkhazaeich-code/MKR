@@ -45,7 +45,6 @@ export function useScrollReveal(options: ScrollRevealOptions = {}) {
 
       mm.add('(prefers-reduced-motion: no-preference)', () => {
         const state = { progress: 0 }
-        let maxProgress = 0
 
         const st = ScrollTrigger.create({
           trigger: container,
@@ -53,16 +52,13 @@ export function useScrollReveal(options: ScrollRevealOptions = {}) {
           end: 'center center',
           invalidateOnRefresh: true,
           onUpdate: (self) => {
-            if (self.progress > maxProgress) {
-              maxProgress = self.progress
-              gsap.to(state, {
-                progress: maxProgress,
-                duration: 0.18,
-                ease: 'power2.out',
-                overwrite: true,
-                onUpdate: () => applyVars(state.progress),
-              })
-            }
+            gsap.to(state, {
+              progress: self.progress,
+              duration: 0.18,
+              ease: 'power2.out',
+              overwrite: true,
+              onUpdate: () => applyVars(state.progress),
+            })
           },
         })
 
