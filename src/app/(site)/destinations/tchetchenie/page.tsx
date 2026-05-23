@@ -103,25 +103,25 @@ export default function TchetcheniePage() {
           <div className="grid-2">
             <figure className="photo-card reveal">
               <img
-                src="/images/environment/gym-interior.webp"
-                alt="Salle MMA partenaire de MKR à Grozny, Tchétchénie"
+                src="/images/mma-tchechenie/portrait-cage-rouge.webp"
+                alt="Combattant MMA dans la cage de la salle Akhmat Fight Club, Grozny, Tchétchénie"
                 width={800}
                 height={600}
                 loading="lazy"
                 className="section-photo-img"
               />
-              <figcaption>Salle principale, Grozny. Cage MMA, tapis, équipement de frappe complet.</figcaption>
+              <figcaption>Salle Akhmat Fight Club, Grozny. Cage MMA, tapis rouge, équipement de frappe complet.</figcaption>
             </figure>
             <figure className="photo-card reveal" style={{ transitionDelay: '0.1s' }}>
               <img
-                src="/images/action/sparring-mma-wall.webp"
-                alt="Sparring MMA dans une salle partenaire à Grozny"
+                src="/images/mma-tchechenie/sparring-cage-coach-noir.webp"
+                alt="Sparring MMA dans la cage avec un coach Akhmat Fight Club, Grozny"
                 width={800}
                 height={600}
                 loading="lazy"
                 className="section-photo-img"
               />
-              <figcaption>Salle secondaire. Sparring quotidien avec les combattants de l&apos;écurie locale.</figcaption>
+              <figcaption>Sparring quotidien encadré par les combattants de l&apos;écurie Akhmat et leurs coachs.</figcaption>
             </figure>
           </div>
         </div>

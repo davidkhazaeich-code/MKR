@@ -205,6 +205,11 @@ export const BLOG_POSTS: BlogPost[] = [
 
     <p>C'est pour ça que MKR organise séparément un <a href="/programme/lutte">camp Lutte au Daghestan</a> (Makhachkala, Kaspiysk) et un <a href="/programme/mma">camp MMA en Tchétchénie</a> (Grozny, Akhmat Fight Club). Voir la <a href="/destinations">page destinations</a> pour comprendre comment chaque écosystème fonctionne en propre. Le MMA en Tchétchénie exige un niveau Avancé minimum, la lutte au Daghestan est accessible à tous les niveaux à condition d'avoir la condition physique nécessaire.</p>
 
+    <figure class="article-photo">
+      <img src="/images/mma-tchechenie/chimaev-ceinture-ufc.webp" alt="Khamzat Chimaev, top 5 UFC poids welters, dans la salle Akhmat Fight Club de Grozny avec un coach tenant une ceinture UFC interim" loading="lazy" width="1600" height="1067" />
+      <figcaption>Khamzat Chimaev dans la salle Akhmat Fight Club de Grozny : le niveau qui partage le tapis pendant les camps MMA MKR en Tchétchénie.</figcaption>
+    </figure>
+
     <h2>L'AVIS DE RUSLAN, FONDATEUR MKR</h2>
 
     <p>Ruslan Mukhtarov, fondateur de MKR Caucasian Camp, ancien équipe de France de lutte (INSEP 2012-2016) : <em>"Les gens viennent souvent au Daghestan en pensant qu'ils vont copier Khabib. Ce n'est pas l'angle. L'angle, c'est de comprendre que Khabib n'est pas exceptionnel parce qu'il est Khabib. Il est exceptionnel parce qu'il est sorti d'un système qui produit des Khabib en série. Ce que tu viens chercher, c'est ce système, pas un individu."</em></p>

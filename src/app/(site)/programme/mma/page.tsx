@@ -81,8 +81,8 @@ export default function ProgrammeMMAPage() {
             <div>
               <figure className="photo-card">
                 <img
-                  src="/images/action/sparring-mma-wall.webp"
-                  alt="Sparring MMA en clinch contre le mur, salle du Caucase"
+                  src="/images/mma-tchechenie/pads-direct-kadyrov.webp"
+                  alt="Sparring pads MMA dans la salle Akhmat Fight Club de Grozny, Tchétchénie, devant le portrait de Ramzan Kadyrov"
                   width={800}
                   height={600}
                   loading="lazy"
@@ -91,8 +91,8 @@ export default function ProgrammeMMAPage() {
               </figure>
               <figure className="photo-card" style={{ marginTop: '1.25rem' }}>
                 <img
-                  src="/images/action/boxing-pads.webp"
-                  alt="Travail de frappe sur mitaines avec coach"
+                  src="/images/mma-tchechenie/crochet-rca-coach.webp"
+                  alt="Combattant exécute un crochet précis sur pads de coach, équipement RCA, salle de Grozny"
                   width={800}
                   height={600}
                   loading="lazy"
@@ -106,12 +106,83 @@ export default function ProgrammeMMAPage() {
 
       {/* Cinematic reveal */}
       <CinematicReveal
-        image="/images/action/ground-control.webp"
-        alt="Contrôle au sol MMA dans une salle de Grozny, Tchétchénie"
-        label="GROUND GAME"
-        title="LE CONTRÔLE AU SOL"
-        tagline="Position dominante, soumissions, transitions. Le MMA tchétchène commence par le sol."
+        image="/images/mma-tchechenie/sparring-face-a-face.webp"
+        alt="Sparring MMA intense face à face dans la salle Akhmat de Grozny, gants rouges, regards concentrés"
+        label="LE NIVEAU TCHÉTCHÈNE"
+        title="SPARRER AVEC LES MEILLEURS"
+        tagline="Sessions partagées avec les combattants Akhmat Fight Club et la nouvelle vague de Grozny. L'intensité que tu ne reproduiras nulle part en Europe."
       />
+
+      {/* Preuve sociale Chimaev */}
+      <section className="logi-section fx-grid fx-stack-1" style={{ paddingBlock: '4rem 3rem' }}>
+        <div className="inner">
+          <div className="layout-split reveal">
+            <div>
+              <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>NIVEAU DU SPARRING</span>
+              <h2 style={{ fontSize: 'clamp(1.5rem, 3vw, 2rem)', textTransform: 'uppercase' }}>L&apos;ÉCURIE DES CHAMPIONS</h2>
+              <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1rem' }}>
+                La salle d&apos;Akhmat Fight Club entraîne plusieurs combattants du top mondial, dont
+                <strong> Khamzat Chimaev</strong>, top 5 UFC poids welters. Nos coachs partenaires sont les
+                mêmes qui forment cette génération.
+              </p>
+              <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1rem' }}>
+                Pendant ton camp, tu partages le tapis avec des combattants qui ont ce niveau dans le sang
+                et qui calibrent leur sparring à ton niveau. La pression et la précision technique sont
+                immédiatement perceptibles.
+              </p>
+            </div>
+            <div>
+              <figure className="photo-card">
+                <img
+                  src="/images/mma-tchechenie/chimaev-ceinture-ufc.webp"
+                  alt="Khamzat Chimaev, top 5 UFC poids welters, dans la salle Akhmat Fight Club de Grozny avec un coach tenant une ceinture UFC interim"
+                  width={800}
+                  height={600}
+                  loading="lazy"
+                  className="section-photo-img"
+                />
+                <figcaption style={{ marginTop: '0.6rem', fontSize: '0.8rem', color: 'var(--text-muted)', textAlign: 'center' }}>
+                  Khamzat Chimaev (top 5 UFC welters) · salle Akhmat Fight Club, Grozny
+                </figcaption>
+              </figure>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Briefing & encadrement */}
+      <section className="logi-section fx-grid fx-stack-1" style={{ paddingBlock: '3rem 4rem' }}>
+        <div className="inner">
+          <div className="layout-split layout-split--balanced reveal" style={{ alignItems: 'center' }}>
+            <div>
+              <figure className="photo-card">
+                <img
+                  src="/images/mma-tchechenie/briefing-coach-4-combattants.webp"
+                  alt="Coach Akhmat Power en briefing avec 4 combattants après la session technique"
+                  width={800}
+                  height={600}
+                  loading="lazy"
+                  className="section-photo-img"
+                />
+              </figure>
+            </div>
+            <div>
+              <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>ENCADREMENT</span>
+              <h2 style={{ fontSize: 'clamp(1.5rem, 3vw, 2rem)', textTransform: 'uppercase' }}>DÉBRIEF APRÈS CHAQUE SESSION</h2>
+              <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1rem' }}>
+                Les coachs Akhmat ne te laissent jamais finir une session sans débrief technique. Les
+                corrections sont précises, individuelles, et reposent sur des milliers de versions du
+                même geste observées et corrigées.
+              </p>
+              <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1rem' }}>
+                Cette boucle technique courte (technique, drills, sparring, débrief) est l&apos;ADN
+                de l&apos;école tchétchène et explique pourquoi les combattants de Grozny progressent
+                aussi vite.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
 
       <DisciplineTechniques items={TECHNIQUES} />
 
