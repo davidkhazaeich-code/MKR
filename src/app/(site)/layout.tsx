@@ -7,6 +7,8 @@ const RevealObserver = dynamic(() => import('@/components/RevealObserver'))
 const ScrollParallax = dynamic(() => import('@/components/ScrollParallax'))
 const StickyMobileCTA = dynamic(() => import('@/components/StickyMobileCTA'))
 const ScrollNav = dynamic(() => import('@/components/ScrollNav'))
+// Teaser splash : actif jusqu'au 2026-05-27. Supprimer cet import + le tag plus bas après cette date.
+const TeaserSplash = dynamic(() => import('@/components/TeaserSplash'))
 
 /* RouteScrollReset est monte dans le root layout (src/app/layout.tsx) pour couvrir
    aussi /inscription et /admin/* (hors group `(site)`). Ne pas le remonter ici. */
@@ -24,6 +26,7 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
       <RevealObserver />
       <ScrollParallax />
       <ScrollNav />
+      <TeaserSplash />
     </>
   )
 }
