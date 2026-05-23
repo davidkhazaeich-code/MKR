@@ -193,20 +193,17 @@ export default function AProposPage() {
           </div>
 
           <div className="reveal apropos-split apropos-split--featured">
-            <figure className="ruslan-founder-photo">
+            <div className="ruslan-portrait-card">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/images/ruslan/ruslan-championnat-france-ffl.webp"
-                alt="Ruslan Mukhtarov en finale de championnat de France de lutte, singlet bleu équipe de France, scoreboard FFL visible"
+                src="/images/ruslan/ruslan-costard-detoure.webp"
+                alt="Ruslan Mukhtarov en costume noir, fondateur de MKR Caucasian Camp"
                 loading="lazy"
-                width={1600}
-                height={1066}
+                width={702}
+                height={840}
               />
-              <figcaption className="ruslan-founder-caption">
-                <span className="ruslan-founder-caption-tag">FFL · FINALE</span>
-                <span className="ruslan-founder-caption-name">MOUKHTAROV R.</span>
-              </figcaption>
-            </figure>
+              <span className="ruslan-portrait-card-caption">FONDATEUR · INSEP</span>
+            </div>
             <div>
               <span
                 className="label-tag"
@@ -299,14 +296,14 @@ export default function AProposPage() {
             <figure className="ruslan-galerie-item">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/images/ruslan/ruslan-asics-equipe-france.webp"
-                alt="Ruslan Mukhtarov en veste Asics aux couleurs de l'équipe de France de lutte"
+                src="/images/ruslan/ruslan-championnat-france-ffl.webp"
+                alt="Ruslan Mukhtarov en singlet bleu équipe de France face à un adversaire en rouge, scoreboard FFL"
                 loading="lazy"
-                width={304}
-                height={456}
+                width={1600}
+                height={1066}
               />
               <figcaption className="ruslan-galerie-caption">
-                Équipe de France · INSEP
+                FFL · Mukhtarov R. en finale
               </figcaption>
             </figure>
             <figure className="ruslan-galerie-item">
