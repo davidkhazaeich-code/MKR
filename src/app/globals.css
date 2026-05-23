@@ -6282,6 +6282,13 @@ h1, h2, h3, h4, h5 {
 .photo-card:hover .galerie-photo-img {
   filter: grayscale(0%) contrast(1.05);
 }
+/* Modifier: paysages et moments culturels gardent leur couleur d'origine */
+.galerie-photo-img.galerie-photo-img--color {
+  filter: contrast(1.02) saturate(1.02);
+}
+.photo-card:hover .galerie-photo-img.galerie-photo-img--color {
+  filter: contrast(1.06) saturate(1.08);
+}
 
 /* Programme discipline card with background image */
 .prog-discipline-card {
