@@ -46,6 +46,12 @@ interface ListRow {
   package_amount_cents: number | null
   package_paid_at: string | null
   notes_admin: string | null
+  referral_code: string | null
+  referral_code_valid: boolean | null
+  referral_partner_name: string | null
+  referral_partner_type: string | null
+  referral_bonus_eur: number | null
+  referral_payout_status: string | null
   candidate: {
     prenom: string
     nom: string
@@ -108,6 +114,8 @@ export default async function AdminInscriptionsPage({
         date_debut_souhaitee, camp_discipline, status,
         package_amount_cents, package_paid_at,
         notes_admin,
+        referral_code, referral_code_valid, referral_partner_name, referral_partner_type,
+        referral_bonus_eur, referral_payout_status,
         candidate:candidates ( prenom, nom, email, telephone, pays )
       `)
       .order('created_at', { ascending: false })

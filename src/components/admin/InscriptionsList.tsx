@@ -8,6 +8,7 @@ import Badge from './ui/Badge'
 import Icon from './ui/Icon'
 import { STATUS_LABEL, type Status } from '@/lib/admin-transitions'
 import { SESSIONS } from '@/data/sessions'
+import { getActiveCodes } from '@/data/referral-codes'
 
 const SESSION_LOOKUP: Record<string, { label: string; dates: string }> = SESSIONS.reduce(
   (acc, s) => {
@@ -39,6 +40,12 @@ interface Row {
   package_amount_cents: number | null
   package_paid_at: string | null
   notes_admin: string | null
+  referral_code: string | null
+  referral_code_valid: boolean | null
+  referral_partner_name: string | null
+  referral_partner_type: string | null
+  referral_bonus_eur: number | null
+  referral_payout_status: string | null
   candidate: {
     prenom: string
     nom: string
@@ -108,9 +115,63 @@ function formatRelative(iso: string): string {
   return new Date(iso).toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: '2-digit' })
 }
 
+// Couleur du badge selon le type de partenaire (gym vert / influencer violet / coach orange).
+const REFERRAL_TYPE_COLOR: Record<string, string> = {
+  gym: '#4ade80',
+  influencer: '#a78bfa',
+  coach: '#f59e0b',
+  other: 'var(--adm-text-secondary)',
+}
+
+// Badge "recommandation" pour la liste : code valide (couleur par type) ou code invalide (warning).
+// Affiche aussi un second badge pour le statut payout si due/paid.
+function ReferralBadge({ c }: {
+  c: {
+    referral_code: string | null
+    referral_code_valid: boolean | null
+    referral_partner_type: string | null
+    referral_payout_status: string | null
+    referral_bonus_eur: number | null
+  }
+}) {
+  if (!c.referral_code) return null
+
+  if (c.referral_code_valid === false) {
+    return (
+      <Badge color="var(--adm-status-refusee)">
+        <Icon name="alert-triangle" size={11} strokeWidth={2.5} />
+        Code inconnu : {c.referral_code}
+      </Badge>
+    )
+  }
+
+  const color = REFERRAL_TYPE_COLOR[c.referral_partner_type ?? 'other'] ?? REFERRAL_TYPE_COLOR.other
+  return (
+    <>
+      <Badge color={color}>
+        <Icon name="sparkles" size={11} strokeWidth={2.5} />
+        {c.referral_code}
+      </Badge>
+      {c.referral_payout_status === 'due' && c.referral_bonus_eur !== null && (
+        <Badge color="var(--adm-status-reportee)">
+          <Icon name="euro" size={11} strokeWidth={2.5} />
+          {c.referral_bonus_eur} € dû
+        </Badge>
+      )}
+      {c.referral_payout_status === 'paid' && c.referral_bonus_eur !== null && (
+        <Badge color="var(--adm-text-muted)">
+          <Icon name="check" size={11} strokeWidth={2.5} />
+          {c.referral_bonus_eur} € payé
+        </Badge>
+      )}
+    </>
+  )
+}
+
 export default function InscriptionsList({ rows }: { rows: Row[] }) {
   const router = useRouter()
   const [query, setQuery] = useState('')
+  const [filterReferral, setFilterReferral] = useState<string>('all')
   const [focusedIdx, setFocusedIdx] = useState<number | null>(null)
   const [mounted, setMounted] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
@@ -147,8 +208,23 @@ export default function InscriptionsList({ rows }: { rows: Row[] }) {
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase()
-    if (!q) return rows
     return rows.filter((r) => {
+      // Filtre code de recommandation
+      if (filterReferral === 'invalid' && r.referral_code_valid !== false) return false
+      if (filterReferral === 'none' && r.referral_code !== null) return false
+      if (filterReferral === 'due' && r.referral_payout_status !== 'due') return false
+      if (
+        filterReferral !== 'all' &&
+        filterReferral !== 'invalid' &&
+        filterReferral !== 'none' &&
+        filterReferral !== 'due' &&
+        r.referral_code !== filterReferral
+      ) {
+        return false
+      }
+
+      // Filtre recherche texte
+      if (!q) return true
       const c = r.candidate
       if (!c) return false
       return (
@@ -159,7 +235,7 @@ export default function InscriptionsList({ rows }: { rows: Row[] }) {
         (c.telephone?.toLowerCase().includes(q) ?? false)
       )
     })
-  }, [rows, query])
+  }, [rows, query, filterReferral])
 
   // Reset focus quand la liste change
   useEffect(() => {
@@ -249,24 +325,56 @@ export default function InscriptionsList({ rows }: { rows: Row[] }) {
     return () => window.removeEventListener('keydown', handler)
   }, [filtered, focusedIdx, query, router])
 
+  const activeReferralCodes = getActiveCodes()
+
   return (
     <div>
-      <div className="adm-search">
-        <span className="adm-search-icon" aria-hidden="true">
-          <Icon name="search" size={16} />
-        </span>
-        <input
-          ref={inputRef}
-          type="search"
-          className="adm-search-input"
-          value={query}
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'stretch',
+          gap: '0.6rem',
+          flexWrap: 'wrap',
+        }}
+      >
+        <div className="adm-search" style={{ flex: '1 1 320px' }}>
+          <span className="adm-search-icon" aria-hidden="true">
+            <Icon name="search" size={16} />
+          </span>
+          <input
+            ref={inputRef}
+            type="search"
+            className="adm-search-input"
+            value={query}
+            onChange={(e) => {
+              setQuery(e.target.value)
+              setFocusedIdx(null)
+            }}
+            placeholder="Rechercher (nom, email, pays, téléphone) — astuce : / pour focus"
+            aria-label="Rechercher dans les candidatures"
+          />
+        </div>
+        <select
+          className="adm-input"
+          value={filterReferral}
           onChange={(e) => {
-            setQuery(e.target.value)
+            setFilterReferral(e.target.value)
             setFocusedIdx(null)
           }}
-          placeholder="Rechercher (nom, email, pays, téléphone) — astuce : / pour focus"
-          aria-label="Rechercher dans les candidatures"
-        />
+          aria-label="Filtrer par code de recommandation"
+          title="Filtrer par code partenaire"
+          style={{ width: 'auto', minWidth: 180 }}
+        >
+          <option value="all">Tous les codes</option>
+          {activeReferralCodes.map((rc) => (
+            <option key={rc.code} value={rc.code}>
+              {rc.code} ({rc.partnerName})
+            </option>
+          ))}
+          <option value="invalid">Code invalide</option>
+          <option value="none">Sans code</option>
+          <option value="due">Bonus dû</option>
+        </select>
       </div>
 
       <div
@@ -464,6 +572,7 @@ function CandidatureRow({
               </Badge>
             )}
             <PaymentBadge row={row} />
+            <ReferralBadge c={row} />
           </div>
         </div>
         <div className="adm-list-time" suppressHydrationWarning>

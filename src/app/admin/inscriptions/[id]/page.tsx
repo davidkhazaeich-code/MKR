@@ -5,6 +5,7 @@ import { getSupabaseAdmin } from '@/lib/supabase-admin'
 import { STATUS_LABEL, type Status } from '@/lib/admin-transitions'
 import AdminActions from '@/components/admin/AdminActions'
 import DangerSection from '@/components/admin/DangerSection'
+import ReferralPanel from '@/components/admin/ReferralPanel'
 import Avatar from '@/components/admin/ui/Avatar'
 import BackShortcut from '@/components/admin/ui/BackShortcut'
 import Badge from '@/components/admin/ui/Badge'
@@ -82,6 +83,14 @@ interface CandidatureRow {
   notes_visio: string | null
   form_data: Record<string, unknown>
   group_members: unknown
+  referral_code: string | null
+  referral_code_valid: boolean | null
+  referral_partner_name: string | null
+  referral_partner_type: string | null
+  referral_bonus_eur: number | null
+  referral_payout_status: string | null
+  referral_payout_paid_at: string | null
+  referral_payout_method: string | null
   candidate: {
     prenom: string
     nom: string
@@ -270,6 +279,8 @@ export default async function CandidatureDetailPage({
           date_debut_souhaitee, status, status_changed_at, status_changed_by_email,
           package_amount_cents, package_paid_at, payment_method, payment_date,
           notes_admin, notes_visio, form_data, group_members,
+          referral_code, referral_code_valid, referral_partner_name, referral_partner_type,
+          referral_bonus_eur, referral_payout_status, referral_payout_paid_at, referral_payout_method,
           candidate:candidates ( prenom, nom, email, telephone, date_naissance, pays, ville_depart )
         `)
         .eq('id', id)
@@ -616,6 +627,18 @@ export default async function CandidatureDetailPage({
                 ]}
               />
             </section>
+
+            <ReferralPanel
+              candidatureId={candidature.id}
+              referralCode={candidature.referral_code}
+              referralCodeValid={candidature.referral_code_valid}
+              referralPartnerName={candidature.referral_partner_name}
+              referralPartnerType={candidature.referral_partner_type}
+              referralBonusEur={candidature.referral_bonus_eur}
+              referralPayoutStatus={candidature.referral_payout_status}
+              referralPayoutPaidAt={candidature.referral_payout_paid_at}
+              referralPayoutMethod={candidature.referral_payout_method}
+            />
 
             <section className="adm-card">
               <h2 className="adm-card-title">
