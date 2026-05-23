@@ -13,23 +13,26 @@ export default function SiteLoader() {
 
   useEffect(() => {
     if (skip || !mounted) return
-    document.documentElement.classList.add('is-loading')
 
     const reducedMotion =
       window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false
     let cancelled = false
+    let teaserCleanup: (() => void) | null = null
 
     const finish = () => {
       setMounted(false)
       document.documentElement.classList.remove('is-loading')
     }
 
-    if (reducedMotion) {
-      finish()
-      return () => {
-        cancelled = true
-        document.documentElement.classList.remove('is-loading')
+    const startSequence = () => {
+      if (cancelled) return
+      document.documentElement.classList.add('is-loading')
+
+      if (reducedMotion) {
+        finish()
+        return
       }
+      run()
     }
 
     const run = async () => {
@@ -94,10 +97,27 @@ export default function SiteLoader() {
         )
     }
 
-    run()
+    // Si le TeaserSplash est actif (data-teaser-active='1' pose sur <html>),
+    // on attend l'event `mkr-teaser-end` avant de demarrer la sequence loader.
+    // Sinon (visite normale ou teaser deja vu), on demarre immediatement.
+    const teaserActive =
+      document.documentElement.getAttribute('data-teaser-active') === '1'
+
+    if (teaserActive) {
+      const onTeaserEnd = () => {
+        teaserCleanup?.()
+        teaserCleanup = null
+        startSequence()
+      }
+      window.addEventListener('mkr-teaser-end', onTeaserEnd, { once: true })
+      teaserCleanup = () => window.removeEventListener('mkr-teaser-end', onTeaserEnd)
+    } else {
+      startSequence()
+    }
 
     return () => {
       cancelled = true
+      teaserCleanup?.()
       document.documentElement.classList.remove('is-loading')
     }
   }, [skip, mounted])
