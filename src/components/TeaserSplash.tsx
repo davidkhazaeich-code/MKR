@@ -3,7 +3,7 @@
 /*
  * TeaserSplash — overlay teaser 15s joué UNE SEULE FOIS pour les nouveaux visiteurs.
  *
- * Sequence : Teaser (15s, sans skip) → SiteLoader MKR (animation existante) → site.
+ * Sequence : Teaser (15s, skip dispo après 2s) → SiteLoader MKR (animation existante) → site.
  * SiteLoader attend le custom event `mkr-teaser-end` avant de demarrer sa sequence.
  *
  * Cycle de vie :
@@ -11,17 +11,8 @@
  *    retourne null instantanement, plus aucun impact runtime ni SEO.
  *  - localStorage flag `STORAGE_KEY` empeche la rejouer apres le premier visionnage.
  *  - prefers-reduced-motion → skip automatique (flag pose + event emis pour SiteLoader).
- *  - Pas de skip manuel : le visiteur ne le voit qu'une seule fois, on impose les 15s.
- *
- * Pour retirer definitivement (≥ END_DATE) :
- *  1. Supprimer la ligne `<TeaserSplash />` dans `app/(site)/layout.tsx`
- *  2. Supprimer l'import en tete de ce meme fichier
- *  3. Supprimer ce composant + les 2 MP4 dans `public/videos/teaser/`
- *  4. Retirer la branche `data-teaser-active` dans `SiteLoader.tsx` (cleanup)
- *
- * SEO : composant 100% client (useEffect mount), retourne null au premier render
- * serveur. Le contenu reel de la page reste accessible aux crawlers (overlay
- * z-index 9999 mais DOM identique). Aucune modif des meta/canonical.
+ *  - Skip manuel : un bouton "Passer l'intro" apparait apres SKIP_DELAY_MS pour
+ *    laisser le visiteur ressentir le teaser avant de pouvoir l'esquiver.
  */
 
 import { useEffect, useRef, useState } from 'react'
@@ -29,6 +20,7 @@ import { useEffect, useRef, useState } from 'react'
 const END_DATE = new Date('2026-05-27T00:00:00Z')
 const STORAGE_KEY = 'mkr_teaser_seen_2026_05_v1'
 const VIDEO_LENGTH_MS = 15500
+const SKIP_DELAY_MS = 2000
 const TEASER_END_EVENT = 'mkr-teaser-end'
 
 const VIDEO_LANDSCAPE = '/videos/teaser/teaser-loading-desktop-15s.mp4'
@@ -42,6 +34,7 @@ function emitTeaserEnd() {
 export default function TeaserSplash() {
   const [show, setShow] = useState(false)
   const [src, setSrc] = useState<string>('')
+  const [canSkip, setCanSkip] = useState(false)
   const videoRef = useRef<HTMLVideoElement | null>(null)
 
   useEffect(() => {
@@ -72,9 +65,11 @@ export default function TeaserSplash() {
     // Filet de securite : si la video ne joue pas (autoplay bloque, erreur reseau),
     // on dismiss apres VIDEO_LENGTH_MS pour ne pas bloquer le visiteur.
     const dismissTimer = window.setTimeout(() => dismiss(), VIDEO_LENGTH_MS)
+    const skipTimer = window.setTimeout(() => setCanSkip(true), SKIP_DELAY_MS)
 
     return () => {
       window.clearTimeout(dismissTimer)
+      window.clearTimeout(skipTimer)
       document.body.style.overflow = ''
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -120,6 +115,39 @@ export default function TeaserSplash() {
         }}
         src={src}
       />
+      <button
+        type="button"
+        onClick={dismiss}
+        aria-label="Passer l'intro"
+        style={{
+          position: 'absolute',
+          right: 'max(20px, env(safe-area-inset-right))',
+          bottom: 'max(24px, env(safe-area-inset-bottom))',
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: 8,
+          padding: '10px 16px',
+          borderRadius: 999,
+          border: '1px solid rgba(248, 248, 248, 0.28)',
+          background: 'rgba(14, 14, 14, 0.55)',
+          backdropFilter: 'blur(8px)',
+          WebkitBackdropFilter: 'blur(8px)',
+          color: 'rgba(248, 248, 248, 0.92)',
+          fontFamily: 'inherit',
+          fontSize: 12,
+          fontWeight: 600,
+          letterSpacing: '0.12em',
+          textTransform: 'uppercase',
+          cursor: canSkip ? 'pointer' : 'default',
+          opacity: canSkip ? 1 : 0,
+          pointerEvents: canSkip ? 'auto' : 'none',
+          transform: canSkip ? 'translateY(0)' : 'translateY(8px)',
+          transition: 'opacity 0.4s ease, transform 0.4s ease',
+        }}
+      >
+        Passer l&apos;intro
+        <span aria-hidden="true" style={{ fontSize: 14, lineHeight: 1 }}>→</span>
+      </button>
     </div>
   )
 }
