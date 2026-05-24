@@ -81,20 +81,20 @@ export default function ProgrammeLuttePage() {
             <div>
               <figure className="photo-card">
                 <img
-                  src="/images/action/takedown-wrestling.webp"
-                  alt="Takedown de lutte, entraînement au Caucase"
-                  width={800}
-                  height={600}
+                  src="/images/action/lutte-coach-gereev.webp"
+                  alt="Coach Gereev en pleine séance dans la salle de lutte daghestanaise"
+                  width={1600}
+                  height={1066}
                   loading="lazy"
                   className="section-photo-img"
                 />
               </figure>
               <figure className="photo-card" style={{ marginTop: '1.25rem' }}>
                 <img
-                  src="/images/action/ground-control.webp"
-                  alt="Contrôle au sol en lutte, technique daghestanaise"
-                  width={800}
-                  height={600}
+                  src="/images/action/lutte-pont-daghestan.webp"
+                  alt="Pont de lutte au sol, exercice ancestral pratiqué en groupe au Daghestan"
+                  width={1600}
+                  height={1066}
                   loading="lazy"
                   className="section-photo-img"
                 />
@@ -106,11 +106,11 @@ export default function ProgrammeLuttePage() {
 
       {/* Cinematic reveal */}
       <CinematicReveal
-        image="/images/action/takedown-wrestling.webp"
-        alt="Takedown de lutte libre en entraînement au Caucase"
-        label="PROJECTION"
-        title="L'ART DU TAKEDOWN"
-        tagline="Lutte libre. Les techniques qui ont forgé les champions du Caucase."
+        image="/images/action/lutte-banner-makhachkala.webp"
+        alt="Salle de lutte au Daghestan, bannière 'On ne naît pas lutteur, on le devient', lutteurs en échauffement"
+        label="HÉRITAGE"
+        title="ON NE NAÎT PAS LUTTEUR, ON LE DEVIENT"
+        tagline="Борцами не рождаются, борцами становятся. La devise inscrite sur les murs des salles daghestanaises."
       />
 
       <DisciplineTechniques items={TECHNIQUES} />
