@@ -232,6 +232,8 @@ export default async function AdminInscriptionsPage({
           {total} dossier{total > 1 ? 's' : ''} au total · Mis à jour à {generatedAt}{' '}
           <a href="/admin/inscriptions">↻ Rafraîchir</a>
           {' · '}
+          <a href="/admin/referrals">Partenaires referral</a>
+          {' · '}
           <a href="/admin/guide-leads">Voir les leads Guide Caucase</a>
         </p>
 

@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import Avatar from './ui/Avatar'
 import Badge from './ui/Badge'
@@ -170,8 +170,10 @@ function ReferralBadge({ c }: {
 
 export default function InscriptionsList({ rows }: { rows: Row[] }) {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const initialReferral = searchParams.get('referralCode') ?? 'all'
   const [query, setQuery] = useState('')
-  const [filterReferral, setFilterReferral] = useState<string>('all')
+  const [filterReferral, setFilterReferral] = useState<string>(initialReferral)
   const [focusedIdx, setFocusedIdx] = useState<number | null>(null)
   const [mounted, setMounted] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)

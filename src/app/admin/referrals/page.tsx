@@ -1,0 +1,304 @@
+import type { Metadata } from 'next'
+import Link from 'next/link'
+import { getSupabaseAdmin } from '@/lib/supabase-admin'
+import Topbar from '@/components/admin/ui/Topbar'
+import { REFERRAL_CODES } from '@/data/referral-codes'
+
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
+export const metadata: Metadata = {
+  robots: { index: false, follow: false },
+  title: 'Partenaires referral · MKR Admin',
+}
+
+// Lecture light de candidatures : on agrege en TS plutot qu'en SQL pour rester
+// simple. Volumes typiques : qq partenaires x qq dizaines de candidatures.
+interface Row {
+  id: string
+  status: string
+  referral_code: string | null
+  referral_code_valid: boolean | null
+  referral_partner_name: string | null
+  referral_partner_type: string | null
+  referral_bonus_eur: number | null
+  referral_payout_status: string | null
+  referral_payout_paid_at: string | null
+  referral_payout_method: string | null
+}
+
+interface PartnerSummary {
+  code: string
+  partnerName: string
+  partnerType: string | null
+  isKnown: boolean
+  isActive: boolean
+  bonusEurDefault: number
+  total: number
+  pending: number
+  due: number
+  paid: number
+  cancelled: number
+  amountDue: number
+  amountPaid: number
+  amountCancelled: number
+}
+
+function formatEur(n: number): string {
+  return new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(n)
+}
+
+function aggregateByPartner(rows: Row[]): PartnerSummary[] {
+  const byCode = new Map<string, PartnerSummary>()
+
+  // Seed avec tous les codes du data file (meme ceux a 0 candidature) pour que Ruslan voie tous les partenaires actifs.
+  for (const c of REFERRAL_CODES) {
+    byCode.set(c.code, {
+      code: c.code,
+      partnerName: c.partnerName,
+      partnerType: c.type,
+      isKnown: true,
+      isActive: c.active,
+      bonusEurDefault: c.bonusEur,
+      total: 0,
+      pending: 0,
+      due: 0,
+      paid: 0,
+      cancelled: 0,
+      amountDue: 0,
+      amountPaid: 0,
+      amountCancelled: 0,
+    })
+  }
+
+  for (const r of rows) {
+    if (!r.referral_code) continue
+    let summary = byCode.get(r.referral_code)
+    if (!summary) {
+      // Code orphelin (ex : code invalide saisi, ou code retire du data file apres usage).
+      summary = {
+        code: r.referral_code,
+        partnerName: r.referral_partner_name ?? '(non reconnu)',
+        partnerType: r.referral_partner_type,
+        isKnown: false,
+        isActive: false,
+        bonusEurDefault: r.referral_bonus_eur ?? 0,
+        total: 0,
+        pending: 0,
+        due: 0,
+        paid: 0,
+        cancelled: 0,
+        amountDue: 0,
+        amountPaid: 0,
+        amountCancelled: 0,
+      }
+      byCode.set(r.referral_code, summary)
+    }
+
+    summary.total += 1
+    const bonus = r.referral_bonus_eur ?? 0
+
+    switch (r.referral_payout_status) {
+      case 'pending':
+        summary.pending += 1
+        break
+      case 'due':
+        summary.due += 1
+        summary.amountDue += bonus
+        break
+      case 'paid':
+        summary.paid += 1
+        summary.amountPaid += bonus
+        break
+      case 'cancelled':
+        summary.cancelled += 1
+        summary.amountCancelled += bonus
+        break
+      // 'not_applicable' n'est pas comptabilise comme bonus.
+    }
+  }
+
+  return Array.from(byCode.values()).sort((a, b) => {
+    // Tri : ceux qui ont du bonus du en premier, puis par volume.
+    if (a.amountDue !== b.amountDue) return b.amountDue - a.amountDue
+    if (a.total !== b.total) return b.total - a.total
+    return a.code.localeCompare(b.code)
+  })
+}
+
+const TYPE_LABEL: Record<string, string> = {
+  gym: 'Salle',
+  influencer: 'Influenceur',
+  coach: 'Coach',
+  other: 'Autre',
+}
+
+const TYPE_COLOR: Record<string, string> = {
+  gym: 'var(--adm-tunnel-session, #3b82f6)',
+  influencer: 'var(--adm-tunnel-custom, #8b5cf6)',
+  coach: 'var(--adm-status-validee, #10b981)',
+  other: 'var(--adm-text-muted, #6b7280)',
+}
+
+export default async function AdminReferralsPage() {
+  const supabase = getSupabaseAdmin()
+
+  const { data, error } = await supabase
+    .from('candidatures')
+    .select('id, status, referral_code, referral_code_valid, referral_partner_name, referral_partner_type, referral_bonus_eur, referral_payout_status, referral_payout_paid_at, referral_payout_method')
+    .not('referral_code', 'is', null)
+    .order('referral_code', { ascending: true })
+
+  const rows: Row[] = (data ?? []) as Row[]
+  const summaries = aggregateByPartner(rows)
+  const totalDue = summaries.reduce((s, x) => s + x.amountDue, 0)
+  const totalPaid = summaries.reduce((s, x) => s + x.amountPaid, 0)
+  const totalCancelled = summaries.reduce((s, x) => s + x.amountCancelled, 0)
+  const totalCandidatures = summaries.reduce((s, x) => s + x.total, 0)
+
+  const generatedAt = new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })
+
+  return (
+    <>
+      <Topbar crumbs={[{ label: 'Candidatures', href: '/admin/inscriptions' }, { label: 'Partenaires referral' }]} />
+      <main className="adm-container">
+        <h1 className="adm-h1">Partenaires referral</h1>
+        <p className="adm-h-meta">
+          {summaries.length} partenaire{summaries.length > 1 ? 's' : ''} · {totalCandidatures} candidature{totalCandidatures > 1 ? 's' : ''} · Mis à jour à {generatedAt}{' '}
+          <a href="/admin/referrals">↻ Rafraîchir</a>
+        </p>
+
+        {error && (
+          <div
+            style={{
+              marginBottom: '1.5rem',
+              padding: '0.85rem 1rem',
+              borderRadius: '10px',
+              border: '1px solid rgba(239, 68, 68, 0.3)',
+              background: 'rgba(239, 68, 68, 0.06)',
+              color: 'var(--adm-status-refusee)',
+              fontSize: '0.85rem',
+            }}
+          >
+            Erreur Supabase : {error.message}
+          </div>
+        )}
+
+        {/* Stats globales */}
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
+            gap: '1rem',
+            margin: '1.5rem 0 2rem',
+          }}
+        >
+          <div className="adm-stat-card">
+            <div className="adm-stat-label">À payer</div>
+            <div className="adm-stat-value" style={{ color: '#f59e0b' }}>{formatEur(totalDue)}</div>
+          </div>
+          <div className="adm-stat-card">
+            <div className="adm-stat-label">Déjà payé</div>
+            <div className="adm-stat-value" style={{ color: '#10b981' }}>{formatEur(totalPaid)}</div>
+          </div>
+          <div className="adm-stat-card">
+            <div className="adm-stat-label">Annulé (info)</div>
+            <div className="adm-stat-value" style={{ color: 'var(--adm-text-muted, #6b7280)' }}>{formatEur(totalCancelled)}</div>
+          </div>
+          <div className="adm-stat-card">
+            <div className="adm-stat-label">Total acquis (payé + dû)</div>
+            <div className="adm-stat-value">{formatEur(totalDue + totalPaid)}</div>
+          </div>
+        </div>
+
+        {summaries.length === 0 ? (
+          <div style={{ textAlign: 'center', padding: '3rem 1rem', color: 'var(--adm-text-muted, #6b7280)' }}>
+            Aucune candidature avec code de recommandation pour le moment.
+          </div>
+        ) : (
+          <div className="adm-table-wrap" style={{ overflowX: 'auto' }}>
+            <table className="adm-table" style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.875rem' }}>
+              <thead>
+                <tr style={{ borderBottom: '2px solid var(--adm-border, #1f2937)', textAlign: 'left' }}>
+                  <th style={{ padding: '0.75rem 0.5rem' }}>Code</th>
+                  <th style={{ padding: '0.75rem 0.5rem' }}>Partenaire</th>
+                  <th style={{ padding: '0.75rem 0.5rem' }}>Type</th>
+                  <th style={{ padding: '0.75rem 0.5rem', textAlign: 'right' }}>Candidatures</th>
+                  <th style={{ padding: '0.75rem 0.5rem', textAlign: 'right' }}>En attente</th>
+                  <th style={{ padding: '0.75rem 0.5rem', textAlign: 'right' }}>À payer</th>
+                  <th style={{ padding: '0.75rem 0.5rem', textAlign: 'right' }}>Payé</th>
+                  <th style={{ padding: '0.75rem 0.5rem', textAlign: 'right' }}>Annulé</th>
+                  <th style={{ padding: '0.75rem 0.5rem' }}></th>
+                </tr>
+              </thead>
+              <tbody>
+                {summaries.map((s) => (
+                  <tr key={s.code} style={{ borderBottom: '1px solid var(--adm-border-soft, rgba(255,255,255,0.05))' }}>
+                    <td style={{ padding: '0.85rem 0.5rem', fontFamily: 'var(--adm-font-mono, monospace)', fontWeight: 700 }}>
+                      {s.code}
+                      {!s.isKnown && <span style={{ marginLeft: 6, color: '#f59e0b', fontSize: '0.7rem' }} title="Code saisi non reconnu dans data/referral-codes.ts">⚠</span>}
+                      {s.isKnown && !s.isActive && <span style={{ marginLeft: 6, color: 'var(--adm-text-muted)', fontSize: '0.7rem' }} title="Code marqué inactif dans data/referral-codes.ts (historique conservé)">○ inactif</span>}
+                    </td>
+                    <td style={{ padding: '0.85rem 0.5rem' }}>{s.partnerName}</td>
+                    <td style={{ padding: '0.85rem 0.5rem' }}>
+                      {s.partnerType && (
+                        <span
+                          style={{
+                            padding: '2px 8px',
+                            borderRadius: '12px',
+                            background: TYPE_COLOR[s.partnerType] ?? TYPE_COLOR.other,
+                            color: '#fff',
+                            fontSize: '0.7rem',
+                            fontWeight: 600,
+                          }}
+                        >
+                          {TYPE_LABEL[s.partnerType] ?? s.partnerType}
+                        </span>
+                      )}
+                    </td>
+                    <td style={{ padding: '0.85rem 0.5rem', textAlign: 'right', fontWeight: 600 }}>{s.total}</td>
+                    <td style={{ padding: '0.85rem 0.5rem', textAlign: 'right', color: 'var(--adm-text-muted)' }}>{s.pending || '-'}</td>
+                    <td style={{ padding: '0.85rem 0.5rem', textAlign: 'right', color: s.due > 0 ? '#f59e0b' : 'var(--adm-text-muted)', fontWeight: s.due > 0 ? 700 : 400 }}>
+                      {s.due > 0 ? `${s.due} · ${formatEur(s.amountDue)}` : '-'}
+                    </td>
+                    <td style={{ padding: '0.85rem 0.5rem', textAlign: 'right', color: s.paid > 0 ? '#10b981' : 'var(--adm-text-muted)' }}>
+                      {s.paid > 0 ? `${s.paid} · ${formatEur(s.amountPaid)}` : '-'}
+                    </td>
+                    <td style={{ padding: '0.85rem 0.5rem', textAlign: 'right', color: 'var(--adm-text-muted)' }}>
+                      {s.cancelled > 0 ? `${s.cancelled} · ${formatEur(s.amountCancelled)}` : '-'}
+                    </td>
+                    <td style={{ padding: '0.85rem 0.5rem', textAlign: 'right' }}>
+                      <Link
+                        href={`/admin/inscriptions?referralCode=${encodeURIComponent(s.code)}`}
+                        className="adm-btn adm-btn--ghost"
+                        style={{ fontSize: '0.75rem', padding: '4px 10px' }}
+                      >
+                        Voir →
+                      </Link>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+              <tfoot>
+                <tr style={{ borderTop: '2px solid var(--adm-border, #1f2937)', fontWeight: 700 }}>
+                  <td style={{ padding: '0.85rem 0.5rem' }} colSpan={3}>Total</td>
+                  <td style={{ padding: '0.85rem 0.5rem', textAlign: 'right' }}>{totalCandidatures}</td>
+                  <td style={{ padding: '0.85rem 0.5rem', textAlign: 'right' }}>-</td>
+                  <td style={{ padding: '0.85rem 0.5rem', textAlign: 'right', color: '#f59e0b' }}>{formatEur(totalDue)}</td>
+                  <td style={{ padding: '0.85rem 0.5rem', textAlign: 'right', color: '#10b981' }}>{formatEur(totalPaid)}</td>
+                  <td style={{ padding: '0.85rem 0.5rem', textAlign: 'right', color: 'var(--adm-text-muted)' }}>{formatEur(totalCancelled)}</td>
+                  <td></td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        )}
+
+        <p style={{ marginTop: '2rem', fontSize: '0.75rem', color: 'var(--adm-text-muted)' }}>
+          Le bonus passe automatiquement de "En attente" à "À payer" quand le statut de la candidature devient <strong>soldée</strong>.
+          Clique sur "Voir" pour ouvrir la liste filtrée des candidatures de ce partenaire, puis sur une fiche pour marquer le bonus comme payé.
+        </p>
+      </main>
+    </>
+  )
+}
