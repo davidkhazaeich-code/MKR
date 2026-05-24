@@ -3968,6 +3968,7 @@ h1, h2, h3, h4, h5 {
     aspect-ratio: 4 / 3;
     max-height: 320px;
     padding-top: 0;
+    margin-top: 150px;
     overflow: hidden;
   }
   .voyage-reveal-map .world-map-wrap {
