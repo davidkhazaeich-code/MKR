@@ -2,17 +2,49 @@
 
 import { useRef, useCallback } from 'react'
 
+type CampDiscipline = 'lutte' | 'mma' | 'combo_quote' | ''
+
 interface StoryCardProps {
   prenom: string
-  discipline: string
+  campDiscipline?: CampDiscipline
   session: string
-  destination: string
 }
 
-export default function StoryCard({ prenom, discipline, session, destination }: StoryCardProps) {
-  const cardRef = useRef<HTMLDivElement>(null)
+const CAMP_PRESETS: Record<Exclude<CampDiscipline, ''>, {
+  disciplineLabel: string
+  preposition: string
+  destination: string
+  bgImage: string
+  filenameSuffix: string
+  tight?: boolean
+}> = {
+  lutte: {
+    disciplineLabel: 'LUTTE',
+    preposition: 'AU',
+    destination: 'DAGHESTAN',
+    bgImage: '/images/environment/dagestan-panorama.webp',
+    filenameSuffix: 'lutte-daghestan',
+  },
+  mma: {
+    disciplineLabel: 'MMA',
+    preposition: 'EN',
+    destination: 'TCHÉTCHÉNIE',
+    bgImage: '/images/environment/vainakh-towers.webp',
+    filenameSuffix: 'mma-tchetchenie',
+  },
+  combo_quote: {
+    disciplineLabel: 'COMBO LUTTE + MMA',
+    preposition: 'AU',
+    destination: 'DAGHESTAN + TCHÉTCHÉNIE',
+    bgImage: '/images/environment/canyon-sulak.webp',
+    filenameSuffix: 'combo-caucase',
+    tight: true,
+  },
+}
 
-  const bgImage = '/images/environment/dagestan-panorama.webp'
+export default function StoryCard({ prenom, campDiscipline, session }: StoryCardProps) {
+  const cardRef = useRef<HTMLDivElement>(null)
+  const preset = CAMP_PRESETS[campDiscipline || 'lutte']
 
   const handleDownload = useCallback(async () => {
     if (!cardRef.current) return
@@ -25,17 +57,17 @@ export default function StoryCard({ prenom, discipline, session, destination }: 
       backgroundColor: '#0E0E0E',
     })
     const link = document.createElement('a')
-    link.download = `mkr-${prenom.toLowerCase()}-story.png`
+    link.download = `mkr-${prenom.toLowerCase()}-${preset.filenameSuffix}-story.png`
     link.href = canvas.toDataURL('image/png')
     link.click()
-  }, [prenom])
+  }, [prenom, preset.filenameSuffix])
 
   return (
     <div className="story-card-wrap">
       <div className="story-card">
       <div className="story-card-inner" ref={cardRef}>
         {/* Background image */}
-        <div className="story-card-bg" style={{ backgroundImage: `url(${bgImage})` }} />
+        <div className="story-card-bg" style={{ backgroundImage: `url(${preset.bgImage})` }} />
 
         {/* Top: logo */}
         <div className="story-card-top">
@@ -46,8 +78,11 @@ export default function StoryCard({ prenom, discipline, session, destination }: 
         <div className="story-card-center">
           <span className="story-card-label">INSCRIPTION RECUE</span>
           <h2 className="story-card-name">{prenom.toUpperCase()}</h2>
-          <p className="story-card-tagline">
-            PART AU <span>{destination.toUpperCase()}</span>
+          <p
+            className="story-card-tagline"
+            style={preset.tight ? { fontSize: 36, lineHeight: 1.15 } : undefined}
+          >
+            PART {preset.preposition} <span>{preset.destination}</span>
           </p>
         </div>
 
@@ -61,10 +96,10 @@ export default function StoryCard({ prenom, discipline, session, destination }: 
             <div className="story-card-meta-divider" />
             <div className="story-card-meta-item">
               <span className="story-card-meta-label">DISCIPLINE</span>
-              <span className="story-card-meta-value">{discipline.toUpperCase()}</span>
+              <span className="story-card-meta-value">{preset.disciplineLabel}</span>
             </div>
           </div>
-          <div className="story-card-handle">@mkrcaucasiancamp</div>
+          <div className="story-card-handle">@mkrcamp</div>
         </div>
       </div>
       </div>

@@ -709,14 +709,14 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
 
   /* ── Success ── */
   if (submitted) {
-    const SESSION_MAP: Record<string, { name: string; destination: string }> = SESSIONS.reduce(
+    const SESSION_MAP: Record<string, { name: string }> = SESSIONS.reduce(
       (acc, s) => {
-        acc[s.id] = { name: s.name, destination: s.destination }
+        acc[s.id] = { name: s.name }
         return acc
       },
-      {} as Record<string, { name: string; destination: string }>,
+      {} as Record<string, { name: string }>,
     )
-    const sel = SESSION_MAP[form.session] || { name: form.session, destination: 'Dagestan' }
+    const sel = SESSION_MAP[form.session] || { name: form.session || 'SUR MESURE' }
 
     return (
       <div className="insc-wrapper">
@@ -735,9 +735,8 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
 
             <StoryCard
               prenom={form.prenom}
-              discipline={form.disciplinePrincipale}
+              campDiscipline={form.campDiscipline}
               session={sel.name}
-              destination={sel.destination}
             />
 
             <Link href="/" className="insc-back-btn" style={{ marginTop: '1.5rem' }}>RETOUR À L&apos;ACCUEIL</Link>

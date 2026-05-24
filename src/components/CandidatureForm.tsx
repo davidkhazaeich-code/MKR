@@ -175,7 +175,6 @@ export default function CandidatureForm() {
   if (submitted) {
     const selectedSession = SESSIONS.find(s => s.id === form.session)
     const sessionLabel = selectedSession?.name || form.session
-    const destination = selectedSession?.destination || 'Dagestan'
 
     return (
       <div className="cand-success">
@@ -191,9 +190,7 @@ export default function CandidatureForm() {
 
         <StoryCard
           prenom={form.prenom}
-          discipline={form.disciplinePrincipale}
           session={sessionLabel}
-          destination={destination}
         />
       </div>
     )
