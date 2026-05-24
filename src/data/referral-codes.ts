@@ -49,6 +49,15 @@ export const REFERRAL_CODES: ReferralCode[] = [
     active: true,
     notes: 'Lutteur champion - Khanty-Mansi (oblast 86)',
   },
+  {
+    code: 'TENGIZ',
+    partnerName: 'Tengiz Dalakishvili (@tengiz_dalakishvili)',
+    partnerContact: 'https://instagram.com/tengiz_dalakishvili',
+    type: 'coach',
+    bonusEur: 50,
+    active: true,
+    notes: 'Coach de lutte - influenceur Instagram',
+  },
 ]
 
 /**
