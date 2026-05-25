@@ -259,6 +259,21 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
     return { tone: 'warning' as const, message: 'Code non reconnu, on va vérifier de notre côté' }
   }, [form.codeRecommandation])
 
+  // Conflit code vs source partenaire : si le candidat a saisi un code valide pour un partenaire X
+  // ET sélectionne un autre partenaire Y dans le dropdown source découverte, le code (saisi en premier)
+  // prime pour l'attribution du bonus. On affiche une notice claire pour qu'il sache ce qui sera attribué.
+  const sourceCodeConflict = useMemo(() => {
+    const sourcePartner = findCodeBySourceValue(form.sourceDecouverte)
+    const codePartner = findReferralCode(form.codeRecommandation)
+    if (!sourcePartner || !codePartner) return null
+    if (sourcePartner.code === codePartner.code) return null
+    return {
+      sourcePartnerName: sourcePartner.partnerName,
+      codePartnerCode: codePartner.code,
+      codePartnerName: codePartner.partnerName,
+    }
+  }, [form.sourceDecouverte, form.codeRecommandation])
+
   const audienceConfig = audience ? getRegistrationType(audience) : null
 
   const set = (field: keyof FormData, value: FormData[keyof FormData]) => {
@@ -2263,11 +2278,16 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                         onChange={e => {
                           const value = e.target.value
                           set('sourceDecouverte', value)
-                          // Auto-remplit le code de recommandation si l'option choisie correspond à un partenaire connu.
+                          // Auto-remplit le code uniquement si aucun autre code valide n'est déjà saisi.
+                          // Règle : "first valid code wins" pour éviter qu'un candidat soit attribué à deux partenaires.
                           const partner = findCodeBySourceValue(value)
-                          if (partner) {
-                            set('codeRecommandation', partner.code)
+                          if (!partner) return
+                          const existing = findReferralCode(form.codeRecommandation)
+                          if (existing && existing.code !== partner.code) {
+                            // Conflit : on n'overwrite pas. La notice ci-dessous explique au candidat ce qui sera attribué.
+                            return
                           }
+                          set('codeRecommandation', partner.code)
                         }}
                       >
                         <option value="">— Optionnel —</option>
@@ -2282,6 +2302,23 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                         ))}
                         <option value="autre">Autre</option>
                       </select>
+                      {sourceCodeConflict && (
+                        <span
+                          className="cand-hint"
+                          style={{
+                            display: 'block',
+                            marginTop: 8,
+                            color: 'var(--primary)',
+                            fontWeight: 600,
+                            fontSize: '0.85rem',
+                            lineHeight: 1.4,
+                          }}
+                        >
+                          Tu as déjà saisi le code <strong>{sourceCodeConflict.codePartnerCode}</strong> ({sourceCodeConflict.codePartnerName}).
+                          C'est lui qui sera attribué pour la recommandation, on ne peut pas combiner deux partenaires.
+                          {' '}Si tu veux que ce soit <strong>{sourceCodeConflict.sourcePartnerName}</strong> à la place, efface d'abord le code dans l'étape Identité.
+                        </span>
+                      )}
                     </Field>
                     <Field label={audience === 'groupe' ? 'Brief de ta demande (utile pour le devis)' : 'Questions ou informations complémentaires'}>
                       <textarea className="cand-textarea" rows={4}
