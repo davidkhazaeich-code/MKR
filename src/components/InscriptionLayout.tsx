@@ -16,7 +16,7 @@ import {
   type Duration,
 } from '@/data/pricing'
 import { SESSIONS } from '@/data/sessions'
-import { findReferralCode } from '@/data/referral-codes'
+import { findReferralCode, findCodeBySourceValue, getPartnersWithSourceOption } from '@/data/referral-codes'
 import PlacesRestantes from '@/components/PlacesRestantes'
 import IconLutte from '@/components/icons/IconLutte'
 import IconMMA from '@/components/icons/IconMMA'
@@ -2253,14 +2253,33 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                 <details className="insc-extra-details" open={!!form.sourceDecouverte || !!form.message}>
                   <summary>Détails supplémentaires (optionnel)</summary>
                   <div className="insc-extra-details-body">
-                    <Field label="Comment as-tu connu le camp ?">
-                      <select className="cand-select" value={form.sourceDecouverte}
-                        onChange={e => set('sourceDecouverte', e.target.value)}>
+                    <Field
+                      label="Comment as-tu connu le camp ?"
+                      hint="Si tu choisis un partenaire ou un influenceur, on remplit ton code de recommandation automatiquement."
+                    >
+                      <select
+                        className="cand-select"
+                        value={form.sourceDecouverte}
+                        onChange={e => {
+                          const value = e.target.value
+                          set('sourceDecouverte', value)
+                          // Auto-remplit le code de recommandation si l'option choisie correspond à un partenaire connu.
+                          const partner = findCodeBySourceValue(value)
+                          if (partner) {
+                            set('codeRecommandation', partner.code)
+                          }
+                        }}
+                      >
                         <option value="">— Optionnel —</option>
                         <option value="instagram">Instagram</option>
                         <option value="bouche-a-oreille">Bouche à oreille</option>
                         <option value="coach">Recommandation de mon coach</option>
                         <option value="google">Recherche Google</option>
+                        {getPartnersWithSourceOption().map(p => (
+                          <option key={p.code} value={p.sourceDecouverteValue}>
+                            {p.sourceDecouverteLabel}
+                          </option>
+                        ))}
                         <option value="autre">Autre</option>
                       </select>
                     </Field>

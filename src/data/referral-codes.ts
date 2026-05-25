@@ -20,6 +20,11 @@ export type ReferralCode = {
   active: boolean
   /** Notes internes (contexte partenariat, date de signature, etc.). */
   notes?: string
+  /** Libellé affiché dans le dropdown "Comment as-tu connu le camp ?" du form.
+   *  Si défini, sélectionner cette option auto-remplit le code. */
+  sourceDecouverteLabel?: string
+  /** Valeur slug-safe stockée dans form.sourceDecouverte. Doit être unique parmi les partenaires. */
+  sourceDecouverteValue?: string
 }
 
 export const REFERRAL_CODES: ReferralCode[] = [
@@ -30,6 +35,8 @@ export const REFERRAL_CODES: ReferralCode[] = [
     bonusEur: 50,
     active: true,
     notes: 'Kevin Leone - partenariat 2026',
+    sourceDecouverteLabel: 'Salle Strike Academy',
+    sourceDecouverteValue: 'strike-academy',
   },
   {
     code: 'ZEZE74',
@@ -39,6 +46,8 @@ export const REFERRAL_CODES: ReferralCode[] = [
     bonusEur: 50,
     active: true,
     notes: 'Lutteur champion - Tchélyabinsk (oblast 74)',
+    sourceDecouverteLabel: '@zelimkhan_74 (Zelimkhan)',
+    sourceDecouverteValue: 'zelimkhan-74',
   },
   {
     code: 'RAKHIM86',
@@ -48,6 +57,8 @@ export const REFERRAL_CODES: ReferralCode[] = [
     bonusEur: 50,
     active: true,
     notes: 'Lutteur champion - Khanty-Mansi (oblast 86)',
+    sourceDecouverteLabel: '@rakhim.mgd (Rakhim)',
+    sourceDecouverteValue: 'rakhim-mgd',
   },
   {
     code: 'TENGIZ',
@@ -57,6 +68,8 @@ export const REFERRAL_CODES: ReferralCode[] = [
     bonusEur: 50,
     active: true,
     notes: 'Coach de lutte - influenceur Instagram',
+    sourceDecouverteLabel: 'Coach Tengiz Dalakishvili',
+    sourceDecouverteValue: 'tengiz-dalakishvili',
   },
 ]
 
@@ -76,4 +89,26 @@ export function findReferralCode(input: string): ReferralCode | null {
  */
 export function getActiveCodes(): ReferralCode[] {
   return REFERRAL_CODES.filter((c) => c.active)
+}
+
+/**
+ * Liste des partenaires actifs qui apparaissent comme option dans le dropdown
+ * "Comment as-tu connu le camp ?" du form d'inscription.
+ */
+export function getPartnersWithSourceOption(): ReferralCode[] {
+  return REFERRAL_CODES.filter(
+    (c) => c.active && c.sourceDecouverteValue && c.sourceDecouverteLabel,
+  )
+}
+
+/**
+ * Trouve un code referral via la valeur de sourceDecouverte sélectionnée dans le form.
+ * Utilisé pour auto-remplir le champ code de recommandation quand le candidat choisit
+ * "Salle Strike Academy", "@zelimkhan_74", etc.
+ */
+export function findCodeBySourceValue(value: string): ReferralCode | null {
+  if (!value) return null
+  return REFERRAL_CODES.find(
+    (c) => c.active && c.sourceDecouverteValue === value,
+  ) ?? null
 }
