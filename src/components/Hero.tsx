@@ -187,7 +187,7 @@ export default function Hero() {
 
         <div className="hero-ctas">
           <Link href="/inscription" className="btn-primary">POSTULER AU CAMP</Link>
-          <Link href="/destinations" className="btn-ghost">VOIR LES DESTINATIONS</Link>
+          <a href="#facilitator" className="btn-ghost">DÉCOUVRIR LE CAMP</a>
         </div>
 
         <div className="hero-stats">

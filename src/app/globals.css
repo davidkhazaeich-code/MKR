@@ -7622,9 +7622,14 @@ html.is-loading body {
 
 .facilitator-band {
   position: relative;
-  /* Safe bottom = clip-path peaks rise of next section (~5vw) + buffer */
-  padding: 6rem 0 calc(6rem + 6vw);
+  /* Top breathing room to clear preceding section (Testimonials) clip-path / overlap.
+     Safe bottom = clip-path peaks rise of next section (~5vw) + buffer */
+  padding: 9rem 0 calc(6rem + 6vw);
   overflow: hidden;
+}
+
+@media (max-width: 600px) {
+  .facilitator-band { padding-top: 6.5rem; }
 }
 
 .facilitator-header {
