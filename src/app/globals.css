@@ -6186,18 +6186,252 @@ h1, h2, h3, h4, h5 {
 
 /* ─── GALERIE ─── */
 .galerie-section {
-  padding: clamp(4rem, 8vh, 6rem) 0;
+  padding: 0 0 clamp(4rem, 8vh, 6rem);
 }
 .galerie-grid {
   columns: 3;
   column-gap: 1.25rem;
+  margin-top: clamp(1.5rem, 3vh, 2.25rem);
 }
 .galerie-grid .photo-card {
   break-inside: avoid;
   margin-bottom: 1.25rem;
 }
-@media (max-width: 900px) { .galerie-grid { columns: 2; } }
-@media (max-width: 480px) { .galerie-grid { columns: 1; } }
+@media (max-width: 900px) { .galerie-grid { columns: 2; column-gap: 0.9rem; } .galerie-grid .photo-card { margin-bottom: 0.9rem; } }
+@media (max-width: 480px) { .galerie-grid { columns: 1; column-gap: 0.75rem; } .galerie-grid .photo-card { margin-bottom: 0.75rem; } }
+
+/* Sticky filters bar */
+.galerie-filters-bar {
+  position: sticky;
+  top: var(--nav-h);
+  z-index: 50;
+  background: rgba(14, 14, 14, 0.78);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  backdrop-filter: blur(14px) saturate(140%);
+  border-bottom: 1px solid transparent;
+  transition: border-color 240ms linear, box-shadow 240ms linear, background 240ms linear;
+  padding: clamp(0.75rem, 1.6vh, 1rem) 0;
+}
+.galerie-filters-bar[data-stuck="true"] {
+  background: rgba(10, 10, 10, 0.92);
+  border-bottom-color: rgba(248, 248, 248, 0.08);
+  box-shadow: 0 14px 32px -22px rgba(0, 0, 0, 0.8);
+}
+.galerie-filter-tabs {
+  margin-bottom: 0;
+  gap: 0.5rem;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  scroll-snap-type: x proximity;
+  padding-bottom: 0.25rem;
+  mask-image: linear-gradient(to right, transparent 0, #000 1.25rem, #000 calc(100% - 1.25rem), transparent 100%);
+}
+.galerie-filter-tabs::-webkit-scrollbar { display: none; }
+.galerie-filter-tabs .filter-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.55rem 0.95rem;
+  border: 1px solid rgba(248, 248, 248, 0.1);
+  border-radius: 999px;
+  background: rgba(26, 26, 24, 0.65);
+  color: var(--text-secondary);
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  scroll-snap-align: start;
+  flex-shrink: 0;
+  transition: color 200ms linear, background 200ms linear, border-color 200ms linear, transform 200ms var(--ease-out-expo);
+}
+.galerie-filter-tabs .filter-tab:hover {
+  color: var(--text-primary);
+  border-color: rgba(248, 248, 248, 0.22);
+  transform: translateY(-1px);
+}
+.galerie-filter-tabs .filter-tab.is-active {
+  color: #fff;
+  background: var(--primary);
+  border-color: var(--primary);
+  border-bottom-color: var(--primary);
+}
+.filter-tab-count {
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  opacity: 0.7;
+  padding: 0.1rem 0.4rem;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.25);
+  font-weight: 600;
+}
+.galerie-filter-tabs .filter-tab.is-active .filter-tab-count {
+  background: rgba(0, 0, 0, 0.32);
+  opacity: 0.95;
+}
+
+/* Photo card as <button> */
+.gal-card {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: none;
+  background: var(--surface-lowest);
+  cursor: zoom-in;
+  position: relative;
+  overflow: hidden;
+  will-change: transform, opacity;
+  text-align: left;
+}
+.gal-card:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+}
+.gal-card .galerie-photo-img {
+  transform: scale(1);
+}
+.gal-card-zoom {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.55);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  color: #fff;
+  border-radius: 999px;
+  opacity: 0;
+  transform: translateY(-4px) scale(0.92);
+  transition: opacity 240ms linear, transform 320ms var(--ease-out-expo);
+  pointer-events: none;
+}
+.gal-card:hover .gal-card-zoom,
+.gal-card:focus-visible .gal-card-zoom {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* Lightbox */
+.galerie-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(6, 6, 6, 0.94);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(1rem, 4vw, 3rem);
+  animation: galLbFadeIn 240ms var(--ease-out-expo);
+}
+@keyframes galLbFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.galerie-lb-figure {
+  position: relative;
+  max-width: min(1200px, 92vw);
+  max-height: 92vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  animation: galLbZoomIn 360ms var(--ease-out-expo);
+}
+@keyframes galLbZoomIn {
+  from { opacity: 0; transform: scale(0.94); }
+  to { opacity: 1; transform: scale(1); }
+}
+.galerie-lb-img {
+  max-width: 100%;
+  max-height: 78vh;
+  object-fit: contain;
+  display: block;
+  box-shadow: 0 30px 80px -20px rgba(0, 0, 0, 0.6);
+}
+.galerie-lb-caption {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  text-align: center;
+  max-width: 64ch;
+  color: var(--text-secondary);
+}
+.galerie-lb-counter {
+  font-family: var(--font-barlow-condensed), sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.galerie-lb-category {
+  font-family: var(--font-barlow-condensed), sans-serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--primary);
+}
+.galerie-lb-alt {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--text-primary);
+}
+.galerie-lb-btn {
+  position: absolute;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(20, 20, 18, 0.7);
+  border: 1px solid rgba(248, 248, 248, 0.12);
+  color: #fff;
+  border-radius: 999px;
+  cursor: pointer;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  transition: background 200ms linear, border-color 200ms linear, transform 200ms var(--ease-out-expo);
+}
+.galerie-lb-btn:hover {
+  background: var(--primary);
+  border-color: var(--primary);
+  transform: scale(1.05);
+}
+.galerie-lb-btn:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+}
+.galerie-lb-close { top: 1.25rem; right: 1.25rem; }
+.galerie-lb-prev { left: clamp(0.75rem, 2.5vw, 1.75rem); top: 50%; transform: translateY(-50%); }
+.galerie-lb-next { right: clamp(0.75rem, 2.5vw, 1.75rem); top: 50%; transform: translateY(-50%); }
+.galerie-lb-prev:hover { transform: translateY(-50%) scale(1.05); }
+.galerie-lb-next:hover { transform: translateY(-50%) scale(1.05); }
+
+@media (max-width: 640px) {
+  .galerie-lb-btn { width: 40px; height: 40px; }
+  .galerie-lb-prev { left: 0.5rem; }
+  .galerie-lb-next { right: 0.5rem; }
+  .galerie-lb-close { top: 0.75rem; right: 0.75rem; }
+  .galerie-lb-img { max-height: 68vh; }
+  .galerie-lb-alt { font-size: 0.85rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .galerie-lightbox,
+  .galerie-lb-figure {
+    animation: none;
+  }
+  .gal-card .galerie-photo-img,
+  .gal-card:hover .galerie-photo-img {
+    transform: none;
+    transition: none;
+  }
+}
 
 /* ─── CONTACT PAGE ─── */
 .contact-page-section {
@@ -6271,24 +6505,21 @@ h1, h2, h3, h4, h5 {
   filter: grayscale(0%) contrast(1.05);
 }
 
-/* Gallery photos: grayscale default, color on hover */
+/* Gallery photos: always full color (overrides .photo-card img grayscale) */
+.gal-card .galerie-photo-img,
 .galerie-photo-img {
   width: 100%;
+  height: auto;
   display: block;
   object-fit: cover;
-  filter: grayscale(100%) contrast(1.08);
-  transition: filter 200ms linear;
+  filter: contrast(1.04) saturate(1.04);
+  transition: filter 320ms var(--ease-out-expo), transform 600ms var(--ease-out-expo);
   border-radius: 0;
 }
-.photo-card:hover .galerie-photo-img {
-  filter: grayscale(0%) contrast(1.05);
-}
-/* Modifier: paysages et moments culturels gardent leur couleur d'origine */
-.galerie-photo-img.galerie-photo-img--color {
-  filter: contrast(1.02) saturate(1.02);
-}
-.photo-card:hover .galerie-photo-img.galerie-photo-img--color {
-  filter: contrast(1.06) saturate(1.08);
+.gal-card:hover .galerie-photo-img,
+.gal-card:focus-visible .galerie-photo-img {
+  filter: contrast(1.08) saturate(1.12);
+  transform: scale(1.04);
 }
 
 /* Programme discipline card with background image */
