@@ -344,8 +344,8 @@ h1, h2, h3, h4, h5 {
   position: relative;
   z-index: 1;
   width: 100%;
-  height: 120vh;
-  min-height: 720px;
+  height: 100svh;
+  min-height: 600px;
   background: var(--surface-lowest);
   overflow: hidden;
 }
@@ -405,12 +405,12 @@ h1, h2, h3, h4, h5 {
 .hero-content {
   position: absolute;
   top: 0; left: 0; right: 0;
-  height: 100vh;
+  height: 100svh;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   align-items: flex-start;
-  padding-bottom: clamp(6rem, 10vh, 10rem);
+  padding-bottom: clamp(4.5rem, 8svh, 8rem);
   padding-left: clamp(2rem, 9vw, 16rem);
   padding-right: clamp(2rem, 9vw, 16rem);
   padding-top: 3rem;
@@ -684,13 +684,13 @@ h1, h2, h3, h4, h5 {
 /* ── Tablette + Mobile : contenu en HAUT (pas en bas), carousel sessions + flèche scroll-down visibles ── */
 @media (max-width: 1024px) {
   #hero {
-    height: auto;
-    min-height: 100svh;
+    height: 100svh;
+    min-height: 0;
   }
   .hero-content {
     position: relative;
-    height: auto;
-    min-height: 100svh;
+    height: 100svh;
+    min-height: 0;
     justify-content: flex-start;
     /* Sous la nav fixe (--nav-h: 72px) + marge de respiration (+20 px vs ancien) */
     padding-top: calc(var(--nav-h) + clamp(3.25rem, 7svh, 4.75rem));
