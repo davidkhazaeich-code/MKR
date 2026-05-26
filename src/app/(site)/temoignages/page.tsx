@@ -8,7 +8,6 @@ import Icon from '@/components/Icon'
 import { TESTIMONIALS } from '@/data/testimonials'
 import {
   ANTOINE_PARCOURS_ASSETS,
-  ANTOINE_PARCOURS_MOMENTS,
   ANTOINE_PARCOURS_VARIANTS,
 } from '@/data/antoine-parcours'
 
@@ -57,7 +56,6 @@ export default function TemoignagesPage() {
       <VerticalVideoSplit
         {...ANTOINE_PARCOURS_ASSETS}
         {...ANTOINE_PARCOURS_VARIANTS.temoignages}
-        moments={ANTOINE_PARCOURS_MOMENTS}
       />
 
       {/* Videos */}

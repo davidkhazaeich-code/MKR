@@ -9,7 +9,6 @@ import TldrBox from '@/components/TldrBox'
 import VerticalVideoSplit from '@/components/VerticalVideoSplit'
 import {
   ANTOINE_PARCOURS_ASSETS,
-  ANTOINE_PARCOURS_MOMENTS,
   ANTOINE_PARCOURS_VARIANTS,
 } from '@/data/antoine-parcours'
 
@@ -56,7 +55,6 @@ export default function ProgrammeMMAPage() {
       <VerticalVideoSplit
         {...ANTOINE_PARCOURS_ASSETS}
         {...ANTOINE_PARCOURS_VARIANTS.mma}
-        moments={ANTOINE_PARCOURS_MOMENTS}
       />
 
       <div className="inner">

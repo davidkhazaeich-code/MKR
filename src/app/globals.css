@@ -10753,3 +10753,46 @@ html.is-loading body {
 @media (max-width: 880px) {
   .vvs-glow-orb { display: none; }
 }
+
+/* === VerticalVideoSplit — play overlay (mobile autoplay-blocked + reduced-motion fallback) === */
+
+.vvs-play-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.4);
+  border: none;
+  cursor: pointer;
+  z-index: 5;
+  padding: 0;
+  transition: background 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.vvs-play-overlay:hover { background: rgba(0, 0, 0, 0.5); }
+.vvs-play-overlay:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: -6px;
+}
+.vvs-play-circle {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+  transition: transform 0.2s ease;
+}
+@media (hover: hover) {
+  .vvs-play-overlay:hover .vvs-play-circle { transform: scale(1.05); }
+}
+@media (max-width: 880px) {
+  .vvs-play-circle { width: 72px; height: 72px; }
+  .vvs-play-circle svg { width: 36px !important; height: 36px !important; }
+}
+.vvs-section.is-reduced .vvs-play-circle { transition: none; }
+.vvs-section.is-reduced .vvs-play-overlay:hover .vvs-play-circle { transform: none; }

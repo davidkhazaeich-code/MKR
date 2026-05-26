@@ -3,7 +3,6 @@ import Hero from '@/components/Hero'
 import { buildMetadata } from '@/lib/seo'
 import {
   ANTOINE_PARCOURS_ASSETS,
-  ANTOINE_PARCOURS_MOMENTS,
   ANTOINE_PARCOURS_VARIANTS,
 } from '@/data/antoine-parcours'
 
@@ -40,7 +39,6 @@ export default function Home() {
         <VerticalVideoSplit
           {...ANTOINE_PARCOURS_ASSETS}
           {...ANTOINE_PARCOURS_VARIANTS.home}
-          moments={ANTOINE_PARCOURS_MOMENTS}
         />
       </div>
       <div data-scroll-section data-scroll-label="On organise tout" className="hs-anchor"><FacilitatorBand /></div>

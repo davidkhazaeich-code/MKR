@@ -5,12 +5,6 @@ import Link from 'next/link'
 import Icon from './Icon'
 import VideoModal from './VideoModal'
 
-export interface VideoMomentProp {
-  timestamp: string
-  timeSeconds: number
-  text: string
-}
-
 export interface VerticalVideoSplitProps {
   src: string
   webmSrc?: string
@@ -20,7 +14,6 @@ export interface VerticalVideoSplitProps {
   label: string
   title: string
   intro: string
-  moments: VideoMomentProp[]
   primaryCta: { href: string; label: string }
   secondaryCta?: { href: string; label: string }
   videoOnLeft?: boolean
@@ -36,7 +29,6 @@ export default function VerticalVideoSplit({
   label,
   title,
   intro,
-  moments,
   primaryCta,
   secondaryCta,
   videoOnLeft = true,
@@ -46,18 +38,22 @@ export default function VerticalVideoSplit({
   const videoRef = useRef<HTMLVideoElement>(null)
   const [modalOpen, setModalOpen] = useState(false)
   const [isMuted, setIsMuted] = useState(true)
-  const [activeMomentIndex, setActiveMomentIndex] = useState(-1)
   const [showSoundHint, setShowSoundHint] = useState(false)
   const [hasReducedMotion, setHasReducedMotion] = useState(false)
   const [videoError, setVideoError] = useState(false)
   const [isRevealed, setIsRevealed] = useState(false)
+  const [needsTap, setNeedsTap] = useState(false)
 
-  // Detect prefers-reduced-motion
+  // Detect prefers-reduced-motion (also surfaces play overlay)
   useEffect(() => {
     if (typeof window === 'undefined') return
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
     setHasReducedMotion(mq.matches)
-    const onChange = (e: MediaQueryListEvent) => setHasReducedMotion(e.matches)
+    if (mq.matches) setNeedsTap(true)
+    const onChange = (e: MediaQueryListEvent) => {
+      setHasReducedMotion(e.matches)
+      if (e.matches) setNeedsTap(true)
+    }
     mq.addEventListener('change', onChange)
     return () => mq.removeEventListener('change', onChange)
   }, [])
@@ -72,15 +68,18 @@ export default function VerticalVideoSplit({
       (entries) => {
         const entry = entries[0]
         if (!entry) return
-        if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
+        // Lower threshold for mobile reliability — section is often taller than viewport
+        if (entry.isIntersecting && entry.intersectionRatio >= 0.25) {
           if (!hasReducedMotion && !modalOpen) {
-            video.play().catch(() => {})
+            video.play()
+              .then(() => setNeedsTap(false))
+              .catch(() => setNeedsTap(true))
           }
         } else {
           video.pause()
         }
       },
-      { threshold: [0, 0.5] }
+      { threshold: [0, 0.25] }
     )
     playbackObserver.observe(section)
 
@@ -113,34 +112,21 @@ export default function VerticalVideoSplit({
     }
   }, [hasReducedMotion, isMuted])
 
-  // Timeline sync (timeupdate event, throttled)
-  useEffect(() => {
-    const video = videoRef.current
-    if (!video) return
-    let lastUpdate = 0
-    const onTimeUpdate = () => {
-      const now = performance.now()
-      if (now - lastUpdate < 250) return
-      lastUpdate = now
-      const t = video.currentTime
-      let idx = -1
-      for (let i = 0; i < moments.length; i++) {
-        if (moments[i].timeSeconds <= t) idx = i
-        else break
-      }
-      setActiveMomentIndex(idx)
-    }
-    video.addEventListener('timeupdate', onTimeUpdate)
-    return () => video.removeEventListener('timeupdate', onTimeUpdate)
-  }, [moments])
-
   // Pause video when modal opens, resume when it closes
   useEffect(() => {
     const video = videoRef.current
     if (!video) return
     if (modalOpen) video.pause()
-    else if (!hasReducedMotion) video.play().catch(() => {})
-  }, [modalOpen, hasReducedMotion])
+    else if (!hasReducedMotion && !needsTap) video.play().catch(() => {})
+  }, [modalOpen, hasReducedMotion, needsTap])
+
+  const handlePlayTap = () => {
+    const video = videoRef.current
+    if (!video) return
+    video.play()
+      .then(() => setNeedsTap(false))
+      .catch(() => {})
+  }
 
   const toggleMute = () => {
     const video = videoRef.current
@@ -148,13 +134,6 @@ export default function VerticalVideoSplit({
     video.muted = !video.muted
     setIsMuted(video.muted)
     setShowSoundHint(false)
-  }
-
-  const seekTo = (seconds: number) => {
-    const video = videoRef.current
-    if (!video) return
-    video.currentTime = seconds
-    if (!hasReducedMotion) video.play().catch(() => {})
   }
 
   const onVideoError = () => setVideoError(true)
@@ -240,6 +219,19 @@ export default function VerticalVideoSplit({
                   <Icon name="volume-on" size={14} /> ACTIVER LE SON
                 </div>
               )}
+
+              {needsTap && !videoError && (
+                <button
+                  type="button"
+                  className="vvs-play-overlay"
+                  onClick={handlePlayTap}
+                  aria-label="Lancer la vidéo"
+                >
+                  <span className="vvs-play-circle">
+                    <Icon name="play" size={40} />
+                  </span>
+                </button>
+              )}
             </div>
           </div>
 
@@ -247,25 +239,6 @@ export default function VerticalVideoSplit({
             <span className="vvs-label">{label}</span>
             <h2 className="vvs-title">{title}</h2>
             <p className="vvs-intro">{intro}</p>
-
-            <ol className="vvs-moments">
-              {moments.map((m, i) => (
-                <li
-                  key={m.timestamp}
-                  className={`vvs-moment-item${activeMomentIndex === i ? ' is-active' : ''}`}
-                >
-                  <button
-                    type="button"
-                    className="vvs-moment-btn"
-                    onClick={() => seekTo(m.timeSeconds)}
-                  >
-                    <span className="vvs-moment-dot" aria-hidden />
-                    <span className="vvs-moment-time">{m.timestamp}</span>
-                    <span className="vvs-moment-text">{m.text}</span>
-                  </button>
-                </li>
-              ))}
-            </ol>
 
             <div className="vvs-cta-row">
               <Link href={primaryCta.href} className="btn-primary">
