@@ -170,7 +170,7 @@ grep -i "aéroport européen de référence"                       → doit êtr
 
 **À refaire dans une session future (non bloquant)** :
 - Affiner la jauge `dual` mobile (peut overflow sur très petits écrans, à confirmer en dev tools).
-- Adapter `StoryCard.tsx` (Instagram share post-inscription) pour afficher la discipline retenue.
+- ✅ Fait 2026-05-24 : `StoryCard.tsx` prend `campDiscipline` et mappe vers destination + fond (Lutte→Daghestan, MMA→Tchétchénie, combo→Daghestan+Tchétchénie).
 - Adapter email transactionnel (V2 Resend) avec mention discipline + destination dans l'objet.
 - Logs admin : ajouter event `discipline_change` dans `audit_log` si Ruslan veut basculer une candidature Lutte → MMA en visio (rare mais possible).
 - Au-delà de 11 personnes en Groupe ou cas spéciaux : ajouter un champ texte "Détails combo" pour préciser le split souhaité (Sur Mesure).
