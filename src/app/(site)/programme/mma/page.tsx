@@ -6,6 +6,12 @@ import CinematicReveal from '@/components/CinematicReveal'
 import DisciplineTechniques from '@/components/DisciplineTechniques'
 import DisciplineSessionFlow from '@/components/DisciplineSessionFlow'
 import TldrBox from '@/components/TldrBox'
+import VerticalVideoSplit from '@/components/VerticalVideoSplit'
+import {
+  ANTOINE_PARCOURS_ASSETS,
+  ANTOINE_PARCOURS_MOMENTS,
+  ANTOINE_PARCOURS_VARIANTS,
+} from '@/data/antoine-parcours'
 
 export const metadata = buildMetadata({
   title: 'Programme MMA en Tchétchénie | MKR Caucasian Camp',
@@ -45,6 +51,12 @@ export default function ProgrammeMMAPage() {
           { href: '/programme', label: 'Programme' },
           { href: '/programme/mma', label: 'MMA' },
         ]}
+      />
+
+      <VerticalVideoSplit
+        {...ANTOINE_PARCOURS_ASSETS}
+        {...ANTOINE_PARCOURS_VARIANTS.mma}
+        moments={ANTOINE_PARCOURS_MOMENTS}
       />
 
       <div className="inner">
