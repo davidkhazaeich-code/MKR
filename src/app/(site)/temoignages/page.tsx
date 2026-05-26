@@ -3,8 +3,14 @@ import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 import VideoTestimonialsGrid from '@/components/VideoTestimonialsGrid'
+import VerticalVideoSplit from '@/components/VerticalVideoSplit'
 import Icon from '@/components/Icon'
 import { TESTIMONIALS } from '@/data/testimonials'
+import {
+  ANTOINE_PARCOURS_ASSETS,
+  ANTOINE_PARCOURS_MOMENTS,
+  ANTOINE_PARCOURS_VARIANTS,
+} from '@/data/antoine-parcours'
 
 export const metadata = buildMetadata({
   title: 'Témoignages athlètes | Camp MKR au Caucase',
@@ -47,12 +53,19 @@ export default function TemoignagesPage() {
         subtitle="Des athlètes de toute l'Europe. Un seul verdict."
       />
 
+      {/* Featured : Antoine parcours (montage) */}
+      <VerticalVideoSplit
+        {...ANTOINE_PARCOURS_ASSETS}
+        {...ANTOINE_PARCOURS_VARIANTS.temoignages}
+        moments={ANTOINE_PARCOURS_MOMENTS}
+      />
+
       {/* Videos */}
       <section className="logi-section fx-grid fx-stack-1">
         <div className="inner">
           <div className="logi-header reveal">
-            <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>VIDÉOS</span>
-            <h2>TÉMOIGNAGES VIDÉO</h2>
+            <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>AUTRES TÉMOIGNAGES</span>
+            <h2>INTERVIEWS FACE CAMÉRA</h2>
           </div>
           <VideoTestimonialsGrid items={VIDEO_ITEMS} />
         </div>
