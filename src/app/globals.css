@@ -4716,14 +4716,14 @@ h1, h2, h3, h4, h5 {
   text-transform: uppercase;
   text-align: center;
   text-decoration: none;
-  /* Zone tappable du bouton TOUJOURS 56 px sur tous les devices
-     (iPhone SE, iPhone 15 Pro, Android, Samsung Internet, Firefox mobile).
-     padding-bottom: env(safe-area-inset-bottom) prolonge le fond rouge sous
-     le home indicator iOS et la gesture bar Android sans agrandir le bouton.
-     box-sizing: content-box override le border-box global pour que height
-     reste fixe à 56 px et que le padding-bottom safe-area s'ajoute par-dessous. */
-  box-sizing: content-box;
-  height: 56px;
+  /* border-box + min-height : layout predictible sur Chrome iOS / Safari mobile.
+     content-box + height pouvait laisser un gap blanc sous le bouton pendant la
+     retraction des barres d'outils browser au scroll down (Chrome Android + iOS).
+     Zone tappable TOUJOURS 56 px (iPhone SE → iPhone 15 Pro, Android, Samsung Internet, Firefox mobile).
+     padding-bottom = env(safe-area-inset-bottom) pour ne pas chevaucher home indicator iOS
+     ni gesture bar Android. */
+  box-sizing: border-box;
+  min-height: calc(56px + env(safe-area-inset-bottom, 0px));
   padding-top: 0;
   padding-bottom: env(safe-area-inset-bottom, 0px);
   padding-left: max(1rem, env(safe-area-inset-left, 0px));
@@ -4731,9 +4731,26 @@ h1, h2, h3, h4, h5 {
   align-items: center;
   justify-content: center;
   touch-action: manipulation;
-  transform: translateY(100%);
+  /* translateY(120%) au lieu de 100% garantit que le bouton + son extension ::after
+     restent completement hors champ quand cache, sur tous les browsers mobiles. */
+  transform: translateY(120%);
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: transform;
+}
+/* Extension du fond colore SOUS le bouton : comble le gap blanc transitoire qui
+   peut apparaitre sur Chrome iOS, Safari mobile et certains Chrome Android pendant
+   la retraction des barres d'outils browser au scroll down. 120 px couvre largement
+   toutes les hauteurs de barre + home indicator + safe area sur tous les devices.
+   pointer-events: none pour ne jamais bloquer un tap. */
+.sticky-cta-mobile::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: 120px;
+  background: var(--cta);
+  pointer-events: none;
 }
 .sticky-cta-mobile.is-visible { transform: translateY(0); }
 @media (max-width: 768px) {
