@@ -1,6 +1,11 @@
 import dynamic from 'next/dynamic'
 import Hero from '@/components/Hero'
 import { buildMetadata } from '@/lib/seo'
+import {
+  ANTOINE_PARCOURS_ASSETS,
+  ANTOINE_PARCOURS_MOMENTS,
+  ANTOINE_PARCOURS_VARIANTS,
+} from '@/data/antoine-parcours'
 
 const AudienceSwitcher = dynamic(() => import('@/components/AudienceSwitcher'), { ssr: true })
 const FacilitatorBand = dynamic(() => import('@/components/FacilitatorBand'), { ssr: true })
@@ -12,6 +17,9 @@ const Testimonials = dynamic(() => import('@/components/Testimonials'), { ssr: t
 const FAQ = dynamic(() => import('@/components/FAQ'), { ssr: true })
 const CTAFinal = dynamic(() => import('@/components/CTAFinal'), { ssr: true })
 const VoyageReveal = dynamic(() => import('@/components/VoyageReveal'))
+const VerticalVideoSplit = dynamic(() => import('@/components/VerticalVideoSplit'), {
+  loading: () => <div style={{ minHeight: 600 }} aria-hidden />,
+})
 
 export const metadata = buildMetadata({
   title: "Camp MMA Tchétchénie et Lutte Daghestan | MKR Caucasian",
@@ -28,6 +36,13 @@ export default function Home() {
       <div data-scroll-section data-scroll-label="Pourquoi le Caucase" className="hs-anchor"><Philosophie /></div>
       <div data-scroll-section data-scroll-label="Les destinations" className="hs-anchor"><DestinationShowcase /></div>
       <div data-scroll-section data-scroll-label="Témoignages" className="hs-anchor"><Testimonials /></div>
+      <div data-scroll-section data-scroll-label="Antoine en vidéo" className="hs-anchor">
+        <VerticalVideoSplit
+          {...ANTOINE_PARCOURS_ASSETS}
+          {...ANTOINE_PARCOURS_VARIANTS.home}
+          moments={ANTOINE_PARCOURS_MOMENTS}
+        />
+      </div>
       <div data-scroll-section data-scroll-label="On organise tout" className="hs-anchor"><FacilitatorBand /></div>
       <div data-scroll-section data-scroll-label="Comment y aller" className="hs-anchor"><VoyageReveal /></div>
       <div data-scroll-section data-scroll-label="Sessions" className="hs-anchor"><Sessions /></div>
