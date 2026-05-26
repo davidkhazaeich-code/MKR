@@ -47,7 +47,7 @@ export default function Footer() {
               Camps d&apos;entraînement intensifs au cœur du Caucase. Lutte adultes et enfants au Daghestan, MMA en Tchétchénie. Coachs locaux. Immersion totale. Zéro distraction.
             </p>
             <div className="footer-socials">
-              <a href="https://instagram.com/mkr.caucasiancamp" target="_blank" rel="noopener noreferrer"
+              <a href="https://instagram.com/mkrcamp" target="_blank" rel="noopener noreferrer"
                 className="footer-social-link" aria-label="MKR sur Instagram">
                 <Icon name="instagram" size={18} />
                 Instagram

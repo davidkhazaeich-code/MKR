@@ -1672,7 +1672,7 @@ git commit -m "content(pdf): pages 15-17 — prep mentale + equipement + journee
   </div>
 
   <p style="font-family: 'Roboto Condensed', sans-serif; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; font-size: 11pt; margin-top: 10mm; color: #fff;">Pour parler tout de suite</p>
-  <p style="color: #d8d3c9;">WhatsApp <strong style="color: #fff;">+33 6 66 17 76 91</strong><br>Email <strong style="color: #fff;">contact@mkrcamp.com</strong><br>Instagram <strong style="color: #fff;">@mkr.caucasiancamp</strong></p>
+  <p style="color: #d8d3c9;">WhatsApp <strong style="color: #fff;">+33 6 66 17 76 91</strong><br>Email <strong style="color: #fff;">contact@mkrcamp.com</strong><br>Instagram <strong style="color: #fff;">@mkrcamp</strong></p>
 
   <hr style="border: 0; border-top: 1px solid #2a2a2a; margin: 10mm 0;">
   <p style="font-size: 9pt; color: #888;">Guide Caucase, edition mai 2026. Mise a jour reguliere sur mkrcamp.com/guide-caucase. <br>MKR Caucasian Camp — Camps d entrainement Lutte et MMA au coeur du Caucase.</p>

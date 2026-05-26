@@ -55,8 +55,8 @@ export default function ContactPage() {
                     <Icon name="instagram" size={24} />
                   </div>
                   <h3 className="card-title" style={{ fontSize: '0.9rem' }}>Instagram</h3>
-                  <a href="https://instagram.com/mkr.caucasiancamp" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
-                    @mkr.caucasiancamp
+                  <a href="https://instagram.com/mkrcamp" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
+                    @mkrcamp
                   </a>
                 </div>
               </div>

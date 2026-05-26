@@ -5,7 +5,7 @@ export const SITE_DESCRIPTION =
   "Camps d'entraînement MMA et Lutte au cœur du Caucase, fondés par Ruslan Mukhtarov (équipe de France de lutte, INSEP 2012-2016). Lutte adultes et enfants au Daghestan, MMA en Tchétchénie. Visa, vol intérieur, hébergement, repas, encadrement : MKR organise tout. L'immersion au milieu des champions."
 
 export const SOCIALS = {
-  instagram: 'https://instagram.com/mkr.caucasiancamp',
+  instagram: 'https://instagram.com/mkrcamp',
 } as const
 
 export const GEO = {

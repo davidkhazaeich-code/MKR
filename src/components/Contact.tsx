@@ -52,8 +52,8 @@ export default function Contact() {
                 <Icon name="instagram" />
                 <div>
                   <span className="contact-info-label">Instagram</span>
-                  <a href="https://instagram.com/mkr.caucasiancamp" target="_blank" rel="noopener noreferrer" className="contact-info-value">
-                    @mkr.caucasiancamp
+                  <a href="https://instagram.com/mkrcamp" target="_blank" rel="noopener noreferrer" className="contact-info-value">
+                    @mkrcamp
                   </a>
                 </div>
               </div>
