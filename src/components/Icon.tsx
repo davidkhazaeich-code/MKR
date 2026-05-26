@@ -111,6 +111,9 @@ import {
   RiQuoteText,
   RiLineChartLine,
   RiPriceTag3Line,
+  RiVolumeUpFill,
+  RiVolumeMuteFill,
+  RiFullscreenLine,
 } from '@remixicon/react'
 
 export type IconName =
@@ -145,6 +148,8 @@ export type IconName =
   | 'message' | 'chat' | 'quote'
   | 'home' | 'home-4' | 'building'
   | 'chart' | 'tag'
+  // media controls
+  | 'volume-on' | 'volume-off' | 'fullscreen'
 
 // Les composants Remix Icon ont leur propre type interne (RemixiconComponentType)
 // non exporté du package. On les stocke comme ComponentType<any> et on passe
@@ -255,6 +260,10 @@ const MAP: Record<IconName, ComponentType<any>> = {
   building: RiBuilding2Line,
   chart: RiLineChartLine,
   tag: RiPriceTag3Line,
+  // media controls
+  'volume-on': RiVolumeUpFill,
+  'volume-off': RiVolumeMuteFill,
+  fullscreen: RiFullscreenLine,
 }
 
 type IconProps = {
