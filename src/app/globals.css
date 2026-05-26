@@ -6200,11 +6200,12 @@ h1, h2, h3, h4, h5 {
 @media (max-width: 900px) { .galerie-grid { columns: 2; column-gap: 0.9rem; } .galerie-grid .photo-card { margin-bottom: 0.9rem; } }
 @media (max-width: 480px) { .galerie-grid { columns: 1; column-gap: 0.75rem; } .galerie-grid .photo-card { margin-bottom: 0.75rem; } }
 
-/* Sticky filters bar */
+/* Sticky filters bar — must sit above transformed gal-cards */
 .galerie-filters-bar {
   position: sticky;
   top: var(--nav-h);
-  z-index: 50;
+  z-index: 290; /* below #site-header (300) but above any local stacking */
+  isolation: isolate;
   background: rgba(14, 14, 14, 0.78);
   -webkit-backdrop-filter: blur(14px) saturate(140%);
   backdrop-filter: blur(14px) saturate(140%);
@@ -6279,8 +6280,15 @@ h1, h2, h3, h4, h5 {
   cursor: zoom-in;
   position: relative;
   overflow: hidden;
-  will-change: transform, opacity;
   text-align: left;
+  /* Perf: skip layout/paint for offscreen cards (huge perf win on long grids) */
+  content-visibility: auto;
+  contain: layout paint style;
+  z-index: 0; /* keep transformed cards below sticky bar (290) */
+}
+/* Hint for GPU compositing only while animating */
+.gal-card[data-animating="true"] {
+  will-change: transform, opacity, filter;
 }
 .gal-card:focus-visible {
   outline: 2px solid var(--primary);

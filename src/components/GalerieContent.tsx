@@ -177,12 +177,22 @@ export default function GalerieContent() {
     }
   }, [filter])
 
-  // Keyboard nav for lightbox + body scroll lock
+  // Keyboard nav for lightbox + body scroll lock + adjacent preload
   useEffect(() => {
     if (lightboxIndex === null) return
 
     const prevOverflow = document.body.style.overflow
     document.body.style.overflow = 'hidden'
+
+    // Preload neighbours for snappy slideshow
+    const preload = (idx: number) => {
+      const target = filtered[(idx + filtered.length) % filtered.length]
+      if (!target) return
+      const img = new Image()
+      img.src = target.img
+    }
+    preload(lightboxIndex + 1)
+    preload(lightboxIndex - 1)
 
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') closeLightbox()
@@ -195,13 +205,13 @@ export default function GalerieContent() {
       window.removeEventListener('keydown', onKey)
       document.body.style.overflow = prevOverflow
     }
-  }, [lightboxIndex, closeLightbox, navLightbox])
+  }, [lightboxIndex, closeLightbox, navLightbox, filtered])
 
   const current = lightboxIndex !== null ? filtered[lightboxIndex] : null
 
   return (
     <>
-      <section className="galerie-section fx-grid fx-stack-1">
+      <section className="galerie-section fx-grid">
         <div ref={barRef} className="galerie-filters-bar" data-stuck="false">
           <div className="inner">
             <div className="filter-tabs galerie-filter-tabs" role="tablist" aria-label="Filtrer la galerie">
@@ -226,26 +236,36 @@ export default function GalerieContent() {
 
         <div className="inner">
           <div ref={gridRef} className="galerie-grid">
-            {filtered.map((photo, i) => (
-              <button
-                type="button"
-                key={`${photo.img}-${filter}-${i}`}
-                className="photo-card gal-card"
-                onClick={() => openLightbox(i)}
-                aria-label={`Ouvrir l'image : ${photo.alt}`}
-              >
-                <img
-                  src={photo.img}
-                  alt={photo.alt}
-                  loading="lazy"
-                  className="galerie-photo-img"
-                  style={{ aspectRatio: i % 3 === 0 ? '3/4' : '4/3' }}
-                />
-                <span className="gal-card-zoom" aria-hidden="true">
-                  <Icon name="search" size={20} />
-                </span>
-              </button>
-            ))}
+            {filtered.map((photo, i) => {
+              const portrait = i % 3 === 0
+              const w = portrait ? 900 : 1200
+              const h = portrait ? 1200 : 900
+              return (
+                <button
+                  type="button"
+                  key={`${photo.img}-${filter}-${i}`}
+                  className="photo-card gal-card"
+                  onClick={() => openLightbox(i)}
+                  aria-label={`Ouvrir l'image : ${photo.alt}`}
+                  style={{ containIntrinsicSize: `${w}px ${h}px` }}
+                >
+                  <img
+                    src={photo.img}
+                    alt={photo.alt}
+                    loading={i < 6 ? 'eager' : 'lazy'}
+                    decoding="async"
+                    fetchPriority={i < 3 ? 'high' : 'low'}
+                    width={w}
+                    height={h}
+                    className="galerie-photo-img"
+                    style={{ aspectRatio: portrait ? '3/4' : '4/3' }}
+                  />
+                  <span className="gal-card-zoom" aria-hidden="true">
+                    <Icon name="search" size={20} />
+                  </span>
+                </button>
+              )
+            })}
           </div>
         </div>
       </section>
