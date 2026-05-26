@@ -1,7 +1,37 @@
 # SITEMAP MKR Caucasian Camp — Cartographie complète
 
-> **Fichier de référence pour Claude Code.** Mise à jour : 2026-05-14 (BREAKING : modèle Ruslan = visa inclus + vol intérieur inclus, vol intl à charge candidat, supplément MKR -30j, bio Ruslan INSEP, tagline "immersion au milieu des champions", Person JSON-LD).
+> **Fichier de référence pour Claude Code.** Mise à jour : 2026-05-26 (ajout VerticalVideoSplit + vidéo Antoine parcours 54s sur 3 surfaces : /programme/mma, /temoignages, homepage).
 > Lis ce fichier en priorité avant toute intervention sur le site MKR. Il évite de re-explorer.
+
+## 🆕 Changements 2026-05-26 (vidéo verticale Antoine parcours sur 3 surfaces)
+
+> Nouveau composant client `<VerticalVideoSplit />` qui affiche la vidéo verticale 9:16 d'Antoine Petit-Jean (montage 54s entraînement MMA Tchétchénie). Split layout : vidéo gauche + bloc storytelling droite (label + titre + timeline interactive de 5 moments + CTA). Autoplay mute + clic son + clic expand → VideoModal plein écran. Triple usage : `/programme/mma`, `/temoignages` (featured), homepage (entre Testimonials et FacilitatorBand).
+
+**Assets** :
+- `public/videos/testimonials/antoine-parcours.mp4` (H.264, 1080×1920 padded, 24 MB, CRF 25)
+- `public/videos/testimonials/antoine-parcours.webm` (VP9, 1080×1920, 20 MB, CRF 32)
+- `public/videos/testimonials/antoine-parcours-poster.jpg` (1080×1920, 72 KB)
+
+**Single source of truth** : `src/data/antoine-parcours.ts` (assets + moments + 3 variants de copy mma/temoignages/home). Modifier la copy → toucher uniquement ce fichier.
+
+**Composant** : `src/components/VerticalVideoSplit.tsx` (client, 293 lignes, réutilise `<VideoModal />` pour le plein écran).
+
+**CSS** : section dédiée `/* Vertical Video Split */` en fin de `src/app/globals.css` (~490 lignes, classes préfixées `.vvs-`).
+
+**Icônes ajoutées** : `volume-on`, `volume-off`, `fullscreen` dans `src/components/Icon.tsx` (RiVolumeUpFill, RiVolumeMuteFill, RiFullscreenLine).
+
+**Fichiers touchés (intégration)** :
+- `src/app/(site)/programme/mma/page.tsx` (entre PageHero et TldrBox)
+- `src/app/(site)/temoignages/page.tsx` (avant VideoTestimonialsGrid + label séparateur "AUTRES TÉMOIGNAGES / INTERVIEWS FACE CAMÉRA")
+- `src/app/(site)/page.tsx` (dynamic import entre Testimonials et FacilitatorBand)
+
+**Perf** : Lighthouse mobile slow-4G médiane 3 runs sur `/programme/mma` = 83/100. LCP 4.3s (préexistant, hero image), TBT 10ms, CLS 0. Acceptable malgré 24 MB MP4 dans /public (lazy-load IO).
+
+**Specs / plan** :
+- Design : `docs/superpowers/specs/2026-05-26-video-antoine-parcours-mma-design.md`
+- Plan : `docs/superpowers/plans/2026-05-26-video-antoine-parcours-mma.md`
+
+---
 
 ## 🆕 BREAKING — 2026-05-14 (modèle commercial post-interview Ruslan + storytelling fondateur)
 
@@ -439,7 +469,8 @@ mkrcamp.com/
 3. `<Philosophie />` — bento "POURQUOI LE CAUCASE" (3 cards) (Why / aspiration)
 4. `<DestinationShowcase />` — grid 4 paysages (matérialisation visuelle du rêve)
 5. `<Testimonials />` — carousel TÉMOIGNAGES (data/testimonials.ts) (preuve sociale)
-6. `<FacilitatorBand />` — "MKR organise tout" 6 prestations (lever objection "c'est compliqué")
+6. **`<VerticalVideoSplit />`** — vidéo verticale Antoine parcours 54s (preuve sociale visuelle, ajouté 2026-05-26)
+7. `<FacilitatorBand />` — "MKR organise tout" 6 prestations (lever objection "c'est compliqué")
 7. `<VoyageReveal />` — "Comment y aller" : trajet Istanbul→Makhachkala + transfert 1h30 (logistique concrète)
 8. `<Sessions />` — cards depuis `data/sessions.ts` (passage à l'action : "quand")
 9. `<Timeline />` — 5 étapes parcours (Postuler → Validation → Préparation → Voyage → Immersion) ("comment je m'inscris")
@@ -488,7 +519,7 @@ mkrcamp.com/
 **Tableaux** :
 - `TECHNIQUES` (l.13) : 6 items — Stand-up, Clinch, Takedowns, Ground & Pound, Soumissions, Transitions
 - `SESSION_FLOW` (l.22) : 5 étapes (15min échauffement → 10min debrief)
-**Sections** : PageHero · Description split · CinematicReveal · Techniques grid-3x2 · Session timeline · SectionCTA `/sessions` + `/programme/lutte`
+**Sections** : PageHero · **VerticalVideoSplit (Antoine parcours, ajouté 2026-05-26)** · Description split · CinematicReveal · Techniques grid-3x2 · Session timeline · SectionCTA `/sessions` + `/programme/lutte`
 
 ---
 
@@ -592,7 +623,7 @@ mkrcamp.com/
 - `VIDEO_TESTIMONIALS` (l.14) : 4 thumbs vidéo
 - `TESTIMONIALS` (l.~21) : 9 athlètes (différent de `data/testimonials.ts` qui en a 10) — Mehdi R., Karim D., Thomas B., Yassine K., Romain V., Adam S., Lucas M., Amine B., Pierre L.
 - Stats band (l.135) : **8 athlètes haut niveau · 9 coachs expérimentés · 87% taux de retour**
-**Sections** : PageHero · Vidéos grid-2 · CinematicReveal · Témoignages écrits grid-3 · Stats · SectionCTA
+**Sections** : PageHero · **VerticalVideoSplit (Antoine parcours featured, ajouté 2026-05-26)** · Label séparateur "AUTRES TÉMOIGNAGES / INTERVIEWS FACE CAMÉRA" · VideoTestimonialsGrid (Antoine interview + LAMP) · Témoignages écrits grid-3 · Stats · SectionCTA
 
 ---
 
@@ -902,6 +933,7 @@ GEO = { latitude: 42.9849, longitude: 47.5047, country: 'RU', region: 'Daghestan
 | **Métadonnées par page** | exports `metadata: Metadata` dans chaque `page.tsx` |
 | **Photos coachs** | `public/images/coaches/{firstname-lastname}.webp` (lowercase, tirets) |
 | **Vidéos hero** | `public/videos/hero-mountains.mp4`, hero-village, hero-forest, hero-clouds |
+| **Vidéo Antoine parcours (3 surfaces)** | `src/data/antoine-parcours.ts` (single source : assets + moments + 3 variants mma/temoignages/home). Composant : `src/components/VerticalVideoSplit.tsx`. Assets : `public/videos/testimonials/antoine-parcours.{mp4,webm,jpg}`. Pour changer la copy, toucher uniquement le data file. |
 
 ---
 
@@ -1286,4 +1318,20 @@ GEO = { latitude: 42.9849, longitude: 47.5047, country: 'RU', region: 'Daghestan
 
 ---
 
-*Dernière régénération : 2026-05-14 — ajout Guide Caucase (PDF 20 pages + landing + capture Supabase `guide_leads` + redirect 301 /guide-dagestan).*
+### Vidéo Antoine parcours (composant `VerticalVideoSplit`, ajouté 2026-05-26)
+| Fichier | Forme |
+|---|---|
+| `src/data/antoine-parcours.ts` | source unique — assets + 5 moments + 3 variants copy |
+| `src/components/VerticalVideoSplit.tsx` | composant client (autoplay mute IO, sound toggle, timeline sync, modal) |
+| `src/components/VideoModal.tsx` | réutilisé pour clic plein écran (déjà existant) |
+| `src/components/Icon.tsx` | ajouts `volume-on` / `volume-off` / `fullscreen` |
+| `src/app/globals.css` | section `/* Vertical Video Split */` en fin de fichier (~490 lignes, `.vvs-*`) |
+| `src/app/(site)/programme/mma/page.tsx` | usage variant `mma` après PageHero |
+| `src/app/(site)/temoignages/page.tsx` | usage variant `temoignages` avant VideoTestimonialsGrid + label séparateur |
+| `src/app/(site)/page.tsx` | usage variant `home` dynamic-importé entre Testimonials et FacilitatorBand |
+| `public/videos/testimonials/antoine-parcours.{mp4,webm,jpg}` | 3 assets vidéo (24 MB MP4, 20 MB WebM, 72 KB poster) |
+**⚠️** Si on change la copy d'une variant, modifier uniquement `data/antoine-parcours.ts`. Si on change les timestamps des moments (actuellement indicatifs : 06/18/31/42/50s), idem. Pour remplacer la vidéo entièrement : ré-encoder les 3 assets via ffmpeg `pad=1080:1920:0:3:black` (source 1080×1914) — cf. plan `docs/superpowers/plans/2026-05-26-video-antoine-parcours-mma.md` tâche 1.
+
+---
+
+*Dernière régénération : 2026-05-26 — ajout VerticalVideoSplit + data/antoine-parcours.ts + assets vidéo Antoine parcours (3 surfaces : MMA, temoignages, home).*
