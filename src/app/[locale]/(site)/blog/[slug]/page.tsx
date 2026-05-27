@@ -4,6 +4,8 @@ import { getTranslations, setRequestLocale } from 'next-intl/server'
 import SectionCTA from '@/components/SectionCTA'
 import Breadcrumb from '@/components/Breadcrumb'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
+import { localizedMetadata, getBlogAlternateLinks } from '@/lib/i18n-helpers'
+import type { Locale } from '@/i18n/routing'
 import {
   hydrateBlogPost,
   getAllBlogSlugs,
@@ -26,48 +28,28 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const tPost = await getTranslations({ locale, namespace: `blog.${slug}` })
   const article = hydrateBlogPost(slug, tPost as never)
   if (!article) return {}
-  const url = `${SITE_URL}/blog/${slug}`
+
+  const lang = (locale as Locale) ?? 'fr'
+  const alternates = getBlogAlternateLinks(slug, lang)
+
   const title = article.meta_title ?? `${article.title} | MKR Caucasian Camp`
   const description =
     article.meta_description ??
     article.excerpt ??
     stripHtml(article.content_html).substring(0, 160)
-  const imageUrl = article.img.startsWith('http') ? article.img : `${SITE_URL}${article.img}`
 
-  return {
-    title,
-    description,
-    alternates: { canonical: url },
-    keywords: article.keywords ?? undefined,
-    authors: [{ name: article.author_name }],
-    openGraph: {
-      type: 'article',
-      url,
-      title,
-      description,
-      siteName: 'MKR Caucasian Camp',
-      locale: locale === 'en' ? 'en_US' : 'fr_CH',
-      publishedTime: article.dateISO || undefined,
-      modifiedTime: article.dateModifiedISO || article.dateISO || undefined,
-      authors: [article.author_name],
-      section: article.category,
-      tags: article.keywords ?? undefined,
-      images: [
-        {
-          url: imageUrl,
-          width: 1200,
-          height: 630,
-          alt: article.img_alt,
-        },
-      ],
+  return localizedMetadata('/blog/[slug]' as never, lang, title, description, {
+    alternates,
+    images: [{ url: article.img, width: 1200, height: 630, alt: article.img_alt }],
+    ogType: 'article',
+    publishedTime: article.dateISO || undefined,
+    modifiedTime: article.dateModifiedISO || article.dateISO || undefined,
+    authors: [article.author_name],
+    extra: {
+      keywords: article.keywords ?? undefined,
+      authors: [{ name: article.author_name }],
     },
-    twitter: {
-      card: 'summary_large_image',
-      title,
-      description,
-      images: [imageUrl],
-    },
-  }
+  })
 }
 
 export default async function BlogArticlePage({ params }: { params: Promise<{ slug: string; locale: string }> }) {

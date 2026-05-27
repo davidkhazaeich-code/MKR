@@ -1,6 +1,7 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { Link } from '@/i18n/navigation'
-import { buildMetadata } from '@/lib/seo'
+import { localizedMetadata } from '@/lib/i18n-helpers'
+import type { Locale } from '@/i18n/routing'
 import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
 import DestinationReveal from '@/components/DestinationReveal'
@@ -10,11 +11,12 @@ import TldrBox from '@/components/TldrBox'
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: 'destinations.tchetchenie' })
-  return buildMetadata({
-    title: t('meta.title'),
-    description: t('meta.description'),
-    path: '/destinations/tchetchenie',
-  })
+  return localizedMetadata(
+    '/destinations/tchetchenie',
+    locale as Locale,
+    t('meta.title'),
+    t('meta.description'),
+  )
 }
 
 const EXCURSION_KEYS = ['mosquee', 'vainakh', 'kezenoy'] as const

@@ -1,5 +1,6 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server'
-import { buildMetadata } from '@/lib/seo'
+import { localizedMetadata } from '@/lib/i18n-helpers'
+import type { Locale } from '@/i18n/routing'
 import PageHero from '@/components/PageHero'
 import FAQTabs from '@/components/FAQTabs'
 import SectionCTA from '@/components/SectionCTA'
@@ -9,11 +10,7 @@ import { getAllFaqItems } from '@/data/faq'
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: 'faq' })
-  return buildMetadata({
-    title: t('meta.title'),
-    description: t('meta.description'),
-    path: '/faq',
-  })
+  return localizedMetadata('/faq', locale as Locale, t('meta.title'), t('meta.description'))
 }
 
 export default async function FAQPage({ params }: { params: Promise<{ locale: string }> }) {

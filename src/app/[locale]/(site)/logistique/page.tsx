@@ -1,5 +1,6 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server'
-import { buildMetadata } from '@/lib/seo'
+import { localizedMetadata } from '@/lib/i18n-helpers'
+import type { Locale } from '@/i18n/routing'
 import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
@@ -11,11 +12,7 @@ import {
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: 'logistique' })
-  return buildMetadata({
-    title: t('meta.title'),
-    description: t('meta.description'),
-    path: '/logistique',
-  })
+  return localizedMetadata('/logistique', locale as Locale, t('meta.title'), t('meta.description'))
 }
 
 const VISA_STEP_KEYS = ['step1', 'step2', 'step3', 'step4'] as const

@@ -1,5 +1,6 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server'
-import { buildMetadata } from '@/lib/seo'
+import { localizedMetadata } from '@/lib/i18n-helpers'
+import type { Locale } from '@/i18n/routing'
 import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
@@ -12,11 +13,7 @@ import { getAntoineParcoursProps } from '@/data/antoine-parcours'
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: 'temoignages' })
-  return buildMetadata({
-    title: t('meta.title'),
-    description: t('meta.description'),
-    path: '/temoignages',
-  })
+  return localizedMetadata('/temoignages', locale as Locale, t('meta.title'), t('meta.description'))
 }
 
 function buildVideoItems(hydrated: HydratedTestimonial[]) {

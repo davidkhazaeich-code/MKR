@@ -1,7 +1,8 @@
 import dynamic from 'next/dynamic'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 import Hero from '@/components/Hero'
-import { buildMetadata } from '@/lib/seo'
+import { localizedMetadata } from '@/lib/i18n-helpers'
+import type { Locale } from '@/i18n/routing'
 import { getAntoineParcoursProps } from '@/data/antoine-parcours'
 
 const AudienceSwitcher = dynamic(() => import('@/components/AudienceSwitcher'), { ssr: true })
@@ -18,11 +19,23 @@ const VerticalVideoSplit = dynamic(() => import('@/components/VerticalVideoSplit
   loading: () => <div style={{ minHeight: 600 }} aria-hidden />,
 })
 
-export const metadata = buildMetadata({
-  title: "Camp MMA Tchétchénie et Lutte Daghestan | MKR Caucasian",
-  description: "Entraîne-toi là où naissent les champions. Lutte au Daghestan, MMA en Tchétchénie. 1 à 3 semaines au Caucase, 4 sessions par an, vol intérieur inclus.",
-  path: '/',
-})
+const HOME_META = {
+  fr: {
+    title: "Camp MMA Tchétchénie et Lutte Daghestan | MKR Caucasian",
+    description: "Entraîne-toi là où naissent les champions. Lutte au Daghestan, MMA en Tchétchénie. 1 à 3 semaines au Caucase, 4 sessions par an, vol intérieur inclus.",
+  },
+  en: {
+    title: "MMA Camp Chechnya and Wrestling Camp Dagestan | MKR Caucasian",
+    description: "Train where champions are born. Wrestling in Dagestan, MMA in Chechnya. 1 to 3 weeks in the Caucasus, 4 sessions per year, domestic flight included.",
+  },
+} as const
+
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
+  const lang = (locale as Locale) ?? 'fr'
+  const copy = HOME_META[lang as 'fr' | 'en'] ?? HOME_META.fr
+  return localizedMetadata('/', lang, copy.title, copy.description)
+}
 
 export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params

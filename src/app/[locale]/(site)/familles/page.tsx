@@ -1,6 +1,7 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { Link } from '@/i18n/navigation'
-import { buildMetadata } from '@/lib/seo'
+import { localizedMetadata } from '@/lib/i18n-helpers'
+import type { Locale } from '@/i18n/routing'
 import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
@@ -12,11 +13,7 @@ import { FAMILY_EXTRA_CHILD_1WEEK_LABEL } from '@/lib/pricing-copy'
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: 'familles' })
-  return buildMetadata({
-    title: t('meta.title'),
-    description: t('meta.description'),
-    path: '/familles',
-  })
+  return localizedMetadata('/familles', locale as Locale, t('meta.title'), t('meta.description'))
 }
 
 const PILLAR_KEYS = ['parent_obligatoire', 'programme_adapte', 'coach_jeunesse', 'hebergement_famille'] as const

@@ -1,6 +1,7 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { Link } from '@/i18n/navigation'
-import { buildMetadata } from '@/lib/seo'
+import { localizedMetadata } from '@/lib/i18n-helpers'
+import type { Locale } from '@/i18n/routing'
 import { PRICING_TIERS, FAMILY_PRICING, formatEUR } from '@/data/pricing'
 import {
   DUO_ONE_LINE_BARE,
@@ -13,11 +14,7 @@ import {
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: 'cgv' })
-  return buildMetadata({
-    title: t('meta.title'),
-    description: t('meta.description'),
-    path: '/cgv',
-  })
+  return localizedMetadata('/cgv', locale as Locale, t('meta.title'), t('meta.description'))
 }
 
 export default async function CGVPage({ params }: { params: Promise<{ locale: string }> }) {

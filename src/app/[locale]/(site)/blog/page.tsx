@@ -1,15 +1,28 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server'
-import { buildMetadata } from '@/lib/seo'
+import { localizedMetadata } from '@/lib/i18n-helpers'
+import type { Locale } from '@/i18n/routing'
 import Link from 'next/link'
 import PageHero from '@/components/PageHero'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 import { getBlogList } from '@/data/blog'
 
-export const metadata = buildMetadata({
-  title: 'Blog MKR Caucasian Camp : MMA, Lutte et Caucase',
-  description: "Articles sur le MMA, la lutte, le Daghestan, la préparation et la culture du combat. Par MKR Caucasian Camp.",
-  path: '/blog',
-})
+const BLOG_LIST_META = {
+  fr: {
+    title: 'Blog MKR Caucasian Camp : MMA, Lutte et Caucase',
+    description: "Articles sur le MMA, la lutte, le Daghestan, la préparation et la culture du combat. Par MKR Caucasian Camp.",
+  },
+  en: {
+    title: 'MKR Caucasian Camp Blog: MMA, Wrestling and the Caucasus',
+    description: 'Articles on MMA, wrestling, Dagestan, training preparation and combat culture. By MKR Caucasian Camp.',
+  },
+} as const
+
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
+  const lang = (locale as Locale) ?? 'fr'
+  const copy = BLOG_LIST_META[lang as 'fr' | 'en'] ?? BLOG_LIST_META.fr
+  return localizedMetadata('/blog', lang, copy.title, copy.description)
+}
 
 export default async function BlogPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params

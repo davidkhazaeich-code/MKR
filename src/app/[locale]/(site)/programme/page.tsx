@@ -1,6 +1,7 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { Link } from '@/i18n/navigation'
-import { buildMetadata } from '@/lib/seo'
+import { localizedMetadata } from '@/lib/i18n-helpers'
+import type { Locale } from '@/i18n/routing'
 import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
@@ -9,11 +10,7 @@ import { FAMILY_BASE_PROSE, FAMILY_EXTRA_CHILD_1WEEK_LABEL } from '@/lib/pricing
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: 'programme.root' })
-  return buildMetadata({
-    title: t('meta.title'),
-    description: t('meta.description'),
-    path: '/programme',
-  })
+  return localizedMetadata('/programme', locale as Locale, t('meta.title'), t('meta.description'))
 }
 
 const LEVEL_KEYS = ['pro', 'inter', 'amateur'] as const

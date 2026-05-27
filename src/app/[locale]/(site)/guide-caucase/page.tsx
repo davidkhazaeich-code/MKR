@@ -1,5 +1,6 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server'
-import { buildMetadata } from '@/lib/seo'
+import { localizedMetadata } from '@/lib/i18n-helpers'
+import type { Locale } from '@/i18n/routing'
 import { Suspense } from 'react'
 import PageHero from '@/components/PageHero'
 import GuideForm from '@/components/GuideForm'
@@ -9,11 +10,7 @@ import CinematicReveal from '@/components/CinematicReveal'
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: 'guide-caucase' })
-  return buildMetadata({
-    title: t('meta.title'),
-    description: t('meta.description'),
-    path: '/guide-caucase',
-  })
+  return localizedMetadata('/guide-caucase', locale as Locale, t('meta.title'), t('meta.description'))
 }
 
 const CONTENT_KEYS = ['visa', 'vols', 'inclus', 'prep', 'equipement', 'culture'] as const

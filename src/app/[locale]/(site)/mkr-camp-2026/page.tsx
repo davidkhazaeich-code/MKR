@@ -1,6 +1,7 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { Link } from '@/i18n/navigation'
-import { buildMetadata } from '@/lib/seo'
+import { localizedMetadata } from '@/lib/i18n-helpers'
+import type { Locale } from '@/i18n/routing'
 import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
@@ -12,11 +13,12 @@ import { SOLO_PRICE_1WEEK_LABEL, SOLO_PRICE_1WEEK_EUR } from '@/lib/pricing-copy
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: 'mkr-camp-2026' })
-  return buildMetadata({
-    title: t('meta.title'),
-    description: t('meta.description', { soloPrice: SOLO_PRICE_1WEEK_LABEL }),
-    path: '/mkr-camp-2026',
-  })
+  return localizedMetadata(
+    '/mkr-camp-2026',
+    locale as Locale,
+    t('meta.title'),
+    t('meta.description', { soloPrice: SOLO_PRICE_1WEEK_LABEL }),
+  )
 }
 
 const REASON_KEYS = ['esprit', 'dates', 'historique'] as const

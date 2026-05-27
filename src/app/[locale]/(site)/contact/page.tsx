@@ -1,5 +1,6 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server'
-import { buildMetadata } from '@/lib/seo'
+import { localizedMetadata } from '@/lib/i18n-helpers'
+import type { Locale } from '@/i18n/routing'
 import PageHero from '@/components/PageHero'
 import ContactForm from '@/components/ContactForm'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
@@ -8,11 +9,7 @@ import Icon from '@/components/Icon'
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: 'contact' })
-  return buildMetadata({
-    title: t('meta.title'),
-    description: t('meta.description'),
-    path: '/contact',
-  })
+  return localizedMetadata('/contact', locale as Locale, t('meta.title'), t('meta.description'))
 }
 
 export default async function ContactPage({ params }: { params: Promise<{ locale: string }> }) {

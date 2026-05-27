@@ -1,13 +1,15 @@
-import { buildMetadata } from '@/lib/seo'
+import { getTranslations } from 'next-intl/server'
+import { localizedMetadata } from '@/lib/i18n-helpers'
+import type { Locale } from '@/i18n/routing'
 import InscriptionLayout from '@/components/InscriptionLayout'
 import type { RegistrationTypeId } from '@/data/registration-types'
 import { SESSIONS } from '@/data/sessions'
 
-export const metadata = buildMetadata({
-  title: "Inscription · MKR Caucasian Camp",
-  description: "Dépose ta candidature pour rejoindre un camp MMA et Lutte au Caucase. 4 sessions par an, sur mesure, famille ou clubs : 4 tunnels.",
-  path: '/inscription',
-})
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
+  const t = await getTranslations({ locale, namespace: 'inscription' })
+  return localizedMetadata('/inscription', locale as Locale, t('meta.title'), t('meta.description'))
+}
 const VALID_TYPES: RegistrationTypeId[] = ['session', 'custom', 'famille', 'groupe']
 const VALID_SESSION_IDS = SESSIONS.map(s => s.id)
 

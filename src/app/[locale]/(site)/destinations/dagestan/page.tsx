@@ -1,6 +1,7 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { Link } from '@/i18n/navigation'
-import { buildMetadata } from '@/lib/seo'
+import { localizedMetadata } from '@/lib/i18n-helpers'
+import type { Locale } from '@/i18n/routing'
 import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
 import DestinationReveal from '@/components/DestinationReveal'
@@ -11,11 +12,12 @@ import TldrBox from '@/components/TldrBox'
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: 'destinations.dagestan' })
-  return buildMetadata({
-    title: t('meta.title'),
-    description: t('meta.description'),
-    path: '/destinations/dagestan',
-  })
+  return localizedMetadata(
+    '/destinations/dagestan',
+    locale as Locale,
+    t('meta.title'),
+    t('meta.description'),
+  )
 }
 
 const EXCURSION_KEYS = ['sulak', 'sarykum', 'gamsutl'] as const

@@ -1,5 +1,6 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server'
-import { buildMetadata } from '@/lib/seo'
+import { localizedMetadata } from '@/lib/i18n-helpers'
+import type { Locale } from '@/i18n/routing'
 import PageHero from '@/components/PageHero'
 import FAQAccordion from '@/components/FAQAccordion'
 import SectionCTA from '@/components/SectionCTA'
@@ -9,11 +10,7 @@ import RefundPolicyTable from '@/components/RefundPolicyTable'
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: 'comment-ca-marche' })
-  return buildMetadata({
-    title: t('meta.title'),
-    description: t('meta.description'),
-    path: '/comment-ca-marche',
-  })
+  return localizedMetadata('/comment-ca-marche', locale as Locale, t('meta.title'), t('meta.description'))
 }
 
 const STEP_KEYS = ['step1', 'step2', 'step3', 'step4', 'step5', 'step6'] as const
