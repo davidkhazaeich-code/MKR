@@ -1,7 +1,48 @@
 # SITEMAP MKR Caucasian Camp — Cartographie complète
 
-> **Fichier de référence pour Claude Code.** Mise à jour : 2026-05-26 (ajout VerticalVideoSplit + vidéo Antoine parcours 54s sur 3 surfaces : /programme/mma, /temoignages, homepage).
+> **Fichier de référence pour Claude Code.** Mise à jour : 2026-05-27 (site bilingue FR + EN : next-intl, 34 namespaces, sitemap 68 URLs, EN PDF guide, glossaire locked, Playwright QA spec).
 > Lis ce fichier en priorité avant toute intervention sur le site MKR. Il évite de re-explorer.
+
+## 🆕 BREAKING — 2026-05-27 (site bilingue FR + EN)
+
+> **Décision David (post-interview Ruslan)** : élargir le funnel candidats anglophones (US/UK/MEA/Russian diaspora). FR reste canonical à la racine, EN ajouté sous `/en/` avec slugs SEO-friendly (slug remapping FR↔EN, pas de doublon mot pour mot).
+
+**Stack** : `next-intl` 4.12.0, App Router `[locale]/`, middleware `proxy.ts` (admin guard + i18n routing). Slug remap : `/le-camp` → `/en/the-camp`, `/programme/lutte` → `/en/program/wrestling`, `/inscription` → `/en/apply`, `/familles` → `/en/family`, `/sur-mesure` → `/en/custom`, `/clubs-groupes` → `/en/clubs-groups`, etc. Helpers : `src/i18n/{routing,navigation,request}.ts` (next-intl wiring) + `src/lib/i18n-helpers.ts` (`localizedMetadata()` + `getAlternateLinks()` hreflang bidirectionnel).
+
+**34 message namespaces** : `messages/fr/` + `messages/en/` (28 pages + `data.*` + `meta` + `blog`). 2557 clés par locale, parité validée par CI. 6 articles blog dans `messages/{fr,en}/blog/<slug>.json` (slug canonical = nom de fichier).
+
+**Glossaire locked** : `src/i18n/glossary.md` (~250 lignes, source pour le master prompt de traduction). Daghestan→Dagestan (no H), Tchétchénie→Chechnya, Lutte→Wrestling, MMA stays MMA, Coach not "trainer", Camp not "course"/"stage". Tagline locked : **"L'immersion au milieu des champions"** → **"Immersion among champions"**. Règles globales : no em dash, no ampersand (write "and"), no emoji. Form labels per §7, logistique terms per §8.4 (Vol intérieur→Domestic flight, Visa russe→Russian visa, 2 repas par jour→2 meals per day).
+
+**LocaleSwitcher** : `src/components/LocaleSwitcher.tsx` desktop + mobile, persiste `NEXT_LOCALE` cookie (1 an). Garde le slug équivalent au switch (`/le-camp` ↔ `/en/the-camp` via la routing table next-intl).
+
+**Admin protection** : `proxy.ts` (middleware) bloque `/en/admin/*` → l'admin reste 100% FR. Badge EN sur `/admin/inscriptions` quand `submission_language='en'`.
+
+**Sitemap** : `src/app/sitemap.ts` émet **68 URLs** (28 paths × 2 locales + 12 blog × 2 locales) avec `<xhtml:link rel="alternate" hreflang="fr|en|x-default">` bidirectionnel. `robots.txt` allow `/en/`. `public/llms-en.txt` miroir EN du `llms.txt` pour découverte par crawlers IA.
+
+**EN PDF guide** : source `docs/guide-caucase/guide.en.html` + build `./docs/guide-caucase/build.sh en` → `public/caucasus-guide.pdf`. Lead magnet EN servi via `/en/guide-caucase`.
+
+**Backend** : Supabase columns `candidatures.submission_language text CHECK IN ('fr','en') DEFAULT 'fr'` + `guide_leads.submission_language text DEFAULT 'fr'`. Payload form propage la locale courante.
+
+**JSON-LD** : `inLanguage` par locale sur WebSite + Events, `Organization.inLanguage: ['fr','en']`, `Organization.slogan: "Immersion among champions"` (EN) ou "L'immersion au milieu des champions" (FR).
+
+**CI** : `scripts/i18n-check.js` valide la parité 2557 clés FR vs EN, fail le build si EN incomplet. Slash command `claude /translate-content` (cf. `.claude/commands/translate-content.md`) dispatch un sub-agent traducteur avec le master prompt + glossaire.
+
+**QA Playwright** : `tests/i18n/layout-qa.spec.ts` (168 tests : 28 pages × 2 locales × 3 breakpoints). `npm run test:i18n` requires dev server up + Playwright browsers installed.
+
+**Workflow d'ajout d'une clé EN** :
+1. Modifier le namespace FR dans `messages/fr/<ns>.json`.
+2. Lancer `claude /translate-content` (dispatch traducteur avec glossaire + master prompt).
+3. Valider avec `node scripts/i18n-check.js` (CI fail si EN incomplet).
+4. Rebuild PDF EN si guide touché : `./docs/guide-caucase/build.sh en`.
+
+**Commits clés** : 8dc5143 (T13 EN translation 5052 insertions), 20bf62a (T14 sitemap 68 URLs), ce0b029 (T11 hreflang helpers), 254260d (T16 Supabase + admin EN badge), 13d4b19 (T18 CI i18n-check.js), b6183f8 (T19+T20 Playwright + SEO audit).
+
+**Entrée "Où changer X ?" associée** :
+| Je veux changer… | Fichier(s) à modifier |
+|---|---|
+| **Ajouter une clé de traduction EN** | Modifier `messages/fr/<ns>.json` → `claude /translate-content` → `node scripts/i18n-check.js` pour valider. Si guide PDF touché : `./docs/guide-caucase/build.sh en`. |
+
+---
 
 ## 🆕 Changements 2026-05-26 (vidéo verticale Antoine parcours sur 3 surfaces)
 
