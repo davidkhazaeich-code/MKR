@@ -9,9 +9,13 @@ interface Props {
 }
 
 /**
- * LocaleSwitcher — stub T5 (i18n FR+EN, 2026-05-27).
- * Sera affine en T12 (animations, dropdown, icones). Pour l'instant : 2 boutons
- * FR / EN qui swap la locale via next-intl router + cookie NEXT_LOCALE.
+ * LocaleSwitcher — T12 (i18n FR+EN, 2026-05-27).
+ * Two pill-style buttons (FR / EN, ISO short, no flags per spec).
+ * Sets cookie NEXT_LOCALE, persists across reloads, uses next-intl router
+ * to keep the same logical route (pathnames map FR↔EN automatically via
+ * the routing config). WCAG 2.1 AA : aria-current, lang, focus state,
+ * 44x44 mobile tap target. `data-hreflang` is exposed for crawlers/QA
+ * (the `hreflang` attribute itself is invalid on <button>).
  */
 export default function LocaleSwitcher({ variant = 'desktop' }: Props) {
   const currentLocale = useLocale() as Locale
@@ -22,9 +26,9 @@ export default function LocaleSwitcher({ variant = 'desktop' }: Props) {
   function switchTo(target: Locale) {
     if (target === currentLocale) return
     document.cookie = `NEXT_LOCALE=${target}; max-age=31536000; path=/; SameSite=Lax`
-    // Cast: usePathname() retourne le path canonique (incluant dynamic segments
-    // type "/blog/[slug]"), router.replace exige une union typee plus stricte.
-    // Le runtime gere correctement les dynamic segments ; on bypass le check TS.
+    // Cast: usePathname() returns the canonical path (incl. dynamic segments
+    // like "/blog/[slug]"); router.replace expects a stricter typed union.
+    // Runtime handles dynamic segments correctly; we bypass the TS check.
     router.replace(pathname as Parameters<typeof router.replace>[0], { locale: target })
   }
 
@@ -45,6 +49,7 @@ export default function LocaleSwitcher({ variant = 'desktop' }: Props) {
             className={`locale-switcher-btn${isActive ? ' is-active' : ''}`}
             aria-current={isActive ? 'page' : undefined}
             aria-label={t(ariaKey)}
+            data-hreflang={locale}
             lang={locale}
             onClick={() => switchTo(locale)}
             disabled={isActive}
