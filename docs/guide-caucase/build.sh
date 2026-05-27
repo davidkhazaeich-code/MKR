@@ -1,12 +1,28 @@
-#!/usr/bin/env bash
+#!/bin/bash
 set -euo pipefail
-cd "$(dirname "$0")"
-echo "Building Guide Caucase PDF..."
-/opt/homebrew/bin/weasyprint guide.html ../../public/guide-caucase.pdf
-echo "Built : ../../public/guide-caucase.pdf"
-du -h ../../public/guide-caucase.pdf
-python3 -c "
-data = open('../../public/guide-caucase.pdf','rb').read()
-pages = data.count(b'/Type /Page') - data.count(b'/Type /Pages')
-print(f'Pages : {pages}')
-"
+
+LOCALE="${1:-fr}"
+
+case "$LOCALE" in
+  fr)
+    SRC="docs/guide-caucase/guide.html"
+    DEST="public/guide-caucase.pdf"
+    ;;
+  en)
+    SRC="docs/guide-caucase/guide.en.html"
+    DEST="public/caucasus-guide.pdf"
+    ;;
+  all)
+    bash "$0" fr
+    bash "$0" en
+    exit 0
+    ;;
+  *)
+    echo "Usage: $0 [fr|en|all]"
+    exit 1
+    ;;
+esac
+
+echo "Building $LOCALE PDF: $SRC -> $DEST"
+/opt/homebrew/bin/weasyprint "$SRC" "$DEST"
+echo "Done: $DEST ($(du -h "$DEST" | cut -f1))"
