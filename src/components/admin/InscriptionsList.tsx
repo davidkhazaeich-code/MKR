@@ -51,6 +51,7 @@ interface Row {
   referral_partner_type: string | null
   referral_bonus_eur: number | null
   referral_payout_status: string | null
+  submission_language: 'fr' | 'en' | null
   candidate: {
     prenom: string
     nom: string
@@ -547,6 +548,11 @@ function CandidatureRow({
             <Badge color={TUNNEL_COLOR[row.tunnel_type]} dot>
               {TUNNEL_LABEL[row.tunnel_type]}
             </Badge>
+            {row.submission_language === 'en' && (
+              <span title="Candidature soumise depuis le site EN" style={{ display: 'inline-flex' }}>
+                <Badge color="#3b82f6">EN</Badge>
+              </span>
+            )}
             {row.camp_discipline && (
               <Badge color={DISCIPLINE_COLOR[row.camp_discipline]} dot>
                 {DISCIPLINE_LABEL[row.camp_discipline]}

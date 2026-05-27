@@ -59,6 +59,7 @@ interface ListRow {
   referral_partner_type: string | null
   referral_bonus_eur: number | null
   referral_payout_status: string | null
+  submission_language: 'fr' | 'en' | null
   candidate: {
     prenom: string
     nom: string
@@ -123,6 +124,7 @@ export default async function AdminInscriptionsPage({
         notes_admin,
         referral_code, referral_code_valid, referral_partner_name, referral_partner_type,
         referral_bonus_eur, referral_payout_status,
+        submission_language,
         candidate:candidates ( prenom, nom, email, telephone, pays )
       `)
       .order('created_at', { ascending: false })

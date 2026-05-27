@@ -10,6 +10,7 @@ const MAX_STR = 200
 type Payload = {
   email?: string
   locale?: string
+  submission_language?: string
   utm_source?: string
   utm_medium?: string
   utm_campaign?: string
@@ -58,9 +59,12 @@ export async function POST(request: Request) {
   }
 
   const supabase = getSupabaseAdmin()
+  // Langue de soumission du formulaire ('fr' par defaut, 'en' si page EN).
+  const submissionLanguage: 'fr' | 'en' = body.submission_language === 'en' ? 'en' : 'fr'
   const row = {
     email,
     locale: safe(body.locale) ?? 'fr',
+    submission_language: submissionLanguage,
     source: 'guide-caucase',
     utm_source: safe(body.utm_source),
     utm_medium: safe(body.utm_medium),

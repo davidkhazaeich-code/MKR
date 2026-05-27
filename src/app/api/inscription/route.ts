@@ -43,6 +43,7 @@ type InscriptionPayload = {
   camp_discipline?: string | null
   form_data?: Record<string, unknown>
   code_recommandation?: string | null
+  submission_language?: string | null
   // Honeypot : champ invisible pour utilisateurs humains, rempli par bots.
   _hp?: string
 }
@@ -246,6 +247,10 @@ export async function POST(request: Request) {
         referral_payout_status: 'not_applicable',
       }
 
+  // Langue de soumission du formulaire ('fr' par defaut, 'en' si page EN).
+  // Sert a l'admin pour identifier les candidatures internationales et a Slack pour le flag.
+  const submissionLanguage: 'fr' | 'en' = body.submission_language === 'en' ? 'en' : 'fr'
+
   const candidatureRow = {
     candidate_id: upsertedCandidate.id,
     tunnel_type: tunnel,
@@ -253,6 +258,7 @@ export async function POST(request: Request) {
     duree_semaines: body.duree_semaines ?? null,
     date_debut_souhaitee: body.date_debut_souhaitee || null,
     camp_discipline: campDiscipline,
+    submission_language: submissionLanguage,
     ...referralFields,
     form_data: {
       ...formData,
@@ -311,6 +317,7 @@ export async function POST(request: Request) {
     referral_partner_name: referralFields.referral_partner_name,
     referral_bonus_eur: referralFields.referral_bonus_eur,
     referral_code_valid: referralFields.referral_code_valid,
+    submission_language: submissionLanguage,
   }
 
   await Promise.all([
@@ -343,6 +350,7 @@ interface SlackPayload {
   referral_partner_name: string | null
   referral_bonus_eur: number | null
   referral_code_valid: boolean | null
+  submission_language: 'fr' | 'en'
 }
 
 const TUNNEL_LABELS: Record<string, string> = {
@@ -407,8 +415,12 @@ async function notifySlack(p: SlackPayload): Promise<void> {
         ? `*Code recommandation non reconnu* : "${p.referral_code}" (à vérifier)`
         : null
 
+  // Flag [EN] prepende pour les candidatures soumises depuis les pages anglaises
+  // (cf. memory feedback_no_emoji_use_svg : ASCII only, pas de drapeau emoji).
+  const enFlag = p.submission_language === 'en' ? '[EN] ' : ''
+
   const text = [
-    `*Nouvelle candidature MKR* (${TUNNEL_LABELS[p.tunnel] ?? p.tunnel})`,
+    `${enFlag}*Nouvelle candidature MKR* (${TUNNEL_LABELS[p.tunnel] ?? p.tunnel})`,
     `*${p.prenom} ${p.nom}* — ${p.email}${p.pays ? ` — ${p.pays}` : ''}${p.duree_semaines ? ` — ${p.duree_semaines} sem.` : ''}`,
     p.camp_discipline ? `*Camp* : ${DISCIPLINE_LABELS[p.camp_discipline]}` : null,
     referralLine,
