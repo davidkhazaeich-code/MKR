@@ -1,0 +1,90 @@
+{
+  "meta": {
+    "title": "Mentions légales | MKR Caucasian Camp",
+    "description": "Mentions légales du site mkrcamp.com édité par MKR Caucasian Camp (France). Éditeur, hébergeur, responsable de publication, propriété intellectuelle, RGPD."
+  },
+  "title": "MENTIONS LÉGALES",
+  "intro": {
+    "prefix": "Conformément aux dispositions des articles 6-III et 19 de la Loi n° 2004-575 du 21 juin 2004 pour la confiance dans l'économie numérique (LCEN), nous informons les utilisateurs et visiteurs du site ",
+    "link_label": "mkrcamp.com",
+    "suffix": " des informations suivantes."
+  },
+  "sections": {
+    "editor": {
+      "title": "1. Éditeur du site",
+      "name": "MKR Caucasian Camp",
+      "activity": "Activité : organisation de camps d'entraînement sportif (Lutte au Daghestan, MMA en Tchétchénie)",
+      "country": "Pays d'immatriculation : France",
+      "siret_prefix": "Forme juridique et numéro SIRET : ",
+      "siret_em": "à confirmer par MKR, sera renseigné dès l'obtention du Kbis ou de l'avis de situation Insee",
+      "address_prefix": "Siège social : ",
+      "address_em": "adresse à confirmer par MKR",
+      "contact_prefix": "Contact : ",
+      "contact_link": "formulaire de contact",
+      "phone_prefix": "Téléphone / WhatsApp : ",
+      "phone_value": "+33 6 66 17 76 91"
+    },
+    "publisher": {
+      "title": "2. Directeur de la publication",
+      "body": "Ruslan Mukhtarov, fondateur de MKR Caucasian Camp, ancien équipe de France de lutte (INSEP 2012-2016).",
+      "contact_prefix": "Contact : ",
+      "contact_link": "formulaire de contact"
+    },
+    "host": {
+      "title": "3. Hébergeur du site",
+      "name": "Vercel Inc.",
+      "address": "440 N Bashaw St, Covina, CA 91723, États-Unis",
+      "website_prefix": "Site web : ",
+      "website_label": "vercel.com"
+    },
+    "subcontractors": {
+      "title": "4. Sous-traitants techniques",
+      "intro": "Le site fait appel à des prestataires tiers pour son fonctionnement. Conformément à l'article 28 du Règlement général sur la protection des données (RGPD), ces sous-traitants traitent les données pour le compte de MKR Caucasian Camp dans le cadre strict défini par contrat.",
+      "vercel": {
+        "strong": "Vercel Inc.",
+        "body": " (États-Unis) : hébergement du site web et diffusion via réseau CDN. Les transferts vers les États-Unis sont encadrés par les clauses contractuelles types de la Commission européenne."
+      },
+      "supabase": {
+        "strong": "Supabase Inc.",
+        "body": " : base de données des candidatures. Le projet MKR est hébergé sur l'infrastructure européenne de Supabase, en région eu-central-1 (Francfort, Allemagne), ce qui garantit le stockage des données dans l'Union européenne."
+      },
+      "see_prefix": "Voir la ",
+      "see_link": "politique de confidentialité",
+      "see_suffix": " pour le détail complet des traitements et des transferts."
+    },
+    "ip": {
+      "title": "5. Propriété intellectuelle",
+      "p1": "L'ensemble des contenus présents sur ce site (textes, images, photographies, vidéos, logos, marques, graphismes, mise en page, code source) sont la propriété exclusive de MKR Caucasian Camp ou de ses partenaires, sauf mention contraire explicite. Ils sont protégés par le droit d'auteur (articles L111-1 et suivants du Code de la propriété intellectuelle) et par le droit des marques.",
+      "p2": "Toute reproduction, représentation, modification, publication, distribution, retransmission ou exploitation, intégrale ou partielle, de ces contenus, sur quelque support que ce soit, sans l'autorisation écrite préalable de MKR Caucasian Camp, est strictement interdite et constituerait une contrefaçon sanctionnée par les articles L335-2 et suivants du Code de la propriété intellectuelle."
+    },
+    "rgpd": {
+      "title": "6. Données personnelles et RGPD",
+      "p1": "Les informations recueillies via les formulaires du site (candidature, contact, demande de guide) sont traitées par MKR Caucasian Camp pour le traitement des candidatures, la communication avec les participants et l'organisation des camps.",
+      "p2": "Conformément au Règlement (UE) 2016/679 du 27 avril 2016 (RGPD) et à la Loi Informatique et Libertés modifiée, tu disposes des droits suivants sur tes données personnelles : droit d'accès, droit de rectification, droit à l'effacement, droit à la limitation du traitement, droit à la portabilité et droit d'opposition.",
+      "p3_prefix": "Pour exercer ces droits ou pour toute question relative au traitement de tes données, écris-nous via le ",
+      "p3_contact_link": "formulaire de contact",
+      "p3_middle": ". Tu disposes également du droit d'introduire une réclamation auprès de la Commission nationale de l'informatique et des libertés (CNIL), ",
+      "p3_cnil_link": "www.cnil.fr",
+      "p3_suffix": ".",
+      "p4_prefix": "Le détail complet des données collectées, de leur durée de conservation, des sous-traitants et de tes droits est disponible dans notre ",
+      "p4_link": "politique de confidentialité",
+      "p4_suffix": "."
+    },
+    "cookies": {
+      "title": "7. Cookies",
+      "body": "Ce site utilise uniquement des cookies techniques strictement nécessaires à son fonctionnement (session, sécurité, préférences de navigation). Conformément à l'article 82 de la Loi Informatique et Libertés modifiée et aux recommandations de la CNIL, aucun cookie de tracking, de mesure d'audience tiers ou de publicité ciblée n'est utilisé sans ton consentement explicite préalable."
+    },
+    "liability": {
+      "title": "8. Limitation de responsabilité",
+      "p1": "MKR Caucasian Camp s'efforce de fournir sur ce site des informations aussi précises et à jour que possible. Toutefois, MKR Caucasian Camp ne peut garantir l'exactitude, l'exhaustivité et l'actualité des informations diffusées, ni l'absence de modification de ces informations par un tiers (intrusion non autorisée).",
+      "p2": "Les liens hypertextes mis en place dans le cadre du site en direction d'autres ressources présentes sur le réseau Internet ne sauraient engager la responsabilité de MKR Caucasian Camp."
+    },
+    "law": {
+      "title": "9. Droit applicable et juridiction",
+      "body": "Les présentes mentions légales sont régies par le droit français. Tout litige relatif au site ou à son contenu sera soumis à la compétence des tribunaux français, dans les conditions de droit commun. Pour les consommateurs, les tribunaux compétents sont ceux du lieu de résidence du consommateur, conformément aux articles L211-3 et suivants du Code de la consommation."
+    }
+  },
+  "updated_prefix": "Dernière mise à jour : ",
+  "updated_date": "14 mai 2026",
+  "updated_iso": "2026-05-14"
+}

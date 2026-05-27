@@ -1,15 +1,24 @@
-import Link from 'next/link'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
+import { Link } from '@/i18n/navigation'
 import { buildMetadata } from '@/lib/seo'
 import Icon from '@/components/Icon'
 
-export const metadata = buildMetadata({
-  title: 'Merci | MKR Caucasian Camp',
-  description: "Ta candidature a bien été reçue. On te recontacte sous 48h.",
-  path: '/merci',
-  noindex: true,
-})
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
+  const t = await getTranslations({ locale, namespace: 'merci' })
+  return buildMetadata({
+    title: t('meta.title'),
+    description: t('meta.description'),
+    path: '/merci',
+    noindex: true,
+  })
+}
 
-export default function MerciPage() {
+export default async function MerciPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
+  setRequestLocale(locale)
+  const t = await getTranslations('merci')
+
   return (
     <section className="merci-page">
       <div className="inner">
@@ -18,38 +27,38 @@ export default function MerciPage() {
             <Icon name="check-circle" size={64} />
           </div>
           <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>
-            CANDIDATURE REÇUE
+            {t('label')}
           </span>
-          <h1>ON A BIEN REÇU<br />TA DEMANDE.</h1>
-          <p className="merci-sub">On te recontacte sous 48h pour un appel de validation. Prépare-toi à parler de ton parcours sportif.</p>
+          <h1>{t('title_line1')}<br />{t('title_line2')}</h1>
+          <p className="merci-sub">{t('sub')}</p>
 
           <div className="merci-steps">
             <div className="merci-step">
-              <span className="merci-step-num">01</span>
+              <span className="merci-step-num">{t('steps.step1.num')}</span>
               <div>
-                <h3>Appel de validation</h3>
-                <p>Un membre de l&apos;équipe te contacte sous 48h pour discuter de ta candidature.</p>
+                <h3>{t('steps.step1.title')}</h3>
+                <p>{t('steps.step1.body')}</p>
               </div>
             </div>
             <div className="merci-step">
-              <span className="merci-step-num">02</span>
+              <span className="merci-step-num">{t('steps.step2.num')}</span>
               <div>
-                <h3>Validation et paiement</h3>
-                <p>Si ta candidature est validée à l&apos;issue de la visio, tu reçois le RIB MKR pour régler le package en une seule fois (virement ou espèces).</p>
+                <h3>{t('steps.step2.title')}</h3>
+                <p>{t('steps.step2.body')}</p>
               </div>
             </div>
             <div className="merci-step">
-              <span className="merci-step-num">03</span>
+              <span className="merci-step-num">{t('steps.step3.num')}</span>
               <div>
-                <h3>Guide de préparation</h3>
-                <p>Un guide complet t&apos;est envoyé : programme de préparation, équipement, logistique.</p>
+                <h3>{t('steps.step3.title')}</h3>
+                <p>{t('steps.step3.body')}</p>
               </div>
             </div>
           </div>
 
           <div style={{ marginTop: '2.5rem', display: 'flex', gap: '1rem', flexWrap: 'wrap', justifyContent: 'center' }}>
-            <Link href="/sessions" className="btn-primary">VOIR LES SESSIONS</Link>
-            <Link href="/" className="btn-ghost">RETOUR À L&apos;ACCUEIL</Link>
+            <Link href="/sessions" className="btn-primary">{t('cta.sessions')}</Link>
+            <Link href="/" className="btn-ghost">{t('cta.home')}</Link>
           </div>
         </div>
       </div>

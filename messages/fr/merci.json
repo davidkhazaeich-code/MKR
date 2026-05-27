@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "title": "Merci | MKR Caucasian Camp",
+    "description": "Ta candidature a bien été reçue. On te recontacte sous 48h."
+  },
+  "icon_alt": "Candidature reçue",
+  "label": "CANDIDATURE REÇUE",
+  "title_line1": "ON A BIEN REÇU",
+  "title_line2": "TA DEMANDE.",
+  "sub": "On te recontacte sous 48h pour un appel de validation. Prépare-toi à parler de ton parcours sportif.",
+  "steps": {
+    "step1": {
+      "num": "01",
+      "title": "Appel de validation",
+      "body": "Un membre de l'équipe te contacte sous 48h pour discuter de ta candidature."
+    },
+    "step2": {
+      "num": "02",
+      "title": "Validation et paiement",
+      "body": "Si ta candidature est validée à l'issue de la visio, tu reçois le RIB MKR pour régler le package en une seule fois (virement ou espèces)."
+    },
+    "step3": {
+      "num": "03",
+      "title": "Guide de préparation",
+      "body": "Un guide complet t'est envoyé : programme de préparation, équipement, logistique."
+    }
+  },
+  "cta": {
+    "sessions": "VOIR LES SESSIONS",
+    "home": "RETOUR À L'ACCUEIL"
+  }
+}

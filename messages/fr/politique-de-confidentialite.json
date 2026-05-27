@@ -1,0 +1,87 @@
+{
+  "meta": {
+    "title": "Politique de confidentialité | MKR Caucasian Camp",
+    "description": "Politique de confidentialité de MKR Caucasian Camp. Collecte, utilisation et protection de tes données personnelles."
+  },
+  "title": "POLITIQUE DE CONFIDENTIALITÉ",
+  "sections": {
+    "intro": {
+      "title": "Introduction",
+      "body": "MKR Caucasian Camp s'engage à protéger la vie privée de ses utilisateurs. Cette politique de confidentialité explique comment nous collectons, utilisons et protégeons tes données personnelles."
+    },
+    "data_collected": {
+      "title": "Données collectées",
+      "intro": "Nous collectons les données suivantes via nos formulaires :",
+      "items": [
+        "Nom, prénom, date de naissance",
+        "Adresse email, numéro de téléphone",
+        "Pays et ville de départ",
+        "Informations sportives (discipline, niveau, expérience, club, palmarès, lien vidéo si fourni)",
+        "Informations de santé pertinentes pour la pratique sportive (conditions, blessures, contre-indications)",
+        "Préférences logistiques (tunnel d'inscription, session, durée, dates souhaitées)",
+        "Composition familiale ou de groupe le cas échéant (ex. âge des enfants pour le tunnel famille)"
+      ],
+      "metadata_intro_prefix": "Lors de la soumission du formulaire d'inscription, nous enregistrons également deux métadonnées techniques pour des finalités de sécurité (détection d'automatisation, anti-spam, traçabilité forensique en cas d'incident) :",
+      "metadata_ip_prefix": "L'adresse IP de la requête (extraite de l'en-tête ",
+      "metadata_ip_code": "X-Forwarded-For",
+      "metadata_ip_suffix": ")",
+      "metadata_ua_prefix": "L'identifiant du navigateur (",
+      "metadata_ua_code": "User-Agent",
+      "metadata_ua_suffix": ")",
+      "metadata_outro": "Ces deux métadonnées sont stockées avec ta candidature et conservées dans les mêmes conditions et durées que les autres données du formulaire (cf. section Conservation)."
+    },
+    "usage": {
+      "title": "Utilisation des données",
+      "intro": "Tes données sont utilisées exclusivement pour :",
+      "items": [
+        "Traiter ta candidature au camp",
+        "Te contacter dans le cadre du processus d'inscription",
+        "Préparer ton séjour (informations logistiques, médicales)",
+        "T'envoyer des informations sur les prochaines sessions (avec ton consentement)",
+        "Détecter les soumissions automatisées et prévenir les abus du formulaire (IP et User-Agent uniquement)"
+      ]
+    },
+    "retention": {
+      "title": "Conservation des données",
+      "body": "Tes données sont conservées pendant la durée nécessaire au traitement de ta candidature, et au maximum 3 ans après ton dernier contact avec MKR Caucasian Camp. À l'issue de ce délai, elles sont supprimées de notre base. Tu peux à tout moment demander leur suppression anticipée (cf. Tes droits)."
+    },
+    "subcontractors": {
+      "title": "Hébergement et sous-traitants",
+      "intro": "Pour exploiter le formulaire d'inscription et le tableau de bord interne, nous nous appuyons sur les sous-traitants suivants :",
+      "supabase": {
+        "strong": "Supabase",
+        "body_prefix": " (Supabase, Inc., États-Unis) : hébergement de la base de données PostgreSQL des candidatures. Nos données sont stockées sur l'infrastructure européenne (région ",
+        "region_code": "eu-central-1",
+        "body_middle": ", Francfort, Allemagne). Les transferts éventuels vers les États-Unis sont encadrés par les Clauses Contractuelles Types de la Commission européenne (SCC). Politique : ",
+        "link_label": "supabase.com/privacy"
+      },
+      "vercel": {
+        "strong": "Vercel",
+        "body_prefix": " (Vercel, Inc., États-Unis) : hébergement de l'application web et des routes serveur. Politique : ",
+        "link_label": "vercel.com/legal/privacy-policy"
+      }
+    },
+    "sharing": {
+      "title": "Partage des données",
+      "body": "Tes données ne sont jamais vendues à des tiers. Elles peuvent être partagées avec nos partenaires logistiques (hébergement sur place, transport) dans le strict cadre de l'organisation de ton séjour."
+    },
+    "rights": {
+      "title": "Tes droits",
+      "intro": "Conformément au RGPD, tu disposes des droits suivants :",
+      "items": [
+        "Droit d'accès à tes données",
+        "Droit de rectification",
+        "Droit à l'effacement",
+        "Droit à la portabilité",
+        "Droit d'opposition au traitement"
+      ],
+      "outro_prefix": "Pour exercer ces droits, écris-nous via le ",
+      "outro_link": "formulaire de contact",
+      "outro_suffix": "."
+    },
+    "security": {
+      "title": "Sécurité",
+      "body": "Nous mettons en œuvre des mesures techniques et organisationnelles appropriées pour protéger tes données contre tout accès non autorisé, modification, divulgation ou destruction."
+    }
+  }
+}
