@@ -1,6 +1,7 @@
 'use client'
 
-import Link from 'next/link'
+import { Link } from '@/i18n/navigation'
+import { useTranslations } from 'next-intl'
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { SESSIONS, formatPriceFrom } from '@/data/sessions'
 import PlacesRestantes from '@/components/PlacesRestantes'
@@ -15,6 +16,7 @@ const VIDEO_DURATION = 10000 // ms per video before crossfade
 const FADE_DURATION = 1500   // ms crossfade
 
 export default function Hero() {
+  const t = useTranslations('home.hero')
   const heroSectionRef = useRef<HTMLElement>(null)
   const [activeIndex, setActiveIndex] = useState(0)
   const embersCanvasRef = useRef<HTMLCanvasElement>(null)
@@ -148,7 +150,7 @@ export default function Hero() {
   }, [])
 
   return (
-    <section id="hero" ref={heroSectionRef} aria-label="En-tête héroïque">
+    <section id="hero" ref={heroSectionRef} aria-label={t('section_aria')}>
 
       {/* Background videos with crossfade */}
       {HERO_VIDEOS.map((src, i) => (
@@ -175,34 +177,34 @@ export default function Hero() {
 
       {/* Hero content */}
       <div className="hero-content">
-        <span className="hero-pill">Lutte au Daghestan et MMA en Tchétchénie</span>
+        <span className="hero-pill">{t('pill')}</span>
 
         <h1 className="hero-h1">
-          ENTRAÎNE-TOI LÀ<br />
-          OÙ NAISSENT<br />
-          LES <span className="highlight">CHAMPIONS</span>
+          {t('title_line1')}<br />
+          {t('title_line2')}<br />
+          {t('title_line3_prefix')}<span className="highlight">{t('title_line3_highlight')}</span>
         </h1>
 
-        <p className="hero-subtitle">Camp d&apos;entraînement au cœur du Caucase. Lutte au Daghestan, MMA en Tchétchénie. Tu n&apos;as qu&apos;à préparer ton sac, MKR organise tout.</p>
+        <p className="hero-subtitle">{t('subtitle')}</p>
 
         <div className="hero-ctas">
-          <Link href="/inscription" className="btn-primary">POSTULER AU CAMP</Link>
-          <a href="#facilitator" className="btn-ghost">DÉCOUVRIR LE CAMP</a>
+          <Link href="/inscription" className="btn-primary">{t('cta_primary')}</Link>
+          <a href="#facilitator" className="btn-ghost">{t('cta_secondary')}</a>
         </div>
 
         <div className="hero-stats">
           <div className="hero-stat-item">
-            <span className="hero-stat-num">2</span>
-            <span className="hero-stat-label hero-stat-label--desktop">Destinations · Daghestan, Tchétchénie</span>
-            <span className="hero-stat-label hero-stat-label--mobile">Lutte Daghestan · MMA Tchétchénie</span>
+            <span className="hero-stat-num">{t('stats.destinations_value')}</span>
+            <span className="hero-stat-label hero-stat-label--desktop">{t('stats.destinations_label_desktop')}</span>
+            <span className="hero-stat-label hero-stat-label--mobile">{t('stats.destinations_label_mobile')}</span>
           </div>
           <div className="hero-stat-item hero-stat-item--hide-mobile">
-            <span className="hero-stat-num">3</span>
-            <span className="hero-stat-label">Disciplines · Lutte, Lutte enfants, MMA</span>
+            <span className="hero-stat-num">{t('stats.disciplines_value')}</span>
+            <span className="hero-stat-label">{t('stats.disciplines_label')}</span>
           </div>
           <div className="hero-stat-item hero-stat-item--hide-mobile">
-            <span className="hero-stat-num">1-3</span>
-            <span className="hero-stat-label">Semaines d&apos;immersion</span>
+            <span className="hero-stat-num">{t('stats.duration_value')}</span>
+            <span className="hero-stat-label">{t('stats.duration_label')}</span>
           </div>
         </div>
 
@@ -215,6 +217,7 @@ export default function Hero() {
 }
 
 function HeroCampCarousel() {
+  const t = useTranslations('home.hero')
   const [active, setActive] = useState(0)
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
 
@@ -238,7 +241,7 @@ function HeroCampCarousel() {
   const session = SESSIONS[active]
 
   return (
-    <div className="hero-camps" aria-label="Prochaines sessions">
+    <div className="hero-camps" aria-label={t('carousel_aria')}>
       <div className="hero-camps-card" key={active}>
         <div className="hero-camps-top">
           <span className="hero-camps-label">{session.label}</span>
@@ -252,7 +255,7 @@ function HeroCampCarousel() {
         <div className="hero-camps-dates">{session.dates}</div>
         <div className="hero-camps-bottom">
           <span className="hero-camps-price">{formatPriceFrom(session)}</span>
-          <Link href={`/inscription?type=session&session=${session.id}`} className="hero-camps-cta">S&apos;inscrire →</Link>
+          <Link href={`/inscription?type=session&session=${session.id}` as Parameters<typeof Link>[0]['href']} className="hero-camps-cta">{t('carousel_cta')}</Link>
         </div>
       </div>
       {SESSIONS.length > 1 && (
@@ -262,7 +265,7 @@ function HeroCampCarousel() {
               key={i}
               className={`hero-camps-dot${i === active ? ' active' : ''}`}
               onClick={() => goTo(i)}
-              aria-label={`Session ${i + 1}`}
+              aria-label={t('carousel_dot_aria', { n: i + 1 })}
             />
           ))}
         </div>

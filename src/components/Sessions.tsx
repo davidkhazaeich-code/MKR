@@ -1,21 +1,23 @@
-import Link from 'next/link'
+import { Link } from '@/i18n/navigation'
+import { useTranslations } from 'next-intl'
 import { SESSIONS, formatPriceFrom } from '@/data/sessions'
 import PlacesRestantes from '@/components/PlacesRestantes'
 import { DUO_ONE_LINE_BARE, FAMILY_BASE_1WEEK_LABEL } from '@/lib/pricing-copy'
 
 export default function Sessions() {
+  const t = useTranslations('home.sessions')
   return (
     <section id="sessions" aria-labelledby="sessions-heading">
       <div className="inner">
         <div className="sessions-header reveal">
           <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>
-            CALENDRIER 2026 / 2027
+            {t('label')}
           </span>
           <h2 id="sessions-heading" className="sessions-title">
-            LES 4<br />SESSIONS
+            {t('title_line1')}<br />{t('title_line2')}
           </h2>
           <p style={{ color: 'var(--text-secondary)', marginTop: '0.8rem', maxWidth: '640px' }}>
-            Une session par saison, calée sur les vacances scolaires francophones (France, Suisse romande, Belgique). Lutte au Daghestan ou MMA en Tchétchénie selon la discipline choisie à l&apos;inscription.
+            {t('subtitle')}
           </p>
         </div>
 
@@ -34,11 +36,11 @@ export default function Sessions() {
               </div>
               <div className="session-meta">
                 <div className="session-meta-item">
-                  <span className="session-meta-label">Intensité</span>
+                  <span className="session-meta-label">{t('meta_intensity')}</span>
                   <span className="session-meta-value">{session.intensity}</span>
                 </div>
                 <div className="session-meta-item">
-                  <span className="session-meta-label">Places</span>
+                  <span className="session-meta-label">{t('meta_places')}</span>
                   <span className="session-meta-value">
                     <PlacesRestantes
                       sessionId={session.id}
@@ -47,7 +49,7 @@ export default function Sessions() {
                   </span>
                 </div>
                 <div className="session-meta-item">
-                  <span className="session-meta-label">Durée</span>
+                  <span className="session-meta-label">{t('meta_duration')}</span>
                   <span className="session-meta-value">{session.duration}</span>
                 </div>
               </div>
@@ -55,9 +57,9 @@ export default function Sessions() {
               <div className="session-card-footer">
                 <div>
                   <div className="session-price">{formatPriceFrom(session)}</div>
-                  <div className="session-price-sub">Tarif Solo / Duo : {DUO_ONE_LINE_BARE} par adulte. Dégressif dès 3 personnes. Forfait Famille (1P+1E) à partir de {FAMILY_BASE_1WEEK_LABEL}. Visa russe, vol intérieur Istanbul → Makhachkala ou Grozny, transferts, hébergement et 2 repas/jour inclus. Vol international à charge.</div>
+                  <div className="session-price-sub">{t('price_sub_prefix')}{DUO_ONE_LINE_BARE}{t('price_sub_middle')}{FAMILY_BASE_1WEEK_LABEL}{t('price_sub_suffix')}</div>
                 </div>
-                <Link href={`/inscription?type=session&session=${session.id}`} className="session-cta">POSTULER</Link>
+                <Link href={`/inscription?type=session&session=${session.id}` as Parameters<typeof Link>[0]['href']} className="session-cta">{t('card_cta')}</Link>
               </div>
             </article>
           ))}

@@ -1,11 +1,13 @@
 'use client'
 
 import { useState } from 'react'
+import { useTranslations } from 'next-intl'
 import { FAQ_HOMEPAGE } from '@/data/faq'
 
 const DELAY_STEP = 0.05
 
 export default function FAQ() {
+  const t = useTranslations('home.faq')
   const [openSet, setOpenSet] = useState<Set<number>>(new Set())
 
   const toggle = (i: number) => {
@@ -22,9 +24,9 @@ export default function FAQ() {
       <div className="inner">
         <div className="faq-header reveal">
           <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>
-            QUESTIONS FRÉQUENTES
+            {t('label')}
           </span>
-          <h2 id="faq-heading" className="faq-title">FAQ</h2>
+          <h2 id="faq-heading" className="faq-title">{t('title')}</h2>
         </div>
 
         <div className="faq-grid">

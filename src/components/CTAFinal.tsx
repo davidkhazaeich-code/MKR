@@ -1,22 +1,24 @@
-import Link from 'next/link'
+import { Link } from '@/i18n/navigation'
+import { useTranslations } from 'next-intl'
 import { getNextSession, SESSIONS } from '@/data/sessions'
 
 export default function CTAFinal() {
+  const t = useTranslations('home.cta_final')
   const next = getNextSession()
   const year = next.startDate.slice(0, 4)
   return (
     <section id="cta-final" aria-labelledby="cta-heading">
       <div className="cta-glow" aria-hidden="true"></div>
       <div className="cta-inner">
-        <span className="cta-label reveal">L&apos;immersion au milieu des champions · {SESSIONS.length} sessions par an · 15 places par destination.</span>
+        <span className="cta-label reveal">{t('label', { sessions_count: SESSIONS.length })}</span>
         <h2 id="cta-heading" className="cta-title reveal">
-          PRÊT POUR<br /><span>LE CAUCASE ?</span>
+          {t('title_line1')}<br /><span>{t('title_line2')}</span>
         </h2>
         <p className="cta-subtitle reveal" style={{ transitionDelay: '0.1s' }}>
-          Prochain camp · {next.dates} {year} · Daghestan (Lutte) ou Tchétchénie (MMA)
+          {t('subtitle', { dates: next.dates, year })}
         </p>
         <Link href="/inscription" className="cta-btn reveal" style={{ transitionDelay: '0.2s' }}>
-          DÉPOSER MA CANDIDATURE
+          {t('cta')}
         </Link>
       </div>
 

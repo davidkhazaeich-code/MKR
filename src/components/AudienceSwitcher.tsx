@@ -1,5 +1,6 @@
 import Image from 'next/image'
-import Link from 'next/link'
+import { Link } from '@/i18n/navigation'
+import { useTranslations } from 'next-intl'
 import { REGISTRATION_TYPES } from '@/data/registration-types'
 import Icon, { type IconName } from './Icon'
 
@@ -18,6 +19,7 @@ interface AudienceSwitcherProps {
 }
 
 export default function AudienceSwitcher({ withHeader = true, compact = false }: AudienceSwitcherProps) {
+  const t = useTranslations('home.audience_switcher')
   return (
     <section
       id="audiences"
@@ -29,13 +31,13 @@ export default function AudienceSwitcher({ withHeader = true, compact = false }:
         {withHeader && (
           <div className="audience-switcher-header reveal">
             <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>
-              QUATRE FAÇONS DE VENIR
+              {t('label')}
             </span>
             <h2 id="audiences-heading" className="audience-switcher-title">
-              CHOISIS TON FORMAT<br/>D&apos;INSCRIPTION
+              {t('title_line1')}<br/>{t('title_line2')}
             </h2>
             <p className="audience-switcher-sub">
-              Tu pars seul, en duo, en famille ou avec ton club ? On a un format pour chaque profil. Lutte au Daghestan ou MMA en Tchétchénie : visa, vol intérieur depuis Istanbul, transferts, hébergement, repas et encadrement sont coordonnés sur place par MKR.
+              {t('subtitle')}
             </p>
           </div>
         )}
@@ -61,7 +63,7 @@ export default function AudienceSwitcher({ withHeader = true, compact = false }:
                 </div>
               </div>
               {type.recommended && (
-                <span className="audience-card-flag">RECOMMANDÉ</span>
+                <span className="audience-card-flag">{t('card.recommended_flag')}</span>
               )}
               <span className="audience-card-badge">{type.badge}</span>
               <h3 className="audience-card-title">{type.label}</h3>
@@ -69,22 +71,22 @@ export default function AudienceSwitcher({ withHeader = true, compact = false }:
 
               <ul className="audience-card-meta">
                 <li>
-                  <span className="audience-card-meta-label">Dates</span>
+                  <span className="audience-card-meta-label">{t('card.meta_dates')}</span>
                   <span className="audience-card-meta-value">{type.dates}</span>
                 </li>
                 <li>
-                  <span className="audience-card-meta-label">Durée</span>
+                  <span className="audience-card-meta-label">{t('card.meta_duration')}</span>
                   <span className="audience-card-meta-value">{type.duration}</span>
                 </li>
                 <li>
-                  <span className="audience-card-meta-label">À partir de</span>
+                  <span className="audience-card-meta-label">{t('card.meta_min_persons')}</span>
                   <span className="audience-card-meta-value">
-                    {type.minPersons === 1 ? '1 personne' : `${type.minPersons} personnes`}
+                    {type.minPersons === 1 ? t('card.person_singular') : t('card.person_plural', { n: type.minPersons })}
                   </span>
                 </li>
               </ul>
 
-              <Link href={type.href} className="audience-card-cta">
+              <Link href={type.href as Parameters<typeof Link>[0]['href']} className="audience-card-cta">
                 {type.cta}
                 <Icon name="arrow-right" size={14} />
               </Link>

@@ -2,13 +2,14 @@
 
 import { useRef, useState } from 'react'
 import Image from 'next/image'
+import { useTranslations } from 'next-intl'
 import { TESTIMONIALS, type Testimonial } from '@/data/testimonials'
 import VideoModal from './VideoModal'
 import Icon from './Icon'
 
-function Stars() {
+function Stars({ ariaLabel }: { ariaLabel: string }) {
   return (
-    <div className="testi-stars" role="img" aria-label="5 étoiles sur 5">
+    <div className="testi-stars" role="img" aria-label={ariaLabel}>
       {[...Array(5)].map((_, i) => (
         <Icon key={i} name="star-fill" size={14} />
       ))}
@@ -17,6 +18,7 @@ function Stars() {
 }
 
 export default function Testimonials() {
+  const t = useTranslations('home.testimonials')
   const carouselRef = useRef<HTMLDivElement>(null)
   const [activeVideo, setActiveVideo] = useState<Testimonial | null>(null)
 
@@ -38,19 +40,19 @@ export default function Testimonials() {
         {/* Colonne gauche -titre + navigation */}
         <div className="testi-left reveal">
           <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>
-            TÉMOIGNAGES
+            {t('label')}
           </span>
           <h2 id="testimonials-heading" className="testimonials-title">
-            ILS EN<br />SONT<br />REVENUS<br />CHANGÉS
+            {t('title_line1')}<br />{t('title_line2')}<br />{t('title_line3')}<br />{t('title_line4')}
           </h2>
           <p className="testi-left-sub">
-            Des athlètes de toute l&apos;Europe. Tous transformés.
+            {t('subtitle')}
           </p>
-          <div className="testi-nav" aria-label="Navigation du carousel">
-            <button className="testi-nav-btn" onClick={() => scrollBy('prev')} aria-label="Témoignage précédent">
+          <div className="testi-nav" aria-label={t('nav_aria')}>
+            <button className="testi-nav-btn" onClick={() => scrollBy('prev')} aria-label={t('prev_aria')}>
               <Icon name="chevron-left" size={24} />
             </button>
-            <button className="testi-nav-btn" onClick={() => scrollBy('next')} aria-label="Témoignage suivant">
+            <button className="testi-nav-btn" onClick={() => scrollBy('next')} aria-label={t('next_aria')}>
               <Icon name="chevron-right" size={24} />
             </button>
           </div>
@@ -72,7 +74,7 @@ export default function Testimonials() {
                       type="button"
                       className="testi-play--btn"
                       onClick={() => setActiveVideo(c)}
-                      aria-label={`Lire le témoignage vidéo de ${c.name}`}
+                      aria-label={t('video_play_aria', { name: c.name })}
                     >
                       <Icon name="play" size={20} />
                     </button>
@@ -81,7 +83,7 @@ export default function Testimonials() {
 
                 {/* Infos sous l'image */}
                 <div className="testi-info">
-                  <Stars />
+                  <Stars ariaLabel={t('stars_aria')} />
                   <p className="testi-quote">{c.quote}</p>
                   <span className="testi-name">{c.name}</span>
                   <span className="testi-discipline">{c.discipline}</span>

@@ -1,0 +1,293 @@
+{
+  "hero": {
+    "section_aria": "En-tête héroïque",
+    "pill": "Lutte au Daghestan et MMA en Tchétchénie",
+    "title_line1": "ENTRAÎNE-TOI LÀ",
+    "title_line2": "OÙ NAISSENT",
+    "title_line3_prefix": "LES ",
+    "title_line3_highlight": "CHAMPIONS",
+    "subtitle": "Camp d'entraînement au cœur du Caucase. Lutte au Daghestan, MMA en Tchétchénie. Tu n'as qu'à préparer ton sac, MKR organise tout.",
+    "cta_primary": "POSTULER AU CAMP",
+    "cta_secondary": "DÉCOUVRIR LE CAMP",
+    "stats": {
+      "destinations_value": "2",
+      "destinations_label_desktop": "Destinations · Daghestan, Tchétchénie",
+      "destinations_label_mobile": "Lutte Daghestan · MMA Tchétchénie",
+      "disciplines_value": "3",
+      "disciplines_label": "Disciplines · Lutte, Lutte enfants, MMA",
+      "duration_value": "1-3",
+      "duration_label": "Semaines d'immersion"
+    },
+    "carousel_aria": "Prochaines sessions",
+    "carousel_dot_aria": "Session {n}",
+    "carousel_cta": "S'inscrire →"
+  },
+  "audience_switcher": {
+    "label": "QUATRE FAÇONS DE VENIR",
+    "title_line1": "CHOISIS TON FORMAT",
+    "title_line2": "D'INSCRIPTION",
+    "subtitle": "Tu pars seul, en duo, en famille ou avec ton club ? On a un format pour chaque profil. Lutte au Daghestan ou MMA en Tchétchénie : visa, vol intérieur depuis Istanbul, transferts, hébergement, repas et encadrement sont coordonnés sur place par MKR.",
+    "card": {
+      "recommended_flag": "RECOMMANDÉ",
+      "meta_dates": "Dates",
+      "meta_duration": "Durée",
+      "meta_min_persons": "À partir de",
+      "person_singular": "1 personne",
+      "person_plural": "{n} personnes"
+    }
+  },
+  "philosophie": {
+    "label": "PHILOSOPHIE",
+    "title_line1": "POURQUOI",
+    "title_line2": "LE CAUCASE",
+    "card1": {
+      "label": "Héritage · Tradition · Combat",
+      "title_line1": "LÀ OÙ TOUT",
+      "title_line2": "A COMMENCÉ",
+      "body_part1_before_strong": "Les meilleurs combattants du monde sortent tous du même berceau : le Caucase. Khabib, Makhachev, ",
+      "body_part1_strong": "des centaines de médaillés et de champions",
+      "body_part1_after_strong": " olympiques de lutte. Rien d'un hasard. Ici, le combat se transmet ",
+      "body_part1_strong2": "de père en fils depuis des siècles",
+      "body_part1_after_strong2": ".",
+      "body_part2_before_strong": "MKR Caucasian Camp ouvre cet héritage aux athlètes étrangers. Mêmes salles, mêmes coachs, mêmes méthodes. Pas en touriste. En athlète venu ",
+      "body_part2_strong": "franchir un cap",
+      "body_part2_after_strong": ".",
+      "body_part3_before_strong": "Au retour de ton camp au Caucase (Lutte au Daghestan ou MMA en Tchétchénie, de une à trois semaines), tu ne combats plus pareil. Tu ne t'entraînes plus pareil. ",
+      "body_part3_strong": "Et tu ne te vois plus pareil non plus."
+    },
+    "card2": {
+      "label": "Coaching · Méthodes · Progression",
+      "title_line1": "LA MÉTHODE",
+      "title_line2": "QUI FORGE",
+      "body_before_strong": "Sparring quotidien avec des combattants locaux. Travail technique, intensité maîtrisée, récupération encadrée. Les méthodes qui ont fabriqué des champions du monde ",
+      "body_strong": "mises au service de ta progression",
+      "body_after_strong": "."
+    },
+    "card3": {
+      "label": "Effort · Discipline · Fraternité",
+      "title_line1": "LA DISCIPLINE",
+      "title_line2": "EN PARTAGE",
+      "body_before_strong": "Tu partages leur discipline à travers l'effort. Mêmes rounds, même intensité, mêmes courbatures. Zéro distraction, zéro superflu. Juste l'entraînement, la culture caucasienne, et une ",
+      "body_strong": "fraternité du tapis",
+      "body_after_strong": " que tu ne croiseras dans aucune salle européenne."
+    }
+  },
+  "destination_showcase": {
+    "label": "DEUX TERRES DU CAUCASE",
+    "title_line1": "DAGHESTAN ·",
+    "title_line2": "TCHÉTCHÉNIE",
+    "subtitle": "Lutte au Daghestan, MMA en Tchétchénie. Deux destinations frontalières du Caucase russe, une discipline par camp. Le combo se vit uniquement en sur-mesure.",
+    "landscapes": {
+      "sulak": {
+        "alt": "Canyon de Sulak, Daghestan",
+        "label": "DAGHESTAN · LUTTE",
+        "caption": "Canyon de Sulak",
+        "text": "Plus profond que le Grand Canyon. Excursion jour de repos depuis Makhachkala."
+      },
+      "grozny": {
+        "alt": "Mosquée de Grozny, Tchétchénie",
+        "label": "TCHÉTCHÉNIE · MMA",
+        "caption": "Grozny",
+        "text": "Capitale de la Tchétchénie, ville moderne et écosystème MMA dense."
+      },
+      "gamsutl": {
+        "alt": "Village perché de Gamsutl, Daghestan",
+        "label": "DAGHESTAN · LUTTE",
+        "caption": "Gamsutl",
+        "text": "Village fantôme perché à 1 500 m. Daghestan ancestral."
+      },
+      "vainakh": {
+        "alt": "Tours médiévales vaïnakh dans les montagnes de Tchétchénie",
+        "label": "TCHÉTCHÉNIE · MMA",
+        "caption": "Tours vaïnakh",
+        "text": "Forteresses de pierre dressées il y a 800 ans dans les vallées tchétchènes."
+      },
+      "kezenoy": {
+        "alt": "Lac Kezenoy-Am, frontière entre Daghestan et Tchétchénie",
+        "label": "CAUCASE NORD",
+        "caption": "Lac Kezenoy-Am",
+        "text": "Plus grand lac de haute altitude du Caucase Nord, entre Daghestan et Tchétchénie."
+      }
+    },
+    "explore_cta": "EXPLORER LES DEUX DESTINATIONS"
+  },
+  "testimonials": {
+    "label": "TÉMOIGNAGES",
+    "title_line1": "ILS EN",
+    "title_line2": "SONT",
+    "title_line3": "REVENUS",
+    "title_line4": "CHANGÉS",
+    "subtitle": "Des athlètes de toute l'Europe. Tous transformés.",
+    "stars_aria": "5 étoiles sur 5",
+    "nav_aria": "Navigation du carousel",
+    "prev_aria": "Témoignage précédent",
+    "next_aria": "Témoignage suivant",
+    "video_play_aria": "Lire le témoignage vidéo de {name}"
+  },
+  "vertical_video_split": {
+    "section_aria_default": "Aperçu vidéo : {title}",
+    "video_aria_default": "Vidéo : {identity}",
+    "sound_on_aria": "Activer le son",
+    "sound_off_aria": "Couper le son",
+    "fullscreen_aria": "Voir en plein écran",
+    "sound_hint": "ACTIVER LE SON",
+    "play_aria": "Lancer la vidéo"
+  },
+  "facilitator_band": {
+    "label": "TOUT EST INCLUS",
+    "title_line1": "ON S'OCCUPE DE TOUT.",
+    "title_line2": "TOI, TU T'ENTRAÎNES.",
+    "subtitle": "Visa, vol intérieur, navette, hébergement, repas et entraînement : six prestations incluses dans chaque camp, quel que soit le format choisi. Tu organises uniquement ton vol jusqu'à Istanbul.",
+    "items": {
+      "visa": {
+        "title": "Visa Russie inclus",
+        "desc": "Frais consulaires, lettre d'invitation officielle, questionnaire UE et accompagnement complet du dossier. Tu fournis ton passeport, MKR pilote la procédure."
+      },
+      "flight": {
+        "title": "Vol intérieur",
+        "desc": "Depuis Istanbul vers Makhachkala (Lutte au Daghestan) ou Grozny (MMA en Tchétchénie), inclus dans le package. Tu n'organises que le vol international jusqu'à Istanbul."
+      },
+      "transfers": {
+        "title": "Transferts",
+        "desc": "Véhicule MKR à ton arrivée : ~1h30 depuis Makhachkala (Daghestan) ou ~30 min depuis Grozny (Tchétchénie). Tous les déplacements sont inclus."
+      },
+      "accommodation": {
+        "title": "Hébergement",
+        "desc": "Logement de camp confortable, chambre famille disponible. Tu dors et tu manges avec ton groupe."
+      },
+      "meals": {
+        "title": "2 repas par jour",
+        "desc": "Petit-déjeuner et déjeuner inclus. Cuisine caucasienne adaptée aux athlètes : protéines, légumes, pain frais."
+      },
+      "coaching": {
+        "title": "Encadrement",
+        "desc": "Coachs locaux expérimentés au Daghestan (Lutte) et en Tchétchénie (MMA). Coach jeunesse dédié pour les 8-17 ans en Lutte enfants."
+      }
+    },
+    "force_label": "NOTRE FORCE",
+    "force_title": "UNE ÉQUIPE EN FRANCE, DES RÉFÉRENTS SUR PLACE",
+    "force_text": "Toute l'administration et les réseaux sont gérés depuis la France, par une équipe francophone qui prend ton dossier en main de A à Z. Sur le terrain, des référents locaux t'accompagnent dans les salles avec Ruslan Mukhtarov, fondateur et entraîneur de Lutte et MMA.",
+    "footnote": "Tu n'as qu'une chose à faire : préparer ton sac. Le reste, on s'en charge."
+  },
+  "voyage_reveal": {
+    "label": "COMMENT Y ALLER",
+    "title_line1": "LE CHEMIN",
+    "title_line2_prefix": "VERS LE ",
+    "title_line2_highlight": "CAUCASE",
+    "trajet_label": "TRAJET SÉCURISÉ",
+    "steps": {
+      "01": "Ton aéroport européen → Istanbul (vol international à organiser)",
+      "02": "Istanbul → Makhachkala (Lutte) ou Grozny (MMA), vol intérieur inclus",
+      "03": "Transfert au camp (Daghestan ~1h30 / Tchétchénie ~30 min, inclus)"
+    },
+    "badges": {
+      "visa": "VISA INCLUS",
+      "flight": "VOL INTÉRIEUR INCLUS",
+      "transfers": "TRANSFERTS INCLUS",
+      "secure": "DESTINATION SÉCURISÉE"
+    }
+  },
+  "sessions": {
+    "label": "CALENDRIER 2026 / 2027",
+    "title_line1": "LES 4",
+    "title_line2": "SESSIONS",
+    "subtitle": "Une session par saison, calée sur les vacances scolaires francophones (France, Suisse romande, Belgique). Lutte au Daghestan ou MMA en Tchétchénie selon la discipline choisie à l'inscription.",
+    "meta_intensity": "Intensité",
+    "meta_places": "Places",
+    "meta_duration": "Durée",
+    "price_sub_prefix": "Tarif Solo / Duo : ",
+    "price_sub_middle": " par adulte. Dégressif dès 3 personnes. Forfait Famille (1P+1E) à partir de ",
+    "price_sub_suffix": ". Visa russe, vol intérieur Istanbul → Makhachkala ou Grozny, transferts, hébergement et 2 repas/jour inclus. Vol international à charge.",
+    "card_cta": "POSTULER"
+  },
+  "timeline": {
+    "label": "LE PROCESSUS",
+    "title_line1": "DE L'INSCRIPTION",
+    "title_line2": "AU TAPIS",
+    "steps": {
+      "01": {
+        "num": "01",
+        "title": "CANDIDATURE",
+        "body": "Tu remplis le formulaire de candidature en ligne. Niveau actuel, discipline, objectifs. On a besoin de savoir qui tu es avant de te confirmer si le camp est fait pour toi.",
+        "img_alt": "Combattant seul dans la salle du camp"
+      },
+      "02": {
+        "num": "02",
+        "title": "ENTRETIEN",
+        "body": "Un échange vidéo avec notre équipe. Pas un interrogatoire, une conversation. On veut cerner tes motivations et te raconter ce qui t'attend vraiment sur place.",
+        "img_alt": "Candidat en entretien visio depuis son espace"
+      },
+      "03": {
+        "num": "03",
+        "title": "CONFIRMATION",
+        "body": "Visio validée, package réglé par virement, contrat signé. Ta place est réservée. On lance ta préparation à distance avec le guide pré-camp personnalisé.",
+        "img_alt": "Bandes de mains avant l'entraînement"
+      },
+      "04": {
+        "num": "04",
+        "title": "PRÉPARATION",
+        "body": "Quatre semaines de protocole à distance : préparation physique sur mesure, plan nutrition, démarches visa Russie. On exploite chaque jour avant ton arrivée.",
+        "img_alt": "Préparation physique, grimper de corde"
+      },
+      "05": {
+        "num": "05",
+        "title": "IMMERSION",
+        "body": "De une à trois semaines au Daghestan. Deux entraînements par jour, sparring avec les combattants locaux, vie en communauté. Tu repars avec un niveau que tu n'aurais jamais atteint ailleurs.",
+        "img_alt": "Route vers le camp au Caucase"
+      }
+    }
+  },
+  "contact": {
+    "label": "CANDIDATURE",
+    "title_line1": "PRÊT À",
+    "title_line2": "FRANCHIR",
+    "title_line3": "LE CAP ?",
+    "subtitle": "Quinze places maximum par session. On retient des athlètes motivés, à tous les niveaux, pas seulement des pros. L'entretien vidéo nous sert à cerner tes objectifs.",
+    "cta": "DÉPOSER MA CANDIDATURE",
+    "info_title": "Autres moyens de contact",
+    "info_form_label": "Formulaire",
+    "info_form_value": "Page contact",
+    "info_whatsapp_label": "WhatsApp",
+    "info_instagram_label": "Instagram",
+    "process_title": "COMMENT ÇA SE PASSE",
+    "process_steps": {
+      "01": {
+        "num": "01",
+        "title": "Formulaire",
+        "desc": "Tu remplis le formulaire de candidature en ligne. Niveau, objectifs, expérience."
+      },
+      "02": {
+        "num": "02",
+        "title": "Entretien vidéo",
+        "desc": "Un appel de quinze minutes avec notre équipe pour cerner ta motivation et ton niveau."
+      },
+      "03": {
+        "num": "03",
+        "title": "Confirmation",
+        "desc": "Réponse sous 72 h. Si tu es retenu, tu reçois le guide de préparation complet."
+      },
+      "04": {
+        "num": "04",
+        "title": "Départ",
+        "desc": "Transfert aéroport inclus. On vient te chercher à ton arrivée. Tu n'as rien à gérer."
+      }
+    },
+    "badges": {
+      "selection": "Sélection sur dossier",
+      "capacity": "15 places max par session",
+      "response": "Réponse sous 72h",
+      "transfers": "Transferts inclus"
+    }
+  },
+  "faq": {
+    "label": "QUESTIONS FRÉQUENTES",
+    "title": "FAQ"
+  },
+  "cta_final": {
+    "label": "L'immersion au milieu des champions · {sessions_count} sessions par an · 15 places par destination.",
+    "title_line1": "PRÊT POUR",
+    "title_line2": "LE CAUCASE ?",
+    "subtitle": "Prochain camp · {dates} {year} · Daghestan (Lutte) ou Tchétchénie (MMA)",
+    "cta": "DÉPOSER MA CANDIDATURE"
+  }
+}

@@ -1,17 +1,19 @@
 'use client'
 
+import { useTranslations } from 'next-intl'
 import { WorldMap } from '@/components/WorldMap'
 import { useScrollReveal } from '@/hooks/useScrollReveal'
 import Icon from './Icon'
 
-const ROUTES = [
-  { start: { lat: 46.2044, lng: 6.1432,   label: 'Genève'   }, end: { lat: 41.0082, lng: 28.9784, label: 'Istanbul' } },
-  { start: { lat: 45.5017, lng: -73.5673, label: 'Montréal' }, end: { lat: 41.0082, lng: 28.9784, label: 'Istanbul' } },
-  { start: { lat: 41.0082, lng: 28.9784,  label: 'Istanbul' }, end: { lat: 42.9849, lng: 47.5047, label: 'Dagestan' }, color: '#2ECC71', routeLabel: 'TRAJET SÉCURISÉ' },
-]
-
 export default function VoyageReveal() {
+  const t = useTranslations('home.voyage_reveal')
   const { containerRef } = useScrollReveal({ imgScale: { from: 1.8, to: 1.35 } })
+
+  const ROUTES = [
+    { start: { lat: 46.2044, lng: 6.1432,   label: 'Genève'   }, end: { lat: 41.0082, lng: 28.9784, label: 'Istanbul' } },
+    { start: { lat: 45.5017, lng: -73.5673, label: 'Montréal' }, end: { lat: 41.0082, lng: 28.9784, label: 'Istanbul' } },
+    { start: { lat: 41.0082, lng: 28.9784,  label: 'Istanbul' }, end: { lat: 42.9849, lng: 47.5047, label: 'Dagestan' }, color: '#2ECC71', routeLabel: t('trajet_label') },
+  ]
 
   return (
     <div
@@ -28,34 +30,34 @@ export default function VoyageReveal() {
 
         <div className="voyage-reveal-container">
           <div className="voyage-reveal-content">
-            <span className="label-tag">COMMENT Y ALLER</span>
+            <span className="label-tag">{t('label')}</span>
             <h2>
-              LE CHEMIN<br />
-              VERS LE <span className="highlight">CAUCASE</span>
+              {t('title_line1')}<br />
+              {t('title_line2_prefix')}<span className="highlight">{t('title_line2_highlight')}</span>
             </h2>
 
             <div className="voyage-reveal-steps">
               <div className="voyage-reveal-step">
                 <span className="voyage-reveal-num">01</span>
-                <span>Ton aéroport européen → Istanbul (vol international à organiser)</span>
+                <span>{t('steps.01')}</span>
               </div>
               <div className="voyage-reveal-step">
                 <span className="voyage-reveal-num">02</span>
-                <span>Istanbul → Makhachkala (Lutte) ou Grozny (MMA), vol intérieur inclus</span>
+                <span>{t('steps.02')}</span>
               </div>
               <div className="voyage-reveal-step">
                 <span className="voyage-reveal-num">03</span>
-                <span>Transfert au camp (Daghestan ~1h30 / Tchétchénie ~30 min, inclus)</span>
+                <span>{t('steps.03')}</span>
               </div>
             </div>
 
             <div className="voyage-reveal-badges">
-              <span className="voyage-badge">VISA INCLUS</span>
-              <span className="voyage-badge">VOL INTÉRIEUR INCLUS</span>
-              <span className="voyage-badge">TRANSFERTS INCLUS</span>
+              <span className="voyage-badge">{t('badges.visa')}</span>
+              <span className="voyage-badge">{t('badges.flight')}</span>
+              <span className="voyage-badge">{t('badges.transfers')}</span>
               <span className="voyage-badge voyage-badge--green">
                 <Icon name="shield-check" size={12} />
-                DESTINATION SÉCURISÉE
+                {t('badges.secure')}
               </span>
             </div>
           </div>

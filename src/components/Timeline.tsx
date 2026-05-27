@@ -1,15 +1,17 @@
+import { useTranslations } from 'next-intl'
 import Icon from './Icon'
 
 export default function Timeline() {
+  const t = useTranslations('home.timeline')
   return (
     <section id="timeline" aria-labelledby="timeline-heading">
       <div className="inner">
         <div className="timeline-header reveal">
           <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>
-            LE PROCESSUS
+            {t('label')}
           </span>
           <h2 id="timeline-heading" className="timeline-title">
-            DE L&apos;INSCRIPTION<br />AU TAPIS
+            {t('title_line1')}<br />{t('title_line2')}
           </h2>
         </div>
 
@@ -20,16 +22,16 @@ export default function Timeline() {
             <div className="timeline-panel">
               <div className="timeline-step-img reveal-clip">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img className="timeline-step-photo" src="/images/action/solo-readiness.webp" alt="Combattant seul dans la salle du camp" />
+                <img className="timeline-step-photo" src="/images/action/solo-readiness.webp" alt={t('steps.01.img_alt')} />
                 <div className="timeline-step-img-inner"></div>
               </div>
               <div className="timeline-text">
                 <div className="timeline-step-icon" aria-hidden="true" style={{ color: 'var(--primary)' }}>
                   <Icon name="edit" size={32} />
                 </div>
-                <div className="timeline-num">01</div>
-                <h3 className="timeline-step-title">CANDIDATURE</h3>
-                <p className="timeline-step-body">Tu remplis le formulaire de candidature en ligne. Niveau actuel, discipline, objectifs. On a besoin de savoir qui tu es avant de te confirmer si le camp est fait pour toi.</p>
+                <div className="timeline-num">{t('steps.01.num')}</div>
+                <h3 className="timeline-step-title">{t('steps.01.title')}</h3>
+                <p className="timeline-step-body">{t('steps.01.body')}</p>
               </div>
             </div>
             <div className="timeline-dot-wrap">
@@ -49,13 +51,13 @@ export default function Timeline() {
                 <div className="timeline-step-icon" aria-hidden="true" style={{ color: 'var(--primary)' }}>
                   <Icon name="chat" size={32} />
                 </div>
-                <div className="timeline-num">02</div>
-                <h3 className="timeline-step-title">ENTRETIEN</h3>
-                <p className="timeline-step-body">Un échange vidéo avec notre équipe. Pas un interrogatoire, une conversation. On veut cerner tes motivations et te raconter ce qui t&apos;attend vraiment sur place.</p>
+                <div className="timeline-num">{t('steps.02.num')}</div>
+                <h3 className="timeline-step-title">{t('steps.02.title')}</h3>
+                <p className="timeline-step-body">{t('steps.02.body')}</p>
               </div>
               <div className="timeline-step-img reveal-clip">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img className="timeline-step-photo" src="/images/action/candidate-interview.webp" alt="Candidat en entretien visio depuis son espace" />
+                <img className="timeline-step-photo" src="/images/action/candidate-interview.webp" alt={t('steps.02.img_alt')} />
                 <div className="timeline-step-img-inner"></div>
               </div>
             </div>
@@ -66,16 +68,16 @@ export default function Timeline() {
             <div className="timeline-panel">
               <div className="timeline-step-img reveal-clip">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img className="timeline-step-photo" src="/images/action/hand-wraps.webp" alt="Bandes de mains avant l'entraînement" />
+                <img className="timeline-step-photo" src="/images/action/hand-wraps.webp" alt={t('steps.03.img_alt')} />
                 <div className="timeline-step-img-inner"></div>
               </div>
               <div className="timeline-text">
                 <div className="timeline-step-icon" aria-hidden="true" style={{ color: 'var(--primary)' }}>
                   <Icon name="shield-check" size={32} />
                 </div>
-                <div className="timeline-num">03</div>
-                <h3 className="timeline-step-title">CONFIRMATION</h3>
-                <p className="timeline-step-body">Visio validée, package réglé par virement, contrat signé. Ta place est réservée. On lance ta préparation à distance avec le guide pré-camp personnalisé.</p>
+                <div className="timeline-num">{t('steps.03.num')}</div>
+                <h3 className="timeline-step-title">{t('steps.03.title')}</h3>
+                <p className="timeline-step-body">{t('steps.03.body')}</p>
               </div>
             </div>
             <div className="timeline-dot-wrap">
@@ -95,13 +97,13 @@ export default function Timeline() {
                 <div className="timeline-step-icon" aria-hidden="true" style={{ color: 'var(--primary)' }}>
                   <Icon name="fire" size={32} />
                 </div>
-                <div className="timeline-num">04</div>
-                <h3 className="timeline-step-title">PRÉPARATION</h3>
-                <p className="timeline-step-body">Quatre semaines de protocole à distance : préparation physique sur mesure, plan nutrition, démarches visa Russie. On exploite chaque jour avant ton arrivée.</p>
+                <div className="timeline-num">{t('steps.04.num')}</div>
+                <h3 className="timeline-step-title">{t('steps.04.title')}</h3>
+                <p className="timeline-step-body">{t('steps.04.body')}</p>
               </div>
               <div className="timeline-step-img reveal-clip">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img className="timeline-step-photo" src="/images/action/conditioning-rope.webp" alt="Préparation physique, grimper de corde" />
+                <img className="timeline-step-photo" src="/images/action/conditioning-rope.webp" alt={t('steps.04.img_alt')} />
                 <div className="timeline-step-img-inner"></div>
               </div>
             </div>
@@ -112,16 +114,16 @@ export default function Timeline() {
             <div className="timeline-panel">
               <div className="timeline-step-img reveal-clip">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img className="timeline-step-photo" src="/images/environment/mountain-road.webp" alt="Route vers le camp au Caucase" />
+                <img className="timeline-step-photo" src="/images/environment/mountain-road.webp" alt={t('steps.05.img_alt')} />
                 <div className="timeline-step-img-inner"></div>
               </div>
               <div className="timeline-text">
                 <div className="timeline-step-icon" aria-hidden="true" style={{ color: 'var(--cta)' }}>
                   <Icon name="mountain" size={32} />
                 </div>
-                <div className="timeline-num" style={{ color: 'var(--cta)' }}>05</div>
-                <h3 className="timeline-step-title">IMMERSION</h3>
-                <p className="timeline-step-body">De une à trois semaines au Daghestan. Deux entraînements par jour, sparring avec les combattants locaux, vie en communauté. Tu repars avec un niveau que tu n&apos;aurais jamais atteint ailleurs.</p>
+                <div className="timeline-num" style={{ color: 'var(--cta)' }}>{t('steps.05.num')}</div>
+                <h3 className="timeline-step-title">{t('steps.05.title')}</h3>
+                <p className="timeline-step-body">{t('steps.05.body')}</p>
               </div>
             </div>
             <div className="timeline-dot-wrap">

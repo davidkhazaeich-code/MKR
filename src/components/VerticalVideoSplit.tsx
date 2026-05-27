@@ -1,7 +1,8 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import Link from 'next/link'
+import { Link } from '@/i18n/navigation'
+import { useTranslations } from 'next-intl'
 import Icon from './Icon'
 import VideoModal from './VideoModal'
 
@@ -34,6 +35,7 @@ export default function VerticalVideoSplit({
   videoOnLeft = true,
   ariaLabel,
 }: VerticalVideoSplitProps) {
+  const t = useTranslations('home.vertical_video_split')
   const sectionRef = useRef<HTMLElement>(null)
   const videoRef = useRef<HTMLVideoElement>(null)
   const [modalOpen, setModalOpen] = useState(false)
@@ -151,7 +153,7 @@ export default function VerticalVideoSplit({
     <section
       ref={sectionRef}
       className={sectionClasses}
-      aria-label={ariaLabel || `Aperçu vidéo : ${title}`}
+      aria-label={ariaLabel || t('section_aria_default', { title })}
     >
       <div className="vvs-glow-orb" aria-hidden />
       <div className="inner">
@@ -168,7 +170,7 @@ export default function VerticalVideoSplit({
                   loop
                   playsInline
                   preload="metadata"
-                  aria-label={ariaLabel || `Vidéo : ${identityLabel}`}
+                  aria-label={ariaLabel || t('video_aria_default', { identity: identityLabel })}
                   onError={onVideoError}
                 >
                   {webmSrc && <source src={webmSrc} type="video/webm" />}
@@ -199,7 +201,7 @@ export default function VerticalVideoSplit({
                   type="button"
                   className={`vvs-sound-btn${isMuted ? '' : ' is-active'}`}
                   onClick={toggleMute}
-                  aria-label={isMuted ? 'Activer le son' : 'Couper le son'}
+                  aria-label={isMuted ? t('sound_on_aria') : t('sound_off_aria')}
                 >
                   <Icon name={isMuted ? 'volume-off' : 'volume-on'} size={20} />
                 </button>
@@ -209,14 +211,14 @@ export default function VerticalVideoSplit({
                 type="button"
                 className="vvs-expand-btn"
                 onClick={() => setModalOpen(true)}
-                aria-label="Voir en plein écran"
+                aria-label={t('fullscreen_aria')}
               >
                 <Icon name="fullscreen" size={18} />
               </button>
 
               {showSoundHint && (
                 <div className="vvs-sound-hint" aria-hidden>
-                  <Icon name="volume-on" size={14} /> ACTIVER LE SON
+                  <Icon name="volume-on" size={14} /> {t('sound_hint')}
                 </div>
               )}
 
@@ -225,7 +227,7 @@ export default function VerticalVideoSplit({
                   type="button"
                   className="vvs-play-overlay"
                   onClick={handlePlayTap}
-                  aria-label="Lancer la vidéo"
+                  aria-label={t('play_aria')}
                 >
                   <span className="vvs-play-circle">
                     <Icon name="play" size={40} />
@@ -241,11 +243,11 @@ export default function VerticalVideoSplit({
             <p className="vvs-intro">{intro}</p>
 
             <div className="vvs-cta-row">
-              <Link href={primaryCta.href} className="btn-primary">
+              <Link href={primaryCta.href as Parameters<typeof Link>[0]['href']} className="btn-primary">
                 {primaryCta.label} <Icon name="arrow-right" size={16} />
               </Link>
               {secondaryCta && (
-                <Link href={secondaryCta.href} className="btn-ghost">
+                <Link href={secondaryCta.href as Parameters<typeof Link>[0]['href']} className="btn-ghost">
                   {secondaryCta.label}
                 </Link>
               )}
