@@ -66,3 +66,55 @@ All i18n SEO sanity checks pass:
 
 - Lighthouse mobile slow-4G median 3 runs x 10 URLs (deferred to a separate dispatch; takes long, run before deploy)
 - Full Playwright suite (28 paths x 2 locales x 3 breakpoints = 168 assertions) — committed as spec, run manually or in CI with `npm run test:i18n` against a live dev server
+
+## T22 Deploy verification (2026-05-27)
+
+### Prod smoke test (10 EN URLs + 3 FR control)
+
+```
+=== EN URLs ===
+200 /en
+200 /en/the-camp
+200 /en/program
+200 /en/program/mma
+200 /en/program/wrestling
+200 /en/sessions
+200 /en/apply
+200 /en/family
+200 /en/about
+200 /en/blog
+=== FR control URLs ===
+200 /
+200 /le-camp
+200 /inscription
+```
+
+All 13 URLs return 200. Zero regression on FR canonical routes.
+
+### Sitemap
+
+- Public: https://mkrcamp.com/sitemap.xml — **68** `<url>` entries (28 paths x 2 locales + 6 blog x 2 locales)
+- llms-en.txt: HTTP 200
+
+### IndexNow ping
+
+- Key found: YES (`a5144c79a1d2c1992254d725a82a159e.txt`)
+- Bing (api.indexnow.org): HTTP 200
+- Yandex (yandex.com/indexnow): HTTP 202 (`{"success":true}`)
+- 28 EN URLs submitted in one batch
+
+### Manual Search Console steps (do once at deploy time)
+
+1. **Google Search Console** (https://search.google.com/search-console)
+   - Property: mkrcamp.com
+   - Sitemaps - Add new: https://mkrcamp.com/sitemap.xml (already submitted; just verify last fetch date)
+   - URL Inspection: spot check `/en` and `/en/the-camp` - "Request indexing"
+
+2. **Bing Webmaster Tools** (https://www.bing.com/webmasters)
+   - Sitemap: ensure https://mkrcamp.com/sitemap.xml is referenced
+   - URL Submission: paste the 28 EN URLs (IndexNow ping above already does this)
+
+3. **Yandex Webmaster** (https://webmaster.yandex.com)
+   - Russian audience for Caucasus camps - confirm sitemap is fetched.
+
+### Status: DEPLOYED
