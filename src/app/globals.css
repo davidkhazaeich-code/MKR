@@ -10813,3 +10813,42 @@ html.is-loading body {
 }
 .vvs-section.is-reduced .vvs-play-circle { transition: none; }
 .vvs-section.is-reduced .vvs-play-overlay:hover .vvs-play-circle { transform: none; }
+
+/* ============================================
+   Locale Switcher (i18n FR+EN, 2026-05-27)
+   Stub T5 : sera affine en T12 (LocaleSwitcher polish).
+   ============================================ */
+.locale-switcher {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+.locale-switcher-btn {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  text-transform: uppercase;
+  transition: color 200ms ease;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  letter-spacing: inherit;
+}
+.locale-switcher-btn:hover { color: var(--text-primary); }
+.locale-switcher-btn.is-active {
+  color: var(--primary);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  cursor: default;
+}
+.locale-switcher-btn:disabled { cursor: default; }
+.locale-switcher--mobile {
+  padding: 0.75rem 0 0.5rem;
+  justify-content: flex-start;
+  gap: 0.5rem;
+}

@@ -1,0 +1,199 @@
+{
+  "nav": {
+    "main_aria": "Navigation principale",
+    "logo_alt": "MKR Caucasian Camp",
+    "logo_home_aria": "MKR Caucasian Camp · Accueil",
+    "menu_open": "Ouvrir le menu",
+    "menu_close": "Fermer le menu",
+    "mobile_menu_aria": "Menu principal",
+    "triggers": {
+      "le_camp": "Le Camp",
+      "programme": "Programme",
+      "destinations": "Destinations",
+      "infos": "Découvrir"
+    },
+    "cta_apply": "POSTULER",
+    "cta_apply_aria": "Postuler au camp",
+    "panels": {
+      "le_camp": {
+        "section_label": "Le Camp MKR · Choisis ta venue",
+        "feature_title_part1": "CHOISIS",
+        "feature_title_part2": "TA SESSION.",
+        "feature_body": "Quatre sessions par an calées sur les vacances scolaires francophones. MKR organise tout : visa, vol intérieur, transferts, hébergement, repas, encadrement. Vol international à organiser.",
+        "feature_link": "Voir les 4 sessions",
+        "sessions_label": "Sessions officielles 2026 / 2027",
+        "sessions": {
+          "ete_2026": "Été · 17 août - 5 sept 2026",
+          "toussaint_2026": "Toussaint · 17 oct - 7 nov 2026",
+          "hiver_2027": "Hiver · 13 fév - 6 mars 2027",
+          "paques_2027": "Pâques · 3 - 24 avril 2027"
+        },
+        "formats_label": "Autres formats",
+        "formats": {
+          "sur_mesure": "Sur Mesure · tes dates",
+          "famille": "Famille · parent + enfant 8-17",
+          "groupe": "Club et Groupe · 5 à 20",
+          "comment_ca_marche": "Comment ça marche"
+        }
+      },
+      "programme": {
+        "section_label": "Disciplines et Programme 2026",
+        "mma_title": "MMA",
+        "mma_desc": "Striking, clinch, takedowns, submissions. Sparring quotidien avec des combattants locaux. Transitions debout-sol.",
+        "lutte_title": "LUTTE ADULTES",
+        "lutte_desc": "Lutte libre. Méthodes daghestanaises transmises par des champions, sparring quotidien.",
+        "jeunesse_title": "JEUNESSE",
+        "jeunesse_desc": "Programme 8-17 ans avec parent participant. Pédagogie progressive, ratio 1 coach pour 5 enfants, sécurité renforcée.",
+        "card_link": "Voir le programme",
+        "secondary": {
+          "overview": "Vue d'ensemble du programme",
+          "temoignages": "Témoignages athlètes"
+        }
+      },
+      "destinations": {
+        "section_label": "Deux destinations, une discipline par camp",
+        "dagestan_aria": "Daghestan · destination Lutte",
+        "dagestan_region": "Caucase · Russie · Lutte",
+        "dagestan_name": "DAGHESTAN",
+        "dagestan_tagline": "Berceau de la lutte libre mondiale. Pour les camps Lutte adultes et enfants.",
+        "dagestan_cta": "Découvrir le Daghestan",
+        "tchetchenie_aria": "Tchétchénie · destination MMA",
+        "tchetchenie_region": "Caucase · Russie · MMA",
+        "tchetchenie_name": "TCHÉTCHÉNIE",
+        "tchetchenie_tagline": "Terre des champions MMA. Pour les camps MMA adultes.",
+        "tchetchenie_cta": "Découvrir la Tchétchénie",
+        "aside_label": "Préparer le voyage",
+        "aside": {
+          "overview": "Vue d'ensemble",
+          "logistique": "Logistique, vols et visa",
+          "guide": "Guide PDF Caucase"
+        },
+        "combo_note": "Combo Daghestan + Tchétchénie disponible uniquement sur sur-mesure."
+      },
+      "infos": {
+        "section_label": "Découvrir MKR · Preuve et ressources",
+        "col_see_label": "Voir le camp",
+        "col_see": {
+          "galerie": "Galerie photos et vidéos",
+          "temoignages": "Témoignages athlètes",
+          "blog": "Blog et articles"
+        },
+        "col_understand_label": "Comprendre, échanger",
+        "col_understand": {
+          "faq": "Questions fréquentes",
+          "a_propos": "À propos de MKR",
+          "contact": "Nous contacter"
+        },
+        "testi_aria": "Témoignage athlète",
+        "testi_quote": "Deux semaines après le retour, j'ai remporté mon premier titre régional. Ce que j'ai construit là-bas, aucune salle en France ne pouvait me le donner.",
+        "testi_name": "Thomas B.",
+        "testi_meta": "Boxe · Lyon · Session Automne 2025"
+      }
+    },
+    "mobile": {
+      "le_camp_title": "Le Camp",
+      "programme_title": "Programme",
+      "destinations_title": "Destinations",
+      "infos_title": "Découvrir",
+      "sessions_label": "Sessions officielles 2026 / 2027",
+      "formats_label": "Autres formats",
+      "see_all_prices": "Voir tous les tarifs",
+      "prepare_label": "Préparer sa venue",
+      "prepare": {
+        "le_camp": "Découvrir le camp",
+        "comment_ca_marche": "Comment ça marche",
+        "preparer_son_camp": "Préparer son camp"
+      },
+      "programme": {
+        "overview": "Vue d'ensemble",
+        "mma": "MMA · Tchétchénie",
+        "lutte_adultes": "Lutte adultes · Daghestan",
+        "jeunesse": "Jeunesse 8-17 · Daghestan"
+      },
+      "destinations": {
+        "label_by_discipline": "Une destination par discipline",
+        "dagestan": "Daghestan · Lutte",
+        "tchetchenie": "Tchétchénie · MMA",
+        "overview": "Vue d'ensemble",
+        "label_prepare": "Préparer le voyage",
+        "logistique": "Logistique, vols et visa",
+        "guide": "Guide PDF Caucase"
+      },
+      "infos": {
+        "galerie": "Galerie",
+        "temoignages": "Témoignages",
+        "blog": "Blog",
+        "faq": "FAQ",
+        "a_propos": "À propos",
+        "contact": "Contact"
+      },
+      "cta_whatsapp": "WHATSAPP",
+      "cta_whatsapp_aria": "Contacter MKR sur WhatsApp",
+      "cta_apply": "POSTULER AU CAMP"
+    }
+  },
+  "footer": {
+    "aria": "Pied de page",
+    "contact_eyebrow": "Rejoins le prochain camp",
+    "contact_heading": "LE CAUCASE T'ATTEND. POSTULE.",
+    "contact_whatsapp_aria": "WhatsApp MKR Caucasian Camp",
+    "contact_form_label": "Formulaire de contact",
+    "contact_form_aria": "Formulaire de contact",
+    "contact_cta": "POSTULER",
+    "logo_alt": "MKR Caucasian Camp",
+    "logo_home_aria": "MKR Caucasian Camp · Accueil",
+    "tagline": "Camp d'entraînement au Caucase.",
+    "description": "Camps d'entraînement intensifs au cœur du Caucase. Lutte adultes et enfants au Daghestan, MMA en Tchétchénie. Coachs locaux. Immersion totale. Zéro distraction.",
+    "social_instagram_label": "Instagram",
+    "social_instagram_aria": "MKR sur Instagram",
+    "col_camps_label": "Nos Camps",
+    "col_camps": {
+      "mkr_2026": "MKR Camp 2026",
+      "sur_mesure": "Sur Mesure",
+      "famille": "Famille",
+      "clubs_groupes": "Club et Groupe",
+      "tarifs": "Tarifs publics",
+      "comment_ca_marche": "Comment ça marche"
+    },
+    "col_programmes_label": "Programmes",
+    "col_programmes": {
+      "mma": "MMA",
+      "lutte_adultes": "Lutte adultes",
+      "lutte_enfants": "Lutte enfants",
+      "dagestan": "Daghestan · Lutte",
+      "tchetchenie": "Tchétchénie · MMA",
+      "le_camp": "Le Camp",
+      "preparer_son_camp": "Préparer son camp",
+      "logistique": "Logistique et visa"
+    },
+    "col_infos_label": "Informations",
+    "col_infos": {
+      "galerie": "Galerie",
+      "temoignages": "Témoignages",
+      "faq": "FAQ",
+      "blog": "Blog",
+      "a_propos": "À propos",
+      "contact": "Contact"
+    },
+    "copyright_prefix": "© 2026 MKR Caucasian Camp · Tous droits réservés · mkrcamp.com · Site conçu par",
+    "copyright_dkdp": "DKDP",
+    "legal_aria": "Liens légaux",
+    "legal": {
+      "mentions": "Mentions légales",
+      "cgv": "CGV",
+      "confidentialite": "Confidentialité"
+    }
+  },
+  "sticky_mobile_cta": {
+    "apply": "POSTULER AU CAMP",
+    "apply_aria": "Postuler au camp MKR Caucasian Camp"
+  },
+  "locale_switcher": {
+    "label": "Langue",
+    "fr": "FR",
+    "en": "EN",
+    "switch_to_en_aria": "Switch to English",
+    "switch_to_fr_aria": "Passer en français"
+  },
+  "skip_link": "Aller au contenu principal"
+}

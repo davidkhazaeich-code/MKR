@@ -1,17 +1,17 @@
 'use client'
 
 import { useState, useEffect, useCallback, useRef } from 'react'
-import { usePathname } from 'next/navigation'
-import Link from 'next/link'
 import Image from 'next/image'
+import { useTranslations } from 'next-intl'
+import { Link, usePathname } from '@/i18n/navigation'
 import IconLutte from '@/components/icons/IconLutte'
 import IconMMA from '@/components/icons/IconMMA'
 import Icon from './Icon'
+import LocaleSwitcher from './LocaleSwitcher'
 
 const CHEVRON = <Icon name="chevron-down" size={10} className="nav-trigger-arrow" />
 const ARROW_RIGHT = <Icon name="arrow-right" size={13} />
 const ARROW_SM = <Icon name="chevron-right" size={10} />
-const CHECK_SM = <Icon name="check" size={12} />
 const MOBILE_CHEVRON = <Icon name="chevron-down" size={18} />
 
 /* ── Mobile & mega menu link icons ──
@@ -74,6 +74,7 @@ function MobAccordion({ title, id, children }: { title: string; id: string; chil
 
 export default function Nav() {
   const pathname = usePathname()
+  const t = useTranslations('common.nav')
   const [scrolled, setScrolled] = useState(false)
   const [scrollProgress, setScrollProgress] = useState(0)
   const [menuOpen, setMenuOpen] = useState(false)
@@ -182,14 +183,21 @@ export default function Nav() {
     setActivePanel(cur => cur === id ? null : id)
   }, [])
 
+  const triggerKey: Record<PanelId, 'le_camp' | 'programme' | 'destinations' | 'infos'> = {
+    camp: 'le_camp',
+    programme: 'programme',
+    destinations: 'destinations',
+    infos: 'infos',
+  }
+
   return (
     <>
       <header id="site-header">
-        <nav id="nav" className={scrolled ? 'is-scrolled' : ''} aria-label="Navigation principale">
+        <nav id="nav" className={scrolled ? 'is-scrolled' : ''} aria-label={t('main_aria')}>
           <div className="nav-inner">
 
-            <Link href="/" className="nav-logo" aria-label="MKR Caucasian Camp · Accueil">
-              <Image src="/logo-white.webp" alt="MKR Caucasian Camp" className="nav-logo-img" width={320} height={193} priority />
+            <Link href="/" className="nav-logo" aria-label={t('logo_home_aria')}>
+              <Image src="/logo-white.webp" alt={t('logo_alt')} className="nav-logo-img" width={320} height={193} priority />
             </Link>
 
             <ul className="nav-list" role="list">
@@ -209,7 +217,7 @@ export default function Nav() {
                     {id === 'programme' && ICO.overview}
                     {id === 'destinations' && ICO.dagestan}
                     {id === 'infos' && ICO.about}
-                    {id === 'camp' ? 'Le Camp' : id === 'programme' ? 'Programme' : id === 'destinations' ? 'Destinations' : 'Découvrir'}
+                    {t(`triggers.${triggerKey[id]}`)}
                     {CHEVRON}
                   </button>
                 </li>
@@ -217,10 +225,11 @@ export default function Nav() {
             </ul>
 
             <div className="nav-right">
-              <Link href="/inscription" className="nav-cta" aria-label="Postuler au camp">POSTULER</Link>
+              <LocaleSwitcher variant="desktop" />
+              <Link href="/inscription" className="nav-cta" aria-label={t('cta_apply_aria')}>{t('cta_apply')}</Link>
               <button
                 className={`nav-hamburger${menuOpen ? ' open' : ''}`}
-                aria-label={menuOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
+                aria-label={menuOpen ? t('menu_close') : t('menu_open')}
                 aria-expanded={menuOpen}
                 aria-controls="mobile-menu"
                 onClick={() => setMenuOpen(v => !v)}
@@ -251,29 +260,29 @@ export default function Nav() {
           onMouseLeave={scheduleClose}
         >
           <div className="mega-inner">
-            <span className="mega-section-label">Le Camp MKR · Choisis ta venue</span>
+            <span className="mega-section-label">{t('panels.le_camp.section_label')}</span>
             <div className="mega-camp-grid">
               <div>
-                <h2 className="mega-camp-feature-title">CHOISIS<br/>TA SESSION.</h2>
-                <p className="mega-camp-feature-body">Quatre sessions par an calées sur les vacances scolaires francophones. MKR organise tout : visa, vol intérieur, transferts, hébergement, repas, encadrement. Vol international à organiser.</p>
-                <Link href="/sessions" className="mega-arrow-link">Voir les 4 sessions {ARROW_RIGHT}</Link>
+                <h2 className="mega-camp-feature-title">{t('panels.le_camp.feature_title_part1')}<br/>{t('panels.le_camp.feature_title_part2')}</h2>
+                <p className="mega-camp-feature-body">{t('panels.le_camp.feature_body')}</p>
+                <Link href="/sessions" className="mega-arrow-link">{t('panels.le_camp.feature_link')} {ARROW_RIGHT}</Link>
               </div>
               <div>
-                <span className="mega-camp-links-label">Sessions officielles 2026 / 2027</span>
+                <span className="mega-camp-links-label">{t('panels.le_camp.sessions_label')}</span>
                 <ul className="mega-link-list" role="list">
-                  <li><Link href="/mkr-camp-2026">{ICO.sessions} Été · 17 août - 5 sept 2026 {ARROW_SM}</Link></li>
-                  <li><Link href="/sessions#toussaint-2026">{ICO.sessions} Toussaint · 17 oct - 7 nov 2026 {ARROW_SM}</Link></li>
-                  <li><Link href="/sessions#fevrier-2027">{ICO.sessions} Hiver · 13 fév - 6 mars 2027 {ARROW_SM}</Link></li>
-                  <li><Link href="/sessions#paques-2027">{ICO.sessions} Pâques · 3 - 24 avril 2027 {ARROW_SM}</Link></li>
+                  <li><Link href="/mkr-camp-2026">{ICO.sessions} {t('panels.le_camp.sessions.ete_2026')} {ARROW_SM}</Link></li>
+                  <li><Link href={{ pathname: '/sessions', hash: 'toussaint-2026' }}>{ICO.sessions} {t('panels.le_camp.sessions.toussaint_2026')} {ARROW_SM}</Link></li>
+                  <li><Link href={{ pathname: '/sessions', hash: 'fevrier-2027' }}>{ICO.sessions} {t('panels.le_camp.sessions.hiver_2027')} {ARROW_SM}</Link></li>
+                  <li><Link href={{ pathname: '/sessions', hash: 'paques-2027' }}>{ICO.sessions} {t('panels.le_camp.sessions.paques_2027')} {ARROW_SM}</Link></li>
                 </ul>
               </div>
               <div>
-                <span className="mega-camp-links-label">Autres formats</span>
+                <span className="mega-camp-links-label">{t('panels.le_camp.formats_label')}</span>
                 <ul className="mega-link-list" role="list">
-                  <li><Link href="/sur-mesure">{ICO.calendar} Sur Mesure · tes dates {ARROW_SM}</Link></li>
-                  <li><Link href="/familles">{ICO.coaches} Famille · parent + enfant 8-17 {ARROW_SM}</Link></li>
-                  <li><Link href="/clubs-groupes">{ICO.coaches} Club et Groupe · 5 à 20 {ARROW_SM}</Link></li>
-                  <li><Link href="/comment-ca-marche">{ICO.howItWorks} Comment ça marche {ARROW_SM}</Link></li>
+                  <li><Link href="/sur-mesure">{ICO.calendar} {t('panels.le_camp.formats.sur_mesure')} {ARROW_SM}</Link></li>
+                  <li><Link href="/familles">{ICO.coaches} {t('panels.le_camp.formats.famille')} {ARROW_SM}</Link></li>
+                  <li><Link href="/clubs-groupes">{ICO.coaches} {t('panels.le_camp.formats.groupe')} {ARROW_SM}</Link></li>
+                  <li><Link href="/comment-ca-marche">{ICO.howItWorks} {t('panels.le_camp.formats.comment_ca_marche')} {ARROW_SM}</Link></li>
                 </ul>
               </div>
             </div>
@@ -290,39 +299,39 @@ export default function Nav() {
           onMouseLeave={scheduleClose}
         >
           <div className="mega-inner">
-            <span className="mega-section-label">Disciplines et Programme 2026</span>
+            <span className="mega-section-label">{t('panels.programme.section_label')}</span>
             <div className="mega-prog-grid">
               <Link href="/programme/mma" className="mega-prog-card">
                 <Image src="/images/action/sparring-mma-wall.webp" alt="" className="mega-prog-bg" fill sizes="(max-width: 768px) 100vw, 33vw" aria-hidden="true" />
                 <div className="mega-prog-icon" aria-hidden="true">
                   <IconMMA />
                 </div>
-                <h3 className="mega-prog-title">MMA</h3>
-                <p className="mega-prog-desc">Striking, clinch, takedowns, submissions. Sparring quotidien avec des combattants locaux. Transitions debout-sol.</p>
-                <span className="mega-arrow-link">Voir le programme {ARROW_RIGHT}</span>
+                <h3 className="mega-prog-title">{t('panels.programme.mma_title')}</h3>
+                <p className="mega-prog-desc">{t('panels.programme.mma_desc')}</p>
+                <span className="mega-arrow-link">{t('panels.programme.card_link')} {ARROW_RIGHT}</span>
               </Link>
               <Link href="/programme/lutte" className="mega-prog-card">
                 <Image src="/images/action/takedown-wrestling.webp" alt="" className="mega-prog-bg" fill sizes="(max-width: 768px) 100vw, 33vw" aria-hidden="true" />
                 <div className="mega-prog-icon" aria-hidden="true">
                   <IconLutte />
                 </div>
-                <h3 className="mega-prog-title">LUTTE ADULTES</h3>
-                <p className="mega-prog-desc">Lutte libre. Méthodes daghestanaises transmises par des champions, sparring quotidien.</p>
-                <span className="mega-arrow-link">Voir le programme {ARROW_RIGHT}</span>
+                <h3 className="mega-prog-title">{t('panels.programme.lutte_title')}</h3>
+                <p className="mega-prog-desc">{t('panels.programme.lutte_desc')}</p>
+                <span className="mega-arrow-link">{t('panels.programme.card_link')} {ARROW_RIGHT}</span>
               </Link>
               <Link href="/programme/lutte-enfants" className="mega-prog-card">
                 <Image src="/images/ruslan/lutte/kids-briefing.webp" alt="" className="mega-prog-bg" fill sizes="(max-width: 768px) 100vw, 33vw" aria-hidden="true" />
                 <div className="mega-prog-icon" aria-hidden="true">
                   <IconLutte />
                 </div>
-                <h3 className="mega-prog-title">JEUNESSE</h3>
-                <p className="mega-prog-desc">Programme 8-17 ans avec parent participant. Pédagogie progressive, ratio 1 coach pour 5 enfants, sécurité renforcée.</p>
-                <span className="mega-arrow-link">Voir le programme {ARROW_RIGHT}</span>
+                <h3 className="mega-prog-title">{t('panels.programme.jeunesse_title')}</h3>
+                <p className="mega-prog-desc">{t('panels.programme.jeunesse_desc')}</p>
+                <span className="mega-arrow-link">{t('panels.programme.card_link')} {ARROW_RIGHT}</span>
               </Link>
             </div>
             <div className="mega-prog-secondary">
-              <Link href="/programme" className="mega-prog-secondary-link">{ICO.overview} Vue d&apos;ensemble du programme {ARROW_SM}</Link>
-              <Link href="/temoignages" className="mega-prog-secondary-link">{ICO.testimonials} Témoignages athlètes {ARROW_SM}</Link>
+              <Link href="/programme" className="mega-prog-secondary-link">{ICO.overview} {t('panels.programme.secondary.overview')} {ARROW_SM}</Link>
+              <Link href="/temoignages" className="mega-prog-secondary-link">{ICO.testimonials} {t('panels.programme.secondary.temoignages')} {ARROW_SM}</Link>
             </div>
           </div>
         </div>
@@ -337,39 +346,39 @@ export default function Nav() {
           onMouseLeave={scheduleClose}
         >
           <div className="mega-inner">
-            <span className="mega-section-label">Deux destinations, une discipline par camp</span>
+            <span className="mega-section-label">{t('panels.destinations.section_label')}</span>
             <div className="mega-dest-layout mega-dest-layout--dual">
-              <Link href="/destinations/dagestan" className="mega-dest-card mega-dest-card--dual" aria-label="Daghestan · destination Lutte">
+              <Link href="/destinations/dagestan" className="mega-dest-card mega-dest-card--dual" aria-label={t('panels.destinations.dagestan_aria')}>
                 <Image src="/images/environment/dagestan-panorama.webp" alt="" className="mega-dest-img" fill sizes="(max-width: 768px) 100vw, 40vw" aria-hidden="true" />
                 <div className="mega-dest-overlay" aria-hidden="true"/>
                 <div className="mega-dest-content">
-                  <span className="mega-dest-region">Caucase · Russie · Lutte</span>
-                  <h2 className="mega-dest-name">DAGHESTAN</h2>
-                  <p className="mega-dest-tagline">Berceau de la lutte libre mondiale. Pour les camps Lutte adultes et enfants.</p>
-                  <span className="mega-dest-cta">Découvrir le Daghestan {ARROW_RIGHT}</span>
+                  <span className="mega-dest-region">{t('panels.destinations.dagestan_region')}</span>
+                  <h2 className="mega-dest-name">{t('panels.destinations.dagestan_name')}</h2>
+                  <p className="mega-dest-tagline">{t('panels.destinations.dagestan_tagline')}</p>
+                  <span className="mega-dest-cta">{t('panels.destinations.dagestan_cta')} {ARROW_RIGHT}</span>
                 </div>
               </Link>
-              <Link href="/destinations/tchetchenie" className="mega-dest-card mega-dest-card--dual" aria-label="Tchétchénie · destination MMA">
+              <Link href="/destinations/tchetchenie" className="mega-dest-card mega-dest-card--dual" aria-label={t('panels.destinations.tchetchenie_aria')}>
                 <Image src="/images/environment/dagestan-panorama.webp" alt="" className="mega-dest-img" fill sizes="(max-width: 768px) 100vw, 40vw" aria-hidden="true" />
                 <div className="mega-dest-overlay" aria-hidden="true"/>
                 <div className="mega-dest-content">
-                  <span className="mega-dest-region">Caucase · Russie · MMA</span>
-                  <h2 className="mega-dest-name">TCHÉTCHÉNIE</h2>
-                  <p className="mega-dest-tagline">Terre des champions MMA. Pour les camps MMA adultes.</p>
-                  <span className="mega-dest-cta">Découvrir la Tchétchénie {ARROW_RIGHT}</span>
+                  <span className="mega-dest-region">{t('panels.destinations.tchetchenie_region')}</span>
+                  <h2 className="mega-dest-name">{t('panels.destinations.tchetchenie_name')}</h2>
+                  <p className="mega-dest-tagline">{t('panels.destinations.tchetchenie_tagline')}</p>
+                  <span className="mega-dest-cta">{t('panels.destinations.tchetchenie_cta')} {ARROW_RIGHT}</span>
                 </div>
               </Link>
               <div className="mega-dest-aside">
-                <span className="mega-camp-links-label">Préparer le voyage</span>
+                <span className="mega-camp-links-label">{t('panels.destinations.aside_label')}</span>
                 <ul className="mega-link-list" role="list">
-                  <li><Link href="/destinations">{ICO.dagestan} Vue d&apos;ensemble {ARROW_SM}</Link></li>
-                  <li><Link href="/logistique">{ICO.logistics} Logistique, vols et visa {ARROW_SM}</Link></li>
-                  <li><Link href="/guide-caucase">{ICO.guide} Guide PDF Caucase {ARROW_SM}</Link></li>
+                  <li><Link href="/destinations">{ICO.dagestan} {t('panels.destinations.aside.overview')} {ARROW_SM}</Link></li>
+                  <li><Link href="/logistique">{ICO.logistics} {t('panels.destinations.aside.logistique')} {ARROW_SM}</Link></li>
+                  <li><Link href="/guide-caucase">{ICO.guide} {t('panels.destinations.aside.guide')} {ARROW_SM}</Link></li>
                 </ul>
                 <div className="mega-dest-security" role="note">
                   <Icon name="alert" size={16} />
                   <span className="mega-dest-security-text">
-                    Combo Daghestan + Tchétchénie disponible uniquement sur sur-mesure.
+                    {t('panels.destinations.combo_note')}
                   </span>
                 </div>
               </div>
@@ -387,30 +396,30 @@ export default function Nav() {
           onMouseLeave={scheduleClose}
         >
           <div className="mega-inner">
-            <span className="mega-section-label">Découvrir MKR · Preuve et ressources</span>
+            <span className="mega-section-label">{t('panels.infos.section_label')}</span>
             <div className="mega-infos-grid">
               <div>
-                <span className="mega-infos-col-label">Voir le camp</span>
+                <span className="mega-infos-col-label">{t('panels.infos.col_see_label')}</span>
                 <ul className="mega-link-list" role="list">
-                  <li><Link href="/galerie">{ICO.gallery} Galerie photos et vidéos {ARROW_SM}</Link></li>
-                  <li><Link href="/temoignages">{ICO.testimonials} Témoignages athlètes {ARROW_SM}</Link></li>
-                  <li><Link href="/blog">{ICO.blog} Blog et articles {ARROW_SM}</Link></li>
+                  <li><Link href="/galerie">{ICO.gallery} {t('panels.infos.col_see.galerie')} {ARROW_SM}</Link></li>
+                  <li><Link href="/temoignages">{ICO.testimonials} {t('panels.infos.col_see.temoignages')} {ARROW_SM}</Link></li>
+                  <li><Link href="/blog">{ICO.blog} {t('panels.infos.col_see.blog')} {ARROW_SM}</Link></li>
                 </ul>
               </div>
               <div>
-                <span className="mega-infos-col-label">Comprendre, échanger</span>
+                <span className="mega-infos-col-label">{t('panels.infos.col_understand_label')}</span>
                 <ul className="mega-link-list" role="list">
-                  <li><Link href="/faq">{ICO.faq} Questions fréquentes {ARROW_SM}</Link></li>
-                  <li><Link href="/a-propos">{ICO.about} À propos de MKR {ARROW_SM}</Link></li>
-                  <li><Link href="/contact">{ICO.contact} Nous contacter {ARROW_SM}</Link></li>
+                  <li><Link href="/faq">{ICO.faq} {t('panels.infos.col_understand.faq')} {ARROW_SM}</Link></li>
+                  <li><Link href="/a-propos">{ICO.about} {t('panels.infos.col_understand.a_propos')} {ARROW_SM}</Link></li>
+                  <li><Link href="/contact">{ICO.contact} {t('panels.infos.col_understand.contact')} {ARROW_SM}</Link></li>
                 </ul>
               </div>
-              <div className="mega-testi" aria-label="Témoignage athlète">
+              <div className="mega-testi" aria-label={t('panels.infos.testi_aria')}>
                 <Image src="/images/testimonials/thomas-b.webp" alt="" className="mega-testi-avatar" width={40} height={40} aria-hidden="true" />
                 <span className="mega-testi-quote-mark" aria-hidden="true">&ldquo;</span>
-                <p className="mega-testi-quote">Deux semaines après le retour, j&apos;ai remporté mon premier titre régional. Ce que j&apos;ai construit là-bas, aucune salle en France ne pouvait me le donner.</p>
-                <span className="mega-testi-name">Thomas B.</span>
-                <span className="mega-testi-meta">Boxe · Lyon · Session Automne 2025</span>
+                <p className="mega-testi-quote">{t('panels.infos.testi_quote')}</p>
+                <span className="mega-testi-name">{t('panels.infos.testi_name')}</span>
+                <span className="mega-testi-meta">{t('panels.infos.testi_meta')}</span>
               </div>
             </div>
           </div>
@@ -431,49 +440,50 @@ export default function Nav() {
         id="mobile-menu"
         role="dialog"
         aria-modal="true"
-        aria-label="Menu principal"
+        aria-label={t('mobile_menu_aria')}
         aria-hidden={!menuOpen}
         className={menuOpen ? 'is-open' : ''}
       >
         <div className="mobile-inner">
-          <MobAccordion title="Le Camp" id="mob-camp">
-            <span className="mob-sub-label">Sessions officielles 2026 / 2027</span>
-            <Link href="/mkr-camp-2026" className="mob-sub-link">{ICO.sessions} Été · 17 août - 5 sept 2026</Link>
-            <Link href="/sessions#toussaint-2026" className="mob-sub-link">{ICO.sessions} Toussaint · 17 oct - 7 nov 2026</Link>
-            <Link href="/sessions#fevrier-2027" className="mob-sub-link">{ICO.sessions} Hiver · 13 fév - 6 mars 2027</Link>
-            <Link href="/sessions#paques-2027" className="mob-sub-link">{ICO.sessions} Pâques · 3 - 24 avril 2027</Link>
-            <span className="mob-sub-label">Autres formats</span>
-            <Link href="/sur-mesure" className="mob-sub-link">{ICO.calendar} Sur Mesure · tes dates</Link>
-            <Link href="/familles" className="mob-sub-link">{ICO.coaches} Famille · parent + enfant</Link>
-            <Link href="/clubs-groupes" className="mob-sub-link">{ICO.coaches} Club et Groupe · 5 à 20</Link>
-            <Link href="/sessions" className="mob-sub-link">{ICO.sessions} Voir tous les tarifs</Link>
-            <span className="mob-sub-label">Préparer sa venue</span>
-            <Link href="/le-camp" className="mob-sub-link">{ICO.camp} Découvrir le camp</Link>
-            <Link href="/comment-ca-marche" className="mob-sub-link">{ICO.howItWorks} Comment ça marche</Link>
-            <Link href="/preparer-son-camp" className="mob-sub-link">{ICO.prepare} Préparer son camp</Link>
+          <LocaleSwitcher variant="mobile" />
+          <MobAccordion title={t('mobile.le_camp_title')} id="mob-camp">
+            <span className="mob-sub-label">{t('mobile.sessions_label')}</span>
+            <Link href="/mkr-camp-2026" className="mob-sub-link">{ICO.sessions} {t('panels.le_camp.sessions.ete_2026')}</Link>
+            <Link href={{ pathname: '/sessions', hash: 'toussaint-2026' }} className="mob-sub-link">{ICO.sessions} {t('panels.le_camp.sessions.toussaint_2026')}</Link>
+            <Link href={{ pathname: '/sessions', hash: 'fevrier-2027' }} className="mob-sub-link">{ICO.sessions} {t('panels.le_camp.sessions.hiver_2027')}</Link>
+            <Link href={{ pathname: '/sessions', hash: 'paques-2027' }} className="mob-sub-link">{ICO.sessions} {t('panels.le_camp.sessions.paques_2027')}</Link>
+            <span className="mob-sub-label">{t('mobile.formats_label')}</span>
+            <Link href="/sur-mesure" className="mob-sub-link">{ICO.calendar} {t('panels.le_camp.formats.sur_mesure')}</Link>
+            <Link href="/familles" className="mob-sub-link">{ICO.coaches} {t('panels.le_camp.formats.famille')}</Link>
+            <Link href="/clubs-groupes" className="mob-sub-link">{ICO.coaches} {t('panels.le_camp.formats.groupe')}</Link>
+            <Link href="/sessions" className="mob-sub-link">{ICO.sessions} {t('mobile.see_all_prices')}</Link>
+            <span className="mob-sub-label">{t('mobile.prepare_label')}</span>
+            <Link href="/le-camp" className="mob-sub-link">{ICO.camp} {t('mobile.prepare.le_camp')}</Link>
+            <Link href="/comment-ca-marche" className="mob-sub-link">{ICO.howItWorks} {t('mobile.prepare.comment_ca_marche')}</Link>
+            <Link href="/preparer-son-camp" className="mob-sub-link">{ICO.prepare} {t('mobile.prepare.preparer_son_camp')}</Link>
           </MobAccordion>
-          <MobAccordion title="Programme" id="mob-prog">
-            <Link href="/programme" className="mob-sub-link">{ICO.overview} Vue d&apos;ensemble</Link>
-            <Link href="/programme/mma" className="mob-sub-link">{ICO.mma} MMA · Tchétchénie</Link>
-            <Link href="/programme/lutte" className="mob-sub-link">{ICO.lutte} Lutte adultes · Daghestan</Link>
-            <Link href="/programme/lutte-enfants" className="mob-sub-link">{ICO.lutte} Jeunesse 8-17 · Daghestan</Link>
+          <MobAccordion title={t('mobile.programme_title')} id="mob-prog">
+            <Link href="/programme" className="mob-sub-link">{ICO.overview} {t('mobile.programme.overview')}</Link>
+            <Link href="/programme/mma" className="mob-sub-link">{ICO.mma} {t('mobile.programme.mma')}</Link>
+            <Link href="/programme/lutte" className="mob-sub-link">{ICO.lutte} {t('mobile.programme.lutte_adultes')}</Link>
+            <Link href="/programme/lutte-enfants" className="mob-sub-link">{ICO.lutte} {t('mobile.programme.jeunesse')}</Link>
           </MobAccordion>
-          <MobAccordion title="Destinations" id="mob-dest">
-            <span className="mob-sub-label">Une destination par discipline</span>
-            <Link href="/destinations/dagestan" className="mob-sub-link">{ICO.dagestan} Daghestan · Lutte</Link>
-            <Link href="/destinations/tchetchenie" className="mob-sub-link">{ICO.dagestan} Tchétchénie · MMA</Link>
-            <Link href="/destinations" className="mob-sub-link">{ICO.overview} Vue d&apos;ensemble</Link>
-            <span className="mob-sub-label">Préparer le voyage</span>
-            <Link href="/logistique" className="mob-sub-link">{ICO.logistics} Logistique, vols et visa</Link>
-            <Link href="/guide-caucase" className="mob-sub-link">{ICO.guide} Guide PDF Caucase</Link>
+          <MobAccordion title={t('mobile.destinations_title')} id="mob-dest">
+            <span className="mob-sub-label">{t('mobile.destinations.label_by_discipline')}</span>
+            <Link href="/destinations/dagestan" className="mob-sub-link">{ICO.dagestan} {t('mobile.destinations.dagestan')}</Link>
+            <Link href="/destinations/tchetchenie" className="mob-sub-link">{ICO.dagestan} {t('mobile.destinations.tchetchenie')}</Link>
+            <Link href="/destinations" className="mob-sub-link">{ICO.overview} {t('mobile.destinations.overview')}</Link>
+            <span className="mob-sub-label">{t('mobile.destinations.label_prepare')}</span>
+            <Link href="/logistique" className="mob-sub-link">{ICO.logistics} {t('mobile.destinations.logistique')}</Link>
+            <Link href="/guide-caucase" className="mob-sub-link">{ICO.guide} {t('mobile.destinations.guide')}</Link>
           </MobAccordion>
-          <MobAccordion title="Découvrir" id="mob-decouvrir">
-            <Link href="/galerie" className="mob-sub-link">{ICO.gallery} Galerie</Link>
-            <Link href="/temoignages" className="mob-sub-link">{ICO.testimonials} Témoignages</Link>
-            <Link href="/blog" className="mob-sub-link">{ICO.blog} Blog</Link>
-            <Link href="/faq" className="mob-sub-link">{ICO.faq} FAQ</Link>
-            <Link href="/a-propos" className="mob-sub-link">{ICO.about} À propos</Link>
-            <Link href="/contact" className="mob-sub-link">{ICO.contact} Contact</Link>
+          <MobAccordion title={t('mobile.infos_title')} id="mob-decouvrir">
+            <Link href="/galerie" className="mob-sub-link">{ICO.gallery} {t('mobile.infos.galerie')}</Link>
+            <Link href="/temoignages" className="mob-sub-link">{ICO.testimonials} {t('mobile.infos.temoignages')}</Link>
+            <Link href="/blog" className="mob-sub-link">{ICO.blog} {t('mobile.infos.blog')}</Link>
+            <Link href="/faq" className="mob-sub-link">{ICO.faq} {t('mobile.infos.faq')}</Link>
+            <Link href="/a-propos" className="mob-sub-link">{ICO.about} {t('mobile.infos.a_propos')}</Link>
+            <Link href="/contact" className="mob-sub-link">{ICO.contact} {t('mobile.infos.contact')}</Link>
           </MobAccordion>
           <div className="mob-cta-wrap">
             <a
@@ -481,12 +491,12 @@ export default function Nav() {
               target="_blank"
               rel="noopener noreferrer"
               className="mob-whatsapp"
-              aria-label="Contacter MKR sur WhatsApp"
+              aria-label={t('mobile.cta_whatsapp_aria')}
             >
               <Icon name="whatsapp" size={20} />
-              WHATSAPP
+              {t('mobile.cta_whatsapp')}
             </a>
-            <Link href="/inscription" className="mob-cta">POSTULER AU CAMP</Link>
+            <Link href="/inscription" className="mob-cta">{t('mobile.cta_apply')}</Link>
           </div>
         </div>
       </div>

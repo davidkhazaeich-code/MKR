@@ -1,8 +1,11 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { useTranslations } from 'next-intl'
+import { Link } from '@/i18n/navigation'
 
 export default function StickyMobileCTA() {
+  const t = useTranslations('common.sticky_mobile_cta')
   const [visible, setVisible] = useState(false)
 
   useEffect(() => {
@@ -13,12 +16,12 @@ export default function StickyMobileCTA() {
   }, [])
 
   return (
-    <a
+    <Link
       href="/inscription"
       className={`sticky-cta-mobile${visible ? ' is-visible' : ''}`}
-      aria-label="Postuler au camp MKR Caucasian Camp"
+      aria-label={t('apply_aria')}
     >
-      POSTULER AU CAMP
-    </a>
+      {t('apply')}
+    </Link>
   )
 }
