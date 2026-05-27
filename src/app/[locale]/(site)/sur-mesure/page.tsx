@@ -1,4 +1,5 @@
-import Link from 'next/link'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
+import { Link } from '@/i18n/navigation'
 import { buildMetadata } from '@/lib/seo'
 import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
@@ -10,48 +11,44 @@ import { PRICING_TIERS } from '@/data/pricing'
 
 const TRIO_PRICE_1WEEK_NUM = PRICING_TIERS.trio.perAdult[1].toLocaleString('fr-FR').replace(/ /g, ' ')
 
-export const metadata = buildMetadata({
-  title: 'Camp Sur Mesure au Caucase | MKR Caucasian Camp',
-  description: 'Camp individuel sur mesure au Caucase. Lutte Daghestan, MMA Tchétchénie ou combo (sur-mesure uniquement). Tes dates, ta durée. Délai 90 jours min.',
-  path: '/sur-mesure',
-})
-const PROFILES = [
-  {
-    title: 'Pro ou semi-pro en préparation',
-    desc: "Tu prépares un combat ou un tournoi à une date précise. Le sur mesure te permet de caler le camp pile dans ta fenêtre de prep, sans compromis sur le calendrier.",
-  },
-  {
-    title: 'Athlète au planning serré',
-    desc: "Les dates de la session officielle ne tombent pas bien (vacances, boulot, école des enfants). Tu choisis 1, 2 ou 3 semaines au moment qui marche pour toi.",
-  },
-  {
-    title: 'Duo, trio ou quatuor d\'amis',
-    desc: "Vous êtes 2 à 4 adultes qui voulez partir ensemble. Vous choisissez les dates, vous vivez le camp à plusieurs sans avoir à constituer un club entier.",
-  },
-]
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
+  const t = await getTranslations({ locale, namespace: 'sur-mesure' })
+  return buildMetadata({
+    title: t('meta.title'),
+    description: t('meta.description'),
+    path: '/sur-mesure',
+  })
+}
 
-const PROCESS = [
-  { num: '01', title: 'Tu remplis le formulaire', desc: 'Composition (1 à 4 adultes), dates souhaitées (90 jours min avant), durée (1, 2 ou 3 sem), niveau, objectifs.' },
-  { num: '02', title: 'Validation MKR sous 48h', desc: 'On valide la disponibilité des coachs et de l\'hébergement à tes dates. Appel vidéo de qualification.' },
-  { num: '03', title: 'Validation et lettre visa', desc: 'Tu reçois la lettre d\'invitation officielle pour ton dossier visa Russie et le RIB pour le paiement intégral du package par virement bancaire.' },
-  { num: '04', title: 'Préparation 6 semaines', desc: 'Programme de prep physique à distance. Tout est réglé, tu n\'as plus qu\'à te concentrer sur l\'entraînement.' },
-  { num: '05', title: 'Départ et camp', desc: 'Vol intérieur depuis Istanbul inclus (Makhachkala pour Daghestan, Grozny pour Tchétchénie). Véhicule MKR à l\'aéroport. Tu n\'as qu\'à t\'entraîner.' },
-]
+const PROFILE_KEYS = ['pro', 'planning', 'duo'] as const
+const CROSS_SELL_KEYS = ['sessions', 'famille', 'clubs'] as const
+const CROSS_SELL_HREFS = {
+  sessions: '/sessions',
+  famille: '/familles',
+  clubs: '/clubs-groupes',
+} as const satisfies Record<(typeof CROSS_SELL_KEYS)[number], Parameters<typeof Link>[0]['href']>
 
-export default function SurMesurePage() {
+export default async function SurMesurePage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
+  setRequestLocale(locale)
+  const t = await getTranslations('sur-mesure')
+
+  const processSteps = t.raw('process.steps') as { num: string; title: string; desc: string }[]
+
   return (
     <>
       <BreadcrumbJsonLd items={[
-        { name: 'Accueil', url: 'https://mkrcamp.com/' },
-        { name: 'Sur Mesure', url: 'https://mkrcamp.com/sur-mesure' },
+        { name: t('breadcrumb.home'), url: 'https://mkrcamp.com/' },
+        { name: t('breadcrumb.current'), url: 'https://mkrcamp.com/sur-mesure' },
       ]} />
 
       <PageHero
-        label="SUR MESURE · 1 À 4 ADULTES"
-        title="TES DATES.<br/>TON AVENTURE."
-        subtitle="Camp individuel ou en petit groupe d'amis (1 à 4 adultes). Tu choisis tes dates, ta durée et ta ou tes destinations : Lutte au Daghestan, MMA en Tchétchénie, ou combo des deux (sur-mesure uniquement)."
+        label={t('hero.label')}
+        title={t('hero.title')}
+        subtitle={t('hero.subtitle')}
         image="/images/ruslan/coaches/Antoine-portrait-makhachkala-mkr.webp"
-        imageAlt="Athlète MMA solo en immersion à Makhachkala, camp sur mesure MKR"
+        imageAlt={t('hero.image_alt')}
       />
 
       {/* Stats clés */}
@@ -59,19 +56,19 @@ export default function SurMesurePage() {
         <div className="parents-stats-grid">
           <div>
             <span className="parents-stat-num">1-4</span>
-            <span className="parents-stat-label">Adultes par camp</span>
+            <span className="parents-stat-label">{t('stats.people')}</span>
           </div>
           <div>
             <span className="parents-stat-num">90j</span>
-            <span className="parents-stat-label">Délai minimum réservation</span>
+            <span className="parents-stat-label">{t('stats.delay')}</span>
           </div>
           <div>
             <span className="parents-stat-num">1/2/3</span>
-            <span className="parents-stat-label">Semaines au choix</span>
+            <span className="parents-stat-label">{t('stats.weeks')}</span>
           </div>
           <div>
             <span className="parents-stat-num">{TRIO_PRICE_1WEEK_NUM}</span>
-            <span className="parents-stat-label">€ · 1 sem · à partir de 3 pers</span>
+            <span className="parents-stat-label">{t('stats.price_label')}</span>
           </div>
         </div>
       </section>
@@ -79,10 +76,10 @@ export default function SurMesurePage() {
       {/* Cinematic reveal */}
       <CinematicReveal
         image="/images/ruslan/action/mma-cercle-session-demo-mkr.webp"
-        alt="Cercle de combattants en démonstration grappling au Daghestan"
-        label="POUR QUI"
-        title="TU CHOISIS QUAND PARTIR.<br/>ON FAIT LE RESTE."
-        tagline="Tu as un objectif clair et un créneau précis. On adapte le camp à ton agenda, pas l'inverse."
+        alt={t('cinematic.alt')}
+        label={t('cinematic.label')}
+        title={t('cinematic.title')}
+        tagline={t('cinematic.tagline')}
       />
 
       {/* Combo Daghestan + Tchétchénie */}
@@ -91,16 +88,13 @@ export default function SurMesurePage() {
         <div className="inner">
           <div className="reveal" style={{ maxWidth: '820px', margin: '0 auto', textAlign: 'center' }}>
             <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>
-              EXCLUSIVITÉ SUR MESURE
+              {t('combo.label')}
             </span>
             <h2 style={{ fontSize: 'clamp(1.5rem, 3.5vw, 2.2rem)', textTransform: 'uppercase' }}>
-              COMBINE DAGHESTAN ET TCHÉTCHÉNIE
+              {t('combo.title')}
             </h2>
             <p style={{ color: 'var(--text-secondary)', lineHeight: '1.7', marginTop: '1.2rem' }}>
-              Sur les sessions officielles, c&apos;est <strong>Lutte au Daghestan</strong> OU <strong>MMA en Tchétchénie</strong>.
-              Sur le sur mesure, tu peux combiner les deux : une partie du camp à Makhachkala pour la lutte,
-              une autre partie à Grozny pour le MMA. La logistique de transfert entre les deux régions est gérée par MKR.
-              Idéal pour les athlètes MMA qui veulent renforcer leur lutte chez les Daghestanais.
+              {t('combo.intro_prefix')}<strong>{t('combo.intro_strong_1')}</strong>{t('combo.intro_middle')}<strong>{t('combo.intro_strong_2')}</strong>{t('combo.intro_suffix')}
             </p>
           </div>
         </div>
@@ -112,15 +106,15 @@ export default function SurMesurePage() {
         <div className="inner">
           <div className="logi-header reveal">
             <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>
-              PROFILS RECOMMANDÉS
+              {t('profiles.label')}
             </span>
-            <h2>3 RAISONS DE CHOISIR LE SUR MESURE</h2>
+            <h2>{t('profiles.title')}</h2>
           </div>
           <div className="grid-3" style={{ gap: '1.5rem' }}>
-            {PROFILES.map((p, i) => (
-              <div key={i} className="content-card fx-grain fx-corner-glow reveal" style={{ transitionDelay: `${i * 0.08}s` }}>
-                <h3 className="card-title">{p.title}</h3>
-                <p className="card-body">{p.desc}</p>
+            {PROFILE_KEYS.map((key, i) => (
+              <div key={key} className="content-card fx-grain fx-corner-glow reveal" style={{ transitionDelay: `${i * 0.08}s` }}>
+                <h3 className="card-title">{t(`profiles.items.${key}.title`)}</h3>
+                <p className="card-body">{t(`profiles.items.${key}.desc`)}</p>
               </div>
             ))}
           </div>
@@ -138,12 +132,12 @@ export default function SurMesurePage() {
         <div className="inner">
           <div className="logi-header reveal">
             <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>
-              PROCESSUS
+              {t('process.label')}
             </span>
-            <h2>5 ÉTAPES, 90 JOURS</h2>
+            <h2>{t('process.title')}</h2>
           </div>
           <div className="logi-visa-steps reveal">
-            {PROCESS.map((step) => (
+            {processSteps.map((step) => (
               <div key={step.num} className="logi-step">
                 <span className="logi-step-num">{step.num}</span>
                 <div>
@@ -161,35 +155,27 @@ export default function SurMesurePage() {
         <div className="inner">
           <div className="logi-header reveal">
             <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>
-              CE N&apos;EST PAS LE BON TUNNEL ?
+              {t('cross_sell.label')}
             </span>
-            <h2>EXPLORE LES AUTRES FORMATS</h2>
+            <h2>{t('cross_sell.title')}</h2>
           </div>
           <div className="grid-3 reveal" style={{ gap: '1.5rem' }}>
-            <Link href="/sessions" className="content-card fx-grain fx-corner-glow" style={{ textDecoration: 'none', display: 'block' }}>
-              <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.5rem', fontSize: '0.65rem' }}>SESSIONS OFFICIELLES</span>
-              <h3 className="card-title">4 sessions par an</h3>
-              <p className="card-body">Tu veux rejoindre un groupe constitué par MKR ? Quatre sessions calées sur les vacances scolaires : Été 2026, Toussaint 2026, Hiver 2027, Pâques 2027.</p>
-            </Link>
-            <Link href="/familles" className="content-card fx-grain fx-corner-glow" style={{ textDecoration: 'none', display: 'block' }}>
-              <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.5rem', fontSize: '0.65rem' }}>FAMILLE</span>
-              <h3 className="card-title">Camp Famille</h3>
-              <p className="card-body">Tu pars avec un enfant 8-17 ans ? Le tunnel Famille te propose un programme parent + enfant.</p>
-            </Link>
-            <Link href="/clubs-groupes" className="content-card fx-grain fx-corner-glow" style={{ textDecoration: 'none', display: 'block' }}>
-              <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.5rem', fontSize: '0.65rem' }}>CLUB ET GROUPE</span>
-              <h3 className="card-title">Clubs et groupes</h3>
-              <p className="card-body">Tu fédères 5+ personnes (club ou groupe organisé) ? Camp dédié, hébergement bloc.</p>
-            </Link>
+            {CROSS_SELL_KEYS.map((key) => (
+              <Link key={key} href={CROSS_SELL_HREFS[key]} className="content-card fx-grain fx-corner-glow" style={{ textDecoration: 'none', display: 'block' }}>
+                <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.5rem', fontSize: '0.65rem' }}>{t(`cross_sell.cards.${key}.label`)}</span>
+                <h3 className="card-title">{t(`cross_sell.cards.${key}.title`)}</h3>
+                <p className="card-body">{t(`cross_sell.cards.${key}.desc`)}</p>
+              </Link>
+            ))}
           </div>
         </div>
       </section>
 
       <SectionCTA
         primaryHref="/inscription?type=custom"
-        primaryLabel="ORGANISER MON CAMP SUR MESURE"
+        primaryLabel={t('section_cta.primary_label')}
         ghostHref="/contact"
-        ghostLabel="POSER UNE QUESTION"
+        ghostLabel={t('section_cta.ghost_label')}
       />
     </>
   )

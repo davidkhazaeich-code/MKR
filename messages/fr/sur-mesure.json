@@ -1,0 +1,91 @@
+{
+  "meta": {
+    "title": "Camp Sur Mesure au Caucase | MKR Caucasian Camp",
+    "description": "Camp individuel sur mesure au Caucase. Lutte Daghestan, MMA Tchétchénie ou combo (sur-mesure uniquement). Tes dates, ta durée. Délai 90 jours min."
+  },
+  "breadcrumb": {
+    "home": "Accueil",
+    "current": "Sur Mesure"
+  },
+  "hero": {
+    "label": "SUR MESURE · 1 À 4 ADULTES",
+    "title": "TES DATES.<br/>TON AVENTURE.",
+    "subtitle": "Camp individuel ou en petit groupe d'amis (1 à 4 adultes). Tu choisis tes dates, ta durée et ta ou tes destinations : Lutte au Daghestan, MMA en Tchétchénie, ou combo des deux (sur-mesure uniquement).",
+    "image_alt": "Athlète MMA solo en immersion à Makhachkala, camp sur mesure MKR"
+  },
+  "stats": {
+    "people": "Adultes par camp",
+    "delay": "Délai minimum réservation",
+    "weeks": "Semaines au choix",
+    "price_label": "€ · 1 sem · à partir de 3 pers"
+  },
+  "cinematic": {
+    "alt": "Cercle de combattants en démonstration grappling au Daghestan",
+    "label": "POUR QUI",
+    "title": "TU CHOISIS QUAND PARTIR.<br/>ON FAIT LE RESTE.",
+    "tagline": "Tu as un objectif clair et un créneau précis. On adapte le camp à ton agenda, pas l'inverse."
+  },
+  "combo": {
+    "label": "EXCLUSIVITÉ SUR MESURE",
+    "title": "COMBINE DAGHESTAN ET TCHÉTCHÉNIE",
+    "intro_prefix": "Sur les sessions officielles, c'est ",
+    "intro_strong_1": "Lutte au Daghestan",
+    "intro_middle": " OU ",
+    "intro_strong_2": "MMA en Tchétchénie",
+    "intro_suffix": ". Sur le sur mesure, tu peux combiner les deux : une partie du camp à Makhachkala pour la lutte, une autre partie à Grozny pour le MMA. La logistique de transfert entre les deux régions est gérée par MKR. Idéal pour les athlètes MMA qui veulent renforcer leur lutte chez les Daghestanais."
+  },
+  "profiles": {
+    "label": "PROFILS RECOMMANDÉS",
+    "title": "3 RAISONS DE CHOISIR LE SUR MESURE",
+    "items": {
+      "pro": {
+        "title": "Pro ou semi-pro en préparation",
+        "desc": "Tu prépares un combat ou un tournoi à une date précise. Le sur mesure te permet de caler le camp pile dans ta fenêtre de prep, sans compromis sur le calendrier."
+      },
+      "planning": {
+        "title": "Athlète au planning serré",
+        "desc": "Les dates de la session officielle ne tombent pas bien (vacances, boulot, école des enfants). Tu choisis 1, 2 ou 3 semaines au moment qui marche pour toi."
+      },
+      "duo": {
+        "title": "Duo, trio ou quatuor d'amis",
+        "desc": "Vous êtes 2 à 4 adultes qui voulez partir ensemble. Vous choisissez les dates, vous vivez le camp à plusieurs sans avoir à constituer un club entier."
+      }
+    }
+  },
+  "process": {
+    "label": "PROCESSUS",
+    "title": "5 ÉTAPES, 90 JOURS",
+    "steps": [
+      { "num": "01", "title": "Tu remplis le formulaire", "desc": "Composition (1 à 4 adultes), dates souhaitées (90 jours min avant), durée (1, 2 ou 3 sem), niveau, objectifs." },
+      { "num": "02", "title": "Validation MKR sous 48h", "desc": "On valide la disponibilité des coachs et de l'hébergement à tes dates. Appel vidéo de qualification." },
+      { "num": "03", "title": "Validation et lettre visa", "desc": "Tu reçois la lettre d'invitation officielle pour ton dossier visa Russie et le RIB pour le paiement intégral du package par virement bancaire." },
+      { "num": "04", "title": "Préparation 6 semaines", "desc": "Programme de prep physique à distance. Tout est réglé, tu n'as plus qu'à te concentrer sur l'entraînement." },
+      { "num": "05", "title": "Départ et camp", "desc": "Vol intérieur depuis Istanbul inclus (Makhachkala pour Daghestan, Grozny pour Tchétchénie). Véhicule MKR à l'aéroport. Tu n'as qu'à t'entraîner." }
+    ]
+  },
+  "cross_sell": {
+    "label": "CE N'EST PAS LE BON TUNNEL ?",
+    "title": "EXPLORE LES AUTRES FORMATS",
+    "cards": {
+      "sessions": {
+        "label": "SESSIONS OFFICIELLES",
+        "title": "4 sessions par an",
+        "desc": "Tu veux rejoindre un groupe constitué par MKR ? Quatre sessions calées sur les vacances scolaires : Été 2026, Toussaint 2026, Hiver 2027, Pâques 2027."
+      },
+      "famille": {
+        "label": "FAMILLE",
+        "title": "Camp Famille",
+        "desc": "Tu pars avec un enfant 8-17 ans ? Le tunnel Famille te propose un programme parent + enfant."
+      },
+      "clubs": {
+        "label": "CLUB ET GROUPE",
+        "title": "Clubs et groupes",
+        "desc": "Tu fédères 5+ personnes (club ou groupe organisé) ? Camp dédié, hébergement bloc."
+      }
+    }
+  },
+  "section_cta": {
+    "primary_label": "ORGANISER MON CAMP SUR MESURE",
+    "ghost_label": "POSER UNE QUESTION"
+  }
+}

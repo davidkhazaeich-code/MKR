@@ -1,0 +1,96 @@
+{
+  "meta": {
+    "title": "Camp Clubs et Groupes au Caucase | MKR Caucasian Camp",
+    "description": "Camp dédié à ton club ou groupe (5 à 20 personnes). Lutte au Daghestan, MMA en Tchétchénie ou combo sur devis. Hébergement bloc, devis personnalisé."
+  },
+  "breadcrumb": {
+    "home": "Accueil",
+    "current": "Clubs et Groupes"
+  },
+  "hero": {
+    "label": "CLUBS ET GROUPES · 5 À 20 PERSONNES",
+    "title": "TON CLUB<br/>AU CAUCASE.",
+    "subtitle": "Camp dédié pour ton club ou groupe organisé (5 à 20 personnes). Lutte au Daghestan, MMA en Tchétchénie ou combo sur devis. Hébergement bloc, transferts groupés, programme adapté au niveau.",
+    "image_alt": "Cercle de fighters caucasiens en formation, équipe et fraternité du tapis"
+  },
+  "stats": {
+    "people": "Personnes par groupe",
+    "delay": "Délai minimum réservation",
+    "weeks": "Semaines au choix",
+    "quote_label": "Devis",
+    "quote_sub": "Sur mesure selon configuration"
+  },
+  "cinematic": {
+    "alt": "Athlètes alignés sur le tapis, fraternité collective au camp MKR",
+    "label": "CAMP DÉDIÉ",
+    "title": "TON GROUPE.<br/>TON RYTHME.",
+    "tagline": "Vous êtes 5, 10 ou 20, avec un objectif commun. On organise un camp pensé pour votre niveau et vos dates."
+  },
+  "advantages": {
+    "label": "CE QUI CHANGE EN GROUPE",
+    "title": "6 AVANTAGES LOGISTIQUES",
+    "items": {
+      "hebergement": {
+        "title": "Hébergement bloc",
+        "desc": "Ton groupe est logé ensemble : chambres adjacentes ou bâtiment dédié selon la taille. Tu dors et tu manges avec ton équipe, pas avec d'autres camps en parallèle."
+      },
+      "transferts": {
+        "title": "Transferts groupés",
+        "desc": "Un seul véhicule MKR pour tout le groupe à l'aéroport de Makhachkala (Lutte au Daghestan) ou de Grozny (MMA en Tchétchénie). Pas d'attente, pas de logistique éclatée."
+      },
+      "programme": {
+        "title": "Programme adapté au niveau",
+        "desc": "Le coaching s'ajuste au niveau collectif (débutant, intermédiaire, avancé, mixte). Pas de séance générique calée sur la moyenne du groupe."
+      },
+      "coach": {
+        "title": "Coach dédié",
+        "desc": "Un coach principal MKR est attribué à ton groupe pour toute la durée du camp. Tu gardes le même interlocuteur de la première à la dernière session."
+      },
+      "tarif": {
+        "title": "Tarif dégressif par tête",
+        "desc": "Plus vous êtes nombreux, plus le tarif par personne baisse. Palier Trio à 5 ({trioPrice} / sem / pers), palier Club 6 à 10 ({clubPrice} / sem / pers), 11+ ou salle entière sur devis personnalisé."
+      },
+      "bilan": {
+        "title": "Bilan groupe",
+        "desc": "Compte-rendu collectif en fin de camp et bilan individuel pour chaque membre. Tu repars avec un livrable structuré pour la suite."
+      }
+    }
+  },
+  "process": {
+    "label": "PROCESSUS DEVIS GROUPE",
+    "title": "6 ÉTAPES, 90 JOURS",
+    "steps": [
+      { "num": "01", "title": "Demande de devis", "desc": "Tu remplis le formulaire : nom du club, nombre de participants (5 à 20), niveau collectif, dates souhaitées, durée." },
+      { "num": "02", "title": "Appel de cadrage", "desc": "On organise un appel avec le responsable du groupe pour cadrer le programme, les attentes, la logistique." },
+      { "num": "03", "title": "Devis détaillé", "desc": "Tu reçois un devis ferme : tarif par tête × nombre de membres + détail des prestations." },
+      { "num": "04", "title": "Validation et virement", "desc": "À la signature du devis, virement bancaire intégral du groupe sur le compte MKR. Lettres d'invitation visa pour chaque membre." },
+      { "num": "05", "title": "Préparation", "desc": "Programme prep physique 6 semaines transmis à chaque membre. Tout est réglé en amont du départ." },
+      { "num": "06", "title": "Camp dédié", "desc": "Ton groupe arrive ensemble, vit ensemble, s'entraîne ensemble. Coach dédié, programme adapté." }
+    ]
+  },
+  "cross_sell": {
+    "label": "MOINS DE 5 PERSONNES ?",
+    "title": "EXPLORE LES AUTRES FORMATS",
+    "cards": {
+      "sur_mesure": {
+        "label": "1 À 4 ADULTES",
+        "title": "Sur Mesure",
+        "desc": "Vous êtes 1 à 4 amis adultes ? Sur Mesure est le bon tunnel : tes dates, durée au choix."
+      },
+      "sessions": {
+        "label": "SESSIONS OFFICIELLES",
+        "title": "4 sessions par an",
+        "desc": "Tu veux rejoindre un groupe constitué par MKR ? Quatre sessions calées sur les vacances scolaires : Été 2026, Toussaint 2026, Hiver 2027, Pâques 2027."
+      },
+      "famille": {
+        "label": "FAMILLE",
+        "title": "Camp Famille",
+        "desc": "Tu pars avec un enfant 8-17 ans ? Programme parent + enfant adapté."
+      }
+    }
+  },
+  "section_cta": {
+    "primary_label": "DEMANDER UN DEVIS GROUPE",
+    "ghost_label": "POSER UNE QUESTION"
+  }
+}

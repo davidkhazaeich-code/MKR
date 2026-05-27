@@ -1,4 +1,5 @@
-import Link from 'next/link'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
+import { Link } from '@/i18n/navigation'
 import { buildMetadata } from '@/lib/seo'
 import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
@@ -8,61 +9,46 @@ import PricingTable from '@/components/PricingTable'
 import FacilitatorBand from '@/components/FacilitatorBand'
 import { PRICING_TIERS, formatEUR } from '@/data/pricing'
 
-export const metadata = buildMetadata({
-  title: 'Camp Clubs et Groupes au Caucase | MKR Caucasian Camp',
-  description: "Camp dédié à ton club ou groupe (5 à 20 personnes). Lutte au Daghestan, MMA en Tchétchénie ou combo sur devis. Hébergement bloc, devis personnalisé.",
-  path: '/clubs-groupes',
-})
-const ADVANTAGES = [
-  {
-    title: 'Hébergement bloc',
-    desc: "Ton groupe est logé ensemble : chambres adjacentes ou bâtiment dédié selon la taille. Tu dors et tu manges avec ton équipe, pas avec d'autres camps en parallèle.",
-  },
-  {
-    title: 'Transferts groupés',
-    desc: "Un seul véhicule MKR pour tout le groupe à l'aéroport de Makhachkala (Lutte au Daghestan) ou de Grozny (MMA en Tchétchénie). Pas d'attente, pas de logistique éclatée.",
-  },
-  {
-    title: 'Programme adapté au niveau',
-    desc: "Le coaching s'ajuste au niveau collectif (débutant, intermédiaire, avancé, mixte). Pas de séance générique calée sur la moyenne du groupe.",
-  },
-  {
-    title: 'Coach dédié',
-    desc: "Un coach principal MKR est attribué à ton groupe pour toute la durée du camp. Tu gardes le même interlocuteur de la première à la dernière session.",
-  },
-  {
-    title: 'Tarif dégressif par tête',
-    desc: `Plus vous êtes nombreux, plus le tarif par personne baisse. Palier Trio à 5 (${formatEUR(PRICING_TIERS.trio.perAdult[1])} / sem / pers), palier Club 6 à 10 (${formatEUR(PRICING_TIERS.club.perAdult[1])} / sem / pers), 11+ ou salle entière sur devis personnalisé.`,
-  },
-  {
-    title: 'Bilan groupe',
-    desc: "Compte-rendu collectif en fin de camp et bilan individuel pour chaque membre. Tu repars avec un livrable structuré pour la suite.",
-  },
-]
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
+  const t = await getTranslations({ locale, namespace: 'clubs-groupes' })
+  return buildMetadata({
+    title: t('meta.title'),
+    description: t('meta.description'),
+    path: '/clubs-groupes',
+  })
+}
 
-const PROCESS = [
-  { num: '01', title: 'Demande de devis', desc: 'Tu remplis le formulaire : nom du club, nombre de participants (5 à 20), niveau collectif, dates souhaitées, durée.' },
-  { num: '02', title: 'Appel de cadrage', desc: 'On organise un appel avec le responsable du groupe pour cadrer le programme, les attentes, la logistique.' },
-  { num: '03', title: 'Devis détaillé', desc: 'Tu reçois un devis ferme : tarif par tête × nombre de membres + détail des prestations.' },
-  { num: '04', title: 'Validation et virement', desc: 'À la signature du devis, virement bancaire intégral du groupe sur le compte MKR. Lettres d\'invitation visa pour chaque membre.' },
-  { num: '05', title: 'Préparation', desc: 'Programme prep physique 6 semaines transmis à chaque membre. Tout est réglé en amont du départ.' },
-  { num: '06', title: 'Camp dédié', desc: 'Ton groupe arrive ensemble, vit ensemble, s\'entraîne ensemble. Coach dédié, programme adapté.' },
-]
+const ADVANTAGE_KEYS = ['hebergement', 'transferts', 'programme', 'coach', 'tarif', 'bilan'] as const
+const CROSS_SELL_KEYS = ['sur_mesure', 'sessions', 'famille'] as const
+const CROSS_SELL_HREFS = {
+  sur_mesure: '/sur-mesure',
+  sessions: '/sessions',
+  famille: '/familles',
+} as const satisfies Record<(typeof CROSS_SELL_KEYS)[number], Parameters<typeof Link>[0]['href']>
 
-export default function ClubsGroupesPage() {
+export default async function ClubsGroupesPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
+  setRequestLocale(locale)
+  const t = await getTranslations('clubs-groupes')
+
+  const processSteps = t.raw('process.steps') as { num: string; title: string; desc: string }[]
+  const trioPrice = formatEUR(PRICING_TIERS.trio.perAdult[1])
+  const clubPrice = formatEUR(PRICING_TIERS.club.perAdult[1])
+
   return (
     <>
       <BreadcrumbJsonLd items={[
-        { name: 'Accueil', url: 'https://mkrcamp.com/' },
-        { name: 'Clubs et Groupes', url: 'https://mkrcamp.com/clubs-groupes' },
+        { name: t('breadcrumb.home'), url: 'https://mkrcamp.com/' },
+        { name: t('breadcrumb.current'), url: 'https://mkrcamp.com/clubs-groupes' },
       ]} />
 
       <PageHero
-        label="CLUBS ET GROUPES · 5 À 20 PERSONNES"
-        title="TON CLUB<br/>AU CAUCASE."
-        subtitle="Camp dédié pour ton club ou groupe organisé (5 à 20 personnes). Lutte au Daghestan, MMA en Tchétchénie ou combo sur devis. Hébergement bloc, transferts groupés, programme adapté au niveau."
+        label={t('hero.label')}
+        title={t('hero.title')}
+        subtitle={t('hero.subtitle')}
         image="/images/ruslan/action/mma-adultes-cercle.webp"
-        imageAlt="Cercle de fighters caucasiens en formation, équipe et fraternité du tapis"
+        imageAlt={t('hero.image_alt')}
       />
 
       {/* Stats clés */}
@@ -70,19 +56,19 @@ export default function ClubsGroupesPage() {
         <div className="parents-stats-grid">
           <div>
             <span className="parents-stat-num">5-20</span>
-            <span className="parents-stat-label">Personnes par groupe</span>
+            <span className="parents-stat-label">{t('stats.people')}</span>
           </div>
           <div>
             <span className="parents-stat-num">90j</span>
-            <span className="parents-stat-label">Délai minimum réservation</span>
+            <span className="parents-stat-label">{t('stats.delay')}</span>
           </div>
           <div>
             <span className="parents-stat-num">1/2/3</span>
-            <span className="parents-stat-label">Semaines au choix</span>
+            <span className="parents-stat-label">{t('stats.weeks')}</span>
           </div>
           <div>
-            <span className="parents-stat-num">Devis</span>
-            <span className="parents-stat-label">Sur mesure selon configuration</span>
+            <span className="parents-stat-num">{t('stats.quote_label')}</span>
+            <span className="parents-stat-label">{t('stats.quote_sub')}</span>
           </div>
         </div>
       </section>
@@ -90,10 +76,10 @@ export default function ClubsGroupesPage() {
       {/* Cinematic reveal */}
       <CinematicReveal
         image="/images/ruslan/heritage/priere-collective-mkr.webp"
-        alt="Athlètes alignés sur le tapis, fraternité collective au camp MKR"
-        label="CAMP DÉDIÉ"
-        title="TON GROUPE.<br/>TON RYTHME."
-        tagline="Vous êtes 5, 10 ou 20, avec un objectif commun. On organise un camp pensé pour votre niveau et vos dates."
+        alt={t('cinematic.alt')}
+        label={t('cinematic.label')}
+        title={t('cinematic.title')}
+        tagline={t('cinematic.tagline')}
       />
 
       {/* Avantages */}
@@ -102,15 +88,19 @@ export default function ClubsGroupesPage() {
         <div className="inner">
           <div className="logi-header reveal">
             <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>
-              CE QUI CHANGE EN GROUPE
+              {t('advantages.label')}
             </span>
-            <h2>6 AVANTAGES LOGISTIQUES</h2>
+            <h2>{t('advantages.title')}</h2>
           </div>
           <div className="grid-3x2">
-            {ADVANTAGES.map((a, i) => (
-              <div key={i} className="content-card fx-grain fx-corner-glow reveal" style={{ transitionDelay: `${i * 0.06}s` }}>
-                <h3 className="card-title" style={{ fontSize: '0.95rem' }}>{a.title}</h3>
-                <p className="card-body" style={{ fontSize: '0.85rem' }}>{a.desc}</p>
+            {ADVANTAGE_KEYS.map((key, i) => (
+              <div key={key} className="content-card fx-grain fx-corner-glow reveal" style={{ transitionDelay: `${i * 0.06}s` }}>
+                <h3 className="card-title" style={{ fontSize: '0.95rem' }}>{t(`advantages.items.${key}.title`)}</h3>
+                <p className="card-body" style={{ fontSize: '0.85rem' }}>
+                  {key === 'tarif'
+                    ? t('advantages.items.tarif.desc', { trioPrice, clubPrice })
+                    : t(`advantages.items.${key}.desc`)}
+                </p>
               </div>
             ))}
           </div>
@@ -128,12 +118,12 @@ export default function ClubsGroupesPage() {
         <div className="inner">
           <div className="logi-header reveal">
             <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>
-              PROCESSUS DEVIS GROUPE
+              {t('process.label')}
             </span>
-            <h2>6 ÉTAPES, 90 JOURS</h2>
+            <h2>{t('process.title')}</h2>
           </div>
           <div className="logi-visa-steps reveal">
-            {PROCESS.map((step) => (
+            {processSteps.map((step) => (
               <div key={step.num} className="logi-step">
                 <span className="logi-step-num">{step.num}</span>
                 <div>
@@ -151,35 +141,27 @@ export default function ClubsGroupesPage() {
         <div className="inner">
           <div className="logi-header reveal">
             <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>
-              MOINS DE 5 PERSONNES ?
+              {t('cross_sell.label')}
             </span>
-            <h2>EXPLORE LES AUTRES FORMATS</h2>
+            <h2>{t('cross_sell.title')}</h2>
           </div>
           <div className="grid-3 reveal" style={{ gap: '1.5rem' }}>
-            <Link href="/sur-mesure" className="content-card fx-grain fx-corner-glow" style={{ textDecoration: 'none', display: 'block' }}>
-              <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.5rem', fontSize: '0.65rem' }}>1 À 4 ADULTES</span>
-              <h3 className="card-title">Sur Mesure</h3>
-              <p className="card-body">Vous êtes 1 à 4 amis adultes ? Sur Mesure est le bon tunnel : tes dates, durée au choix.</p>
-            </Link>
-            <Link href="/sessions" className="content-card fx-grain fx-corner-glow" style={{ textDecoration: 'none', display: 'block' }}>
-              <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.5rem', fontSize: '0.65rem' }}>SESSIONS OFFICIELLES</span>
-              <h3 className="card-title">4 sessions par an</h3>
-              <p className="card-body">Tu veux rejoindre un groupe constitué par MKR ? Quatre sessions calées sur les vacances scolaires : Été 2026, Toussaint 2026, Hiver 2027, Pâques 2027.</p>
-            </Link>
-            <Link href="/familles" className="content-card fx-grain fx-corner-glow" style={{ textDecoration: 'none', display: 'block' }}>
-              <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.5rem', fontSize: '0.65rem' }}>FAMILLE</span>
-              <h3 className="card-title">Camp Famille</h3>
-              <p className="card-body">Tu pars avec un enfant 8-17 ans ? Programme parent + enfant adapté.</p>
-            </Link>
+            {CROSS_SELL_KEYS.map((key) => (
+              <Link key={key} href={CROSS_SELL_HREFS[key]} className="content-card fx-grain fx-corner-glow" style={{ textDecoration: 'none', display: 'block' }}>
+                <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.5rem', fontSize: '0.65rem' }}>{t(`cross_sell.cards.${key}.label`)}</span>
+                <h3 className="card-title">{t(`cross_sell.cards.${key}.title`)}</h3>
+                <p className="card-body">{t(`cross_sell.cards.${key}.desc`)}</p>
+              </Link>
+            ))}
           </div>
         </div>
       </section>
 
       <SectionCTA
         primaryHref="/inscription?type=groupe"
-        primaryLabel="DEMANDER UN DEVIS GROUPE"
+        primaryLabel={t('section_cta.primary_label')}
         ghostHref="/contact"
-        ghostLabel="POSER UNE QUESTION"
+        ghostLabel={t('section_cta.ghost_label')}
       />
     </>
   )

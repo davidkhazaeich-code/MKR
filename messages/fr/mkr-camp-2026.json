@@ -1,0 +1,83 @@
+{
+  "meta": {
+    "title": "MKR Camp 2026 · Session 17 août - 5 sept au Daghestan",
+    "description": "Session officielle 17 août - 5 septembre 2026 au Daghestan. 1, 2 ou 3 semaines. Adultes, 15 places. Dès {soloPrice} tout inclus."
+  },
+  "breadcrumb": {
+    "home": "Accueil",
+    "current": "MKR Camp 2026"
+  },
+  "hero": {
+    "label": "SESSION OFFICIELLE 2026",
+    "title": "LE MKR CAMP 2026<br/>T'ATTEND.",
+    "subtitle": "Du 17 août au 5 septembre 2026 au Daghestan. Tu choisis 1, 2 ou 3 semaines au sein de la fenêtre. Adultes uniquement, 15 places, esprit collectif. Les inscriptions sont ouvertes.",
+    "image_alt": "Cercle de combattants au MKR Camp 2026, démonstration grappling"
+  },
+  "stats": {
+    "weeks_label": "Semaines au choix · 17 août - 5 sept",
+    "places_label": "Places maximum (sélection sur dossier)",
+    "coaches_label": "Coachs expérimentés",
+    "price_label": "€ minimum · adulte · 1 sem"
+  },
+  "cinematic": {
+    "alt": "Groupe d'athlètes en formation au MKR Camp",
+    "label": "LA SESSION HISTORIQUE",
+    "title": "UN CAMP. UN GROUPE.<br/>1 À 3 SEMAINES.",
+    "tagline": "Tu pars avec des athlètes adultes du monde entier. Tu choisis 1, 2 ou 3 semaines. Tu rentres avec un niveau et une famille de combat."
+  },
+  "reasons": {
+    "label": "POURQUOI LA SESSION OFFICIELLE",
+    "title": "3 RAISONS DE REJOINDRE LE GROUPE",
+    "items": {
+      "esprit": {
+        "title": "Esprit collectif",
+        "desc": "Tu intègres un groupe d'athlètes adultes venus de France, Suisse, Belgique et plus loin. En 48h, on s'entraîne, on mange et on récupère ensemble. La camaraderie du tapis fait le reste."
+      },
+      "dates": {
+        "title": "Dates fixes, organisation rodée",
+        "desc": "Du 17 août au 5 septembre 2026, fenêtre de 3 semaines. Tu choisis ta durée (1, 2 ou 3 semaines) selon tes contraintes. MKR a calé visa, vols, hébergement, programme et coachs il y a déjà plusieurs mois."
+      },
+      "historique": {
+        "title": "Le format historique",
+        "desc": "C'est notre session phare depuis le début. La plupart des anciens reviennent l'année suivante, parfois avec un ami, parfois avec leur ado. Quand quelqu'un dit qu'il a fait MKR, c'est en général ce camp."
+      }
+    }
+  },
+  "timeline": {
+    "label": "CALENDRIER D'INSCRIPTION",
+    "title": "DE J-90 AU JOUR J",
+    "slots": [
+      { "time": "J-90", "label": "Inscription", "desc": "Tu remplis le formulaire. Réponse sous 48h." },
+      { "time": "J-60", "label": "Visio + paiement", "desc": "Visio de validation avec Ruslan. Si validé : RIB envoyé, paiement intégral par virement. Dossier visa Russie déclenché par MKR." },
+      { "time": "J-45", "label": "Programme prep 6 sem", "desc": "Tu reçois le programme prep physique à distance. Visa russe en cours de finalisation, MKR confirme l'horaire du vol intérieur Istanbul-Makhachkala." },
+      { "time": "J-30", "label": "Visa finalisé", "desc": "Visa russe en main. Tu peux réserver ton vol international jusqu'à Istanbul (vol intérieur MKR déjà calé)." },
+      { "time": "J-7", "label": "Briefing final", "desc": "Brief logistique, vol, transferts, packing list confirmée." },
+      { "time": "JOUR J", "label": "Départ", "desc": "Tu prends ton vol jusqu'à Istanbul. Vol intérieur Istanbul-Makhachkala inclus. Véhicule MKR à l'aéroport au Daghestan." }
+    ]
+  },
+  "cross_sell": {
+    "label": "LE FORMAT NE COLLE PAS ?",
+    "title": "EXPLORE LES AUTRES FORMATS",
+    "cards": {
+      "sur_mesure": {
+        "label": "SUR MESURE",
+        "title": "Tes propres dates",
+        "desc": "Tu veux choisir tes dates ? 1 à 4 adultes, durée au choix, délai 90 jours minimum."
+      },
+      "famille": {
+        "label": "FAMILLE",
+        "title": "Camp Famille",
+        "desc": "Tu pars avec un enfant 8-17 ans ? Programme parent + enfant adapté."
+      },
+      "clubs": {
+        "label": "CLUB ET GROUPE",
+        "title": "Ton club au Caucase",
+        "desc": "Tu fédères 5+ personnes (club ou groupe organisé) ? Camp dédié, Lutte au Daghestan ou MMA en Tchétchénie. Devis sur mesure."
+      }
+    }
+  },
+  "section_cta": {
+    "primary_label": "M'INSCRIRE AU MKR CAMP 2026",
+    "ghost_label": "POSER UNE QUESTION"
+  }
+}
