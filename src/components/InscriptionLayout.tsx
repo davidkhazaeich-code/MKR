@@ -5,7 +5,13 @@ import { useState, useRef, useEffect, useMemo, FormEvent } from 'react'
 import dynamic from 'next/dynamic'
 import { useLocale, useTranslations } from 'next-intl'
 import Icon from './Icon'
-import { REGISTRATION_TYPES, type RegistrationTypeId, getRegistrationType } from '@/data/registration-types'
+import {
+  REGISTRATION_TYPES,
+  type RegistrationTypeId,
+  getRegistrationType,
+  hydrateRegistrationTypes,
+  hydrateRegistrationType,
+} from '@/data/registration-types'
 import {
   calculatePrice,
   formatEUR,
@@ -16,6 +22,11 @@ import {
   PRICING_TIERS,
 } from '@/data/pricing'
 import { SESSIONS } from '@/data/sessions'
+import { hydrateSession, hydrateSessions } from '@/lib/session-display'
+import {
+  FAMILY_BASE_1WEEK_LABEL,
+  FAMILY_EXTRA_CHILD_1WEEK_LABEL,
+} from '@/lib/pricing-copy'
 import { findReferralCode, findCodeBySourceValue, getPartnersWithSourceOption } from '@/data/referral-codes'
 import PlacesRestantes from '@/components/PlacesRestantes'
 import IconLutte from '@/components/icons/IconLutte'
@@ -162,6 +173,28 @@ interface InscriptionLayoutProps {
 export default function InscriptionLayout({ initialAudience, initialSessionId }: InscriptionLayoutProps) {
   const locale = useLocale()
   const t = useTranslations('inscription')
+  const tSessionsData = useTranslations('data.sessions')
+  const tRegTypesData = useTranslations('data.registration-types')
+
+  // Hydrated arrays with translated display copy.
+  const hydratedSessions = useMemo(
+    () => hydrateSessions(SESSIONS, tSessionsData as never),
+    [tSessionsData],
+  )
+  const regTypePlaceholders = useMemo(
+    () => ({
+      familyBase1weekLabel: FAMILY_BASE_1WEEK_LABEL,
+      familyExtraChild1weekLabel: FAMILY_EXTRA_CHILD_1WEEK_LABEL,
+      duoPerAdult1week: formatEUR(PRICING_TIERS.duo.perAdult[1]),
+      trioPerAdult1week: formatEUR(PRICING_TIERS.trio.perAdult[1]),
+      clubPerAdult1week: formatEUR(PRICING_TIERS.club.perAdult[1]),
+    }),
+    [],
+  )
+  const hydratedRegistrationTypes = useMemo(
+    () => hydrateRegistrationTypes(tRegTypesData as never, regTypePlaceholders),
+    [tRegTypesData, regTypePlaceholders],
+  )
 
   // Steps derivés des traductions
   const STEPS_BY_TUNNEL = useMemo<Record<RegistrationTypeId, string[]>>(() => {
@@ -249,7 +282,10 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
     }
   }, [form.sourceDecouverte, form.codeRecommandation])
 
-  const audienceConfig = audience ? getRegistrationType(audience) : null
+  const audienceConfigStructural = audience ? getRegistrationType(audience) : null
+  const audienceConfig = audience && audienceConfigStructural
+    ? hydrateRegistrationType(audienceConfigStructural, tRegTypesData as never, regTypePlaceholders)
+    : null
 
   const set = (field: keyof FormData, value: FormData[keyof FormData]) => {
     setForm(prev => ({ ...prev, [field]: value }))
@@ -623,7 +659,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
               {t('audience_selector.subtitle')}
             </p>
             <div className="audience-grid" style={{ marginTop: '2.5rem' }}>
-              {REGISTRATION_TYPES.map((type, i) => (
+              {hydratedRegistrationTypes.map((type, i) => (
                 <button
                   key={type.id}
                   type="button"
@@ -635,7 +671,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={type.image}
-                      alt={type.imageAlt}
+                      alt={type.image_alt}
                       className="audience-card-photo-img"
                       loading="lazy"
                       style={{ width: '100%', height: '100%', objectFit: 'cover', position: 'absolute', inset: 0 }}
@@ -679,7 +715,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
 
   /* ── Success ── */
   if (submitted) {
-    const SESSION_MAP: Record<string, { name: string }> = SESSIONS.reduce(
+    const SESSION_MAP: Record<string, { name: string }> = hydratedSessions.reduce(
       (acc, s) => {
         acc[s.id] = { name: s.name }
         return acc
@@ -773,7 +809,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
               className="insc-audience-tag"
               aria-label={t('sidebar.change_audience_aria')}
             >
-              <span className="insc-audience-tag-label">{audienceConfig.shortLabel}</span>
+              <span className="insc-audience-tag-label">{audienceConfig.short_label}</span>
               <span className="insc-audience-tag-change">{t('sidebar.change_label')}</span>
             </button>
           )}
@@ -1531,7 +1567,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                   <div className="insc-audience-banner">
                     <span className="insc-audience-banner-label">{audienceConfig.badge}</span>
                     <strong>{audienceConfig.label}</strong>
-                    <span>{audienceConfig.longDescription}</span>
+                    <span>{audienceConfig.long_description}</span>
                   </div>
                 )}
 
@@ -1543,7 +1579,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                       <h2 className="insc-camp-section-label">{t('step0_camp.session.section1_label')}</h2>
                       <p className="insc-camp-section-help">{t('step0_camp.session.section1_help')}</p>
                       <div className="insc-session-grid">
-                        {SESSIONS.map(s => {
+                        {hydratedSessions.map(s => {
                           const year = s.startDate.slice(0, 4)
                           return (
                             <label
@@ -1558,7 +1594,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                                 onChange={() => set('session', s.id)}
                                 className="insc-sr"
                               />
-                              <span className="insc-session-card-month">{s.monthAbbr}</span>
+                              <span className="insc-session-card-month">{s.month_abbr}</span>
                               <span className="insc-session-card-season">{s.season} {year}</span>
                               <span className="insc-session-card-dates">{s.dates}</span>
                               <span className="insc-session-card-intensity">{t('step0_camp.session.session_intensity_prefix')} {s.intensity.toLowerCase()}</span>
@@ -1929,7 +1965,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                       <h2 className="insc-camp-section-label">{t('step0_camp.famille.section1_label')}</h2>
                       <p className="insc-camp-section-help">{t('step0_camp.famille.section1_help')}</p>
                       <div className="insc-format-grid">
-                        {SESSIONS.map(s => {
+                        {hydratedSessions.map(s => {
                           const year = s.startDate.slice(0, 4)
                           return (
                             <label key={s.id} className={`insc-session-card${form.session === s.id ? ' is-active' : ''}`}>
@@ -1945,7 +1981,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                                 }}
                                 className="insc-sr"
                               />
-                              <span className="insc-session-card-month">{s.monthAbbr}</span>
+                              <span className="insc-session-card-month">{s.month_abbr}</span>
                               <span className="insc-session-card-season">{s.season} {year}</span>
                               <span className="insc-session-card-dates">{s.dates}</span>
                               <span className="insc-session-card-intensity">{t('step0_camp.famille.session_card_intensity')}</span>
@@ -2178,11 +2214,11 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                         </dd></div>
                       )}
                       {audience === 'session' && (() => {
-                        const sel = SESSIONS.find(s => s.id === form.session)
+                        const sel = hydratedSessions.find(s => s.id === form.session)
                         return sel ? <div><dt>{t('summary.rows.session')}</dt><dd>{sel.season} · {sel.dates}</dd></div> : null
                       })()}
                       {audience === 'famille' && SESSION_IDS.includes(form.session) && (() => {
-                        const sel = SESSIONS.find(s => s.id === form.session)
+                        const sel = hydratedSessions.find(s => s.id === form.session)
                         return sel ? <div><dt>{t('summary.rows.format')}</dt><dd>{t('summary.rows.format_session', { season: sel.season })}</dd></div> : null
                       })()}
                       {audience === 'famille' && form.session === 'sur-mesure' && (

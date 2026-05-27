@@ -1,0 +1,26 @@
+{
+  "identity_label": "ANTOINE · PRÉPA CHAMPIONNAT",
+  "duration": "0:54",
+  "variants": {
+    "mma": {
+      "label": "APERÇU DE TON CAMP",
+      "title": "DU SPARRING. DE L'INTENSITÉ. DU NIVEAU.",
+      "intro": "Antoine est combattant amateur en transition pro. Il est venu au camp se tester contre les Tchétchènes et prendre du niveau en préparation d'un championnat. 54 secondes de sparring brut à Grozny.",
+      "primary_cta_label": "POSTULER · MMA TCHÉTCHÉNIE"
+    },
+    "temoignages": {
+      "label": "EN VIDÉO",
+      "title": "ANTOINE · PRÉPARATION CHAMPIONNAT",
+      "intro": "Combattant amateur en transition pro, Antoine est venu se tester contre les Tchétchènes et prendre du niveau avant un championnat. 54 secondes de sparring à Grozny.",
+      "primary_cta_label": "POSTULER À UN CAMP",
+      "secondary_cta_label": "VOIR LE PROGRAMME MMA"
+    },
+    "home": {
+      "label": "EN VIDÉO",
+      "title": "ANTOINE · PRÉPARATION CHAMPIONNAT",
+      "intro": "Combattant amateur en transition pro, Antoine est venu se tester contre les Tchétchènes et prendre du niveau avant un championnat. 54 secondes de sparring à Grozny.",
+      "primary_cta_label": "POSTULER À UN CAMP",
+      "secondary_cta_label": "VOIR LE PROGRAMME MMA"
+    }
+  }
+}

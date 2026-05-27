@@ -223,7 +223,7 @@ function buildJsonLd(locale: 'fr' | 'en') {
           '@type': 'Event',
           '@id': `${SITE_URL}/#event-${s.id}`,
           name: `${SITE_NAME} - Session ${s.season} ${sessionYear}`,
-          description: `Session ${s.season.toLowerCase()} ${sessionYear} de ${s.duration} : ${s.maxCapacity.lutte} places Lutte au Daghestan + ${s.maxCapacity.mma} places MMA en Tchétchénie (exclusif). Coaching local, hébergement et repas inclus.`,
+          description: `Session ${s.season.toLowerCase()} ${sessionYear} de 1 à 3 semaines : ${s.maxCapacity.lutte} places Lutte au Daghestan + ${s.maxCapacity.mma} places MMA en Tchétchénie (exclusif). Coaching local, hébergement et repas inclus.`,
           startDate: s.startDate,
           endDate: s.endDate,
           eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',

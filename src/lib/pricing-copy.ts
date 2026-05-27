@@ -1,11 +1,14 @@
 /**
- * Helpers de copy marketing dérivés de `data/pricing.ts`.
+ * Pricing copy helpers, derived from `data/pricing.ts`.
  *
- * Tout le contenu textuel parlant de prix sur le site (pages, FAQ, CGV, registration types,
- * hero stats, hints admin) DOIT importer depuis ce module au lieu de hardcoder des chiffres.
+ * Locale-aware: `getPricingCopy(locale)` returns the same shape for both
+ * 'fr' and 'en'. For now (T9), both locales return the FR strings — EN content
+ * lands in T13.
  *
- * Comme Next.js Static Generation re-bake les pages à chaque modification d'une source,
- * un changement dans `pricing.ts` se propage automatiquement à toutes les pages au prochain build.
+ * Backwards-compat top-level constants (SOLO_PRICE_1WEEK_LABEL, DUO_ONE_LINE,
+ * FAMILY_BASE_PROSE, etc.) are exported as the FR variant so that the dozens
+ * of existing importers continue to compile. New code should call
+ * `getPricingCopy(locale)` instead.
  */
 
 import {
@@ -15,113 +18,253 @@ import {
   type Duration,
 } from '@/data/pricing'
 
+type Locale = 'fr' | 'en'
+
 const DURATIONS: Duration[] = [1, 2, 3]
 
-/* ─────────────── Prix minimal global (toutes durées, tous paliers, hors devis) ─────────────── */
+/* ─────────────── Builders (locale-agnostic numerics + suffixes) ─────────────── */
 
-/** Plus petit prix unitaire par adulte sur l'ensemble de la grille (palier Club, 1 sem). */
-export const MIN_PRICE_PER_ADULT_EUR: number = PRICING_TIERS.club.perAdult[1]
-
-/** "1 290 €" — utilisé pour les "à partir de" très généraux (cards sessions, métadonnées). */
-export const MIN_PRICE_PER_ADULT_LABEL: string = formatEUR(MIN_PRICE_PER_ADULT_EUR)
-
-/** Prix Solo/Duo 1 sem — ce qu'un athlète seul paye pour une session officielle. */
-export const SOLO_PRICE_1WEEK_EUR: number = PRICING_TIERS.duo.perAdult[1]
-export const SOLO_PRICE_1WEEK_LABEL: string = formatEUR(SOLO_PRICE_1WEEK_EUR)
-
-/* ─────────────── Lignes one-liner par palier (1/2/3 sem) ─────────────── */
-
-function tierOneLine(tierKey: keyof typeof PRICING_TIERS, suffix: string = '/ adulte'): string {
-  const tier = PRICING_TIERS[tierKey]
-  return DURATIONS
-    .map(w => `${formatEUR(tier.perAdult[w])} / ${w} sem`)
-    .join(' · ') + (suffix ? ` ${suffix}` : '')
+interface PricingCopyTexts {
+  perAdultSuffix: string
+  perPersonShort: string
+  bareSeparator: string
+  weekShort: (w: Duration) => string
+  parenthesizedWeeks: (w: Duration) => string
+  fromPrefix: string
+  onQuote: string
+  extraChildPerWeekLabel: (amount: string) => string
+  forfaitFamilleTeaser: (price: string) => string
+  pricingGridProse: (parts: GridProseParts) => string
+  familyForfaitDetail: (parts: FamilyDetailParts) => string
+  adminSoloDuoSuffix: string
 }
 
-/** "1 490 € / 1 sem · 2 290 € / 2 sem · 2 790 € / 3 sem / adulte" */
-export const DUO_ONE_LINE: string = tierOneLine('duo')
-/** Idem sans suffix " / adulte" */
-export const DUO_ONE_LINE_BARE: string = tierOneLine('duo', '')
+interface GridProseParts {
+  duoBare: string
+  trioBare: string
+  clubBare: string
+  familyBaseProse: string
+  familyExtraChildFull: string
+  duoPerAdult1week: string
+  familyExtraChildPerWeek: string
+}
 
-/** "1 390 € / 1 sem · 1 990 € / 2 sem · 2 690 € / 3 sem / adulte" */
-export const TRIO_ONE_LINE: string = tierOneLine('trio')
-export const TRIO_ONE_LINE_BARE: string = tierOneLine('trio', '')
+interface FamilyDetailParts {
+  family1: string
+  family2: string
+  family3: string
+  extraChild1Label: string
+}
 
-/** "1 290 € / 1 sem · 1 790 € / 2 sem · 2 390 € / 3 sem / adulte" */
-export const CLUB_ONE_LINE: string = tierOneLine('club')
-export const CLUB_ONE_LINE_BARE: string = tierOneLine('club', '')
+// TODO(i18n): EN pricing copy in T13. For now EN reuses the FR texts so the
+// helper is callable from any locale without crashing.
+const TEXTS: Record<Locale, PricingCopyTexts> = {
+  fr: {
+    perAdultSuffix: '/ adulte',
+    perPersonShort: '/ pers',
+    bareSeparator: ' · ',
+    weekShort: (w) => `${w} sem`,
+    parenthesizedWeeks: (w) => `(${w} sem)`,
+    fromPrefix: 'À partir de',
+    onQuote: 'Sur devis',
+    extraChildPerWeekLabel: (amount) => `+${amount} par semaine`,
+    forfaitFamilleTeaser: (price) =>
+      `Forfait Famille (1 parent + 1 enfant inclus) à partir de ${price} la semaine`,
+    pricingGridProse: (p) =>
+      `Solo / Duo (1-2 personnes) : ${p.duoBare} par adulte. ` +
+      `Trio à 5 (3-5 personnes) : ${p.trioBare} par adulte. ` +
+      `Club / Groupe (6-10 personnes) : ${p.clubBare} par adulte. ` +
+      `11 personnes et plus / privatisation : sur devis personnalisé. ` +
+      `Forfait Famille (1 parent + 1 enfant inclus) : ${p.familyBaseProse}. ` +
+      `Chaque enfant supplémentaire : ${p.familyExtraChildFull}. ` +
+      `Famille avec 2 parents participants : tarif Solo/Duo pour les deux parents (${p.duoPerAdult1week} / pers / sem) + chaque enfant à ${p.familyExtraChildPerWeek} / sem.`,
+    familyForfaitDetail: (p) =>
+      `Forfait Famille : ${p.family1} pour 1 parent + 1 enfant (1 sem), ${p.family2} (2 sem), ${p.family3} (3 sem). ` +
+      `Chaque enfant supplémentaire : ${p.extraChild1Label}.`,
+    adminSoloDuoSuffix: ' € selon durée',
+  },
+  en: {
+    // TODO(i18n): EN pricing copy in T13.
+    perAdultSuffix: '/ adulte',
+    perPersonShort: '/ pers',
+    bareSeparator: ' · ',
+    weekShort: (w) => `${w} sem`,
+    parenthesizedWeeks: (w) => `(${w} sem)`,
+    fromPrefix: 'À partir de',
+    onQuote: 'Sur devis',
+    extraChildPerWeekLabel: (amount) => `+${amount} par semaine`,
+    forfaitFamilleTeaser: (price) =>
+      `Forfait Famille (1 parent + 1 enfant inclus) à partir de ${price} la semaine`,
+    pricingGridProse: (p) =>
+      `Solo / Duo (1-2 personnes) : ${p.duoBare} par adulte. ` +
+      `Trio à 5 (3-5 personnes) : ${p.trioBare} par adulte. ` +
+      `Club / Groupe (6-10 personnes) : ${p.clubBare} par adulte. ` +
+      `11 personnes et plus / privatisation : sur devis personnalisé. ` +
+      `Forfait Famille (1 parent + 1 enfant inclus) : ${p.familyBaseProse}. ` +
+      `Chaque enfant supplémentaire : ${p.familyExtraChildFull}. ` +
+      `Famille avec 2 parents participants : tarif Solo/Duo pour les deux parents (${p.duoPerAdult1week} / pers / sem) + chaque enfant à ${p.familyExtraChildPerWeek} / sem.`,
+    familyForfaitDetail: (p) =>
+      `Forfait Famille : ${p.family1} pour 1 parent + 1 enfant (1 sem), ${p.family2} (2 sem), ${p.family3} (3 sem). ` +
+      `Chaque enfant supplémentaire : ${p.extraChild1Label}.`,
+    adminSoloDuoSuffix: ' € selon durée',
+  },
+}
 
-/* ─────────────── Forfait Famille ─────────────── */
+export interface PricingCopy {
+  MIN_PRICE_PER_ADULT_EUR: number
+  MIN_PRICE_PER_ADULT_LABEL: string
+  SOLO_PRICE_1WEEK_EUR: number
+  SOLO_PRICE_1WEEK_LABEL: string
+  DUO_ONE_LINE: string
+  DUO_ONE_LINE_BARE: string
+  TRIO_ONE_LINE: string
+  TRIO_ONE_LINE_BARE: string
+  CLUB_ONE_LINE: string
+  CLUB_ONE_LINE_BARE: string
+  FAMILY_BASE_ONE_LINE: string
+  FAMILY_BASE_PROSE: string
+  FAMILY_BASE_1WEEK_LABEL: string
+  FAMILY_BASE_RANGE_LABEL: string
+  FAMILY_EXTRA_CHILD_1WEEK_LABEL: string
+  FAMILY_EXTRA_CHILD_FULL: string
+  FAMILY_EXTRA_CHILD_PER_WEEK_LABEL: string
+  PACKAGE_PER_ADULT_RANGE_LABEL: string
+  ADMIN_SOLO_DUO_HINT: string
+  FAMILY_FORFAIT_TEASER: string
+  PRICING_GRID_PROSE: string
+  FAMILY_FORFAIT_DETAIL: string
+  pricePerAdultLabel: (adults: number, weeks: Duration) => string
+}
 
-/** "2 590 € (1 sem) · 4 790 € (2 sem) · 6 890 € (3 sem)" */
-export const FAMILY_BASE_ONE_LINE: string = DURATIONS
-  .map(w => `${formatEUR(FAMILY_PRICING.base[w])} (${w} sem)`)
-  .join(' · ')
+export function getPricingCopy(locale: string = 'fr'): PricingCopy {
+  const lang: Locale = locale === 'en' ? 'en' : 'fr'
+  const tx = TEXTS[lang]
 
-/** "2 590 € / 1 sem, 4 790 € / 2 sem, 6 890 € / 3 sem" — variante prose */
-export const FAMILY_BASE_PROSE: string = DURATIONS
-  .map(w => `${formatEUR(FAMILY_PRICING.base[w])} / ${w} sem`)
-  .join(', ')
+  const tierOneLine = (tierKey: keyof typeof PRICING_TIERS, suffix: string): string => {
+    const tier = PRICING_TIERS[tierKey]
+    return (
+      DURATIONS.map(w => `${formatEUR(tier.perAdult[w])} / ${tx.weekShort(w)}`).join(tx.bareSeparator) +
+      (suffix ? ` ${suffix}` : '')
+    )
+  }
 
-/** Prix forfait base 1 sem (le plus utilisé en accroche marketing) */
-export const FAMILY_BASE_1WEEK_LABEL: string = formatEUR(FAMILY_PRICING.base[1])
+  const MIN_PRICE_PER_ADULT_EUR = PRICING_TIERS.club.perAdult[1]
+  const MIN_PRICE_PER_ADULT_LABEL = formatEUR(MIN_PRICE_PER_ADULT_EUR)
 
-/** Min et max du forfait Famille (1 parent + 1 enfant) */
-export const FAMILY_BASE_RANGE_LABEL: string = `${formatEUR(FAMILY_PRICING.base[1])} - ${formatEUR(FAMILY_PRICING.base[3])}`
+  const SOLO_PRICE_1WEEK_EUR = PRICING_TIERS.duo.perAdult[1]
+  const SOLO_PRICE_1WEEK_LABEL = formatEUR(SOLO_PRICE_1WEEK_EUR)
 
-/** "+790 € par semaine" — supplément par enfant additionnel (utilise la valeur 1 sem comme base courante) */
-export const FAMILY_EXTRA_CHILD_1WEEK_LABEL: string = `+${formatEUR(FAMILY_PRICING.extraChildPerWeek[1])} par semaine`
+  const DUO_ONE_LINE = tierOneLine('duo', tx.perAdultSuffix)
+  const DUO_ONE_LINE_BARE = tierOneLine('duo', '')
+  const TRIO_ONE_LINE = tierOneLine('trio', tx.perAdultSuffix)
+  const TRIO_ONE_LINE_BARE = tierOneLine('trio', '')
+  const CLUB_ONE_LINE = tierOneLine('club', tx.perAdultSuffix)
+  const CLUB_ONE_LINE_BARE = tierOneLine('club', '')
 
-/** "+790 € / 1 sem, +1 580 € / 2 sem, +2 370 € / 3 sem" */
-export const FAMILY_EXTRA_CHILD_FULL: string = DURATIONS
-  .map(w => `+${formatEUR(FAMILY_PRICING.extraChildPerWeek[w])} / ${w} sem`)
-  .join(', ')
+  const FAMILY_BASE_ONE_LINE = DURATIONS.map(
+    w => `${formatEUR(FAMILY_PRICING.base[w])} ${tx.parenthesizedWeeks(w)}`,
+  ).join(tx.bareSeparator)
 
-/** Valeur brute extra child / sem (pour interpolations courtes) */
-export const FAMILY_EXTRA_CHILD_PER_WEEK_LABEL: string = formatEUR(FAMILY_PRICING.extraChildPerWeek[1])
+  const FAMILY_BASE_PROSE = DURATIONS.map(
+    w => `${formatEUR(FAMILY_PRICING.base[w])} / ${tx.weekShort(w)}`,
+  ).join(', ')
 
-/* ─────────────── Plages générales (utilisées en logistique / budget) ─────────────── */
+  const FAMILY_BASE_1WEEK_LABEL = formatEUR(FAMILY_PRICING.base[1])
+  const FAMILY_BASE_RANGE_LABEL = `${formatEUR(FAMILY_PRICING.base[1])} - ${formatEUR(FAMILY_PRICING.base[3])}`
 
-/** "1 290 - 2 790 €" — min/max du tarif par adulte hors famille, hors devis */
-export const PACKAGE_PER_ADULT_RANGE_LABEL: string = `${formatEUR(PRICING_TIERS.club.perAdult[1])} - ${formatEUR(PRICING_TIERS.duo.perAdult[3])}`
+  const FAMILY_EXTRA_CHILD_PER_WEEK_LABEL = formatEUR(FAMILY_PRICING.extraChildPerWeek[1])
+  const FAMILY_EXTRA_CHILD_1WEEK_LABEL = tx.extraChildPerWeekLabel(FAMILY_EXTRA_CHILD_PER_WEEK_LABEL)
+  const FAMILY_EXTRA_CHILD_FULL = DURATIONS.map(
+    w => `+${formatEUR(FAMILY_PRICING.extraChildPerWeek[w])} / ${tx.weekShort(w)}`,
+  ).join(', ')
 
-/* ─────────────── Helper fonctionnel : tarif selon nombre d'adultes ─────────────── */
+  const PACKAGE_PER_ADULT_RANGE_LABEL = `${formatEUR(PRICING_TIERS.club.perAdult[1])} - ${formatEUR(PRICING_TIERS.duo.perAdult[3])}`
 
-/** "1 390 € / pers" — utilisable inline */
+  const ADMIN_SOLO_DUO_HINT =
+    DURATIONS.map(w => PRICING_TIERS.duo.perAdult[w]).join('/') + tx.adminSoloDuoSuffix
+
+  const FAMILY_FORFAIT_TEASER = tx.forfaitFamilleTeaser(FAMILY_BASE_1WEEK_LABEL)
+
+  const PRICING_GRID_PROSE = tx.pricingGridProse({
+    duoBare: DUO_ONE_LINE_BARE,
+    trioBare: TRIO_ONE_LINE_BARE,
+    clubBare: CLUB_ONE_LINE_BARE,
+    familyBaseProse: FAMILY_BASE_PROSE,
+    familyExtraChildFull: FAMILY_EXTRA_CHILD_FULL,
+    duoPerAdult1week: formatEUR(PRICING_TIERS.duo.perAdult[1]),
+    familyExtraChildPerWeek: FAMILY_EXTRA_CHILD_PER_WEEK_LABEL,
+  })
+
+  const FAMILY_FORFAIT_DETAIL = tx.familyForfaitDetail({
+    family1: formatEUR(FAMILY_PRICING.base[1]),
+    family2: formatEUR(FAMILY_PRICING.base[2]),
+    family3: formatEUR(FAMILY_PRICING.base[3]),
+    extraChild1Label: FAMILY_EXTRA_CHILD_1WEEK_LABEL,
+  })
+
+  const pricePerAdultLabel = (adults: number, weeks: Duration): string => {
+    if (adults >= 11) return tx.onQuote
+    if (adults >= 6) return `${formatEUR(PRICING_TIERS.club.perAdult[weeks])} ${tx.perPersonShort}`
+    if (adults >= 3) return `${formatEUR(PRICING_TIERS.trio.perAdult[weeks])} ${tx.perPersonShort}`
+    return `${formatEUR(PRICING_TIERS.duo.perAdult[weeks])} ${tx.perPersonShort}`
+  }
+
+  return {
+    MIN_PRICE_PER_ADULT_EUR,
+    MIN_PRICE_PER_ADULT_LABEL,
+    SOLO_PRICE_1WEEK_EUR,
+    SOLO_PRICE_1WEEK_LABEL,
+    DUO_ONE_LINE,
+    DUO_ONE_LINE_BARE,
+    TRIO_ONE_LINE,
+    TRIO_ONE_LINE_BARE,
+    CLUB_ONE_LINE,
+    CLUB_ONE_LINE_BARE,
+    FAMILY_BASE_ONE_LINE,
+    FAMILY_BASE_PROSE,
+    FAMILY_BASE_1WEEK_LABEL,
+    FAMILY_BASE_RANGE_LABEL,
+    FAMILY_EXTRA_CHILD_1WEEK_LABEL,
+    FAMILY_EXTRA_CHILD_FULL,
+    FAMILY_EXTRA_CHILD_PER_WEEK_LABEL,
+    PACKAGE_PER_ADULT_RANGE_LABEL,
+    ADMIN_SOLO_DUO_HINT,
+    FAMILY_FORFAIT_TEASER,
+    PRICING_GRID_PROSE,
+    FAMILY_FORFAIT_DETAIL,
+    pricePerAdultLabel,
+  }
+}
+
+/* ─────────────── Backwards-compat top-level constants (FR snapshot) ─────────────── */
+// All existing importers (~15 files) keep working. New code should call
+// `getPricingCopy(locale)` instead. EN translation arrives in T13.
+
+const FR_COPY = getPricingCopy('fr')
+
+export const MIN_PRICE_PER_ADULT_EUR = FR_COPY.MIN_PRICE_PER_ADULT_EUR
+export const MIN_PRICE_PER_ADULT_LABEL = FR_COPY.MIN_PRICE_PER_ADULT_LABEL
+export const SOLO_PRICE_1WEEK_EUR = FR_COPY.SOLO_PRICE_1WEEK_EUR
+export const SOLO_PRICE_1WEEK_LABEL = FR_COPY.SOLO_PRICE_1WEEK_LABEL
+export const DUO_ONE_LINE = FR_COPY.DUO_ONE_LINE
+export const DUO_ONE_LINE_BARE = FR_COPY.DUO_ONE_LINE_BARE
+export const TRIO_ONE_LINE = FR_COPY.TRIO_ONE_LINE
+export const TRIO_ONE_LINE_BARE = FR_COPY.TRIO_ONE_LINE_BARE
+export const CLUB_ONE_LINE = FR_COPY.CLUB_ONE_LINE
+export const CLUB_ONE_LINE_BARE = FR_COPY.CLUB_ONE_LINE_BARE
+export const FAMILY_BASE_ONE_LINE = FR_COPY.FAMILY_BASE_ONE_LINE
+export const FAMILY_BASE_PROSE = FR_COPY.FAMILY_BASE_PROSE
+export const FAMILY_BASE_1WEEK_LABEL = FR_COPY.FAMILY_BASE_1WEEK_LABEL
+export const FAMILY_BASE_RANGE_LABEL = FR_COPY.FAMILY_BASE_RANGE_LABEL
+export const FAMILY_EXTRA_CHILD_1WEEK_LABEL = FR_COPY.FAMILY_EXTRA_CHILD_1WEEK_LABEL
+export const FAMILY_EXTRA_CHILD_FULL = FR_COPY.FAMILY_EXTRA_CHILD_FULL
+export const FAMILY_EXTRA_CHILD_PER_WEEK_LABEL = FR_COPY.FAMILY_EXTRA_CHILD_PER_WEEK_LABEL
+export const PACKAGE_PER_ADULT_RANGE_LABEL = FR_COPY.PACKAGE_PER_ADULT_RANGE_LABEL
+export const ADMIN_SOLO_DUO_HINT = FR_COPY.ADMIN_SOLO_DUO_HINT
+export const FAMILY_FORFAIT_TEASER = FR_COPY.FAMILY_FORFAIT_TEASER
+export const PRICING_GRID_PROSE = FR_COPY.PRICING_GRID_PROSE
+export const FAMILY_FORFAIT_DETAIL = FR_COPY.FAMILY_FORFAIT_DETAIL
+
 export function pricePerAdultLabel(adults: number, weeks: Duration): string {
-  if (adults >= 11) return 'Sur devis'
-  if (adults >= 6) return `${formatEUR(PRICING_TIERS.club.perAdult[weeks])} / pers`
-  if (adults >= 3) return `${formatEUR(PRICING_TIERS.trio.perAdult[weeks])} / pers`
-  return `${formatEUR(PRICING_TIERS.duo.perAdult[weeks])} / pers`
+  return FR_COPY.pricePerAdultLabel(adults, weeks)
 }
-
-/* ─────────────── Bloc admin hint (référence rapide pour saisie manuelle) ─────────────── */
-
-/** "1490/2290/2790 € selon durée" — utilisé comme rappel admin */
-export const ADMIN_SOLO_DUO_HINT: string = DURATIONS
-  .map(w => PRICING_TIERS.duo.perAdult[w])
-  .join('/') + ' € selon durée'
-
-/* ─────────────── Phrases marketing prêtes à l'emploi ─────────────── */
-
-/** Description courte "Forfait Famille à partir de 2 590 €" */
-export const FAMILY_FORFAIT_TEASER: string = `Forfait Famille (1 parent + 1 enfant inclus) à partir de ${FAMILY_BASE_1WEEK_LABEL} la semaine`
-
-/** Phrase canonique grille tarifaire pour CGV / FAQ. */
-export const PRICING_GRID_PROSE: string =
-  `Solo / Duo (1-2 personnes) : ${DUO_ONE_LINE_BARE} par adulte. ` +
-  `Trio à 5 (3-5 personnes) : ${TRIO_ONE_LINE_BARE} par adulte. ` +
-  `Club / Groupe (6-10 personnes) : ${CLUB_ONE_LINE_BARE} par adulte. ` +
-  `11 personnes et plus / privatisation : sur devis personnalisé. ` +
-  `Forfait Famille (1 parent + 1 enfant inclus) : ${FAMILY_BASE_PROSE}. ` +
-  `Chaque enfant supplémentaire : ${FAMILY_EXTRA_CHILD_FULL}. ` +
-  `Famille avec 2 parents participants : tarif Solo/Duo pour les deux parents (${formatEUR(PRICING_TIERS.duo.perAdult[1])} / pers / sem) + chaque enfant à ${FAMILY_EXTRA_CHILD_PER_WEEK_LABEL} / sem.`
-
-/* ─────────────── Cas particuliers (page lutte-enfants, programme) ─────────────── */
-
-/** "Forfait Famille : 2 590 € pour 1 parent + 1 enfant (1 sem), 4 790 € (2 sem), 6 890 € (3 sem). Chaque enfant supplémentaire : +790 € par semaine." */
-export const FAMILY_FORFAIT_DETAIL: string =
-  `Forfait Famille : ${formatEUR(FAMILY_PRICING.base[1])} pour 1 parent + 1 enfant (1 sem), ` +
-  `${formatEUR(FAMILY_PRICING.base[2])} (2 sem), ` +
-  `${formatEUR(FAMILY_PRICING.base[3])} (3 sem). ` +
-  `Chaque enfant supplémentaire : ${FAMILY_EXTRA_CHILD_1WEEK_LABEL}.`

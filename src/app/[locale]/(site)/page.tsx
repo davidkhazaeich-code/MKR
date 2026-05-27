@@ -1,10 +1,8 @@
 import dynamic from 'next/dynamic'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
 import Hero from '@/components/Hero'
 import { buildMetadata } from '@/lib/seo'
-import {
-  ANTOINE_PARCOURS_ASSETS,
-  ANTOINE_PARCOURS_VARIANTS,
-} from '@/data/antoine-parcours'
+import { getAntoineParcoursProps } from '@/data/antoine-parcours'
 
 const AudienceSwitcher = dynamic(() => import('@/components/AudienceSwitcher'), { ssr: true })
 const FacilitatorBand = dynamic(() => import('@/components/FacilitatorBand'), { ssr: true })
@@ -26,7 +24,12 @@ export const metadata = buildMetadata({
   path: '/',
 })
 
-export default function Home() {
+export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
+  setRequestLocale(locale)
+  const tAntoine = await getTranslations('data.antoine-parcours')
+  const antoineProps = getAntoineParcoursProps('home', tAntoine as never)
+
   return (
     <>
       <link rel="preload" as="video" href="/videos/hero-mountains.mp4" type="video/mp4" />
@@ -36,10 +39,7 @@ export default function Home() {
       <div data-scroll-section data-scroll-label="Les destinations" className="hs-anchor"><DestinationShowcase /></div>
       <div data-scroll-section data-scroll-label="Témoignages" className="hs-anchor"><Testimonials /></div>
       <div data-scroll-section data-scroll-label="Antoine en vidéo" className="hs-anchor">
-        <VerticalVideoSplit
-          {...ANTOINE_PARCOURS_ASSETS}
-          {...ANTOINE_PARCOURS_VARIANTS.home}
-        />
+        <VerticalVideoSplit {...antoineProps} />
       </div>
       <div data-scroll-section data-scroll-label="On organise tout" className="hs-anchor"><FacilitatorBand /></div>
       <div data-scroll-section data-scroll-label="Comment y aller" className="hs-anchor"><VoyageReveal /></div>

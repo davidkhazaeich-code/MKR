@@ -6,6 +6,13 @@ import Pipeline from '@/components/admin/ui/Pipeline'
 import Topbar from '@/components/admin/ui/Topbar'
 import { STATUS_LABEL, STATUS_VALUES, type Status } from '@/lib/admin-transitions'
 import { SESSIONS } from '@/data/sessions'
+import sessionsDisplayFr from '../../../../messages/fr/data.sessions.json'
+
+type AdminSessionDisplay = { label?: string; dates?: string; season_label?: string }
+const ADMIN_SESSION_DISPLAY = sessionsDisplayFr as unknown as Record<string, AdminSessionDisplay>
+function adminSessionDisplay(id: string): AdminSessionDisplay {
+  return ADMIN_SESSION_DISPLAY[id] ?? {}
+}
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
@@ -305,11 +312,11 @@ export default async function AdminInscriptionsPage({
                       ? 'var(--adm-tunnel-session)'
                       : 'var(--adm-text-muted)',
                   }}
-                  title={`${s.seasonLabel} (${s.dates}) · Lutte ${byDisc.lutte}/${s.maxCapacity.lutte}${lutteFull ? ' (COMPLET)' : ''} · MMA ${byDisc.mma}/${s.maxCapacity.mma}${mmaFull ? ' (COMPLET)' : ''} · ${restantes} places totales restantes`}
+                  title={`${adminSessionDisplay(s.id).season_label ?? s.id} (${adminSessionDisplay(s.id).dates ?? ''}) · Lutte ${byDisc.lutte}/${s.maxCapacity.lutte}${lutteFull ? ' (COMPLET)' : ''} · MMA ${byDisc.mma}/${s.maxCapacity.mma}${mmaFull ? ' (COMPLET)' : ''} · ${restantes} places totales restantes`}
                 >
-                  {s.label}
+                  {adminSessionDisplay(s.id).label ?? s.id}
                   <span style={{ fontSize: '0.7rem', opacity: 0.7, marginLeft: '0.1rem' }}>
-                    · {s.dates.split(' - ')[0]}
+                    · {(adminSessionDisplay(s.id).dates ?? '').split(' - ')[0]}
                   </span>
                   <span
                     style={{

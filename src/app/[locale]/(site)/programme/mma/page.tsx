@@ -8,10 +8,7 @@ import DisciplineTechniques from '@/components/DisciplineTechniques'
 import DisciplineSessionFlow from '@/components/DisciplineSessionFlow'
 import TldrBox from '@/components/TldrBox'
 import VerticalVideoSplit from '@/components/VerticalVideoSplit'
-import {
-  ANTOINE_PARCOURS_ASSETS,
-  ANTOINE_PARCOURS_VARIANTS,
-} from '@/data/antoine-parcours'
+import { getAntoineParcoursProps } from '@/data/antoine-parcours'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
@@ -44,6 +41,8 @@ export default async function ProgrammeMMAPage({ params }: { params: Promise<{ l
   const { locale } = await params
   setRequestLocale(locale)
   const t = await getTranslations('programme.mma')
+  const tAntoine = await getTranslations('data.antoine-parcours')
+  const antoineProps = getAntoineParcoursProps('mma', tAntoine as never)
 
   const facts = t.raw('tldr.facts') as string[]
   const techniques = TECHNIQUE_KEYS.map((key) => ({
@@ -73,10 +72,7 @@ export default async function ProgrammeMMAPage({ params }: { params: Promise<{ l
         ]}
       />
 
-      <VerticalVideoSplit
-        {...ANTOINE_PARCOURS_ASSETS}
-        {...ANTOINE_PARCOURS_VARIANTS.mma}
-      />
+      <VerticalVideoSplit {...antoineProps} />
 
       <div className="inner">
         <TldrBox

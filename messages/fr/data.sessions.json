@@ -1,0 +1,58 @@
+{
+  "aout-2026": {
+    "name": "CAMP CAUCASIEN",
+    "season_label": "Session Été · Août 2026",
+    "label": "AOÛT 2026",
+    "month_abbr": "AOÛ",
+    "dates": "17 Août - 5 Septembre",
+    "dates_full": "17 AOÛT · 5 SEPTEMBRE 2026",
+    "spots_label": "Places disponibles",
+    "intensity": "Maximale",
+    "duration": "1 à 3 semaines",
+    "destination": "Daghestan ou Tchétchénie"
+  },
+  "toussaint-2026": {
+    "name": "CAMP TOUSSAINT",
+    "season_label": "Session Automne · Toussaint 2026",
+    "label": "OCTOBRE 2026",
+    "month_abbr": "OCT",
+    "dates": "17 Octobre - 7 Novembre",
+    "dates_full": "17 OCTOBRE · 7 NOVEMBRE 2026",
+    "spots_label": "Places disponibles",
+    "intensity": "Élevée",
+    "duration": "1 à 3 semaines",
+    "destination": "Daghestan ou Tchétchénie"
+  },
+  "fevrier-2027": {
+    "name": "CAMP HIVER",
+    "season_label": "Session Hiver · Février 2027",
+    "label": "FÉVRIER 2027",
+    "month_abbr": "FÉV",
+    "dates": "13 Février - 6 Mars",
+    "dates_full": "13 FÉVRIER · 6 MARS 2027",
+    "spots_label": "Places disponibles",
+    "intensity": "Maximale",
+    "duration": "1 à 3 semaines",
+    "destination": "Daghestan ou Tchétchénie"
+  },
+  "paques-2027": {
+    "name": "CAMP PRINTEMPS",
+    "season_label": "Session Printemps · Pâques 2027",
+    "label": "AVRIL 2027",
+    "month_abbr": "AVR",
+    "dates": "3 - 24 Avril",
+    "dates_full": "3 · 24 AVRIL 2027",
+    "spots_label": "Places disponibles",
+    "intensity": "Élevée",
+    "duration": "1 à 3 semaines",
+    "destination": "Daghestan ou Tchétchénie"
+  },
+  "season_names": {
+    "ete": "Été",
+    "automne": "Automne",
+    "hiver": "Hiver",
+    "printemps": "Printemps"
+  },
+  "form_label_template": "{season} {year} ({dates})",
+  "price_from_prefix": "À partir de"
+}

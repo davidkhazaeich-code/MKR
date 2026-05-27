@@ -8,6 +8,12 @@
 
 import { getSupabaseAdmin } from '@/lib/supabase-admin'
 import { SESSIONS, type Session, type CampDiscipline } from '@/data/sessions'
+// Static FR session display copy for non-React contexts (admin API, server logs).
+// Locale-aware consumers should use `lib/session-display.ts` with a t() instance.
+import sessionsDisplayFr from '../../messages/fr/data.sessions.json'
+
+type SessionDisplayMap = Record<string, { label?: string; dates?: string }>
+const FR_SESSION_DISPLAY = sessionsDisplayFr as unknown as SessionDisplayMap
 
 const CONSUMING_STATUSES = ['recue', 'validee', 'soldee'] as const
 
@@ -120,10 +126,11 @@ function deriveSessionPlaces(s: Session, prises: { lutte: number; mma: number })
     : (lutte.is_full || mma.is_full || totalRestantes <= 6)
       ? 'limited'
       : s.status
+  const display = FR_SESSION_DISPLAY[s.id] ?? {}
   return {
     session_id: s.id,
-    label: s.label,
-    dates: s.dates,
+    label: display.label ?? s.id.toUpperCase(),
+    dates: display.dates ?? '',
     lutte,
     mma,
     status,

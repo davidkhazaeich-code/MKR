@@ -1,28 +1,18 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
 import SectionCTA from '@/components/SectionCTA'
 import Breadcrumb from '@/components/Breadcrumb'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 import {
-  getBlogPost,
+  hydrateBlogPost,
   getAllBlogSlugs,
-  getRelatedPosts,
+  getBlogList,
+  isBlogSlug,
   stripHtml,
   wordCount,
-  type BlogPost,
+  type BlogPostFull,
 } from '@/data/blog'
-
-const FALLBACK: BlogPost = {
-  slug: '',
-  title: 'Article en cours de rédaction',
-  excerpt: '',
-  date: '',
-  dateISO: '',
-  readTime: '',
-  category: '',
-  img: '/images/blog/dagestan-mma.webp',
-  content: '<p>Cet article sera bientôt disponible.</p>',
-}
 
 const SITE_URL = 'https://mkrcamp.com'
 
@@ -30,41 +20,44 @@ export function generateStaticParams() {
   return getAllBlogSlugs().map(slug => ({ slug }))
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
-  const { slug } = await params
-  const article = getBlogPost(slug) ?? FALLBACK
+export async function generateMetadata({ params }: { params: Promise<{ slug: string; locale: string }> }): Promise<Metadata> {
+  const { slug, locale } = await params
+  if (!isBlogSlug(slug)) return {}
+  const tPost = await getTranslations({ locale, namespace: `blog.${slug}` })
+  const article = hydrateBlogPost(slug, tPost as never)
+  if (!article) return {}
   const url = `${SITE_URL}/blog/${slug}`
-  const title = article.metaTitle ?? `${article.title} | MKR Caucasian Camp`
+  const title = article.meta_title ?? `${article.title} | MKR Caucasian Camp`
   const description =
-    article.metaDescription ??
+    article.meta_description ??
     article.excerpt ??
-    stripHtml(article.content).substring(0, 160)
+    stripHtml(article.content_html).substring(0, 160)
   const imageUrl = article.img.startsWith('http') ? article.img : `${SITE_URL}${article.img}`
 
   return {
     title,
     description,
     alternates: { canonical: url },
-    keywords: article.keywords,
-    authors: [{ name: article.authorName ?? 'MKR Caucasian Camp' }],
+    keywords: article.keywords ?? undefined,
+    authors: [{ name: article.author_name }],
     openGraph: {
       type: 'article',
       url,
       title,
       description,
       siteName: 'MKR Caucasian Camp',
-      locale: 'fr_CH',
+      locale: locale === 'en' ? 'en_US' : 'fr_CH',
       publishedTime: article.dateISO || undefined,
       modifiedTime: article.dateModifiedISO || article.dateISO || undefined,
-      authors: [article.authorName ?? 'MKR Caucasian Camp'],
+      authors: [article.author_name],
       section: article.category,
-      tags: article.keywords,
+      tags: article.keywords ?? undefined,
       images: [
         {
           url: imageUrl,
           width: 1200,
           height: 630,
-          alt: article.imgAlt ?? article.title,
+          alt: article.img_alt,
         },
       ],
     },
@@ -77,16 +70,26 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   }
 }
 
-export default async function BlogArticlePage({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = await params
-  const article = getBlogPost(slug) ?? FALLBACK
+export default async function BlogArticlePage({ params }: { params: Promise<{ slug: string; locale: string }> }) {
+  const { slug, locale } = await params
+  setRequestLocale(locale)
+
+  if (!isBlogSlug(slug)) {
+    return <BlogFallback />
+  }
+
+  const tPost = await getTranslations(`blog.${slug}`)
+  const tList = await getTranslations('blog')
+  const article = hydrateBlogPost(slug, tPost as never)
+  if (!article) return <BlogFallback />
+
   const url = `${SITE_URL}/blog/${slug}`
   const imageUrl = article.img.startsWith('http') ? article.img : `${SITE_URL}${article.img}`
-  const description = article.metaDescription ?? article.excerpt ?? stripHtml(article.content).substring(0, 200)
-  const authorName = article.authorName ?? 'L\'équipe MKR Caucasian Camp'
-  const related = getRelatedPosts(slug, 3)
-  const contentText = stripHtml(article.content)
-  const words = wordCount(article.content)
+  const description = article.meta_description ?? article.excerpt ?? stripHtml(article.content_html).substring(0, 200)
+  const authorName = article.author_name
+  const related = getRelatedPostsForArticle(article, tList as never)
+  const contentText = stripHtml(article.content_html)
+  const words = wordCount(article.content_html)
 
   const jsonLdArticle = {
     '@context': 'https://schema.org',
@@ -96,7 +99,7 @@ export default async function BlogArticlePage({ params }: { params: Promise<{ sl
     description,
     datePublished: article.dateISO,
     dateModified: article.dateModifiedISO || article.dateISO,
-    inLanguage: 'fr',
+    inLanguage: locale,
     mainEntityOfPage: { '@type': 'WebPage', '@id': url },
     author: {
       '@type': 'Organization',
@@ -161,7 +164,7 @@ export default async function BlogArticlePage({ params }: { params: Promise<{ sl
           <div className="blog-article-meta">
             {article.category && <span className="blog-article-category">{article.category}</span>}
             {article.date && <span>{article.date}</span>}
-            {article.readTime && <><span>·</span><span>{article.readTime} de lecture</span></>}
+            {article.read_time && <><span>·</span><span>{article.read_time} de lecture</span></>}
           </div>
 
           <h1 className="blog-article-title">{article.title}</h1>
@@ -169,14 +172,14 @@ export default async function BlogArticlePage({ params }: { params: Promise<{ sl
           <div className="blog-article-byline">
             <span>Par {authorName}</span>
             {article.dateModifiedISO && article.dateModifiedISO !== article.dateISO && (
-              <span className="blog-article-updated"> · Mis à jour le {formatDate(article.dateModifiedISO)}</span>
+              <span className="blog-article-updated"> · Mis à jour le {formatDate(article.dateModifiedISO, locale)}</span>
             )}
           </div>
 
           <div className="blog-article-hero">
             <img
               src={article.img}
-              alt={article.imgAlt ?? article.title}
+              alt={article.img_alt}
               width={1200}
               height={500}
               className="section-photo-img"
@@ -195,7 +198,7 @@ export default async function BlogArticlePage({ params }: { params: Promise<{ sl
             </aside>
           )}
 
-          <div className="prose" dangerouslySetInnerHTML={{ __html: article.content }} />
+          <div className="prose" dangerouslySetInnerHTML={{ __html: article.content_html }} />
 
           {article.faq && article.faq.length > 0 && (
             <section className="blog-faq" aria-labelledby="blog-faq-title">
@@ -226,7 +229,7 @@ export default async function BlogArticlePage({ params }: { params: Promise<{ sl
                   <div className="blog-related-img">
                     <img
                       src={post.img}
-                      alt={post.imgAlt ?? post.title}
+                      alt={post.img_alt}
                       width={400}
                       height={225}
                       loading="lazy"
@@ -255,8 +258,43 @@ export default async function BlogArticlePage({ params }: { params: Promise<{ sl
   )
 }
 
-function formatDate(iso: string): string {
+function BlogFallback() {
+  return (
+    <article className="blog-article">
+      <div className="inner">
+        <h1 className="blog-article-title">Article en cours de rédaction</h1>
+        <p>Cet article sera bientôt disponible.</p>
+      </div>
+    </article>
+  )
+}
+
+function formatDate(iso: string, locale: string): string {
   const d = new Date(iso)
   if (Number.isNaN(d.getTime())) return iso
-  return d.toLocaleDateString('fr-FR', { day: '2-digit', month: 'long', year: 'numeric' })
+  return d.toLocaleDateString(locale === 'en' ? 'en-US' : 'fr-FR', {
+    day: '2-digit',
+    month: 'long',
+    year: 'numeric',
+  })
+}
+
+// Resolve related posts via the post's relatedSlugs + fallback to category neighbors.
+function getRelatedPostsForArticle(
+  article: BlogPostFull,
+  tList: Parameters<typeof getBlogList>[0],
+) {
+  const all = getBlogList(tList)
+  const others = all.filter(p => p.slug !== article.slug)
+  if (article.relatedSlugs && article.relatedSlugs.length > 0) {
+    const explicit = article.relatedSlugs
+      .map(s => others.find(p => p.slug === s))
+      .filter((p): p is NonNullable<typeof p> => Boolean(p))
+    if (explicit.length >= 3) return explicit.slice(0, 3)
+    const remaining = others.filter(p => !article.relatedSlugs!.includes(p.slug))
+    return [...explicit, ...remaining].slice(0, 3)
+  }
+  const sameCategory = others.filter(p => p.category === article.category)
+  const restOthers = others.filter(p => p.category !== article.category)
+  return [...sameCategory, ...restOthers].slice(0, 3)
 }

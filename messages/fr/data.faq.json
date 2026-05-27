@@ -1,0 +1,180 @@
+{
+  "homepage": [
+    {
+      "question": "Quel niveau est requis ?",
+      "answer": "Cela dépend de la discipline. Lutte (Daghestan) : ouverte à tous les niveaux, y compris débutants. MMA (Tchétchénie) : niveau Avancé minimum (5+ ans de pratique régulière) ou Compétiteur, car les sparring partners locaux sont des pros de l'écurie Akhmat. Le niveau est confirmé lors de l'entretien vidéo."
+    },
+    {
+      "question": "Le visa est-il nécessaire ?",
+      "answer": "Que tu partes au Daghestan (Lutte) ou en Tchétchénie (MMA), le camp se déroule en Fédération de Russie : un visa russe est nécessaire pour la majorité des nationalités. Le visa est inclus dans le package MKR : frais consulaires, lettre d'invitation officielle, questionnaire UE, et accompagnement complet de ton dossier. Tu fournis ton passeport (validité 6 mois minimum), on s'occupe du reste."
+    },
+    {
+      "question": "Qu'est-ce qui est inclus dans le prix ?",
+      "answer": "Le tarif comprend le visa russe (frais consulaires et dossier complet), le vol intérieur depuis Istanbul (Makhachkala pour le Daghestan, Grozny pour la Tchétchénie), les transferts aéroport-camp, l'hébergement en logement de camp, 2 repas par jour, les séances d'entraînement biquotidiennes et le suivi préparatoire à distance. Le vol international jusqu'à Istanbul reste à la charge du candidat (réservation libre). Un supplément MKR peut s'appliquer pour les candidatures à moins de 30 jours du départ (traitement express)."
+    },
+    {
+      "question": "Où se déroule le camp : Daghestan ou Tchétchénie ?",
+      "answer": "Cela dépend de la discipline que tu choisis. Lutte adultes et Lutte enfants : camp au Daghestan, dans les salles de Makhachkala et Kaspiysk. MMA : camp en Tchétchénie, à Grozny, dans l'écosystème de l'Akhmat Fight Club. Sur les sessions officielles, c'est exclusif : 15 places Lutte + 15 places MMA par session, tu choisis l'une OU l'autre à l'inscription. Le combo Daghestan + Tchétchénie est possible uniquement sur les inscriptions Sur Mesure ou Club et Groupe (devis personnalisé)."
+    },
+    {
+      "question": "Lutte ou MMA, comment je choisis ?",
+      "answer": "Tu choisis selon ta discipline d'origine et tes objectifs. Si tu pratiques la lutte libre, le grappling, le BJJ ou le sambo : choisis Lutte (Daghestan, héritage des champions olympiques). Si tu pratiques le MMA, la boxe, le kickboxing ou la muay thaï et que tu veux progresser dans l'écosystème MMA russe : choisis MMA (Tchétchénie, Akhmat Fight Club). Le MMA exige un niveau Avancé minimum. Pour les indécis ou les athlètes complets : option Combo en Sur Mesure (devis)."
+    },
+    {
+      "question": "Quel niveau est exigé pour le camp MMA ?",
+      "answer": "Niveau Avancé minimum (plus de 5 ans de pratique régulière) ou Compétiteur (régional, national, international). Le formulaire d'inscription bloque les niveaux Intermédiaire et en-dessous quand tu choisis MMA. Cette exigence vient du rythme du camp et du niveau des sparring partners locaux : tu vas t'entraîner avec des combattants pros de l'écurie Akhmat. Si tu n'es pas encore au niveau, choisis Lutte (Daghestan), ouverte à tous les niveaux y compris débutants motivés. Ruslan refine la sélection en visio finale."
+    },
+    {
+      "question": "Quelle est la langue d'entraînement ?",
+      "answer": "Les entraînements se déroulent principalement en russe (et quelques mots d'avar au Daghestan ou de tchétchène/vaïnakh en Tchétchénie selon la salle). Un interprète francophone est présent. L'immersion linguistique fait partie de l'expérience."
+    },
+    {
+      "question": "Quel équipement dois-je apporter ?",
+      "answer": "Gants de boxe (16 oz), protège-tibias, protège-dents et coquille. Un guide complet de préparation est envoyé après confirmation de ta candidature."
+    },
+    {
+      "question": "Combien de participants par session ?",
+      "answer": "Maximum 15 participants par session pour un suivi individualisé. Les places sont limitées volontairement. La sélection est réelle."
+    },
+    {
+      "question": "Quelles sont les dates des prochains camps ?",
+      "answer": "Quatre sessions officielles par an, calées sur les vacances scolaires francophones. Été 2026 : 17 août - 5 septembre. Toussaint 2026 : 17 octobre - 7 novembre. Hiver 2027 : 13 février - 6 mars. Pâques 2027 : 3 - 24 avril. Chaque session se vit au Daghestan (Lutte) ou en Tchétchénie (MMA), au choix. Fenêtre de 3 semaines au sein de laquelle tu choisis 1, 2 ou 3 semaines, 15 places max par destination. Tarif Solo / Duo : {duoPerAdult1week} / adulte (1 sem) à {duoPerAdult3week} / adulte (3 sem) tout compris. Tarif dégressif à partir de 3 personnes."
+    }
+  ],
+  "categories": [
+    {
+      "id": "securite",
+      "label": "Sécurité",
+      "items": [
+        {
+          "question": "Est-ce que le Daghestan et la Tchétchénie sont sûrs ?",
+          "answer": "Les zones urbaines où se déroulent les camps (Makhachkala, Kaspiysk au Daghestan et Grozny en Tchétchénie) sont stables, fréquentées par des athlètes du monde entier et sous forte présence policière. Nous suivons en permanence les recommandations du Quai d'Orsay et du DFAE. Protocole MKR : contacts d'urgence 24/7, assurance rapatriement recommandée, équipe locale présente en permanence dans chaque destination."
+        },
+        {
+          "question": "Dois-je souscrire une assurance voyage ?",
+          "answer": "Oui, c'est obligatoire. Ton assurance doit couvrir le rapatriement médical et la pratique de sports de contact. Nous recommandons des prestataires comme Chapka, ACS ou World Nomads. Le détail est envoyé après validation de ta candidature."
+        },
+        {
+          "question": "Y a-t-il un accompagnateur francophone sur place ?",
+          "answer": "Oui. Un membre de l'équipe MKR francophone est présent pendant toute la durée du camp. Un interprète local assure également la traduction pendant les entraînements."
+        }
+      ]
+    },
+    {
+      "id": "logistique",
+      "label": "Logistique",
+      "items": [
+        {
+          "question": "Le visa est-il nécessaire ?",
+          "answer": "Le camp se déroule en Fédération de Russie (au Daghestan pour la Lutte, en Tchétchénie pour le MMA). Un visa russe est nécessaire pour la majorité des nationalités. Bonne nouvelle : le visa est inclus dans le package MKR (frais consulaires, lettre d'invitation officielle, questionnaire UE, accompagnement complet). Tu fournis ton passeport (validité 6 mois minimum), MKR pilote toute la procédure après confirmation de ta candidature."
+        },
+        {
+          "question": "Qu'est-ce qui est inclus dans le prix ?",
+          "answer": "Le tarif comprend le visa russe (frais consulaires et dossier complet), le vol intérieur depuis Istanbul (Makhachkala pour le Daghestan, Grozny pour la Tchétchénie), les transferts aéroport-camp, l'hébergement en logement de camp, 2 repas par jour, les séances d'entraînement biquotidiennes et le suivi préparatoire à distance. Le vol international jusqu'à Istanbul est à organiser par le candidat (à sa charge). Un supplément MKR peut s'appliquer pour les candidatures à moins de 30 jours du départ (traitement express visa + logistique)."
+        },
+        {
+          "question": "Quel équipement dois-je apporter ?",
+          "answer": "Gants de boxe (16 oz), protège-tibias, protège-dents et coquille. Un guide complet de préparation est envoyé après confirmation de ta candidature."
+        },
+        {
+          "question": "Comment se passe le transfert depuis l'aéroport ?",
+          "answer": "Le transfert aéroport-camp est inclus dans le prix. Un véhicule MKR t'attend à l'arrivée. Trajet d'environ 1h30 depuis Makhachkala (Daghestan, camp Lutte) ou d'environ 30 minutes depuis Grozny (Tchétchénie, camp MMA)."
+        }
+      ]
+    },
+    {
+      "id": "entrainement",
+      "label": "Entraînement",
+      "items": [
+        {
+          "question": "Quel niveau est requis pour participer ?",
+          "answer": "Cela dépend de la discipline choisie. Lutte (Daghestan) : ouverte à tous les niveaux, y compris débutants motivés. Tu progresses dans un cadre adapté à ton point de départ. MMA (Tchétchénie) : niveau Avancé minimum (plus de 5 ans de pratique régulière) ou Compétiteur, car les sparring partners locaux sont des combattants pros. Le niveau est confirmé lors de l'entretien vidéo dans tous les cas."
+        },
+        {
+          "question": "Quelle est la langue d'entraînement ?",
+          "answer": "Les entraînements se déroulent principalement en russe (et quelques mots d'avar selon la salle). Un interprète est présent pour le français et l'anglais. L'immersion linguistique fait partie de l'expérience."
+        },
+        {
+          "question": "Combien de participants par session ?",
+          "answer": "Maximum 15 participants par session pour un suivi individualisé. Les places sont limitées volontairement. La sélection est réelle."
+        },
+        {
+          "question": "Puis-je choisir entre MMA, lutte adultes et lutte enfants ?",
+          "answer": "Oui. Le camp propose 3 disciplines : Lutte adultes, Lutte enfants et MMA. Tu choisis ta discipline à l'inscription, et ta destination en découle : Lutte adultes et Lutte enfants au Daghestan (sessions à 10h30 et 17h30), MMA en Tchétchénie (sessions à 11h00 et 18h00). Sur les sessions officielles, c'est exclusif : 15 places Lutte + 15 places MMA. Le combo Lutte + MMA dans le même camp se vit uniquement en Sur Mesure (séquentiel : X jours au Daghestan puis Y jours en Tchétchénie, tarif sur devis)."
+        },
+        {
+          "question": "Comment se passe le combo Lutte + MMA en Sur Mesure ?",
+          "answer": "Le combo est séquentiel : tu commences au Daghestan pour la partie Lutte (X jours), puis MKR organise ton transfert vers la Tchétchénie pour la partie MMA (Y jours). Durée minimum totale : 2 semaines. Le split (par exemple 1 sem Lutte + 1 sem MMA) est cadré pendant ta visio avec Ruslan, en fonction de tes objectifs et de ton niveau. Le tarif n'est pas public : il est fixé sur devis en visio (logistique double destination, vols intérieurs Makhachkala + Grozny, transferts). Le combo n'est pas disponible sur les sessions officielles ni en Famille."
+        },
+        {
+          "question": "Y a-t-il des jours de repos ?",
+          "answer": "Un jour de repos par semaine est prévu, généralement consacré à une excursion culturelle ou une randonnée en montagne. Le reste du temps, c'est entraînement biquotidien."
+        }
+      ]
+    },
+    {
+      "id": "inscription",
+      "label": "Inscription",
+      "items": [
+        {
+          "question": "Comment fonctionne le processus d'inscription ?",
+          "answer": "1. Tu remplis le formulaire en ligne (5 minutes). Aucun paiement n'est demandé à ce stade. 2. On te rappelle sous 48h pour un entretien de validation en visioconférence avec Ruslan. 3. Si ta candidature est acceptée, tu reçois le RIB MKR et règles le package en une seule fois (virement ou espèces). 4. Tu reçois le guide de préparation et la lettre d'invitation visa."
+        },
+        {
+          "question": "Puis-je annuler après inscription ?",
+          "answer": "Oui. Tant que tu n'as pas réglé ton package, l'annulation est sans frais. Une fois le paiement reçu : annulation gratuite jusqu'à 60 jours avant le départ (remboursement 100%). Entre 30 et 60 jours : remboursement 50%. Moins de 30 jours : non remboursable. Détail complet dans nos CGV."
+        },
+        {
+          "question": "Quels moyens de paiement acceptez-vous ?",
+          "answer": "Virement bancaire (recommandé) ou espèces. Le paiement se fait en euros (EUR), une seule fois après l'entretien de validation. Aucun paiement n'est pris au moment de l'inscription en ligne."
+        },
+        {
+          "question": "Je viens avec mon club, y a-t-il un tarif groupe ?",
+          "answer": "Oui, tarif dégressif par taille de groupe. 1 à 2 personnes (Solo / Duo) : {duoPerAdult1week} / 1 sem par adulte. 3 à 5 personnes (Trio à 5) : {trioPerAdult1week} / 1 sem par adulte. 6 à 10 personnes (Club) : {clubPerAdult1week} / 1 sem par adulte. 11 personnes et plus ou privatisation complète d'une session : devis sur mesure. Le tunnel Club et Groupe est réservé aux groupes organisés de 5 à 20 personnes ; pour 1 à 4 amis adultes, prends Sur Mesure."
+        },
+        {
+          "question": "Quels sont les 4 types d'inscription ?",
+          "answer": "1. Sessions officielles (quatre par an : Été 17 août - 5 sept 2026, Toussaint 17 oct - 7 nov 2026, Hiver 13 fév - 6 mars 2027, Pâques 3 - 24 avril 2027 ; adultes uniquement, groupe constitué par MKR, fenêtre de 3 semaines au sein de laquelle tu choisis 1, 2 ou 3 semaines, dates calées sur les vacances scolaires francophones). 2. Sur Mesure (tes dates, 1 à 4 adultes, 1/2/3 semaines, délai 90 jours minimum). 3. Famille (parent + enfant 8-17 ans, choix entre rejoindre une session officielle ou sur mesure). 4. Club et Groupe (5 à 20 personnes, club ou groupe organisé, dates au choix, devis sur mesure). Tarifs publics fixes identiques pour les 4 tunnels."
+        },
+        {
+          "question": "Quelles sont les 4 sessions officielles 2026 / 2027 ?",
+          "answer": "Quatre sessions par an, calées sur les vacances scolaires des trois zones françaises, suisses romandes et belges, pour permettre aux pratiquants francophones (et aux familles) de partir sans poser de congés. Été 2026 : 17 août - 5 septembre 2026 (fenêtre 3 sem, vacances été). Toussaint 2026 : 17 octobre - 7 novembre 2026 (fenêtre 3 sem, Toussaint FR + octobre CH + Toussaint BE). Hiver 2027 : 13 février - 6 mars 2027 (fenêtre 3 sem, vacances d'hiver zones A/B/C FR + relâche CH + carnaval BE). Pâques 2027 : 3 - 24 avril 2027 (fenêtre 3 sem, vacances de printemps FR + Pâques CH + BE). Au sein de chaque fenêtre, tu choisis 1, 2 ou 3 semaines. Chaque session se vit au Daghestan (Lutte adultes et Lutte enfants) ou en Tchétchénie (MMA), 15 places max par destination. Tarif Solo / Duo : {duoPerAdult1week} / adulte (1 sem) à {duoPerAdult3week} / adulte (3 sem) tout compris. Tarif dégressif à partir de 3 personnes."
+        },
+        {
+          "question": "Quel est le délai minimum pour réserver un camp sur mesure ?",
+          "answer": "90 jours minimum avant la date de début souhaitée. Ce délai permet à MKR de gérer le visa russe (3 à 4 semaines), à toi de réserver ton vol international dans de bonnes conditions, et te laisse 6 semaines pour la préparation physique. Pour les camps sur dates fixes (session officielle), inscription jusqu'à 30 jours avant le départ. En deçà de 30 jours, un supplément MKR est appliqué pour le traitement express (visa, logistique)."
+        }
+      ]
+    },
+    {
+      "id": "familles",
+      "label": "Familles et Jeunesse",
+      "items": [
+        {
+          "question": "Mon enfant peut-il venir au camp ?",
+          "answer": "Oui, dès 8 ans, mais il doit obligatoirement être accompagné d'un parent participant au camp. C'est notre règle de sécurité : pas de prise en charge enfant seul. Forfait Parent + Enfant à {familyBase1week} (1 sem) avec 1er enfant inclus, {familyBase2week} (2 sem), {familyBase3week} (3 sem). Chaque enfant supplémentaire : {familyExtraChild1weekLabel}."
+        },
+        {
+          "question": "Comment s'inscrire en famille ?",
+          "answer": "Choisis le tunnel Famille sur /inscription. Tu indiques tes enfants (1 à 4, âges 8-17). Si ton conjoint(e) participe aussi au camp, coche la case dédiée : les deux parents passent au tarif Solo/Duo ({duoPerAdult1week} / pers / sem) + chaque enfant à {familyExtraChildPerWeek} / sem. Sinon, le forfait Parent + Enfant (1er enfant inclus dans les {familyBase1weekLabel} la semaine) s'applique. Le tarif total se calcule automatiquement."
+        },
+        {
+          "question": "Comment l'enfant est-il encadré pendant les sessions ?",
+          "answer": "Un coach jeunesse formé à la pédagogie sportive des plus jeunes encadre les sessions enfants (Lutte enfants à 10h30 et 17h30). Ratio 1 coach pour 5 enfants maximum. Tapis olympiques homologués, salle dédiée, pas de KO autorisé, sparring contrôlé. Briefing parents chaque fin de session, photos quotidiennes."
+        },
+        {
+          "question": "Le programme parent et le programme enfant sont-ils en parallèle ?",
+          "answer": "Oui. Tu suis les sessions adultes (Lutte 10h30/17h30 ou MMA 11h00/18h00) pendant que ton enfant suit le programme Lutte enfants (10h30/17h30). Vous vous retrouvez aux repas, excursions et moments libres. Tu peux aussi assister aux sessions de ton enfant si tu le souhaites."
+        },
+        {
+          "question": "Quel âge minimum et maximum pour les enfants ?",
+          "answer": "Minimum 8 ans, maximum 17 ans. En dessous de 8 ans, le camp est physiquement et culturellement trop intense. À partir de 18 ans, ton ado est inscrit comme adulte au tarif Solo / Duo ({duoOneLineBare}, par adulte)."
+        },
+        {
+          "question": "Faut-il un certificat médical pour les enfants ?",
+          "answer": "Oui, certificat médical d'aptitude à la pratique sportive intensive obligatoire pour chaque enfant, établi par le médecin traitant et daté de moins de 6 mois avant le départ. Une autorisation parentale signée par le responsable légal est également requise."
+        }
+      ]
+    }
+  ]
+}

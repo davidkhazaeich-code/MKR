@@ -1,7 +1,9 @@
 import Image from 'next/image'
 import { Link } from '@/i18n/navigation'
 import { useTranslations } from 'next-intl'
-import { REGISTRATION_TYPES } from '@/data/registration-types'
+import { hydrateRegistrationTypes } from '@/data/registration-types'
+import { PRICING_TIERS, formatEUR } from '@/data/pricing'
+import { FAMILY_BASE_1WEEK_LABEL, FAMILY_EXTRA_CHILD_1WEEK_LABEL } from '@/lib/pricing-copy'
 import Icon, { type IconName } from './Icon'
 
 const ICONS: Record<string, IconName> = {
@@ -20,6 +22,16 @@ interface AudienceSwitcherProps {
 
 export default function AudienceSwitcher({ withHeader = true, compact = false }: AudienceSwitcherProps) {
   const t = useTranslations('home.audience_switcher')
+  const tData = useTranslations('data.registration-types')
+
+  const types = hydrateRegistrationTypes(tData as never, {
+    familyBase1weekLabel: FAMILY_BASE_1WEEK_LABEL,
+    familyExtraChild1weekLabel: FAMILY_EXTRA_CHILD_1WEEK_LABEL,
+    duoPerAdult1week: formatEUR(PRICING_TIERS.duo.perAdult[1]),
+    trioPerAdult1week: formatEUR(PRICING_TIERS.trio.perAdult[1]),
+    clubPerAdult1week: formatEUR(PRICING_TIERS.club.perAdult[1]),
+  })
+
   return (
     <section
       id="audiences"
@@ -43,7 +55,7 @@ export default function AudienceSwitcher({ withHeader = true, compact = false }:
         )}
 
         <div className="audience-grid">
-          {REGISTRATION_TYPES.map((type, i) => (
+          {types.map((type, i) => (
             <article
               key={type.id}
               className={`audience-card audience-card--photo reveal${type.recommended ? ' audience-card--recommended' : ''}`}
@@ -52,7 +64,7 @@ export default function AudienceSwitcher({ withHeader = true, compact = false }:
               <div className="audience-card-photo" aria-hidden="true">
                 <Image
                   src={type.image}
-                  alt={type.imageAlt}
+                  alt={type.image_alt}
                   fill
                   sizes="(max-width: 980px) 100vw, 33vw"
                   className="audience-card-photo-img"

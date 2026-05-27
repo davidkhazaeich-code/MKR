@@ -1,17 +1,24 @@
+import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { buildMetadata } from '@/lib/seo'
 import Link from 'next/link'
 import PageHero from '@/components/PageHero'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
-import { BLOG_POSTS } from '@/data/blog'
+import { getBlogList } from '@/data/blog'
 
 export const metadata = buildMetadata({
   title: 'Blog MKR Caucasian Camp : MMA, Lutte et Caucase',
   description: "Articles sur le MMA, la lutte, le Daghestan, la préparation et la culture du combat. Par MKR Caucasian Camp.",
   path: '/blog',
 })
-export default function BlogPage() {
-  const featured = BLOG_POSTS.find(a => a.featured)
-  const rest = BLOG_POSTS.filter(a => !a.featured)
+
+export default async function BlogPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
+  setRequestLocale(locale)
+  const tBlog = await getTranslations('blog')
+
+  const posts = getBlogList(tBlog as never)
+  const featured = posts.find(a => a.featured)
+  const rest = posts.filter(a => !a.featured)
 
   return (
     <>
@@ -36,7 +43,7 @@ export default function BlogPage() {
               <div className="blog-featured-img">
                 <img
                   src={featured.img}
-                  alt={featured.title}
+                  alt={featured.img_alt}
                   width={1200}
                   height={500}
                   loading="lazy"
@@ -61,7 +68,7 @@ export default function BlogPage() {
               <Link key={i} href={`/blog/${article.slug}`} className="blog-card reveal" style={{ transitionDelay: `${i * 0.06}s` }}>
                 <img
                   src={article.img}
-                  alt={article.title}
+                  alt={article.img_alt}
                   width={800}
                   height={450}
                   loading="lazy"

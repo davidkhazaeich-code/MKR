@@ -3,7 +3,9 @@
 import { Link } from '@/i18n/navigation'
 import { useTranslations } from 'next-intl'
 import { useEffect, useRef, useState, useCallback } from 'react'
-import { SESSIONS, formatPriceFrom } from '@/data/sessions'
+import { SESSIONS } from '@/data/sessions'
+import { hydrateSessions } from '@/lib/session-display'
+import { MIN_PRICE_PER_ADULT_LABEL } from '@/lib/pricing-copy'
 import PlacesRestantes from '@/components/PlacesRestantes'
 
 const HERO_VIDEOS = [
@@ -218,6 +220,7 @@ export default function Hero() {
 
 function HeroCampCarousel() {
   const t = useTranslations('home.hero')
+  const tData = useTranslations('data.sessions')
   const [active, setActive] = useState(0)
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
 
@@ -238,7 +241,9 @@ function HeroCampCarousel() {
     startTimer()
   }
 
-  const session = SESSIONS[active]
+  const sessions = hydrateSessions(SESSIONS, tData as never)
+  const session = sessions[active]
+  const priceFrom = `${tData('price_from_prefix')} ${MIN_PRICE_PER_ADULT_LABEL}`
 
   return (
     <div className="hero-camps" aria-label={t('carousel_aria')}>
@@ -254,7 +259,7 @@ function HeroCampCarousel() {
         </div>
         <div className="hero-camps-dates">{session.dates}</div>
         <div className="hero-camps-bottom">
-          <span className="hero-camps-price">{formatPriceFrom(session)}</span>
+          <span className="hero-camps-price">{priceFrom}</span>
           <Link href={`/inscription?type=session&session=${session.id}` as Parameters<typeof Link>[0]['href']} className="hero-camps-cta">{t('carousel_cta')}</Link>
         </div>
       </div>

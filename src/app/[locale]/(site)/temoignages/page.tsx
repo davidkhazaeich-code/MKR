@@ -6,11 +6,8 @@ import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 import VideoTestimonialsGrid from '@/components/VideoTestimonialsGrid'
 import VerticalVideoSplit from '@/components/VerticalVideoSplit'
 import Icon from '@/components/Icon'
-import { TESTIMONIALS } from '@/data/testimonials'
-import {
-  ANTOINE_PARCOURS_ASSETS,
-  ANTOINE_PARCOURS_VARIANTS,
-} from '@/data/antoine-parcours'
+import { TESTIMONIALS, hydrateTestimonials, type HydratedTestimonial } from '@/data/testimonials'
+import { getAntoineParcoursProps } from '@/data/antoine-parcours'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
@@ -22,17 +19,27 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   })
 }
 
-const VIDEO_ITEMS = TESTIMONIALS
-  .filter(t => t.video && t.videoPoster)
-  .map(t => ({
-    name: t.name,
-    discipline: t.discipline,
-    label: t.videoLabel ?? 'Témoignage vidéo',
-    poster: t.videoPoster!,
-    video: t.video!,
-  }))
+function buildVideoItems(hydrated: HydratedTestimonial[]) {
+  return TESTIMONIALS
+    .filter(s => s.video && s.videoPoster)
+    .map(s => {
+      const h = hydrated.find(x => x.id === s.id)!
+      return {
+        name: h.name,
+        discipline: h.discipline,
+        label: h.videoLabel ?? 'Témoignage vidéo',
+        poster: s.videoPoster!,
+        video: s.video!,
+      }
+    })
+}
 
-const TEXT_TESTIMONIALS = TESTIMONIALS.filter(t => !t.video)
+function buildTextTestimonials(hydrated: HydratedTestimonial[]) {
+  return TESTIMONIALS
+    .filter(s => !s.video)
+    .map(s => hydrated.find(x => x.id === s.id)!)
+    .filter(Boolean)
+}
 
 function Stars({ ariaLabel }: { ariaLabel: string }) {
   return (
@@ -48,6 +55,12 @@ export default async function TemoignagesPage({ params }: { params: Promise<{ lo
   const { locale } = await params
   setRequestLocale(locale)
   const t = await getTranslations('temoignages')
+  const tTesti = await getTranslations('data.testimonials')
+  const tAntoine = await getTranslations('data.antoine-parcours')
+  const hydrated = hydrateTestimonials(tTesti as never)
+  const VIDEO_ITEMS = buildVideoItems(hydrated)
+  const TEXT_TESTIMONIALS = buildTextTestimonials(hydrated)
+  const antoineProps = getAntoineParcoursProps('temoignages', tAntoine as never)
 
   return (
     <>
@@ -63,10 +76,7 @@ export default async function TemoignagesPage({ params }: { params: Promise<{ lo
       />
 
       {/* Featured : Antoine parcours (montage) */}
-      <VerticalVideoSplit
-        {...ANTOINE_PARCOURS_ASSETS}
-        {...ANTOINE_PARCOURS_VARIANTS.temoignages}
-      />
+      <VerticalVideoSplit {...antoineProps} />
 
       {/* Videos */}
       <section className="logi-section fx-grid fx-stack-1">

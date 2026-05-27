@@ -3,7 +3,7 @@
 import { useRef, useState } from 'react'
 import Image from 'next/image'
 import { useTranslations } from 'next-intl'
-import { TESTIMONIALS, type Testimonial } from '@/data/testimonials'
+import { TESTIMONIALS, hydrateTestimonials, type HydratedTestimonial } from '@/data/testimonials'
 import VideoModal from './VideoModal'
 import Icon from './Icon'
 
@@ -19,8 +19,13 @@ function Stars({ ariaLabel }: { ariaLabel: string }) {
 
 export default function Testimonials() {
   const t = useTranslations('home.testimonials')
+  const tData = useTranslations('data.testimonials')
   const carouselRef = useRef<HTMLDivElement>(null)
-  const [activeVideo, setActiveVideo] = useState<Testimonial | null>(null)
+  const [activeVideo, setActiveVideo] = useState<HydratedTestimonial | null>(null)
+
+  const testimonials = hydrateTestimonials(tData as never)
+  // Preserve original order from TESTIMONIALS structural array
+  const ordered = TESTIMONIALS.map(s => testimonials.find(h => h.id === s.id)!).filter(Boolean)
 
   function scrollBy(direction: 'prev' | 'next') {
     const el = carouselRef.current
@@ -61,7 +66,7 @@ export default function Testimonials() {
         {/* Colonne droite -slider qui déborde */}
         <div className="testi-right">
           <div className="testi-carousel" ref={carouselRef}>
-            {TESTIMONIALS.map((c, i) => (
+            {ordered.map((c, i) => (
               <div
                 key={i}
                 className="testi-card"

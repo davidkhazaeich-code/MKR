@@ -1,19 +1,24 @@
 'use client'
 
 import { useState } from 'react'
+import { useTranslations } from 'next-intl'
 import FAQAccordion from './FAQAccordion'
-import { FAQ_CATEGORIES } from '@/data/faq'
+import { getFaqCategories } from '@/data/faq'
 
 export default function FAQTabs() {
-  const [activeTab, setActiveTab] = useState(FAQ_CATEGORIES[0].id)
-  const activeCategory = FAQ_CATEGORIES.find(c => c.id === activeTab) ?? FAQ_CATEGORIES[0]
+  const tData = useTranslations('data.faq')
+  const categories = getFaqCategories(tData as never)
+  const [activeTab, setActiveTab] = useState(categories[0]?.id ?? '')
+  const activeCategory = categories.find(c => c.id === activeTab) ?? categories[0]
+
+  if (!activeCategory) return null
 
   return (
     <section className="faq-page-section fx-grid fx-glow fx-glow-breathe fx-stack-1">
       <div className="fx-glow-orb fx-glow-orb--top" />
       <div className="inner">
         <div className="filter-tabs">
-          {FAQ_CATEGORIES.map(cat => (
+          {categories.map(cat => (
             <button
               key={cat.id}
               className={`filter-tab${activeTab === cat.id ? ' is-active' : ''}`}

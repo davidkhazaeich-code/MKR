@@ -1,0 +1,50 @@
+{
+  "session": {
+    "label": "Sessions officielles",
+    "short_label": "Sessions",
+    "badge": "Sessions officielles · Adultes",
+    "description": "1 à 3 semaines au Caucase dans un groupe constitué par MKR (Lutte au Daghestan ou MMA en Tchétchénie). Quatre sessions par an calées sur les vacances scolaires, adultes uniquement, esprit collectif.",
+    "long_description": "Tu rejoins une de nos quatre sessions officielles 2026 / 2027 (Été, Toussaint, Hiver Février, Pâques) calées sur les vacances scolaires francophones, avec des athlètes adultes venus du monde entier. Tu choisis ta durée (1, 2 ou 3 semaines) au sein de la fenêtre de session. Selon ta discipline, tu pars au Daghestan (Lutte) ou en Tchétchénie (MMA). On gère le visa, le vol intérieur depuis Istanbul (Makhachkala ou Grozny), les transferts, l'hébergement, les repas, le programme et l'encadrement. Si tu pars avec un enfant 8-17 ans, choisis plutôt le tunnel Famille.",
+    "cta": "Voir les 4 sessions",
+    "dates": "4 sessions par an",
+    "duration": "1, 2 ou 3 semaines",
+    "lead_time": "Inscriptions ouvertes",
+    "image_alt": "Cercle de combattants autour d'une démonstration grappling au MKR Caucasian Camp"
+  },
+  "custom": {
+    "label": "Sur Mesure",
+    "short_label": "Sur Mesure",
+    "badge": "Tes dates · 1 à 4 adultes",
+    "description": "Camp individuel ou en petit groupe d'amis (1 à 4 adultes). Tu choisis tes dates et ta durée, on coordonne tout.",
+    "long_description": "Tu pars quand tu veux, pour la durée que tu veux (1, 2 ou 3 semaines), seul ou avec 2 à 3 amis adultes (max 4 personnes). Tu choisis ta destination : Lutte au Daghestan, MMA en Tchétchénie, ou combo Daghestan + Tchétchénie (exclusif au sur-mesure). On gère sur place les coachs disponibles, l'hébergement, les repas, les transferts et le vol intérieur depuis Istanbul (Makhachkala et/ou Grozny). Si tu viens avec un enfant 8-17 ans, prends Famille. Si vous êtes un club ou un groupe organisé de 5 personnes ou plus, prends Club et Groupe.",
+    "cta": "Découvrir le Sur Mesure",
+    "dates": "Dates au choix",
+    "duration": "1, 2 ou 3 semaines",
+    "lead_time": "Réservation 90 jours minimum avant le départ",
+    "image_alt": "Portrait d'Antoine Petit-Jean, athlète MMA solo en immersion à Makhachkala"
+  },
+  "famille": {
+    "label": "Famille",
+    "short_label": "Famille",
+    "badge": "Parent + enfant 8-17",
+    "description": "Camp en famille au Daghestan (Lutte enfants). Parent et enfant 8-17 ans côte à côte, encadrement jeunesse dédié. Forfait à partir de {familyBase1weekLabel}.",
+    "long_description": "Tu pars en famille avec tes enfants 8-17 ans (parent participant obligatoire, c'est notre règle de sécurité). Programme parallèle : sessions adultes pour toi, programme Lutte enfants pour l'ado. Tu peux rejoindre une des quatre sessions officielles (Été 2026, Toussaint 2026, Hiver 2027, Pâques 2027), ou choisir tes propres dates (90 jours minimum). Forfait Parent + Enfant à {familyBase1weekLabel} (1 sem) avec 1er enfant inclus, {familyExtraChild1weekLabel} par enfant supplémentaire. Si ton conjoint(e) participe : les deux parents passent au tarif Solo/Duo ({duoPerAdult1week} / pers / sem) + enfants au tarif supplément ({familyExtraChild1weekLabel} chacun).",
+    "cta": "Découvrir le Camp Famille",
+    "dates": "Session ou tes dates",
+    "duration": "1, 2 ou 3 semaines",
+    "lead_time": "Inscriptions ouvertes (session) ou 90j (sur mesure)",
+    "image_alt": "Père et fils côte à côte sur le tapis du camp MKR, transmission familiale"
+  },
+  "groupe": {
+    "label": "Club et Groupe",
+    "short_label": "Club et Groupe",
+    "badge": "Devis sur mesure · 5 à 20",
+    "description": "Tu viens avec ton club ou un groupe organisé de 5 à 20 personnes ? Tarif dégressif, camp dédié à vos dates, hébergement bloc.",
+    "long_description": "Tu fédères ton club (ou un groupe d'au moins 5 personnes) autour d'un objectif commun. On organise un camp dédié : dates choisies, hébergement bloc, transferts groupés, programme adapté au niveau collectif. Tarif par tête dégressif : {trioPerAdult1week} / 1 sem pour 5 personnes (palier Trio), {clubPerAdult1week} / 1 sem pour 6 à 10 personnes (palier Club). À partir de 11 personnes ou pour une privatisation complète : devis personnalisé. Si vous êtes 1 à 4 amis adultes, prenez plutôt Sur Mesure. Si tu pars en famille, c'est le tunnel Famille.",
+    "cta": "Découvrir Club et Groupe",
+    "dates": "Dates au choix",
+    "duration": "1, 2 ou 3 semaines",
+    "lead_time": "Réservation 90 jours minimum avant le départ",
+    "image_alt": "Cercle de fighters caucasiens en formation, équipe et fraternité du tapis"
+  }
+}

@@ -2,12 +2,14 @@
 
 import { useState } from 'react'
 import { useTranslations } from 'next-intl'
-import { FAQ_HOMEPAGE } from '@/data/faq'
+import { getFaqHomepage } from '@/data/faq'
 
 const DELAY_STEP = 0.05
 
 export default function FAQ() {
   const t = useTranslations('home.faq')
+  const tData = useTranslations('data.faq')
+  const items = getFaqHomepage(tData as never)
   const [openSet, setOpenSet] = useState<Set<number>>(new Set())
 
   const toggle = (i: number) => {
@@ -31,7 +33,7 @@ export default function FAQ() {
 
         <div className="faq-grid">
           <div className="faq-col">
-            {FAQ_HOMEPAGE.filter((_, i) => i % 2 === 0).map((item, idx) => {
+            {items.filter((_, i) => i % 2 === 0).map((item, idx) => {
               const i = idx * 2
               return (
                 <div key={i} className="faq-item reveal" style={{ transitionDelay: `${i * DELAY_STEP}s` }}>
@@ -47,7 +49,7 @@ export default function FAQ() {
             })}
           </div>
           <div className="faq-col">
-            {FAQ_HOMEPAGE.filter((_, i) => i % 2 === 1).map((item, idx) => {
+            {items.filter((_, i) => i % 2 === 1).map((item, idx) => {
               const i = idx * 2 + 1
               return (
                 <div key={i} className="faq-item reveal" style={{ transitionDelay: `${i * DELAY_STEP}s` }}>

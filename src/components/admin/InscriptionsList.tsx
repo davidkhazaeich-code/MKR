@@ -9,10 +9,15 @@ import Icon from './ui/Icon'
 import { STATUS_LABEL, type Status } from '@/lib/admin-transitions'
 import { SESSIONS } from '@/data/sessions'
 import { getActiveCodes } from '@/data/referral-codes'
+import sessionsDisplayFr from '../../../messages/fr/data.sessions.json'
+
+type AdminSessionDisplay = { label?: string; dates?: string }
+const FR_SESSION_DISPLAY = sessionsDisplayFr as unknown as Record<string, AdminSessionDisplay>
 
 const SESSION_LOOKUP: Record<string, { label: string; dates: string }> = SESSIONS.reduce(
   (acc, s) => {
-    acc[s.id] = { label: s.label, dates: s.dates }
+    const display = FR_SESSION_DISPLAY[s.id] ?? {}
+    acc[s.id] = { label: display.label ?? s.id, dates: display.dates ?? '' }
     return acc
   },
   {} as Record<string, { label: string; dates: string }>,

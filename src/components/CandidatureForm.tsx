@@ -3,7 +3,9 @@
 import { useState, FormEvent } from 'react'
 import dynamic from 'next/dynamic'
 import { DISCIPLINES } from '@/data/disciplines'
-import { SESSIONS, sessionFormLabel } from '@/data/sessions'
+import { useTranslations } from 'next-intl'
+import { SESSIONS } from '@/data/sessions'
+import { sessionFormLabel } from '@/lib/session-display'
 import Icon from './Icon'
 
 const StoryCard = dynamic(() => import('./StoryCard'))
@@ -101,6 +103,7 @@ function RadioGroup({ name, options, value, onChange }: {
 }
 
 export default function CandidatureForm() {
+  const tData = useTranslations('data.sessions')
   const [step, setStep] = useState(0)
   const [form, setForm] = useState<FormData>(INITIAL)
   const [errors, setErrors] = useState<string[]>([])
@@ -174,7 +177,9 @@ export default function CandidatureForm() {
 
   if (submitted) {
     const selectedSession = SESSIONS.find(s => s.id === form.session)
-    const sessionLabel = selectedSession?.name || form.session
+    const sessionLabel = selectedSession
+      ? (tData.raw(selectedSession.id) as { name?: string } | undefined)?.name ?? form.session
+      : form.session
 
     return (
       <div className="cand-success">
@@ -410,7 +415,7 @@ export default function CandidatureForm() {
                   onChange={e => set('session', e.target.value)}>
                   <option value="" disabled>Sélectionner</option>
                   {SESSIONS.map(s => (
-                    <option key={s.id} value={s.id}>{sessionFormLabel(s)}</option>
+                    <option key={s.id} value={s.id}>{sessionFormLabel(s, tData as never)}</option>
                   ))}
                 </select>
               </Field>
