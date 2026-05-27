@@ -1,45 +1,82 @@
-import type { MetadataRoute } from 'next'
-import { BLOG_POSTS } from '@/data/blog'
+import type { MetadataRoute } from 'next';
+import { routing, BLOG_SLUG_MAP } from '@/i18n/routing';
+import { getPathname } from '@/i18n/navigation';
+
+const SITE_URL = 'https://mkrcamp.com';
+
+const STATIC_PATHS = [
+  { path: '/', priority: 1.0, changeFrequency: 'weekly' as const },
+  { path: '/le-camp', priority: 0.9, changeFrequency: 'monthly' as const },
+  { path: '/programme', priority: 0.9, changeFrequency: 'monthly' as const },
+  { path: '/programme/lutte', priority: 0.85, changeFrequency: 'monthly' as const },
+  { path: '/programme/lutte-enfants', priority: 0.85, changeFrequency: 'monthly' as const },
+  { path: '/programme/mma', priority: 0.85, changeFrequency: 'monthly' as const },
+  { path: '/sessions', priority: 0.95, changeFrequency: 'weekly' as const },
+  { path: '/inscription', priority: 1.0, changeFrequency: 'weekly' as const },
+  { path: '/mkr-camp-2026', priority: 0.95, changeFrequency: 'weekly' as const },
+  { path: '/familles', priority: 0.85, changeFrequency: 'monthly' as const },
+  { path: '/sur-mesure', priority: 0.85, changeFrequency: 'monthly' as const },
+  { path: '/clubs-groupes', priority: 0.85, changeFrequency: 'monthly' as const },
+  { path: '/destinations', priority: 0.85, changeFrequency: 'monthly' as const },
+  { path: '/destinations/dagestan', priority: 0.85, changeFrequency: 'monthly' as const },
+  { path: '/destinations/tchetchenie', priority: 0.85, changeFrequency: 'monthly' as const },
+  { path: '/temoignages', priority: 0.8, changeFrequency: 'monthly' as const },
+  { path: '/a-propos', priority: 0.8, changeFrequency: 'monthly' as const },
+  { path: '/contact', priority: 0.7, changeFrequency: 'yearly' as const },
+  { path: '/faq', priority: 0.8, changeFrequency: 'monthly' as const },
+  { path: '/galerie', priority: 0.6, changeFrequency: 'monthly' as const },
+  { path: '/logistique', priority: 0.8, changeFrequency: 'monthly' as const },
+  { path: '/comment-ca-marche', priority: 0.85, changeFrequency: 'monthly' as const },
+  { path: '/preparer-son-camp', priority: 0.75, changeFrequency: 'monthly' as const },
+  { path: '/guide-caucase', priority: 0.6, changeFrequency: 'monthly' as const },
+  { path: '/cgv', priority: 0.4, changeFrequency: 'yearly' as const },
+  { path: '/mentions-legales', priority: 0.4, changeFrequency: 'yearly' as const },
+  { path: '/politique-de-confidentialite', priority: 0.4, changeFrequency: 'yearly' as const },
+  { path: '/blog', priority: 0.7, changeFrequency: 'weekly' as const },
+] as const;
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const base = 'https://mkrcamp.com'
+  const now = new Date().toISOString();
+  const entries: MetadataRoute.Sitemap = [];
 
-  const blogEntries = BLOG_POSTS.map(post => ({
-    url: `${base}/blog/${post.slug}`,
-    lastModified: post.dateISO,
-    changeFrequency: 'monthly' as const,
-    priority: 0.6,
-  }))
+  for (const { path, priority, changeFrequency } of STATIC_PATHS) {
+    for (const locale of routing.locales) {
+      const url = `${SITE_URL}${getPathname({ locale, href: path as never })}`;
+      entries.push({
+        url,
+        lastModified: now,
+        changeFrequency,
+        priority,
+        alternates: {
+          languages: {
+            fr: `${SITE_URL}${getPathname({ locale: 'fr', href: path as never })}`,
+            en: `${SITE_URL}${getPathname({ locale: 'en', href: path as never })}`,
+            'x-default': `${SITE_URL}${getPathname({ locale: 'fr', href: path as never })}`,
+          },
+        },
+      });
+    }
+  }
 
-  return [
-    { url: base, lastModified: '2026-05-14', changeFrequency: 'weekly', priority: 1.0 },
-    { url: `${base}/le-camp`, lastModified: '2026-05-12', changeFrequency: 'monthly', priority: 0.9 },
-    { url: `${base}/programme`, lastModified: '2026-05-12', changeFrequency: 'monthly', priority: 0.8 },
-    { url: `${base}/programme/mma`, lastModified: '2026-05-12', changeFrequency: 'monthly', priority: 0.8 },
-    { url: `${base}/programme/lutte`, lastModified: '2026-05-12', changeFrequency: 'monthly', priority: 0.8 },
-    { url: `${base}/programme/lutte-enfants`, lastModified: '2026-05-12', changeFrequency: 'monthly', priority: 0.8 },
-    { url: `${base}/familles`, lastModified: '2026-05-14', changeFrequency: 'monthly', priority: 0.9 },
-    { url: `${base}/mkr-camp-2026`, lastModified: '2026-05-12', changeFrequency: 'weekly', priority: 0.95 },
-    { url: `${base}/sur-mesure`, lastModified: '2026-05-12', changeFrequency: 'monthly', priority: 0.9 },
-    { url: `${base}/clubs-groupes`, lastModified: '2026-05-12', changeFrequency: 'monthly', priority: 0.9 },
-    { url: `${base}/sessions`, lastModified: '2026-05-12', changeFrequency: 'weekly', priority: 0.9 },
-    { url: `${base}/destinations`, lastModified: '2026-05-12', changeFrequency: 'monthly', priority: 0.8 },
-    { url: `${base}/destinations/dagestan`, lastModified: '2026-05-12', changeFrequency: 'monthly', priority: 0.85 },
-    { url: `${base}/destinations/tchetchenie`, lastModified: '2026-05-12', changeFrequency: 'monthly', priority: 0.85 },
-    { url: `${base}/comment-ca-marche`, lastModified: '2026-05-04', changeFrequency: 'monthly', priority: 0.7 },
-    { url: `${base}/preparer-son-camp`, lastModified: '2026-05-12', changeFrequency: 'monthly', priority: 0.7 },
-    { url: `${base}/logistique`, lastModified: '2026-05-12', changeFrequency: 'monthly', priority: 0.7 },
-    { url: `${base}/temoignages`, lastModified: '2026-05-12', changeFrequency: 'monthly', priority: 0.6 },
-    { url: `${base}/galerie`, lastModified: '2026-04-06', changeFrequency: 'monthly', priority: 0.5 },
-    { url: `${base}/faq`, lastModified: '2026-05-12', changeFrequency: 'monthly', priority: 0.6 },
-    { url: `${base}/blog`, lastModified: '2026-05-14', changeFrequency: 'weekly', priority: 0.6 },
-    ...blogEntries,
-    { url: `${base}/inscription`, lastModified: '2026-05-12', changeFrequency: 'yearly', priority: 0.5 },
-    { url: `${base}/guide-caucase`, lastModified: '2026-05-14', changeFrequency: 'yearly', priority: 0.6 },
-    { url: `${base}/a-propos`, lastModified: '2026-05-12', changeFrequency: 'yearly', priority: 0.4 },
-    { url: `${base}/contact`, lastModified: '2026-03-01', changeFrequency: 'yearly', priority: 0.5 },
-    { url: `${base}/mentions-legales`, lastModified: '2026-01-01', changeFrequency: 'yearly', priority: 0.1 },
-    { url: `${base}/cgv`, lastModified: '2026-05-04', changeFrequency: 'yearly', priority: 0.1 },
-    { url: `${base}/politique-de-confidentialite`, lastModified: '2026-01-01', changeFrequency: 'yearly', priority: 0.1 },
-  ]
+  for (const canonicalSlug of Object.keys(BLOG_SLUG_MAP)) {
+    for (const locale of routing.locales) {
+      const slug = BLOG_SLUG_MAP[canonicalSlug][locale];
+      const url = `${SITE_URL}${locale === 'fr' ? '' : '/en'}/blog/${slug}`;
+      entries.push({
+        url,
+        lastModified: now,
+        changeFrequency: 'monthly',
+        priority: 0.65,
+        alternates: {
+          languages: {
+            fr: `${SITE_URL}/blog/${BLOG_SLUG_MAP[canonicalSlug].fr}`,
+            en: `${SITE_URL}/en/blog/${BLOG_SLUG_MAP[canonicalSlug].en}`,
+            'x-default': `${SITE_URL}/blog/${BLOG_SLUG_MAP[canonicalSlug].fr}`,
+          },
+        },
+      });
+    }
+  }
+
+  return entries;
 }
