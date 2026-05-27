@@ -1,0 +1,130 @@
+{
+  "meta": {
+    "title": "Guide PDF gratuit Caucase : Lutte et MMA | MKR",
+    "description": "Guide complet de 20 pages pour partir t'entrainer au Caucase. Visa, vols, budget, preparation, equipement, culture. Telechargement instantane, gratuit."
+  },
+  "breadcrumb": {
+    "home": "Accueil",
+    "current": "Guide Caucase"
+  },
+  "jsonld": {
+    "name": "Guide Caucase MKR",
+    "description": "Guide pratique de 20 pages pour partir s'entrainer au Caucase avec MKR Caucasian Camp.",
+    "about": "Voyage et entrainement combat au Daghestan et en Tchetchenie"
+  },
+  "hero": {
+    "label": "GUIDE GRATUIT",
+    "title": "LE CAUCASE,<br/>SANS DETOUR.",
+    "subtitle": "20 pages pour préparer ton camp Lutte au Daghestan ou MMA en Tchétchénie. Visa, vols, budget, prép, équipement, culture. Tout dedans."
+  },
+  "section_main": {
+    "img_openbook_alt": "Guide Caucase ouvert sur deux pages, couverture et sommaire",
+    "img_cover_alt": "Couverture du Guide Caucase MKR",
+    "loading": "Chargement...",
+    "title": "CE QUE CONTIENT LE GUIDE",
+    "contents": {
+      "visa": {
+        "title": "Visa Russie : on s'en occupe",
+        "desc": "Prise en charge complète A à Z. Tu fournis 3 pièces, MKR gère lettre, formulaire, dépôt, suivi."
+      },
+      "vols": {
+        "title": "Vols et itinéraires",
+        "desc": "Istanbul vers Makhachkala (Lutte) ou Grozny (MMA). Comparatif, fenêtres de prix, vol intérieur inclus."
+      },
+      "inclus": {
+        "title": "Ce qui est inclus",
+        "desc": "Le détail clair de ce que couvre ton package MKR et ce qui reste à ta charge. Pas de zone grise."
+      },
+      "prep": {
+        "title": "Prép physique 6 semaines",
+        "desc": "Cardio, force, endurance spécifique, affûtage. Adapté selon discipline."
+      },
+      "equipement": {
+        "title": "Équipement complet",
+        "desc": "Liste exhaustive : vêtements, protection, hygiène, admin. Pas de superflu."
+      },
+      "culture": {
+        "title": "Culture et immersion",
+        "desc": "Codes à connaître, mots avar et tchétchènes utiles, gastronomie locale."
+      }
+    }
+  },
+  "cinematic": {
+    "alt": "Montagnes du Caucase, vue panoramique",
+    "label": "CAUCASE",
+    "title": "DEUX TERRES DE COMBAT",
+    "tagline": "Le Daghestan a produit plus de champions de lutte que toute autre région du monde. La Tchétchénie redessine la carte du MMA. Tu choisis la tienne."
+  },
+  "personas": {
+    "title": "POUR QUI C'EST",
+    "items": {
+      "solo": {
+        "tag": "SOLO",
+        "title": "Tu pars seul",
+        "desc": "Le guide t'aide à structurer ton voyage de A à Z. Pas de stress logistique, juste l'entraînement."
+      },
+      "famille": {
+        "tag": "FAMILLE",
+        "title": "Tu pars en famille",
+        "desc": "Section dédiée : encadrement enfant 8 à 17 ans, hébergement adapté, sécurité."
+      },
+      "club": {
+        "tag": "CLUB",
+        "title": "Tu pars avec ton club",
+        "desc": "Tarifs dégressifs, organisation collective, brief équipe inclus dans le guide."
+      }
+    }
+  },
+  "sneak_peek": {
+    "title": "UN APERCU DU GUIDE",
+    "items": {
+      "carte": {
+        "alt": "Carte du Caucase, Daghestan et Tchétchénie"
+      },
+      "visa": {
+        "alt": "Page visa du guide"
+      },
+      "budget": {
+        "alt": "Page budget du guide"
+      }
+    }
+  },
+  "testimonials": {
+    "title": "CE QU'ILS EN ONT FAIT",
+    "items": {
+      "karim": {
+        "who": "Karim D., 28 ans, MMA amateur",
+        "quote": "Le guide m'a évité trois erreurs visa. Le calendrier prép m'a remis en forme avant le camp."
+      },
+      "sophie": {
+        "who": "Sophie L., parent + enfant 12 ans",
+        "quote": "On a tout préparé en suivant les checklists. À l'arrivée, zéro mauvaise surprise."
+      }
+    }
+  },
+  "faq": {
+    "title": "QUESTIONS FREQUENTES",
+    "items": {
+      "q1": {
+        "q": "C'est vraiment gratuit ?",
+        "a": "Oui, totalement gratuit. Aucun paiement, pas de version premium cachée."
+      },
+      "q2": {
+        "q": "Je le reçois quand ?",
+        "a": "Instantanément. Le bouton de téléchargement apparaît dès que tu valides ton email."
+      },
+      "q3": {
+        "q": "Quel format ?",
+        "a": "PDF de 20 pages, optimisé impression A4 et lecture mobile."
+      },
+      "q4": {
+        "q": "Disponible en anglais ?",
+        "a": "Pas encore. Version française uniquement pour le moment."
+      }
+    }
+  },
+  "final_cta": {
+    "title": "PRENDS LE GUIDE",
+    "subtitle": "Pas de spam. 1 email max. Désinscription en 1 clic."
+  }
+}

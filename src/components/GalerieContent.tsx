@@ -1,80 +1,82 @@
 'use client'
 
 import { useEffect, useRef, useState, useCallback } from 'react'
+import { useTranslations } from 'next-intl'
 import Icon from './Icon'
 
 const FILTERS = ['Tout', 'Lutte', 'MMA', 'Coachs', 'Culture', 'Montagnes'] as const
 type FilterValue = typeof FILTERS[number]
 
 type Photo = {
+  key: string
   category: Exclude<FilterValue, 'Tout'>
-  alt: string
   img: string
 }
 
 const PHOTOS: Photo[] = [
-  { category: 'Lutte', alt: "Single leg en cercle, lutteurs daghestanais au tapis", img: '/images/ruslan/lutte/singleleg-cercle.webp' },
-  { category: 'Lutte', alt: 'Single leg avec coach russe, prise au sol', img: '/images/ruslan/lutte/singleleg-rus.webp' },
-  { category: 'Lutte', alt: 'Suplex en cercle, démonstration au tapis', img: '/images/ruslan/lutte/suplex-cercle.webp' },
-  { category: 'Lutte', alt: 'Drill de lutte au Daghestan, contrôle au sol', img: '/images/ruslan/lutte/dagestan-drill.webp' },
-  { category: 'Lutte', alt: 'Clinch debout, lutteurs ados', img: '/images/ruslan/lutte/clinch-ados.webp' },
-  { category: 'Lutte', alt: 'Contrôle de tête en clinch debout', img: '/images/ruslan/lutte/clinch-tete.webp' },
-  { category: 'Lutte', alt: 'Drill stand-up, position de garde', img: '/images/ruslan/lutte/drill-standup.webp' },
-  { category: 'Lutte', alt: 'Projection avec un jeune lutteur', img: '/images/ruslan/lutte/projection-kid.webp' },
-  { category: 'Lutte', alt: 'Cardio sprawl, conditionnement au tapis', img: '/images/ruslan/lutte/cardio-sprawl.webp' },
-  { category: 'Lutte', alt: 'Course de cardio, échauffement collectif', img: '/images/ruslan/lutte/cardio-course.webp' },
-  { category: 'Lutte', alt: "Coach mène l'échauffement, alignement de lutteurs", img: '/images/ruslan/lutte/coach-echauffement.webp' },
-  { category: 'Lutte', alt: 'Flexion debout, mobilité hanches', img: '/images/ruslan/lutte/flexion-debout.webp' },
-  { category: 'Lutte', alt: 'Étirements au sol, fin de session', img: '/images/ruslan/lutte/stretch-sol.webp' },
-  { category: 'Lutte', alt: 'Récupération collective au tapis', img: '/images/ruslan/lutte/recup-collective.webp' },
-  { category: 'Lutte', alt: 'Briefing jeunes lutteurs avant la session', img: '/images/ruslan/lutte/kids-briefing.webp' },
-  { category: 'Lutte', alt: 'Salle de lutte daghestanaise, bannière au mur', img: '/images/ruslan/lutte/salle-banniere.webp' },
+  { key: 'lutte_singleleg_cercle', category: 'Lutte', img: '/images/ruslan/lutte/singleleg-cercle.webp' },
+  { key: 'lutte_singleleg_rus', category: 'Lutte', img: '/images/ruslan/lutte/singleleg-rus.webp' },
+  { key: 'lutte_suplex_cercle', category: 'Lutte', img: '/images/ruslan/lutte/suplex-cercle.webp' },
+  { key: 'lutte_dagestan_drill', category: 'Lutte', img: '/images/ruslan/lutte/dagestan-drill.webp' },
+  { key: 'lutte_clinch_ados', category: 'Lutte', img: '/images/ruslan/lutte/clinch-ados.webp' },
+  { key: 'lutte_clinch_tete', category: 'Lutte', img: '/images/ruslan/lutte/clinch-tete.webp' },
+  { key: 'lutte_drill_standup', category: 'Lutte', img: '/images/ruslan/lutte/drill-standup.webp' },
+  { key: 'lutte_projection_kid', category: 'Lutte', img: '/images/ruslan/lutte/projection-kid.webp' },
+  { key: 'lutte_cardio_sprawl', category: 'Lutte', img: '/images/ruslan/lutte/cardio-sprawl.webp' },
+  { key: 'lutte_cardio_course', category: 'Lutte', img: '/images/ruslan/lutte/cardio-course.webp' },
+  { key: 'lutte_coach_echauffement', category: 'Lutte', img: '/images/ruslan/lutte/coach-echauffement.webp' },
+  { key: 'lutte_flexion_debout', category: 'Lutte', img: '/images/ruslan/lutte/flexion-debout.webp' },
+  { key: 'lutte_stretch_sol', category: 'Lutte', img: '/images/ruslan/lutte/stretch-sol.webp' },
+  { key: 'lutte_recup_collective', category: 'Lutte', img: '/images/ruslan/lutte/recup-collective.webp' },
+  { key: 'lutte_kids_briefing', category: 'Lutte', img: '/images/ruslan/lutte/kids-briefing.webp' },
+  { key: 'lutte_salle_banniere', category: 'Lutte', img: '/images/ruslan/lutte/salle-banniere.webp' },
 
-  { category: 'MMA', alt: 'Khamzat Chimaev avec ceinture UFC, club Akhmat Grozny', img: '/images/mma-tchechenie/chimaev-ceinture-ufc.webp' },
-  { category: 'MMA', alt: 'Combattant en cage rouge, gants verts et dorés', img: '/images/mma-tchechenie/portrait-cage-rouge.webp' },
-  { category: 'MMA', alt: 'Portrait dans la cage, gants verts dorés, sweat post-séance', img: '/images/mma-tchechenie/portrait-cage-gants-verts.webp' },
-  { category: 'MMA', alt: 'Sparring face à face, garde en position MMA', img: '/images/mma-tchechenie/sparring-face-a-face.webp' },
-  { category: 'MMA', alt: 'Portrait combattant débardeur Smilodox devant sacs de frappe', img: '/images/mma-tchechenie/portrait-smilodox.webp' },
-  { category: 'MMA', alt: 'Crochet sur pads, combattant veste RCA + coach senior', img: '/images/mma-tchechenie/crochet-rca-coach.webp' },
-  { category: 'MMA', alt: 'Esprit du camp, deux combattants Venum et Akhmat Power', img: '/images/mma-tchechenie/duo-akhmat-power.webp' },
-  { category: 'MMA', alt: 'Bandage des mains avant la session, ambiance vestiaire', img: '/images/mma-tchechenie/bandage-mains-sourire.webp' },
-  { category: 'MMA', alt: "Briefing coach Akhmat Power avec quatre combattants", img: '/images/mma-tchechenie/briefing-coach-4-combattants.webp' },
-  { category: 'MMA', alt: 'Kick haut sur pad, coach barbe blanche', img: '/images/mma-tchechenie/kick-haut-kadyrov.webp' },
-  { category: 'MMA', alt: 'Direct pads avec coach senior', img: '/images/mma-tchechenie/pads-direct-kadyrov.webp' },
-  { category: 'MMA', alt: 'Jab sur pads, ambiance club Akhmat', img: '/images/mma-tchechenie/pads-jab-kadyrov.webp' },
-  { category: 'MMA', alt: 'Pads dans la cage, décor AKHMAT SILA', img: '/images/mma-tchechenie/pads-akhmat-sila.webp' },
-  { category: 'MMA', alt: 'Sparring en cage, combattant turquoise vs coach noir', img: '/images/mma-tchechenie/sparring-cage-turquoise.webp' },
-  { category: 'MMA', alt: 'Sparring en cage, coach noir Akhmat Fight Club', img: '/images/mma-tchechenie/sparring-cage-coach-noir.webp' },
-  { category: 'MMA', alt: 'Groupe de cinq combattants assis dans la cage', img: '/images/mma-tchechenie/team-5-cage.webp' },
-  { category: 'MMA', alt: 'Portrait du coach lunettes en cage', img: '/images/mma-tchechenie/coach-cage-portrait.webp' },
-  { category: 'MMA', alt: 'Low kick en cage rouge', img: '/images/mma-tchechenie/low-kick-cage.webp' },
-  { category: 'MMA', alt: 'Duo post-sparring, ambiance fraternité', img: '/images/mma-tchechenie/duo-post-sparring.webp' },
-  { category: 'MMA', alt: 'Coach Akhmat Power prend soin d\'un combattant blessé à la cheville', img: '/images/mma-tchechenie/coach-care-blesse.webp' },
+  { key: 'mma_chimaev_ceinture', category: 'MMA', img: '/images/mma-tchechenie/chimaev-ceinture-ufc.webp' },
+  { key: 'mma_portrait_cage_rouge', category: 'MMA', img: '/images/mma-tchechenie/portrait-cage-rouge.webp' },
+  { key: 'mma_portrait_cage_gants_verts', category: 'MMA', img: '/images/mma-tchechenie/portrait-cage-gants-verts.webp' },
+  { key: 'mma_sparring_face_a_face', category: 'MMA', img: '/images/mma-tchechenie/sparring-face-a-face.webp' },
+  { key: 'mma_portrait_smilodox', category: 'MMA', img: '/images/mma-tchechenie/portrait-smilodox.webp' },
+  { key: 'mma_crochet_rca_coach', category: 'MMA', img: '/images/mma-tchechenie/crochet-rca-coach.webp' },
+  { key: 'mma_duo_akhmat_power', category: 'MMA', img: '/images/mma-tchechenie/duo-akhmat-power.webp' },
+  { key: 'mma_bandage_mains', category: 'MMA', img: '/images/mma-tchechenie/bandage-mains-sourire.webp' },
+  { key: 'mma_briefing_coach', category: 'MMA', img: '/images/mma-tchechenie/briefing-coach-4-combattants.webp' },
+  { key: 'mma_kick_haut_kadyrov', category: 'MMA', img: '/images/mma-tchechenie/kick-haut-kadyrov.webp' },
+  { key: 'mma_pads_direct_kadyrov', category: 'MMA', img: '/images/mma-tchechenie/pads-direct-kadyrov.webp' },
+  { key: 'mma_pads_jab_kadyrov', category: 'MMA', img: '/images/mma-tchechenie/pads-jab-kadyrov.webp' },
+  { key: 'mma_pads_akhmat_sila', category: 'MMA', img: '/images/mma-tchechenie/pads-akhmat-sila.webp' },
+  { key: 'mma_sparring_cage_turquoise', category: 'MMA', img: '/images/mma-tchechenie/sparring-cage-turquoise.webp' },
+  { key: 'mma_sparring_cage_coach_noir', category: 'MMA', img: '/images/mma-tchechenie/sparring-cage-coach-noir.webp' },
+  { key: 'mma_team_5_cage', category: 'MMA', img: '/images/mma-tchechenie/team-5-cage.webp' },
+  { key: 'mma_coach_cage_portrait', category: 'MMA', img: '/images/mma-tchechenie/coach-cage-portrait.webp' },
+  { key: 'mma_low_kick_cage', category: 'MMA', img: '/images/mma-tchechenie/low-kick-cage.webp' },
+  { key: 'mma_duo_post_sparring', category: 'MMA', img: '/images/mma-tchechenie/duo-post-sparring.webp' },
+  { key: 'mma_coach_care_blesse', category: 'MMA', img: '/images/mma-tchechenie/coach-care-blesse.webp' },
 
-  { category: 'Coachs', alt: 'Ruslan Mukhtarov, fondateur MKR, portrait chemise noire', img: '/images/ruslan/ruslan-portrait-chemise-noire.webp' },
-  { category: 'Coachs', alt: 'Ruslan en équipe de France de lutte, takedown au championnat', img: '/images/ruslan/ruslan-championnat-france-takedown.webp' },
-  { category: 'Coachs', alt: 'Ruslan Mukhtarov face à son adversaire, scoreboard Fédération française', img: '/images/ruslan/ruslan-championnat-france-ffl.webp' },
-  { category: 'Coachs', alt: 'Ruslan en clinch de lutte, portrait noir et blanc', img: '/images/ruslan/ruslan-lutte-clinch-nb.webp' },
-  { category: 'Coachs', alt: 'Deux coachs daghestanais en salle, espalier en bois', img: '/images/ruslan/coaches/coachs-salle-espalier-mkr.webp' },
+  { key: 'coachs_ruslan_chemise_noire', category: 'Coachs', img: '/images/ruslan/ruslan-portrait-chemise-noire.webp' },
+  { key: 'coachs_ruslan_takedown', category: 'Coachs', img: '/images/ruslan/ruslan-championnat-france-takedown.webp' },
+  { key: 'coachs_ruslan_ffl', category: 'Coachs', img: '/images/ruslan/ruslan-championnat-france-ffl.webp' },
+  { key: 'coachs_ruslan_clinch_nb', category: 'Coachs', img: '/images/ruslan/ruslan-lutte-clinch-nb.webp' },
+  { key: 'coachs_salle_espalier', category: 'Coachs', img: '/images/ruslan/coaches/coachs-salle-espalier-mkr.webp' },
 
-  { category: 'Culture', alt: 'Prière collective musulmane sur tapis de lutte, lutteurs alignés', img: '/images/ruslan/heritage/priere-collective-mkr.webp' },
-  { category: 'Culture', alt: 'Combattants réunis sur le tapis avant la session', img: '/images/galerie-real/mma-team-cluster.webp' },
-  { category: 'Culture', alt: 'Antoine Petit-Jean au camp, combattant MMA invité', img: '/images/galerie-real/antoine-petit-jean.webp' },
-  { category: 'Culture', alt: 'Combattants adultes assis sur tapis rouge, équipements ACA, MANTO et Reebok', img: '/images/ruslan/action/mma-adultes-cercle.webp' },
+  { key: 'culture_priere_collective', category: 'Culture', img: '/images/ruslan/heritage/priere-collective-mkr.webp' },
+  { key: 'culture_mma_team_cluster', category: 'Culture', img: '/images/galerie-real/mma-team-cluster.webp' },
+  { key: 'culture_antoine_petit_jean', category: 'Culture', img: '/images/galerie-real/antoine-petit-jean.webp' },
+  { key: 'culture_mma_adultes_cercle', category: 'Culture', img: '/images/ruslan/action/mma-adultes-cercle.webp' },
 
-  { category: 'Montagnes', alt: 'Coucher de soleil sur les montagnes du Caucase, quad au sommet', img: '/images/galerie-real/quad-golden-hour.webp' },
-  { category: 'Montagnes', alt: 'Canyon de Sulak, passerelle sur les falaises', img: '/images/galerie-real/canyon-sulak-overlook.webp' },
-  { category: 'Montagnes', alt: 'Panorama du Daghestan, chaînes du Caucase', img: '/images/environment/dagestan-panorama.webp' },
-  { category: 'Montagnes', alt: 'Village suspendu de Gamsutl, Daghestan', img: '/images/environment/gamsutl-village.webp' },
-  { category: 'Montagnes', alt: 'Lac de montagne dans le Caucase', img: '/images/galerie/mountain-lake.webp' },
-  { category: 'Montagnes', alt: 'Lac Kezenoy-Am, frontière Daghestan Tchétchénie', img: '/images/environment/lake-kezenoy.webp' },
-  { category: 'Montagnes', alt: 'Tours Vaïnakh, architecture traditionnelle tchétchène', img: '/images/environment/vainakh-towers.webp' },
-  { category: 'Montagnes', alt: 'Lever de soleil sur les tours Vaïnakh', img: '/images/galerie/sunrise-towers.webp' },
-  { category: 'Montagnes', alt: 'Panorama du Caucase, chaîne enneigée', img: '/images/galerie/caucasus-panorama.webp' },
-  { category: 'Montagnes', alt: 'Sentier de montagne dans la brume, Caucase', img: '/images/galerie/mountain-mist-trail.webp' },
+  { key: 'montagnes_quad_golden_hour', category: 'Montagnes', img: '/images/galerie-real/quad-golden-hour.webp' },
+  { key: 'montagnes_canyon_sulak', category: 'Montagnes', img: '/images/galerie-real/canyon-sulak-overlook.webp' },
+  { key: 'montagnes_dagestan_panorama', category: 'Montagnes', img: '/images/environment/dagestan-panorama.webp' },
+  { key: 'montagnes_gamsutl_village', category: 'Montagnes', img: '/images/environment/gamsutl-village.webp' },
+  { key: 'montagnes_mountain_lake', category: 'Montagnes', img: '/images/galerie/mountain-lake.webp' },
+  { key: 'montagnes_lake_kezenoy', category: 'Montagnes', img: '/images/environment/lake-kezenoy.webp' },
+  { key: 'montagnes_vainakh_towers', category: 'Montagnes', img: '/images/environment/vainakh-towers.webp' },
+  { key: 'montagnes_sunrise_towers', category: 'Montagnes', img: '/images/galerie/sunrise-towers.webp' },
+  { key: 'montagnes_caucasus_panorama', category: 'Montagnes', img: '/images/galerie/caucasus-panorama.webp' },
+  { key: 'montagnes_mountain_mist_trail', category: 'Montagnes', img: '/images/galerie/mountain-mist-trail.webp' },
 ]
 
 export default function GalerieContent() {
+  const t = useTranslations('galerie')
   const [filter, setFilter] = useState<FilterValue>('Tout')
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
   const gridRef = useRef<HTMLDivElement>(null)
@@ -208,13 +210,14 @@ export default function GalerieContent() {
   }, [lightboxIndex, closeLightbox, navLightbox, filtered])
 
   const current = lightboxIndex !== null ? filtered[lightboxIndex] : null
+  const currentAlt = current ? t(`photos.${current.key}`) : ''
 
   return (
     <>
       <section className="galerie-section fx-grid">
         <div ref={barRef} className="galerie-filters-bar" data-stuck="false">
           <div className="inner">
-            <div className="filter-tabs galerie-filter-tabs" role="tablist" aria-label="Filtrer la galerie">
+            <div className="filter-tabs galerie-filter-tabs" role="tablist" aria-label={t('filters.aria_label')}>
               {FILTERS.map(f => {
                 const count = f === 'Tout' ? PHOTOS.length : PHOTOS.filter(p => p.category === f).length
                 return (
@@ -225,7 +228,7 @@ export default function GalerieContent() {
                     className={`filter-tab${filter === f ? ' is-active' : ''}`}
                     onClick={() => setFilter(f)}
                   >
-                    <span>{f}</span>
+                    <span>{t(`filters.labels.${f}`)}</span>
                     <span className="filter-tab-count" aria-hidden="true">{count}</span>
                   </button>
                 )
@@ -240,18 +243,19 @@ export default function GalerieContent() {
               const portrait = i % 3 === 0
               const w = portrait ? 900 : 1200
               const h = portrait ? 1200 : 900
+              const alt = t(`photos.${photo.key}`)
               return (
                 <button
                   type="button"
                   key={`${photo.img}-${filter}-${i}`}
                   className="photo-card gal-card"
                   onClick={() => openLightbox(i)}
-                  aria-label={`Ouvrir l'image : ${photo.alt}`}
+                  aria-label={t('lightbox.open_image', { alt })}
                   style={{ containIntrinsicSize: `${w}px ${h}px` }}
                 >
                   <img
                     src={photo.img}
-                    alt={photo.alt}
+                    alt={alt}
                     loading={i < 6 ? 'eager' : 'lazy'}
                     decoding="async"
                     fetchPriority={i < 3 ? 'high' : 'low'}
@@ -276,14 +280,14 @@ export default function GalerieContent() {
           className="galerie-lightbox"
           role="dialog"
           aria-modal="true"
-          aria-label="Visionneuse photo"
+          aria-label={t('lightbox.aria_dialog')}
           onClick={closeLightbox}
         >
           <button
             type="button"
             className="galerie-lb-btn galerie-lb-close"
             onClick={closeLightbox}
-            aria-label="Fermer la visionneuse"
+            aria-label={t('lightbox.close')}
           >
             <Icon name="x" size={22} />
           </button>
@@ -292,7 +296,7 @@ export default function GalerieContent() {
             type="button"
             className="galerie-lb-btn galerie-lb-prev"
             onClick={(e) => { e.stopPropagation(); navLightbox(-1) }}
-            aria-label="Image précédente"
+            aria-label={t('lightbox.prev')}
           >
             <Icon name="arrow-left" size={22} />
           </button>
@@ -301,7 +305,7 @@ export default function GalerieContent() {
             type="button"
             className="galerie-lb-btn galerie-lb-next"
             onClick={(e) => { e.stopPropagation(); navLightbox(1) }}
-            aria-label="Image suivante"
+            aria-label={t('lightbox.next')}
           >
             <Icon name="arrow-right" size={22} />
           </button>
@@ -313,15 +317,15 @@ export default function GalerieContent() {
           >
             <img
               src={current.img}
-              alt={current.alt}
+              alt={currentAlt}
               className="galerie-lb-img"
             />
             <figcaption className="galerie-lb-caption">
               <span className="galerie-lb-counter">
                 {lightboxIndex + 1} / {filtered.length}
               </span>
-              <span className="galerie-lb-category">{current.category}</span>
-              <span className="galerie-lb-alt">{current.alt}</span>
+              <span className="galerie-lb-category">{t(`filters.labels.${current.category}`)}</span>
+              <span className="galerie-lb-alt">{currentAlt}</span>
             </figcaption>
           </figure>
         </div>
@@ -331,8 +335,8 @@ export default function GalerieContent() {
       <section className="logi-section logi-alt fx-texture-concrete fx-mask-a fx-stack-2">
         <div className="inner">
           <div className="logi-header reveal">
-            <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>VIDÉOS</span>
-            <h2>EN MOUVEMENT</h2>
+            <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>{t('videos.label')}</span>
+            <h2>{t('videos.title')}</h2>
           </div>
           <div className="grid-2">
             {[1, 2].map(i => (

@@ -1,3 +1,4 @@
+import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { buildMetadata } from '@/lib/seo'
 import { Suspense } from 'react'
 import PageHero from '@/components/PageHero'
@@ -5,62 +6,55 @@ import GuideForm from '@/components/GuideForm'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 import CinematicReveal from '@/components/CinematicReveal'
 
-export const metadata = buildMetadata({
-  title: 'Guide PDF gratuit Caucase : Lutte et MMA | MKR',
-  description: "Guide complet de 20 pages pour partir t'entrainer au Caucase. Visa, vols, budget, preparation, equipement, culture. Telechargement instantane, gratuit.",
-  path: '/guide-caucase',
-})
-const GUIDE_CONTENTS = [
-  { title: 'Visa Russie : on s’en occupe', desc: 'Prise en charge complète A à Z. Tu fournis 3 pièces, MKR gère lettre, formulaire, dépôt, suivi.' },
-  { title: 'Vols et itinéraires', desc: 'Istanbul vers Makhachkala (Lutte) ou Grozny (MMA). Comparatif, fenêtres de prix, vol intérieur inclus.' },
-  { title: 'Ce qui est inclus', desc: 'Le détail clair de ce que couvre ton package MKR et ce qui reste à ta charge. Pas de zone grise.' },
-  { title: 'Prép physique 6 semaines', desc: 'Cardio, force, endurance spécifique, affûtage. Adapté selon discipline.' },
-  { title: 'Équipement complet', desc: 'Liste exhaustive : vêtements, protection, hygiène, admin. Pas de superflu.' },
-  { title: 'Culture et immersion', desc: 'Codes à connaître, mots avar et tchétchènes utiles, gastronomie locale.' },
-]
-
-const PERSONAS = [
-  { tag: 'SOLO', title: 'Tu pars seul', desc: 'Le guide t’aide à structurer ton voyage de A à Z. Pas de stress logistique, juste l’entraînement.' },
-  { tag: 'FAMILLE', title: 'Tu pars en famille', desc: 'Section dédiée : encadrement enfant 8 à 17 ans, hébergement adapté, sécurité.' },
-  { tag: 'CLUB', title: 'Tu pars avec ton club', desc: 'Tarifs dégressifs, organisation collective, brief équipe inclus dans le guide.' },
-]
-
-const FAQ_QUICK = [
-  { q: 'C’est vraiment gratuit ?', a: 'Oui, totalement gratuit. Aucun paiement, pas de version premium cachée.' },
-  { q: 'Je le reçois quand ?', a: 'Instantanément. Le bouton de téléchargement apparaît dès que tu valides ton email.' },
-  { q: 'Quel format ?', a: 'PDF de 20 pages, optimisé impression A4 et lecture mobile.' },
-  { q: 'Disponible en anglais ?', a: 'Pas encore. Version française uniquement pour le moment.' },
-]
-
-const TESTIMONIAL_QUICK = [
-  { who: 'Karim D., 28 ans, MMA amateur', quote: 'Le guide m’a évité trois erreurs visa. Le calendrier prép m’a remis en forme avant le camp.' },
-  { who: 'Sophie L., parent + enfant 12 ans', quote: 'On a tout préparé en suivant les checklists. À l’arrivée, zéro mauvaise surprise.' },
-]
-
-const digitalDocumentJsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'DigitalDocument',
-  name: 'Guide Caucase MKR',
-  description: 'Guide pratique de 20 pages pour partir s’entrainer au Caucase avec MKR Caucasian Camp.',
-  about: 'Voyage et entrainement combat au Daghestan et en Tchetchenie',
-  inLanguage: 'fr',
-  isAccessibleForFree: true,
-  publisher: { '@type': 'Organization', name: 'MKR Caucasian Camp', url: 'https://mkrcamp.com' },
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
+  const t = await getTranslations({ locale, namespace: 'guide-caucase' })
+  return buildMetadata({
+    title: t('meta.title'),
+    description: t('meta.description'),
+    path: '/guide-caucase',
+  })
 }
 
-export default function GuideCaucasePage() {
+const CONTENT_KEYS = ['visa', 'vols', 'inclus', 'prep', 'equipement', 'culture'] as const
+const PERSONA_KEYS = ['solo', 'famille', 'club'] as const
+const PEEK_KEYS = ['carte', 'visa', 'budget'] as const
+const PEEK_SRCS: Record<(typeof PEEK_KEYS)[number], string> = {
+  carte: '/images/guide-caucase/guide-page-carte-caucase.webp',
+  visa: '/images/guide-caucase/guide-page-visa.webp',
+  budget: '/images/guide-caucase/guide-page-budget.webp',
+}
+const TESTI_KEYS = ['karim', 'sophie'] as const
+const FAQ_KEYS = ['q1', 'q2', 'q3', 'q4'] as const
+
+export default async function GuideCaucasePage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
+  setRequestLocale(locale)
+  const t = await getTranslations('guide-caucase')
+
+  const digitalDocumentJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'DigitalDocument',
+    name: t('jsonld.name'),
+    description: t('jsonld.description'),
+    about: t('jsonld.about'),
+    inLanguage: locale,
+    isAccessibleForFree: true,
+    publisher: { '@type': 'Organization', name: 'MKR Caucasian Camp', url: 'https://mkrcamp.com' },
+  }
+
   return (
     <>
       <BreadcrumbJsonLd items={[
-        { name: 'Accueil', url: 'https://mkrcamp.com/' },
-        { name: 'Guide Caucase', url: 'https://mkrcamp.com/guide-caucase' },
+        { name: t('breadcrumb.home'), url: 'https://mkrcamp.com/' },
+        { name: t('breadcrumb.current'), url: 'https://mkrcamp.com/guide-caucase' },
       ]} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(digitalDocumentJsonLd) }} />
 
       <PageHero
-        label="GUIDE GRATUIT"
-        title="LE CAUCASE,<br/>SANS DETOUR."
-        subtitle="20 pages pour préparer ton camp Lutte au Daghestan ou MMA en Tchétchénie. Visa, vols, budget, prép, équipement, culture. Tout dedans."
+        label={t('hero.label')}
+        title={t('hero.title')}
+        subtitle={t('hero.subtitle')}
         compact
       />
 
@@ -72,7 +66,7 @@ export default function GuideCaucasePage() {
               <figure className="photo-card" style={{ marginBottom: '1.5rem' }}>
                 <img
                   src="/images/guide-caucase/guide-caucase-mockup-openbook.webp"
-                  alt="Guide Caucase ouvert sur deux pages, couverture et sommaire"
+                  alt={t('section_main.img_openbook_alt')}
                   width={800}
                   height={600}
                   loading="eager"
@@ -82,13 +76,13 @@ export default function GuideCaucasePage() {
                 />
               </figure>
               <h2 style={{ fontSize: 'clamp(1.3rem, 3vw, 1.8rem)', textTransform: 'uppercase', marginBottom: '1.5rem' }}>
-                CE QUE CONTIENT LE GUIDE
+                {t('section_main.title')}
               </h2>
               <div className="grid-3x2">
-                {GUIDE_CONTENTS.map((item, i) => (
-                  <div key={i} className="content-card fx-grain fx-corner-glow">
-                    <h3 className="card-title" style={{ fontSize: '0.9rem' }}>{item.title}</h3>
-                    <p className="card-body" style={{ fontSize: '0.82rem' }}>{item.desc}</p>
+                {CONTENT_KEYS.map((key) => (
+                  <div key={key} className="content-card fx-grain fx-corner-glow">
+                    <h3 className="card-title" style={{ fontSize: '0.9rem' }}>{t(`section_main.contents.${key}.title`)}</h3>
+                    <p className="card-body" style={{ fontSize: '0.82rem' }}>{t(`section_main.contents.${key}.desc`)}</p>
                   </div>
                 ))}
               </div>
@@ -98,7 +92,7 @@ export default function GuideCaucasePage() {
               <figure className="photo-card" style={{ marginBottom: '1.5rem' }}>
                 <img
                   src="/images/guide-caucase/guide-caucase-cover.webp"
-                  alt="Couverture du Guide Caucase MKR"
+                  alt={t('section_main.img_cover_alt')}
                   width={400}
                   height={600}
                   loading="eager"
@@ -106,7 +100,7 @@ export default function GuideCaucasePage() {
                   style={{ maxWidth: '280px', margin: '0 auto', display: 'block' }}
                 />
               </figure>
-              <Suspense fallback={<div className="guide-form-card"><p>Chargement…</p></div>}>
+              <Suspense fallback={<div className="guide-form-card"><p>{t('section_main.loading')}</p></div>}>
                 <GuideForm />
               </Suspense>
             </div>
@@ -116,21 +110,21 @@ export default function GuideCaucasePage() {
 
       <CinematicReveal
         image="/images/environment/dagestan-panorama.webp"
-        alt="Montagnes du Caucase, vue panoramique"
-        label="CAUCASE"
-        title="DEUX TERRES DE COMBAT"
-        tagline="Le Daghestan a produit plus de champions de lutte que toute autre région du monde. La Tchétchénie redessine la carte du MMA. Tu choisis la tienne."
+        alt={t('cinematic.alt')}
+        label={t('cinematic.label')}
+        title={t('cinematic.title')}
+        tagline={t('cinematic.tagline')}
       />
 
       <section className="guide-section fx-grid fx-stack-1">
         <div className="inner">
-          <h2 className="section-heading reveal">POUR QUI C&apos;EST</h2>
+          <h2 className="section-heading reveal">{t('personas.title')}</h2>
           <div className="grid-3" style={{ marginTop: '2rem' }}>
-            {PERSONAS.map((p, i) => (
-              <div key={i} className="content-card fx-grain reveal">
-                <span className="label-tag" style={{ color: 'var(--primary)' }}>{p.tag}</span>
-                <h3 className="card-title" style={{ marginTop: '0.5rem' }}>{p.title}</h3>
-                <p className="card-body">{p.desc}</p>
+            {PERSONA_KEYS.map((key) => (
+              <div key={key} className="content-card fx-grain reveal">
+                <span className="label-tag" style={{ color: 'var(--primary)' }}>{t(`personas.items.${key}.tag`)}</span>
+                <h3 className="card-title" style={{ marginTop: '0.5rem' }}>{t(`personas.items.${key}.title`)}</h3>
+                <p className="card-body">{t(`personas.items.${key}.desc`)}</p>
               </div>
             ))}
           </div>
@@ -139,15 +133,11 @@ export default function GuideCaucasePage() {
 
       <section className="guide-section fx-grid fx-stack-1">
         <div className="inner">
-          <h2 className="section-heading reveal">UN APERCU DU GUIDE</h2>
+          <h2 className="section-heading reveal">{t('sneak_peek.title')}</h2>
           <div className="grid-3" style={{ marginTop: '2rem' }}>
-            {[
-              { src: '/images/guide-caucase/guide-page-carte-caucase.webp', alt: 'Carte du Caucase, Daghestan et Tchétchénie' },
-              { src: '/images/guide-caucase/guide-page-visa.webp', alt: 'Page visa du guide' },
-              { src: '/images/guide-caucase/guide-page-budget.webp', alt: 'Page budget du guide' },
-            ].map((img, i) => (
-              <figure key={i} className="photo-card reveal" style={{ aspectRatio: '2/3' }}>
-                <img src={img.src} alt={img.alt} loading="lazy" className="section-photo-img" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            {PEEK_KEYS.map((key) => (
+              <figure key={key} className="photo-card reveal" style={{ aspectRatio: '2/3' }}>
+                <img src={PEEK_SRCS[key]} alt={t(`sneak_peek.items.${key}.alt`)} loading="lazy" className="section-photo-img" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </figure>
             ))}
           </div>
@@ -156,12 +146,12 @@ export default function GuideCaucasePage() {
 
       <section className="guide-section fx-grid fx-stack-1">
         <div className="inner">
-          <h2 className="section-heading reveal">CE QU&apos;ILS EN ONT FAIT</h2>
+          <h2 className="section-heading reveal">{t('testimonials.title')}</h2>
           <div className="grid-2" style={{ marginTop: '2rem' }}>
-            {TESTIMONIAL_QUICK.map((t, i) => (
-              <blockquote key={i} className="content-card reveal" style={{ fontStyle: 'italic' }}>
-                <p style={{ fontSize: '1rem', lineHeight: 1.5 }}>« {t.quote} »</p>
-                <footer style={{ marginTop: '1rem', fontStyle: 'normal' }} className="label-tag">{t.who}</footer>
+            {TESTI_KEYS.map((key) => (
+              <blockquote key={key} className="content-card reveal" style={{ fontStyle: 'italic' }}>
+                <p style={{ fontSize: '1rem', lineHeight: 1.5 }}>« {t(`testimonials.items.${key}.quote`)} »</p>
+                <footer style={{ marginTop: '1rem', fontStyle: 'normal' }} className="label-tag">{t(`testimonials.items.${key}.who`)}</footer>
               </blockquote>
             ))}
           </div>
@@ -170,12 +160,12 @@ export default function GuideCaucasePage() {
 
       <section className="guide-section fx-grid fx-stack-1">
         <div className="inner">
-          <h2 className="section-heading reveal">QUESTIONS FREQUENTES</h2>
+          <h2 className="section-heading reveal">{t('faq.title')}</h2>
           <div className="grid-2" style={{ marginTop: '2rem' }}>
-            {FAQ_QUICK.map((f, i) => (
-              <div key={i} className="content-card reveal">
-                <h3 className="card-title">{f.q}</h3>
-                <p className="card-body">{f.a}</p>
+            {FAQ_KEYS.map((key) => (
+              <div key={key} className="content-card reveal">
+                <h3 className="card-title">{t(`faq.items.${key}.q`)}</h3>
+                <p className="card-body">{t(`faq.items.${key}.a`)}</p>
               </div>
             ))}
           </div>
@@ -185,11 +175,11 @@ export default function GuideCaucasePage() {
       <section className="guide-section fx-grid fx-glow fx-stack-1">
         <div className="fx-glow-orb fx-glow-orb--left" />
         <div className="inner" style={{ maxWidth: '480px' }}>
-          <h2 className="section-heading reveal" style={{ textAlign: 'center' }}>PRENDS LE GUIDE</h2>
+          <h2 className="section-heading reveal" style={{ textAlign: 'center' }}>{t('final_cta.title')}</h2>
           <p style={{ textAlign: 'center', color: 'var(--text-muted)', marginBottom: '1.5rem' }} className="reveal">
-            Pas de spam. 1 email max. Désinscription en 1 clic.
+            {t('final_cta.subtitle')}
           </p>
-          <Suspense fallback={<div className="guide-form-card"><p>Chargement…</p></div>}>
+          <Suspense fallback={<div className="guide-form-card"><p>{t('section_main.loading')}</p></div>}>
             <GuideForm />
           </Suspense>
         </div>

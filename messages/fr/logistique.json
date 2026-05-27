@@ -1,0 +1,171 @@
+{
+  "meta": {
+    "title": "Logistique Camp Caucase : Visa, Vols, Budget | MKR",
+    "description": "Visa russe et vol intérieur Istanbul-Caucase inclus dans le package MKR. Vol international jusqu'à Istanbul à organiser. Budget complet, assurance, transferts."
+  },
+  "breadcrumb": {
+    "home": "Accueil",
+    "current": "Logistique"
+  },
+  "hero": {
+    "label": "LOGISTIQUE",
+    "title": "TOUT CE QUE TU DOIS<br/>SAVOIR AVANT DE PARTIR",
+    "subtitle": "Visa russe et vol intérieur inclus. Vol international jusqu'à Istanbul à organiser librement. MKR pilote ton dossier pour le camp Lutte (Daghestan, aéroport Makhachkala) ou MMA (Tchétchénie, aéroport Grozny)."
+  },
+  "budget": {
+    "label": "BUDGET",
+    "title": "BUDGET TOTAL ESTIMÉ",
+    "table_head_post": "Poste",
+    "table_head_estimate": "Estimation",
+    "rows": {
+      "package_adult": "Package MKR par adulte (selon taille de groupe et durée)",
+      "family_pack": "Forfait Famille (1 parent + 1 enfant)",
+      "flight_intl": "Vol international A/R jusqu'à Istanbul (à ta charge)",
+      "flight_intl_value": "400 - 700 EUR",
+      "insurance": "Assurance voyage (obligatoire)",
+      "insurance_value": "80 - 150 EUR",
+      "equipment": "Équipement personnel",
+      "equipment_value": "100 - 200 EUR",
+      "personal": "Dépenses personnelles sur place",
+      "personal_value": "50 - 150 EUR",
+      "express": "Supplément express MKR (candidature < 30 jours du départ)",
+      "express_value": "sur devis"
+    },
+    "footnote": "Visa russe (frais et dossier), vol intérieur Istanbul-Caucase et transferts inclus dans le package MKR. Estimations basées sur un départ depuis l'Europe francophone. Prix sujets à variation.",
+    "included_card": {
+      "title": "CE QUI EST INCLUS",
+      "items": [
+        "Visa russe (frais et dossier complet)",
+        "Vol intérieur Istanbul-Caucase (Makhachkala ou Grozny)",
+        "Transferts aéroport-camp et sur place",
+        "Hébergement de camp",
+        "2 repas par jour",
+        "2 sessions d'entraînement par jour",
+        "Excursions culturelles (en option)",
+        "Suivi préparatoire à distance"
+      ]
+    }
+  },
+  "visa": {
+    "label": "VISA",
+    "title": "FORMALITÉS D'ENTRÉE",
+    "steps": {
+      "step1": {
+        "num": "01",
+        "title": "Vérifier ton passeport",
+        "desc": "Passeport valide au moins 6 mois après la date de retour. C'est le seul document que tu fournis pour le visa : tout le reste est piloté par MKR."
+      },
+      "step2": {
+        "num": "02",
+        "title": "Visa russe pris en charge",
+        "desc": "Frais consulaires inclus dans le package. Que tu partes au Daghestan (Lutte) ou en Tchétchénie (MMA), MKR fournit le questionnaire UE, la lettre d'invitation officielle et accompagne ton dossier de bout en bout. Compte 3 à 4 semaines de traitement."
+      },
+      "step3": {
+        "num": "03",
+        "title": "Lettre d'invitation MKR",
+        "desc": "MKR transmet la lettre d'invitation officielle dès la confirmation de ta candidature. C'est le document central du dossier visa."
+      },
+      "step4": {
+        "num": "04",
+        "title": "Documents à emporter",
+        "desc": "Passeport, visa russe, confirmation de réservation MKR, attestation d'assurance, billet aller-retour international que tu as réservé jusqu'à Istanbul. MKR édite le vol intérieur Istanbul-Caucase."
+      }
+    },
+    "updated": "Mis à jour : avril 2026"
+  },
+  "vols": {
+    "label": "VOLS",
+    "title": "COMMENT S'Y RENDRE",
+    "intro_prefix": "Toutes les routes passent par Istanbul. ",
+    "intro_strong": "Le vol intérieur Istanbul-Makhachkala (MCX) pour la Lutte au Daghestan ou Istanbul-Grozny (GRV) pour le MMA en Tchétchénie est inclus dans le package MKR.",
+    "intro_suffix": " Le vol international jusqu'à Istanbul reste à ton organisation : tu choisis ta compagnie, ton aéroport de départ et ta classe selon ton budget.",
+    "label_connections": "Connexions",
+    "label_price": "Prix moyen A/R",
+    "label_duration": "Durée",
+    "cards": {
+      "paris": {
+        "city": "Paris CDG",
+        "connections": "Vers Istanbul puis vol intérieur MKR vers Makhachkala (MCX, Daghestan) ou Grozny (GRV, Tchétchénie). Turkish Airlines, Air France ou Pegasus.",
+        "price": "450 - 700 EUR",
+        "duration": "~7-9h avec escale"
+      },
+      "geneve": {
+        "city": "Genève / Zurich",
+        "connections": "Vers Istanbul puis vol intérieur MKR vers Makhachkala (MCX) ou Grozny (GRV). Turkish Airlines, Pegasus ou Swiss.",
+        "price": "500 - 750 EUR",
+        "duration": "~8-10h avec escale"
+      },
+      "bruxelles": {
+        "city": "Bruxelles",
+        "connections": "Vers Istanbul puis vol intérieur MKR vers Makhachkala (MCX) ou Grozny (GRV). Turkish Airlines, Brussels Airlines ou Pegasus.",
+        "price": "480 - 720 EUR",
+        "duration": "~8-10h avec escale"
+      }
+    },
+    "footnote_prefix": "Pour réserver, vise un vol arrivant à Istanbul (IST ou SAW) au moins 4 heures avant ton vol intérieur. MKR confirme l'horaire du vol intérieur dès la validation de ta candidature. ",
+    "footnote_strong": "Inscription à moins de 30 jours du départ",
+    "footnote_suffix": " : un supplément MKR s'applique pour le traitement express du dossier (visa, logistique, billet intérieur)."
+  },
+  "assurance": {
+    "label": "OBLIGATOIRE",
+    "title": "ASSURANCE VOYAGE",
+    "intro": "L'assurance voyage est obligatoire pour participer au camp. Elle doit couvrir :",
+    "items": [
+      "Rapatriement médical",
+      "Pratique de sports de contact (MMA, lutte)",
+      "Frais médicaux à l'étranger",
+      "Responsabilité civile"
+    ],
+    "providers": "Prestataires recommandés : Chapka Direct, ACS, World Nomads, Allianz Travel."
+  },
+  "transferts": {
+    "label": "SUR PLACE",
+    "title": "TRANSFERTS",
+    "body": "Le transfert depuis l'aéroport est inclus dans le package. Un véhicule MKR t'attend à ton arrivée. Trajet aéroport - camp d'environ 1h30 depuis Makhachkala (Daghestan, camp Lutte) ou environ 30 minutes depuis Grozny (Tchétchénie, camp MMA). Tous les déplacements pendant le camp sont pris en charge.",
+    "photo_alt": "Route de montagne vers le camp au Caucase",
+    "photo_caption": "La route vers le camp. Le voyage fait partie de l'expérience.",
+    "infos_card": {
+      "title": "INFOS PRATIQUES",
+      "items": [
+        "Aéroport Lutte (Daghestan) : Makhachkala (MCX)",
+        "Aéroport MMA (Tchétchénie) : Grozny (GRV)",
+        "Accueil à l'aéroport par l'équipe MKR",
+        "Véhicule privé camp et salle"
+      ]
+    }
+  },
+  "infos_pratiques": {
+    "label": "BON À SAVOIR",
+    "title": "INFOS PRATIQUES",
+    "items": {
+      "decalage": {
+        "title": "Décalage horaire",
+        "desc": "GMT+3 (heure de Moscou). +2h par rapport à Paris."
+      },
+      "monnaie": {
+        "title": "Monnaie",
+        "desc": "Rouble russe (RUB). 1 EUR ≈ 100 RUB. Espèces recommandées, CB internationales souvent inutilisables."
+      },
+      "internet": {
+        "title": "Internet",
+        "desc": "Wi-Fi au logement. Carte SIM locale Russie recommandée (~5 EUR)."
+      },
+      "climat": {
+        "title": "Climat",
+        "desc": "Continental. Printemps 12-20°C, été 25-35°C, automne 10-18°C."
+      },
+      "langue": {
+        "title": "Langue",
+        "desc": "Russe principal. Avar au Daghestan, tchétchène/vaïnakh en Tchétchénie selon la salle. Interprète MKR francophone sur place."
+      },
+      "alimentation": {
+        "title": "Alimentation",
+        "desc": "Cuisine caucasienne : riche en protéines, viande, légumes, pain. Régime adapté aux athlètes."
+      }
+    }
+  },
+  "section_cta": {
+    "primary_label": "DES QUESTIONS ?",
+    "ghost_label": "TÉLÉCHARGER LE GUIDE PDF"
+  }
+}

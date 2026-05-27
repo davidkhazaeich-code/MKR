@@ -1,0 +1,99 @@
+{
+  "meta": {
+    "title": "Comment ça marche : 6 étapes pour rejoindre le camp | MKR",
+    "description": "De l'inscription au premier tapis : découvre les 6 étapes pour rejoindre le camp MKR au Daghestan. Processus clair, transparent, sans surprise."
+  },
+  "breadcrumb": {
+    "home": "Accueil",
+    "current": "Comment ça marche"
+  },
+  "hero": {
+    "label": "LE PROCESSUS",
+    "title": "DE L'INSCRIPTION<br/>AU PREMIER TAPIS",
+    "subtitle": "Processus clair, transparent, sans surprise. 6 étapes simples."
+  },
+  "steps": {
+    "items": {
+      "step1": {
+        "num": "01",
+        "title": "INSCRIPTION EN LIGNE",
+        "desc": "Remplis le formulaire de candidature en 5 minutes. On te demande ton parcours sportif, tes objectifs et ta condition physique.",
+        "detail": "5 minutes"
+      },
+      "step2": {
+        "num": "02",
+        "title": "APPEL DE VALIDATION",
+        "desc": "Un membre de l'équipe te contacte sous 48h pour un entretien de 15 à 20 minutes. On évalue ta motivation, ton niveau et on répond à toutes tes questions.",
+        "detail": "Sous 48h"
+      },
+      "step3": {
+        "num": "03",
+        "title": "PAIEMENT POST-VISIO",
+        "desc": "Une fois ta candidature validée à l'issue de la visio, tu reçois le RIB MKR pour régler le package en une seule fois (virement ou espèces). Aucun paiement n'est demandé avant l'entretien.",
+        "detail": "Après validation"
+      },
+      "step4": {
+        "num": "04",
+        "title": "GUIDE DE PRÉPARATION",
+        "desc": "Tu reçois un guide complet : programme de préparation physique sur 6 semaines, liste d'équipement, informations logistiques, conseils pratiques.",
+        "detail": "Envoyé après confirmation"
+      },
+      "step5": {
+        "num": "05",
+        "title": "DÉPART",
+        "desc": "Tu prends ton vol jusqu'à Istanbul (à organiser librement). MKR a réservé ton vol intérieur Istanbul vers Caucase et un véhicule t'attend à l'aéroport. Tu n'as plus qu'à embarquer.",
+        "detail": "Vol intérieur et transfert inclus"
+      },
+      "step6": {
+        "num": "06",
+        "title": "LE CAMP",
+        "desc": "1 à 3 semaines d'entraînement intensif. 2 sessions par jour. Coachs locaux. Hébergement, repas, excursions en option. Tu te concentres sur une seule chose : progresser.",
+        "detail": "1 à 3 semaines"
+      }
+    }
+  },
+  "annulation": {
+    "label": "ANNULATION",
+    "title": "POLITIQUE D'ANNULATION"
+  },
+  "paiement": {
+    "label": "PAIEMENT",
+    "title": "MOYENS DE PAIEMENT",
+    "items": {
+      "virement": {
+        "title": "Virement bancaire",
+        "desc": "IBAN communiqué après validation de ta candidature en visio. Pas de frais supplémentaires."
+      },
+      "especes": {
+        "title": "Espèces",
+        "desc": "Possible sur place ou en main propre. À convenir directement avec Ruslan lors de l'entretien visio."
+      },
+      "autre": {
+        "title": "Autre modalité",
+        "desc": "Toute demande spécifique est étudiée au cas par cas. Parle-en lors de la visio de validation."
+      }
+    }
+  },
+  "process_faq": {
+    "label": "QUESTIONS",
+    "title": "QUESTIONS SUR LE PROCESSUS",
+    "items": {
+      "q1": {
+        "question": "Que se passe-t-il si ma candidature est refusée ?",
+        "answer": "On t'explique les raisons et on te donne des pistes pour te préparer à une prochaine session. Le refus est souvent lié au niveau sportif : on te recommande un programme de préparation. Pour les autres questions (durée du processus, paiement, report), consulte la FAQ Inscription."
+      },
+      "q2": {
+        "question": "Et si je m'inscris à moins de 30 jours du départ ?",
+        "answer": "C'est possible quand il reste de la place, mais un supplément MKR de traitement express s'applique. Il couvre la procédure visa accélérée, la sécurisation du vol intérieur Istanbul-Caucase en haute-saison et la coordination logistique en délai contraint. Le montant est communiqué lors de la visio de validation, en sus du tarif du package. MKR se réserve le droit de refuser une candidature à moins de 30 jours si les délais administratifs (visa russe, vol intérieur) ne peuvent être tenus dans des conditions raisonnables."
+      },
+      "q3": {
+        "question": "MKR organise mon vol jusqu'à Istanbul ?",
+        "answer": "Non, le vol international jusqu'à Istanbul reste à ton organisation : tu choisis ta compagnie, ton aéroport de départ et ta classe selon ton budget. Ton vol doit arriver à Istanbul (IST ou SAW) au moins 4 heures avant ton vol intérieur MKR. MKR confirme l'horaire du vol intérieur Istanbul vers Makhachkala (Lutte au Daghestan) ou Istanbul vers Grozny (MMA en Tchétchénie) dès la validation de ta candidature, et te transmet le billet correspondant."
+      }
+    }
+  },
+  "section_cta": {
+    "primary_label": "COMMENCER L'INSCRIPTION",
+    "ghost_label": "DES QUESTIONS ?"
+  }
+}

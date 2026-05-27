@@ -1,0 +1,121 @@
+{
+  "meta": {
+    "title": "Préparer son camp MMA au Daghestan : guide 6 semaines | MKR",
+    "description": "Tout ce qu'il faut savoir pour arriver prêt au camp MKR. Niveau minimum, programme de préparation 6 semaines, équipement, préparation mentale."
+  },
+  "breadcrumb": {
+    "home": "Accueil",
+    "current": "Préparer son camp"
+  },
+  "hero": {
+    "label": "PRÉPARATION",
+    "title": "ARRIVE PRÊT.<br/>REPARS TRANSFORMÉ.",
+    "subtitle": "Le camp commence 6 semaines avant ton départ."
+  },
+  "cinematic": {
+    "alt": "Athlète grimpant à la corde dans une salle du Caucase",
+    "label": "PRÉPARATION",
+    "title": "LE TRAVAIL COMMENCE AVANT LE DÉPART",
+    "tagline": "Conditioning, endurance, mental. Arrive prêt, progresse plus vite."
+  },
+  "niveau": {
+    "label": "PRÉREQUIS",
+    "title": "NIVEAU MINIMUM",
+    "p1_prefix": "Le niveau exigé dépend de la discipline. ",
+    "p1_strong1": "Camp Lutte au Daghestan : ouvert à tous les niveaux",
+    "p1_middle": ", y compris débutants motivés. Tu progresses dans un cadre adapté à ton point de départ. ",
+    "p1_strong2": "Camp MMA en Tchétchénie : niveau Avancé minimum",
+    "p1_suffix": " (plus de 5 ans de pratique régulière) ou Compétiteur, car les sparring partners locaux sont des combattants pros.",
+    "p2": "Dans les deux cas le camp est intense. Si tu arrives sans préparation physique, tu ne tiendras pas la première semaine. On te fournit donc un programme de préparation de 6 semaines.",
+    "checklist": {
+      "title": "CHECKLIST AVANT DÉPART",
+      "items": [
+        "Courir 5 km sans s'arrêter",
+        "Enchaîner 50 squats corps libre",
+        "Tenir 3 min de gainage",
+        "Faire 10 tractions strictes",
+        "Sparring régulier (1 à 2 fois par semaine)",
+        "Certificat médical sport de contact"
+      ]
+    }
+  },
+  "programme": {
+    "label": "PROGRAMME",
+    "title": "PRÉPARATION 6 SEMAINES",
+    "weeks": {
+      "week1": {
+        "week": "Semaine 1",
+        "focus": "Cardio",
+        "desc": "Base aérobique. Course 30 à 45 min, natation, vélo. Test de Cooper initial."
+      },
+      "week2": {
+        "week": "Semaine 2",
+        "focus": "Force",
+        "desc": "Squats, tractions, pompes, deadlifts. Circuits fonctionnels."
+      },
+      "week3": {
+        "week": "Semaine 3",
+        "focus": "Mobilité",
+        "desc": "Yoga, stretching dynamique, travail de hanches et épaules."
+      },
+      "week4": {
+        "week": "Semaine 4",
+        "focus": "Endurance spécifique",
+        "desc": "Sparring simulé, rounds de 5 min, HIIT combat."
+      },
+      "week5": {
+        "week": "Semaine 5",
+        "focus": "Intensité",
+        "desc": "Combinaison force-cardio. Circuits de 45 min. Sparring réel."
+      },
+      "week6": {
+        "week": "Semaine 6",
+        "focus": "Affûtage",
+        "desc": "Volume réduit, intensité maintenue. Repos actif. Préparation mentale."
+      }
+    },
+    "guide_link": "TÉLÉCHARGER LE GUIDE COMPLET"
+  },
+  "equipement": {
+    "label": "ÉQUIPEMENT",
+    "title": "QUOI EMPORTER",
+    "categories": {
+      "vetements": {
+        "title": "Vêtements et Protection",
+        "items": [
+          "Gants de boxe 16 oz",
+          "Protège-tibias",
+          "Protège-dents (moulé)",
+          "Coquille",
+          "Rash guard (x3 minimum)",
+          "Short de combat (x3)",
+          "Chaussures de lutte (optionnel)"
+        ]
+      },
+      "hygiene": {
+        "title": "Hygiène et Admin",
+        "items": [
+          "Passeport (valide 6+ mois)",
+          "Copie confirmation MKR",
+          "Attestation assurance",
+          "Anti-moustique",
+          "Cadenas valise"
+        ]
+      }
+    }
+  },
+  "mental": {
+    "label": "MENTAL",
+    "title": "PRÉPARATION MENTALE",
+    "p1": "La barrière de la langue, le choc culturel, l'inconfort physique : le camp va te pousser hors de ta zone de confort. C'est le but. Les meilleurs combattants du monde s'entraînent dans ces conditions depuis l'enfance.",
+    "p2": "Ne t'attends pas à un hôtel 5 étoiles. Le logement est simple, la nourriture est abondante mais rustique, et les coachs ne vont pas te ménager. Si tu cherches le confort, ce camp n'est pas pour toi. Si tu cherches la progression, tu es au bon endroit.",
+    "quote": "« Un mois de camp qui vaut deux ans de salle. Les Daghestanais t'apprennent à souffrir avec le sourire. »",
+    "quote_attribution": "Yassine K. · Grappling · Bruxelles",
+    "img_recovery_alt": "Athlète en récupération après un entraînement intensif",
+    "img_accommodation_alt": "Hébergement simple et fonctionnel du camp MKR"
+  },
+  "section_cta": {
+    "primary_label": "VOIR LES SESSIONS",
+    "ghost_label": "TÉLÉCHARGER LE GUIDE COMPLET"
+  }
+}

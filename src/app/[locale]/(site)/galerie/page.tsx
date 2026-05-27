@@ -1,25 +1,35 @@
+import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { buildMetadata } from '@/lib/seo'
 import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 import GalerieContent from '@/components/GalerieContent'
 
-export const metadata = buildMetadata({
-  title: 'Galerie photos du camp MMA au Daghestan | MKR Caucasian Camp',
-  description: "Photos et vidéos du camp MKR au Caucase. Entraînements, montagnes, coachs, culture. Découvre le camp en images.",
-  path: '/galerie',
-})
-export default function GaleriePage() {
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
+  const t = await getTranslations({ locale, namespace: 'galerie' })
+  return buildMetadata({
+    title: t('meta.title'),
+    description: t('meta.description'),
+    path: '/galerie',
+  })
+}
+
+export default async function GaleriePage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
+  setRequestLocale(locale)
+  const t = await getTranslations('galerie')
+
   return (
     <>
       <BreadcrumbJsonLd items={[
-        { name: 'Accueil', url: 'https://mkrcamp.com/' },
-        { name: 'Galerie', url: 'https://mkrcamp.com/galerie' },
+        { name: t('breadcrumb.home'), url: 'https://mkrcamp.com/' },
+        { name: t('breadcrumb.current'), url: 'https://mkrcamp.com/galerie' },
       ]} />
 
       <PageHero
-        label="GALERIE"
-        title="LE CAMP EN IMAGES"
+        label={t('hero.label')}
+        title={t('hero.title')}
         compact
       />
 
@@ -27,7 +37,7 @@ export default function GaleriePage() {
 
       <SectionCTA
         primaryHref="/sessions"
-        primaryLabel="VIENS CRÉER TES PROPRES SOUVENIRS"
+        primaryLabel={t('section_cta.primary_label')}
       />
     </>
   )

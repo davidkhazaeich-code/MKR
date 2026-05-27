@@ -1,0 +1,96 @@
+{
+  "meta": {
+    "title": "Galerie photos du camp MMA au Daghestan | MKR Caucasian Camp",
+    "description": "Photos et vidéos du camp MKR au Caucase. Entraînements, montagnes, coachs, culture. Découvre le camp en images."
+  },
+  "breadcrumb": {
+    "home": "Accueil",
+    "current": "Galerie"
+  },
+  "hero": {
+    "label": "GALERIE",
+    "title": "LE CAMP EN IMAGES"
+  },
+  "filters": {
+    "aria_label": "Filtrer la galerie",
+    "labels": {
+      "Tout": "Tout",
+      "Lutte": "Lutte",
+      "MMA": "MMA",
+      "Coachs": "Coachs",
+      "Culture": "Culture",
+      "Montagnes": "Montagnes"
+    }
+  },
+  "lightbox": {
+    "aria_dialog": "Visionneuse photo",
+    "open_image": "Ouvrir l'image : {alt}",
+    "close": "Fermer la visionneuse",
+    "prev": "Image précédente",
+    "next": "Image suivante"
+  },
+  "videos": {
+    "label": "VIDÉOS",
+    "title": "EN MOUVEMENT"
+  },
+  "photos": {
+    "lutte_singleleg_cercle": "Single leg en cercle, lutteurs daghestanais au tapis",
+    "lutte_singleleg_rus": "Single leg avec coach russe, prise au sol",
+    "lutte_suplex_cercle": "Suplex en cercle, démonstration au tapis",
+    "lutte_dagestan_drill": "Drill de lutte au Daghestan, contrôle au sol",
+    "lutte_clinch_ados": "Clinch debout, lutteurs ados",
+    "lutte_clinch_tete": "Contrôle de tête en clinch debout",
+    "lutte_drill_standup": "Drill stand-up, position de garde",
+    "lutte_projection_kid": "Projection avec un jeune lutteur",
+    "lutte_cardio_sprawl": "Cardio sprawl, conditionnement au tapis",
+    "lutte_cardio_course": "Course de cardio, échauffement collectif",
+    "lutte_coach_echauffement": "Coach mène l'échauffement, alignement de lutteurs",
+    "lutte_flexion_debout": "Flexion debout, mobilité hanches",
+    "lutte_stretch_sol": "Étirements au sol, fin de session",
+    "lutte_recup_collective": "Récupération collective au tapis",
+    "lutte_kids_briefing": "Briefing jeunes lutteurs avant la session",
+    "lutte_salle_banniere": "Salle de lutte daghestanaise, bannière au mur",
+    "mma_chimaev_ceinture": "Khamzat Chimaev avec ceinture UFC, club Akhmat Grozny",
+    "mma_portrait_cage_rouge": "Combattant en cage rouge, gants verts et dorés",
+    "mma_portrait_cage_gants_verts": "Portrait dans la cage, gants verts dorés, sweat post-séance",
+    "mma_sparring_face_a_face": "Sparring face à face, garde en position MMA",
+    "mma_portrait_smilodox": "Portrait combattant débardeur Smilodox devant sacs de frappe",
+    "mma_crochet_rca_coach": "Crochet sur pads, combattant veste RCA et coach senior",
+    "mma_duo_akhmat_power": "Esprit du camp, deux combattants Venum et Akhmat Power",
+    "mma_bandage_mains": "Bandage des mains avant la session, ambiance vestiaire",
+    "mma_briefing_coach": "Briefing coach Akhmat Power avec quatre combattants",
+    "mma_kick_haut_kadyrov": "Kick haut sur pad, coach barbe blanche",
+    "mma_pads_direct_kadyrov": "Direct pads avec coach senior",
+    "mma_pads_jab_kadyrov": "Jab sur pads, ambiance club Akhmat",
+    "mma_pads_akhmat_sila": "Pads dans la cage, décor AKHMAT SILA",
+    "mma_sparring_cage_turquoise": "Sparring en cage, combattant turquoise vs coach noir",
+    "mma_sparring_cage_coach_noir": "Sparring en cage, coach noir Akhmat Fight Club",
+    "mma_team_5_cage": "Groupe de cinq combattants assis dans la cage",
+    "mma_coach_cage_portrait": "Portrait du coach lunettes en cage",
+    "mma_low_kick_cage": "Low kick en cage rouge",
+    "mma_duo_post_sparring": "Duo post-sparring, ambiance fraternité",
+    "mma_coach_care_blesse": "Coach Akhmat Power prend soin d'un combattant blessé à la cheville",
+    "coachs_ruslan_chemise_noire": "Ruslan Mukhtarov, fondateur MKR, portrait chemise noire",
+    "coachs_ruslan_takedown": "Ruslan en équipe de France de lutte, takedown au championnat",
+    "coachs_ruslan_ffl": "Ruslan Mukhtarov face à son adversaire, scoreboard Fédération française",
+    "coachs_ruslan_clinch_nb": "Ruslan en clinch de lutte, portrait noir et blanc",
+    "coachs_salle_espalier": "Deux coachs daghestanais en salle, espalier en bois",
+    "culture_priere_collective": "Prière collective musulmane sur tapis de lutte, lutteurs alignés",
+    "culture_mma_team_cluster": "Combattants réunis sur le tapis avant la session",
+    "culture_antoine_petit_jean": "Antoine Petit-Jean au camp, combattant MMA invité",
+    "culture_mma_adultes_cercle": "Combattants adultes assis sur tapis rouge, équipements ACA, MANTO et Reebok",
+    "montagnes_quad_golden_hour": "Coucher de soleil sur les montagnes du Caucase, quad au sommet",
+    "montagnes_canyon_sulak": "Canyon de Sulak, passerelle sur les falaises",
+    "montagnes_dagestan_panorama": "Panorama du Daghestan, chaînes du Caucase",
+    "montagnes_gamsutl_village": "Village suspendu de Gamsutl, Daghestan",
+    "montagnes_mountain_lake": "Lac de montagne dans le Caucase",
+    "montagnes_lake_kezenoy": "Lac Kezenoy-Am, frontière Daghestan Tchétchénie",
+    "montagnes_vainakh_towers": "Tours Vaïnakh, architecture traditionnelle tchétchène",
+    "montagnes_sunrise_towers": "Lever de soleil sur les tours Vaïnakh",
+    "montagnes_caucasus_panorama": "Panorama du Caucase, chaîne enneigée",
+    "montagnes_mountain_mist_trail": "Sentier de montagne dans la brume, Caucase"
+  },
+  "section_cta": {
+    "primary_label": "VIENS CRÉER TES PROPRES SOUVENIRS"
+  }
+}
