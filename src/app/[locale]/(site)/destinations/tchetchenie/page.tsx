@@ -1,4 +1,5 @@
-import Link from 'next/link'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
+import { Link } from '@/i18n/navigation'
 import { buildMetadata } from '@/lib/seo'
 import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
@@ -6,67 +7,75 @@ import DestinationReveal from '@/components/DestinationReveal'
 import DestinationSafetyProtocol from '@/components/DestinationSafetyProtocol'
 import TldrBox from '@/components/TldrBox'
 
-export const metadata = buildMetadata({
-  title: 'Tchétchénie : Camp MMA au Caucase | MKR Caucasian Camp',
-  description: "Tout sur la Tchétchénie : salles MMA de Grozny, sécurité, culture, logistique. La terre qui a vu naître Khamzat Chimaev et la nouvelle génération MMA.",
-  path: '/destinations/tchetchenie',
-})
-export default function TchetcheniePage() {
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
+  const t = await getTranslations({ locale, namespace: 'destinations.tchetchenie' })
+  return buildMetadata({
+    title: t('meta.title'),
+    description: t('meta.description'),
+    path: '/destinations/tchetchenie',
+  })
+}
+
+const EXCURSION_KEYS = ['mosquee', 'vainakh', 'kezenoy'] as const
+
+const EXCURSION_IMAGES: Record<typeof EXCURSION_KEYS[number], string> = {
+  mosquee: '/images/environment/mosque-grozny.webp',
+  vainakh: '/images/environment/vainakh-towers.webp',
+  kezenoy: '/images/environment/lake-kezenoy.webp',
+}
+
+export default async function TchetcheniePage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
+  setRequestLocale(locale)
+  const t = await getTranslations('destinations.tchetchenie')
+
   return (
     <>
       <PageHero
-        label="TCHÉTCHÉNIE"
-        title="LA TERRE QUI FORGE LA NOUVELLE GÉNÉRATION DU MMA"
-        subtitle="Akhmat Fight Club, Khamzat Chimaev, et un écosystème MMA parmi les plus durs au monde."
+        label={t('hero.label')}
+        title={t('hero.title')}
+        subtitle={t('hero.subtitle')}
         breadcrumb={[
-          { href: '/destinations', label: 'Destinations' },
-          { href: '/destinations/tchetchenie', label: 'Tchétchénie' },
+          { href: '/destinations', label: t('breadcrumb.destinations') },
+          { href: '/destinations/tchetchenie', label: t('breadcrumb.current') },
         ]}
       />
 
       <div className="inner">
         <TldrBox
-          title="En bref · Tchétchénie"
-          facts={[
-            "République du Caucase Nord (Fédération de Russie), capitale Grozny, 1,5 million d'habitants.",
-            "Épicentre du MMA moderne : Akhmat Fight Club, héritage Khamzat Chimaev, écuries State et privées.",
-            "Plus de 15 combattants au top mondial MMA, 30+ salles professionnelles dans la région.",
-            "Camp MKR : salles MMA de Grozny, vol intérieur Istanbul-Grozny inclus, transfert 30 min.",
-            "MMA uniquement (niveau Avancé minimum, 5+ ans de pratique) — pour la Lutte, voir le Daghestan.",
-          ]}
+          title={t('tldr.title')}
+          facts={t.raw('tldr.facts') as string[]}
         />
       </div>
 
       <DestinationReveal
         image="/images/environment/mosque-grozny.webp"
-        alt="Mosquée Akhmad Kadyrov et tours de Grozny City au crépuscule, Tchétchénie"
-        label="CAUCASE · RUSSIE"
-        title="LE PAYS<br/>VAÏNAKH"
+        alt={t('reveal.image_alt')}
+        label={t('reveal.label')}
+        title={t('reveal.title')}
         facts={[
-          { label: 'Capitale', value: 'Grozny' },
-          { label: 'Altitude moyenne', value: '600 m' },
-          { label: 'Champions MMA top mondial', value: '15+' },
-          { label: 'Champion UFC top 5', value: '1' },
-          { label: 'Salles MMA professionnelles', value: '30+' },
-          { label: 'Population', value: '1.5 millions' },
+          { label: t('reveal.facts.capitale'), value: t('reveal.facts.capitale_value') },
+          { label: t('reveal.facts.altitude'), value: t('reveal.facts.altitude_value') },
+          { label: t('reveal.facts.champions_mma'), value: t('reveal.facts.champions_mma_value') },
+          { label: t('reveal.facts.ufc'), value: t('reveal.facts.ufc_value') },
+          { label: t('reveal.facts.salles'), value: t('reveal.facts.salles_value') },
+          { label: t('reveal.facts.population'), value: t('reveal.facts.population_value') },
         ]}
-        badges={['TERRE DU MMA MODERNE', 'AKHMAT FIGHT CLUB', 'KHAMZAT CHIMAEV']}
+        badges={t.raw('reveal.badges') as string[]}
       />
 
       {/* Presentation */}
       <section className="logi-section fx-grid fx-stack-1">
         <div className="inner">
           <div className="reveal" style={{ maxWidth: '780px', margin: '0 auto' }}>
-            <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>PRÉSENTATION</span>
-            <h2 style={{ fontSize: 'clamp(1.6rem, 3.2vw, 2.2rem)', textTransform: 'uppercase' }}>LA TCHÉTCHÉNIE</h2>
+            <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>{t('presentation.label')}</span>
+            <h2 style={{ fontSize: 'clamp(1.6rem, 3.2vw, 2.2rem)', textTransform: 'uppercase' }}>{t('presentation.title')}</h2>
             <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1rem' }}>
-              République du Caucase russe à l&apos;ouest du Daghestan, la Tchétchénie est l&apos;épicentre du MMA moderne.
-              En quinze ans, Grozny est devenue un point de passage obligé pour les combattants mondiaux : structures
-              d&apos;État, écuries privées et sparring de très haut niveau.
+              {t('presentation.p1')}
             </p>
             <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1rem' }}>
-              L&apos;Akhmat Fight Club rassemble une concentration unique de combattants pro. C&apos;est dans cet écosystème
-              que MKR ouvre l&apos;accès pour ses camps MMA, avec un encadrement francophone et des partenariats locaux.
+              {t('presentation.p2')}
             </p>
           </div>
         </div>
@@ -77,19 +86,16 @@ export default function TchetcheniePage() {
         narrative={
           <>
             <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6' }}>
-              Pas de formule creuse. La réalité du terrain en 2026 :
-              Grozny est aujourd&apos;hui l&apos;une des villes les plus sûres du Caucase en termes de criminalité urbaine.
-              Police visible, vie nocturne quasi inexistante, hospitalité forte envers les sportifs étrangers.
+              {t('safety.p1')}
             </p>
             <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1rem' }}>
-              Le Quai d&apos;Orsay maintient une vigilance régionale. MKR opère uniquement dans les zones urbaines
-              et les salles partenaires accréditées. Chaque participant reçoit un briefing détaillé.
+              {t('safety.p2')}
             </p>
           </>
         }
         testimonial={{
-          quote: "Le respect pour les combattants est total. Sur le tapis, on ne te fait aucun cadeau.",
-          author: 'Mehdi R. · MMA Pro · Marseille',
+          quote: t('safety.testimonial_quote'),
+          author: t('safety.testimonial_author'),
         }}
       />
 
@@ -97,31 +103,31 @@ export default function TchetcheniePage() {
       <section className="logi-section fx-grid fx-stack-3">
         <div className="inner">
           <div className="logi-header reveal">
-            <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>SALLES</span>
-            <h2>LIEUX D&apos;ENTRAÎNEMENT</h2>
+            <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>{t('salles.label')}</span>
+            <h2>{t('salles.title')}</h2>
           </div>
           <div className="grid-2">
             <figure className="photo-card reveal">
               <img
                 src="/images/mma-tchechenie/portrait-cage-rouge.webp"
-                alt="Combattant MMA dans la cage de la salle Akhmat Fight Club, Grozny, Tchétchénie"
+                alt={t('salles.photo1_alt')}
                 width={800}
                 height={600}
                 loading="lazy"
                 className="section-photo-img"
               />
-              <figcaption>Salle Akhmat Fight Club, Grozny. Cage MMA, tapis rouge, équipement de frappe complet.</figcaption>
+              <figcaption>{t('salles.photo1_caption')}</figcaption>
             </figure>
             <figure className="photo-card reveal" style={{ transitionDelay: '0.1s' }}>
               <img
                 src="/images/mma-tchechenie/sparring-cage-coach-noir.webp"
-                alt="Sparring MMA dans la cage avec un coach Akhmat Fight Club, Grozny"
+                alt={t('salles.photo2_alt')}
                 width={800}
                 height={600}
                 loading="lazy"
                 className="section-photo-img"
               />
-              <figcaption>Sparring quotidien encadré par les combattants de l&apos;écurie Akhmat et leurs coachs.</figcaption>
+              <figcaption>{t('salles.photo2_caption')}</figcaption>
             </figure>
           </div>
         </div>
@@ -132,26 +138,22 @@ export default function TchetcheniePage() {
         <div className="fx-glow-orb fx-glow-orb--right" />
         <div className="inner">
           <div className="logi-header reveal">
-            <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>CULTURE</span>
-            <h2>EXCURSIONS ET DÉCOUVERTE</h2>
+            <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>{t('excursions.label')}</span>
+            <h2>{t('excursions.title')}</h2>
           </div>
           <div className="grid-3">
-            {[
-              { title: 'Mosquée Akhmad Kadyrov', desc: "L'une des plus grandes mosquées d'Europe, au cœur de Grozny. Architecture spectaculaire.", img: '/images/environment/mosque-grozny.webp' },
-              { title: 'Tours vaïnakh d\'Itoum-Kalé', desc: "Tours médiévales de pierre dressées dans les vallées montagneuses. Patrimoine vaïnakh millénaire.", img: '/images/environment/vainakh-towers.webp' },
-              { title: 'Lac Kezenoy-Am', desc: "Plus grand lac de haute altitude du Caucase Nord, à cheval entre Tchétchénie et Daghestan.", img: '/images/environment/lake-kezenoy.webp' },
-            ].map((exc, i) => (
-              <div key={i} className="content-card fx-grain fx-corner-glow reveal" style={{ transitionDelay: `${i * 0.08}s` }}>
+            {EXCURSION_KEYS.map((key, i) => (
+              <div key={key} className="content-card fx-grain fx-corner-glow reveal" style={{ transitionDelay: `${i * 0.08}s` }}>
                 <img
-                  src={exc.img}
-                  alt={exc.title}
+                  src={EXCURSION_IMAGES[key]}
+                  alt={t(`excursions.items.${key}.title`)}
                   width={800}
                   height={600}
                   loading="lazy"
                   className="section-photo-img"
                 />
-                <h3 className="card-title">{exc.title}</h3>
-                <p className="card-body">{exc.desc}</p>
+                <h3 className="card-title">{t(`excursions.items.${key}.title`)}</h3>
+                <p className="card-body">{t(`excursions.items.${key}.desc`)}</p>
               </div>
             ))}
           </div>
@@ -162,10 +164,10 @@ export default function TchetcheniePage() {
       <section className="logi-section fx-grid fx-stack-5">
         <div className="inner">
           <div className="group-card reveal">
-            <h2>LOGISTIQUE TCHÉTCHÉNIE</h2>
-            <p>Aéroport : Grozny (GRV). Vol intérieur depuis Istanbul inclus dans le package. Transfert MKR depuis l&apos;aéroport inclus. Hébergement en logement de camp à Grozny.</p>
+            <h2>{t('logistique.title')}</h2>
+            <p>{t('logistique.body')}</p>
             <Link href="/logistique" className="btn-ghost" style={{ marginTop: '1rem', fontSize: '0.9rem', padding: '0.6rem 1.5rem' }}>
-              DÉTAIL COMPLET
+              {t('logistique.cta')}
             </Link>
           </div>
         </div>
@@ -173,9 +175,9 @@ export default function TchetcheniePage() {
 
       <SectionCTA
         primaryHref="/inscription?type=session"
-        primaryLabel="POSTULER · CAMP MMA TCHÉTCHÉNIE"
+        primaryLabel={t('section_cta.primary_label')}
         ghostHref="/destinations/dagestan"
-        ghostLabel="VOIR LE DAGHESTAN · LUTTE"
+        ghostLabel={t('section_cta.ghost_label')}
       />
     </>
   )

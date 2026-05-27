@@ -1,3 +1,4 @@
+import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { buildMetadata } from '@/lib/seo'
 import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
@@ -11,11 +12,16 @@ import {
   ANTOINE_PARCOURS_VARIANTS,
 } from '@/data/antoine-parcours'
 
-export const metadata = buildMetadata({
-  title: 'Témoignages athlètes | Camp MKR au Caucase',
-  description: "Ils sont venus, ils racontent. Témoignages vidéo et écrits d'athlètes qui ont vécu l'expérience MKR au Caucase (Lutte au Daghestan, MMA en Tchétchénie).",
-  path: '/temoignages',
-})
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
+  const t = await getTranslations({ locale, namespace: 'temoignages' })
+  return buildMetadata({
+    title: t('meta.title'),
+    description: t('meta.description'),
+    path: '/temoignages',
+  })
+}
+
 const VIDEO_ITEMS = TESTIMONIALS
   .filter(t => t.video && t.videoPoster)
   .map(t => ({
@@ -28,9 +34,9 @@ const VIDEO_ITEMS = TESTIMONIALS
 
 const TEXT_TESTIMONIALS = TESTIMONIALS.filter(t => !t.video)
 
-function Stars() {
+function Stars({ ariaLabel }: { ariaLabel: string }) {
   return (
-    <div className="testi-stars" role="img" aria-label="5 étoiles sur 5">
+    <div className="testi-stars" role="img" aria-label={ariaLabel}>
       {[...Array(5)].map((_, i) => (
         <Icon key={i} name="star-fill" size={14} />
       ))}
@@ -38,18 +44,22 @@ function Stars() {
   )
 }
 
-export default function TemoignagesPage() {
+export default async function TemoignagesPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
+  setRequestLocale(locale)
+  const t = await getTranslations('temoignages')
+
   return (
     <>
       <BreadcrumbJsonLd items={[
-        { name: 'Accueil', url: 'https://mkrcamp.com/' },
-        { name: 'Témoignages', url: 'https://mkrcamp.com/temoignages' },
+        { name: t('breadcrumb.home'), url: 'https://mkrcamp.com/' },
+        { name: t('breadcrumb.current'), url: 'https://mkrcamp.com/temoignages' },
       ]} />
 
       <PageHero
-        label="TÉMOIGNAGES"
-        title="ILS SONT VENUS.<br/>ILS RACONTENT."
-        subtitle="Des athlètes de toute l'Europe. Un seul verdict."
+        label={t('hero.label')}
+        title={t('hero.title')}
+        subtitle={t('hero.subtitle')}
       />
 
       {/* Featured : Antoine parcours (montage) */}
@@ -62,8 +72,8 @@ export default function TemoignagesPage() {
       <section className="logi-section fx-grid fx-stack-1">
         <div className="inner">
           <div className="logi-header reveal">
-            <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>AUTRES TÉMOIGNAGES</span>
-            <h2>INTERVIEWS FACE CAMÉRA</h2>
+            <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>{t('video_section.label')}</span>
+            <h2>{t('video_section.title')}</h2>
           </div>
           <VideoTestimonialsGrid items={VIDEO_ITEMS} />
         </div>
@@ -73,28 +83,28 @@ export default function TemoignagesPage() {
       <section className="logi-section logi-alt fx-texture-concrete fx-stack-3">
         <div className="inner">
           <div className="logi-header reveal">
-            <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>ÉCRITS</span>
-            <h2>TÉMOIGNAGES</h2>
+            <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>{t('text_section.label')}</span>
+            <h2>{t('text_section.title')}</h2>
           </div>
           <div className="grid-3">
-            {TEXT_TESTIMONIALS.map((t, i) => (
+            {TEXT_TESTIMONIALS.map((item, i) => (
               <div key={i} className="testi-page-card fx-grain fx-corner-glow reveal" style={{ transitionDelay: `${i * 0.06}s` }}>
                 <div className="testi-page-header">
                   <img
-                    src={t.img}
-                    alt={t.alt}
+                    src={item.img}
+                    alt={item.alt}
                     width={48}
                     height={48}
                     loading="lazy"
                     className="testi-avatar"
                   />
                   <div>
-                    <span className="testi-name">{t.name}</span>
-                    <span className="testi-discipline">{t.discipline}</span>
+                    <span className="testi-name">{item.name}</span>
+                    <span className="testi-discipline">{item.discipline}</span>
                   </div>
                 </div>
-                <Stars />
-                <p className="testi-quote">&laquo; {t.quote} &raquo;</p>
+                <Stars ariaLabel={t('stars_aria')} />
+                <p className="testi-quote">&laquo; {item.quote} &raquo;</p>
               </div>
             ))}
           </div>
@@ -105,24 +115,24 @@ export default function TemoignagesPage() {
       <div className="stats-band fx-glow fx-glow-breathe fx-stack-4">
         <div className="fx-glow-orb" />
         <div className="stat-item">
-          <span className="stat-num">4</span>
-          <span className="stat-label">Sessions par an</span>
+          <span className="stat-num">{t('stats_band.sessions.num')}</span>
+          <span className="stat-label">{t('stats_band.sessions.label')}</span>
         </div>
         <div className="stat-item">
-          <span className="stat-num">2</span>
-          <span className="stat-label">Destinations Caucase</span>
+          <span className="stat-num">{t('stats_band.destinations.num')}</span>
+          <span className="stat-label">{t('stats_band.destinations.label')}</span>
         </div>
         <div className="stat-item">
-          <span className="stat-num">2018</span>
-          <span className="stat-label">Année de fondation</span>
+          <span className="stat-num">{t('stats_band.fondation.num')}</span>
+          <span className="stat-label">{t('stats_band.fondation.label')}</span>
         </div>
       </div>
 
       <SectionCTA
         primaryHref="/inscription"
-        primaryLabel="À TON TOUR"
+        primaryLabel={t('section_cta.primary_label')}
         ghostHref="/sessions"
-        ghostLabel="VOIR LES SESSIONS"
+        ghostLabel={t('section_cta.ghost_label')}
       />
     </>
   )

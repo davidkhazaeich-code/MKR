@@ -1,3 +1,4 @@
+import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { buildMetadata } from '@/lib/seo'
 import PageHero from '@/components/PageHero'
 import FAQTabs from '@/components/FAQTabs'
@@ -5,23 +6,32 @@ import SectionCTA from '@/components/SectionCTA'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 import { getAllFaqItems } from '@/data/faq'
 
-export const metadata = buildMetadata({
-  title: 'FAQ Camp MMA Daghestan | MKR Caucasian Camp',
-  description: "Toutes les réponses à tes questions : sécurité, visa Russie, niveau requis, prix, équipement, inscription. FAQ complète du camp MKR.",
-  path: '/faq',
-})
-const allFaqItems = getAllFaqItems()
-const jsonLdFaq = {
-  '@context': 'https://schema.org',
-  '@type': 'FAQPage',
-  mainEntity: allFaqItems.map(item => ({
-    '@type': 'Question',
-    name: item.question,
-    acceptedAnswer: { '@type': 'Answer', text: item.answer },
-  })),
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
+  const t = await getTranslations({ locale, namespace: 'faq' })
+  return buildMetadata({
+    title: t('meta.title'),
+    description: t('meta.description'),
+    path: '/faq',
+  })
 }
 
-export default function FAQPage() {
+export default async function FAQPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
+  setRequestLocale(locale)
+  const t = await getTranslations('faq')
+
+  const allFaqItems = getAllFaqItems()
+  const jsonLdFaq = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: allFaqItems.map(item => ({
+      '@type': 'Question',
+      name: item.question,
+      acceptedAnswer: { '@type': 'Answer', text: item.answer },
+    })),
+  }
+
   return (
     <>
       <script
@@ -29,21 +39,21 @@ export default function FAQPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdFaq) }}
       />
       <BreadcrumbJsonLd items={[
-        { name: 'Accueil', url: 'https://mkrcamp.com/' },
-        { name: 'FAQ', url: 'https://mkrcamp.com/faq' },
+        { name: t('breadcrumb.home'), url: 'https://mkrcamp.com/' },
+        { name: t('breadcrumb.current'), url: 'https://mkrcamp.com/faq' },
       ]} />
 
       <PageHero
-        label="FAQ"
-        title="QUESTIONS FRÉQUENTES"
-        subtitle="Tout ce que tu dois savoir avant de postuler."
+        label={t('hero.label')}
+        title={t('hero.title')}
+        subtitle={t('hero.subtitle')}
       />
       <FAQTabs />
       <SectionCTA
         primaryHref="/sessions"
-        primaryLabel="VOIR LES SESSIONS"
+        primaryLabel={t('section_cta.primary_label')}
         ghostHref="/contact"
-        ghostLabel="PAS TROUVÉ TA RÉPONSE ?"
+        ghostLabel={t('section_cta.ghost_label')}
       />
     </>
   )

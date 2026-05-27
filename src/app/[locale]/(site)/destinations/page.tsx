@@ -1,57 +1,60 @@
-import Link from 'next/link'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
+import { Link } from '@/i18n/navigation'
 import { buildMetadata } from '@/lib/seo'
 import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 
-export const metadata = buildMetadata({
-  title: 'Destinations Daghestan et Tchétchénie | MKR Caucasian Camp',
-  description: "Deux destinations, deux disciplines : Lutte adultes et enfants au Daghestan, MMA en Tchétchénie. Combo possible uniquement en sur-mesure.",
-  path: '/destinations',
-})
-const DESTINATIONS = [
-  {
-    href: '/destinations/dagestan',
-    region: 'Caucase · Russie · Lutte',
-    name: 'DAGHESTAN',
-    tagline: "Berceau de la lutte libre mondiale. Khabib, Makhachev, des centaines de champions olympiques.",
-    discipline: 'Lutte adultes et Lutte enfants',
-    img: '/images/environment/dagestan-panorama.webp',
-    cta: 'EXPLORER LE DAGHESTAN',
-  },
-  {
-    href: '/destinations/tchetchenie',
-    region: 'Caucase · Russie · MMA',
-    name: 'TCHÉTCHÉNIE',
-    tagline: "Épicentre du MMA moderne. Akhmat Fight Club, Khamzat Chimaev, la nouvelle génération du combat.",
-    discipline: 'MMA adultes',
-    img: '/images/environment/mosque-grozny.webp',
-    cta: 'EXPLORER LA TCHÉTCHÉNIE',
-  },
-]
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
+  const t = await getTranslations({ locale, namespace: 'destinations.root' })
+  return buildMetadata({
+    title: t('meta.title'),
+    description: t('meta.description'),
+    path: '/destinations',
+  })
+}
 
-export default function DestinationsPage() {
+const DEST_KEYS = ['daghestan', 'tchetchenie'] as const
+
+const DEST_HREFS = {
+  daghestan: '/destinations/dagestan',
+  tchetchenie: '/destinations/tchetchenie',
+} as const satisfies Record<typeof DEST_KEYS[number], Parameters<typeof Link>[0]['href']>
+
+const DEST_IMAGES: Record<typeof DEST_KEYS[number], string> = {
+  daghestan: '/images/environment/dagestan-panorama.webp',
+  tchetchenie: '/images/environment/mosque-grozny.webp',
+}
+
+const COMPARATIF_ROW_KEYS = ['discipline', 'capitale', 'aeroport', 'transfert', 'signature', 'ambiance', 'pour_qui'] as const
+
+export default async function DestinationsPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
+  setRequestLocale(locale)
+  const t = await getTranslations('destinations.root')
+
   return (
     <>
       <BreadcrumbJsonLd items={[
-        { name: 'Accueil', url: 'https://mkrcamp.com/' },
-        { name: 'Destinations', url: 'https://mkrcamp.com/destinations' },
+        { name: t('breadcrumb.home'), url: 'https://mkrcamp.com/' },
+        { name: t('breadcrumb.current'), url: 'https://mkrcamp.com/destinations' },
       ]} />
       <PageHero
-        label="DESTINATIONS"
-        title="DEUX TERRES DU CAUCASE.<br/>UNE DISCIPLINE PAR CAMP."
-        subtitle="Lutte au Daghestan. MMA en Tchétchénie. Le combo Daghestan + Tchétchénie n'est possible qu'en sur-mesure."
+        label={t('hero.label')}
+        title={t('hero.title')}
+        subtitle={t('hero.subtitle')}
       />
 
       <section className="dest-hub fx-grid fx-glow">
         <div className="fx-glow-orb" />
         <div className="inner">
           <div className="dest-hub-grid">
-            {DESTINATIONS.map((d, i) => (
-              <Link href={d.href} key={d.name} className="dest-hub-card reveal" style={{ transitionDelay: `${i * 0.1}s` }}>
+            {DEST_KEYS.map((key, i) => (
+              <Link href={DEST_HREFS[key]} key={key} className="dest-hub-card reveal" style={{ transitionDelay: `${i * 0.1}s` }}>
                 <img
-                  src={d.img}
-                  alt={`Paysage ${d.name === 'DAGHESTAN' ? 'du Daghestan' : 'de Tchétchénie'}`}
+                  src={DEST_IMAGES[key]}
+                  alt={t(`cards.${key}.alt`)}
                   width={1200}
                   height={600}
                   className="dest-hub-bg-img"
@@ -59,14 +62,14 @@ export default function DestinationsPage() {
                 />
                 <div className="dest-hub-overlay" aria-hidden="true" />
                 <div className="dest-hub-content">
-                  <span className="dest-hub-region">{d.region}</span>
-                  <h2>{d.name}</h2>
-                  <p>{d.tagline}</p>
+                  <span className="dest-hub-region">{t(`cards.${key}.region`)}</span>
+                  <h2>{t(`cards.${key}.name`)}</h2>
+                  <p>{t(`cards.${key}.tagline`)}</p>
                   <p style={{ marginTop: '0.4rem', color: 'var(--text-primary)', fontWeight: 600, fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
-                    Camp {d.discipline}
+                    {t(`cards.${key}.camp_prefix`)}{t(`cards.${key}.discipline`)}
                   </p>
                   <span className="btn-ghost" style={{ marginTop: '1rem', fontSize: '0.9rem', padding: '0.6rem 1.5rem' }}>
-                    {d.cta}
+                    {t(`cards.${key}.cta`)}
                   </span>
                 </div>
               </Link>
@@ -74,13 +77,12 @@ export default function DestinationsPage() {
           </div>
 
           <div className="reveal" style={{ maxWidth: '760px', margin: '2.5rem auto 0', textAlign: 'center', padding: '1.5rem 1.75rem', border: '1px solid var(--surface-lowest)', background: 'rgba(200,75,49,0.06)' }}>
-            <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.5rem' }}>SUR MESURE UNIQUEMENT</span>
+            <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.5rem' }}>{t('combo_note.label')}</span>
             <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6' }}>
-              Tu veux combiner Lutte au Daghestan et MMA en Tchétchénie ? Une partie du camp dans chaque destination,
-              c&apos;est possible uniquement sur les inscriptions Sur Mesure. Parle-nous de ton projet.
+              {t('combo_note.body')}
             </p>
             <Link href="/sur-mesure" className="btn-ghost" style={{ marginTop: '1rem', fontSize: '0.85rem', padding: '0.55rem 1.4rem' }}>
-              DÉCOUVRIR LE SUR MESURE
+              {t('combo_note.cta')}
             </Link>
           </div>
         </div>
@@ -91,11 +93,11 @@ export default function DestinationsPage() {
         <div className="inner">
           <div className="logi-header reveal">
             <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>
-              COMMENT CHOISIR
+              {t('comparatif.label')}
             </span>
-            <h2>DAGHESTAN OU TCHÉTCHÉNIE ?</h2>
+            <h2>{t('comparatif.title')}</h2>
             <p style={{ color: 'var(--text-secondary)', marginTop: '0.6rem', maxWidth: '720px' }}>
-              Ta destination dépend de la discipline choisie à l&apos;inscription. Voici les différences concrètes entre les deux camps.
+              {t('comparatif.intro')}
             </p>
           </div>
           <div className="reveal" style={{ marginTop: '1.5rem', overflowX: 'auto' }}>
@@ -103,49 +105,21 @@ export default function DestinationsPage() {
               <thead>
                 <tr>
                   <th></th>
-                  <th>Daghestan</th>
-                  <th>Tchétchénie</th>
+                  <th>{t('comparatif.headers.daghestan')}</th>
+                  <th>{t('comparatif.headers.tchetchenie')}</th>
                 </tr>
               </thead>
               <tbody>
+                {COMPARATIF_ROW_KEYS.map((rowKey) => (
+                  <tr key={rowKey}>
+                    <td><strong>{t(`comparatif.rows.${rowKey}.label`)}</strong></td>
+                    <td>{t(`comparatif.rows.${rowKey}.daghestan`)}</td>
+                    <td>{t(`comparatif.rows.${rowKey}.tchetchenie`)}</td>
+                  </tr>
+                ))}
                 <tr>
-                  <td><strong>Discipline</strong></td>
-                  <td>Lutte adultes · Lutte enfants 8-17 ans</td>
-                  <td>MMA adultes (niveau Avancé minimum)</td>
-                </tr>
-                <tr>
-                  <td><strong>Capitale du camp</strong></td>
-                  <td>Makhachkala · Kaspiysk</td>
-                  <td>Grozny</td>
-                </tr>
-                <tr>
-                  <td><strong>Aéroport</strong></td>
-                  <td>Makhachkala (MCX) · vol intérieur Istanbul → MCX inclus</td>
-                  <td>Grozny (GRV) · vol intérieur Istanbul → GRV inclus</td>
-                </tr>
-                <tr>
-                  <td><strong>Transfert vers le camp</strong></td>
-                  <td>1h30 environ depuis MCX, inclus</td>
-                  <td>30 min environ depuis GRV, inclus</td>
-                </tr>
-                <tr>
-                  <td><strong>Signature</strong></td>
-                  <td>Berceau de la lutte libre. Khabib Nurmagomedov, Islam Makhachev, plus de 30 champions olympiques de lutte.</td>
-                  <td>Épicentre du MMA moderne. Akhmat Fight Club, héritage de Khamzat Chimaev, sparring très haut niveau.</td>
-                </tr>
-                <tr>
-                  <td><strong>Ambiance</strong></td>
-                  <td>Tradition montagnarde, villages de lutteurs, transmission père-fils, esprit fondateur.</td>
-                  <td>MMA moderne, écuries pro, ambiance urbaine forte, architecture spectaculaire (mosquée Akhmad Kadyrov).</td>
-                </tr>
-                <tr>
-                  <td><strong>Pour qui</strong></td>
-                  <td>Tout niveau adulte (Pro / Inter / Amateur sérieux) · enfants 8-17 ans avec parent participant.</td>
-                  <td>Niveau Avancé minimum exigé (form bloquant). Compétiteurs régionaux à internationaux.</td>
-                </tr>
-                <tr>
-                  <td><strong>Combo Lutte + MMA</strong></td>
-                  <td colSpan={2} style={{ textAlign: 'center' }}>Possible uniquement sur les inscriptions Sur Mesure (séquentiel : X jours Daghestan + Y jours Tchétchénie).</td>
+                  <td><strong>{t('comparatif.rows.combo.label')}</strong></td>
+                  <td colSpan={2} style={{ textAlign: 'center' }}>{t('comparatif.rows.combo.value')}</td>
                 </tr>
               </tbody>
             </table>
@@ -155,9 +129,9 @@ export default function DestinationsPage() {
 
       <SectionCTA
         primaryHref="/inscription?type=session"
-        primaryLabel="POSTULER AU CAMP"
+        primaryLabel={t('section_cta.primary_label')}
         ghostHref="/programme"
-        ghostLabel="VOIR LES DISCIPLINES"
+        ghostLabel={t('section_cta.ghost_label')}
       />
     </>
   )

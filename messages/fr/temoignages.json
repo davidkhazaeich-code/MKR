@@ -1,0 +1,42 @@
+{
+  "meta": {
+    "title": "Témoignages athlètes | Camp MKR au Caucase",
+    "description": "Ils sont venus, ils racontent. Témoignages vidéo et écrits d'athlètes qui ont vécu l'expérience MKR au Caucase (Lutte au Daghestan, MMA en Tchétchénie)."
+  },
+  "breadcrumb": {
+    "home": "Accueil",
+    "current": "Témoignages"
+  },
+  "hero": {
+    "label": "TÉMOIGNAGES",
+    "title": "ILS SONT VENUS.<br/>ILS RACONTENT.",
+    "subtitle": "Des athlètes de toute l'Europe. Un seul verdict."
+  },
+  "stars_aria": "5 étoiles sur 5",
+  "video_section": {
+    "label": "AUTRES TÉMOIGNAGES",
+    "title": "INTERVIEWS FACE CAMÉRA"
+  },
+  "text_section": {
+    "label": "ÉCRITS",
+    "title": "TÉMOIGNAGES"
+  },
+  "stats_band": {
+    "sessions": {
+      "num": "4",
+      "label": "Sessions par an"
+    },
+    "destinations": {
+      "num": "2",
+      "label": "Destinations Caucase"
+    },
+    "fondation": {
+      "num": "2018",
+      "label": "Année de fondation"
+    }
+  },
+  "section_cta": {
+    "primary_label": "À TON TOUR",
+    "ghost_label": "VOIR LES SESSIONS"
+  }
+}

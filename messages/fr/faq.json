@@ -1,0 +1,19 @@
+{
+  "meta": {
+    "title": "FAQ Camp MMA Daghestan | MKR Caucasian Camp",
+    "description": "Toutes les réponses à tes questions : sécurité, visa Russie, niveau requis, prix, équipement, inscription. FAQ complète du camp MKR."
+  },
+  "breadcrumb": {
+    "home": "Accueil",
+    "current": "FAQ"
+  },
+  "hero": {
+    "label": "FAQ",
+    "title": "QUESTIONS FRÉQUENTES",
+    "subtitle": "Tout ce que tu dois savoir avant de postuler."
+  },
+  "section_cta": {
+    "primary_label": "VOIR LES SESSIONS",
+    "ghost_label": "PAS TROUVÉ TA RÉPONSE ?"
+  }
+}
