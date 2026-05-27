@@ -1,4 +1,5 @@
-import Link from 'next/link'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
+import { Link } from '@/i18n/navigation'
 import PageHero from '@/components/PageHero'
 import { buildMetadata } from '@/lib/seo'
 import SectionCTA from '@/components/SectionCTA'
@@ -7,86 +8,63 @@ import CinematicReveal from '@/components/CinematicReveal'
 import TldrBox from '@/components/TldrBox'
 import Icon, { type IconName } from '@/components/Icon'
 
-export const metadata = buildMetadata({
-  title: 'Le Camp MKR : Lutte au Daghestan, MMA en Tchétchénie',
-  description: "Camp MMA Tchétchénie ou Lutte Daghestan, 1 à 3 semaines au Caucase. Visa russe, vol intérieur Istanbul, hébergement, 2 repas/jour et coaching local inclus.",
-  path: '/le-camp',
-})
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
+  const t = await getTranslations({ locale, namespace: 'le-camp' })
+  return buildMetadata({
+    title: t('meta.title'),
+    description: t('meta.description'),
+    path: '/le-camp',
+  })
+}
 
-type IncludeItem = { icon: IconName; title: string; desc: string }
-
-const INCLUDES: IncludeItem[] = [
-  { icon: 'passport', title: 'Visa Russie',
-    desc: "Frais consulaires, lettre d'invitation, questionnaire UE et accompagnement du dossier. Tout est inclus." },
-  { icon: 'plane', title: 'Vol intérieur',
-    desc: "Depuis Istanbul jusqu'à Makhachkala (Lutte) ou Grozny (MMA). Tu n'organises que le vol jusqu'à Istanbul." },
-  { icon: 'taxi', title: 'Transport local',
-    desc: 'Transferts aéroport-camp et tous les déplacements sur place.' },
-  { icon: 'hotel', title: 'Hébergement',
-    desc: "Logement de camp partagé, propre et fonctionnel. Tu te concentres sur l'entraînement." },
-  { icon: 'fire', title: '2 sessions/jour',
-    desc: "Entraînement biquotidien dans ta discipline. Matin et fin d'après-midi." },
-  { icon: 'team', title: 'Coachs locaux',
-    desc: 'Champions et vétérans du Caucase. Méthodes transmises de génération en génération.' },
-  { icon: 'mountain', title: 'Excursions',
-    desc: 'Randonnées en montagne et visites culturelles le jour de repos.' },
-  { icon: 'food', title: '2 repas/jour',
-    desc: 'Cuisine caucasienne riche en protéines. Régime adapté aux athlètes.' },
+const INCLUDE_KEYS: { key: string; icon: IconName }[] = [
+  { key: 'visa', icon: 'passport' },
+  { key: 'flight', icon: 'plane' },
+  { key: 'transport', icon: 'taxi' },
+  { key: 'accommodation', icon: 'hotel' },
+  { key: 'sessions', icon: 'fire' },
+  { key: 'coaches', icon: 'team' },
+  { key: 'excursions', icon: 'mountain' },
+  { key: 'meals', icon: 'food' },
 ]
 
-const NOT_INCLUDED = [
-  'Vol international jusqu\'à Istanbul (à organiser librement)',
-  'Assurance voyage (obligatoire, à souscrire de ton côté)',
-  'Équipement personnel (gants, protège-tibias, protège-dents, coquille)',
-  'Dépenses personnelles sur place (boissons, achats, pourboires)',
-  'Supplément MKR pour candidature à moins de 30 jours du départ (traitement express)',
-]
+export default async function LeCampPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
+  setRequestLocale(locale)
+  const t = await getTranslations('le-camp')
 
-const DAILY_SCHEDULE = [
-  { time: '07:30', activity: 'Réveil', desc: 'Le matin appartient à ceux qui se lèvent tôt.' },
-  { time: '08:30', activity: 'Petit-déjeuner', desc: 'Repas copieux, protéines, énergie pour la matinée.' },
-  { time: '10:30 / 11:00', activity: 'Session matin', desc: 'Lutte (adultes ou enfants) à 10h30. MMA à 11h00. Sparring, technique, drills.' },
-  { time: '13:00', activity: 'Déjeuner', desc: 'Récupération et nutrition.' },
-  { time: '14:30', activity: 'Récupération', desc: 'Repos, étirements, soins si nécessaire.' },
-  { time: '17:30 / 18:00', activity: 'Session après-midi', desc: 'Lutte à 17h30. MMA à 18h00. Intensité compétition, sparring dirigé.' },
-  { time: '20:00', activity: 'Dîner', desc: 'Repas du soir libre selon ton plan personnel.' },
-  { time: '22:00', activity: 'Repos', desc: 'Sommeil. Le corps se reconstruit.' },
-]
+  const facts = t.raw('tldr.facts') as string[]
+  const notIncluded = t.raw('not_included.items') as string[]
+  const dailySchedule = t.raw('daily_schedule.slots') as { time: string; activity: string; desc: string }[]
 
-export default function LeCampPage() {
   return (
     <>
       <BreadcrumbJsonLd items={[
-        { name: 'Accueil', url: 'https://mkrcamp.com/' },
-        { name: 'Le Camp', url: 'https://mkrcamp.com/le-camp' },
+        { name: t('breadcrumb.home'), url: 'https://mkrcamp.com/' },
+        { name: t('breadcrumb.current'), url: 'https://mkrcamp.com/le-camp' },
       ]} />
 
       <PageHero
-        label="LE CAMP"
-        title="1 À 3 SEMAINES QUI CHANGENT TA MANIÈRE DE COMBATTRE."
-        subtitle="Immersion totale au Caucase. Lutte au Daghestan, MMA en Tchétchénie. Coaching, hébergement, repas pris en charge. Toi, tu combats."
+        label={t('hero.label')}
+        title={t('hero.title')}
+        subtitle={t('hero.subtitle')}
       />
 
       <div className="inner">
         <TldrBox
-          title="En bref · Le Camp MKR"
-          facts={[
-            "Durée flexible : 1, 2 ou 3 semaines au sein d'une fenêtre de 3 semaines (4 sessions par an).",
-            "Deux destinations exclusives par session : Lutte au Daghestan (Makhachkala/Kaspiysk) ou MMA en Tchétchénie (Grozny).",
-            "2 sessions d'entraînement par jour, 6 jours sur 7. Lutte 10h30/17h30, MMA 11h00/18h00.",
-            "Inclus : visa russe, vol intérieur Istanbul-Caucase, hébergement, 2 repas/jour, transferts, encadrement local. Vol international à organiser de ton côté.",
-            "Capacité : 15 places Lutte + 15 places MMA par session (exclusif). Combo Lutte + MMA disponible uniquement en Sur Mesure.",
-          ]}
+          title={t('tldr.title')}
+          facts={facts}
         />
       </div>
 
       {/* Cinematic reveal */}
       <CinematicReveal
         image="/images/action/sparring-mma-wall.webp"
-        alt="Sparring MMA dans une salle du Caucase"
-        label="IMMERSION"
-        title="LE CAUCASE SUR LE TAPIS"
-        tagline="Sparring quotidien avec des combattants locaux. Méthodes transmises de génération en génération."
+        alt={t('cinematic.alt')}
+        label={t('cinematic.label')}
+        title={t('cinematic.title')}
+        tagline={t('cinematic.tagline')}
       />
 
       {/* Philosophie / Pourquoi le Caucase */}
@@ -95,28 +73,25 @@ export default function LeCampPage() {
         <div className="inner">
           <div className="layout-split layout-split--center">
             <div className="reveal">
-              <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>PHILOSOPHIE</span>
+              <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>{t('philosophie.label')}</span>
               <h2 style={{ fontSize: 'clamp(1.8rem, 4vw, 2.5rem)', textTransform: 'uppercase', lineHeight: '0.92' }}>
-                POURQUOI LE CAUCASE
+                {t('philosophie.title')}
               </h2>
               <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1.5rem' }}>
-                Les meilleurs combattants de la planète sortent tous du même endroit. Le Caucase. Ici, les méthodes
-                de combat se transmettent de père en fils depuis des siècles. Tapis, sueur, et coachs
-                qui ont formé des champions du monde.
+                {t('philosophie.p1')}
               </p>
               <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1rem' }}>
-                MKR t&apos;ouvre les portes de cet univers. Que tu sois compétiteur confirmé ou amateur sérieux qui veut
-                vivre les conditions de l&apos;élite, tu t&apos;entraînes au même niveau d&apos;exigence.
+                {t('philosophie.p2')}
               </p>
             </div>
             <div>
               <div className="content-card fx-grain fx-corner-glow reveal" style={{ transitionDelay: '0.1s' }}>
-                <h3 className="card-title">IMMERSION TOTALE</h3>
-                <p className="card-body">Pendant 1 à 3 semaines, tu vis, manges et t&apos;entraînes avec des athlètes locaux. Immersion complète dans la culture du combat caucasien.</p>
+                <h3 className="card-title">{t('philosophie.card_immersion.title')}</h3>
+                <p className="card-body">{t('philosophie.card_immersion.body')}</p>
               </div>
               <div className="content-card fx-grain fx-corner-glow reveal" style={{ marginTop: '1.25rem', transitionDelay: '0.18s' }}>
-                <h3 className="card-title">HÉRITAGE DU CAUCASE</h3>
-                <p className="card-body">Des méthodes qui ont produit Khabib, Makhachev, et des centaines de champions olympiques de lutte. À Grozny, l&apos;Akhmat Fight Club a façonné Khamzat Chimaev et la nouvelle génération du MMA.</p>
+                <h3 className="card-title">{t('philosophie.card_heritage.title')}</h3>
+                <p className="card-body">{t('philosophie.card_heritage.body')}</p>
               </div>
             </div>
           </div>
@@ -128,15 +103,15 @@ export default function LeCampPage() {
         <div className="fx-glow-orb fx-glow-orb--left fx-glow-breathe" />
         <div className="inner">
           <div className="logi-header reveal">
-            <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>INCLUS</span>
-            <h2>CE QUI EST INCLUS</h2>
+            <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>{t('includes.label')}</span>
+            <h2>{t('includes.title')}</h2>
           </div>
           <div className="include-grid">
-            {INCLUDES.map((item, i) => (
-              <div key={i} className="include-card fx-grain reveal" style={{ transitionDelay: `${i * 0.08}s` }}>
+            {INCLUDE_KEYS.map((item, i) => (
+              <div key={item.key} className="include-card fx-grain reveal" style={{ transitionDelay: `${i * 0.08}s` }}>
                 <Icon name={item.icon} size={32} />
-                <h3>{item.title}</h3>
-                <p>{item.desc}</p>
+                <h3>{t(`includes.items.${item.key}.title`)}</h3>
+                <p>{t(`includes.items.${item.key}.desc`)}</p>
               </div>
             ))}
           </div>
@@ -147,15 +122,15 @@ export default function LeCampPage() {
       <section className="exclude-section fx-grid">
         <div className="inner">
           <div className="logi-header reveal">
-            <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>NON INCLUS</span>
-            <h2>CE QUI N&apos;EST PAS INCLUS</h2>
+            <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>{t('not_included.label')}</span>
+            <h2>{t('not_included.title')}</h2>
           </div>
           <div className="reveal" style={{ maxWidth: '600px' }}>
-            {NOT_INCLUDED.map((item, i) => (
+            {notIncluded.map((item, i) => (
               <div key={i} className="exclude-item">{item}</div>
             ))}
             <Link href="/logistique" className="btn-ghost" style={{ marginTop: '1.5rem', fontSize: '0.9rem', padding: '0.6rem 1.5rem' }}>
-              DÉTAIL LOGISTIQUE
+              {t('not_included.cta_logistique')}
             </Link>
           </div>
         </div>
@@ -165,11 +140,11 @@ export default function LeCampPage() {
       <section id="journee-type" className="camp-section fx-texture-concrete fx-mask-b fx-stack-4">
         <div className="inner">
           <div className="logi-header reveal">
-            <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>24 HEURES</span>
-            <h2>UNE JOURNÉE TYPE</h2>
+            <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>{t('daily_schedule.label')}</span>
+            <h2>{t('daily_schedule.title')}</h2>
           </div>
           <div className="daily-timeline">
-            {DAILY_SCHEDULE.map((slot, i) => (
+            {dailySchedule.map((slot, i) => (
               <div key={i} className="daily-step reveal" style={{ transitionDelay: `${i * 0.06}s` }}>
                 <span className="daily-time">{slot.time}</span>
                 <div className="daily-step-content">
@@ -187,31 +162,31 @@ export default function LeCampPage() {
         <div className="fx-glow-orb fx-glow-orb--right fx-glow-breathe" />
         <div className="inner">
           <div className="logi-header reveal">
-            <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>LIEUX</span>
-            <h2>LES SALLES D&apos;ENTRAÎNEMENT</h2>
+            <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>{t('venues.label')}</span>
+            <h2>{t('venues.title')}</h2>
           </div>
           <div className="grid-2">
             <figure className="photo-card reveal">
               <img
                 src="/images/environment/gym-interior.webp"
-                alt="Salle d'entraînement principale au Caucase, tapis olympiques"
+                alt={t('venues.main_alt')}
                 width={800}
                 height={600}
                 loading="lazy"
                 className="section-photo-img"
               />
-              <figcaption>Salle principale. Tapis olympiques, climat contrôlé. Capacité 30 athlètes.</figcaption>
+              <figcaption>{t('venues.main_caption')}</figcaption>
             </figure>
             <figure className="photo-card reveal" style={{ transitionDelay: '0.1s' }}>
               <img
                 src="/images/action/boxing-pads.webp"
-                alt="Entraînement de frappe sur mitaines dans la salle secondaire"
+                alt={t('venues.secondary_alt')}
                 width={800}
                 height={600}
                 loading="lazy"
                 className="section-photo-img"
               />
-              <figcaption>Salle secondaire. Équipement de frappe, sacs lourds, cage MMA.</figcaption>
+              <figcaption>{t('venues.secondary_caption')}</figcaption>
             </figure>
           </div>
 
@@ -220,24 +195,24 @@ export default function LeCampPage() {
             <figure className="photo-card reveal">
               <img
                 src="/images/environment/accommodation.webp"
-                alt="Hébergement du camp MKR au Caucase"
+                alt={t('venues.accommodation_alt')}
                 width={800}
                 height={600}
                 loading="lazy"
                 className="section-photo-img"
               />
-              <figcaption>Hébergement de camp. Simple, propre, fonctionnel. Pas un hôtel, un lieu de repos.</figcaption>
+              <figcaption>{t('venues.accommodation_caption')}</figcaption>
             </figure>
             <figure className="photo-card reveal" style={{ transitionDelay: '0.1s' }}>
               <img
                 src="/images/environment/communal-meal.webp"
-                alt="Repas communautaire entre athlètes et coachs"
+                alt={t('venues.meal_alt')}
                 width={800}
                 height={600}
                 loading="lazy"
                 className="section-photo-img"
               />
-              <figcaption>Repas communautaire. Cuisine caucasienne, protéines, fraternité.</figcaption>
+              <figcaption>{t('venues.meal_caption')}</figcaption>
             </figure>
           </div>
         </div>
@@ -245,9 +220,9 @@ export default function LeCampPage() {
 
       <SectionCTA
         primaryHref="/sessions"
-        primaryLabel="VOIR LES SESSIONS DISPONIBLES"
+        primaryLabel={t('section_cta.primary_label')}
         ghostHref="/programme"
-        ghostLabel="DÉCOUVRIR LE PROGRAMME"
+        ghostLabel={t('section_cta.ghost_label')}
       />
     </>
   )

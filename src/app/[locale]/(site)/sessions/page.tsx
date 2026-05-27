@@ -1,4 +1,5 @@
-import Link from 'next/link'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
+import { Link } from '@/i18n/navigation'
 import { buildMetadata } from '@/lib/seo'
 import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
@@ -14,84 +15,43 @@ import {
 } from '@/lib/pricing-copy'
 import { PRICING_TIERS, formatEUR } from '@/data/pricing'
 
-const PRICE_FROM_LABEL = `à partir de ${MIN_PRICE_PER_ADULT_LABEL}`
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
+  const t = await getTranslations({ locale, namespace: 'sessions' })
+  return buildMetadata({
+    title: t('meta.title'),
+    description: t('meta.description'),
+    path: '/sessions',
+  })
+}
 
-export const metadata = buildMetadata({
-  title: 'Sessions et Tarifs 2026-2027 Caucase | MKR Camp',
-  description: "Calendrier 4 sessions au Caucase : Été 2026, Toussaint 2026, Hiver 2027, Pâques 2027. Lutte Daghestan, MMA Tchétchénie. Prix, dates, places.",
-  path: '/sessions',
-})
-const SESSIONS = [
-  {
-    id: 'aout-2026',
-    month: 'AOÛ',
-    season: 'Session Été · Août 2026',
-    name: 'CAMP\nCAUCASIEN',
-    dates: '17 AOÛT · 5 SEPTEMBRE 2026',
-    intensity: 'Maximale',
-    maxCapacity: 15,
-    duration: '1 à 3 semaines',
-    price: PRICE_FROM_LABEL,
-    status: 'open' as const,
-    statusLabel: 'Places disponibles',
-    delay: '0s',
-  },
-  {
-    id: 'toussaint-2026',
-    month: 'OCT',
-    season: 'Session Automne · Toussaint 2026',
-    name: 'CAMP\nTOUSSAINT',
-    dates: '17 OCTOBRE · 7 NOVEMBRE 2026',
-    intensity: 'Élevée',
-    maxCapacity: 15,
-    duration: '1 à 3 semaines',
-    price: PRICE_FROM_LABEL,
-    status: 'open' as const,
-    statusLabel: 'Places disponibles',
-    delay: '0.08s',
-  },
-  {
-    id: 'fevrier-2027',
-    month: 'FÉV',
-    season: 'Session Hiver · Février 2027',
-    name: 'CAMP\nHIVER',
-    dates: '13 FÉVRIER · 6 MARS 2027',
-    intensity: 'Maximale',
-    maxCapacity: 15,
-    duration: '1 à 3 semaines',
-    price: PRICE_FROM_LABEL,
-    status: 'open' as const,
-    statusLabel: 'Places disponibles',
-    delay: '0.16s',
-  },
-  {
-    id: 'paques-2027',
-    month: 'AVR',
-    season: 'Session Printemps · Pâques 2027',
-    name: 'CAMP\nPRINTEMPS',
-    dates: '3 · 24 AVRIL 2027',
-    intensity: 'Élevée',
-    maxCapacity: 15,
-    duration: '1 à 3 semaines',
-    price: PRICE_FROM_LABEL,
-    status: 'open' as const,
-    statusLabel: 'Places disponibles',
-    delay: '0.24s',
-  },
-]
+const SESSION_KEYS = [
+  { id: 'aout-2026', tKey: 'aout_2026', maxCapacity: 15, delay: '0s' },
+  { id: 'toussaint-2026', tKey: 'toussaint_2026', maxCapacity: 15, delay: '0.08s' },
+  { id: 'fevrier-2027', tKey: 'fevrier_2027', maxCapacity: 15, delay: '0.16s' },
+  { id: 'paques-2027', tKey: 'paques_2027', maxCapacity: 15, delay: '0.24s' },
+] as const
 
-export default function SessionsPage() {
+export default async function SessionsPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
+  setRequestLocale(locale)
+  const t = await getTranslations('sessions')
+
+  const PRICE_FROM_LABEL = `${t('price_from_prefix')} ${MIN_PRICE_PER_ADULT_LABEL}`
+  const clubPrice = formatEUR(PRICING_TIERS.club.perAdult[1])
+  const trioPrice = formatEUR(PRICING_TIERS.trio.perAdult[1])
+
   return (
     <>
       <BreadcrumbJsonLd items={[
-        { name: 'Accueil', url: 'https://mkrcamp.com/' },
-        { name: 'Sessions et Tarifs', url: 'https://mkrcamp.com/sessions' },
+        { name: t('breadcrumb.home'), url: 'https://mkrcamp.com/' },
+        { name: t('breadcrumb.current'), url: 'https://mkrcamp.com/sessions' },
       ]} />
 
       <PageHero
-        label="SESSIONS ET TARIFS"
-        title="CHOISIS TON FORMAT.<br/>NOUS ORGANISONS TOUT."
-        subtitle="Quatre sessions par an, calées sur les vacances scolaires francophones. Lutte au Daghestan ou MMA en Tchétchénie selon la discipline choisie. Tarifs publics fixes."
+        label={t('hero.label')}
+        title={t('hero.title')}
+        subtitle={t('hero.subtitle')}
       />
 
       {/* Audience Switcher : 3 types d'inscription */}
@@ -103,40 +63,48 @@ export default function SessionsPage() {
         <div className="inner">
           <div className="logi-header reveal">
             <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>
-              SESSIONS OFFICIELLES 2026 / 2027
+              {t('sessions.label')}
             </span>
-            <h2 id="sessions-list-heading" style={{ scrollMarginTop: '120px' }}>QUATRE SESSIONS, UN OBJECTIF</h2>
+            <h2 id="sessions-list-heading" style={{ scrollMarginTop: '120px' }}>{t('sessions.title')}</h2>
             <p style={{ color: 'var(--text-secondary)', marginTop: '0.8rem', maxWidth: '720px' }}>
-              Une session par saison, calées sur les vacances scolaires des trois zones françaises, suisses romandes et belges. Choisis celle qui colle à ton calendrier.
+              {t('sessions.subtitle')}
             </p>
           </div>
           <div className="sessions-grid">
-            {SESSIONS.map((s, i) => (
-              <article key={i} id={s.id} className="session-card fx-grain fx-corner-glow reveal" style={{ transitionDelay: s.delay, scrollMarginTop: '120px' }}>
-                <div className="session-month-bg" aria-hidden="true">{s.month}</div>
+            {SESSION_KEYS.map((s) => (
+              <article key={s.id} id={s.id} className="session-card fx-grain fx-corner-glow reveal" style={{ transitionDelay: s.delay, scrollMarginTop: '120px' }}>
+                <div className="session-month-bg" aria-hidden="true">{t(`sessions.items.${s.tKey}.month`)}</div>
                 <div className="session-card-body">
-                  <span className="session-season">{s.season}</span>
-                  <h3 className="session-name" dangerouslySetInnerHTML={{ __html: s.name.replace('\n', '<br/>') }} />
-                  <p className="session-dates">{s.dates}</p>
+                  <span className="session-season">{t(`sessions.items.${s.tKey}.season`)}</span>
+                  <h3 className="session-name">
+                    {t(`sessions.items.${s.tKey}.name_line1`)}<br />{t(`sessions.items.${s.tKey}.name_line2`)}
+                  </h3>
+                  <p className="session-dates">{t(`sessions.items.${s.tKey}.dates`)}</p>
                 </div>
                 <div className="session-meta">
                   <div className="session-meta-item">
-                    <span className="session-meta-label">Intensité</span>
-                    <span className="session-meta-value">{s.intensity}</span>
+                    <span className="session-meta-label">{t('sessions.meta_intensity')}</span>
+                    <span className="session-meta-value">{t(`sessions.items.${s.tKey}.intensity`)}</span>
                   </div>
                   <div className="session-meta-item">
-                    <span className="session-meta-label">Durée</span>
-                    <span className="session-meta-value">{s.duration}</span>
+                    <span className="session-meta-label">{t('sessions.meta_duration')}</span>
+                    <span className="session-meta-value">{t(`sessions.items.${s.tKey}.duration`)}</span>
                   </div>
                 </div>
                 <div className="session-divider" />
                 <div className="session-card-footer">
                   <div>
-                    <div className="session-price">{s.price}</div>
-                    <div className="session-price-sub">Tarif par adulte selon la taille du groupe et la durée. Solo/Duo : {SOLO_PRICE_1WEEK_LABEL} / 1 sem. Club 6-10 : {formatEUR(PRICING_TIERS.club.perAdult[1])} / 1 sem. Forfait Famille (1P+1E) à partir de {FAMILY_BASE_1WEEK_LABEL} la semaine.</div>
+                    <div className="session-price">{PRICE_FROM_LABEL}</div>
+                    <div className="session-price-sub">
+                      {t('sessions.price_sub', {
+                        soloPrice: SOLO_PRICE_1WEEK_LABEL,
+                        clubPrice: clubPrice,
+                        familyPrice: FAMILY_BASE_1WEEK_LABEL,
+                      })}
+                    </div>
                   </div>
-                  <Link href={`/inscription?type=session&session=${s.id}`} className="session-cta">POSTULER</Link>
-                  <div className="session-places-bottom" data-status={s.status}>
+                  <Link href={`/inscription?type=session&session=${s.id}` as Parameters<typeof Link>[0]['href']} className="session-cta">{t('sessions.cta_apply')}</Link>
+                  <div className="session-places-bottom" data-status="open">
                     <PlacesRestantes
                       sessionId={s.id}
                       discipline="lutte"
@@ -155,11 +123,11 @@ export default function SessionsPage() {
             ))}
           </div>
           <p className="logi-updated" style={{ marginTop: '2rem', textAlign: 'center' }}>
-            Tes dates ne correspondent pas ?{' '}
-            <Link href="/inscription?type=custom" style={{ color: 'var(--primary)', textDecoration: 'underline' }}>
-              Découvre le camp sur mesure
+            {t('sessions.custom_prompt')}{' '}
+            <Link href={'/inscription?type=custom' as Parameters<typeof Link>[0]['href']} style={{ color: 'var(--primary)', textDecoration: 'underline' }}>
+              {t('sessions.custom_link')}
             </Link>
-            {' '}(délai 90 jours minimum).
+            {t('sessions.custom_suffix')}
           </p>
         </div>
       </section>
@@ -171,14 +139,14 @@ export default function SessionsPage() {
       <section className="logi-section fx-grid fx-stack-3b">
         <div className="inner">
           <div className="group-card reveal" style={{ textAlign: 'center' }}>
-            <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>TOUT COMPRIS</span>
-            <h2 style={{ fontSize: 'clamp(1.4rem, 2.8vw, 1.9rem)' }}>VISA, VOL INTÉRIEUR, HÉBERGEMENT, 2 REPAS/JOUR, COACHING</h2>
+            <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>{t('tout_compris.label')}</span>
+            <h2 style={{ fontSize: 'clamp(1.4rem, 2.8vw, 1.9rem)' }}>{t('tout_compris.title')}</h2>
             <p style={{ color: 'var(--text-secondary)', marginTop: '0.8rem', maxWidth: '620px', margin: '0.8rem auto 0' }}>
-              Le tarif couvre le visa russe (frais et dossier), le vol intérieur depuis Istanbul (Makhachkala pour la Lutte, Grozny pour le MMA), les transferts aéroport-camp, l&apos;hébergement, 2 repas par jour, les 2 sessions d&apos;entraînement quotidiennes et l&apos;encadrement local. Le vol international jusqu&apos;à Istanbul reste à ton organisation. Le détail complet est sur la page Le Camp.
+              {t('tout_compris.body')}
             </p>
             <div style={{ marginTop: '1.4rem' }}>
               <Link href="/le-camp" className="btn-ghost" style={{ fontSize: '0.85rem', padding: '0.6rem 1.4rem' }}>
-                VOIR LE DÉTAIL SUR LA PAGE LE CAMP
+                {t('tout_compris.cta')}
               </Link>
             </div>
           </div>
@@ -189,11 +157,11 @@ export default function SessionsPage() {
       <section className="sessions-group fx-grid fx-stack-5" aria-labelledby="group-heading">
         <div className="inner">
           <div className="group-card fx-grain fx-corner-glow reveal">
-            <h2 id="group-heading">TU VIENS AVEC TON CLUB ?</h2>
-            <p>Tarif dégressif dès 3 personnes (palier Trio à {formatEUR(PRICING_TIERS.trio.perAdult[1])} / pers / sem). À partir de 6, palier Club à {formatEUR(PRICING_TIERS.club.perAdult[1])} / pers / sem. Club entier ou 11+ personnes : devis personnalisé.</p>
+            <h2 id="group-heading">{t('group.title')}</h2>
+            <p>{t('group.body', { trioPrice, clubPrice })}</p>
             <img
               src="/images/environment/communal-meal.webp"
-              alt="Groupe d'athlètes au camp MKR Caucasian Camp"
+              alt={t('group.img_alt')}
               width={800}
               height={343}
               loading="lazy"
@@ -201,10 +169,10 @@ export default function SessionsPage() {
             />
             <div className="group-card-cta">
               <a href="https://wa.me/33666177691" target="_blank" rel="noopener noreferrer" className="btn-primary">
-                CONTACTER PAR WHATSAPP
+                {t('group.cta_whatsapp')}
               </a>
-              <Link href="/contact?type=clubs" className="btn-ghost">
-                DEMANDER UN DEVIS
+              <Link href={'/contact?type=clubs' as Parameters<typeof Link>[0]['href']} className="btn-ghost">
+                {t('group.cta_quote')}
               </Link>
             </div>
           </div>
@@ -218,24 +186,23 @@ export default function SessionsPage() {
           <div className="layout-split layout-split--balanced reveal">
             <div>
               <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>
-                MODALITÉS
+                {t('terms.label')}
               </span>
               <h2 style={{ fontSize: 'clamp(1.5rem, 3vw, 2rem)', textTransform: 'uppercase' }}>
-                PAIEMENT ET CONDITIONS
+                {t('terms.title')}
               </h2>
               <ul className="terms-list">
-                <li>Aucun paiement à l&apos;inscription en ligne</li>
-                <li>Visio de validation avec l&apos;équipe MKR sous 48h</li>
-                <li>Paiement intégral après validation : virement bancaire ou espèces</li>
-                <li>Annulation gratuite jusqu&apos;à 60 jours avant le départ</li>
+                {(t.raw('terms.items') as string[]).map((item, i) => (
+                  <li key={i}>{item}</li>
+                ))}
               </ul>
               <div style={{ marginTop: '1.5rem', display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-                <Link href="/cgv" className="btn-ghost" style={{ fontSize: '0.9rem', padding: '0.6rem 1.5rem' }}>CGV COMPLÈTES</Link>
-                <Link href="/comment-ca-marche" className="btn-ghost" style={{ fontSize: '0.9rem', padding: '0.6rem 1.5rem' }}>COMMENT ÇA MARCHE</Link>
+                <Link href="/cgv" className="btn-ghost" style={{ fontSize: '0.9rem', padding: '0.6rem 1.5rem' }}>{t('terms.cta_cgv')}</Link>
+                <Link href="/comment-ca-marche" className="btn-ghost" style={{ fontSize: '0.9rem', padding: '0.6rem 1.5rem' }}>{t('terms.cta_how')}</Link>
               </div>
             </div>
             <div>
-              <RefundPolicyTable delayHeader="Délai" />
+              <RefundPolicyTable delayHeader={t('terms.delay_header')} />
             </div>
           </div>
         </div>
@@ -243,9 +210,9 @@ export default function SessionsPage() {
 
       <SectionCTA
         primaryHref="/inscription"
-        primaryLabel="POSTULER AU CAMP"
+        primaryLabel={t('section_cta.primary_label')}
         ghostHref="/faq"
-        ghostLabel="DES QUESTIONS ?"
+        ghostLabel={t('section_cta.ghost_label')}
       />
     </>
   )

@@ -1,0 +1,100 @@
+{
+  "meta": {
+    "title": "Sessions et Tarifs 2026-2027 Caucase | MKR Camp",
+    "description": "Calendrier 4 sessions au Caucase : Été 2026, Toussaint 2026, Hiver 2027, Pâques 2027. Lutte Daghestan, MMA Tchétchénie. Prix, dates, places."
+  },
+  "breadcrumb": {
+    "home": "Accueil",
+    "current": "Sessions et Tarifs"
+  },
+  "hero": {
+    "label": "SESSIONS ET TARIFS",
+    "title": "CHOISIS TON FORMAT.<br/>NOUS ORGANISONS TOUT.",
+    "subtitle": "Quatre sessions par an, calées sur les vacances scolaires francophones. Lutte au Daghestan ou MMA en Tchétchénie selon la discipline choisie. Tarifs publics fixes."
+  },
+  "price_from_prefix": "à partir de",
+  "sessions": {
+    "label": "SESSIONS OFFICIELLES 2026 / 2027",
+    "title": "QUATRE SESSIONS, UN OBJECTIF",
+    "subtitle": "Une session par saison, calées sur les vacances scolaires des trois zones françaises, suisses romandes et belges. Choisis celle qui colle à ton calendrier.",
+    "meta_intensity": "Intensité",
+    "meta_duration": "Durée",
+    "price_sub": "Tarif par adulte selon la taille du groupe et la durée. Solo/Duo : {soloPrice} / 1 sem. Club 6-10 : {clubPrice} / 1 sem. Forfait Famille (1P+1E) à partir de {familyPrice} la semaine.",
+    "cta_apply": "POSTULER",
+    "custom_prompt": "Tes dates ne correspondent pas ?",
+    "custom_link": "Découvre le camp sur mesure",
+    "custom_suffix": " (délai 90 jours minimum).",
+    "items": {
+      "aout_2026": {
+        "month": "AOÛ",
+        "season": "Session Été · Août 2026",
+        "name_line1": "CAMP",
+        "name_line2": "CAUCASIEN",
+        "dates": "17 AOÛT · 5 SEPTEMBRE 2026",
+        "intensity": "Maximale",
+        "duration": "1 à 3 semaines",
+        "status_label": "Places disponibles"
+      },
+      "toussaint_2026": {
+        "month": "OCT",
+        "season": "Session Automne · Toussaint 2026",
+        "name_line1": "CAMP",
+        "name_line2": "TOUSSAINT",
+        "dates": "17 OCTOBRE · 7 NOVEMBRE 2026",
+        "intensity": "Élevée",
+        "duration": "1 à 3 semaines",
+        "status_label": "Places disponibles"
+      },
+      "fevrier_2027": {
+        "month": "FÉV",
+        "season": "Session Hiver · Février 2027",
+        "name_line1": "CAMP",
+        "name_line2": "HIVER",
+        "dates": "13 FÉVRIER · 6 MARS 2027",
+        "intensity": "Maximale",
+        "duration": "1 à 3 semaines",
+        "status_label": "Places disponibles"
+      },
+      "paques_2027": {
+        "month": "AVR",
+        "season": "Session Printemps · Pâques 2027",
+        "name_line1": "CAMP",
+        "name_line2": "PRINTEMPS",
+        "dates": "3 · 24 AVRIL 2027",
+        "intensity": "Élevée",
+        "duration": "1 à 3 semaines",
+        "status_label": "Places disponibles"
+      }
+    }
+  },
+  "tout_compris": {
+    "label": "TOUT COMPRIS",
+    "title": "VISA, VOL INTÉRIEUR, HÉBERGEMENT, 2 REPAS/JOUR, COACHING",
+    "body": "Le tarif couvre le visa russe (frais et dossier), le vol intérieur depuis Istanbul (Makhachkala pour la Lutte, Grozny pour le MMA), les transferts aéroport-camp, l'hébergement, 2 repas par jour, les 2 sessions d'entraînement quotidiennes et l'encadrement local. Le vol international jusqu'à Istanbul reste à ton organisation. Le détail complet est sur la page Le Camp.",
+    "cta": "VOIR LE DÉTAIL SUR LA PAGE LE CAMP"
+  },
+  "group": {
+    "title": "TU VIENS AVEC TON CLUB ?",
+    "body": "Tarif dégressif dès 3 personnes (palier Trio à {trioPrice} / pers / sem). À partir de 6, palier Club à {clubPrice} / pers / sem. Club entier ou 11+ personnes : devis personnalisé.",
+    "img_alt": "Groupe d'athlètes au camp MKR Caucasian Camp",
+    "cta_whatsapp": "CONTACTER PAR WHATSAPP",
+    "cta_quote": "DEMANDER UN DEVIS"
+  },
+  "terms": {
+    "label": "MODALITÉS",
+    "title": "PAIEMENT ET CONDITIONS",
+    "items": [
+      "Aucun paiement à l'inscription en ligne",
+      "Visio de validation avec l'équipe MKR sous 48h",
+      "Paiement intégral après validation : virement bancaire ou espèces",
+      "Annulation gratuite jusqu'à 60 jours avant le départ"
+    ],
+    "cta_cgv": "CGV COMPLÈTES",
+    "cta_how": "COMMENT ÇA MARCHE",
+    "delay_header": "Délai"
+  },
+  "section_cta": {
+    "primary_label": "POSTULER AU CAMP",
+    "ghost_label": "DES QUESTIONS ?"
+  }
+}

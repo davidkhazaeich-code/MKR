@@ -1,0 +1,125 @@
+{
+  "meta": {
+    "title": "Le Camp MKR : Lutte au Daghestan, MMA en Tchétchénie",
+    "description": "Camp MMA Tchétchénie ou Lutte Daghestan, 1 à 3 semaines au Caucase. Visa russe, vol intérieur Istanbul, hébergement, 2 repas/jour et coaching local inclus."
+  },
+  "breadcrumb": {
+    "home": "Accueil",
+    "current": "Le Camp"
+  },
+  "hero": {
+    "label": "LE CAMP",
+    "title": "1 À 3 SEMAINES QUI CHANGENT TA MANIÈRE DE COMBATTRE.",
+    "subtitle": "Immersion totale au Caucase. Lutte au Daghestan, MMA en Tchétchénie. Coaching, hébergement, repas pris en charge. Toi, tu combats."
+  },
+  "tldr": {
+    "title": "En bref · Le Camp MKR",
+    "facts": [
+      "Durée flexible : 1, 2 ou 3 semaines au sein d'une fenêtre de 3 semaines (4 sessions par an).",
+      "Deux destinations exclusives par session : Lutte au Daghestan (Makhachkala/Kaspiysk) ou MMA en Tchétchénie (Grozny).",
+      "2 sessions d'entraînement par jour, 6 jours sur 7. Lutte 10h30/17h30, MMA 11h00/18h00.",
+      "Inclus : visa russe, vol intérieur Istanbul-Caucase, hébergement, 2 repas/jour, transferts, encadrement local. Vol international à organiser de ton côté.",
+      "Capacité : 15 places Lutte + 15 places MMA par session (exclusif). Combo Lutte + MMA disponible uniquement en Sur Mesure."
+    ]
+  },
+  "cinematic": {
+    "alt": "Sparring MMA dans une salle du Caucase",
+    "label": "IMMERSION",
+    "title": "LE CAUCASE SUR LE TAPIS",
+    "tagline": "Sparring quotidien avec des combattants locaux. Méthodes transmises de génération en génération."
+  },
+  "philosophie": {
+    "label": "PHILOSOPHIE",
+    "title": "POURQUOI LE CAUCASE",
+    "p1": "Les meilleurs combattants de la planète sortent tous du même endroit. Le Caucase. Ici, les méthodes de combat se transmettent de père en fils depuis des siècles. Tapis, sueur, et coachs qui ont formé des champions du monde.",
+    "p2": "MKR t'ouvre les portes de cet univers. Que tu sois compétiteur confirmé ou amateur sérieux qui veut vivre les conditions de l'élite, tu t'entraînes au même niveau d'exigence.",
+    "card_immersion": {
+      "title": "IMMERSION TOTALE",
+      "body": "Pendant 1 à 3 semaines, tu vis, manges et t'entraînes avec des athlètes locaux. Immersion complète dans la culture du combat caucasien."
+    },
+    "card_heritage": {
+      "title": "HÉRITAGE DU CAUCASE",
+      "body": "Des méthodes qui ont produit Khabib, Makhachev, et des centaines de champions olympiques de lutte. À Grozny, l'Akhmat Fight Club a façonné Khamzat Chimaev et la nouvelle génération du MMA."
+    }
+  },
+  "includes": {
+    "label": "INCLUS",
+    "title": "CE QUI EST INCLUS",
+    "items": {
+      "visa": {
+        "title": "Visa Russie",
+        "desc": "Frais consulaires, lettre d'invitation, questionnaire UE et accompagnement du dossier. Tout est inclus."
+      },
+      "flight": {
+        "title": "Vol intérieur",
+        "desc": "Depuis Istanbul jusqu'à Makhachkala (Lutte) ou Grozny (MMA). Tu n'organises que le vol jusqu'à Istanbul."
+      },
+      "transport": {
+        "title": "Transport local",
+        "desc": "Transferts aéroport-camp et tous les déplacements sur place."
+      },
+      "accommodation": {
+        "title": "Hébergement",
+        "desc": "Logement de camp partagé, propre et fonctionnel. Tu te concentres sur l'entraînement."
+      },
+      "sessions": {
+        "title": "2 sessions/jour",
+        "desc": "Entraînement biquotidien dans ta discipline. Matin et fin d'après-midi."
+      },
+      "coaches": {
+        "title": "Coachs locaux",
+        "desc": "Champions et vétérans du Caucase. Méthodes transmises de génération en génération."
+      },
+      "excursions": {
+        "title": "Excursions",
+        "desc": "Randonnées en montagne et visites culturelles le jour de repos."
+      },
+      "meals": {
+        "title": "2 repas/jour",
+        "desc": "Cuisine caucasienne riche en protéines. Régime adapté aux athlètes."
+      }
+    }
+  },
+  "not_included": {
+    "label": "NON INCLUS",
+    "title": "CE QUI N'EST PAS INCLUS",
+    "items": [
+      "Vol international jusqu'à Istanbul (à organiser librement)",
+      "Assurance voyage (obligatoire, à souscrire de ton côté)",
+      "Équipement personnel (gants, protège-tibias, protège-dents, coquille)",
+      "Dépenses personnelles sur place (boissons, achats, pourboires)",
+      "Supplément MKR pour candidature à moins de 30 jours du départ (traitement express)"
+    ],
+    "cta_logistique": "DÉTAIL LOGISTIQUE"
+  },
+  "daily_schedule": {
+    "label": "24 HEURES",
+    "title": "UNE JOURNÉE TYPE",
+    "slots": [
+      { "time": "07:30", "activity": "Réveil", "desc": "Le matin appartient à ceux qui se lèvent tôt." },
+      { "time": "08:30", "activity": "Petit-déjeuner", "desc": "Repas copieux, protéines, énergie pour la matinée." },
+      { "time": "10:30 / 11:00", "activity": "Session matin", "desc": "Lutte (adultes ou enfants) à 10h30. MMA à 11h00. Sparring, technique, drills." },
+      { "time": "13:00", "activity": "Déjeuner", "desc": "Récupération et nutrition." },
+      { "time": "14:30", "activity": "Récupération", "desc": "Repos, étirements, soins si nécessaire." },
+      { "time": "17:30 / 18:00", "activity": "Session après-midi", "desc": "Lutte à 17h30. MMA à 18h00. Intensité compétition, sparring dirigé." },
+      { "time": "20:00", "activity": "Dîner", "desc": "Repas du soir libre selon ton plan personnel." },
+      { "time": "22:00", "activity": "Repos", "desc": "Sommeil. Le corps se reconstruit." }
+    ]
+  },
+  "venues": {
+    "label": "LIEUX",
+    "title": "LES SALLES D'ENTRAÎNEMENT",
+    "main_alt": "Salle d'entraînement principale au Caucase, tapis olympiques",
+    "main_caption": "Salle principale. Tapis olympiques, climat contrôlé. Capacité 30 athlètes.",
+    "secondary_alt": "Entraînement de frappe sur mitaines dans la salle secondaire",
+    "secondary_caption": "Salle secondaire. Équipement de frappe, sacs lourds, cage MMA.",
+    "accommodation_alt": "Hébergement du camp MKR au Caucase",
+    "accommodation_caption": "Hébergement de camp. Simple, propre, fonctionnel. Pas un hôtel, un lieu de repos.",
+    "meal_alt": "Repas communautaire entre athlètes et coachs",
+    "meal_caption": "Repas communautaire. Cuisine caucasienne, protéines, fraternité."
+  },
+  "section_cta": {
+    "primary_label": "VOIR LES SESSIONS DISPONIBLES",
+    "ghost_label": "DÉCOUVRIR LE PROGRAMME"
+  }
+}

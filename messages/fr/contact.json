@@ -1,0 +1,30 @@
+{
+  "meta": {
+    "title": "Contact | MKR Caucasian Camp",
+    "description": "Contacte MKR Caucasian Camp. Question générale, partenariat, clubs, presse. Réponse sous 48h."
+  },
+  "breadcrumb": {
+    "home": "Accueil",
+    "current": "Contact"
+  },
+  "hero": {
+    "label": "CONTACT",
+    "title": "PARLE-NOUS"
+  },
+  "cards": {
+    "form": {
+      "title": "Formulaire",
+      "body": "Utilise le formulaire ci-contre. Réponse sous 48h."
+    },
+    "whatsapp": {
+      "title": "WhatsApp",
+      "value": "+33 6 66 17 76 91"
+    },
+    "instagram": {
+      "title": "Instagram",
+      "value": "@mkrcamp"
+    }
+  },
+  "note": "On répond sous 48h. Fuseau horaire : GMT+3 (Caucase).",
+  "photo_alt": "Route de montagne vers le camp au Caucase"
+}
