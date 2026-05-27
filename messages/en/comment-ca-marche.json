@@ -1,0 +1,99 @@
+{
+  "meta": {
+    "title": "How it works: 6 steps to join the camp | MKR",
+    "description": "From registration to the first mat: discover the 6 steps to join the MKR camp in Dagestan. Clear, transparent process, no surprises."
+  },
+  "breadcrumb": {
+    "home": "Home",
+    "current": "How it works"
+  },
+  "hero": {
+    "label": "THE PROCESS",
+    "title": "FROM REGISTRATION<br/>TO THE FIRST MAT",
+    "subtitle": "Clear, transparent process, no surprises. 6 simple steps."
+  },
+  "steps": {
+    "items": {
+      "step1": {
+        "num": "01",
+        "title": "ONLINE REGISTRATION",
+        "desc": "Fill out the application form in 5 minutes. We ask you about your athletic background, your goals and your physical condition.",
+        "detail": "5 minutes"
+      },
+      "step2": {
+        "num": "02",
+        "title": "VALIDATION CALL",
+        "desc": "A team member contacts you within 48 hours for a 15 to 20 minute interview. We assess your motivation, your level and answer all your questions.",
+        "detail": "Within 48 hours"
+      },
+      "step3": {
+        "num": "03",
+        "title": "PAYMENT AFTER KICKOFF CALL",
+        "desc": "Once your application is approved at the end of the kickoff call, you receive the MKR bank details to settle the package in one payment (bank transfer or cash). No payment is requested before the interview.",
+        "detail": "After approval"
+      },
+      "step4": {
+        "num": "04",
+        "title": "PREPARATION GUIDE",
+        "desc": "You receive a full guide: 6-week physical preparation program, equipment list, logistical information, practical tips.",
+        "detail": "Sent after confirmation"
+      },
+      "step5": {
+        "num": "05",
+        "title": "DEPARTURE",
+        "desc": "You take your flight to Istanbul (to organize freely). MKR has booked your domestic flight from Istanbul to the Caucasus and a vehicle is waiting for you at the airport. All you have to do is board.",
+        "detail": "Domestic flight and transfer included"
+      },
+      "step6": {
+        "num": "06",
+        "title": "THE CAMP",
+        "desc": "1 to 3 weeks of intensive training. 2 sessions per day. Local coaches. Accommodation, meals, optional excursions. You focus on one thing only: progressing.",
+        "detail": "1 to 3 weeks"
+      }
+    }
+  },
+  "annulation": {
+    "label": "CANCELLATION",
+    "title": "CANCELLATION POLICY"
+  },
+  "paiement": {
+    "label": "PAYMENT",
+    "title": "PAYMENT METHODS",
+    "items": {
+      "virement": {
+        "title": "Bank transfer",
+        "desc": "IBAN provided after your application is approved on the kickoff call. No additional fees."
+      },
+      "especes": {
+        "title": "Cash",
+        "desc": "Possible on site or handed over in person. To be arranged directly with Ruslan during the kickoff call."
+      },
+      "autre": {
+        "title": "Other method",
+        "desc": "Any specific request is reviewed on a case-by-case basis. Mention it during the kickoff call."
+      }
+    }
+  },
+  "process_faq": {
+    "label": "QUESTIONS",
+    "title": "QUESTIONS ABOUT THE PROCESS",
+    "items": {
+      "q1": {
+        "question": "What happens if my application is rejected?",
+        "answer": "We explain the reasons and give you guidance to prepare for an upcoming session. Rejection is often related to athletic level: we recommend a preparation program. For other questions (process duration, payment, postponement), check the Registration FAQ."
+      },
+      "q2": {
+        "question": "What if I register less than 30 days before departure?",
+        "answer": "It is possible when spots remain, but an MKR express processing surcharge applies. It covers the expedited visa procedure, securing the domestic Istanbul-Caucasus flight in high season and logistical coordination under tight deadlines. The amount is communicated during the kickoff call, on top of the package price. MKR reserves the right to refuse an application within 30 days if administrative deadlines (Russian visa, domestic flight) cannot be met under reasonable conditions."
+      },
+      "q3": {
+        "question": "Does MKR organize my flight to Istanbul?",
+        "answer": "No, the international flight to Istanbul is yours to organize: you choose your airline, your departure airport and your class according to your budget. Your flight must arrive in Istanbul (IST or SAW) at least 4 hours before your MKR domestic flight. MKR confirms the schedule of the domestic flight from Istanbul to Makhachkala (Wrestling in Dagestan) or Istanbul to Grozny (MMA in Chechnya) as soon as your application is approved, and sends you the corresponding ticket."
+      }
+    }
+  },
+  "section_cta": {
+    "primary_label": "START REGISTRATION",
+    "ghost_label": "ANY QUESTIONS?"
+  }
+}

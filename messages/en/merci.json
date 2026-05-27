@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "title": "Thank you | MKR Caucasian Camp",
+    "description": "Your application has been received. We will get back to you within 48 hours."
+  },
+  "icon_alt": "Application received",
+  "label": "APPLICATION RECEIVED",
+  "title_line1": "WE HAVE RECEIVED",
+  "title_line2": "YOUR REQUEST.",
+  "sub": "We will get back to you within 48 hours for a validation call. Get ready to talk about your athletic background.",
+  "steps": {
+    "step1": {
+      "num": "01",
+      "title": "Validation call",
+      "body": "A member of the team will contact you within 48 hours to discuss your application."
+    },
+    "step2": {
+      "num": "02",
+      "title": "Validation and payment",
+      "body": "If your application is approved after the video call, you receive the MKR bank details to settle the package in a single payment (bank transfer or cash)."
+    },
+    "step3": {
+      "num": "03",
+      "title": "Preparation guide",
+      "body": "A complete guide is sent to you: preparation program, equipment, logistics."
+    }
+  },
+  "cta": {
+    "sessions": "VIEW SESSIONS",
+    "home": "BACK TO HOME"
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "session": {
+    "label": "Official Sessions",
+    "short_label": "Sessions",
+    "badge": "Official Sessions · Adults",
+    "description": "1 to 3 weeks in the Caucasus within a group formed by MKR (Wrestling in Dagestan or MMA in Chechnya). Four sessions per year aligned with school holidays, adults only, collective spirit.",
+    "long_description": "You join one of our four official 2026 / 2027 sessions (Summer, Fall, Winter, Spring), aligned with French-speaking school holidays, alongside adult athletes from around the world. You pick your duration (1, 2 or 3 weeks) within the session window. Depending on your discipline, you head to Dagestan (Wrestling) or Chechnya (MMA). We handle the Russian visa, the domestic flight from Istanbul (Makhachkala or Grozny), the airport transfers, the accommodation, the meals, the program and the coaching staff. If you are coming with a child aged 8 to 17, take the Family option instead.",
+    "cta": "See the 4 sessions",
+    "dates": "4 sessions per year",
+    "duration": "1, 2 or 3 weeks",
+    "lead_time": "Applications open",
+    "image_alt": "Circle of fighters around a grappling demonstration at MKR Caucasian Camp"
+  },
+  "custom": {
+    "label": "Custom Camp",
+    "short_label": "Custom Camp",
+    "badge": "Your dates · 1 to 4 adults",
+    "description": "Individual camp or small group of friends (1 to 4 adults). You choose your dates and duration, we coordinate everything.",
+    "long_description": "You leave when you want, for as long as you want (1, 2 or 3 weeks), solo or with 2 to 3 adult friends (max 4 people). You choose your destination: Wrestling in Dagestan, MMA in Chechnya, or a Dagestan plus Chechnya combo (exclusive to Custom Camp). On site we coordinate the available coaches, the accommodation, the meals, the transfers and the domestic flight from Istanbul (Makhachkala and / or Grozny). If you are coming with a child aged 8 to 17, take Family. If you are an organized club or group of 5 or more, take Clubs and Groups.",
+    "cta": "Discover Custom Camp",
+    "dates": "Dates of your choice",
+    "duration": "1, 2 or 3 weeks",
+    "lead_time": "Book at least 90 days before departure",
+    "image_alt": "Portrait of Antoine Petit-Jean, solo MMA athlete in immersion in Makhachkala"
+  },
+  "famille": {
+    "label": "Family Camp",
+    "short_label": "Family",
+    "badge": "Parent + child 8 to 17",
+    "description": "Family camp in Dagestan (Youth wrestling). Parent and child aged 8 to 17 side by side, dedicated youth coaching. Package from {familyBase1weekLabel}.",
+    "long_description": "You travel as a family with your children aged 8 to 17 (participating parent required, this is our safety rule). Parallel programs: adult sessions for you, Youth wrestling program for the teenager. You can join one of the four official sessions (Summer 2026, Fall 2026, Winter 2027, Spring 2027), or pick your own dates (90 days minimum). Parent + Child package at {familyBase1weekLabel} (1 week) with the first child included, {familyExtraChild1weekLabel} per additional child. If your partner also participates: both parents move to the Solo / Duo rate ({duoPerAdult1week} per person per week) plus children at the additional rate ({familyExtraChild1weekLabel} each).",
+    "cta": "Discover Family Camp",
+    "dates": "Session or your dates",
+    "duration": "1, 2 or 3 weeks",
+    "lead_time": "Applications open (session) or 90 days (custom)",
+    "image_alt": "Father and son side by side on the MKR camp mat, family legacy"
+  },
+  "groupe": {
+    "label": "Clubs and Groups",
+    "short_label": "Clubs and Groups",
+    "badge": "Custom quote · 5 to 20",
+    "description": "Coming with your club or an organized group of 5 to 20 people? Tiered pricing, dedicated camp on your dates, block accommodation.",
+    "long_description": "You bring your club (or a group of at least 5 people) together around a common goal. We organize a dedicated camp: chosen dates, block accommodation, group transfers, program adapted to the collective level. Tiered per-person pricing: {trioPerAdult1week} per 1 week for 5 people (Trio tier), {clubPerAdult1week} per 1 week for 6 to 10 people (Club tier). From 11 people, or for a full session buyout: custom quote. If you are 1 to 4 adult friends, take Custom Camp instead. If you are traveling as a family, take Family.",
+    "cta": "Discover Clubs and Groups",
+    "dates": "Dates of your choice",
+    "duration": "1, 2 or 3 weeks",
+    "lead_time": "Book at least 90 days before departure",
+    "image_alt": "Circle of Caucasian fighters in formation, team spirit and mat brotherhood"
+  }
+}

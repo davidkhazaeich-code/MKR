@@ -1,0 +1,91 @@
+{
+  "meta": {
+    "title": "Custom Camp in the Caucasus | MKR Caucasian Camp",
+    "description": "Custom individual camp in the Caucasus. Wrestling in Dagestan, MMA in Chechnya or combo (custom only). Your dates, your duration. 90-day minimum lead time."
+  },
+  "breadcrumb": {
+    "home": "Home",
+    "current": "Custom Camp"
+  },
+  "hero": {
+    "label": "CUSTOM · 1 TO 4 ADULTS",
+    "title": "YOUR DATES.<br/>YOUR JOURNEY.",
+    "subtitle": "Individual camp or small group of friends (1 to 4 adults). You choose your dates, your duration, and your destination(s): Wrestling in Dagestan, MMA in Chechnya, or a combo of both (custom only).",
+    "image_alt": "Solo MMA athlete in immersion in Makhachkala, custom MKR camp"
+  },
+  "stats": {
+    "people": "Adults per camp",
+    "delay": "Minimum booking lead time",
+    "weeks": "Weeks of your choice",
+    "price_label": "€ · 1 week · from 3 people"
+  },
+  "cinematic": {
+    "alt": "Circle of fighters in a grappling demo in Dagestan",
+    "label": "WHO IT'S FOR",
+    "title": "YOU CHOOSE WHEN TO LEAVE.<br/>WE HANDLE THE REST.",
+    "tagline": "You have a clear goal and a specific window. We adapt the camp to your schedule, not the other way around."
+  },
+  "combo": {
+    "label": "CUSTOM EXCLUSIVE",
+    "title": "COMBINE DAGESTAN AND CHECHNYA",
+    "intro_prefix": "On official sessions, it's ",
+    "intro_strong_1": "Wrestling in Dagestan",
+    "intro_middle": " OR ",
+    "intro_strong_2": "MMA in Chechnya",
+    "intro_suffix": ". On the custom camp, you can combine both: part of the camp in Makhachkala for wrestling, another part in Grozny for MMA. The transfer logistics between the two regions are handled by MKR. Ideal for MMA athletes who want to sharpen their wrestling with the Dagestanis."
+  },
+  "profiles": {
+    "label": "RECOMMENDED PROFILES",
+    "title": "3 REASONS TO CHOOSE CUSTOM",
+    "items": {
+      "pro": {
+        "title": "Pro or semi-pro in camp",
+        "desc": "You're preparing for a fight or a tournament on a specific date. Custom lets you slot the camp right inside your prep window, with no compromise on the calendar."
+      },
+      "planning": {
+        "title": "Athlete on a tight schedule",
+        "desc": "The official session dates don't fit (holidays, work, kids' school). You pick 1, 2 or 3 weeks at the time that works for you."
+      },
+      "duo": {
+        "title": "Duo, trio or quartet of friends",
+        "desc": "You're 2 to 4 adults looking to leave together. You choose the dates, you live the camp as a small group without having to gather a full club."
+      }
+    }
+  },
+  "process": {
+    "label": "PROCESS",
+    "title": "5 STEPS, 90 DAYS",
+    "steps": [
+      { "num": "01", "title": "You fill out the form", "desc": "Composition (1 to 4 adults), preferred dates (90 days min in advance), duration (1, 2 or 3 weeks), level, goals." },
+      { "num": "02", "title": "MKR approval within 48h", "desc": "We confirm coach and accommodation availability on your dates. Qualification video call." },
+      { "num": "03", "title": "Approval and visa letter", "desc": "You receive the official invitation letter for your Russian visa application and the bank details for full package payment by bank transfer." },
+      { "num": "04", "title": "6-week preparation", "desc": "Remote physical prep program. Everything is settled, you just focus on training." },
+      { "num": "05", "title": "Departure and camp", "desc": "Domestic flight from Istanbul included (Makhachkala for Dagestan, Grozny for Chechnya). MKR vehicle at the airport. All you have to do is train." }
+    ]
+  },
+  "cross_sell": {
+    "label": "NOT THE RIGHT FUNNEL?",
+    "title": "EXPLORE THE OTHER FORMATS",
+    "cards": {
+      "sessions": {
+        "label": "OFFICIAL SESSIONS",
+        "title": "4 sessions per year",
+        "desc": "Want to join a group put together by MKR? Four sessions timed with school holidays: Summer 2026, Toussaint 2026, Winter 2027, Easter 2027."
+      },
+      "famille": {
+        "label": "FAMILY",
+        "title": "Family Camp",
+        "desc": "Going with a child 8-17? The Family funnel offers a parent and child program."
+      },
+      "clubs": {
+        "label": "CLUB AND GROUP",
+        "title": "Clubs and Groups",
+        "desc": "Bringing 5+ people (club or organized group)? Dedicated camp, block accommodation."
+      }
+    }
+  },
+  "section_cta": {
+    "primary_label": "PLAN MY CUSTOM CAMP",
+    "ghost_label": "ASK A QUESTION"
+  }
+}

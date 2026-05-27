@@ -1,0 +1,132 @@
+{
+  "meta": {
+    "title": "Parent-Child Family Camp in Dagestan | MKR",
+    "description": "Train as a family in Dagestan. Parent and child 8-17 side by side on the mat. Adapted program, public family rates, specialized coaching."
+  },
+  "breadcrumb": {
+    "home": "Home",
+    "current": "Family Camp"
+  },
+  "hero": {
+    "label": "AS A FAMILY",
+    "title": "TRAIN<br/>AS A FAMILY.",
+    "subtitle": "Parent and child 8-17 side by side on the mat. An experience that gets passed down."
+  },
+  "cinematic": {
+    "alt": "Father and son side by side on the mat at MKR camp, generational transmission",
+    "label": "HERITAGE",
+    "title": "HERITAGE<br/>GETS PASSED DOWN",
+    "tagline": "In Dagestan, wrestling has been a family affair for generations. You step into that tradition with your child."
+  },
+  "principe": {
+    "label": "THE PRINCIPLE",
+    "title": "ONE CAMP, TWO EXPERIENCES",
+    "p1": "You attend the camp as an adult (Wrestling or MMA sessions at 10:30 / 11:00 and 17:30 / 18:00). Your child follows the youth wrestling program in parallel (10:30 and 17:30, specialized coaching). You meet up for meals, excursions, and free time.",
+    "p2": "MKR handles everything: Russian visa, domestic flight Istanbul-Makhachkala, transfers, family accommodation, 2 meals per day, coaching by experienced local coaches. You only organize the flight to Istanbul, then you grab your bag and your child's.",
+    "p3_strong": "Important",
+    "p3_suffix": ": children 8-17 must always be accompanied by a parent participating in the camp. No standalone child enrollment.",
+    "img_alt": "Young wrestlers lined up on the mat, Dagestani wrestling school"
+  },
+  "pillars": {
+    "label": "WHY AS A FAMILY",
+    "title": "OUR FAMILY APPROACH",
+    "items": {
+      "parent_obligatoire": {
+        "title": "Parent required",
+        "desc": "Child 8-17 always accompanied by a participating parent. A single registration funnel for the whole family."
+      },
+      "programme_adapte": {
+        "title": "Adapted program",
+        "desc": "Parent in the adult sessions (Wrestling or MMA), child in the youth wrestling sessions at 10:30 and 17:30. You meet up for meals and excursions."
+      },
+      "coach_jeunesse": {
+        "title": "Dedicated youth coach",
+        "desc": "A coach trained in youth pedagogy leads the children's sessions. Ratio 1 coach per 5 children maximum."
+      },
+      "hebergement_famille": {
+        "title": "Family accommodation",
+        "desc": "Private room for the family (subject to availability). Communal meals with other families and solo athletes."
+      }
+    }
+  },
+  "securite": {
+    "img_alt": "Young wrestlers in controlled sparring under coach supervision",
+    "label": "SAFE FRAMEWORK",
+    "title": "YOUR CHILD IS<br/>IN GOOD HANDS",
+    "intro": "No KO allowed, strictly controlled sparring, permanent supervision. Techniques are taught progressively by a trained youth coach. The goal: pass on the Caucasus fundamentals in an age-appropriate framework.",
+    "checks": [
+      { "strong": "Olympic-grade mats", "suffix": ", dedicated children's room" },
+      { "strong": "Ratio 1 coach per 5 children", "suffix": " maximum" },
+      { "strong": "Parent briefing", "suffix": " at the end of every session" },
+      { "strong": "Daily photos", "suffix": " shared with parents" },
+      { "strong": "Emergency contact", "suffix": " available 24/7 (medical and safety)" },
+      { "strong": "Meal plan adapted", "suffix": " to young athletes (protein, hydration)" }
+    ],
+    "quote": "\"We were hesitant about bringing the kids. The youth coach hooked them from the very first session.\"",
+    "quote_attribution": "Sophie L. · Mother · Lyon"
+  },
+  "testimonials": {
+    "label": "THEY CAME AS A FAMILY",
+    "title": "WHAT THEY SAY",
+    "items": {
+      "karim": {
+        "name": "Karim D.",
+        "role": "Father · Geneva",
+        "discipline": "With his 13-year-old son",
+        "quote": "My son came back transformed. More disciplined, more confident. And he learned things no coach in France would have shown him. We're going back next year, as a family."
+      },
+      "marc": {
+        "name": "Marc T.",
+        "role": "Father · Brussels",
+        "discipline": "With his 16-year-old son",
+        "quote": "At 16, my son was at the age where you often lose teenagers. The camp gave him back the sense of effort, respect, and grit. For me at the same time, it was a total reset."
+      }
+    }
+  },
+  "process": {
+    "label": "FAMILY REGISTRATION",
+    "title": "HOW TO REGISTER YOUR FAMILY",
+    "steps": {
+      "step1": {
+        "num": "STEP 01",
+        "title": "Choose your format",
+        "desc": "Join one of our four official sessions (Summer 2026, Toussaint 2026, Winter 2027, Easter 2027) timed with school holidays, or a custom camp (your dates, 90 days minimum). In the form, check \"Coming with your family?\"."
+      },
+      "step2": {
+        "num": "STEP 02",
+        "title": "List your children",
+        "desc": "Indicate the number of children (1 to 4) and their ages (between 8 and 17). The Family rate applies automatically: 1st child included, each additional child at the fixed rate {familyExtraChild1week}. The full pricing grid is higher up on the page."
+      },
+      "step3": {
+        "num": "STEP 03",
+        "title": "Approval and payment",
+        "desc": "Reply within 48h. If approved on the video call: full payment by bank transfer (bank details sent after the call), medical certificate for each member, preparation guide."
+      }
+    }
+  },
+  "cross_sell": {
+    "label": "OTHER FORMATS",
+    "title": "LOOKING FOR ANOTHER FORMAT?",
+    "cards": {
+      "session": {
+        "label": "OFFICIAL SESSION",
+        "title": "MKR Camp 2026",
+        "desc": "Adult-only sessions, 4 windows timed with French-speaking school holidays. 30 spots per session (15 Wrestling + 15 MMA)."
+      },
+      "sur_mesure": {
+        "label": "CUSTOM",
+        "title": "Custom Camp",
+        "desc": "1 to 4 adults (Solo, Duo, Trio, Quartet). Your dates, 90 days minimum. Combo Wrestling in Dagestan and MMA in Chechnya available."
+      },
+      "clubs": {
+        "label": "CLUB AND GROUP",
+        "title": "Clubs and Groups",
+        "desc": "Dedicated camp for 5 to 20 people for your club. Block accommodation, group transfers, program adapted to the collective level. Custom quote."
+      }
+    }
+  },
+  "section_cta": {
+    "primary_label": "REGISTER MY FAMILY",
+    "ghost_label": "ASK A QUESTION"
+  }
+}

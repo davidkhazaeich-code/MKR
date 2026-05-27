@@ -1,0 +1,83 @@
+{
+  "meta": {
+    "title": "MKR Camp 2026 · Session August 17 to September 5 in Dagestan",
+    "description": "Official session August 17 to September 5, 2026 in Dagestan. 1, 2, or 3 weeks. Adults, 15 places. From {soloPrice} all inclusive."
+  },
+  "breadcrumb": {
+    "home": "Home",
+    "current": "MKR Camp 2026"
+  },
+  "hero": {
+    "label": "OFFICIAL 2026 SESSION",
+    "title": "MKR CAMP 2026<br/>IS WAITING FOR YOU.",
+    "subtitle": "From August 17 to September 5, 2026 in Dagestan. You pick 1, 2, or 3 weeks within the window. Adults only, 15 places, collective spirit. Applications are open.",
+    "image_alt": "Circle of fighters at MKR Camp 2026, grappling demonstration"
+  },
+  "stats": {
+    "weeks_label": "Weeks of your choice · August 17 to September 5",
+    "places_label": "Maximum places (selection by application)",
+    "coaches_label": "Experienced coaches",
+    "price_label": "€ minimum · adult · 1 week"
+  },
+  "cinematic": {
+    "alt": "Group of athletes in formation at MKR Camp",
+    "label": "THE FLAGSHIP SESSION",
+    "title": "ONE CAMP. ONE GROUP.<br/>1 TO 3 WEEKS.",
+    "tagline": "You travel with adult athletes from around the world. You pick 1, 2, or 3 weeks. You come back with a new level and a fighting family."
+  },
+  "reasons": {
+    "label": "WHY THE OFFICIAL SESSION",
+    "title": "3 REASONS TO JOIN THE GROUP",
+    "items": {
+      "esprit": {
+        "title": "Collective spirit",
+        "desc": "You join a group of adult athletes from France, Switzerland, Belgium, and beyond. Within 48 hours, you train, eat, and recover together. The brotherhood of the mat does the rest."
+      },
+      "dates": {
+        "title": "Fixed dates, proven organization",
+        "desc": "From August 17 to September 5, 2026, a 3-week window. You choose your duration (1, 2, or 3 weeks) based on your schedule. MKR locked in the visa, flights, accommodation, program, and coaches months ago."
+      },
+      "historique": {
+        "title": "The flagship format",
+        "desc": "This has been our signature session from the start. Most alumni come back the following year, sometimes with a friend, sometimes with their teenager. When someone says they did MKR, this is usually the camp."
+      }
+    }
+  },
+  "timeline": {
+    "label": "REGISTRATION TIMELINE",
+    "title": "FROM D-90 TO DAY D",
+    "slots": [
+      { "time": "D-90", "label": "Registration", "desc": "You fill out the form. Reply within 48 hours." },
+      { "time": "D-60", "label": "Kickoff call + payment", "desc": "Validation video call with Ruslan. If approved: bank details sent, full payment by transfer. Russian visa application started by MKR." },
+      { "time": "D-45", "label": "6-week prep program", "desc": "You receive the remote physical prep program. Russian visa being finalized, MKR confirms the Istanbul-Makhachkala domestic flight schedule." },
+      { "time": "D-30", "label": "Visa finalized", "desc": "Russian visa in hand. You can book your international flight to Istanbul (MKR domestic flight already locked in)." },
+      { "time": "D-7", "label": "Final briefing", "desc": "Logistics, flight, transfers, and confirmed packing list briefing." },
+      { "time": "DAY D", "label": "Departure", "desc": "You take your flight to Istanbul. Istanbul-Makhachkala domestic flight included. MKR vehicle at the airport in Dagestan." }
+    ]
+  },
+  "cross_sell": {
+    "label": "THE FORMAT DOES NOT FIT?",
+    "title": "EXPLORE THE OTHER FORMATS",
+    "cards": {
+      "sur_mesure": {
+        "label": "CUSTOM",
+        "title": "Your own dates",
+        "desc": "Want to choose your dates? 1 to 4 adults, duration of your choice, 90-day minimum lead time."
+      },
+      "famille": {
+        "label": "FAMILY",
+        "title": "Family Camp",
+        "desc": "Traveling with a child aged 8 to 17? Adapted parent and child program."
+      },
+      "clubs": {
+        "label": "CLUB AND GROUP",
+        "title": "Your club in the Caucasus",
+        "desc": "Bringing 5 or more people (club or organized group)? Dedicated camp, Wrestling in Dagestan or MMA in Chechnya. Custom quote."
+      }
+    }
+  },
+  "section_cta": {
+    "primary_label": "APPLY TO MKR CAMP 2026",
+    "ghost_label": "ASK A QUESTION"
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "meta": {
+    "title": "Athlete testimonials | MKR Camp in the Caucasus",
+    "description": "They came, they shared. Video and written testimonials from athletes who lived the MKR experience in the Caucasus (Wrestling in Dagestan, MMA in Chechnya)."
+  },
+  "breadcrumb": {
+    "home": "Home",
+    "current": "Testimonials"
+  },
+  "hero": {
+    "label": "TESTIMONIALS",
+    "title": "THEY CAME.<br/>THEY TALK.",
+    "subtitle": "Athletes from across Europe. One verdict."
+  },
+  "stars_aria": "5 stars out of 5",
+  "video_section": {
+    "label": "OTHER TESTIMONIALS",
+    "title": "ON-CAMERA INTERVIEWS"
+  },
+  "text_section": {
+    "label": "WRITTEN",
+    "title": "TESTIMONIALS"
+  },
+  "stats_band": {
+    "sessions": {
+      "num": "4",
+      "label": "Sessions per year"
+    },
+    "destinations": {
+      "num": "2",
+      "label": "Caucasus destinations"
+    },
+    "fondation": {
+      "num": "2018",
+      "label": "Founded in"
+    }
+  },
+  "section_cta": {
+    "primary_label": "YOUR TURN",
+    "ghost_label": "SEE THE SESSIONS"
+  }
+}

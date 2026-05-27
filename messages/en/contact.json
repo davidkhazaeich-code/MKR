@@ -1,0 +1,53 @@
+{
+  "meta": {
+    "title": "Contact | MKR Caucasian Camp",
+    "description": "Contact MKR Caucasian Camp. General inquiry, partnership, clubs, press. Reply within 48h."
+  },
+  "breadcrumb": {
+    "home": "Home",
+    "current": "Contact"
+  },
+  "hero": {
+    "label": "CONTACT",
+    "title": "TALK TO US"
+  },
+  "cards": {
+    "form": {
+      "title": "Form",
+      "body": "Use the form on the side. Reply within 48h."
+    },
+    "whatsapp": {
+      "title": "WhatsApp",
+      "value": "+33 6 66 17 76 91"
+    },
+    "instagram": {
+      "title": "Instagram",
+      "value": "@mkrcamp"
+    }
+  },
+  "note": "We reply within 48h. Time zone: GMT+3 (Caucasus).",
+  "photo_alt": "Mountain road to the camp in the Caucasus",
+  "form": {
+    "fields": {
+      "name": { "label": "Full name", "placeholder": "Your name" },
+      "email": { "label": "Email", "placeholder": "your@email.com" },
+      "subject": { "label": "Subject", "placeholder": "Choose a subject" },
+      "message": { "label": "Message", "placeholder": "Your message..." }
+    },
+    "subjects": {
+      "general": "General inquiry",
+      "partenariat": "Partnership",
+      "clubs": "Clubs and groups",
+      "presse": "Press and media",
+      "autre": "Other"
+    },
+    "submit": "SEND",
+    "submit_sending": "SENDING...",
+    "error_generic": "Something went wrong. Try again in a moment.",
+    "error_network": "Connection failed. Check your network and try again.",
+    "success": {
+      "title": "MESSAGE RECEIVED",
+      "body": "We will get back to you within 48h at the email you provided. You can also write to us on WhatsApp if your question is urgent."
+    }
+  }
+}

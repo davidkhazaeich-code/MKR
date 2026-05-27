@@ -1,0 +1,293 @@
+{
+  "hero": {
+    "section_aria": "Hero section",
+    "pill": "Wrestling in Dagestan and MMA in Chechnya",
+    "title_line1": "TRAIN WHERE",
+    "title_line2": "CHAMPIONS",
+    "title_line3_prefix": "ARE ",
+    "title_line3_highlight": "BORN",
+    "subtitle": "Training camp at the heart of the Caucasus. Wrestling in Dagestan, MMA in Chechnya. Just pack your bag, MKR handles everything.",
+    "cta_primary": "APPLY TO THE CAMP",
+    "cta_secondary": "DISCOVER THE CAMP",
+    "stats": {
+      "destinations_value": "2",
+      "destinations_label_desktop": "Destinations · Dagestan, Chechnya",
+      "destinations_label_mobile": "Wrestling Dagestan · MMA Chechnya",
+      "disciplines_value": "3",
+      "disciplines_label": "Disciplines · Wrestling, Youth Wrestling, MMA",
+      "duration_value": "1-3",
+      "duration_label": "Weeks of immersion"
+    },
+    "carousel_aria": "Next sessions",
+    "carousel_dot_aria": "Session {n}",
+    "carousel_cta": "Apply now →"
+  },
+  "audience_switcher": {
+    "label": "FOUR WAYS TO COME",
+    "title_line1": "CHOOSE YOUR",
+    "title_line2": "REGISTRATION FORMAT",
+    "subtitle": "Solo, duo, family or with your club? We have a format for every profile. Wrestling in Dagestan or MMA in Chechnya: visa, domestic flight from Istanbul, transfers, accommodation, meals and coaching are all coordinated on site by MKR.",
+    "card": {
+      "recommended_flag": "RECOMMENDED",
+      "meta_dates": "Dates",
+      "meta_duration": "Duration",
+      "meta_min_persons": "From",
+      "person_singular": "1 person",
+      "person_plural": "{n} people"
+    }
+  },
+  "philosophie": {
+    "label": "PHILOSOPHY",
+    "title_line1": "WHY",
+    "title_line2": "THE CAUCASUS",
+    "card1": {
+      "label": "Heritage · Tradition · Combat",
+      "title_line1": "WHERE IT",
+      "title_line2": "ALL BEGAN",
+      "body_part1_before_strong": "The best fighters in the world all come from the same cradle: the Caucasus. Khabib, Makhachev, ",
+      "body_part1_strong": "hundreds of medalists and Olympic wrestling champions",
+      "body_part1_after_strong": ". No accident. Here, combat has been passed down ",
+      "body_part1_strong2": "from father to son for centuries",
+      "body_part1_after_strong2": ".",
+      "body_part2_before_strong": "MKR Caucasian Camp opens this heritage to foreign athletes. Same gyms, same coaches, same methods. Not as a tourist. As an athlete here to ",
+      "body_part2_strong": "reach the next level",
+      "body_part2_after_strong": ".",
+      "body_part3_before_strong": "When you return from your Caucasus camp (Wrestling in Dagestan or MMA in Chechnya, from one to three weeks), you no longer fight the same. You no longer train the same. ",
+      "body_part3_strong": "And you no longer see yourself the same."
+    },
+    "card2": {
+      "label": "Coaching · Methods · Progression",
+      "title_line1": "THE METHOD",
+      "title_line2": "THAT FORGES",
+      "body_before_strong": "Daily sparring with local fighters. Technical work, controlled intensity, supervised recovery. The methods that built world champions ",
+      "body_strong": "now serving your progression",
+      "body_after_strong": "."
+    },
+    "card3": {
+      "label": "Effort · Discipline · Brotherhood",
+      "title_line1": "THE DISCIPLINE",
+      "title_line2": "SHARED",
+      "body_before_strong": "You share their discipline through effort. Same rounds, same intensity, same soreness. Zero distraction, zero excess. Just the training, the Caucasian culture, and a ",
+      "body_strong": "brotherhood of the mat",
+      "body_after_strong": " you will not find in any European gym."
+    }
+  },
+  "destination_showcase": {
+    "label": "TWO LANDS OF THE CAUCASUS",
+    "title_line1": "DAGESTAN ·",
+    "title_line2": "CHECHNYA",
+    "subtitle": "Wrestling in Dagestan, MMA in Chechnya. Two neighboring destinations in the Russian Caucasus, one discipline per camp. The combo is available on custom camps only.",
+    "landscapes": {
+      "sulak": {
+        "alt": "Sulak Canyon, Dagestan",
+        "label": "DAGESTAN · WRESTLING",
+        "caption": "Sulak Canyon",
+        "text": "Deeper than the Grand Canyon. Rest-day excursion from Makhachkala."
+      },
+      "grozny": {
+        "alt": "Grozny mosque, Chechnya",
+        "label": "CHECHNYA · MMA",
+        "caption": "Grozny",
+        "text": "Capital of Chechnya, modern city and dense MMA ecosystem."
+      },
+      "gamsutl": {
+        "alt": "Mountain village of Gamsutl, Dagestan",
+        "label": "DAGESTAN · WRESTLING",
+        "caption": "Gamsutl",
+        "text": "Ghost village perched at 1,500 m. Ancestral Dagestan."
+      },
+      "vainakh": {
+        "alt": "Medieval Vainakh towers in the mountains of Chechnya",
+        "label": "CHECHNYA · MMA",
+        "caption": "Vainakh towers",
+        "text": "Stone fortresses built 800 years ago in the Chechen valleys."
+      },
+      "kezenoy": {
+        "alt": "Lake Kezenoy-Am, on the border between Dagestan and Chechnya",
+        "label": "NORTH CAUCASUS",
+        "caption": "Lake Kezenoy-Am",
+        "text": "Largest high-altitude lake in the North Caucasus, between Dagestan and Chechnya."
+      }
+    },
+    "explore_cta": "EXPLORE BOTH DESTINATIONS"
+  },
+  "testimonials": {
+    "label": "TESTIMONIALS",
+    "title_line1": "THEY CAME",
+    "title_line2": "BACK",
+    "title_line3": "CHANGED",
+    "title_line4": "FOREVER",
+    "subtitle": "Athletes from across Europe. All transformed.",
+    "stars_aria": "5 stars out of 5",
+    "nav_aria": "Carousel navigation",
+    "prev_aria": "Previous testimonial",
+    "next_aria": "Next testimonial",
+    "video_play_aria": "Play video testimonial from {name}"
+  },
+  "vertical_video_split": {
+    "section_aria_default": "Video preview: {title}",
+    "video_aria_default": "Video: {identity}",
+    "sound_on_aria": "Turn sound on",
+    "sound_off_aria": "Mute sound",
+    "fullscreen_aria": "View in full screen",
+    "sound_hint": "TURN SOUND ON",
+    "play_aria": "Play video"
+  },
+  "facilitator_band": {
+    "label": "ALL INCLUSIVE",
+    "title_line1": "WE HANDLE EVERYTHING.",
+    "title_line2": "YOU JUST TRAIN.",
+    "subtitle": "Visa, domestic flight, transfers, accommodation, meals and training: six services included in every camp, whichever format you choose. You only book your flight to Istanbul.",
+    "items": {
+      "visa": {
+        "title": "Russian visa included",
+        "desc": "Consular fees, official invitation letter, EU questionnaire and full file management. You provide your passport, MKR runs the process."
+      },
+      "flight": {
+        "title": "Domestic flight",
+        "desc": "From Istanbul to Makhachkala (Wrestling in Dagestan) or Grozny (MMA in Chechnya), included in the package. You only book your international flight to Istanbul."
+      },
+      "transfers": {
+        "title": "Airport transfers",
+        "desc": "MKR vehicle on arrival: about 1h30 from Makhachkala (Dagestan) or about 30 min from Grozny (Chechnya). All transfers are included."
+      },
+      "accommodation": {
+        "title": "Accommodation",
+        "desc": "Comfortable camp lodging, family room available. You sleep and eat with your group."
+      },
+      "meals": {
+        "title": "2 meals per day",
+        "desc": "Breakfast and lunch included. Caucasian cuisine adapted to athletes: protein, vegetables, fresh bread."
+      },
+      "coaching": {
+        "title": "Coaching staff",
+        "desc": "Experienced local Coaches in Dagestan (Wrestling) and Chechnya (MMA). Dedicated youth Coach for ages 8-17 in Youth Wrestling."
+      }
+    },
+    "force_label": "OUR STRENGTH",
+    "force_title": "A TEAM IN FRANCE, LOCAL CONTACTS ON SITE",
+    "force_text": "All admin and networks are managed from France by a French-speaking team that takes your file from A to Z. On the ground, local contacts guide you through the gyms alongside Ruslan Mukhtarov, founder and Coach in Wrestling and MMA.",
+    "footnote": "You only have one thing to do: pack your bag. We handle the rest."
+  },
+  "voyage_reveal": {
+    "label": "HOW TO GET THERE",
+    "title_line1": "THE ROAD",
+    "title_line2_prefix": "TO THE ",
+    "title_line2_highlight": "CAUCASUS",
+    "trajet_label": "SECURE ROUTE",
+    "steps": {
+      "01": "Your European airport → Istanbul (international flight to book)",
+      "02": "Istanbul → Makhachkala (Wrestling) or Grozny (MMA), domestic flight included",
+      "03": "Transfer to camp (Dagestan about 1h30 / Chechnya about 30 min, included)"
+    },
+    "badges": {
+      "visa": "VISA INCLUDED",
+      "flight": "DOMESTIC FLIGHT INCLUDED",
+      "transfers": "TRANSFERS INCLUDED",
+      "secure": "SECURE DESTINATION"
+    }
+  },
+  "sessions": {
+    "label": "CALENDAR 2026 / 2027",
+    "title_line1": "THE 4",
+    "title_line2": "SESSIONS",
+    "subtitle": "One session per season, aligned with French-speaking school holidays (France, French-speaking Switzerland, Belgium). Wrestling in Dagestan or MMA in Chechnya based on the discipline chosen at registration.",
+    "meta_intensity": "Intensity",
+    "meta_places": "Spots",
+    "meta_duration": "Duration",
+    "price_sub_prefix": "Solo / Duo price: ",
+    "price_sub_middle": " per adult. Discounts from 3 people. Family package (1P+1C) from ",
+    "price_sub_suffix": ". Russian visa, domestic flight Istanbul → Makhachkala or Grozny, transfers, accommodation and 2 meals per day included. International flight at your charge.",
+    "card_cta": "APPLY"
+  },
+  "timeline": {
+    "label": "THE PROCESS",
+    "title_line1": "FROM APPLICATION",
+    "title_line2": "TO THE MAT",
+    "steps": {
+      "01": {
+        "num": "01",
+        "title": "APPLICATION",
+        "body": "You fill out the application form online. Current level, discipline, goals. We need to know who you are before confirming whether the camp is right for you.",
+        "img_alt": "Fighter alone in the camp gym"
+      },
+      "02": {
+        "num": "02",
+        "title": "INTERVIEW",
+        "body": "A video call with our team. Not an interrogation, a conversation. We want to understand your motivations and tell you what truly awaits you on site.",
+        "img_alt": "Applicant on a video interview from their space"
+      },
+      "03": {
+        "num": "03",
+        "title": "CONFIRMATION",
+        "body": "Call validated, package paid by bank transfer, contract signed. Your spot is reserved. We launch your remote preparation with the personalized pre-camp guide.",
+        "img_alt": "Hand wraps before training"
+      },
+      "04": {
+        "num": "04",
+        "title": "PREPARATION",
+        "body": "Four weeks of remote protocol: tailored physical preparation, nutrition plan, Russian visa process. We use every day before your arrival.",
+        "img_alt": "Physical preparation, rope climbing"
+      },
+      "05": {
+        "num": "05",
+        "title": "IMMERSION",
+        "body": "One to three weeks in Dagestan. Two training sessions per day, sparring with local fighters, life in community. You leave with a level you would never have reached elsewhere.",
+        "img_alt": "Road to the camp in the Caucasus"
+      }
+    }
+  },
+  "contact": {
+    "label": "APPLICATION",
+    "title_line1": "READY TO",
+    "title_line2": "TAKE THE",
+    "title_line3": "STEP?",
+    "subtitle": "Fifteen spots maximum per session. We accept motivated athletes at every level, not only pros. The video interview helps us understand your goals.",
+    "cta": "SUBMIT MY APPLICATION",
+    "info_title": "Other ways to contact us",
+    "info_form_label": "Form",
+    "info_form_value": "Contact page",
+    "info_whatsapp_label": "WhatsApp",
+    "info_instagram_label": "Instagram",
+    "process_title": "HOW IT WORKS",
+    "process_steps": {
+      "01": {
+        "num": "01",
+        "title": "Form",
+        "desc": "You fill out the application form online. Level, goals, experience."
+      },
+      "02": {
+        "num": "02",
+        "title": "Video interview",
+        "desc": "A 15-minute call with our team to understand your motivation and level."
+      },
+      "03": {
+        "num": "03",
+        "title": "Confirmation",
+        "desc": "Reply within 72h. If selected, you receive the full preparation guide."
+      },
+      "04": {
+        "num": "04",
+        "title": "Departure",
+        "desc": "Airport transfer included. We pick you up on arrival. You have nothing to manage."
+      }
+    },
+    "badges": {
+      "selection": "Selection on file",
+      "capacity": "15 spots max per session",
+      "response": "Reply within 72h",
+      "transfers": "Transfers included"
+    }
+  },
+  "faq": {
+    "label": "FREQUENTLY ASKED QUESTIONS",
+    "title": "FAQ"
+  },
+  "cta_final": {
+    "label": "Immersion among champions · {sessions_count} sessions per year · 15 spots per destination.",
+    "title_line1": "READY FOR",
+    "title_line2": "THE CAUCASUS?",
+    "subtitle": "Next camp · {dates} {year} · Dagestan (Wrestling) or Chechnya (MMA)",
+    "cta": "SUBMIT MY APPLICATION"
+  }
+}

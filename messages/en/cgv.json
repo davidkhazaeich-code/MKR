@@ -1,0 +1,152 @@
+{
+  "meta": {
+    "title": "Terms and Conditions | MKR Caucasian Camp | Terms and Conditions of Sale",
+    "description": "Terms and conditions of sale for MKR Caucasian Camp. Registration, payment, cancellation, and refund terms."
+  },
+  "title": "TERMS AND CONDITIONS",
+  "articles": {
+    "article1": {
+      "title": "Article 1: Purpose",
+      "body": "These Terms and Conditions (T and C) govern the contractual relationship between MKR Caucasian Camp (hereinafter the 'Organizer') and any natural person (hereinafter the 'Participant') wishing to take part in a training camp organized by MKR Caucasian Camp."
+    },
+    "article2": {
+      "title": "Article 2: Registration and approval",
+      "body": "Registration is done via the online form on mkrcamp.com. Every application is subject to approval by the MKR team during a phone or video interview. The Organizer reserves the right to refuse any application without justification."
+    },
+    "article3": {
+      "title": "Article 3: Prices and payment",
+      "intro": "Prices are stated in euros (EUR) on the Sessions page of the site and applied according to the following public grid (per adult, without discretionary discount):",
+      "items": {
+        "duo": {
+          "prefix": "",
+          "strong": "1 to 2 people",
+          "middle": " (Solo / Duo): ",
+          "suffix": " per adult."
+        },
+        "trio": {
+          "prefix": "",
+          "strong": "3 to 5 people",
+          "middle": " (Trio to Quintet): ",
+          "suffix": " per adult."
+        },
+        "club": {
+          "prefix": "",
+          "strong": "6 to 10 people",
+          "middle": " (Club / Group): ",
+          "suffix": " per adult."
+        },
+        "salle": {
+          "prefix": "",
+          "strong": "11 people or more / entire gym privatized",
+          "middle": ": custom quote.",
+          "suffix": ""
+        },
+        "famille": {
+          "prefix": "",
+          "strong": "Family package (1 parent + 1 child included)",
+          "middle": ": ",
+          "after_base": ". Each additional child: ",
+          "suffix": "."
+        },
+        "famille_2_parents": {
+          "prefix": "",
+          "strong": "Family with 2 participating parents",
+          "middle": ": Solo / Duo rate applied to both parents (",
+          "after_duo": " / person / week) + ",
+          "suffix": " per child per week."
+        }
+      },
+      "payment_p1": "No payment is required at the time of online registration. Full payment of the package is due after the validation video call with the MKR team. Bank details (RIB) are sent to the candidate at the end of this call.",
+      "payment_p2": "Accepted payment methods: bank transfer or cash. Any other method is reviewed on a case-by-case basis."
+    },
+    "article4": {
+      "title": "Article 4: Cancellation policy",
+      "items": [
+        "More than 60 days before the start: full refund (100%)",
+        "Between 30 and 60 days: partial refund (50%)",
+        "Less than 30 days: no refund"
+      ],
+      "outro": "Postponement to a later session is possible subject to availability, if the request is made more than 60 days before the start of the camp."
+    },
+    "article5": {
+      "title": "Article 5: Services included",
+      "intro": "The camp price includes:",
+      "items": {
+        "visa": {
+          "strong": "Russian visa",
+          "body": ": consular fees, official invitation letter, EU questionnaire, and full file support"
+        },
+        "flight": {
+          "strong": "Domestic flight",
+          "body": " Istanbul-Makhachkala (for the Wrestling camp in Dagestan) or Istanbul-Grozny (for the MMA camp in Chechnya)"
+        },
+        "transfers": "Airport-to-camp transfers and travel during the stay",
+        "accommodation": "Accommodation in camp lodging",
+        "meals": "2 meals per day (breakfast and lunch)",
+        "sessions": "Twice-daily training sessions (6 days per week)",
+        "excursions": "Cultural excursions (optional)",
+        "prep": "Remote preparation support before departure"
+      }
+    },
+    "article6": {
+      "title": "Article 6: Services not included",
+      "items": {
+        "intl_flight": {
+          "strong": "Round-trip international flight to Istanbul",
+          "body": ": to be booked freely by the Participant. The flight must arrive in Istanbul (IST or SAW) at least 4 hours before the MKR domestic flight time. MKR communicates the domestic flight schedule as soon as the application is approved."
+        },
+        "insurance": "Travel insurance covering medical repatriation and the practice of contact sports (mandatory, to be taken out by the Participant)",
+        "gear": "Personal equipment (gloves, shin guards, mouthguard, groin protector)",
+        "personal": "Personal expenses on site (drinks, purchases, tips, mobile communication)",
+        "passport": "Any fees related to the passport (renewal, etc.)"
+      }
+    },
+    "article6bis": {
+      "title": "Article 6 bis: Late application surcharge (applications less than 30 days before departure)",
+      "p1": "For any application approved less than thirty (30) days before the start of the camp, MKR applies a flat-rate late processing surcharge. This surcharge covers the accelerated visa procedure, securing the domestic flight in high season, and logistical coordination within tight deadlines.",
+      "p2": "The amount of the surcharge is communicated to the Participant during the validation call, based on the departure date and the complexity of the file. It is payable in addition to the package price and is added to the full payment after approval.",
+      "p3": "The Organizer reserves the right to refuse an application received less than thirty (30) days before departure if administrative deadlines (visa, domestic flight) cannot be met under reasonable conditions."
+    },
+    "article7": {
+      "title": "Article 7: Insurance",
+      "body": "The Participant is required to take out travel insurance covering medical repatriation and the practice of contact sports before departure. Proof of insurance must be provided to the Organizer no later than 15 days before departure."
+    },
+    "article8": {
+      "title": "Article 8: Liability",
+      "body": "The Participant acknowledges taking part in the camp on their own initiative and with full knowledge of the risks related to the practice of combat sports. The Organizer declines all liability in the event of injury occurring during training or related activities."
+    },
+    "article9": {
+      "title": "Article 9: Image rights",
+      "body": "The Participant authorizes the Organizer to use photos and videos taken during the camp for communication and promotional purposes, unless prior written objection is made. For minors, authorization is given by the legal guardian at the time of registration."
+    },
+    "article10": {
+      "title": "Article 10: Minors and parental authorization",
+      "p1_prefix": "Children and teenagers aged 8 to 17 are admitted to the camp ",
+      "p1_strong": "only when accompanied by a parent or legal guardian who is also participating in the camp",
+      "p1_suffix": ". The Organizer does not provide supervision for an unaccompanied minor.",
+      "p2": "Registration of a minor requires:",
+      "items": [
+        "A parental authorization signed by the legal guardian at the time of registration",
+        "A medical certificate of fitness for intensive sports practice, issued by the attending physician, dated less than 6 months before departure",
+        "A copy of the minor's passport (valid for at least 6 months after the return date)",
+        "A medical power of attorney authorizing the Organizer and its local medical team to take any necessary emergency measures",
+        "Travel insurance must explicitly cover the minor, medical repatriation, and the practice of contact sports for minors"
+      ],
+      "p3": "The accompanying parent or legal guardian remains fully responsible for the minor throughout the duration of the stay, including outside the training sessions supervised by MKR. The Organizer provides specialized supervision during the Youth wrestling sessions (dedicated youth coach, maximum ratio of 1 coach per 5 children, constant supervision)."
+    },
+    "article11": {
+      "title": "Article 11: Governing law and dispute resolution",
+      "p1": "These Terms and Conditions are governed by French law. The contractual language is French.",
+      "p2_prefix": "Before any legal action, the Customer is invited to contact MKR Caucasian Camp via the ",
+      "p2_link": "contact form",
+      "p2_suffix": " to attempt an amicable resolution of the dispute.",
+      "p3_prefix": "In accordance with articles L611-1 et seq. of the French Consumer Code, the consumer Customer may use a consumer mediator free of charge for the amicable resolution of the dispute. The contact details of the competent mediator are provided on request via the ",
+      "p3_contact_link": "contact form",
+      "p3_middle": ". The Customer may also use the European online dispute resolution platform available at ",
+      "p3_odr_link": "ec.europa.eu/consumers/odr",
+      "p3_suffix": ".",
+      "p4": "Failing an amicable resolution, any dispute relating to the formation, performance, or interpretation of these Terms and Conditions shall be brought before the competent French courts. For consumer Customers, the competent court is that of the consumer's place of residence or of the place of performance of the service, in accordance with articles L211-3 et seq. of the French Consumer Code and article R631-3 of the same Code. For professional Customers, the competent court is that of the registered office of MKR Caucasian Camp."
+    }
+  },
+  "updated": "Last updated: May 14, 2026"
+}

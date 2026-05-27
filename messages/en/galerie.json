@@ -1,0 +1,96 @@
+{
+  "meta": {
+    "title": "MMA camp photo gallery in Dagestan | MKR Caucasian Camp",
+    "description": "Photos and videos from the MKR camp in the Caucasus. Training, mountains, coaches, culture. Discover the camp in images."
+  },
+  "breadcrumb": {
+    "home": "Home",
+    "current": "Gallery"
+  },
+  "hero": {
+    "label": "GALLERY",
+    "title": "THE CAMP IN IMAGES"
+  },
+  "filters": {
+    "aria_label": "Filter the gallery",
+    "labels": {
+      "Tout": "All",
+      "Lutte": "Wrestling",
+      "MMA": "MMA",
+      "Coachs": "Coaches",
+      "Culture": "Culture",
+      "Montagnes": "Mountains"
+    }
+  },
+  "lightbox": {
+    "aria_dialog": "Photo viewer",
+    "open_image": "Open image: {alt}",
+    "close": "Close viewer",
+    "prev": "Previous image",
+    "next": "Next image"
+  },
+  "videos": {
+    "label": "VIDEOS",
+    "title": "IN MOTION"
+  },
+  "photos": {
+    "lutte_singleleg_cercle": "Single leg in a circle, Dagestani wrestlers on the mat",
+    "lutte_singleleg_rus": "Single leg with Russian coach, takedown on the ground",
+    "lutte_suplex_cercle": "Suplex in a circle, mat demonstration",
+    "lutte_dagestan_drill": "Wrestling drill in Dagestan, ground control",
+    "lutte_clinch_ados": "Standing clinch, teenage wrestlers",
+    "lutte_clinch_tete": "Head control in a standing clinch",
+    "lutte_drill_standup": "Stand-up drill, guard position",
+    "lutte_projection_kid": "Throw with a young wrestler",
+    "lutte_cardio_sprawl": "Cardio sprawl, mat conditioning",
+    "lutte_cardio_course": "Cardio run, collective warm-up",
+    "lutte_coach_echauffement": "Coach leading the warm-up, wrestlers lined up",
+    "lutte_flexion_debout": "Standing bend, hip mobility",
+    "lutte_stretch_sol": "Floor stretching, end of session",
+    "lutte_recup_collective": "Collective recovery on the mat",
+    "lutte_kids_briefing": "Young wrestlers briefing before the session",
+    "lutte_salle_banniere": "Dagestani wrestling room, banner on the wall",
+    "mma_chimaev_ceinture": "Khamzat Chimaev with UFC belt, Akhmat Grozny club",
+    "mma_portrait_cage_rouge": "Fighter in red cage, green and gold gloves",
+    "mma_portrait_cage_gants_verts": "Portrait inside the cage, green and gold gloves, post-session sweatshirt",
+    "mma_sparring_face_a_face": "Face-to-face sparring, MMA guard position",
+    "mma_portrait_smilodox": "Portrait of fighter in Smilodox tank top in front of punching bags",
+    "mma_crochet_rca_coach": "Hook on pads, fighter in RCA jacket and senior coach",
+    "mma_duo_akhmat_power": "Spirit of the camp, two fighters in Venum and Akhmat Power",
+    "mma_bandage_mains": "Hand wrapping before the session, locker room atmosphere",
+    "mma_briefing_coach": "Coach briefing in Akhmat Power gear with four fighters",
+    "mma_kick_haut_kadyrov": "High kick on pad, white-bearded coach",
+    "mma_pads_direct_kadyrov": "Straight punch on pads with senior coach",
+    "mma_pads_jab_kadyrov": "Jab on pads, Akhmat club atmosphere",
+    "mma_pads_akhmat_sila": "Pads inside the cage, AKHMAT SILA backdrop",
+    "mma_sparring_cage_turquoise": "Cage sparring, turquoise fighter vs black-clad coach",
+    "mma_sparring_cage_coach_noir": "Cage sparring, black-clad Akhmat Fight Club coach",
+    "mma_team_5_cage": "Group of five fighters sitting in the cage",
+    "mma_coach_cage_portrait": "Portrait of coach with glasses inside the cage",
+    "mma_low_kick_cage": "Low kick inside the red cage",
+    "mma_duo_post_sparring": "Post-sparring duo, brotherhood atmosphere",
+    "mma_coach_care_blesse": "Akhmat Power coach caring for a fighter with an ankle injury",
+    "coachs_ruslan_chemise_noire": "Ruslan Mukhtarov, MKR founder, portrait in black shirt",
+    "coachs_ruslan_takedown": "Ruslan on the French wrestling team, takedown at the championship",
+    "coachs_ruslan_ffl": "Ruslan Mukhtarov facing his opponent, French Wrestling Federation scoreboard",
+    "coachs_ruslan_clinch_nb": "Ruslan in a wrestling clinch, black and white portrait",
+    "coachs_salle_espalier": "Two Dagestani coaches in the gym, wooden wall bars",
+    "culture_priere_collective": "Collective Muslim prayer on the wrestling mat, wrestlers lined up",
+    "culture_mma_team_cluster": "Fighters gathered on the mat before the session",
+    "culture_antoine_petit_jean": "Antoine Petit-Jean at the camp, invited MMA fighter",
+    "culture_mma_adultes_cercle": "Adult fighters sitting on the red mat, ACA, MANTO and Reebok gear",
+    "montagnes_quad_golden_hour": "Sunset over the Caucasus mountains, quad bike at the summit",
+    "montagnes_canyon_sulak": "Sulak Canyon, walkway over the cliffs",
+    "montagnes_dagestan_panorama": "Dagestan panorama, Caucasus ranges",
+    "montagnes_gamsutl_village": "The cliff-top village of Gamsutl, Dagestan",
+    "montagnes_mountain_lake": "Mountain lake in the Caucasus",
+    "montagnes_lake_kezenoy": "Lake Kezenoy-Am, Dagestan-Chechnya border",
+    "montagnes_vainakh_towers": "Vainakh towers, traditional Chechen architecture",
+    "montagnes_sunrise_towers": "Sunrise over the Vainakh towers",
+    "montagnes_caucasus_panorama": "Caucasus panorama, snow-capped range",
+    "montagnes_mountain_mist_trail": "Mountain trail in the mist, Caucasus"
+  },
+  "section_cta": {
+    "primary_label": "COME CREATE YOUR OWN MEMORIES"
+  }
+}

@@ -1,0 +1,180 @@
+{
+  "homepage": [
+    {
+      "question": "What level is required?",
+      "answer": "It depends on the discipline. Wrestling (Dagestan): open to all levels, including beginners. MMA (Chechnya): Advanced level minimum (5+ years of regular practice) or Competitor, because the local sparring partners are pros from the Akhmat team. Your level is confirmed during the video interview."
+    },
+    {
+      "question": "Do I need a visa?",
+      "answer": "Whether you head to Dagestan (Wrestling) or Chechnya (MMA), the camp takes place in the Russian Federation: a Russian visa is required for most nationalities. The visa is included in the MKR package: consular fees, official invitation letter, EU questionnaire, and full handling of your file. You provide your passport (valid for at least 6 months), we take care of the rest."
+    },
+    {
+      "question": "What is included in the price?",
+      "answer": "The price covers the Russian visa (consular fees and complete file), the domestic flight from Istanbul (Makhachkala for Dagestan, Grozny for Chechnya), the airport transfers, accommodation in the camp lodging, 2 meals per day, twice-daily training sessions and the remote prep follow-up. The international flight to Istanbul is on the candidate (free to book). An MKR surcharge may apply for applications less than 30 days before departure (express processing)."
+    },
+    {
+      "question": "Where does the camp take place: Dagestan or Chechnya?",
+      "answer": "It depends on the discipline you choose. Adult wrestling and Youth wrestling: camp in Dagestan, in the Makhachkala and Kaspiysk gyms. MMA: camp in Chechnya, in Grozny, inside the Akhmat Fight Club ecosystem. On official sessions, it is exclusive: 15 Wrestling spots plus 15 MMA spots per session, you pick one OR the other at sign-up. The Dagestan plus Chechnya combo is only available on Custom Camp or Clubs and Groups bookings (custom quote)."
+    },
+    {
+      "question": "Wrestling or MMA, how do I choose?",
+      "answer": "You choose based on your background discipline and your goals. If you practice freestyle wrestling, grappling, BJJ or sambo: choose Wrestling (Dagestan, legacy of the Olympic champions). If you practice MMA, boxing, kickboxing or Muay Thai and you want to progress inside the Russian MMA ecosystem: choose MMA (Chechnya, Akhmat Fight Club). MMA requires an Advanced level minimum. For undecided or complete athletes: Combo option in Custom Camp (custom quote)."
+    },
+    {
+      "question": "What level is required for the MMA camp?",
+      "answer": "Advanced level minimum (more than 5 years of regular practice) or Competitor (regional, national, international). The application form blocks Intermediate and below when you select MMA. This requirement comes from the rhythm of the camp and the level of the local sparring partners: you will be training with pro fighters from the Akhmat team. If you are not at that level yet, choose Wrestling (Dagestan), open to all levels including motivated beginners. Ruslan refines the selection in the final video call."
+    },
+    {
+      "question": "What language is used for training?",
+      "answer": "Training sessions are mainly in Russian (and a few words of Avar in Dagestan or Chechen / Vainakh in Chechnya depending on the gym). A French-speaking interpreter is on site. Language immersion is part of the experience."
+    },
+    {
+      "question": "What equipment should I bring?",
+      "answer": "Boxing gloves (16 oz), shin guards, mouthguard and groin protector. A full preparation guide is sent after your application is confirmed."
+    },
+    {
+      "question": "How many participants per session?",
+      "answer": "Maximum 15 participants per session for individual follow-up. Spots are intentionally limited. The selection is real."
+    },
+    {
+      "question": "What are the dates of the next camps?",
+      "answer": "Four official sessions per year, aligned with French-speaking school holidays. Summer 2026: August 17 to September 5. Fall 2026: October 17 to November 7. Winter 2027: February 13 to March 6. Spring 2027: April 3 to 24. Each session takes place in Dagestan (Wrestling) or Chechnya (MMA), your choice. 3-week window inside which you pick 1, 2 or 3 weeks, 15 spots max per destination. Solo / Duo rate: {duoPerAdult1week} per adult (1 week) to {duoPerAdult3week} per adult (3 weeks), all included. Tiered pricing from 3 people."
+    }
+  ],
+  "categories": [
+    {
+      "id": "securite",
+      "label": "Safety",
+      "items": [
+        {
+          "question": "Are Dagestan and Chechnya safe?",
+          "answer": "The urban areas where the camps take place (Makhachkala and Kaspiysk in Dagestan, Grozny in Chechnya) are stable, visited by athletes from all over the world and under strong police presence. We constantly monitor the recommendations of the French Foreign Ministry and the Swiss FDFA. MKR protocol: 24/7 emergency contacts, medical repatriation insurance recommended, local team present at all times in each destination."
+        },
+        {
+          "question": "Do I need to take out travel insurance?",
+          "answer": "Yes, it is mandatory. Your insurance must cover medical repatriation and contact sports. We recommend providers like Chapka, ACS or World Nomads. The details are sent after your application is approved."
+        },
+        {
+          "question": "Is there a French-speaking host on site?",
+          "answer": "Yes. A French-speaking member of the MKR team is present for the full duration of the camp. A local interpreter also handles translation during training sessions."
+        }
+      ]
+    },
+    {
+      "id": "logistique",
+      "label": "Logistics",
+      "items": [
+        {
+          "question": "Do I need a visa?",
+          "answer": "The camp takes place in the Russian Federation (in Dagestan for Wrestling, in Chechnya for MMA). A Russian visa is required for most nationalities. Good news: the visa is included in the MKR package (consular fees, official invitation letter, EU questionnaire, full handling). You provide your passport (valid for at least 6 months), MKR drives the full process once your application is confirmed."
+        },
+        {
+          "question": "What is included in the price?",
+          "answer": "The price covers the Russian visa (consular fees and complete file), the domestic flight from Istanbul (Makhachkala for Dagestan, Grozny for Chechnya), the airport transfers, accommodation in the camp lodging, 2 meals per day, twice-daily training sessions and the remote prep follow-up. The international flight to Istanbul is on the candidate (their responsibility). An MKR surcharge may apply for applications less than 30 days before departure (express visa and logistics processing)."
+        },
+        {
+          "question": "What equipment should I bring?",
+          "answer": "Boxing gloves (16 oz), shin guards, mouthguard and groin protector. A full preparation guide is sent after your application is confirmed."
+        },
+        {
+          "question": "How does the airport transfer work?",
+          "answer": "The airport-to-camp transfer is included in the price. An MKR vehicle waits for you on arrival. Around 1h30 drive from Makhachkala (Dagestan, Wrestling camp) or around 30 minutes from Grozny (Chechnya, MMA camp)."
+        }
+      ]
+    },
+    {
+      "id": "entrainement",
+      "label": "Training",
+      "items": [
+        {
+          "question": "What level is required to participate?",
+          "answer": "It depends on the chosen discipline. Wrestling (Dagestan): open to all levels, including motivated beginners. You progress in a setting adapted to your starting point. MMA (Chechnya): Advanced level minimum (more than 5 years of regular practice) or Competitor, because the local sparring partners are pro fighters. Your level is confirmed during the video interview in all cases."
+        },
+        {
+          "question": "What language is used for training?",
+          "answer": "Training sessions are mainly in Russian (and a few words of Avar depending on the gym). An interpreter is on site for French and English. Language immersion is part of the experience."
+        },
+        {
+          "question": "How many participants per session?",
+          "answer": "Maximum 15 participants per session for individual follow-up. Spots are intentionally limited. The selection is real."
+        },
+        {
+          "question": "Can I pick between MMA, adult wrestling and youth wrestling?",
+          "answer": "Yes. The camp offers 3 disciplines: Adult wrestling, Youth wrestling and MMA. You choose your discipline at sign-up, and your destination follows: Adult wrestling and Youth wrestling in Dagestan (sessions at 10:30 and 17:30), MMA in Chechnya (sessions at 11:00 and 18:00). On official sessions, it is exclusive: 15 Wrestling spots plus 15 MMA spots. The Wrestling plus MMA combo within the same camp is only available in Custom Camp (sequential: X days in Dagestan then Y days in Chechnya, custom quote)."
+        },
+        {
+          "question": "How does the Wrestling plus MMA combo in Custom Camp work?",
+          "answer": "The combo is sequential: you start in Dagestan for the Wrestling part (X days), then MKR organizes your transfer to Chechnya for the MMA part (Y days). Minimum total duration: 2 weeks. The split (for example 1 week Wrestling plus 1 week MMA) is set during your video call with Ruslan, based on your goals and your level. The price is not public: it is set on a custom quote during the call (dual-destination logistics, domestic flights to Makhachkala plus Grozny, transfers). The combo is not available on official sessions or in Family."
+        },
+        {
+          "question": "Are there rest days?",
+          "answer": "One rest day per week, usually spent on a cultural excursion or a mountain hike. The rest of the time, it is twice-daily training."
+        }
+      ]
+    },
+    {
+      "id": "inscription",
+      "label": "Registration",
+      "items": [
+        {
+          "question": "How does the registration process work?",
+          "answer": "1. You fill out the online form (5 minutes). No payment is required at this stage. 2. We call you back within 48 hours for a validation video call with Ruslan. 3. If your application is accepted, you receive the MKR bank details and pay the package in one go (bank transfer or cash). 4. You receive the preparation guide and the visa invitation letter."
+        },
+        {
+          "question": "Can I cancel after registering?",
+          "answer": "Yes. As long as you have not paid your package, cancellation is free. Once the payment is received: free cancellation up to 60 days before departure (100% refund). Between 30 and 60 days: 50% refund. Less than 30 days: non-refundable. Full details in our terms and conditions."
+        },
+        {
+          "question": "What payment methods do you accept?",
+          "answer": "Bank transfer (recommended) or cash. Payment is in euros (EUR), in a single installment after the validation call. No payment is taken at the time of the online application."
+        },
+        {
+          "question": "I am coming with my club, is there a group rate?",
+          "answer": "Yes, tiered pricing by group size. 1 to 2 people (Solo / Duo): {duoPerAdult1week} per 1 week per adult. 3 to 5 people (Trio to 5): {trioPerAdult1week} per 1 week per adult. 6 to 10 people (Club): {clubPerAdult1week} per 1 week per adult. 11 people and up or full session buyout: custom quote. The Clubs and Groups channel is reserved for organized groups of 5 to 20 people; for 1 to 4 adult friends, take Custom Camp."
+        },
+        {
+          "question": "What are the 4 types of registration?",
+          "answer": "1. Official Sessions (four per year: Summer August 17 to September 5, 2026, Fall October 17 to November 7, 2026, Winter February 13 to March 6, 2027, Spring April 3 to 24, 2027; adults only, group formed by MKR, 3-week window inside which you pick 1, 2 or 3 weeks, dates aligned with French-speaking school holidays). 2. Custom Camp (your dates, 1 to 4 adults, 1/2/3 weeks, minimum 90-day lead time). 3. Family (parent + child aged 8 to 17, choice between joining an official session or going custom). 4. Clubs and Groups (5 to 20 people, club or organized group, dates of your choice, custom quote). Public fixed pricing is identical across all 4 channels."
+        },
+        {
+          "question": "What are the 4 official sessions for 2026 / 2027?",
+          "answer": "Four sessions per year, aligned with school holidays across the three French zones, French-speaking Switzerland and Belgium, so French-speaking practitioners (and families) can travel without taking days off. Summer 2026: August 17 to September 5, 2026 (3-week window, summer holidays). Fall 2026: October 17 to November 7, 2026 (3-week window, French Toussaint, Swiss October break, Belgian Toussaint). Winter 2027: February 13 to March 6, 2027 (3-week window, French winter holidays zones A/B/C, Swiss relâche, Belgian carnival). Spring 2027: April 3 to 24, 2027 (3-week window, French spring holidays, Swiss and Belgian Easter). Within each window, you pick 1, 2 or 3 weeks. Each session takes place in Dagestan (Adult wrestling and Youth wrestling) or in Chechnya (MMA), 15 spots max per destination. Solo / Duo rate: {duoPerAdult1week} per adult (1 week) to {duoPerAdult3week} per adult (3 weeks), all included. Tiered pricing from 3 people."
+        },
+        {
+          "question": "What is the minimum lead time to book a Custom Camp?",
+          "answer": "90 days minimum before the desired start date. This lead time allows MKR to handle the Russian visa (3 to 4 weeks), gives you room to book your international flight under good conditions, and leaves you 6 weeks for physical preparation. For fixed-date camps (official session), registration is open up to 30 days before departure. Below 30 days, an MKR surcharge applies for express processing (visa, logistics)."
+        }
+      ]
+    },
+    {
+      "id": "familles",
+      "label": "Families and Youth",
+      "items": [
+        {
+          "question": "Can my child come to the camp?",
+          "answer": "Yes, from age 8, but they must be accompanied by a parent participating in the camp. This is our safety rule: no unaccompanied child. Parent + Child package at {familyBase1week} (1 week) with the first child included, {familyBase2week} (2 weeks), {familyBase3week} (3 weeks). Each additional child: {familyExtraChild1weekLabel}."
+        },
+        {
+          "question": "How do I register as a family?",
+          "answer": "Choose the Family channel on /inscription. You declare your children (1 to 4, ages 8 to 17). If your partner also participates in the camp, tick the dedicated box: both parents move to the Solo / Duo rate ({duoPerAdult1week} per person per week) plus each child at {familyExtraChildPerWeek} per week. Otherwise, the Parent + Child package (first child included in the {familyBase1weekLabel} per week) applies. The total price is calculated automatically."
+        },
+        {
+          "question": "How is the child supervised during sessions?",
+          "answer": "A youth coach trained in sport pedagogy for younger athletes runs the children's sessions (Youth wrestling at 10:30 and 17:30). Ratio of 1 coach per 5 children maximum. Certified Olympic mats, dedicated gym, no KO allowed, controlled sparring. Parent briefing at the end of each session, daily photos."
+        },
+        {
+          "question": "Are the parent and child programs running in parallel?",
+          "answer": "Yes. You follow the adult sessions (Wrestling 10:30/17:30 or MMA 11:00/18:00) while your child follows the Youth wrestling program (10:30/17:30). You meet up at meals, excursions and free moments. You can also watch your child's sessions if you want."
+        },
+        {
+          "question": "What is the minimum and maximum age for children?",
+          "answer": "Minimum 8, maximum 17. Below 8, the camp is physically and culturally too intense. From age 18, your teenager is registered as an adult at the Solo / Duo rate ({duoOneLineBare}, per adult)."
+        },
+        {
+          "question": "Is a medical certificate required for children?",
+          "answer": "Yes, a medical certificate of fitness for intensive sports practice is required for each child, issued by the family doctor and dated less than 6 months before departure. A parental authorization signed by the legal guardian is also required."
+        }
+      ]
+    }
+  ]
+}

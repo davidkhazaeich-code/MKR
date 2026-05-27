@@ -1,0 +1,26 @@
+{
+  "identity_label": "ANTOINE · CHAMPIONSHIP PREP",
+  "duration": "0:54",
+  "variants": {
+    "mma": {
+      "label": "A PREVIEW OF YOUR CAMP",
+      "title": "SPARRING. INTENSITY. LEVEL.",
+      "intro": "Antoine is an amateur fighter transitioning pro. He came to the camp to test himself against the Chechens and step up before a championship. 54 seconds of raw sparring in Grozny.",
+      "primary_cta_label": "APPLY NOW · MMA CHECHNYA"
+    },
+    "temoignages": {
+      "label": "ON VIDEO",
+      "title": "ANTOINE · CHAMPIONSHIP PREP",
+      "intro": "An amateur fighter transitioning pro, Antoine came to test himself against the Chechens and step up before a championship. 54 seconds of sparring in Grozny.",
+      "primary_cta_label": "APPLY TO A CAMP",
+      "secondary_cta_label": "SEE THE MMA PROGRAM"
+    },
+    "home": {
+      "label": "ON VIDEO",
+      "title": "ANTOINE · CHAMPIONSHIP PREP",
+      "intro": "An amateur fighter transitioning pro, Antoine came to test himself against the Chechens and step up before a championship. 54 seconds of sparring in Grozny.",
+      "primary_cta_label": "APPLY TO A CAMP",
+      "secondary_cta_label": "SEE THE MMA PROGRAM"
+    }
+  }
+}

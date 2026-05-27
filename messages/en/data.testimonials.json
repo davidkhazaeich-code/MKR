@@ -1,0 +1,70 @@
+{
+  "antoine-petit-jean": {
+    "name": "Antoine Petit-Jean",
+    "alt": "Antoine Petit-Jean, MMA, Geneva",
+    "discipline": "MMA · Geneva",
+    "quote": "Before MKR, I was stuck on my own patterns. Three weeks in Dagestan broke the lock. The level pulls you up, every session forces you to dig deeper. You sleep well, you eat well, and on the mat it is full throttle from morning to night. The MMA fighter I was before and the one I am today are two different athletes.",
+    "video_label": "Back from the session"
+  },
+  "lamp": {
+    "name": "LAMP",
+    "alt": "LAMP, professional MMA fighter, in Makhachkala with a Dagestani fighter",
+    "discipline": "Pro MMA · Dagestan Session",
+    "quote": "I arrived as a competitor, I left as a professional. The camp pushed me past a level I would never have reached in Europe. You train side by side with guys who live combat on another plane, and that pulls you up, session after session.",
+    "video_label": "Going pro after MKR"
+  },
+  "mehdi-r": {
+    "name": "Mehdi R.",
+    "alt": "Mehdi R., Freestyle Wrestling, Paris",
+    "discipline": "Freestyle Wrestling · Paris",
+    "quote": "Three weeks that changed the way I fight. The intensity of the training forced me to reach for things I had never touched before."
+  },
+  "karim-d": {
+    "name": "Karim D.",
+    "alt": "Karim D., MMA, Geneva",
+    "discipline": "MMA · Geneva",
+    "quote": "The level of the coaches is rare. Magomed teaches you holds you will not see anywhere in Europe. I am going back next year."
+  },
+  "thomas-b": {
+    "name": "Thomas B.",
+    "alt": "Thomas B., Boxing, Lyon",
+    "discipline": "Boxing · Lyon",
+    "quote": "Two weeks after coming back, I won my first regional title. What I built over there, no gym in France could have given me."
+  },
+  "yassine-k": {
+    "name": "Yassine K.",
+    "alt": "Yassine K., Grappling, Brussels",
+    "discipline": "Grappling · Brussels",
+    "quote": "One month of camp is worth two years in a gym. The Dagestanis teach you to suffer with a smile. I came back transformed."
+  },
+  "romain-v": {
+    "name": "Romain V.",
+    "alt": "Romain V., Sambo, Toulouse",
+    "discipline": "Sambo · Toulouse",
+    "quote": "I came alone, without speaking Russian. The welcome is warm. On the mat, the level is brutal, exactly what I was looking for."
+  },
+  "adam-s": {
+    "name": "Adam S.",
+    "alt": "Adam S., Wrestling, Montreal",
+    "discipline": "Wrestling · Montreal",
+    "quote": "The Caucasus is another planet. The 6 a.m. morning sessions teach you what discipline really means. I am going back next summer."
+  },
+  "lucas-m": {
+    "name": "Lucas M.",
+    "alt": "Lucas M., MMA, Zurich",
+    "discipline": "MMA · Zurich",
+    "quote": "Three weeks, six kilos of sweat and a completely different view of combat. This camp brought back my hunger for competition."
+  },
+  "amine-b": {
+    "name": "Amine B.",
+    "alt": "Amine B., Jiu-Jitsu, Lyon",
+    "discipline": "Jiu-Jitsu · Lyon",
+    "quote": "The coaches at the camp know techniques you will not find in any book. A sporting and human experience I recommend to any competitor."
+  },
+  "pierre-l": {
+    "name": "Pierre L.",
+    "alt": "Pierre L., Kickboxing, Nantes",
+    "discipline": "Kickboxing · Nantes",
+    "quote": "The group, the atmosphere, the mountains in the background of the mat. You touch something rare. I came back with a medal and memories for life."
+  }
+}

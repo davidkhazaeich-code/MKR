@@ -1,0 +1,44 @@
+{
+  "site": {
+    "name": "MKR Caucasian Camp",
+    "description": "MMA and Wrestling training camps in the Caucasus. Adult and youth wrestling in Dagestan, MMA in Chechnya. One discipline per camp. 1 to 3 week immersion with local coaching.",
+    "slogan": "Immersion among champions"
+  },
+  "organization": {
+    "description": "MMA and Wrestling training camps in the Caucasus, run by Ruslan Mukhtarov, former French Wrestling Team athlete (INSEP).",
+    "founder_description": "Ruslan Mukhtarov, 32, former French Wrestling Team athlete, trained at INSEP (2012-2016)."
+  },
+  "person_ruslan": {
+    "job_title": "Founder and wrestling and MMA coach",
+    "alumni_of_name": "INSEP, the French National Institute of Sport, Expertise and Performance",
+    "member_of_name": "French Wrestling Team"
+  },
+  "events": {
+    "session_description_template": "Training camp of 1 to 3 weeks in the Caucasus. 15 Wrestling spots in Dagestan plus 15 MMA spots in Chechnya (exclusive). Domestic flight from Istanbul, Russian visa, accommodation and 2 meals per day included."
+  },
+  "sports_activity_location": {
+    "dagestan": {
+      "name": "Wrestling training facilities in Dagestan",
+      "description": "Official wrestling halls in Makhachkala and Kaspiysk, partners of the Russian Wrestling Federation.",
+      "amenity_visa": "Russian visa included",
+      "amenity_flight": "Istanbul to Makhachkala domestic flight included",
+      "amenity_meals": "2 meals per day",
+      "amenity_transfers": "Airport transfers",
+      "amenity_lodging": "Accommodation included",
+      "amenity_coaching": "Local coaching included"
+    },
+    "tchetchenie": {
+      "name": "MMA training facilities in Chechnya",
+      "description": "MMA gyms in Grozny, in the lineage of Akhmat Fight Club.",
+      "amenity_visa": "Russian visa included",
+      "amenity_flight": "Istanbul to Grozny domestic flight included",
+      "amenity_meals": "2 meals per day",
+      "amenity_transfers": "Airport transfers",
+      "amenity_lodging": "Accommodation included",
+      "amenity_coaching": "Local coaching included"
+    }
+  },
+  "og": {
+    "image_alt": "MKR Caucasian Camp, MMA and Wrestling training camp in the Caucasus"
+  }
+}

@@ -1,0 +1,121 @@
+{
+  "meta": {
+    "title": "Preparing for your MMA camp in Dagestan: 6-week guide | MKR",
+    "description": "Everything you need to know to arrive ready at the MKR camp. Minimum level, 6-week preparation program, equipment, mental preparation."
+  },
+  "breadcrumb": {
+    "home": "Home",
+    "current": "Preparing for your camp"
+  },
+  "hero": {
+    "label": "PREPARATION",
+    "title": "ARRIVE READY.<br/>LEAVE TRANSFORMED.",
+    "subtitle": "The camp begins 6 weeks before your departure."
+  },
+  "cinematic": {
+    "alt": "Athlete climbing the rope in a Caucasus gym",
+    "label": "PREPARATION",
+    "title": "THE WORK STARTS BEFORE YOU LEAVE",
+    "tagline": "Conditioning, endurance, mental. Arrive ready, progress faster."
+  },
+  "niveau": {
+    "label": "PREREQUISITES",
+    "title": "MINIMUM LEVEL",
+    "p1_prefix": "The required level depends on the discipline. ",
+    "p1_strong1": "Wrestling Camp in Dagestan: open to all levels",
+    "p1_middle": ", including motivated beginners. You progress in a framework adapted to your starting point. ",
+    "p1_strong2": "MMA Camp in Chechnya: Advanced level minimum",
+    "p1_suffix": " (more than 5 years of regular practice) or Competitor, because the local sparring partners are professional fighters.",
+    "p2": "In both cases the camp is intense. If you arrive without physical preparation, you will not last the first week. We therefore provide you with a 6-week preparation program.",
+    "checklist": {
+      "title": "PRE-DEPARTURE CHECKLIST",
+      "items": [
+        "Run 5 km without stopping",
+        "Complete 50 bodyweight squats in a row",
+        "Hold a 3-minute plank",
+        "Do 10 strict pull-ups",
+        "Regular sparring (1 to 2 times per week)",
+        "Medical certificate for contact sports"
+      ]
+    }
+  },
+  "programme": {
+    "label": "PROGRAM",
+    "title": "6-WEEK PREPARATION",
+    "weeks": {
+      "week1": {
+        "week": "Week 1",
+        "focus": "Cardio",
+        "desc": "Aerobic base. Running 30 to 45 min, swimming, cycling. Initial Cooper test."
+      },
+      "week2": {
+        "week": "Week 2",
+        "focus": "Strength",
+        "desc": "Squats, pull-ups, push-ups, deadlifts. Functional circuits."
+      },
+      "week3": {
+        "week": "Week 3",
+        "focus": "Mobility",
+        "desc": "Yoga, dynamic stretching, hip and shoulder work."
+      },
+      "week4": {
+        "week": "Week 4",
+        "focus": "Specific endurance",
+        "desc": "Simulated sparring, 5-minute rounds, combat HIIT."
+      },
+      "week5": {
+        "week": "Week 5",
+        "focus": "Intensity",
+        "desc": "Strength and cardio combination. 45-minute circuits. Live sparring."
+      },
+      "week6": {
+        "week": "Week 6",
+        "focus": "Tapering",
+        "desc": "Reduced volume, intensity maintained. Active rest. Mental preparation."
+      }
+    },
+    "guide_link": "DOWNLOAD THE FULL GUIDE"
+  },
+  "equipement": {
+    "label": "EQUIPMENT",
+    "title": "WHAT TO BRING",
+    "categories": {
+      "vetements": {
+        "title": "Clothing and Protection",
+        "items": [
+          "16 oz boxing gloves",
+          "Shin guards",
+          "Mouthguard (molded)",
+          "Groin guard",
+          "Rash guard (3 minimum)",
+          "Fight shorts (x3)",
+          "Wrestling shoes (optional)"
+        ]
+      },
+      "hygiene": {
+        "title": "Hygiene and Admin",
+        "items": [
+          "Passport (valid 6+ months)",
+          "Copy of MKR confirmation",
+          "Insurance certificate",
+          "Mosquito repellent",
+          "Suitcase padlock"
+        ]
+      }
+    }
+  },
+  "mental": {
+    "label": "MENTAL",
+    "title": "MENTAL PREPARATION",
+    "p1": "The language barrier, the culture shock, the physical discomfort: the camp will push you out of your comfort zone. That is the point. The best fighters in the world have trained in these conditions since childhood.",
+    "p2": "Do not expect a 5-star hotel. The lodging is simple, the food is abundant but rustic, and the coaches will not go easy on you. If you are looking for comfort, this camp is not for you. If you are looking for progress, you are in the right place.",
+    "quote": "\"One month of camp that is worth two years in a regular gym. The Dagestanis teach you to suffer with a smile.\"",
+    "quote_attribution": "Yassine K. · Grappling · Brussels",
+    "img_recovery_alt": "Athlete recovering after an intense training session",
+    "img_accommodation_alt": "Simple and functional accommodation at the MKR camp"
+  },
+  "section_cta": {
+    "primary_label": "VIEW SESSIONS",
+    "ghost_label": "DOWNLOAD THE FULL GUIDE"
+  }
+}

@@ -1,0 +1,145 @@
+{
+  "meta": {
+    "title": "Free Caucasus PDF Guide: Wrestling and MMA | MKR",
+    "description": "Complete 20-page guide to train in the Caucasus. Visa, flights, budget, preparation, equipment, culture. Instant download, free."
+  },
+  "breadcrumb": {
+    "home": "Home",
+    "current": "Caucasus Guide"
+  },
+  "jsonld": {
+    "name": "MKR Caucasus Guide",
+    "description": "Practical 20-page guide to train in the Caucasus with MKR Caucasian Camp.",
+    "about": "Travel and combat training in Dagestan and Chechnya"
+  },
+  "hero": {
+    "label": "FREE GUIDE",
+    "title": "THE CAUCASUS,<br/>NO DETOURS.",
+    "subtitle": "20 pages to prepare your Wrestling camp in Dagestan or MMA camp in Chechnya. Visa, flights, budget, prep, equipment, culture. All inside."
+  },
+  "section_main": {
+    "img_openbook_alt": "Caucasus Guide open on two pages, cover and table of contents",
+    "img_cover_alt": "MKR Caucasus Guide cover",
+    "loading": "Loading...",
+    "title": "WHAT THE GUIDE CONTAINS",
+    "contents": {
+      "visa": {
+        "title": "Russian visa: we handle it",
+        "desc": "Full end-to-end handling. You provide 3 documents, MKR takes care of the letter, form, submission, and follow-up."
+      },
+      "vols": {
+        "title": "Flights and itineraries",
+        "desc": "Istanbul to Makhachkala (Wrestling) or Grozny (MMA). Comparison, price windows, domestic flight included."
+      },
+      "inclus": {
+        "title": "What is included",
+        "desc": "A clear breakdown of what your MKR package covers and what is on you. No gray areas."
+      },
+      "prep": {
+        "title": "6-week physical prep",
+        "desc": "Cardio, strength, specific endurance, peaking. Adapted to your discipline."
+      },
+      "equipement": {
+        "title": "Complete equipment list",
+        "desc": "Exhaustive list: clothing, protection, hygiene, admin. Nothing superfluous."
+      },
+      "culture": {
+        "title": "Culture and immersion",
+        "desc": "Codes to know, useful Avar and Chechen words, local cuisine."
+      }
+    }
+  },
+  "cinematic": {
+    "alt": "Caucasus mountains, panoramic view",
+    "label": "CAUCASUS",
+    "title": "TWO LANDS OF COMBAT",
+    "tagline": "Dagestan has produced more wrestling champions than any other region in the world. Chechnya is redrawing the MMA map. You choose yours."
+  },
+  "personas": {
+    "title": "WHO IT IS FOR",
+    "items": {
+      "solo": {
+        "tag": "SOLO",
+        "title": "You travel alone",
+        "desc": "The guide helps you structure your trip from A to Z. No logistical stress, just the training."
+      },
+      "famille": {
+        "tag": "FAMILY",
+        "title": "You travel with family",
+        "desc": "Dedicated section: child supervision 8 to 17, suitable accommodation, safety."
+      },
+      "club": {
+        "tag": "CLUB",
+        "title": "You travel with your club",
+        "desc": "Tiered pricing, collective organization, team brief included in the guide."
+      }
+    }
+  },
+  "sneak_peek": {
+    "title": "A PREVIEW OF THE GUIDE",
+    "items": {
+      "carte": {
+        "alt": "Map of the Caucasus, Dagestan and Chechnya"
+      },
+      "visa": {
+        "alt": "Visa page from the guide"
+      },
+      "budget": {
+        "alt": "Budget page from the guide"
+      }
+    }
+  },
+  "testimonials": {
+    "title": "WHAT THEY DID WITH IT",
+    "items": {
+      "karim": {
+        "who": "Karim D., 28, amateur MMA",
+        "quote": "The guide saved me from three visa mistakes. The prep calendar got me back in shape before the camp."
+      },
+      "sophie": {
+        "who": "Sophie L., parent with 12-year-old child",
+        "quote": "We prepared everything by following the checklists. On arrival, zero bad surprises."
+      }
+    }
+  },
+  "faq": {
+    "title": "FREQUENTLY ASKED QUESTIONS",
+    "items": {
+      "q1": {
+        "q": "Is it really free?",
+        "a": "Yes, completely free. No payment, no hidden premium version."
+      },
+      "q2": {
+        "q": "When do I receive it?",
+        "a": "Instantly. The download button appears as soon as you confirm your email."
+      },
+      "q3": {
+        "q": "What format?",
+        "a": "20-page PDF, optimized for A4 print and mobile reading."
+      },
+      "q4": {
+        "q": "Available in English?",
+        "a": "Yes, available in English and French."
+      }
+    }
+  },
+  "final_cta": {
+    "title": "GET THE GUIDE",
+    "subtitle": "No spam. 1 email max. Unsubscribe in 1 click."
+  },
+  "form": {
+    "card_title_idle": "DOWNLOAD THE GUIDE",
+    "card_subtitle_idle": "Get the complete guide (20 pages) in one click. Free, no commitment.",
+    "card_title_success": "YOUR GUIDE IS READY",
+    "card_subtitle_success": "The download has started. If nothing happens, click the button below.",
+    "email_label": "Your email address",
+    "email_placeholder": "Your email address",
+    "submit": "DOWNLOAD THE GUIDE",
+    "submit_sending": "SENDING...",
+    "download_button": "DOWNLOAD THE GUIDE (PDF)",
+    "footer_note": "No spam. 1 email max. Unsubscribe in 1 click.",
+    "success_footer": "Keep it, share it. No spam, no commercial tracking without your consent.",
+    "error_generic": "Unknown error, please try again in a moment",
+    "error_network": "Unable to reach the server"
+  }
+}

@@ -1,0 +1,125 @@
+{
+  "meta": {
+    "title": "The MKR Camp: Wrestling in Dagestan, MMA in Chechnya",
+    "description": "MMA camp in Chechnya or Wrestling camp in Dagestan, 1 to 3 weeks in the Caucasus. Russian visa, domestic flight from Istanbul, accommodation, 2 meals per day and local coaching included."
+  },
+  "breadcrumb": {
+    "home": "Home",
+    "current": "The Camp"
+  },
+  "hero": {
+    "label": "THE CAMP",
+    "title": "1 TO 3 WEEKS THAT CHANGE THE WAY YOU FIGHT.",
+    "subtitle": "Total immersion in the Caucasus. Wrestling in Dagestan, MMA in Chechnya. Coaching, accommodation and meals handled. You just fight."
+  },
+  "tldr": {
+    "title": "In short · The MKR Camp",
+    "facts": [
+      "Flexible duration: 1, 2 or 3 weeks within a 3-week window (4 sessions per year).",
+      "Two exclusive destinations per session: Wrestling in Dagestan (Makhachkala/Kaspiysk) or MMA in Chechnya (Grozny).",
+      "2 training sessions per day, 6 days a week. Wrestling at 10:30 and 17:30, MMA at 11:00 and 18:00.",
+      "Included: Russian visa, domestic flight Istanbul-Caucasus, accommodation, 2 meals per day, transfers, local coaching staff. International flight on your side.",
+      "Capacity: 15 Wrestling spots + 15 MMA spots per session (exclusive). Combo Wrestling + MMA available only as Custom Camp."
+    ]
+  },
+  "cinematic": {
+    "alt": "MMA sparring in a Caucasus gym",
+    "label": "IMMERSION",
+    "title": "THE CAUCASUS ON THE MAT",
+    "tagline": "Daily sparring with local fighters. Methods passed down from generation to generation."
+  },
+  "philosophie": {
+    "label": "PHILOSOPHY",
+    "title": "WHY THE CAUCASUS",
+    "p1": "The best fighters on the planet all come from the same place. The Caucasus. Here, fighting methods have been passed down from father to son for centuries. Mats, sweat, and coaches who have built world champions.",
+    "p2": "MKR opens the doors of this world to you. Whether you are an experienced competitor or a serious amateur who wants to live elite conditions, you train at the same level of demand.",
+    "card_immersion": {
+      "title": "TOTAL IMMERSION",
+      "body": "For 1 to 3 weeks, you live, eat and train with local athletes. Complete immersion in Caucasian fighting culture."
+    },
+    "card_heritage": {
+      "title": "HERITAGE OF THE CAUCASUS",
+      "body": "Methods that have produced Khabib, Makhachev, and hundreds of Olympic wrestling champions. In Grozny, Akhmat Fight Club has shaped Khamzat Chimaev and the new generation of MMA."
+    }
+  },
+  "includes": {
+    "label": "INCLUDED",
+    "title": "WHAT IS INCLUDED",
+    "items": {
+      "visa": {
+        "title": "Russian visa",
+        "desc": "Consular fees, invitation letter, EU questionnaire and file support. Everything is included."
+      },
+      "flight": {
+        "title": "Domestic flight",
+        "desc": "From Istanbul to Makhachkala (Wrestling) or Grozny (MMA). You only organize the flight to Istanbul."
+      },
+      "transport": {
+        "title": "Local transport",
+        "desc": "Airport-camp transfers and all on-site travel."
+      },
+      "accommodation": {
+        "title": "Accommodation",
+        "desc": "Shared camp lodging, clean and functional. You focus on training."
+      },
+      "sessions": {
+        "title": "2 sessions/day",
+        "desc": "Twice-daily training in your discipline. Morning and late afternoon."
+      },
+      "coaches": {
+        "title": "Local coaches",
+        "desc": "Champions and veterans of the Caucasus. Methods passed down from generation to generation."
+      },
+      "excursions": {
+        "title": "Excursions",
+        "desc": "Mountain hikes and cultural visits on the rest day."
+      },
+      "meals": {
+        "title": "2 meals/day",
+        "desc": "Caucasian cuisine rich in protein. Diet adapted to athletes."
+      }
+    }
+  },
+  "not_included": {
+    "label": "NOT INCLUDED",
+    "title": "WHAT IS NOT INCLUDED",
+    "items": [
+      "International flight to Istanbul (book freely)",
+      "Travel insurance (mandatory, on your side)",
+      "Personal equipment (gloves, shin guards, mouthguard, groin protection)",
+      "Personal expenses on site (drinks, shopping, tips)",
+      "MKR surcharge for applications under 30 days before departure (express processing)"
+    ],
+    "cta_logistique": "LOGISTICS DETAILS"
+  },
+  "daily_schedule": {
+    "label": "24 HOURS",
+    "title": "A TYPICAL DAY",
+    "slots": [
+      { "time": "07:30", "activity": "Wake up", "desc": "The morning belongs to those who rise early." },
+      { "time": "08:30", "activity": "Breakfast", "desc": "Hearty meal, protein, energy for the morning." },
+      { "time": "10:30 / 11:00", "activity": "Morning session", "desc": "Wrestling (adults or youth) at 10:30. MMA at 11:00. Sparring, technique, drills." },
+      { "time": "13:00", "activity": "Lunch", "desc": "Recovery and nutrition." },
+      { "time": "14:30", "activity": "Recovery", "desc": "Rest, stretching, treatment if needed." },
+      { "time": "17:30 / 18:00", "activity": "Afternoon session", "desc": "Wrestling at 17:30. MMA at 18:00. Competition intensity, supervised sparring." },
+      { "time": "20:00", "activity": "Dinner", "desc": "Evening meal free according to your personal plan." },
+      { "time": "22:00", "activity": "Rest", "desc": "Sleep. The body rebuilds." }
+    ]
+  },
+  "venues": {
+    "label": "VENUES",
+    "title": "THE TRAINING GYMS",
+    "main_alt": "Main training gym in the Caucasus, Olympic mats",
+    "main_caption": "Main gym. Olympic mats, climate controlled. Capacity 30 athletes.",
+    "secondary_alt": "Striking training on pads in the secondary gym",
+    "secondary_caption": "Secondary gym. Striking equipment, heavy bags, MMA cage.",
+    "accommodation_alt": "MKR camp accommodation in the Caucasus",
+    "accommodation_caption": "Camp accommodation. Simple, clean, functional. Not a hotel, a place to rest.",
+    "meal_alt": "Communal meal between athletes and coaches",
+    "meal_caption": "Communal meal. Caucasian cuisine, protein, brotherhood."
+  },
+  "section_cta": {
+    "primary_label": "SEE AVAILABLE SESSIONS",
+    "ghost_label": "DISCOVER THE PROGRAM"
+  }
+}

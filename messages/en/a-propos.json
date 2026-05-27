@@ -1,0 +1,122 @@
+{
+  "meta": {
+    "title": "About | Ruslan Mukhtarov, founder | MKR Caucasian Camp",
+    "description": "Ruslan Mukhtarov, founder of MKR Caucasian Camp. Former French Wrestling Team, INSEP 2012-2016. MKR handles everything for French-speaking athletes in the Caucasus."
+  },
+  "breadcrumb": {
+    "home": "Home",
+    "current": "About"
+  },
+  "hero": {
+    "label": "ABOUT",
+    "title": "IMMERSION AMONG CHAMPIONS.",
+    "subtitle": "MKR Caucasian Camp was founded by Ruslan Mukhtarov, former French Wrestling Team (INSEP 2012-2016). Here is why he created this camp."
+  },
+  "history": {
+    "label": "OUR STORY",
+    "title": "WHY MKR EXISTS",
+    "p1": "The best fighters come from the same place. The Caucasus. Wrestling in Dagestan, MMA in Chechnya: two schools, one heritage. Yet no one offers structured access to these training methods for European athletes.",
+    "p2": "Ruslan Mukhtarov spent four years at INSEP on the Olympic wrestling team (2012-2016), representing France. From his travels to Dagestan and Chechnya came a simple conviction: this door had to open for French-speaking athletes, with every logistical obstacle removed. MKR stands for Mukhtarov, his family name.",
+    "quote": "\"I wanted to build this camp so that as many athletes as possible, in MMA and Wrestling, could take part. Make the travel and the stay easy. You don't have to think about anything, just pack your bag.\""
+  },
+  "cinematic": {
+    "alt": "Athletes in collective prayer at the MKR camp, heritage and discipline of the Caucasus",
+    "label": "HERITAGE",
+    "title": "MORE THAN A CAMP",
+    "tagline": "Discipline, Caucasian heritage, mat brotherhood. An experience that marks the body and the mind."
+  },
+  "mission": {
+    "quote": "\"Our mission: give French-speaking athletes access to the most effective combat training methods in the world, in an authentic and supervised setting.\""
+  },
+  "pillars": {
+    "label": "OUR PILLARS",
+    "title": "WHAT MKR DOES NOT COMPROMISE ON",
+    "subtitle": "Four principles that guide every session, every selection, every coach chosen. Non-negotiable.",
+    "items": {
+      "authenticity": {
+        "title": "AUTHENTICITY",
+        "body": "Not a Caucasus-inspired camp. THE camp in the Caucasus. Real gyms, real local coaches, an atmosphere you cannot fake."
+      },
+      "discipline": {
+        "title": "DISCIPLINE",
+        "body": "Two training sessions a day, six days a week. Not sport tourism: the mat rigor that builds world champions."
+      },
+      "fraternity": {
+        "title": "BROTHERHOOD",
+        "body": "You are welcomed as one of their own. Sparring with locals, shared meals, family evenings. The mat builds bonds."
+      },
+      "transmission": {
+        "title": "TRANSMISSION",
+        "body": "Wrestling in Dagestan for centuries. MMA in Chechnya for 30 years. You receive a heritage, not a technique."
+      }
+    }
+  },
+  "team": {
+    "label": "TEAM · FOUNDER",
+    "title": "WHO WE ARE",
+    "subtitle": "One founder, a team in France, on-site partners. Everything is designed so a French-speaking athlete only has to think about their bag.",
+    "ruslan_portrait_alt": "Ruslan Mukhtarov in a black suit, founder of MKR Caucasian Camp",
+    "ruslan_portrait_caption": "MKR FOUNDER",
+    "ruslan_label": "FOUNDER · TRIPLE IDENTITY",
+    "ruslan_name": "RUSLAN MUKHTAROV",
+    "ruslan_bio_p1_before_strong": "32 years old. ",
+    "ruslan_bio_p1_strong": "Born in Dagestan, of Chechen origin",
+    "ruslan_bio_p1_after_strong": ", trained on the French Wrestling Team at INSEP (2012-2016). A triple belonging that opens doors no one else can open for a French-speaking athlete.",
+    "ruslan_bio_p2": "Under the suit, the wrestler. On the mat, the former French Team athlete. In the Caucasus, the son of the land. That is what makes access to the gyms of Makhachkala, Kaspiysk and Grozny possible: Ruslan is known, expected, respected.",
+    "ruslan_bio_p3": "Today he runs the MKR camps, supports every candidate over video calls, manages partner coaches and gyms, and trains alongside the participants on site.",
+    "france_label": "IN FRANCE",
+    "france_title": "A REAL TEAM",
+    "france_body": "All admin and social media are run from France. Visa, flight, transfer, accommodation, prep: you have a French-speaking contact at every step, before and during your camp.",
+    "onsite_label": "ON SITE",
+    "onsite_title": "PARTNERS IN THE GYMS",
+    "onsite_body": "In Dagestan as in Chechnya, MKR has its local partners. They join you in the training gyms, alongside Ruslan, and bridge with the day-to-day Caucasian coaches."
+  },
+  "parcours": {
+    "label": "JOURNEY",
+    "title": "FROM THE FRENCH MAT TO THE CAUCASUS GYMS",
+    "subtitle": "FFL competitions in blue under the French jersey, training in Besançon, return to the roots in Dagestan. A few images of a path that makes MKR possible.",
+    "takedown_alt": "Ruslan Mukhtarov mid-takedown at a French wrestling championship, blue FRA LUTTE singlet",
+    "takedown_caption": "French Championship · takedown",
+    "ffl_alt": "Ruslan Mukhtarov in a blue French Team singlet facing an opponent in red, FFL scoreboard",
+    "ffl_caption": "FFL · Mukhtarov R. in the final",
+    "clinch_alt": "Ruslan Mukhtarov in a wrestling clinch, black and white photo",
+    "clinch_caption": "Bout · clinch",
+    "besancon_alt": "Intense wrestling training in Besançon, aerial throw of a partner",
+    "besancon_caption": "Training · Besançon"
+  },
+  "dkdp": {
+    "label": "PARTNER AND DIGITAL",
+    "title": "DKDP AGENCY ON THE TECH",
+    "subtitle": "Website, content, communication. MKR Caucasian Camp does not move forward alone: the camp relies on a Geneva-based partner agency for everything digital.",
+    "david_photo_alt": "David Khazaei, director of DKDP agency and digital partner of MKR Caucasian Camp",
+    "david_label": "PARTNER · DKDP AGENCY",
+    "david_name": "DAVID KHAZAEI",
+    "david_bio_p1_before_link": "Director of ",
+    "david_bio_p1_link": "DKDP",
+    "david_bio_p1_after_link": " agency, based in Geneva. Ruslan's partner on MKR Caucasian Camp since the start of the project: he leads the website, the content and all digital communication for the camp.",
+    "david_bio_p2_before_strong": "An amateur kickboxer, David also teaches ",
+    "david_bio_p2_strong": "kids' classes at Strike Academy in Geneva",
+    "david_bio_p2_after_strong": ". Two arenas, one same conviction: the rigor of the mat carries over to the screen.",
+    "info_aria": "DKDP agency",
+    "info_logo_alt": "DKDP logo, digital agency in Geneva",
+    "info_tagline_strong": "Geneva-based digital agency.",
+    "info_tagline_rest": " Websites, SEO, AI and training for companies in French-speaking Switzerland.",
+    "info_services": {
+      "web": "Websites",
+      "seo": "SEO and GEO",
+      "ai": "AI and Automation",
+      "training": "Training"
+    },
+    "info_stats": {
+      "clients_num": "700+",
+      "clients_label": "Clients",
+      "experience_num": "10 years",
+      "experience_label": "Of experience"
+    },
+    "info_cta": "Discover the agency"
+  },
+  "section_cta": {
+    "primary_label": "SEE THE SESSIONS",
+    "ghost_label": "CONTACT US"
+  }
+}

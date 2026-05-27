@@ -1,0 +1,90 @@
+{
+  "meta": {
+    "title": "Legal Notice | MKR Caucasian Camp",
+    "description": "Legal notice for the mkrcamp.com website published by MKR Caucasian Camp (France). Publisher, host, publication manager, intellectual property, GDPR."
+  },
+  "title": "LEGAL NOTICE",
+  "intro": {
+    "prefix": "In accordance with the provisions of articles 6-III and 19 of French Law No. 2004-575 of June 21, 2004 on confidence in the digital economy (LCEN), we inform users and visitors of the ",
+    "link_label": "mkrcamp.com",
+    "suffix": " website of the following information."
+  },
+  "sections": {
+    "editor": {
+      "title": "1. Site publisher",
+      "name": "MKR Caucasian Camp",
+      "activity": "Activity: organization of sports training camps (Wrestling in Dagestan, MMA in Chechnya)",
+      "country": "Country of registration: France",
+      "siret_prefix": "Legal form and SIRET number: ",
+      "siret_em": "to be confirmed by MKR, will be filled in once the Kbis or Insee status is obtained",
+      "address_prefix": "Registered office: ",
+      "address_em": "address to be confirmed by MKR",
+      "contact_prefix": "Contact: ",
+      "contact_link": "contact form",
+      "phone_prefix": "Phone / WhatsApp: ",
+      "phone_value": "+33 6 66 17 76 91"
+    },
+    "publisher": {
+      "title": "2. Publication manager",
+      "body": "Ruslan Mukhtarov, founder of MKR Caucasian Camp, former member of the French national wrestling team (INSEP 2012-2016).",
+      "contact_prefix": "Contact: ",
+      "contact_link": "contact form"
+    },
+    "host": {
+      "title": "3. Site host",
+      "name": "Vercel Inc.",
+      "address": "440 N Bashaw St, Covina, CA 91723, United States",
+      "website_prefix": "Website: ",
+      "website_label": "vercel.com"
+    },
+    "subcontractors": {
+      "title": "4. Technical subcontractors",
+      "intro": "The site relies on third-party providers for its operation. In accordance with article 28 of the General Data Protection Regulation (GDPR), these subcontractors process the data on behalf of MKR Caucasian Camp within the strict framework defined by contract.",
+      "vercel": {
+        "strong": "Vercel Inc.",
+        "body": " (United States): web hosting and delivery via CDN network. Transfers to the United States are governed by the European Commission Standard Contractual Clauses."
+      },
+      "supabase": {
+        "strong": "Supabase Inc.",
+        "body": ": database of applications. The MKR project is hosted on Supabase European infrastructure, in the eu-central-1 region (Frankfurt, Germany), which guarantees data storage within the European Union."
+      },
+      "see_prefix": "See the ",
+      "see_link": "privacy policy",
+      "see_suffix": " for full details of processing operations and transfers."
+    },
+    "ip": {
+      "title": "5. Intellectual property",
+      "p1": "All content on this site (texts, images, photographs, videos, logos, trademarks, graphics, layout, source code) is the exclusive property of MKR Caucasian Camp or its partners, unless explicitly stated otherwise. It is protected by copyright (articles L111-1 et seq. of the French Intellectual Property Code) and by trademark law.",
+      "p2": "Any reproduction, representation, modification, publication, distribution, retransmission, or exploitation, in whole or in part, of this content, on any medium whatsoever, without the prior written authorization of MKR Caucasian Camp, is strictly prohibited and would constitute an infringement sanctioned by articles L335-2 et seq. of the French Intellectual Property Code."
+    },
+    "rgpd": {
+      "title": "6. Personal data and GDPR",
+      "p1": "The information collected via the site forms (application, contact, guide request) is processed by MKR Caucasian Camp for application processing, communication with participants, and camp organization.",
+      "p2": "In accordance with Regulation (EU) 2016/679 of April 27, 2016 (GDPR) and the amended French Data Protection Act, you have the following rights regarding your personal data: right of access, right to rectification, right to erasure, right to restriction of processing, right to portability, and right to object.",
+      "p3_prefix": "To exercise these rights or for any question relating to the processing of your data, write to us via the ",
+      "p3_contact_link": "contact form",
+      "p3_middle": ". You also have the right to lodge a complaint with the French National Commission for Information Technology and Civil Liberties (CNIL), ",
+      "p3_cnil_link": "www.cnil.fr",
+      "p3_suffix": ".",
+      "p4_prefix": "Full details of the data collected, retention periods, subcontractors, and your rights are available in our ",
+      "p4_link": "privacy policy",
+      "p4_suffix": "."
+    },
+    "cookies": {
+      "title": "7. Cookies",
+      "body": "This site only uses technical cookies strictly necessary for its operation (session, security, browsing preferences). In accordance with article 82 of the amended French Data Protection Act and CNIL recommendations, no tracking cookies, third-party audience measurement cookies, or targeted advertising cookies are used without your prior explicit consent."
+    },
+    "liability": {
+      "title": "8. Limitation of liability",
+      "p1": "MKR Caucasian Camp strives to provide on this site information that is as accurate and up to date as possible. However, MKR Caucasian Camp cannot guarantee the accuracy, completeness, or timeliness of the information disseminated, nor the absence of modification of this information by a third party (unauthorized intrusion).",
+      "p2": "Hyperlinks set up within the site to other resources on the Internet network cannot engage the responsibility of MKR Caucasian Camp."
+    },
+    "law": {
+      "title": "9. Governing law and jurisdiction",
+      "body": "This legal notice is governed by French law. Any dispute relating to the site or its content shall be submitted to the jurisdiction of the French courts, under common law conditions. For consumers, the competent courts are those of the consumer's place of residence, in accordance with articles L211-3 et seq. of the French Consumer Code."
+    }
+  },
+  "updated_prefix": "Last updated: ",
+  "updated_date": "May 14, 2026",
+  "updated_iso": "2026-05-14"
+}

@@ -1,0 +1,286 @@
+{
+  "root": {
+    "meta": {
+      "title": "Dagestan and Chechnya Destinations | MKR Caucasian Camp",
+      "description": "Two destinations, two disciplines: Adult and youth Wrestling in Dagestan, MMA in Chechnya. Combo available on custom only."
+    },
+    "breadcrumb": {
+      "home": "Home",
+      "current": "Destinations"
+    },
+    "hero": {
+      "label": "DESTINATIONS",
+      "title": "TWO LANDS OF THE CAUCASUS.<br/>ONE DISCIPLINE PER CAMP.",
+      "subtitle": "Wrestling in Dagestan. MMA in Chechnya. The Dagestan plus Chechnya combo is only available on custom."
+    },
+    "cards": {
+      "daghestan": {
+        "region": "Caucasus · Russia · Wrestling",
+        "name": "DAGESTAN",
+        "tagline": "Cradle of world freestyle wrestling. Khabib, Makhachev, hundreds of Olympic champions.",
+        "discipline": "Adult Wrestling and Youth Wrestling",
+        "alt": "Dagestan landscape",
+        "cta": "EXPLORE DAGESTAN",
+        "camp_prefix": "Camp "
+      },
+      "tchetchenie": {
+        "region": "Caucasus · Russia · MMA",
+        "name": "CHECHNYA",
+        "tagline": "Epicenter of modern MMA. Akhmat Fight Club, Khamzat Chimaev, the new generation of fighting.",
+        "discipline": "Adult MMA",
+        "alt": "Chechnya landscape",
+        "cta": "EXPLORE CHECHNYA",
+        "camp_prefix": "Camp "
+      }
+    },
+    "combo_note": {
+      "label": "CUSTOM ONLY",
+      "body": "Want to combine Wrestling in Dagestan and MMA in Chechnya? Part of the camp in each destination is only available on Custom registrations. Tell us about your project.",
+      "cta": "DISCOVER CUSTOM"
+    },
+    "comparatif": {
+      "label": "HOW TO CHOOSE",
+      "title": "DAGESTAN OR CHECHNYA?",
+      "intro": "Your destination depends on the discipline you pick at registration. Here are the concrete differences between the two camps.",
+      "headers": {
+        "daghestan": "Dagestan",
+        "tchetchenie": "Chechnya"
+      },
+      "rows": {
+        "discipline": {
+          "label": "Discipline",
+          "daghestan": "Adult Wrestling · Youth Wrestling 8-17",
+          "tchetchenie": "Adult MMA (Advanced level minimum)"
+        },
+        "capitale": {
+          "label": "Camp capital",
+          "daghestan": "Makhachkala · Kaspiysk",
+          "tchetchenie": "Grozny"
+        },
+        "aeroport": {
+          "label": "Airport",
+          "daghestan": "Makhachkala (MCX) · domestic flight Istanbul to MCX included",
+          "tchetchenie": "Grozny (GRV) · domestic flight Istanbul to GRV included"
+        },
+        "transfert": {
+          "label": "Transfer to camp",
+          "daghestan": "About 1h30 from MCX, included",
+          "tchetchenie": "About 30 min from GRV, included"
+        },
+        "signature": {
+          "label": "Signature",
+          "daghestan": "Cradle of freestyle wrestling. Khabib Nurmagomedov, Islam Makhachev, over 30 Olympic wrestling champions.",
+          "tchetchenie": "Epicenter of modern MMA. Akhmat Fight Club, Khamzat Chimaev legacy, very high-level sparring."
+        },
+        "ambiance": {
+          "label": "Atmosphere",
+          "daghestan": "Mountain tradition, wrestlers' villages, father-to-son transmission, founding spirit.",
+          "tchetchenie": "Modern MMA, pro stables, strong urban vibe, spectacular architecture (Akhmad Kadyrov mosque)."
+        },
+        "pour_qui": {
+          "label": "Who it's for",
+          "daghestan": "Any adult level (Pro / Inter / Serious amateur) · children 8-17 with a participating parent.",
+          "tchetchenie": "Advanced level minimum required (form-blocking). Regional to international competitors."
+        },
+        "combo": {
+          "label": "Wrestling plus MMA combo",
+          "value": "Available only on Custom registrations (sequential: X days Dagestan plus Y days Chechnya)."
+        }
+      }
+    },
+    "section_cta": {
+      "primary_label": "APPLY TO THE CAMP",
+      "ghost_label": "SEE THE DISCIPLINES"
+    }
+  },
+  "dagestan": {
+    "meta": {
+      "title": "Dagestan: MMA and Wrestling Camps in the Heart of the Caucasus | MKR",
+      "description": "Everything about Dagestan: training rooms, safety, culture, excursions. The land that forges the champions of world MMA and wrestling."
+    },
+    "breadcrumb": {
+      "destinations": "Destinations",
+      "current": "Dagestan"
+    },
+    "hero": {
+      "label": "DAGESTAN",
+      "title": "THE LAND THAT FORGES CHAMPIONS",
+      "subtitle": "Cradle of world MMA. Khabib, Makhachev, and hundreds of Olympic wrestling champions."
+    },
+    "tldr": {
+      "title": "In short · Dagestan",
+      "facts": [
+        "North Caucasus region (Russian Federation), capital Makhachkala, 3.1 million inhabitants.",
+        "Cradle of world MMA: Khabib Nurmagomedov, Islam Makhachev, Magomed Ankalaev (3 current UFC champions).",
+        "Over 30 Olympic wrestling medals brought home by the region, Dagestani method recognized worldwide.",
+        "MKR camp: Makhachkala and Kaspiysk gyms, domestic flight Istanbul-Makhachkala included, 1h30 transfer.",
+        "Wrestling (adults and children 8-17 with a parent), for MMA, see Chechnya."
+      ]
+    },
+    "reveal": {
+      "image_alt": "Horsemen on the Dagestan mountains at sunset",
+      "label": "CAUCASUS · RUSSIA",
+      "title": "THE MOUNTAINS<br/>OF DAGESTAN",
+      "facts": {
+        "capitale": "Capital",
+        "capitale_value": "Makhachkala",
+        "altitude": "Average altitude",
+        "altitude_value": "1,000 m",
+        "olympiques": "Olympic champions",
+        "olympiques_value": "30+",
+        "ufc": "UFC champions",
+        "ufc_value": "3",
+        "salles": "Fight gyms",
+        "salles_value": "100+",
+        "population": "Population",
+        "population_value": "3.1 million"
+      },
+      "badges": ["LAND OF MMA", "CRADLE OF WRESTLING", "KHABIB NURMAGOMEDOV"]
+    },
+    "presentation": {
+      "label": "INTRODUCTION",
+      "title": "DAGESTAN",
+      "p1": "A republic of the Russian Caucasus, Dagestan is a land of mountains and traditions. This is where wrestling has been passed from father to son for centuries. The mountain villages have produced more Olympic champions per capita than anywhere else on Earth.",
+      "p2": "Makhachkala, the capital, houses dozens of fight gyms where hundreds of international-level athletes train daily. These are the gyms MKR takes you to."
+    },
+    "safety": {
+      "p1": "No empty talk. The reality on the ground in 2026: the region where the camp takes place is stable and frequented by athletes from around the world. The training cities (Makhachkala, Kaspiysk) are normal urban areas.",
+      "p2": "The French Foreign Ministry advises against certain border zones, not the urban areas where we operate. Each participant is briefed in detail before departure.",
+      "testimonial_quote": "I went alone, without speaking Russian. The welcome is incredible. On the mat, the level is brutal.",
+      "testimonial_author": "Romain V. · Sambo · Toulouse"
+    },
+    "salles": {
+      "label": "GYMS",
+      "title": "TRAINING VENUES",
+      "photo1_alt": "Main training gym in Makhachkala, Dagestan",
+      "photo1_caption": "Main gym, Makhachkala. Olympic mats, striking area.",
+      "photo2_alt": "MMA training in Kaspiysk, Dagestan",
+      "photo2_caption": "Secondary gym, Kaspiysk. MMA, cage, full equipment."
+    },
+    "excursions": {
+      "label": "CULTURE",
+      "title": "EXCURSIONS AND DISCOVERY",
+      "items": {
+        "sulak": {
+          "title": "Sulak Canyon",
+          "desc": "Deeper than the Grand Canyon. Spectacular hike on the rest day."
+        },
+        "sarykum": {
+          "title": "Sarykum Dune",
+          "desc": "The largest dune in Europe. Surreal landscape just a few kilometers from Makhachkala."
+        },
+        "gamsutl": {
+          "title": "Gamsutl Village",
+          "desc": "Ghost village perched in the mountains. A testimony to an ancestral Dagestan."
+        }
+      }
+    },
+    "cinematic": {
+      "alt": "Mountain road in Dagestan",
+      "label": "DAGESTAN",
+      "title": "THE CHAMPION'S ROAD",
+      "tagline": "Mountains that forge character. Every turn brings you closer to camp."
+    },
+    "logistique": {
+      "title": "DAGESTAN LOGISTICS",
+      "body": "Airport: Makhachkala (MCX). MKR transfer from the airport included. Accommodation in camp housing.",
+      "cta": "FULL DETAILS"
+    },
+    "section_cta": {
+      "primary_label": "APPLY · WRESTLING CAMP DAGESTAN",
+      "ghost_label": "SEE CHECHNYA · MMA"
+    }
+  },
+  "tchetchenie": {
+    "meta": {
+      "title": "Chechnya: MMA Camp in the Caucasus | MKR Caucasian Camp",
+      "description": "Everything about Chechnya: Grozny MMA gyms, safety, culture, logistics. The land that gave rise to Khamzat Chimaev and the new MMA generation."
+    },
+    "breadcrumb": {
+      "destinations": "Destinations",
+      "current": "Chechnya"
+    },
+    "hero": {
+      "label": "CHECHNYA",
+      "title": "THE LAND THAT FORGES THE NEW MMA GENERATION",
+      "subtitle": "Akhmat Fight Club, Khamzat Chimaev, and one of the toughest MMA ecosystems in the world."
+    },
+    "tldr": {
+      "title": "In short · Chechnya",
+      "facts": [
+        "North Caucasus republic (Russian Federation), capital Grozny, 1.5 million inhabitants.",
+        "Epicenter of modern MMA: Akhmat Fight Club, Khamzat Chimaev legacy, State and private stables.",
+        "Over 15 top-world MMA fighters, 30+ professional gyms in the region.",
+        "MKR camp: Grozny MMA gyms, domestic flight Istanbul-Grozny included, 30 min transfer.",
+        "MMA only (Advanced level minimum, 5+ years of practice), for Wrestling, see Dagestan."
+      ]
+    },
+    "reveal": {
+      "image_alt": "Akhmad Kadyrov Mosque and Grozny City towers at dusk, Chechnya",
+      "label": "CAUCASUS · RUSSIA",
+      "title": "THE VAINAKH<br/>COUNTRY",
+      "facts": {
+        "capitale": "Capital",
+        "capitale_value": "Grozny",
+        "altitude": "Average altitude",
+        "altitude_value": "600 m",
+        "champions_mma": "Top-world MMA champions",
+        "champions_mma_value": "15+",
+        "ufc": "UFC top 5 champion",
+        "ufc_value": "1",
+        "salles": "Professional MMA gyms",
+        "salles_value": "30+",
+        "population": "Population",
+        "population_value": "1.5 million"
+      },
+      "badges": ["LAND OF MODERN MMA", "AKHMAT FIGHT CLUB", "KHAMZAT CHIMAEV"]
+    },
+    "presentation": {
+      "label": "INTRODUCTION",
+      "title": "CHECHNYA",
+      "p1": "A republic of the Russian Caucasus west of Dagestan, Chechnya is the epicenter of modern MMA. In fifteen years, Grozny has become a mandatory stop for world fighters: State structures, private stables, and very high-level sparring.",
+      "p2": "Akhmat Fight Club gathers a unique concentration of pro fighters. It is within this ecosystem that MKR opens access for its MMA camps, with French-speaking coaching staff and local partnerships."
+    },
+    "safety": {
+      "p1": "No empty talk. The reality on the ground in 2026: Grozny is today one of the safest cities in the Caucasus in terms of urban crime. Visible police, almost no nightlife, strong hospitality toward foreign athletes.",
+      "p2": "The French Foreign Ministry maintains regional caution. MKR operates only in the urban areas and accredited partner gyms. Each participant gets a detailed briefing.",
+      "testimonial_quote": "Respect for fighters is total. On the mat, they don't give you anything for free.",
+      "testimonial_author": "Mehdi R. · MMA Pro · Marseille"
+    },
+    "salles": {
+      "label": "GYMS",
+      "title": "TRAINING VENUES",
+      "photo1_alt": "MMA fighter in the cage at Akhmat Fight Club gym, Grozny, Chechnya",
+      "photo1_caption": "Akhmat Fight Club gym, Grozny. MMA cage, red mat, full striking equipment.",
+      "photo2_alt": "MMA sparring in the cage with an Akhmat Fight Club coach, Grozny",
+      "photo2_caption": "Daily sparring led by the Akhmat stable fighters and their coaches."
+    },
+    "excursions": {
+      "label": "CULTURE",
+      "title": "EXCURSIONS AND DISCOVERY",
+      "items": {
+        "mosquee": {
+          "title": "Akhmad Kadyrov Mosque",
+          "desc": "One of the largest mosques in Europe, in the heart of Grozny. Spectacular architecture."
+        },
+        "vainakh": {
+          "title": "Vainakh towers of Itum-Kale",
+          "desc": "Medieval stone towers standing in mountain valleys. Thousand-year-old Vainakh heritage."
+        },
+        "kezenoy": {
+          "title": "Lake Kezenoy-Am",
+          "desc": "Largest high-altitude lake in the North Caucasus, straddling Chechnya and Dagestan."
+        }
+      }
+    },
+    "logistique": {
+      "title": "CHECHNYA LOGISTICS",
+      "body": "Airport: Grozny (GRV). Domestic flight from Istanbul included in the package. MKR transfer from the airport included. Accommodation in camp housing in Grozny.",
+      "cta": "FULL DETAILS"
+    },
+    "section_cta": {
+      "primary_label": "APPLY · MMA CAMP CHECHNYA",
+      "ghost_label": "SEE DAGESTAN · WRESTLING"
+    }
+  }
+}
