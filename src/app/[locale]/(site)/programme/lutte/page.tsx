@@ -1,3 +1,4 @@
+import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { buildMetadata } from '@/lib/seo'
 import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
@@ -7,56 +8,70 @@ import DisciplineTechniques from '@/components/DisciplineTechniques'
 import DisciplineSessionFlow from '@/components/DisciplineSessionFlow'
 import TldrBox from '@/components/TldrBox'
 
-export const metadata = buildMetadata({
-  title: 'Programme Lutte libre au Daghestan | MKR Caucasian Camp',
-  description: "Programme de lutte libre au Caucase. Méthodes daghestanaises ancestrales, leg rides, chain wrestling, sparring quotidien, coachs champions du monde.",
-  path: '/programme/lutte',
-})
-const TECHNIQUES = [
-  { title: 'Lutte libre', desc: 'Takedowns explosifs, contrôle des jambes, scrambles. La base du combat au Daghestan.' },
-  { title: 'Leg rides', desc: 'Spécialité daghestanaise. Contrôle au sol avec les jambes. Technique introuvable en Europe.' },
-  { title: 'Chain wrestling', desc: 'Enchaînement de takedowns. Si le premier échoue, le deuxième est déjà en route.' },
-  { title: 'Funk rolls', desc: 'Reprises de position acrobatiques. Transformer une situation défensive en attaque.' },
-  { title: 'Mat returns', desc: "Ramener l'adversaire au sol depuis la position debout. Technique de contrôle." },
-  { title: 'Défense de takedown', desc: "Sprawl, underhooks, contre-attaques. Annuler l'attaque adverse et reprendre l'initiative." },
-]
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
+  const t = await getTranslations({ locale, namespace: 'programme.lutte' })
+  return buildMetadata({
+    title: t('meta.title'),
+    description: t('meta.description'),
+    path: '/programme/lutte',
+  })
+}
 
-const SESSION_FLOW = [
-  { time: '15 min', activity: 'Échauffement', desc: 'Course, exercices au sol, mobilité des hanches.' },
-  { time: '30 min', activity: 'Technique', desc: 'Démonstration par le coach. Répétition par paires. Corrections individuelles.' },
-  { time: '20 min', activity: 'Situations', desc: 'Positions de départ imposées. Attaque-défense chronométrée.' },
-  { time: '30 min', activity: 'Sparring', desc: 'Rounds de 6 minutes (rythme compétition). Rotation partenaires.' },
-  { time: '10 min', activity: 'Conditioning', desc: 'Circuit final : pompes, squats, pont de lutte, gainage.' },
-]
+const TECHNIQUE_KEYS = [
+  'lutte_libre',
+  'leg_rides',
+  'chain_wrestling',
+  'funk_rolls',
+  'mat_returns',
+  'defense',
+] as const
 
-export default function ProgrammeLuttePage() {
+const SESSION_FLOW_KEYS = [
+  'echauffement',
+  'technique',
+  'situations',
+  'sparring',
+  'conditioning',
+] as const
+
+export default async function ProgrammeLuttePage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
+  setRequestLocale(locale)
+  const t = await getTranslations('programme.lutte')
+
+  const facts = t.raw('tldr.facts') as string[]
+  const techniques = TECHNIQUE_KEYS.map((key) => ({
+    title: t(`techniques.items.${key}.title`),
+    desc: t(`techniques.items.${key}.desc`),
+  }))
+  const sessionFlow = SESSION_FLOW_KEYS.map((key) => ({
+    time: t(`session_flow.steps.${key}.time`),
+    activity: t(`session_flow.steps.${key}.activity`),
+    desc: t(`session_flow.steps.${key}.desc`),
+  }))
+
   return (
     <>
       <BreadcrumbJsonLd items={[
-        { name: 'Accueil', url: 'https://mkrcamp.com/' },
-        { name: 'Programme', url: 'https://mkrcamp.com/programme' },
-        { name: 'Lutte', url: 'https://mkrcamp.com/programme/lutte' },
+        { name: t('breadcrumb.home'), url: 'https://mkrcamp.com/' },
+        { name: t('breadcrumb.programme'), url: 'https://mkrcamp.com/programme' },
+        { name: t('breadcrumb.current'), url: 'https://mkrcamp.com/programme/lutte' },
       ]} />
       <PageHero
-        label="LUTTE · DAGHESTAN"
-        title="LA DISCIPLINE QUI A FORGÉ LE CAUCASE"
-        subtitle="Lutte libre uniquement, au cœur du Daghestan. Les méthodes ancestrales transmises dans les salles de Makhachkala et Kaspiysk."
+        label={t('hero.label')}
+        title={t('hero.title')}
+        subtitle={t('hero.subtitle')}
         breadcrumb={[
-          { href: '/programme', label: 'Programme' },
-          { href: '/programme/lutte', label: 'Lutte' },
+          { href: '/programme', label: t('breadcrumb.programme') },
+          { href: '/programme/lutte', label: t('breadcrumb.current') },
         ]}
       />
 
       <div className="inner">
         <TldrBox
-          title="En bref · Programme Lutte"
-          facts={[
-            "Lutte libre exclusivement (pas de gréco-romaine) au Daghestan, Makhachkala et Kaspiysk.",
-            "15 places par session officielle. Ouvert aux adultes et enfants 8-17 ans avec parent (tunnel Famille).",
-            "6 modules techniques : takedowns, leg rides daghestanais, chain wrestling, funk rolls, mat returns, défense.",
-            "Sparring quotidien avec lutteurs locaux issus de la filière qui a produit 30+ médaillés olympiques.",
-            "Horaires : sessions à 10h30 et 17h30, 6 jours sur 7. Combo Lutte + MMA disponible en Sur Mesure.",
-          ]}
+          title={t('tldr.title')}
+          facts={facts}
         />
       </div>
 
@@ -66,23 +81,20 @@ export default function ProgrammeLuttePage() {
         <div className="inner">
           <div className="layout-split reveal">
             <div>
-              <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>LE PROGRAMME</span>
-              <h2 style={{ fontSize: 'clamp(1.5rem, 3vw, 2rem)', textTransform: 'uppercase' }}>LUTTE AU DAGHESTAN</h2>
+              <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>{t('description.label')}</span>
+              <h2 style={{ fontSize: 'clamp(1.5rem, 3vw, 2rem)', textTransform: 'uppercase' }}>{t('description.title')}</h2>
               <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1rem' }}>
-                Au Daghestan, la lutte n&apos;est pas un sport. C&apos;est une identité. Chaque village a son champion,
-                chaque famille transmet ses techniques. Les méthodes daghestanaises ont produit plus de champions
-                olympiques de lutte par habitant que n&apos;importe quel autre endroit au monde.
+                {t('description.p1')}
               </p>
               <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1rem' }}>
-                Le programme MKR te donne accès à ce savoir : lutte libre exclusivement, et les techniques
-                spécifiques du Caucase que tu ne trouveras dans aucune académie européenne.
+                {t('description.p2')}
               </p>
             </div>
             <div>
               <figure className="photo-card">
                 <img
                   src="/images/action/lutte-coach-gereev.webp"
-                  alt="Coach Gereev en pleine séance dans la salle de lutte daghestanaise"
+                  alt={t('description.img1_alt')}
                   width={1600}
                   height={1066}
                   loading="lazy"
@@ -92,7 +104,7 @@ export default function ProgrammeLuttePage() {
               <figure className="photo-card" style={{ marginTop: '1.25rem' }}>
                 <img
                   src="/images/action/lutte-pont-daghestan.webp"
-                  alt="Pont de lutte au sol, exercice ancestral pratiqué en groupe au Daghestan"
+                  alt={t('description.img2_alt')}
                   width={1600}
                   height={1066}
                   loading="lazy"
@@ -107,24 +119,28 @@ export default function ProgrammeLuttePage() {
       {/* Cinematic reveal */}
       <CinematicReveal
         image="/images/action/lutte-banner-makhachkala.webp"
-        alt="Salle de lutte au Daghestan, bannière 'On ne naît pas lutteur, on le devient', lutteurs en échauffement"
-        label="HÉRITAGE"
-        title="ON NE NAÎT PAS LUTTEUR, ON LE DEVIENT"
-        tagline="Борцами не рождаются, борцами становятся. La devise inscrite sur les murs des salles daghestanaises."
+        alt={t('cinematic.alt')}
+        label={t('cinematic.label')}
+        title={t('cinematic.title')}
+        tagline={t('cinematic.tagline')}
       />
 
-      <DisciplineTechniques items={TECHNIQUES} />
+      <DisciplineTechniques items={techniques} />
 
       <DisciplineSessionFlow
-        steps={SESSION_FLOW}
-        hoursNote={<>Horaires officiels Lutte adultes : <strong>matin 10h30</strong> et <strong>après-midi 17h30</strong>. Pas de chevauchement avec les sessions MMA.</>}
+        steps={sessionFlow}
+        hoursNote={
+          <>
+            {t('session_flow.hours_note_prefix')}<strong>{t('session_flow.hours_note_morning')}</strong>{t('session_flow.hours_note_and')}<strong>{t('session_flow.hours_note_afternoon')}</strong>{t('session_flow.hours_note_suffix')}
+          </>
+        }
       />
 
       <SectionCTA
         primaryHref="/inscription?type=session"
-        primaryLabel="POSTULER · LUTTE DAGHESTAN"
+        primaryLabel={t('section_cta.primary_label')}
         ghostHref="/destinations/dagestan"
-        ghostLabel="DÉCOUVRIR LA DESTINATION"
+        ghostLabel={t('section_cta.ghost_label')}
       />
     </>
   )

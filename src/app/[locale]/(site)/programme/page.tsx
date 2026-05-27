@@ -1,41 +1,53 @@
-import Link from 'next/link'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
+import { Link } from '@/i18n/navigation'
 import { buildMetadata } from '@/lib/seo'
 import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 import { FAMILY_BASE_PROSE, FAMILY_EXTRA_CHILD_1WEEK_LABEL } from '@/lib/pricing-copy'
 
-export const metadata = buildMetadata({
-  title: 'Programme MMA Tchétchénie et Lutte Daghestan | MKR',
-  description: "Trois disciplines, deux destinations : Lutte adultes et enfants au Daghestan, MMA en Tchétchénie. Sparring quotidien, coaching local au Caucase.",
-  path: '/programme',
-})
-export default function ProgrammePage() {
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
+  const t = await getTranslations({ locale, namespace: 'programme.root' })
+  return buildMetadata({
+    title: t('meta.title'),
+    description: t('meta.description'),
+    path: '/programme',
+  })
+}
+
+const LEVEL_KEYS = ['pro', 'inter', 'amateur'] as const
+
+export default async function ProgrammePage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
+  setRequestLocale(locale)
+  const t = await getTranslations('programme.root')
+
   return (
     <>
       <BreadcrumbJsonLd items={[
-        { name: 'Accueil', url: 'https://mkrcamp.com/' },
-        { name: 'Programme', url: 'https://mkrcamp.com/programme' },
+        { name: t('breadcrumb.home'), url: 'https://mkrcamp.com/' },
+        { name: t('breadcrumb.current'), url: 'https://mkrcamp.com/programme' },
       ]} />
       <PageHero
-        label="PROGRAMME"
-        title="TROIS DISCIPLINES.<br/>DEUX TERRES DU CAUCASE."
-        subtitle="Lutte adultes et Lutte enfants au Daghestan. MMA en Tchétchénie. Le combo possible uniquement en sur-mesure."
+        label={t('hero.label')}
+        title={t('hero.title')}
+        subtitle={t('hero.subtitle')}
       />
 
       {/* Stats band */}
       <div className="stats-band fx-grid fx-stack-1">
         <div className="stat-item">
           <span className="stat-num">2</span>
-          <span className="stat-label">Sessions par jour</span>
+          <span className="stat-label">{t('stats_band.sessions_per_day')}</span>
         </div>
         <div className="stat-item">
           <span className="stat-num">6</span>
-          <span className="stat-label">Jours par semaine</span>
+          <span className="stat-label">{t('stats_band.days_per_week')}</span>
         </div>
         <div className="stat-item">
           <span className="stat-num">3</span>
-          <span className="stat-label">Disciplines</span>
+          <span className="stat-label">{t('stats_band.disciplines')}</span>
         </div>
       </div>
 
@@ -46,18 +58,18 @@ export default function ProgrammePage() {
           <Link href="/programme/mma" className="prog-discipline-card reveal">
             <img
               src="/images/action/sparring-mma-wall.webp"
-              alt="Sparring MMA dans une salle du Caucase"
+              alt={t('cards.mma.alt')}
               width={800}
               height={600}
               loading="lazy"
               className="prog-disc-bg"
             />
             <div className="prog-disc-content">
-              <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.5rem' }}>DISCIPLINE · TCHÉTCHÉNIE</span>
-              <h2>MMA</h2>
-              <p>Striking, clinch, takedowns, soumissions. Sparring quotidien avec les combattants de l&apos;écurie Akhmat. Camp basé à Grozny, en Tchétchénie. Le MMA tchétchène en immersion totale.</p>
+              <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.5rem' }}>{t('cards.mma.label')}</span>
+              <h2>{t('cards.mma.title')}</h2>
+              <p>{t('cards.mma.desc')}</p>
               <span className="btn-ghost" style={{ marginTop: '1.5rem', fontSize: '0.9rem', padding: '0.6rem 1.5rem' }}>
-                VOIR LE PROGRAMME MMA
+                {t('cards.mma.cta')}
               </span>
             </div>
           </Link>
@@ -70,18 +82,18 @@ export default function ProgrammePage() {
           <Link href="/programme/lutte" className="prog-discipline-card reveal">
             <img
               src="/images/action/takedown-wrestling.webp"
-              alt="Takedown de lutte libre au Daghestan"
+              alt={t('cards.lutte.alt')}
               width={800}
               height={600}
               loading="lazy"
               className="prog-disc-bg"
             />
             <div className="prog-disc-content">
-              <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.5rem' }}>DISCIPLINE · DAGHESTAN</span>
-              <h2>LUTTE ADULTES</h2>
-              <p>Lutte libre exclusivement, au cœur du Daghestan. Méthodes daghestanaises transmises par des champions. Projections, contrôle au sol, scrambles. La discipline fondatrice du combat au Caucase.</p>
+              <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.5rem' }}>{t('cards.lutte.label')}</span>
+              <h2>{t('cards.lutte.title')}</h2>
+              <p>{t('cards.lutte.desc')}</p>
               <span className="btn-ghost" style={{ marginTop: '1.5rem', fontSize: '0.9rem', padding: '0.6rem 1.5rem' }}>
-                VOIR LE PROGRAMME LUTTE
+                {t('cards.lutte.cta')}
               </span>
             </div>
           </Link>
@@ -94,18 +106,21 @@ export default function ProgrammePage() {
           <Link href="/programme/lutte-enfants" className="prog-discipline-card reveal">
             <img
               src="/images/action/ground-control.webp"
-              alt="Lutte adaptée aux jeunes athlètes au Daghestan"
+              alt={t('cards.lutte_enfants.alt')}
               width={800}
               height={600}
               loading="lazy"
               className="prog-disc-bg"
             />
             <div className="prog-disc-content">
-              <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.5rem' }}>DISCIPLINE · DAGHESTAN · 8-17 ANS</span>
-              <h2>LUTTE ENFANTS</h2>
-              <p>Programme jeunesse au Daghestan. Pédagogie progressive, encadrement spécialisé, ratio 1 coach pour 5 enfants, sessions à 10h30 et 17h30. Enfant 8-17 ans toujours accompagné d&apos;un parent participant. Forfait Famille : {FAMILY_BASE_PROSE}. Chaque enfant supplémentaire : {FAMILY_EXTRA_CHILD_1WEEK_LABEL}.</p>
+              <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.5rem' }}>{t('cards.lutte_enfants.label')}</span>
+              <h2>{t('cards.lutte_enfants.title')}</h2>
+              <p>{t('cards.lutte_enfants.desc', {
+                familyBaseProse: FAMILY_BASE_PROSE,
+                familyExtraChild1week: FAMILY_EXTRA_CHILD_1WEEK_LABEL,
+              })}</p>
               <span className="btn-ghost" style={{ marginTop: '1.5rem', fontSize: '0.9rem', padding: '0.6rem 1.5rem' }}>
-                VOIR LE PROGRAMME LUTTE ENFANTS
+                {t('cards.lutte_enfants.cta')}
               </span>
             </div>
           </Link>
@@ -117,27 +132,14 @@ export default function ProgrammePage() {
         <div className="fx-glow-orb fx-glow-orb--left" />
         <div className="inner">
           <div className="logi-header reveal">
-            <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>NIVEAUX</span>
-            <h2>POUR QUI ?</h2>
+            <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>{t('pour_qui.label')}</span>
+            <h2>{t('pour_qui.title')}</h2>
           </div>
           <div className="grid-3">
-            {[
-              {
-                level: 'PROFESSIONNEL',
-                desc: 'Combattants pro ou semi-pro. Sparring soutenu, coaching tactique avancé, préparation spécifique compétition.',
-              },
-              {
-                level: 'INTERMÉDIAIRE',
-                desc: '2 à 5 ans de pratique régulière. Base solide debout et au sol. Le cœur du groupe MKR.',
-              },
-              {
-                level: 'AMATEUR SÉRIEUX',
-                desc: '2 ans minimum de pratique. Condition physique solide. Engagement total pendant le camp.',
-              },
-            ].map((n, i) => (
-              <div key={i} className="content-card fx-grain fx-corner-glow reveal" style={{ transitionDelay: `${i * 0.08}s` }}>
-                <h3 className="card-title">{n.level}</h3>
-                <p className="card-body">{n.desc}</p>
+            {LEVEL_KEYS.map((key, i) => (
+              <div key={key} className="content-card fx-grain fx-corner-glow reveal" style={{ transitionDelay: `${i * 0.08}s` }}>
+                <h3 className="card-title">{t(`pour_qui.levels.${key}.title`)}</h3>
+                <p className="card-body">{t(`pour_qui.levels.${key}.desc`)}</p>
               </div>
             ))}
           </div>
@@ -146,9 +148,9 @@ export default function ProgrammePage() {
 
       <SectionCTA
         primaryHref="/sessions"
-        primaryLabel="VOIR LES SESSIONS"
+        primaryLabel={t('section_cta.primary_label')}
         ghostHref="/destinations"
-        ghostLabel="VOIR LES DESTINATIONS"
+        ghostLabel={t('section_cta.ghost_label')}
       />
     </>
   )

@@ -1,3 +1,4 @@
+import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { buildMetadata } from '@/lib/seo'
 import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
@@ -12,43 +13,63 @@ import {
   ANTOINE_PARCOURS_VARIANTS,
 } from '@/data/antoine-parcours'
 
-export const metadata = buildMetadata({
-  title: 'Programme MMA en Tchétchénie | MKR Caucasian Camp',
-  description: "Programme MMA complet à Grozny : stand-up, clinch, takedowns, soumissions, transitions. Sparring quotidien avec les combattants Akhmat.",
-  path: '/programme/mma',
-})
-const TECHNIQUES = [
-  { title: 'Stand-up', desc: 'Boxe, kickboxing, coups de coude et de genou. Travail de distance et de timing.' },
-  { title: 'Clinch', desc: 'Contrôle mural, dirty boxing, projections depuis le clinch. Spécialité caucasienne.' },
-  { title: 'Takedowns', desc: 'Singles, doubles, body locks. Intégration des techniques de lutte dans le MMA.' },
-  { title: 'Ground et Pound', desc: 'Contrôle au sol, frappe en position dominante. Gestion de la garde.' },
-  { title: 'Soumissions', desc: 'Étranglements, clés de bras et de jambes. Enchaînements depuis les transitions.' },
-  { title: 'Transitions', desc: 'Passage debout-sol fluide. Scrambles, reprises de position. Le point fort du Caucase.' },
-]
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
+  const t = await getTranslations({ locale, namespace: 'programme.mma' })
+  return buildMetadata({
+    title: t('meta.title'),
+    description: t('meta.description'),
+    path: '/programme/mma',
+  })
+}
 
-const SESSION_FLOW = [
-  { time: '15 min', activity: 'Échauffement', desc: 'Mobilité, activation, shadow boxing.' },
-  { time: '30 min', activity: 'Technique', desc: 'Démonstration et répétition par paires. Focus du jour.' },
-  { time: '20 min', activity: 'Drills', desc: 'Situations de combat, enchaînements, timing.' },
-  { time: '30 min', activity: 'Sparring', desc: 'Rounds de 5 minutes. Intensité adaptée au niveau.' },
-  { time: '10 min', activity: 'Débrief', desc: 'Retour du coach, points clés, feedback individuel.' },
-]
+const TECHNIQUE_KEYS = [
+  'stand_up',
+  'clinch',
+  'takedowns',
+  'ground_pound',
+  'soumissions',
+  'transitions',
+] as const
 
-export default function ProgrammeMMAPage() {
+const SESSION_FLOW_KEYS = [
+  'echauffement',
+  'technique',
+  'drills',
+  'sparring',
+  'debrief',
+] as const
+
+export default async function ProgrammeMMAPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
+  setRequestLocale(locale)
+  const t = await getTranslations('programme.mma')
+
+  const facts = t.raw('tldr.facts') as string[]
+  const techniques = TECHNIQUE_KEYS.map((key) => ({
+    title: t(`techniques.items.${key}.title`),
+    desc: t(`techniques.items.${key}.desc`),
+  }))
+  const sessionFlow = SESSION_FLOW_KEYS.map((key) => ({
+    time: t(`session_flow.steps.${key}.time`),
+    activity: t(`session_flow.steps.${key}.activity`),
+    desc: t(`session_flow.steps.${key}.desc`),
+  }))
+
   return (
     <>
       <BreadcrumbJsonLd items={[
-        { name: 'Accueil', url: 'https://mkrcamp.com/' },
-        { name: 'Programme', url: 'https://mkrcamp.com/programme' },
-        { name: 'MMA', url: 'https://mkrcamp.com/programme/mma' },
+        { name: t('breadcrumb.home'), url: 'https://mkrcamp.com/' },
+        { name: t('breadcrumb.programme'), url: 'https://mkrcamp.com/programme' },
+        { name: t('breadcrumb.current'), url: 'https://mkrcamp.com/programme/mma' },
       ]} />
       <PageHero
-        label="MMA · TCHÉTCHÉNIE"
-        title="FRAPPE. PROJETTE. SOUMETS."
-        subtitle="Programme MMA complet à Grozny, Tchétchénie. Les méthodes de l'écurie Akhmat et de la nouvelle génération du combat."
+        label={t('hero.label')}
+        title={t('hero.title')}
+        subtitle={t('hero.subtitle')}
         breadcrumb={[
-          { href: '/programme', label: 'Programme' },
-          { href: '/programme/mma', label: 'MMA' },
+          { href: '/programme', label: t('breadcrumb.programme') },
+          { href: '/programme/mma', label: t('breadcrumb.current') },
         ]}
       />
 
@@ -59,14 +80,8 @@ export default function ProgrammeMMAPage() {
 
       <div className="inner">
         <TldrBox
-          title="En bref · Programme MMA"
-          facts={[
-            "Camp MMA exclusif à Grozny, Tchétchénie. 15 places par session officielle.",
-            "Niveau Avancé minimum exigé (5+ ans de pratique régulière ou compétiteur).",
-            "6 modules techniques : stand-up, clinch, takedowns, ground & pound, soumissions, transitions.",
-            "Sparring quotidien avec les combattants de l'écurie Akhmat Fight Club et de la scène MMA tchétchène.",
-            "Horaires : sessions à 11h00 et 18h00, 6 jours sur 7. Combo Lutte + MMA disponible en Sur Mesure.",
-          ]}
+          title={t('tldr.title')}
+          facts={facts}
         />
       </div>
 
@@ -76,23 +91,20 @@ export default function ProgrammeMMAPage() {
         <div className="inner">
           <div className="layout-split reveal">
             <div>
-              <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>LE PROGRAMME</span>
-              <h2 style={{ fontSize: 'clamp(1.5rem, 3vw, 2rem)', textTransform: 'uppercase' }}>MMA EN TCHÉTCHÉNIE</h2>
+              <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>{t('description.label')}</span>
+              <h2 style={{ fontSize: 'clamp(1.5rem, 3vw, 2rem)', textTransform: 'uppercase' }}>{t('description.title')}</h2>
               <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1rem' }}>
-                La Tchétchénie est l&apos;un des écosystèmes MMA les plus durs au monde. Les coachs partenaires de
-                MKR enseignent un MMA complet, hérité de la tradition de la lutte et enrichi par des années de
-                compétition internationale au sein de l&apos;Akhmat Fight Club et des structures de Grozny.
+                {t('description.p1')}
               </p>
               <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1rem' }}>
-                Chaque session est structurée : technique, drills, sparring. Le niveau s&apos;adapte à chaque
-                participant, mais l&apos;intensité reste élevée pour tous. Le camp MMA est exclusivement basé à Grozny.
+                {t('description.p2')}
               </p>
             </div>
             <div>
               <figure className="photo-card">
                 <img
                   src="/images/mma-tchechenie/pads-direct-kadyrov.webp"
-                  alt="Sparring pads MMA dans la salle Akhmat Fight Club de Grozny, Tchétchénie, devant le portrait de Ramzan Kadyrov"
+                  alt={t('description.img1_alt')}
                   width={800}
                   height={600}
                   loading="lazy"
@@ -102,7 +114,7 @@ export default function ProgrammeMMAPage() {
               <figure className="photo-card" style={{ marginTop: '1.25rem' }}>
                 <img
                   src="/images/mma-tchechenie/crochet-rca-coach.webp"
-                  alt="Combattant exécute un crochet précis sur pads de coach, équipement RCA, salle de Grozny"
+                  alt={t('description.img2_alt')}
                   width={800}
                   height={600}
                   loading="lazy"
@@ -117,10 +129,10 @@ export default function ProgrammeMMAPage() {
       {/* Cinematic reveal */}
       <CinematicReveal
         image="/images/mma-tchechenie/sparring-face-a-face.webp"
-        alt="Sparring MMA intense face à face dans la salle Akhmat de Grozny, gants rouges, regards concentrés"
-        label="LE NIVEAU TCHÉTCHÈNE"
-        title="SPARRER AVEC LES MEILLEURS"
-        tagline="Sessions partagées avec les combattants Akhmat Fight Club et la nouvelle vague de Grozny. L'intensité que tu ne reproduiras nulle part en Europe."
+        alt={t('cinematic.alt')}
+        label={t('cinematic.label')}
+        title={t('cinematic.title')}
+        tagline={t('cinematic.tagline')}
       />
 
       {/* Preuve sociale Chimaev */}
@@ -128,31 +140,29 @@ export default function ProgrammeMMAPage() {
         <div className="inner">
           <div className="layout-split reveal">
             <div>
-              <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>NIVEAU DU SPARRING</span>
-              <h2 style={{ fontSize: 'clamp(1.5rem, 3vw, 2rem)', textTransform: 'uppercase' }}>L&apos;ÉCURIE DES CHAMPIONS</h2>
+              <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>{t('chimaev.label')}</span>
+              <h2 style={{ fontSize: 'clamp(1.5rem, 3vw, 2rem)', textTransform: 'uppercase' }}>{t('chimaev.title')}</h2>
               <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1rem' }}>
-                La salle d&apos;Akhmat Fight Club entraîne plusieurs combattants du top mondial, dont
-                <strong> Khamzat Chimaev</strong>, top 5 UFC poids welters. Nos coachs partenaires sont les
-                mêmes qui forment cette génération.
+                {t('chimaev.p1_before')}
+                <strong>{t('chimaev.p1_name')}</strong>
+                {t('chimaev.p1_after')}
               </p>
               <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1rem' }}>
-                Pendant ton camp, tu partages le tapis avec des combattants qui ont ce niveau dans le sang
-                et qui calibrent leur sparring à ton niveau. La pression et la précision technique sont
-                immédiatement perceptibles.
+                {t('chimaev.p2')}
               </p>
             </div>
             <div>
               <figure className="photo-card">
                 <img
                   src="/images/mma-tchechenie/chimaev-ceinture-ufc.webp"
-                  alt="Khamzat Chimaev, top 5 UFC poids welters, dans la salle Akhmat Fight Club de Grozny avec un coach tenant une ceinture UFC interim"
+                  alt={t('chimaev.img_alt')}
                   width={800}
                   height={600}
                   loading="lazy"
                   className="section-photo-img"
                 />
                 <figcaption style={{ marginTop: '0.6rem', fontSize: '0.8rem', color: 'var(--text-muted)', textAlign: 'center' }}>
-                  Khamzat Chimaev (top 5 UFC welters) · salle Akhmat Fight Club, Grozny
+                  {t('chimaev.img_caption')}
                 </figcaption>
               </figure>
             </div>
@@ -168,7 +178,7 @@ export default function ProgrammeMMAPage() {
               <figure className="photo-card">
                 <img
                   src="/images/mma-tchechenie/briefing-coach-4-combattants.webp"
-                  alt="Coach Akhmat Power en briefing avec 4 combattants après la session technique"
+                  alt={t('briefing.img_alt')}
                   width={800}
                   height={600}
                   loading="lazy"
@@ -177,35 +187,35 @@ export default function ProgrammeMMAPage() {
               </figure>
             </div>
             <div>
-              <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>ENCADREMENT</span>
-              <h2 style={{ fontSize: 'clamp(1.5rem, 3vw, 2rem)', textTransform: 'uppercase' }}>DÉBRIEF APRÈS CHAQUE SESSION</h2>
+              <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>{t('briefing.label')}</span>
+              <h2 style={{ fontSize: 'clamp(1.5rem, 3vw, 2rem)', textTransform: 'uppercase' }}>{t('briefing.title')}</h2>
               <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1rem' }}>
-                Les coachs Akhmat ne te laissent jamais finir une session sans débrief technique. Les
-                corrections sont précises, individuelles, et reposent sur des milliers de versions du
-                même geste observées et corrigées.
+                {t('briefing.p1')}
               </p>
               <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6', marginTop: '1rem' }}>
-                Cette boucle technique courte (technique, drills, sparring, débrief) est l&apos;ADN
-                de l&apos;école tchétchène et explique pourquoi les combattants de Grozny progressent
-                aussi vite.
+                {t('briefing.p2')}
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      <DisciplineTechniques items={TECHNIQUES} />
+      <DisciplineTechniques items={techniques} />
 
       <DisciplineSessionFlow
-        steps={SESSION_FLOW}
-        hoursNote={<>Horaires officiels MMA : <strong>matin 11h00</strong> et <strong>après-midi 18h00</strong>. Pas de chevauchement avec les sessions Lutte.</>}
+        steps={sessionFlow}
+        hoursNote={
+          <>
+            {t('session_flow.hours_note_prefix')}<strong>{t('session_flow.hours_note_morning')}</strong>{t('session_flow.hours_note_and')}<strong>{t('session_flow.hours_note_afternoon')}</strong>{t('session_flow.hours_note_suffix')}
+          </>
+        }
       />
 
       <SectionCTA
         primaryHref="/inscription?type=session"
-        primaryLabel="POSTULER · MMA TCHÉTCHÉNIE"
+        primaryLabel={t('section_cta.primary_label')}
         ghostHref="/destinations/tchetchenie"
-        ghostLabel="DÉCOUVRIR LA DESTINATION"
+        ghostLabel={t('section_cta.ghost_label')}
       />
     </>
   )

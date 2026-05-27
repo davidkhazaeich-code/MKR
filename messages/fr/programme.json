@@ -1,0 +1,416 @@
+{
+  "root": {
+    "meta": {
+      "title": "Programme MMA Tchétchénie et Lutte Daghestan | MKR",
+      "description": "Trois disciplines, deux destinations : Lutte adultes et enfants au Daghestan, MMA en Tchétchénie. Sparring quotidien, coaching local au Caucase."
+    },
+    "breadcrumb": {
+      "home": "Accueil",
+      "current": "Programme"
+    },
+    "hero": {
+      "label": "PROGRAMME",
+      "title": "TROIS DISCIPLINES.<br/>DEUX TERRES DU CAUCASE.",
+      "subtitle": "Lutte adultes et Lutte enfants au Daghestan. MMA en Tchétchénie. Le combo possible uniquement en sur-mesure."
+    },
+    "stats_band": {
+      "sessions_per_day": "Sessions par jour",
+      "days_per_week": "Jours par semaine",
+      "disciplines": "Disciplines"
+    },
+    "cards": {
+      "mma": {
+        "label": "DISCIPLINE · TCHÉTCHÉNIE",
+        "title": "MMA",
+        "alt": "Sparring MMA dans une salle du Caucase",
+        "desc": "Striking, clinch, takedowns, soumissions. Sparring quotidien avec les combattants de l'écurie Akhmat. Camp basé à Grozny, en Tchétchénie. Le MMA tchétchène en immersion totale.",
+        "cta": "VOIR LE PROGRAMME MMA"
+      },
+      "lutte": {
+        "label": "DISCIPLINE · DAGHESTAN",
+        "title": "LUTTE ADULTES",
+        "alt": "Takedown de lutte libre au Daghestan",
+        "desc": "Lutte libre exclusivement, au cœur du Daghestan. Méthodes daghestanaises transmises par des champions. Projections, contrôle au sol, scrambles. La discipline fondatrice du combat au Caucase.",
+        "cta": "VOIR LE PROGRAMME LUTTE"
+      },
+      "lutte_enfants": {
+        "label": "DISCIPLINE · DAGHESTAN · 8-17 ANS",
+        "title": "LUTTE ENFANTS",
+        "alt": "Lutte adaptée aux jeunes athlètes au Daghestan",
+        "desc": "Programme jeunesse au Daghestan. Pédagogie progressive, encadrement spécialisé, ratio 1 coach pour 5 enfants, sessions à 10h30 et 17h30. Enfant 8-17 ans toujours accompagné d'un parent participant. Forfait Famille : {familyBaseProse}. Chaque enfant supplémentaire : {familyExtraChild1week}.",
+        "cta": "VOIR LE PROGRAMME LUTTE ENFANTS"
+      }
+    },
+    "pour_qui": {
+      "label": "NIVEAUX",
+      "title": "POUR QUI ?",
+      "levels": {
+        "pro": {
+          "title": "PROFESSIONNEL",
+          "desc": "Combattants pro ou semi-pro. Sparring soutenu, coaching tactique avancé, préparation spécifique compétition."
+        },
+        "inter": {
+          "title": "INTERMÉDIAIRE",
+          "desc": "2 à 5 ans de pratique régulière. Base solide debout et au sol. Le cœur du groupe MKR."
+        },
+        "amateur": {
+          "title": "AMATEUR SÉRIEUX",
+          "desc": "2 ans minimum de pratique. Condition physique solide. Engagement total pendant le camp."
+        }
+      }
+    },
+    "section_cta": {
+      "primary_label": "VOIR LES SESSIONS",
+      "ghost_label": "VOIR LES DESTINATIONS"
+    }
+  },
+  "lutte": {
+    "meta": {
+      "title": "Programme Lutte libre au Daghestan | MKR Caucasian Camp",
+      "description": "Programme de lutte libre au Caucase. Méthodes daghestanaises ancestrales, leg rides, chain wrestling, sparring quotidien, coachs champions du monde."
+    },
+    "breadcrumb": {
+      "home": "Accueil",
+      "programme": "Programme",
+      "current": "Lutte"
+    },
+    "hero": {
+      "label": "LUTTE · DAGHESTAN",
+      "title": "LA DISCIPLINE QUI A FORGÉ LE CAUCASE",
+      "subtitle": "Lutte libre uniquement, au cœur du Daghestan. Les méthodes ancestrales transmises dans les salles de Makhachkala et Kaspiysk."
+    },
+    "tldr": {
+      "title": "En bref · Programme Lutte",
+      "facts": [
+        "Lutte libre exclusivement (pas de gréco-romaine) au Daghestan, Makhachkala et Kaspiysk.",
+        "15 places par session officielle. Ouvert aux adultes et enfants 8-17 ans avec parent (tunnel Famille).",
+        "6 modules techniques : takedowns, leg rides daghestanais, chain wrestling, funk rolls, mat returns, défense.",
+        "Sparring quotidien avec lutteurs locaux issus de la filière qui a produit 30+ médaillés olympiques.",
+        "Horaires : sessions à 10h30 et 17h30, 6 jours sur 7. Combo Lutte + MMA disponible en Sur Mesure."
+      ]
+    },
+    "description": {
+      "label": "LE PROGRAMME",
+      "title": "LUTTE AU DAGHESTAN",
+      "p1": "Au Daghestan, la lutte n'est pas un sport. C'est une identité. Chaque village a son champion, chaque famille transmet ses techniques. Les méthodes daghestanaises ont produit plus de champions olympiques de lutte par habitant que n'importe quel autre endroit au monde.",
+      "p2": "Le programme MKR te donne accès à ce savoir : lutte libre exclusivement, et les techniques spécifiques du Caucase que tu ne trouveras dans aucune académie européenne.",
+      "img1_alt": "Coach Gereev en pleine séance dans la salle de lutte daghestanaise",
+      "img2_alt": "Pont de lutte au sol, exercice ancestral pratiqué en groupe au Daghestan"
+    },
+    "cinematic": {
+      "alt": "Salle de lutte au Daghestan, bannière 'On ne naît pas lutteur, on le devient', lutteurs en échauffement",
+      "label": "HÉRITAGE",
+      "title": "ON NE NAÎT PAS LUTTEUR, ON LE DEVIENT",
+      "tagline": "Борцами не рождаются, борцами становятся. La devise inscrite sur les murs des salles daghestanaises."
+    },
+    "techniques": {
+      "items": {
+        "lutte_libre": {
+          "title": "Lutte libre",
+          "desc": "Takedowns explosifs, contrôle des jambes, scrambles. La base du combat au Daghestan."
+        },
+        "leg_rides": {
+          "title": "Leg rides",
+          "desc": "Spécialité daghestanaise. Contrôle au sol avec les jambes. Technique introuvable en Europe."
+        },
+        "chain_wrestling": {
+          "title": "Chain wrestling",
+          "desc": "Enchaînement de takedowns. Si le premier échoue, le deuxième est déjà en route."
+        },
+        "funk_rolls": {
+          "title": "Funk rolls",
+          "desc": "Reprises de position acrobatiques. Transformer une situation défensive en attaque."
+        },
+        "mat_returns": {
+          "title": "Mat returns",
+          "desc": "Ramener l'adversaire au sol depuis la position debout. Technique de contrôle."
+        },
+        "defense": {
+          "title": "Défense de takedown",
+          "desc": "Sprawl, underhooks, contre-attaques. Annuler l'attaque adverse et reprendre l'initiative."
+        }
+      }
+    },
+    "session_flow": {
+      "steps": {
+        "echauffement": {
+          "time": "15 min",
+          "activity": "Échauffement",
+          "desc": "Course, exercices au sol, mobilité des hanches."
+        },
+        "technique": {
+          "time": "30 min",
+          "activity": "Technique",
+          "desc": "Démonstration par le coach. Répétition par paires. Corrections individuelles."
+        },
+        "situations": {
+          "time": "20 min",
+          "activity": "Situations",
+          "desc": "Positions de départ imposées. Attaque-défense chronométrée."
+        },
+        "sparring": {
+          "time": "30 min",
+          "activity": "Sparring",
+          "desc": "Rounds de 6 minutes (rythme compétition). Rotation partenaires."
+        },
+        "conditioning": {
+          "time": "10 min",
+          "activity": "Conditioning",
+          "desc": "Circuit final : pompes, squats, pont de lutte, gainage."
+        }
+      },
+      "hours_note_prefix": "Horaires officiels Lutte adultes : ",
+      "hours_note_morning": "matin 10h30",
+      "hours_note_and": " et ",
+      "hours_note_afternoon": "après-midi 17h30",
+      "hours_note_suffix": ". Pas de chevauchement avec les sessions MMA."
+    },
+    "section_cta": {
+      "primary_label": "POSTULER · LUTTE DAGHESTAN",
+      "ghost_label": "DÉCOUVRIR LA DESTINATION"
+    }
+  },
+  "lutte_enfants": {
+    "meta": {
+      "title": "Lutte Enfants 8-17 ans au Daghestan | MKR Caucasian Camp",
+      "description": "Programme de lutte pour jeunes athlètes 8-17 ans avec parent. Pédagogie progressive, encadrement spécialisé, fondamentaux daghestanais."
+    },
+    "breadcrumb": {
+      "home": "Accueil",
+      "programme": "Programme",
+      "current": "Jeunesse"
+    },
+    "hero": {
+      "label": "JEUNESSE 8-17 ANS · DAGHESTAN",
+      "title": "FORME TON ENFANT<br/>À LA SOURCE.",
+      "subtitle": "Programme jeunesse au Daghestan, là où la lutte se transmet depuis des générations. Encadrement spécialisé, pédagogie progressive, parent participant obligatoire.",
+      "image_alt": "Jeunes lutteurs daghestanais attentifs aux consignes de leur coach avant la session, vrai briefing en école russe de lutte"
+    },
+    "stats_band": {
+      "ages": {
+        "num": "8-17",
+        "label": "Ans · Avec parent obligatoire"
+      },
+      "ratio": {
+        "num": "1:5",
+        "label": "Ratio coach jeunesse / enfants"
+      },
+      "sessions": {
+        "num": "2",
+        "label": "Sessions/jour à 10h30 et 17h30"
+      },
+      "family_label": "Forfait Famille · 1 sem (1 parent + 1 enfant)"
+    },
+    "description": {
+      "label": "LE PROGRAMME",
+      "title": "LUTTE POUR LES JEUNES",
+      "p1": "Au Daghestan, on commence la lutte très jeune. Les champions du monde y ont tous appris les mêmes gestes, dans les mêmes salles, par les mêmes coachs. MKR ouvre cet accès aux jeunes athlètes européens, dans un cadre adapté à leur âge.",
+      "p2": "Le programme Lutte enfants est conduit par des coachs formés à la pédagogie jeunesse. La progression reste progressive, jamais forcée. L'objectif : transmettre la passion et les fondamentaux, sans pression ni compétition prématurée.",
+      "img1_alt": "Jeunes lutteurs alignés sur le tapis, école de lutte daghestanaise",
+      "img2_alt": "Jeune lutteur en échauffement individuel, salle de lutte du Daghestan"
+    },
+    "cinematic": {
+      "alt": "Jeune lutteur daghestanais en posture, salle d'entraînement de Makhachkala",
+      "label": "TRANSMISSION",
+      "title": "LE GESTE JUSTE,<br/>AVANT TOUT",
+      "tagline": "Fondamentaux d'abord. Confiance, technique, respect du tapis. Tout commence là."
+    },
+    "pillars": {
+      "label": "PILIERS",
+      "title": "NOTRE APPROCHE",
+      "items": {
+        "pedagogie": {
+          "title": "Pédagogie progressive",
+          "desc": "Les fondamentaux d'abord. On construit le geste juste avant l'intensité. Chaque enfant progresse à son rythme."
+        },
+        "encadrement": {
+          "title": "Encadrement spécialisé",
+          "desc": "Coachs formés à la pédagogie jeunesse. Sécurité renforcée, communication adaptée, suivi individuel."
+        },
+        "heritage": {
+          "title": "Héritage daghestanais",
+          "desc": "Les techniques ancestrales du Caucase, transmises avec patience aux nouvelles générations."
+        },
+        "esprit": {
+          "title": "Esprit du tapis",
+          "desc": "Respect, discipline, persévérance. La lutte forge le caractère autant que le corps."
+        },
+        "groupes": {
+          "title": "Groupes de niveau",
+          "desc": "Sessions par tranche d'âge et de niveau. Apprentissage adapté, sans pression de compétition."
+        },
+        "cadre": {
+          "title": "Cadre sécurisant",
+          "desc": "Salles équipées, tapis homologués, supervision constante. Les parents peuvent assister aux sessions."
+        }
+      }
+    },
+    "session_flow": {
+      "steps": {
+        "echauffement": {
+          "time": "15 min",
+          "activity": "Échauffement ludique",
+          "desc": "Jeux, mobilité, activation. Mise en route progressive et bienveillante."
+        },
+        "technique": {
+          "time": "20 min",
+          "activity": "Technique de base",
+          "desc": "Démonstration pas à pas. Chutes, postures, premières saisies. Répétition guidée."
+        },
+        "drills": {
+          "time": "15 min",
+          "activity": "Drills par paires",
+          "desc": "Application en duo, niveaux similaires. Le coach circule et corrige."
+        },
+        "situations": {
+          "time": "15 min",
+          "activity": "Situations encadrées",
+          "desc": "Mises en situation supervisées. Jamais de sparring libre, toujours sous contrôle du coach."
+        },
+        "retour": {
+          "time": "10 min",
+          "activity": "Retour au calme",
+          "desc": "Étirements, débrief, points clés. Chaque enfant repart avec un objectif pour la prochaine session."
+        }
+      },
+      "hours_note_prefix": "Sessions matin à ",
+      "hours_note_morning": "10h30",
+      "hours_note_and": " et après-midi à ",
+      "hours_note_afternoon": "17h30",
+      "hours_note_suffix": ". Pas de chevauchement avec les sessions adultes."
+    },
+    "for_parents": {
+      "label": "POUR LES PARENTS",
+      "title": "TON ENFANT EST ENTRE DE BONNES MAINS",
+      "body": "Coach jeunesse dédié, ratio 1 pour 5, parent participant obligatoire, briefing après chaque session. Le détail complet du cadre famille (sécurité, hébergement, programme parallèle, forfait Famille à partir de {familyBase1week}) est sur la page Camp Famille.",
+      "cta": "DÉCOUVRIR LE CAMP FAMILLE"
+    },
+    "section_cta": {
+      "primary_label": "INSCRIRE MA FAMILLE",
+      "ghost_label": "DÉCOUVRIR LE CAMP FAMILLE"
+    }
+  },
+  "mma": {
+    "meta": {
+      "title": "Programme MMA en Tchétchénie | MKR Caucasian Camp",
+      "description": "Programme MMA complet à Grozny : stand-up, clinch, takedowns, soumissions, transitions. Sparring quotidien avec les combattants Akhmat."
+    },
+    "breadcrumb": {
+      "home": "Accueil",
+      "programme": "Programme",
+      "current": "MMA"
+    },
+    "hero": {
+      "label": "MMA · TCHÉTCHÉNIE",
+      "title": "FRAPPE. PROJETTE. SOUMETS.",
+      "subtitle": "Programme MMA complet à Grozny, Tchétchénie. Les méthodes de l'écurie Akhmat et de la nouvelle génération du combat."
+    },
+    "tldr": {
+      "title": "En bref · Programme MMA",
+      "facts": [
+        "Camp MMA exclusif à Grozny, Tchétchénie. 15 places par session officielle.",
+        "Niveau Avancé minimum exigé (5+ ans de pratique régulière ou compétiteur).",
+        "6 modules techniques : stand-up, clinch, takedowns, ground et pound, soumissions, transitions.",
+        "Sparring quotidien avec les combattants de l'écurie Akhmat Fight Club et de la scène MMA tchétchène.",
+        "Horaires : sessions à 11h00 et 18h00, 6 jours sur 7. Combo Lutte + MMA disponible en Sur Mesure."
+      ]
+    },
+    "description": {
+      "label": "LE PROGRAMME",
+      "title": "MMA EN TCHÉTCHÉNIE",
+      "p1": "La Tchétchénie est l'un des écosystèmes MMA les plus durs au monde. Les coachs partenaires de MKR enseignent un MMA complet, hérité de la tradition de la lutte et enrichi par des années de compétition internationale au sein de l'Akhmat Fight Club et des structures de Grozny.",
+      "p2": "Chaque session est structurée : technique, drills, sparring. Le niveau s'adapte à chaque participant, mais l'intensité reste élevée pour tous. Le camp MMA est exclusivement basé à Grozny.",
+      "img1_alt": "Sparring pads MMA dans la salle Akhmat Fight Club de Grozny, Tchétchénie, devant le portrait de Ramzan Kadyrov",
+      "img2_alt": "Combattant exécute un crochet précis sur pads de coach, équipement RCA, salle de Grozny"
+    },
+    "cinematic": {
+      "alt": "Sparring MMA intense face à face dans la salle Akhmat de Grozny, gants rouges, regards concentrés",
+      "label": "LE NIVEAU TCHÉTCHÈNE",
+      "title": "SPARRER AVEC LES MEILLEURS",
+      "tagline": "Sessions partagées avec les combattants Akhmat Fight Club et la nouvelle vague de Grozny. L'intensité que tu ne reproduiras nulle part en Europe."
+    },
+    "chimaev": {
+      "label": "NIVEAU DU SPARRING",
+      "title": "L'ÉCURIE DES CHAMPIONS",
+      "p1_before": "La salle d'Akhmat Fight Club entraîne plusieurs combattants du top mondial, dont",
+      "p1_name": " Khamzat Chimaev",
+      "p1_after": ", top 5 UFC poids welters. Nos coachs partenaires sont les mêmes qui forment cette génération.",
+      "p2": "Pendant ton camp, tu partages le tapis avec des combattants qui ont ce niveau dans le sang et qui calibrent leur sparring à ton niveau. La pression et la précision technique sont immédiatement perceptibles.",
+      "img_alt": "Khamzat Chimaev, top 5 UFC poids welters, dans la salle Akhmat Fight Club de Grozny avec un coach tenant une ceinture UFC interim",
+      "img_caption": "Khamzat Chimaev (top 5 UFC welters) · salle Akhmat Fight Club, Grozny"
+    },
+    "briefing": {
+      "label": "ENCADREMENT",
+      "title": "DÉBRIEF APRÈS CHAQUE SESSION",
+      "p1": "Les coachs Akhmat ne te laissent jamais finir une session sans débrief technique. Les corrections sont précises, individuelles, et reposent sur des milliers de versions du même geste observées et corrigées.",
+      "p2": "Cette boucle technique courte (technique, drills, sparring, débrief) est l'ADN de l'école tchétchène et explique pourquoi les combattants de Grozny progressent aussi vite.",
+      "img_alt": "Coach Akhmat Power en briefing avec 4 combattants après la session technique"
+    },
+    "techniques": {
+      "items": {
+        "stand_up": {
+          "title": "Stand-up",
+          "desc": "Boxe, kickboxing, coups de coude et de genou. Travail de distance et de timing."
+        },
+        "clinch": {
+          "title": "Clinch",
+          "desc": "Contrôle mural, dirty boxing, projections depuis le clinch. Spécialité caucasienne."
+        },
+        "takedowns": {
+          "title": "Takedowns",
+          "desc": "Singles, doubles, body locks. Intégration des techniques de lutte dans le MMA."
+        },
+        "ground_pound": {
+          "title": "Ground et Pound",
+          "desc": "Contrôle au sol, frappe en position dominante. Gestion de la garde."
+        },
+        "soumissions": {
+          "title": "Soumissions",
+          "desc": "Étranglements, clés de bras et de jambes. Enchaînements depuis les transitions."
+        },
+        "transitions": {
+          "title": "Transitions",
+          "desc": "Passage debout-sol fluide. Scrambles, reprises de position. Le point fort du Caucase."
+        }
+      }
+    },
+    "session_flow": {
+      "steps": {
+        "echauffement": {
+          "time": "15 min",
+          "activity": "Échauffement",
+          "desc": "Mobilité, activation, shadow boxing."
+        },
+        "technique": {
+          "time": "30 min",
+          "activity": "Technique",
+          "desc": "Démonstration et répétition par paires. Focus du jour."
+        },
+        "drills": {
+          "time": "20 min",
+          "activity": "Drills",
+          "desc": "Situations de combat, enchaînements, timing."
+        },
+        "sparring": {
+          "time": "30 min",
+          "activity": "Sparring",
+          "desc": "Rounds de 5 minutes. Intensité adaptée au niveau."
+        },
+        "debrief": {
+          "time": "10 min",
+          "activity": "Débrief",
+          "desc": "Retour du coach, points clés, feedback individuel."
+        }
+      },
+      "hours_note_prefix": "Horaires officiels MMA : ",
+      "hours_note_morning": "matin 11h00",
+      "hours_note_and": " et ",
+      "hours_note_afternoon": "après-midi 18h00",
+      "hours_note_suffix": ". Pas de chevauchement avec les sessions Lutte."
+    },
+    "section_cta": {
+      "primary_label": "POSTULER · MMA TCHÉTCHÉNIE",
+      "ghost_label": "DÉCOUVRIR LA DESTINATION"
+    }
+  }
+}
