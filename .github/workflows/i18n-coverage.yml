@@ -1,0 +1,21 @@
+name: i18n coverage check
+on:
+  pull_request:
+    paths:
+      - 'messages/**'
+      - 'scripts/i18n-check.js'
+  push:
+    branches: [main]
+    paths:
+      - 'messages/**'
+
+jobs:
+  i18n-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Check i18n coverage
+        run: node scripts/i18n-check.js
