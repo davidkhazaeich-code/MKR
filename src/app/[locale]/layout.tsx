@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic'
 import { notFound } from 'next/navigation'
 import { Teko, Barlow, Barlow_Condensed } from 'next/font/google'
 import { NextIntlClientProvider, hasLocale } from 'next-intl'
-import { setRequestLocale, getMessages } from 'next-intl/server'
+import { setRequestLocale, getMessages, getTranslations } from 'next-intl/server'
 import { SITE_URL, SITE_NAME, SITE_EMAIL, SITE_DESCRIPTION, SOCIALS, GEO } from '@/data/site'
 import { SESSIONS } from '@/data/sessions'
 import { PRICING_TIERS } from '@/data/pricing'
@@ -97,13 +97,15 @@ export const viewport: Viewport = {
    every page. Page-specific schema (BreadcrumbList, Article, etc.) should
    be added in the corresponding page.tsx files.
 
-   i18n note (2026-05-27) : `inLanguage` est dynamique selon la locale courante.
-   La traduction des `description`/`name`/`slogan` viendra en phase suivante
-   (T10 du plan) via getTranslations('meta'). En attendant, le contenu reste FR.
+   i18n (T10, 2026-05-27) : descriptions Organization / Person / Events /
+   SportsActivityLocation lues depuis messages/<locale>/meta.json via
+   getTranslations('meta'). `inLanguage` est dynamique selon la locale courante
+   (sauf Organization qui reste ['fr', 'en'] car l'entité est bilingue).
    ========================================================================== */
 
-function buildJsonLd(locale: 'fr' | 'en') {
+async function buildJsonLd(locale: 'fr' | 'en') {
   const inLanguage = locale === 'fr' ? 'fr' : 'en'
+  const t = await getTranslations({ locale, namespace: 'meta' })
 
   // ---------------------------------------------------------------------------
   // 1. WebSite
@@ -112,9 +114,9 @@ function buildJsonLd(locale: 'fr' | 'en') {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     '@id': `${SITE_URL}/#website`,
-    name: SITE_NAME,
+    name: t('site.name'),
     url: `${SITE_URL}/`,
-    description: SITE_DESCRIPTION,
+    description: t('site.description'),
     inLanguage,
     publisher: { '@id': `${SITE_URL}/#organization` },
   }
@@ -131,18 +133,19 @@ function buildJsonLd(locale: 'fr' | 'en') {
         name: 'Ruslan Mukhtarov',
         givenName: 'Ruslan',
         familyName: 'Mukhtarov',
-        jobTitle: 'Fondateur et entraîneur de lutte et MMA',
+        jobTitle: t('person_ruslan.job_title'),
+        description: t('organization.founder_description'),
         image: `${SITE_URL}/images/coaches/ruslan.webp`,
         url: `${SITE_URL}/a-propos`,
         sameAs: [SOCIALS.instagram],
         alumniOf: {
           '@type': 'SportsOrganization',
-          name: "INSEP - Institut National du Sport, de l'Expertise et de la Performance",
+          name: t('person_ruslan.alumni_of_name'),
           sameAs: 'https://www.insep.fr/',
         },
         memberOf: {
           '@type': 'SportsOrganization',
-          name: 'Équipe de France de lutte',
+          name: t('person_ruslan.member_of_name'),
           sameAs: 'https://www.fflutte.org/',
         },
         knowsAbout: ['Lutte libre', 'Lutte gréco-romaine', 'MMA', 'Arts martiaux mixtes', "Méthodes d'entraînement du Caucase"],
@@ -152,11 +155,11 @@ function buildJsonLd(locale: 'fr' | 'en') {
       {
         '@type': 'Organization',
         '@id': `${SITE_URL}/#organization`,
-        name: SITE_NAME,
+        name: t('site.name'),
         url: `${SITE_URL}/`,
         logo: { '@type': 'ImageObject', url: `${SITE_URL}/images/logo-mkr.png`, width: 512, height: 512 },
         image: `${SITE_URL}/images/social/og-image.webp`,
-        description: SITE_DESCRIPTION,
+        description: t('organization.description'),
         email: SITE_EMAIL,
         telephone: '+33666177691',
         contactPoint: { '@type': 'ContactPoint', contactType: 'customer service', telephone: '+33666177691', email: SITE_EMAIL, availableLanguage: ['French', 'English'] },
@@ -164,7 +167,7 @@ function buildJsonLd(locale: 'fr' | 'en') {
         foundingDate: '2018',
         founder: { '@id': `${SITE_URL}/#person-ruslan` },
         employee: [{ '@id': `${SITE_URL}/#person-ruslan` }],
-        slogan: "L'immersion au milieu des champions",
+        slogan: t('site.slogan'),
         areaServed: { '@type': 'GeoCircle', geoMidpoint: { '@type': 'GeoCoordinates', latitude: GEO.latitude, longitude: GEO.longitude }, geoRadius: '500 km' },
         knowsAbout: ['MMA', 'Lutte libre', 'Lutte enfants', 'Arts martiaux', "Camp d'entraînement"],
         inLanguage: ['fr', 'en'],
@@ -172,9 +175,9 @@ function buildJsonLd(locale: 'fr' | 'en') {
       {
         '@type': 'SportsActivityLocation',
         '@id': `${SITE_URL}/#location-dagestan`,
-        name: `${SITE_NAME} · Camp Lutte Daghestan`,
+        name: t('sports_activity_location.dagestan.name'),
         url: `${SITE_URL}/destinations/dagestan`,
-        description: "Camp d'entraînement Lutte libre (adultes et enfants) au cœur du Daghestan, Caucase russe. Salles avec tapis olympiques, méthodes daghestanaises.",
+        description: t('sports_activity_location.dagestan.description'),
         image: `${SITE_URL}/images/environment/gym-interior.webp`,
         address: { '@type': 'PostalAddress', addressCountry: 'RU', addressRegion: 'Daghestan', addressLocality: 'Makhachkala' },
         geo: { '@type': 'GeoCoordinates', latitude: 42.9849, longitude: 47.5047 },
@@ -182,20 +185,20 @@ function buildJsonLd(locale: 'fr' | 'en') {
         priceRange: '€€',
         openingHoursSpecification: [{ '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'], opens: '07:00', closes: '22:00' }],
         amenityFeature: [
-          { '@type': 'LocationFeatureSpecification', name: 'Visa russe inclus', value: true },
-          { '@type': 'LocationFeatureSpecification', name: 'Vol intérieur Istanbul-Makhachkala inclus', value: true },
-          { '@type': 'LocationFeatureSpecification', name: 'Transfert aéroport', value: true },
-          { '@type': 'LocationFeatureSpecification', name: 'Hébergement inclus', value: true },
-          { '@type': 'LocationFeatureSpecification', name: '2 repas/jour', value: true },
-          { '@type': 'LocationFeatureSpecification', name: 'Encadrement local inclus', value: true },
+          { '@type': 'LocationFeatureSpecification', name: t('sports_activity_location.dagestan.amenity_visa'), value: true },
+          { '@type': 'LocationFeatureSpecification', name: t('sports_activity_location.dagestan.amenity_flight'), value: true },
+          { '@type': 'LocationFeatureSpecification', name: t('sports_activity_location.dagestan.amenity_transfers'), value: true },
+          { '@type': 'LocationFeatureSpecification', name: t('sports_activity_location.dagestan.amenity_lodging'), value: true },
+          { '@type': 'LocationFeatureSpecification', name: t('sports_activity_location.dagestan.amenity_meals'), value: true },
+          { '@type': 'LocationFeatureSpecification', name: t('sports_activity_location.dagestan.amenity_coaching'), value: true },
         ],
       },
       {
         '@type': 'SportsActivityLocation',
         '@id': `${SITE_URL}/#location-tchetchenie`,
-        name: `${SITE_NAME} · Camp MMA Tchétchénie`,
+        name: t('sports_activity_location.tchetchenie.name'),
         url: `${SITE_URL}/destinations/tchetchenie`,
-        description: "Camp d'entraînement MMA en Tchétchénie, Caucase russe. Salles équipées cage MMA et équipement de frappe, sparring quotidien avec combattants locaux.",
+        description: t('sports_activity_location.tchetchenie.description'),
         image: `${SITE_URL}/images/environment/gym-interior.webp`,
         address: { '@type': 'PostalAddress', addressCountry: 'RU', addressRegion: 'Tchétchénie', addressLocality: 'Grozny' },
         geo: { '@type': 'GeoCoordinates', latitude: 43.3168, longitude: 45.6981 },
@@ -203,12 +206,12 @@ function buildJsonLd(locale: 'fr' | 'en') {
         priceRange: '€€',
         openingHoursSpecification: [{ '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'], opens: '07:00', closes: '22:00' }],
         amenityFeature: [
-          { '@type': 'LocationFeatureSpecification', name: 'Visa russe inclus', value: true },
-          { '@type': 'LocationFeatureSpecification', name: 'Vol intérieur Istanbul-Grozny inclus', value: true },
-          { '@type': 'LocationFeatureSpecification', name: 'Transfert aéroport', value: true },
-          { '@type': 'LocationFeatureSpecification', name: 'Hébergement inclus', value: true },
-          { '@type': 'LocationFeatureSpecification', name: '2 repas/jour', value: true },
-          { '@type': 'LocationFeatureSpecification', name: 'Encadrement local inclus', value: true },
+          { '@type': 'LocationFeatureSpecification', name: t('sports_activity_location.tchetchenie.amenity_visa'), value: true },
+          { '@type': 'LocationFeatureSpecification', name: t('sports_activity_location.tchetchenie.amenity_flight'), value: true },
+          { '@type': 'LocationFeatureSpecification', name: t('sports_activity_location.tchetchenie.amenity_transfers'), value: true },
+          { '@type': 'LocationFeatureSpecification', name: t('sports_activity_location.tchetchenie.amenity_lodging'), value: true },
+          { '@type': 'LocationFeatureSpecification', name: t('sports_activity_location.tchetchenie.amenity_meals'), value: true },
+          { '@type': 'LocationFeatureSpecification', name: t('sports_activity_location.tchetchenie.amenity_coaching'), value: true },
         ],
       },
       ...SESSIONS.map((s) => {
@@ -222,8 +225,8 @@ function buildJsonLd(locale: 'fr' | 'en') {
         return {
           '@type': 'Event',
           '@id': `${SITE_URL}/#event-${s.id}`,
-          name: `${SITE_NAME} - Session ${s.season} ${sessionYear}`,
-          description: `Session ${s.season.toLowerCase()} ${sessionYear} de 1 à 3 semaines : ${s.maxCapacity.lutte} places Lutte au Daghestan + ${s.maxCapacity.mma} places MMA en Tchétchénie (exclusif). Coaching local, hébergement et repas inclus.`,
+          name: `${t('site.name')} - Session ${s.season} ${sessionYear}`,
+          description: t('events.session_description_template'),
           startDate: s.startDate,
           endDate: s.endDate,
           eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
@@ -269,7 +272,7 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
   setRequestLocale(locale)
   const messages = await getMessages()
 
-  const { jsonLdWebSite, jsonLdMain } = buildJsonLd(locale)
+  const { jsonLdWebSite, jsonLdMain } = await buildJsonLd(locale)
 
   return (
     <html

@@ -1,0 +1,44 @@
+{
+  "site": {
+    "name": "MKR Caucasian Camp",
+    "description": "Camps d'entraînement MMA et Lutte au cœur du Caucase. Lutte adultes et enfants au Daghestan, MMA en Tchétchénie. Une discipline par camp. Immersion 1 à 3 semaines, encadrement local.",
+    "slogan": "L'immersion au milieu des champions"
+  },
+  "organization": {
+    "description": "Camps d'entraînement MMA et Lutte au cœur du Caucase, organisés par Ruslan Mukhtarov, ancien équipe de France de lutte (INSEP).",
+    "founder_description": "Ruslan Mukhtarov, 32 ans, ancien équipe de France de lutte, formé à l'INSEP (2012-2016)."
+  },
+  "person_ruslan": {
+    "job_title": "Fondateur et entraîneur de lutte et MMA",
+    "alumni_of_name": "INSEP, Institut National du Sport, de l'Expertise et de la Performance",
+    "member_of_name": "Équipe de France de lutte"
+  },
+  "events": {
+    "session_description_template": "Camp d'entraînement de 1 à 3 semaines au Caucase. 15 places Lutte au Daghestan plus 15 places MMA en Tchétchénie (exclusif). Vol intérieur depuis Istanbul, visa russe, hébergement et 2 repas par jour inclus."
+  },
+  "sports_activity_location": {
+    "dagestan": {
+      "name": "Salles d'entraînement de lutte au Daghestan",
+      "description": "Salles de lutte officielles à Makhachkala et Kaspiysk, partenaires de la Fédération de Russie de lutte.",
+      "amenity_visa": "Visa russe inclus",
+      "amenity_flight": "Vol intérieur Istanbul-Makhachkala inclus",
+      "amenity_meals": "2 repas par jour",
+      "amenity_transfers": "Transferts aéroport",
+      "amenity_lodging": "Hébergement inclus",
+      "amenity_coaching": "Encadrement local inclus"
+    },
+    "tchetchenie": {
+      "name": "Salles d'entraînement MMA en Tchétchénie",
+      "description": "Salles MMA à Grozny, dans la lignée de l'Akhmat Fight Club.",
+      "amenity_visa": "Visa russe inclus",
+      "amenity_flight": "Vol intérieur Istanbul-Grozny inclus",
+      "amenity_meals": "2 repas par jour",
+      "amenity_transfers": "Transferts aéroport",
+      "amenity_lodging": "Hébergement inclus",
+      "amenity_coaching": "Encadrement local inclus"
+    }
+  },
+  "og": {
+    "image_alt": "MKR Caucasian Camp, Camp d'entraînement MMA et Lutte au Caucase"
+  }
+}
