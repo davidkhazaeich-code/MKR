@@ -1,0 +1,672 @@
+{
+  "meta": {
+    "title": "Inscription · MKR Caucasian Camp",
+    "description": "Dépose ta candidature pour rejoindre un camp MMA et Lutte au Caucase. 4 sessions par an, sur mesure, famille ou clubs : 4 tunnels."
+  },
+  "back_to_site": "Retour au site",
+  "back_to_home": "RETOUR À L'ACCUEIL",
+  "back_aria": "Retour à l'accueil",
+  "steps_by_tunnel": {
+    "session": ["Le camp", "Identité", "Expérience", "Santé", "Confirmation"],
+    "custom": ["Le camp", "Identité", "Expérience", "Santé", "Confirmation"],
+    "famille": ["Le camp", "Identité", "Expérience", "Santé", "Confirmation"],
+    "groupe": ["Le camp", "Ton club", "Contact", "Confirmation"]
+  },
+  "audience_selector": {
+    "label": "ÉTAPE PRÉLIMINAIRE",
+    "title": "CHOISIS TON INSCRIPTION",
+    "subtitle": "MKR organise tout. Sélectionne le format qui te correspond et on adapte le formulaire.",
+    "flag_recommended": "RECOMMANDÉ",
+    "meta_labels": {
+      "dates": "Dates",
+      "duration": "Durée",
+      "from": "À partir de"
+    },
+    "persons": {
+      "one": "1 personne",
+      "other": "{count} personnes"
+    }
+  },
+  "sidebar": {
+    "logo_sub": "Caucasian Camp",
+    "change_audience_aria": "Changer le type d'inscription",
+    "change_label": "Changer",
+    "steps_aria": "Étapes du formulaire",
+    "recap_title": "Ton inscription",
+    "recap_aria": "Récap de ton inscription",
+    "recap_rows": {
+      "camp": "Camp",
+      "session": "Session",
+      "format": "Format",
+      "format_custom": "Sur mesure",
+      "duration": "Durée",
+      "composition": "Composition",
+      "family": "Famille",
+      "groupe": "Groupe",
+      "price": "Tarif",
+      "estimated_total": "Total estimé",
+      "from": "À partir de",
+      "on_quote": "Sur devis"
+    },
+    "compositions": {
+      "solo": "Solo",
+      "duo": "Duo",
+      "trio": "Trio",
+      "quatuor": "Quatuor"
+    },
+    "family_units": "{adults}P + {children}E",
+    "groupe_5": "5 pers.",
+    "badges": {
+      "places": "15 LUTTE + 15 MMA / SESSION",
+      "response": "RÉPONSE SOUS 48H",
+      "interview": "ENTRETIEN VIDÉO 20 MIN"
+    }
+  },
+  "mobile_header": {
+    "progress_aria": "Étape {current} sur {total} : {step}. Toucher pour voir toutes les étapes.",
+    "step_label": "Étape {current}/{total} · {step}",
+    "panel_aria": "Toutes les étapes"
+  },
+  "panel_titles": {
+    "step0_session": "Quelle session, quelle discipline ?",
+    "step0_custom": "Ton camp sur mesure",
+    "step0_famille": "Le camp de la famille",
+    "step0_groupe": "Le camp de ton groupe",
+    "step1_identity": "Qui es-tu ?",
+    "step1_club": "Parle-nous de ton club",
+    "step2_experience": "Ton parcours sportif",
+    "step2_contact": "Contact du responsable",
+    "step3_health_famille": "Santé parent et enfants",
+    "step3_health": "Condition physique et Santé",
+    "step3_groupe_confirm": "Confirme ta demande de devis",
+    "step4_confirm": "Confirme ta candidature",
+    "step_label_prefix": "ÉTAPE {current} / {total}"
+  },
+  "honeypot": {
+    "label": "Si tu vois ce champ, laisse-le vide"
+  },
+  "identity": {
+    "fields": {
+      "prenom": { "label": "Prénom", "placeholder": "Ton prénom" },
+      "nom": { "label": "Nom", "placeholder": "Ton nom" },
+      "date_naissance": { "label": "Date de naissance", "hint": "Tu dois avoir au moins 18 ans" },
+      "pays": { "label": "Pays de résidence", "placeholder": "France, Suisse, Belgique..." },
+      "email": { "label": "Email", "placeholder": "ton@email.com" },
+      "telephone": { "label": "Téléphone", "hint": "Avec indicatif international", "placeholder": "+33 6 12 34 56 78" },
+      "ville_depart": { "label": "Ville / pays de départ", "hint": "Utilisé pour estimer les vols", "placeholder": "Ex : Paris, Genève, Montréal..." }
+    },
+    "country_options": [
+      "France",
+      "Suisse",
+      "Belgique",
+      "Luxembourg",
+      "Canada",
+      "Maroc",
+      "Algérie",
+      "Tunisie",
+      "Sénégal",
+      "Côte d'Ivoire",
+      "Allemagne",
+      "Espagne",
+      "Italie",
+      "Portugal",
+      "Royaume-Uni",
+      "Pays-Bas"
+    ]
+  },
+  "referral_field": {
+    "label": "Code de recommandation",
+    "hint": "Si un coach, un club partenaire ou un influenceur t'a recommandé MKR, note son code ici.",
+    "placeholder": "Ex : nomdetonclub (optionnel)",
+    "feedback_success": "Recommandé par {partner}",
+    "feedback_warning": "Code non reconnu, on va vérifier de notre côté"
+  },
+  "groupe_contact": {
+    "banner": {
+      "title": "Demande de devis personnalisé",
+      "body": "Tes coordonnées pour que Ruslan te recontacte et envoie un devis adapté. Aucun paiement n'est demandé à cette étape."
+    },
+    "fields": {
+      "prenom_responsable": { "label": "Prénom du responsable", "placeholder": "Ton prénom" },
+      "nom": { "label": "Nom", "placeholder": "Ton nom" },
+      "email": { "label": "Email", "placeholder": "ton@email.com" },
+      "telephone": { "label": "Téléphone / WhatsApp", "hint": "Pour un échange direct si besoin", "placeholder": "+33 6 12 34 56 78" },
+      "pays": { "label": "Pays de résidence", "placeholder": "France, Suisse, Belgique..." },
+      "ville_depart": { "label": "Ville de départ", "hint": "Origine principale du groupe", "placeholder": "Ex : Paris, Lyon, Genève..." }
+    }
+  },
+  "experience": {
+    "banner_famille": {
+      "prefix": "Cette étape concerne ",
+      "strong": "uniquement le parent participant",
+      "suffix": ". On collectera les infos des enfants à l'étape Santé."
+    },
+    "banner_custom": {
+      "prefix": "Tu réponds pour toi (",
+      "strong": "responsable de l'inscription",
+      "suffix": "). Pour Duo/Trio/Quatuor, les autres participants sont listés ci-dessous."
+    },
+    "fields": {
+      "discipline_principale": { "label": "Discipline principale" },
+      "disciplines_secondaires": {
+        "label": "Disciplines secondaires",
+        "hint": "Sélectionne tout ce qui s'applique",
+        "hint_selected_one": "Sélectionne tout ce qui s'applique · 1 sélectionnée",
+        "hint_selected_many": "Sélectionne tout ce qui s'applique · {count} sélectionnées"
+      },
+      "annees_pratique": { "label": "Années de pratique" },
+      "niveau": {
+        "label": "Niveau actuel",
+        "hint_mma": "Camp MMA : niveau Avancé minimum exigé"
+      },
+      "club": { "label": "Club / Salle actuelle", "placeholder": "Nom de ton club" },
+      "coach": { "label": "Coach / Instructeur", "placeholder": "Nom de ton coach" },
+      "palmares": { "label": "Palmarès et compétitions", "hint": "Titres, classements, résultats récents", "placeholder": "Ex : Champion régional Lutte 2024, 2e au tournoi de Paris MMA..." },
+      "lien_video": { "label": "Lien vidéo", "hint": "Instagram, Vimeo, footage de compétition", "placeholder": "https://instagram.com/..." }
+    },
+    "select_placeholder": "Sélectionner",
+    "annees_options": {
+      "1-2": "1 à 2 ans",
+      "2-5": "2 à 5 ans",
+      "5-10": "5 à 10 ans",
+      "10+": "10 ans et plus"
+    },
+    "niveau_options": {
+      "intermediaire": "Intermédiaire",
+      "intermediaire_mma_blocked": "Intermédiaire (insuffisant pour MMA)",
+      "avance": "Avancé",
+      "competiteur_regional": "Compétiteur régional",
+      "competiteur_national": "Compétiteur national",
+      "competiteur_international": "Compétiteur international"
+    },
+    "niveau_options_custom": {
+      "debutant": "Débutant",
+      "intermediaire": "Intermédiaire",
+      "avance": "Avancé",
+      "competiteur": "Compétiteur"
+    },
+    "discipline_options_placeholder_optional": "Sélectionner (optionnel)"
+  },
+  "club_qualification": {
+    "banner": {
+      "prefix": "On qualifie ici le ",
+      "strong": "collectif",
+      "suffix": ", pas le responsable individuel. Les infos perso de chaque participant seront collectées après validation du devis."
+    },
+    "fields": {
+      "nom_club": { "label": "Nom du club ou du groupe", "placeholder": "Ex : Geneva Fight Club, Académie Krav Magabec..." },
+      "nombre_participants": {
+        "label": "Nombre approximatif de participants",
+        "hint": "Tu pourras affiner après la visio. À partir de 11 personnes ou pour privatiser une session entière, le format est ajusté."
+      },
+      "niveau_groupe": { "label": "Niveau global du groupe" },
+      "disciplines_club": {
+        "label": "Discipline(s) principale(s) du club",
+        "hint": "Sélectionne ce qui s'applique au collectif",
+        "hint_selected_one": "Sélectionne ce qui s'applique au collectif · 1 sélectionnée",
+        "hint_selected_many": "Sélectionne ce qui s'applique au collectif · {count} sélectionnées"
+      },
+      "palmares_club": { "label": "Palmarès collectif du club", "hint": "Optionnel, 1 ou 2 phrases suffisent", "placeholder": "Ex : 3 champions de France juniors en 2025, 2 internationaux espoirs..." },
+      "lien_video_club": { "label": "Lien vidéo ou réseau du club", "hint": "Optionnel : Instagram, site du club", "placeholder": "https://instagram.com/..." }
+    },
+    "participants_options": {
+      "5": "5 personnes",
+      "6-10": "6 à 10 personnes",
+      "11-20": "11 personnes et plus",
+      "20+": "Plus de 20 (privatisation totale)"
+    },
+    "niveau_groupe_options": {
+      "debutant": "Mixte débutant / intermédiaire",
+      "intermediaire": "Intermédiaire homogène",
+      "avance": "Avancé / compétiteurs",
+      "mixte": "Mixte (à préciser)"
+    }
+  },
+  "sante": {
+    "banner_custom": {
+      "prefix": "Cette étape concerne ",
+      "strong": "uniquement toi",
+      "suffix": " (responsable). On collectera la santé des autres participants après validation du devis."
+    },
+    "fields": {
+      "condition_physique": {
+        "label": "Comment évalues-tu ta condition physique actuelle ?",
+        "options": {
+          "2": "Moyenne · reprise récente",
+          "3": "Bonne · entraînement régulier",
+          "4": "Très bonne · entraînement intensif",
+          "5": "Excellente · niveau compétition"
+        }
+      },
+      "blessures": {
+        "label": "As-tu eu des blessures significatives ces 3 derniers mois ?",
+        "options": {
+          "non": "Non, aucune blessure",
+          "mineure": "Mineure, entièrement guérie",
+          "oui": "Oui, à préciser"
+        },
+        "detail_placeholder": "Décris la nature et l'état actuel de la blessure..."
+      },
+      "contre_indications": {
+        "label": "As-tu des contre-indications médicales à l'effort intense ?",
+        "options": {
+          "non": "Non",
+          "oui": "Oui, à préciser"
+        },
+        "detail_placeholder": "Précise la nature des contre-indications..."
+      },
+      "deux_fois_jour": {
+        "label": "Es-tu capable de t'entraîner deux fois par jour, 6 jours sur 7 ?",
+        "hint": "Les sessions durent 2 à 3h. C'est le rythme standard du camp.",
+        "options": {
+          "oui": "Oui, je suis prêt(e)",
+          "avec_adaptation": "Oui, avec quelques adaptations",
+          "non": "Non, je préfère un rythme allégé"
+        }
+      }
+    },
+    "famille": {
+      "section_parent": "Santé du parent participant",
+      "section_enfants": "Tes enfants (8 à 17 ans)",
+      "banner": "Le programme jeunesse a son propre rythme (sessions à 10h30 et 17h30). Chaque enfant doit fournir un certificat médical pédiatrique avant le départ.",
+      "child_label": "Enfant {n}",
+      "remove": "Retirer",
+      "remove_aria": "Retirer l'enfant {n}",
+      "add_button": "Ajouter un enfant",
+      "fields": {
+        "prenom": { "label": "Prénom", "placeholder": "Prénom de l'enfant" },
+        "age": { "label": "Âge", "hint": "Entre 8 et 17 ans", "placeholder": "Ex : 12" },
+        "pratique_deja": {
+          "label": "Pratique déjà la lutte, le MMA ou un sport de combat ?",
+          "options": {
+            "non": "Non, première expérience",
+            "oui": "Oui, déjà pratiquant"
+          },
+          "annees_placeholder": "Combien d'années ? (Ex : 2 ans de judo)"
+        },
+        "contre_indications": {
+          "label": "Contre-indications médicales connues ?",
+          "options": {
+            "non": "Non, aucune",
+            "oui": "Oui, à préciser"
+          },
+          "detail_placeholder": "Allergies, asthme, blessure récente, traitement en cours..."
+        }
+      }
+    }
+  },
+  "step0_camp": {
+    "session": {
+      "section1_label": "Choisis ta session",
+      "section1_help": "Quatre sessions par an, calées sur les vacances scolaires francophones (FR · CH · BE).",
+      "session_intensity_prefix": "Intensité",
+      "section2_label": "Choisis ta discipline",
+      "section2_help_prefix": "C'est exclusif sur les sessions officielles : Lutte (Daghestan) ",
+      "section2_help_or": "OU",
+      "section2_help_suffix": " MMA (Tchétchénie). Pour combiner les deux, passe par ",
+      "section2_help_link": "Sur Mesure",
+      "section2_help_end": ".",
+      "discipline_lutte": {
+        "name": "LUTTE",
+        "place": "Daghestan · Makhachkala",
+        "meta": "15 places · ouvert à tous les niveaux"
+      },
+      "discipline_mma": {
+        "name": "MMA",
+        "place": "Tchétchénie · Grozny",
+        "meta": "15 places · niveau Avancé minimum"
+      },
+      "mma_alert_blocked": {
+        "prefix": "Le camp MMA exige un niveau ",
+        "strong1": "Avancé",
+        "middle": " ou ",
+        "strong2": "Compétiteur",
+        "suffix": ". Ton niveau actuel ({niveau}) ne permet pas l'inscription. Choisis Lutte, ou ajuste ton niveau à l'étape Expérience."
+      },
+      "mma_alert_warn": {
+        "prefix": "Niveau Avancé minimum exigé pour le camp MMA. Tu confirmeras ton niveau à l'étape Expérience."
+      },
+      "section3_label": "Combien de temps ?",
+      "section3_help": "Tu choisis 1, 2 ou 3 semaines au sein de la fenêtre de session officielle.",
+      "duration_options": {
+        "1-semaine": { "label": "1 semaine", "sub": "Initiation intense" },
+        "2-semaines": { "label": "2 semaines", "sub": "Vraie progression" },
+        "3-semaines": { "label": "3 semaines", "sub": "Immersion complète" }
+      },
+      "duration_per_adult": "{price} / adulte"
+    },
+    "custom": {
+      "section1_label": "Quelle discipline ?",
+      "section1_help": "Lutte au Daghestan, MMA en Tchétchénie, ou le combo des deux destinations. Le combo se vit en séquentiel (X jours Daghestan puis Y jours Tchétchénie) et est tarifé sur devis.",
+      "discipline_lutte": {
+        "name": "LUTTE",
+        "place": "Daghestan · Makhachkala",
+        "meta": "Tarifs publics · tous niveaux"
+      },
+      "discipline_mma": {
+        "name": "MMA",
+        "place": "Tchétchénie · Grozny",
+        "meta": "Niveau Avancé minimum · tarifs publics"
+      },
+      "discipline_combo": {
+        "name": "COMBO LUTTE + MMA",
+        "place": "Daghestan puis Tchétchénie",
+        "meta": "Durée mini 2 semaines · tarif fixé en visio"
+      },
+      "mma_alert_warn": "Niveau Avancé minimum exigé pour le camp MMA. Tu confirmeras ton niveau à l'étape Expérience.",
+      "section2_label": "Vous êtes combien ?",
+      "section2_help_prefix": "1 à 4 adultes. Pour 5+ : ",
+      "section2_help_link_groupe": "Club et Groupe",
+      "section2_help_middle": ". Avec un enfant : ",
+      "section2_help_link_famille": "Famille",
+      "section2_help_end": ".",
+      "compo_options": {
+        "1": { "label": "Solo", "sub": "1 adulte" },
+        "2": { "label": "Duo", "sub": "2 adultes" },
+        "3": { "label": "Trio", "sub": "3 adultes" },
+        "4": { "label": "Quatuor", "sub": "4 adultes" }
+      },
+      "participants_section_label": "Les autres participants",
+      "participants_section_help": "Prénom et niveau pour chaque accompagnant. Santé collectée après validation du devis.",
+      "participant_label": "Participant {n}",
+      "participant_fields": {
+        "prenom": { "label": "Prénom", "placeholder": "Prénom" },
+        "niveau": { "label": "Niveau" },
+        "discipline": { "label": "Discipline principale", "hint": "Optionnel" }
+      },
+      "section3_label": "Quand et combien de temps ?",
+      "section3_help": "Réservation 90 jours minimum avant le départ pour gérer visa, vol et organisation.",
+      "fields": {
+        "date_debut": { "label": "Date de début souhaitée" },
+        "duree": { "label": "Durée" }
+      },
+      "duration_select_label": "{weeks_label} · {price} / adulte",
+      "duration_labels": {
+        "1-semaine": "1 semaine",
+        "2-semaines": "2 semaines",
+        "3-semaines": "3 semaines"
+      },
+      "estimation_total_label": "Estimation : {price}",
+      "estimation_breakdown_one_adult_one_week": "1 adulte × {price_per_adult} sur 1 semaine. Tarif définitif confirmé en visio.",
+      "estimation_breakdown_adults_one_week": "{adults} adultes × {price_per_adult} sur 1 semaine. Tarif définitif confirmé en visio.",
+      "estimation_breakdown_one_adult_weeks": "1 adulte × {price_per_adult} sur {weeks} semaines. Tarif définitif confirmé en visio.",
+      "estimation_breakdown_adults_weeks": "{adults} adultes × {price_per_adult} sur {weeks} semaines. Tarif définitif confirmé en visio.",
+      "combo_quote": {
+        "title": "Combo sur devis",
+        "body": "Le split Daghestan / Tchétchénie et le tarif final sont fixés en visio de cadrage avec Ruslan."
+      }
+    },
+    "groupe": {
+      "banner": {
+        "title": "Demande de devis personnalisé",
+        "body": "Aucun paiement à ce stade. On collecte juste l'essentiel pour que Ruslan te recontacte avec une offre adaptée. Dates, composition et santé seront affinées après acceptation du devis."
+      },
+      "section1_label": "Discipline visée",
+      "section1_help": "Lutte au Daghestan, MMA en Tchétchénie, ou un combo des deux destinations. MKR adapte le programme et la destination selon ton choix.",
+      "discipline_lutte": {
+        "name": "LUTTE",
+        "place": "Daghestan · Makhachkala",
+        "meta": "Tout le club au camp Lutte, ouvert à tous les niveaux"
+      },
+      "discipline_mma": {
+        "name": "MMA",
+        "place": "Tchétchénie · Grozny",
+        "meta": "Profil avancé requis pour tout le groupe"
+      },
+      "discipline_combo": {
+        "name": "COMBO LUTTE + MMA",
+        "place": "Daghestan puis Tchétchénie",
+        "meta": "Tarif et split fixés après cadrage visio"
+      },
+      "section2_label": "Quand, et combien de temps ?",
+      "section2_help_prefix": "Indique tes ",
+      "section2_help_strong": "dates idéales",
+      "section2_help_suffix": " et ta durée cible. Tout est modifiable pendant la visio de cadrage. On a besoin de 90 jours minimum entre l'inscription et le départ pour gérer visas, vols et organisation.",
+      "fields": {
+        "date_debut": { "label": "Date de début indicative" },
+        "duree": { "label": "Durée cible" }
+      },
+      "duration_options": {
+        "1-semaine": "1 semaine",
+        "2-semaines": "2 semaines",
+        "3-semaines": "3 semaines (immersion complète)"
+      }
+    },
+    "famille": {
+      "hero_label": "TUNNEL FAMILLE",
+      "hero_title": "Camp Lutte au Daghestan (parent + enfant)",
+      "hero_help_prefix": "Lutte adultes + programme jeunesse 8-17 ans, sur le même camp. Pas de MMA en Famille (programme jeunesse Lutte uniquement). Pour une demande combo ou MMA, passe par ",
+      "hero_help_link": "Sur Mesure",
+      "hero_help_end": ".",
+      "section1_label": "Choisis ton format",
+      "section1_help": "Une de nos sessions officielles (calées sur les vacances scolaires) ou tes propres dates. Durée 1, 2 ou 3 semaines.",
+      "session_card_intensity": "Vacances scolaires",
+      "custom_card": {
+        "month": "SUR MESURE",
+        "season": "Vos dates",
+        "dates": "90 jours minimum",
+        "intensity": "Format adapté famille"
+      },
+      "custom_date_field": { "label": "Date de début souhaitée", "hint": "Réservation 90 jours minimum avant" },
+      "section2_label": "Combien de temps ?",
+      "section2_help": "Tu peux choisir 1, 2 ou 3 semaines.",
+      "duration_options": {
+        "1-semaine": { "label": "1 semaine", "sub": "Initiation famille" },
+        "2-semaines": { "label": "2 semaines", "sub": "Vraie progression" },
+        "3-semaines": { "label": "3 semaines", "sub": "Immersion complète" }
+      },
+      "duration_price_prefix": "Forfait dès {price}",
+      "section3_label": "Qui participe au camp ?",
+      "section3_help": "Au moins un parent obligatoire. Enfants de 8 à 17 ans.",
+      "parents_options": {
+        "solo": {
+          "label": "1 parent",
+          "sub": "Forfait Parent + Enfant dès {price} (1er enfant inclus)"
+        },
+        "duo": {
+          "label": "2 parents",
+          "sub": "2 × {price_adult} (Solo/Duo) + {price_child}/enfant/sem"
+        }
+      },
+      "stepper_label": "Nombre d'enfants",
+      "stepper_remove_aria": "Retirer un enfant",
+      "stepper_add_aria": "Ajouter un enfant",
+      "stepper_hint": "Détails de chaque enfant à l'étape Santé",
+      "estimation_total_label": "Estimation : {price}",
+      "estimation_breakdown_one_parent_one_child_one_week": "1 parent + 1 enfant sur 1 semaine. Forfait {price_forfait} (1P+1E inclus)",
+      "estimation_breakdown_one_parent_one_child_weeks": "1 parent + 1 enfant sur {weeks} semaines. Forfait {price_forfait} (1P+1E inclus)",
+      "estimation_breakdown_one_parent_children_one_week": "1 parent + {children} enfants sur 1 semaine. Forfait {price_forfait} (1P+1E inclus) + {extra} × {price_extra}",
+      "estimation_breakdown_one_parent_children_weeks": "1 parent + {children} enfants sur {weeks} semaines. Forfait {price_forfait} (1P+1E inclus) + {extra} × {price_extra}",
+      "estimation_breakdown_two_parents_one_child_one_week": "2 parents + 1 enfant sur 1 semaine. 2 × {price_adult} + 1 × {price_extra}",
+      "estimation_breakdown_two_parents_one_child_weeks": "2 parents + 1 enfant sur {weeks} semaines. 2 × {price_adult} + 1 × {price_extra}",
+      "estimation_breakdown_two_parents_children_one_week": "2 parents + {children} enfants sur 1 semaine. 2 × {price_adult} + {children} × {price_extra}",
+      "estimation_breakdown_two_parents_children_weeks": "2 parents + {children} enfants sur {weeks} semaines. 2 × {price_adult} + {children} × {price_extra}"
+    },
+    "session_redirect_family": {
+      "prefix": "Tu viens avec ton enfant 8-17 ans ? ",
+      "link": "Choisis le tunnel Famille",
+      "suffix": " à la place : le formulaire est adapté (forfait Parent + Enfant dès {price} pour 1 semaine, 1er enfant inclus)."
+    }
+  },
+  "summary": {
+    "price_label_quote": "Tarif",
+    "price_label_from": "Estimation à partir de",
+    "price_label_total": "Total estimé",
+    "price_dash": "·",
+    "breakdown_adults_one": "1 adulte",
+    "breakdown_adults_many": "{count} adultes",
+    "breakdown_children_one": " + 1 enfant",
+    "breakdown_children_many": " + {count} enfants",
+    "breakdown_weeks_one": " sur 1 semaine",
+    "breakdown_weeks_many": " sur {count} semaines",
+    "breakdown_family_forfait": " · forfait Parent + Enfant",
+    "quote_combo": "Le tarif et le split Daghestan / Tchétchénie sont fixés en visio.",
+    "quote_groupe": "À partir de 11 personnes : devis personnalisé en visio.",
+    "cards": {
+      "responsible": "Responsable",
+      "candidate": "Candidat",
+      "camp": "Camp",
+      "club": "Club",
+      "profile": "Profil"
+    },
+    "rows": {
+      "name": "Nom",
+      "email": "Email",
+      "telephone": "Téléphone",
+      "country": "Pays",
+      "departure": "Départ",
+      "type": "Type",
+      "discipline": "Discipline",
+      "session": "Session",
+      "format": "Format",
+      "format_session": "Session {season}",
+      "format_custom": "Sur mesure",
+      "date": "Date",
+      "duration": "Durée",
+      "origin_discipline": "Discipline d'origine",
+      "level": "Niveau",
+      "years": "Années",
+      "years_value": "{years} ans",
+      "composition": "Composition",
+      "with": "Avec",
+      "parents": "Parents",
+      "children": "Enfants",
+      "name_club": "Nom",
+      "effectif": "Effectif"
+    },
+    "camp_disciplines": {
+      "lutte": "Lutte · Daghestan",
+      "mma": "MMA · Tchétchénie",
+      "combo_quote": "Combo Lutte + MMA"
+    },
+    "extra_details_summary": "Détails supplémentaires (optionnel)",
+    "source_field": {
+      "label": "Comment as-tu connu le camp ?",
+      "hint": "Si tu choisis un partenaire ou un influenceur, on remplit ton code de recommandation automatiquement.",
+      "placeholder": "Optionnel",
+      "options": {
+        "instagram": "Instagram",
+        "bouche_a_oreille": "Bouche à oreille",
+        "coach": "Recommandation de mon coach",
+        "google": "Recherche Google",
+        "autre": "Autre"
+      },
+      "conflict_notice": {
+        "prefix": "Tu as déjà saisi le code ",
+        "code_strong": "{code}",
+        "code_partner": " ({partnerName}). C'est lui qui sera attribué pour la recommandation, on ne peut pas combiner deux partenaires. Si tu veux que ce soit ",
+        "source_strong": "{sourcePartnerName}",
+        "suffix": " à la place, efface d'abord le code dans l'étape Identité."
+      }
+    },
+    "message_field_group": {
+      "label": "Brief de ta demande (utile pour le devis)",
+      "placeholder": "Détaille ton projet : objectifs du séjour, périodes envisagées, niveau hétérogène ou homogène, contraintes calendrier ou budget..."
+    },
+    "message_field_default": {
+      "label": "Questions ou informations complémentaires",
+      "placeholder": "Tes objectifs, tes attentes, toute information utile..."
+    },
+    "confirms_groupe": {
+      "accepte_conditions_prefix": "J'autorise Ruslan (MKR) à me contacter par email, téléphone ou WhatsApp pour cadrer le séjour et m'envoyer un devis personnalisé. Aucun paiement n'est prélevé à cette étape. J'accepte les ",
+      "accepte_conditions_link": "conditions de traitement de mes données",
+      "accepte_conditions_suffix": "."
+    },
+    "confirms_default": {
+      "certif_medical": "Je m'engage à fournir un certificat médical d'aptitude à la pratique sportive intensive avant le départ.",
+      "accepte_conditions_prefix": "J'accepte les ",
+      "accepte_conditions_link_cgv": "conditions générales du camp",
+      "accepte_conditions_middle": " (rythme intensif, règles de vie collective, discipline de groupe) et la ",
+      "accepte_conditions_link_privacy": "politique de confidentialité",
+      "accepte_conditions_suffix": ".",
+      "pret": "Je suis prêt(e) à passer l'entretien vidéo de sélection et à fournir une vidéo de ma pratique si demandé."
+    }
+  },
+  "errors": {
+    "single": "Un champ à compléter",
+    "many": "{count} champs à compléter",
+    "by_field": {
+      "campDiscipline_session": "Choisis ta discipline (Lutte ou MMA)",
+      "campDiscipline_custom_or_groupe": "Choisis la discipline (Lutte, MMA ou Combo sur devis)",
+      "campDiscipline_groupe": "Choisis la discipline visée par ton groupe (Lutte, MMA ou Combo sur devis)",
+      "session_required": "Choisis ta session officielle",
+      "duree_required": "Choisis la durée du séjour",
+      "duree_required_short": "Durée requise",
+      "duree_groupe": "Durée indicative requise (1, 2 ou 3 semaines)",
+      "nombreParticipants_custom": "Choisis ta composition (1 à 4 adultes)",
+      "nombreParticipants_groupe": "Nombre approximatif de participants requis",
+      "dateDebut_required": "Date de début souhaitée requise",
+      "dateDebut_groupe": "Date de début indicative requise (modifiable en visio)",
+      "dateDebut_90j": "La date de début doit être au moins 90 jours après aujourd'hui",
+      "format_famille": "Choisis le format (session officielle ou sur mesure)",
+      "enfants_min": "Indique au moins un enfant",
+      "prenom_required": "Prénom requis",
+      "nom_required": "Nom requis",
+      "dateNaissance_required": "Date de naissance requise",
+      "dateNaissance_18plus": "Tu dois avoir au moins 18 ans",
+      "pays_required": "Pays de résidence requis",
+      "email_invalid": "Email invalide",
+      "villeDepart_required": "Ville de départ requise",
+      "nomClub_required": "Nom du club / groupe requis",
+      "niveauGroupe_required": "Niveau global du groupe requis",
+      "disciplinePrincipale_required": "Discipline principale requise",
+      "anneesPratique_required": "Années de pratique requises",
+      "niveau_required": "Niveau requis",
+      "niveau_mma": "Le camp MMA exige un niveau Avancé minimum. Ajuste ton niveau ou retourne au Step 0 pour choisir Lutte.",
+      "participant_prenom": "Participant {n} : prénom requis",
+      "participant_niveau": "Participant {n} : niveau requis",
+      "conditionPhysique_required": "Évalue ta condition physique",
+      "blessuresRecentes_required": "Indique si tu as des blessures récentes",
+      "contreIndications_required": "Indique si tu as des contre-indications médicales",
+      "deuxFoisJour_required": "Confirme ta disponibilité pour les doubles séances",
+      "enfant_prenom": "Enfant {n} : prénom requis",
+      "enfant_age_required": "Enfant {n} : âge requis",
+      "enfant_age_range": "Enfant {n} : âge entre 8 et 17 ans",
+      "enfant_contre_indications": "Enfant {n} : contre-indications requises",
+      "accepteConditions_required": "Accepter les conditions est requis",
+      "certifMedical_required": "Certificat médical requis",
+      "pret_required": "Confirme être prêt pour la sélection"
+    }
+  },
+  "nav": {
+    "back": "Retour",
+    "next": "Étape suivante",
+    "submit": "ENVOYER MA CANDIDATURE",
+    "submit_sending": "ENVOI EN COURS…"
+  },
+  "submit_error_generic": "Une erreur est survenue. Réessaie ou écris-nous via le formulaire de contact.",
+  "submit_error_network": "Connexion impossible. Vérifie ton réseau et réessaie.",
+  "success": {
+    "label": "INSCRIPTION REÇUE",
+    "title": "DOSSIER ENVOYÉ",
+    "subtitle": "Nous étudions ta candidature et te répondons sous 48h.<br/>Prépare-toi pour l'entretien vidéo de sélection.",
+    "session_fallback": "SUR MESURE"
+  },
+  "story_card": {
+    "logo_alt": "MKR Caucasian Camp",
+    "label": "INSCRIPTION REÇUE",
+    "part_au": "PART AU",
+    "part_en": "PART EN",
+    "meta_session": "SESSION",
+    "meta_discipline": "DISCIPLINE",
+    "handle": "@mkrcamp",
+    "disciplines": {
+      "lutte": {
+        "label": "LUTTE",
+        "preposition": "AU",
+        "destination": "DAGHESTAN"
+      },
+      "mma": {
+        "label": "MMA",
+        "preposition": "EN",
+        "destination": "TCHÉTCHÉNIE"
+      },
+      "combo_quote": {
+        "label": "COMBO LUTTE + MMA",
+        "preposition": "AU",
+        "destination": "DAGHESTAN + TCHÉTCHÉNIE"
+      }
+    },
+    "download_button": "TÉLÉCHARGER POUR INSTAGRAM"
+  }
+}

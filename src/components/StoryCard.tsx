@@ -1,6 +1,7 @@
 'use client'
 
 import { useRef, useCallback } from 'react'
+import { useLocale, useTranslations } from 'next-intl'
 
 type CampDiscipline = 'lutte' | 'mma' | 'combo_quote' | ''
 
@@ -11,31 +12,19 @@ interface StoryCardProps {
 }
 
 const CAMP_PRESETS: Record<Exclude<CampDiscipline, ''>, {
-  disciplineLabel: string
-  preposition: string
-  destination: string
   bgImage: string
   filenameSuffix: string
   tight?: boolean
 }> = {
   lutte: {
-    disciplineLabel: 'LUTTE',
-    preposition: 'AU',
-    destination: 'DAGHESTAN',
     bgImage: '/images/environment/dagestan-panorama.webp',
     filenameSuffix: 'lutte-daghestan',
   },
   mma: {
-    disciplineLabel: 'MMA',
-    preposition: 'EN',
-    destination: 'TCHÉTCHÉNIE',
     bgImage: '/images/environment/vainakh-towers.webp',
     filenameSuffix: 'mma-tchetchenie',
   },
   combo_quote: {
-    disciplineLabel: 'COMBO LUTTE + MMA',
-    preposition: 'AU',
-    destination: 'DAGHESTAN + TCHÉTCHÉNIE',
     bgImage: '/images/environment/canyon-sulak.webp',
     filenameSuffix: 'combo-caucase',
     tight: true,
@@ -44,7 +33,14 @@ const CAMP_PRESETS: Record<Exclude<CampDiscipline, ''>, {
 
 export default function StoryCard({ prenom, campDiscipline, session }: StoryCardProps) {
   const cardRef = useRef<HTMLDivElement>(null)
-  const preset = CAMP_PRESETS[campDiscipline || 'lutte']
+  const locale = useLocale()
+  const t = useTranslations('inscription.story_card')
+  const disciplineKey = (campDiscipline || 'lutte') as Exclude<CampDiscipline, ''>
+  const preset = CAMP_PRESETS[disciplineKey]
+
+  const disciplineLabel = t(`disciplines.${disciplineKey}.label`)
+  const preposition = t(`disciplines.${disciplineKey}.preposition`)
+  const destination = t(`disciplines.${disciplineKey}.destination`)
 
   const handleDownload = useCallback(async () => {
     if (!cardRef.current) return
@@ -57,10 +53,11 @@ export default function StoryCard({ prenom, campDiscipline, session }: StoryCard
       backgroundColor: '#0E0E0E',
     })
     const link = document.createElement('a')
-    link.download = `mkr-${prenom.toLowerCase()}-${preset.filenameSuffix}-story.png`
+    const safePrenom = prenom.toLocaleLowerCase(locale === 'en' ? 'en-US' : 'fr-FR')
+    link.download = `mkr-${safePrenom}-${preset.filenameSuffix}-story.png`
     link.href = canvas.toDataURL('image/png')
     link.click()
-  }, [prenom, preset.filenameSuffix])
+  }, [prenom, preset.filenameSuffix, locale])
 
   return (
     <div className="story-card-wrap">
@@ -71,18 +68,18 @@ export default function StoryCard({ prenom, campDiscipline, session }: StoryCard
 
         {/* Top: logo */}
         <div className="story-card-top">
-          <img src="/logo-white.webp" alt="MKR Caucasian Camp" className="story-card-logo" />
+          <img src="/logo-white.webp" alt={t('logo_alt')} className="story-card-logo" />
         </div>
 
         {/* Center: name + destination */}
         <div className="story-card-center">
-          <span className="story-card-label">INSCRIPTION RECUE</span>
-          <h2 className="story-card-name">{prenom.toUpperCase()}</h2>
+          <span className="story-card-label">{t('label')}</span>
+          <h2 className="story-card-name">{prenom.toLocaleUpperCase(locale === 'en' ? 'en-US' : 'fr-FR')}</h2>
           <p
             className="story-card-tagline"
             style={preset.tight ? { fontSize: 36, lineHeight: 1.15 } : undefined}
           >
-            PART {preset.preposition} <span>{preset.destination}</span>
+            {locale === 'en' ? 'GOES TO' : `PART ${preposition}`} <span>{destination}</span>
           </p>
         </div>
 
@@ -90,16 +87,16 @@ export default function StoryCard({ prenom, campDiscipline, session }: StoryCard
         <div className="story-card-bottom">
           <div className="story-card-meta">
             <div className="story-card-meta-item">
-              <span className="story-card-meta-label">SESSION</span>
-              <span className="story-card-meta-value">{session.toUpperCase()}</span>
+              <span className="story-card-meta-label">{t('meta_session')}</span>
+              <span className="story-card-meta-value">{session.toLocaleUpperCase(locale === 'en' ? 'en-US' : 'fr-FR')}</span>
             </div>
             <div className="story-card-meta-divider" />
             <div className="story-card-meta-item">
-              <span className="story-card-meta-label">DISCIPLINE</span>
-              <span className="story-card-meta-value">{preset.disciplineLabel}</span>
+              <span className="story-card-meta-label">{t('meta_discipline')}</span>
+              <span className="story-card-meta-value">{disciplineLabel}</span>
             </div>
           </div>
-          <div className="story-card-handle">@mkrcamp</div>
+          <div className="story-card-handle">{t('handle')}</div>
         </div>
       </div>
       </div>
@@ -108,7 +105,7 @@ export default function StoryCard({ prenom, campDiscipline, session }: StoryCard
         <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.8" width="18" height="18">
           <path d="M10 3v10m0 0l-3.5-3.5M10 13l3.5-3.5M3 16h14" />
         </svg>
-        TELECHARGER POUR INSTAGRAM
+        {t('download_button')}
       </button>
     </div>
   )

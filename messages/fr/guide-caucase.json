@@ -126,5 +126,20 @@
   "final_cta": {
     "title": "PRENDS LE GUIDE",
     "subtitle": "Pas de spam. 1 email max. Désinscription en 1 clic."
+  },
+  "form": {
+    "card_title_idle": "TELECHARGE LE GUIDE",
+    "card_subtitle_idle": "Recois le guide complet (20 pages) en un clic. Gratuit, sans engagement.",
+    "card_title_success": "TON GUIDE EST PRET",
+    "card_subtitle_success": "Le telechargement a demarre. Si rien ne se passe, clique sur le bouton ci-dessous.",
+    "email_label": "Ton adresse email",
+    "email_placeholder": "Ton adresse email",
+    "submit": "TELECHARGER GRATUITEMENT",
+    "submit_sending": "ENVOI EN COURS...",
+    "download_button": "TELECHARGER LE GUIDE (PDF)",
+    "footer_note": "Pas de spam. 1 email max. Desinscription en 1 clic.",
+    "success_footer": "Conserve-le, partage-le. Aucun spam, aucun suivi commercial sans ton accord.",
+    "error_generic": "Erreur inconnue, reessaye dans un instant",
+    "error_network": "Impossible de joindre le serveur"
   }
 }

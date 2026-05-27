@@ -1,19 +1,16 @@
 'use client'
 
 import { useState } from 'react'
+import { useLocale, useTranslations } from 'next-intl'
 import Icon from './Icon'
 
 type Status = 'idle' | 'submitting' | 'success' | 'error'
 
-const SUBJECT_OPTIONS = [
-  { value: 'general', label: 'Question générale' },
-  { value: 'partenariat', label: 'Partenariat' },
-  { value: 'clubs', label: 'Clubs et groupes' },
-  { value: 'presse', label: 'Presse et médias' },
-  { value: 'autre', label: 'Autre' },
-] as const
+const SUBJECT_VALUES = ['general', 'partenariat', 'clubs', 'presse', 'autre'] as const
 
 export default function ContactForm() {
+  const locale = useLocale()
+  const t = useTranslations('contact.form')
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [subject, setSubject] = useState('')
@@ -30,17 +27,17 @@ export default function ContactForm() {
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, subject, message, _hp: hp }),
+        body: JSON.stringify({ name, email, subject, message, _hp: hp, submission_language: locale }),
       })
       const data = (await res.json().catch(() => ({}))) as { ok?: boolean; error?: string }
       if (!res.ok || !data.ok) {
-        setError(data.error || 'Une erreur est survenue. Réessaie dans un instant.')
+        setError(data.error || t('error_generic'))
         setStatus('error')
         return
       }
       setStatus('success')
     } catch {
-      setError('Connexion impossible. Vérifie ton réseau et réessaie.')
+      setError(t('error_network'))
       setStatus('error')
     }
   }
@@ -52,9 +49,9 @@ export default function ContactForm() {
           <div style={{ color: 'var(--primary)', margin: '0 auto 0.8rem', display: 'flex', justifyContent: 'center' }}>
             <Icon name="check-circle" size={40} />
           </div>
-          <h3 style={{ color: 'var(--text-primary)', fontSize: '1.1rem', marginBottom: '0.4rem' }}>MESSAGE BIEN REÇU</h3>
+          <h3 style={{ color: 'var(--text-primary)', fontSize: '1.1rem', marginBottom: '0.4rem' }}>{t('success.title')}</h3>
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: 1.6 }}>
-            On revient vers toi sous 48h sur l&apos;email indiqué. Tu peux aussi nous écrire sur WhatsApp si ta question est urgente.
+            {t('success.body')}
           </p>
         </div>
       </div>
@@ -66,12 +63,12 @@ export default function ContactForm() {
   return (
     <form className="contact-form" onSubmit={handleSubmit} noValidate>
       <div className="cand-field">
-        <label className="cand-label" htmlFor="contact-name">Nom complet</label>
+        <label className="cand-label" htmlFor="contact-name">{t('fields.name.label')}</label>
         <input
           id="contact-name"
           type="text"
           className="cand-input"
-          placeholder="Ton nom"
+          placeholder={t('fields.name.placeholder')}
           autoComplete="name"
           required
           maxLength={80}
@@ -81,13 +78,13 @@ export default function ContactForm() {
         />
       </div>
       <div className="cand-field">
-        <label className="cand-label" htmlFor="contact-email">Email</label>
+        <label className="cand-label" htmlFor="contact-email">{t('fields.email.label')}</label>
         <input
           id="contact-email"
           type="email"
           inputMode="email"
           className="cand-input"
-          placeholder="ton@email.com"
+          placeholder={t('fields.email.placeholder')}
           autoComplete="email"
           required
           maxLength={254}
@@ -97,7 +94,7 @@ export default function ContactForm() {
         />
       </div>
       <div className="cand-field">
-        <label className="cand-label" htmlFor="contact-subject">Sujet</label>
+        <label className="cand-label" htmlFor="contact-subject">{t('fields.subject.label')}</label>
         <select
           id="contact-subject"
           className="cand-select"
@@ -106,19 +103,19 @@ export default function ContactForm() {
           onChange={(e) => setSubject(e.target.value)}
           disabled={submitting}
         >
-          <option value="" disabled>Choisis un sujet</option>
-          {SUBJECT_OPTIONS.map((opt) => (
-            <option key={opt.value} value={opt.value}>{opt.label}</option>
+          <option value="" disabled>{t('fields.subject.placeholder')}</option>
+          {SUBJECT_VALUES.map((value) => (
+            <option key={value} value={value}>{t(`subjects.${value}`)}</option>
           ))}
         </select>
       </div>
       <div className="cand-field">
-        <label className="cand-label" htmlFor="contact-message">Message</label>
+        <label className="cand-label" htmlFor="contact-message">{t('fields.message.label')}</label>
         <textarea
           id="contact-message"
           className="cand-textarea"
           rows={5}
-          placeholder="Ton message..."
+          placeholder={t('fields.message.placeholder')}
           required
           maxLength={5000}
           value={message}
@@ -145,7 +142,7 @@ export default function ContactForm() {
         style={{ width: '100%' }}
         disabled={submitting || !name || !email || !subject || !message}
       >
-        {submitting ? 'ENVOI EN COURS...' : 'ENVOYER'}
+        {submitting ? t('submit_sending') : t('submit')}
       </button>
 
       {error && (

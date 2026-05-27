@@ -26,5 +26,28 @@
     }
   },
   "note": "On répond sous 48h. Fuseau horaire : GMT+3 (Caucase).",
-  "photo_alt": "Route de montagne vers le camp au Caucase"
+  "photo_alt": "Route de montagne vers le camp au Caucase",
+  "form": {
+    "fields": {
+      "name": { "label": "Nom complet", "placeholder": "Ton nom" },
+      "email": { "label": "Email", "placeholder": "ton@email.com" },
+      "subject": { "label": "Sujet", "placeholder": "Choisis un sujet" },
+      "message": { "label": "Message", "placeholder": "Ton message..." }
+    },
+    "subjects": {
+      "general": "Question générale",
+      "partenariat": "Partenariat",
+      "clubs": "Clubs et groupes",
+      "presse": "Presse et médias",
+      "autre": "Autre"
+    },
+    "submit": "ENVOYER",
+    "submit_sending": "ENVOI EN COURS...",
+    "error_generic": "Une erreur est survenue. Réessaie dans un instant.",
+    "error_network": "Connexion impossible. Vérifie ton réseau et réessaie.",
+    "success": {
+      "title": "MESSAGE BIEN REÇU",
+      "body": "On revient vers toi sous 48h sur l'email indiqué. Tu peux aussi nous écrire sur WhatsApp si ta question est urgente."
+    }
+  }
 }

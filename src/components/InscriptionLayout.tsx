@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { useState, useRef, useEffect, useMemo, FormEvent } from 'react'
 import dynamic from 'next/dynamic'
+import { useLocale, useTranslations } from 'next-intl'
 import Icon from './Icon'
 import { REGISTRATION_TYPES, type RegistrationTypeId, getRegistrationType } from '@/data/registration-types'
 import {
@@ -13,7 +14,6 @@ import {
   isOnQuote,
   FAMILY_PRICING,
   PRICING_TIERS,
-  type Duration,
 } from '@/data/pricing'
 import { SESSIONS } from '@/data/sessions'
 import { findReferralCode, findCodeBySourceValue, getPartnersWithSourceOption } from '@/data/referral-codes'
@@ -30,19 +30,7 @@ const StoryCard = dynamic(() => import('./StoryCard'))
 
 /* ─────────────── DATA ─────────────── */
 
-// Le pipeline d'inscription depend du tunnel choisi :
-// - session / custom / famille : 5 etapes (Le camp / Identite / Experience / Sante / Confirmation)
-// - groupe : 4 etapes (Le camp / Ton club / Contact / Confirmation), pas de qualif individuelle
-//   ni de sante (c'est une demande de devis, Ruslan recontacte pour cadrer).
-const STEPS_BY_TUNNEL: Record<RegistrationTypeId, readonly string[]> = {
-  session: ['Le camp', 'Identité', 'Expérience', 'Santé', 'Confirmation'],
-  custom:  ['Le camp', 'Identité', 'Expérience', 'Santé', 'Confirmation'],
-  famille: ['Le camp', 'Identité', 'Expérience', 'Santé', 'Confirmation'],
-  groupe:  ['Le camp', 'Ton club', 'Contact', 'Confirmation'],
-} as const
-
-// Fallback affichage pre-selection (audience pas encore choisie).
-const STEPS_DEFAULT = STEPS_BY_TUNNEL.session
+const TUNNEL_IDS: RegistrationTypeId[] = ['session', 'custom', 'famille', 'groupe']
 
 const DISCIPLINES = [
   'MMA', 'Lutte Libre', 'Lutte Gréco-Romaine', 'Boxe Anglaise',
@@ -79,41 +67,30 @@ type FormData = {
   // Logistique commune
   session: string; duree: string; villeDepart: string
   sourceDecouverte: string; message: string
-  // Discipline du camp (choix Lutte/MMA/Combo).
-  // - tunnel 'session' : 'lutte' (Daghestan, 15 places) ou 'mma' (Tchétchénie, 15 places, avancé min.)
-  // - tunnel 'custom' / 'groupe' : 'lutte', 'mma', ou 'combo_quote' (combo Lutte+MMA, sur devis)
-  // - tunnel 'famille' : forcé à 'lutte' (parent + enfants sur le même camp Daghestan)
+  // Discipline du camp (choix Lutte/MMA/Combo)
   campDiscipline: '' | 'lutte' | 'mma' | 'combo_quote'
   // Confirmations
   certifMedical: boolean; accepteConditions: boolean; pret: boolean
-  // Camp sur mesure (audience='custom' ou 'groupe' ou famille sur-mesure)
+  // Camp sur mesure
   dateDebutSouhaitee: string
   // Famille
   vientAvecFamille: boolean
   nombreEnfants: string
-  enfantsAges: string // legacy: garde pour compat, mais on remplit aussi enfants[]
+  enfantsAges: string
   enfants: FamilyChild[]
-  // Famille — conjoint(e) qui participe aussi (tarif Duo 1490/2290/2790 par parent + enfants à 790/sem)
   conjointParticipe: boolean
-  // Groupe (audience='groupe')
+  // Groupe
   nomClub: string
   nombreParticipants: string
   niveauGroupe: string
-  palmaresClub: string // collectif, optionnel
-  // Custom Duo/Trio/Quatuor — autres participants que le responsable
+  palmaresClub: string
+  // Custom Duo/Trio/Quatuor
   autresParticipants: CustomParticipant[]
-  // Code de recommandation partenaire (optionnel, non bloquant).
   codeRecommandation: string
 }
 
-// Niveaux acceptés pour le camp MMA. Le form bloque le passage si discipline=mma
-// et niveau en-dessous d'avancé. Ruslan filtre ensuite en visio.
 const MMA_ACCEPTED_LEVELS = new Set(['avance', 'competiteur-regional', 'competiteur-national', 'competiteur-international'])
 
-// Icônes des disciplines (composants dédiés dans @/components/icons/)
-// IconLutte = vectorisation de la ref PNG (2 lutteurs en stance)
-// IconMMA = gant ouvert MMA stroke
-// IconCombo = Lutte + Gant côte à côte dans un viewBox 48x24
 const ICON_LUTTE = <IconLutte />
 const ICON_MMA = <IconMMA />
 const ICON_COMBO = <IconCombo />
@@ -138,7 +115,6 @@ const INITIAL: FormData = {
   codeRecommandation: '',
 }
 
-// Helpers pour ajuster dynamiquement les listes
 function makeChild(): FamilyChild {
   return { prenom: '', age: '', pratiqueDeja: '', anneesPratique: '', contreIndications: '', contreIndicationsDetail: '' }
 }
@@ -184,6 +160,19 @@ interface InscriptionLayoutProps {
 }
 
 export default function InscriptionLayout({ initialAudience, initialSessionId }: InscriptionLayoutProps) {
+  const locale = useLocale()
+  const t = useTranslations('inscription')
+
+  // Steps derivés des traductions
+  const STEPS_BY_TUNNEL = useMemo<Record<RegistrationTypeId, string[]>>(() => {
+    const out = {} as Record<RegistrationTypeId, string[]>
+    for (const id of TUNNEL_IDS) {
+      out[id] = t.raw(`steps_by_tunnel.${id}`) as string[]
+    }
+    return out
+  }, [t])
+  const STEPS_DEFAULT = STEPS_BY_TUNNEL.session
+
   const [audience, setAudience] = useState<RegistrationTypeId | null>(initialAudience)
   const STEPS = audience ? STEPS_BY_TUNNEL[audience] : STEPS_DEFAULT
   const [step, setStep] = useState(0)
@@ -193,12 +182,10 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
     const requestedSession = initialSessionId && SESSION_IDS.includes(initialSessionId)
       ? initialSessionId
       : DEFAULT_SESSION_ID
-    // Si on rejoint la session, pré-remplir
     if (initialAudience === 'session') {
       init.session = requestedSession
       init.duree = '3-semaines'
     }
-    // Si famille : checkbox famille pré-coché, par défaut sur la session demandée (ou la prochaine), 1 enfant minimum
     if (initialAudience === 'famille') {
       init.vientAvecFamille = true
       init.session = requestedSession
@@ -213,17 +200,13 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
   const [submitted, setSubmitted] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState<string | null>(null)
-  // Honeypot anti-bot — rempli uniquement par bots (champ caché humainement)
   const [hp, setHp] = useState('')
-  // Mobile stepper accordion (révèle la liste des steps)
   const [mobileStepsOpen, setMobileStepsOpen] = useState(false)
 
-  // Refs pour scroll & focus management
   const mainRef = useRef<HTMLDivElement | null>(null)
   const errorsRef = useRef<HTMLDivElement | null>(null)
   const submitErrorRef = useRef<HTMLParagraphElement | null>(null)
 
-  // Scroll-to-top du form area à chaque changement de step (UX mobile critique)
   useEffect(() => {
     if (mainRef.current) {
       mainRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
@@ -232,36 +215,28 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
     }
   }, [step])
 
-  // Scroll errors en vue + shake
   useEffect(() => {
     if (errors.length > 0 && errorsRef.current) {
       errorsRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' })
     }
   }, [errors])
 
-  // Scroll submit error en vue (erreur réseau)
   useEffect(() => {
     if (submitError && submitErrorRef.current) {
       submitErrorRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' })
     }
   }, [submitError])
 
-  // Feedback live pour le champ code de recommandation.
-  // 3 états : neutral (vide), success (code reconnu), warning (code saisi non reconnu).
-  // Le champ est non bloquant : un code invalide laisse passer le submit.
   const referralFeedback = useMemo(() => {
     const raw = form.codeRecommandation.trim()
     if (!raw) return { tone: 'neutral' as const, message: null as string | null }
     const match = findReferralCode(raw)
     if (match) {
-      return { tone: 'success' as const, message: `Recommandé par ${match.partnerName}` }
+      return { tone: 'success' as const, message: t('referral_field.feedback_success', { partner: match.partnerName }) }
     }
-    return { tone: 'warning' as const, message: 'Code non reconnu, on va vérifier de notre côté' }
-  }, [form.codeRecommandation])
+    return { tone: 'warning' as const, message: t('referral_field.feedback_warning') }
+  }, [form.codeRecommandation, t])
 
-  // Conflit code vs source partenaire : si le candidat a saisi un code valide pour un partenaire X
-  // ET sélectionne un autre partenaire Y dans le dropdown source découverte, le code (saisi en premier)
-  // prime pour l'attribution du bonus. On affiche une notice claire pour qu'il sache ce qui sera attribué.
   const sourceCodeConflict = useMemo(() => {
     const sourcePartner = findCodeBySourceValue(form.sourceDecouverte)
     const codePartner = findReferralCode(form.codeRecommandation)
@@ -318,12 +293,10 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
     })
   }
 
-  // Sélection d'un tunnel depuis le picker — applique les pré-remplissages adéquats
   const selectAudience = (id: RegistrationTypeId) => {
     setAudience(id)
     setForm(prev => {
       const next = { ...prev }
-      // Réutilise la session déjà choisie si elle est valide, sinon la prochaine session
       const sessionToKeep = SESSION_IDS.includes(prev.session) ? prev.session : DEFAULT_SESSION_ID
       if (id === 'session') {
         next.session = sessionToKeep
@@ -331,7 +304,6 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
         next.vientAvecFamille = false
         next.enfants = []
         next.nombreEnfants = ''
-        // Pas de default : le candidat doit choisir explicitement Lutte ou MMA.
         next.campDiscipline = ''
       } else if (id === 'famille') {
         next.session = sessionToKeep
@@ -341,7 +313,6 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
           next.enfants = [makeChild()]
           next.nombreEnfants = '1'
         }
-        // Famille = camp Lutte forcé (parent + enfants au Daghestan, programme jeunesse).
         next.campDiscipline = 'lutte'
       } else if (id === 'custom') {
         next.session = ''
@@ -350,7 +321,6 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
         next.enfants = []
         next.nombreEnfants = ''
         next.campDiscipline = ''
-        // Solo par défaut
         if (!prev.nombreParticipants) {
           next.nombreParticipants = '1'
           next.autresParticipants = []
@@ -375,7 +345,6 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
     }))
     setErrors([])
   }
-  // Synchronise autresParticipants[] avec nombreParticipants pour custom (responsable + N-1 autres)
   const syncCustomParticipants = (composition: string) => {
     const total = parseInt(composition, 10) || 1
     const others = Math.max(0, total - 1)
@@ -401,136 +370,128 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
       e.push(message)
       if (field) fields.add(field)
     }
+    const E = (key: string, values?: Record<string, string | number>) => t(`errors.by_field.${key}`, values)
 
-    // ───────────────────────────────────────────────────────────
-    // PIPELINE pour session / custom / famille : 5 etapes
-    //   step 0 = Le camp · step 1 = Identite · step 2 = Experience
-    //   step 3 = Sante · step 4 = Confirmation
-    // PIPELINE pour groupe : 4 etapes
-    //   step 0 = Le camp · step 1 = Ton club · step 2 = Contact
-    //   step 3 = Confirmation
-    // ───────────────────────────────────────────────────────────
-
-    // ── STEP 0 — Le camp (par tunnel) ──
+    // STEP 0
     if (step === 0) {
       if (audience === 'session') {
         if (form.campDiscipline !== 'lutte' && form.campDiscipline !== 'mma') {
-          push('Choisis ta discipline (Lutte ou MMA)', 'campDiscipline')
+          push(E('campDiscipline_session'), 'campDiscipline')
         }
-        if (!form.session) push('Choisis ta session officielle', 'session')
-        if (!form.duree) push('Choisis la durée du séjour', 'duree')
+        if (!form.session) push(E('session_required'), 'session')
+        if (!form.duree) push(E('duree_required'), 'duree')
       }
       if (audience === 'custom') {
         if (form.campDiscipline !== 'lutte' && form.campDiscipline !== 'mma' && form.campDiscipline !== 'combo_quote') {
-          push('Choisis la discipline (Lutte, MMA ou Combo sur devis)', 'campDiscipline')
+          push(E('campDiscipline_custom_or_groupe'), 'campDiscipline')
         }
-        if (!form.nombreParticipants) push('Choisis ta composition (1 à 4 adultes)', 'nombreParticipants')
+        if (!form.nombreParticipants) push(E('nombreParticipants_custom'), 'nombreParticipants')
         if (!form.dateDebutSouhaitee) {
-          push('Date de début souhaitée requise', 'dateDebutSouhaitee')
+          push(E('dateDebut_required'), 'dateDebutSouhaitee')
         } else {
           const diffDays = Math.floor((new Date(form.dateDebutSouhaitee).getTime() - Date.now()) / (1000 * 60 * 60 * 24))
-          if (diffDays < 90) push('La date de début doit être au moins 90 jours après aujourd\'hui', 'dateDebutSouhaitee')
+          if (diffDays < 90) push(E('dateDebut_90j'), 'dateDebutSouhaitee')
         }
-        if (!form.duree) push('Durée requise', 'duree')
+        if (!form.duree) push(E('duree_required_short'), 'duree')
       }
       if (audience === 'famille') {
-        if (!form.session) push('Choisis le format (session officielle ou sur mesure)', 'session')
-        if (!form.duree) push('Durée requise', 'duree')
-        if (!form.nombreEnfants || form.enfants.length === 0) push('Indique au moins un enfant', 'nombreEnfants')
+        if (!form.session) push(E('format_famille'), 'session')
+        if (!form.duree) push(E('duree_required_short'), 'duree')
+        if (!form.nombreEnfants || form.enfants.length === 0) push(E('enfants_min'), 'nombreEnfants')
         if (form.session === 'sur-mesure') {
           if (!form.dateDebutSouhaitee) {
-            push('Date de début souhaitée requise', 'dateDebutSouhaitee')
+            push(E('dateDebut_required'), 'dateDebutSouhaitee')
           } else {
             const diffDays = Math.floor((new Date(form.dateDebutSouhaitee).getTime() - Date.now()) / (1000 * 60 * 60 * 24))
-            if (diffDays < 90) push('La date de début doit être au moins 90 jours après aujourd\'hui', 'dateDebutSouhaitee')
+            if (diffDays < 90) push(E('dateDebut_90j'), 'dateDebutSouhaitee')
           }
         }
       }
       if (audience === 'groupe') {
         if (form.campDiscipline !== 'lutte' && form.campDiscipline !== 'mma' && form.campDiscipline !== 'combo_quote') {
-          push('Choisis la discipline visée par ton groupe (Lutte, MMA ou Combo sur devis)', 'campDiscipline')
+          push(E('campDiscipline_groupe'), 'campDiscipline')
         }
         if (!form.dateDebutSouhaitee) {
-          push('Date de début indicative requise (modifiable en visio)', 'dateDebutSouhaitee')
+          push(E('dateDebut_groupe'), 'dateDebutSouhaitee')
         }
-        if (!form.duree) push('Durée indicative requise (1, 2 ou 3 semaines)', 'duree')
+        if (!form.duree) push(E('duree_groupe'), 'duree')
       }
     }
 
-    // ── STEP 1 — Identite (session/custom/famille) OU Ton club (groupe) ──
+    // STEP 1
     if (step === 1) {
       if (audience !== 'groupe') {
-        if (!form.prenom.trim()) push('Prénom requis', 'prenom')
-        if (!form.nom.trim()) push('Nom requis', 'nom')
-        if (!form.dateNaissance) push('Date de naissance requise', 'dateNaissance')
+        if (!form.prenom.trim()) push(E('prenom_required'), 'prenom')
+        if (!form.nom.trim()) push(E('nom_required'), 'nom')
+        if (!form.dateNaissance) push(E('dateNaissance_required'), 'dateNaissance')
         else {
           const age = new Date().getFullYear() - new Date(form.dateNaissance).getFullYear()
-          if (age < 18) push('Tu dois avoir au moins 18 ans', 'dateNaissance')
+          if (age < 18) push(E('dateNaissance_18plus'), 'dateNaissance')
         }
-        if (!form.pays.trim()) push('Pays de résidence requis', 'pays')
-        if (!form.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) push('Email invalide', 'email')
-        if (!form.villeDepart.trim()) push('Ville de départ requise', 'villeDepart')
+        if (!form.pays.trim()) push(E('pays_required'), 'pays')
+        if (!form.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) push(E('email_invalid'), 'email')
+        if (!form.villeDepart.trim()) push(E('villeDepart_required'), 'villeDepart')
       } else {
-        if (!form.nomClub.trim()) push('Nom du club / groupe requis', 'nomClub')
-        if (!form.nombreParticipants) push('Nombre approximatif de participants requis', 'nombreParticipants')
-        if (!form.niveauGroupe) push('Niveau global du groupe requis', 'niveauGroupe')
+        if (!form.nomClub.trim()) push(E('nomClub_required'), 'nomClub')
+        if (!form.nombreParticipants) push(E('nombreParticipants_groupe'), 'nombreParticipants')
+        if (!form.niveauGroupe) push(E('niveauGroupe_required'), 'niveauGroupe')
       }
     }
 
-    // ── STEP 2 — Experience (session/custom/famille) OU Contact (groupe) ──
+    // STEP 2
     if (step === 2) {
       if (audience !== 'groupe') {
-        if (!form.disciplinePrincipale) push('Discipline principale requise', 'disciplinePrincipale')
-        if (!form.anneesPratique) push('Années de pratique requises', 'anneesPratique')
-        if (!form.niveau) push('Niveau requis', 'niveau')
+        if (!form.disciplinePrincipale) push(E('disciplinePrincipale_required'), 'disciplinePrincipale')
+        if (!form.anneesPratique) push(E('anneesPratique_required'), 'anneesPratique')
+        if (!form.niveau) push(E('niveau_required'), 'niveau')
         if (audience === 'custom') {
           form.autresParticipants.forEach((p, i) => {
-            if (!p.prenom.trim()) push(`Participant ${i + 2} : prénom requis`, `autresParticipants.${i}.prenom`)
-            if (!p.niveau) push(`Participant ${i + 2} : niveau requis`, `autresParticipants.${i}.niveau`)
+            if (!p.prenom.trim()) push(E('participant_prenom', { n: i + 2 }), `autresParticipants.${i}.prenom`)
+            if (!p.niveau) push(E('participant_niveau', { n: i + 2 }), `autresParticipants.${i}.niveau`)
           })
         }
         if (form.campDiscipline === 'mma' && !MMA_ACCEPTED_LEVELS.has(form.niveau)) {
-          push('Le camp MMA exige un niveau Avancé minimum. Ajuste ton niveau ou retourne au Step 0 pour choisir Lutte.', 'niveau')
+          push(E('niveau_mma'), 'niveau')
         }
       } else {
-        if (!form.prenom.trim()) push('Prénom requis', 'prenom')
-        if (!form.nom.trim()) push('Nom requis', 'nom')
-        if (!form.pays.trim()) push('Pays de résidence requis', 'pays')
-        if (!form.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) push('Email invalide', 'email')
-        if (!form.villeDepart.trim()) push('Ville de départ requise', 'villeDepart')
+        if (!form.prenom.trim()) push(E('prenom_required'), 'prenom')
+        if (!form.nom.trim()) push(E('nom_required'), 'nom')
+        if (!form.pays.trim()) push(E('pays_required'), 'pays')
+        if (!form.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) push(E('email_invalid'), 'email')
+        if (!form.villeDepart.trim()) push(E('villeDepart_required'), 'villeDepart')
       }
     }
 
-    // ── STEP 3 — Sante (session/custom/famille) OU Confirmation (groupe) ──
+    // STEP 3
     if (step === 3) {
       if (audience === 'session' || audience === 'custom') {
-        if (!form.conditionPhysique) push('Évalue ta condition physique', 'conditionPhysique')
-        if (!form.blessuresRecentes) push('Indique si tu as des blessures récentes', 'blessuresRecentes')
-        if (!form.contreIndications) push('Indique si tu as des contre-indications médicales', 'contreIndications')
-        if (!form.deuxFoisJour) push('Confirme ta disponibilité pour les doubles séances', 'deuxFoisJour')
+        if (!form.conditionPhysique) push(E('conditionPhysique_required'), 'conditionPhysique')
+        if (!form.blessuresRecentes) push(E('blessuresRecentes_required'), 'blessuresRecentes')
+        if (!form.contreIndications) push(E('contreIndications_required'), 'contreIndications')
+        if (!form.deuxFoisJour) push(E('deuxFoisJour_required'), 'deuxFoisJour')
       } else if (audience === 'famille') {
-        if (!form.conditionPhysique) push('Évalue ta condition physique', 'conditionPhysique')
-        if (!form.blessuresRecentes) push('Indique si tu as des blessures récentes', 'blessuresRecentes')
-        if (!form.contreIndications) push('Indique si tu as des contre-indications médicales', 'contreIndications')
+        if (!form.conditionPhysique) push(E('conditionPhysique_required'), 'conditionPhysique')
+        if (!form.blessuresRecentes) push(E('blessuresRecentes_required'), 'blessuresRecentes')
+        if (!form.contreIndications) push(E('contreIndications_required'), 'contreIndications')
         form.enfants.forEach((c, i) => {
-          if (!c.prenom.trim()) push(`Enfant ${i + 1} : prénom requis`, `enfants.${i}.prenom`)
-          if (!c.age) push(`Enfant ${i + 1} : âge requis`, `enfants.${i}.age`)
+          if (!c.prenom.trim()) push(E('enfant_prenom', { n: i + 1 }), `enfants.${i}.prenom`)
+          if (!c.age) push(E('enfant_age_required', { n: i + 1 }), `enfants.${i}.age`)
           else {
             const a = parseInt(c.age, 10)
-            if (Number.isNaN(a) || a < 8 || a > 17) push(`Enfant ${i + 1} : âge entre 8 et 17 ans`, `enfants.${i}.age`)
+            if (Number.isNaN(a) || a < 8 || a > 17) push(E('enfant_age_range', { n: i + 1 }), `enfants.${i}.age`)
           }
-          if (!c.contreIndications) push(`Enfant ${i + 1} : contre-indications requises`, `enfants.${i}.contreIndications`)
+          if (!c.contreIndications) push(E('enfant_contre_indications', { n: i + 1 }), `enfants.${i}.contreIndications`)
         })
       } else if (audience === 'groupe') {
-        if (!form.accepteConditions) push('Accepter les conditions est requis', 'accepteConditions')
+        if (!form.accepteConditions) push(E('accepteConditions_required'), 'accepteConditions')
       }
     }
 
-    // ── STEP 4 — Confirmation (session/custom/famille uniquement) ──
+    // STEP 4
     if (step === 4) {
-      if (!form.certifMedical) push('Certificat médical requis', 'certifMedical')
-      if (!form.accepteConditions) push('Accepter les conditions est requis', 'accepteConditions')
-      if (!form.pret) push('Confirme être prêt pour la sélection', 'pret')
+      if (!form.certifMedical) push(E('certifMedical_required'), 'certifMedical')
+      if (!form.accepteConditions) push(E('accepteConditions_required'), 'accepteConditions')
+      if (!form.pret) push(E('pret_required'), 'pret')
     }
 
     setErrors(e)
@@ -557,11 +518,10 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
     e.preventDefault()
     if (!validate()) return
     if (isSubmitting) return
-    // Payload normalisé snake_case prêt pour backend Supabase (table candidatures + form_data jsonb)
     const payload = {
       tunnel_type: audience,
-      // Honeypot anti-bot. Si rempli côté serveur → 200 fake, candidature non créée.
       _hp: hp,
+      submission_language: locale,
       candidate: {
         prenom: form.prenom,
         nom: form.nom,
@@ -580,7 +540,6 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
       camp_discipline: form.campDiscipline || null,
       code_recommandation: form.codeRecommandation.trim() || null,
       form_data: {
-        // Données spécifiques par tunnel — remontent toutes en JSONB côté Supabase
         experience: audience !== 'groupe' ? {
           discipline_principale: form.disciplinePrincipale,
           disciplines_secondaires: form.disciplinesSecondaires,
@@ -606,11 +565,9 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
           disciplines: form.disciplinesSecondaires,
           palmares_club: form.palmaresClub,
           lien_video: form.lienVideo,
-          // Demande sur devis : santé individuelle + certificats médicaux gérés
-          // après acceptation du devis. À ce stade, on ne collecte rien à ce niveau.
         } : null,
         famille: audience === 'famille' ? {
-          format: form.session, // 'aout-2026' ou 'sur-mesure'
+          format: form.session,
           enfants: form.enfants,
           conjoint_participe: form.conjointParticipe,
           nombre_parents: form.conjointParticipe ? 2 : 1,
@@ -624,8 +581,6 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
           message: form.message,
         },
         confirmations: {
-          // Pour groupe : seul accepte_conditions (accord pour être recontacté) est requis.
-          // Pour session/custom/famille : tous les 3 sont requis.
           certif_medical: audience === 'groupe' ? null : form.certifMedical,
           accepte_conditions: form.accepteConditions,
           pret: audience === 'groupe' ? null : form.pret,
@@ -642,30 +597,30 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
       })
       const data = await res.json().catch(() => ({}))
       if (!res.ok || !data.ok) {
-        setSubmitError(data.error || 'Une erreur est survenue. Reessaie ou ecris-nous via le formulaire de contact.')
+        setSubmitError(data.error || t('submit_error_generic'))
         return
       }
       setSubmitted(true)
     } catch {
-      setSubmitError('Connexion impossible. Verifie ton reseau et reessaie.')
+      setSubmitError(t('submit_error_network'))
     } finally {
       setIsSubmitting(false)
     }
   }
 
-  /* ── Audience Selector (avant les steps) ── */
+  /* ── Audience Selector ── */
   if (!audience) {
     return (
       <div className="insc-wrapper">
         <div className="insc-success-page" style={{ paddingTop: '4rem' }}>
-          <Link href="/" className="insc-back-home">← Retour au site</Link>
+          <Link href="/" className="insc-back-home">← {t('back_to_site')}</Link>
           <div className="insc-audience-selector">
             <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>
-              ÉTAPE PRÉLIMINAIRE
+              {t('audience_selector.label')}
             </span>
-            <h1 className="cand-success-title">CHOISIS TON INSCRIPTION</h1>
+            <h1 className="cand-success-title">{t('audience_selector.title')}</h1>
             <p className="cand-success-sub">
-              MKR organise tout. Sélectionne le format qui te correspond et on adapte le formulaire.
+              {t('audience_selector.subtitle')}
             </p>
             <div className="audience-grid" style={{ marginTop: '2.5rem' }}>
               {REGISTRATION_TYPES.map((type, i) => (
@@ -688,24 +643,24 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                     <div className="audience-card-photo-overlay" />
                   </div>
                   {type.recommended && (
-                    <span className="audience-card-flag">RECOMMANDÉ</span>
+                    <span className="audience-card-flag">{t('audience_selector.flag_recommended')}</span>
                   )}
                   <span className="audience-card-badge">{type.badge}</span>
                   <h3 className="audience-card-title">{type.label}</h3>
                   <p className="audience-card-desc">{type.description}</p>
                   <ul className="audience-card-meta">
                     <li>
-                      <span className="audience-card-meta-label">Dates</span>
+                      <span className="audience-card-meta-label">{t('audience_selector.meta_labels.dates')}</span>
                       <span className="audience-card-meta-value">{type.dates}</span>
                     </li>
                     <li>
-                      <span className="audience-card-meta-label">Durée</span>
+                      <span className="audience-card-meta-label">{t('audience_selector.meta_labels.duration')}</span>
                       <span className="audience-card-meta-value">{type.duration}</span>
                     </li>
                     <li>
-                      <span className="audience-card-meta-label">À partir de</span>
+                      <span className="audience-card-meta-label">{t('audience_selector.meta_labels.from')}</span>
                       <span className="audience-card-meta-value">
-                        {type.minPersons === 1 ? '1 personne' : `${type.minPersons} personnes`}
+                        {type.minPersons === 1 ? t('audience_selector.persons.one') : t('audience_selector.persons.other', { count: type.minPersons })}
                       </span>
                     </li>
                   </ul>
@@ -731,22 +686,19 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
       },
       {} as Record<string, { name: string }>,
     )
-    const sel = SESSION_MAP[form.session] || { name: form.session || 'SUR MESURE' }
+    const sel = SESSION_MAP[form.session] || { name: form.session || t('success.session_fallback') }
 
     return (
       <div className="insc-wrapper">
         <div className="insc-success-page">
-          <Link href="/" className="insc-back-home">← Retour au site</Link>
+          <Link href="/" className="insc-back-home">← {t('back_to_site')}</Link>
           <div className="cand-success">
             <div className="cand-success-icon" style={{ color: 'var(--primary)' }}>
               <Icon name="check-circle" size={48} />
             </div>
-            <span className="label-tag" style={{ color: 'var(--primary)' }}>INSCRIPTION RECUE</span>
-            <h2 className="cand-success-title">DOSSIER ENVOYÉ</h2>
-            <p className="cand-success-sub">
-              Nous étudions ta candidature et te répondons sous 48h.<br />
-              Prépare-toi pour l&apos;entretien vidéo de sélection.
-            </p>
+            <span className="label-tag" style={{ color: 'var(--primary)' }}>{t('success.label')}</span>
+            <h2 className="cand-success-title">{t('success.title')}</h2>
+            <p className="cand-success-sub" dangerouslySetInnerHTML={{ __html: t.raw('success.subtitle') as string }} />
 
             <StoryCard
               prenom={form.prenom}
@@ -754,7 +706,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
               session={sel.name}
             />
 
-            <Link href="/" className="insc-back-btn" style={{ marginTop: '1.5rem' }}>RETOUR À L&apos;ACCUEIL</Link>
+            <Link href="/" className="insc-back-btn" style={{ marginTop: '1.5rem' }}>{t('back_to_home')}</Link>
           </div>
         </div>
       </div>
@@ -764,14 +716,14 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
   const renderReferralCodeField = () => (
     <div className="cand-referral-highlight">
       <Field
-        label="Code de recommandation"
-        hint="Si un coach, un club partenaire ou un influenceur t'a recommandé MKR, note son code ici."
+        label={t('referral_field.label')}
+        hint={t('referral_field.hint')}
       >
         <input
           className={`cand-input${referralFeedback.tone !== 'neutral' ? ` cand-input--${referralFeedback.tone}` : ''}`}
           type="text"
           autoComplete="off"
-          placeholder="Ex : nomdetonclub (optionnel)"
+          placeholder={t('referral_field.placeholder')}
           value={form.codeRecommandation}
           onChange={(e) => set('codeRecommandation', e.target.value)}
           aria-describedby={referralFeedback.message ? 'referral-feedback' : undefined}
@@ -789,31 +741,46 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
     </div>
   )
 
+  // Helpers traduits
+  const formatDurationLabel = (duree: string) => {
+    if (!duree) return ''
+    return duree.replace('-', ' ')
+  }
+
+  const compositionLabel = (n: string) => {
+    if (n === '1') return t('sidebar.compositions.solo')
+    if (n === '2') return t('sidebar.compositions.duo')
+    if (n === '3') return t('sidebar.compositions.trio')
+    return t('sidebar.compositions.quatuor')
+  }
+
+  const countryOptions = t.raw('identity.country_options') as string[]
+
   return (
     <div className="insc-wrapper">
 
       {/* ── LEFT SIDEBAR ── */}
       <aside className="insc-sidebar">
         <div className="insc-sidebar-top">
-          <Link href="/" className="insc-logo" aria-label="Retour à l'accueil">
+          <Link href="/" className="insc-logo" aria-label={t('back_aria')}>
             <span className="insc-logo-mkr">MKR</span>
-            <span className="insc-logo-sub">Caucasian Camp</span>
+            <span className="insc-logo-sub">{t('sidebar.logo_sub')}</span>
           </Link>
           {audienceConfig && (
             <button
               type="button"
               onClick={() => { setAudience(null); setStep(0); setErrors([]); setErrorFields(new Set()) }}
               className="insc-audience-tag"
-              aria-label="Changer le type d'inscription"
+              aria-label={t('sidebar.change_audience_aria')}
             >
               <span className="insc-audience-tag-label">{audienceConfig.shortLabel}</span>
-              <span className="insc-audience-tag-change">Changer</span>
+              <span className="insc-audience-tag-change">{t('sidebar.change_label')}</span>
             </button>
           )}
         </div>
 
         <div className="insc-sidebar-mid">
-          <nav className="insc-steps" aria-label="Étapes du formulaire">
+          <nav className="insc-steps" aria-label={t('sidebar.steps_aria')}>
             {STEPS.map((label, i) => (
               <div key={i} className={`insc-step${i < step ? ' done' : ''}${i === step ? ' active' : ''}`}>
                 <div className="insc-step-dot">
@@ -828,17 +795,16 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
             ))}
           </nav>
 
-          {/* Récap sticky : visible dès qu'un choix est fait pour rassurer pendant le form */}
           {step >= 1 && (form.campDiscipline || form.session || form.duree) && (
-            <div className="insc-sidebar-recap" role="status" aria-label="Récap de ton inscription">
-              <span className="insc-sidebar-recap-title">Ton inscription</span>
+            <div className="insc-sidebar-recap" role="status" aria-label={t('sidebar.recap_aria')}>
+              <span className="insc-sidebar-recap-title">{t('sidebar.recap_title')}</span>
               {form.campDiscipline && (
                 <div className="insc-sidebar-recap-row">
-                  <span>Camp</span>
+                  <span>{t('sidebar.recap_rows.camp')}</span>
                   <strong>
-                    {form.campDiscipline === 'lutte' && 'Lutte · Daghestan'}
-                    {form.campDiscipline === 'mma' && 'MMA · Tchétchénie'}
-                    {form.campDiscipline === 'combo_quote' && 'Combo (sur devis)'}
+                    {form.campDiscipline === 'lutte' && t('summary.camp_disciplines.lutte')}
+                    {form.campDiscipline === 'mma' && t('summary.camp_disciplines.mma')}
+                    {form.campDiscipline === 'combo_quote' && t('summary.camp_disciplines.combo_quote')}
                   </strong>
                 </div>
               )}
@@ -846,59 +812,58 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                 const sel = SESSIONS.find(s => s.id === form.session)
                 return sel ? (
                   <div className="insc-sidebar-recap-row">
-                    <span>Session</span>
+                    <span>{t('sidebar.recap_rows.session')}</span>
                     <strong>{sel.season} {sel.startDate.slice(0, 4)}</strong>
                   </div>
                 ) : null
               })()}
               {audience === 'famille' && form.session === 'sur-mesure' && (
                 <div className="insc-sidebar-recap-row">
-                  <span>Format</span>
-                  <strong>Sur mesure</strong>
+                  <span>{t('sidebar.recap_rows.format')}</span>
+                  <strong>{t('sidebar.recap_rows.format_custom')}</strong>
                 </div>
               )}
               {audience === 'famille' && SESSION_IDS.includes(form.session) && (() => {
                 const sel = SESSIONS.find(s => s.id === form.session)
                 return sel ? (
                   <div className="insc-sidebar-recap-row">
-                    <span>Format</span>
+                    <span>{t('sidebar.recap_rows.format')}</span>
                     <strong>{sel.season}</strong>
                   </div>
                 ) : null
               })()}
               {form.duree && (
                 <div className="insc-sidebar-recap-row">
-                  <span>Durée</span>
-                  <strong>{form.duree.replace('-', ' ')}</strong>
+                  <span>{t('sidebar.recap_rows.duration')}</span>
+                  <strong>{formatDurationLabel(form.duree)}</strong>
                 </div>
               )}
               {audience === 'custom' && form.nombreParticipants && (
                 <div className="insc-sidebar-recap-row">
-                  <span>Composition</span>
-                  <strong>{form.nombreParticipants === '1' ? 'Solo' : form.nombreParticipants === '2' ? 'Duo' : form.nombreParticipants === '3' ? 'Trio' : 'Quatuor'}</strong>
+                  <span>{t('sidebar.recap_rows.composition')}</span>
+                  <strong>{compositionLabel(form.nombreParticipants)}</strong>
                 </div>
               )}
               {audience === 'famille' && form.enfants.length > 0 && (
                 <div className="insc-sidebar-recap-row">
-                  <span>Famille</span>
-                  <strong>{form.conjointParticipe ? 2 : 1}P + {form.enfants.length}E</strong>
+                  <span>{t('sidebar.recap_rows.family')}</span>
+                  <strong>{t('sidebar.family_units', { adults: form.conjointParticipe ? 2 : 1, children: form.enfants.length })}</strong>
                 </div>
               )}
               {audience === 'groupe' && form.nombreParticipants && (
                 <div className="insc-sidebar-recap-row">
-                  <span>Groupe</span>
-                  <strong>{form.nombreParticipants === '5' ? '5 pers.' : form.nombreParticipants}</strong>
+                  <span>{t('sidebar.recap_rows.groupe')}</span>
+                  <strong>{form.nombreParticipants === '5' ? t('sidebar.groupe_5') : form.nombreParticipants}</strong>
                 </div>
               )}
-              {/* Tarif live si dispo */}
               {(() => {
                 const weeks = parseDuration(form.duree)
                 if (!weeks) return null
                 if (form.campDiscipline === 'combo_quote') {
                   return (
                     <div className="insc-sidebar-recap-row insc-sidebar-recap-row--total">
-                      <span>Tarif</span>
-                      <strong>Sur devis</strong>
+                      <span>{t('sidebar.recap_rows.price')}</span>
+                      <strong>{t('sidebar.recap_rows.on_quote')}</strong>
                     </div>
                   )
                 }
@@ -910,17 +875,17 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                 else if (audience === 'groupe') {
                   if (form.nombreParticipants === '5') adults = 5
                   else if (form.nombreParticipants === '6-10') adults = 6
-                  else return <div className="insc-sidebar-recap-row insc-sidebar-recap-row--total"><span>Tarif</span><strong>Sur devis</strong></div>
+                  else return <div className="insc-sidebar-recap-row insc-sidebar-recap-row--total"><span>{t('sidebar.recap_rows.price')}</span><strong>{t('sidebar.recap_rows.on_quote')}</strong></div>
                 }
                 if (!adults) return null
                 if (isOnQuote(adults)) {
-                  return <div className="insc-sidebar-recap-row insc-sidebar-recap-row--total"><span>Tarif</span><strong>Sur devis</strong></div>
+                  return <div className="insc-sidebar-recap-row insc-sidebar-recap-row--total"><span>{t('sidebar.recap_rows.price')}</span><strong>{t('sidebar.recap_rows.on_quote')}</strong></div>
                 }
                 const total = calculatePrice({ adults, children, weeks })
                 if (total <= 0) return null
                 return (
                   <div className="insc-sidebar-recap-row insc-sidebar-recap-row--total">
-                    <span>{audience === 'groupe' && form.nombreParticipants === '6-10' ? 'À partir de' : 'Total estimé'}</span>
+                    <span>{audience === 'groupe' && form.nombreParticipants === '6-10' ? t('sidebar.recap_rows.from') : t('sidebar.recap_rows.estimated_total')}</span>
                     <strong>{formatEUR(total)}</strong>
                   </div>
                 )
@@ -931,17 +896,17 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
 
         <div className="insc-sidebar-bottom">
           <div className="insc-badges">
-            <span className="insc-badge">15 LUTTE + 15 MMA / SESSION</span>
-            <span className="insc-badge">RÉPONSE SOUS 48H</span>
-            <span className="insc-badge">ENTRETIEN VIDÉO 20 MIN</span>
+            <span className="insc-badge">{t('sidebar.badges.places')}</span>
+            <span className="insc-badge">{t('sidebar.badges.response')}</span>
+            <span className="insc-badge">{t('sidebar.badges.interview')}</span>
           </div>
-          <Link href="/" className="insc-back-link">← Retour au site</Link>
+          <Link href="/" className="insc-back-link">← {t('back_to_site')}</Link>
         </div>
       </aside>
 
       {/* ── MOBILE HEADER ── */}
       <header className="insc-mobile-header">
-        <Link href="/" className="insc-logo" aria-label="Retour à l'accueil">
+        <Link href="/" className="insc-logo" aria-label={t('back_aria')}>
           <span className="insc-logo-mkr">MKR</span>
         </Link>
         <button
@@ -950,10 +915,10 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
           onClick={() => setMobileStepsOpen(o => !o)}
           aria-expanded={mobileStepsOpen}
           aria-controls="insc-mobile-steps-panel"
-          aria-label={`Étape ${step + 1} sur ${STEPS.length} : ${STEPS[step]}. Toucher pour voir toutes les étapes.`}
+          aria-label={t('mobile_header.progress_aria', { current: step + 1, total: STEPS.length, step: STEPS[step] })}
         >
           <div className="insc-mobile-progress-top">
-            <span className="insc-mobile-step-label">Étape {step + 1}/{STEPS.length} · {STEPS[step]}</span>
+            <span className="insc-mobile-step-label">{t('mobile_header.step_label', { current: step + 1, total: STEPS.length, step: STEPS[step] })}</span>
             <span className="insc-mobile-chevron">
               <Icon name="chevron-down" size={12} />
             </span>
@@ -963,7 +928,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
           </div>
         </button>
         {mobileStepsOpen && (
-          <div id="insc-mobile-steps-panel" className="insc-mobile-steps-panel" role="region" aria-label="Toutes les étapes">
+          <div id="insc-mobile-steps-panel" className="insc-mobile-steps-panel" role="region" aria-label={t('mobile_header.panel_aria')}>
             <ol className="insc-mobile-steps-list">
               {STEPS.map((label, i) => (
                 <li
@@ -987,34 +952,29 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
 
           <div key={`header-${step}`} className={`insc-panel-header insc-anim-${dir}`}>
             <span className="label-tag" style={{ color: 'var(--primary)' }}>
-              ÉTAPE {step + 1} / {STEPS.length}
+              {t('panel_titles.step_label_prefix', { current: step + 1, total: STEPS.length })}
             </span>
             <h1 id="insc-form-title" className="insc-panel-title">
-              {/* Step 0 : Le camp */}
-              {step === 0 && audience === 'session' && 'Quelle session, quelle discipline ?'}
-              {step === 0 && audience === 'custom' && 'Ton camp sur mesure'}
-              {step === 0 && audience === 'famille' && 'Le camp de la famille'}
-              {step === 0 && audience === 'groupe' && 'Le camp de ton groupe'}
-              {/* Step 1 : Identite OU Ton club */}
-              {step === 1 && audience !== 'groupe' && 'Qui es-tu ?'}
-              {step === 1 && audience === 'groupe' && 'Parle-nous de ton club'}
-              {/* Step 2 : Experience OU Contact */}
-              {step === 2 && audience !== 'groupe' && 'Ton parcours sportif'}
-              {step === 2 && audience === 'groupe' && 'Contact du responsable'}
-              {/* Step 3 : Sante OU Confirmation (groupe) */}
-              {step === 3 && audience === 'famille' && 'Santé parent et enfants'}
-              {step === 3 && (audience === 'session' || audience === 'custom') && 'Condition physique & Santé'}
-              {step === 3 && audience === 'groupe' && 'Confirme ta demande de devis'}
-              {/* Step 4 : Confirmation (session/custom/famille) */}
-              {step === 4 && 'Confirme ta candidature'}
+              {step === 0 && audience === 'session' && t('panel_titles.step0_session')}
+              {step === 0 && audience === 'custom' && t('panel_titles.step0_custom')}
+              {step === 0 && audience === 'famille' && t('panel_titles.step0_famille')}
+              {step === 0 && audience === 'groupe' && t('panel_titles.step0_groupe')}
+              {step === 1 && audience !== 'groupe' && t('panel_titles.step1_identity')}
+              {step === 1 && audience === 'groupe' && t('panel_titles.step1_club')}
+              {step === 2 && audience !== 'groupe' && t('panel_titles.step2_experience')}
+              {step === 2 && audience === 'groupe' && t('panel_titles.step2_contact')}
+              {step === 3 && audience === 'famille' && t('panel_titles.step3_health_famille')}
+              {step === 3 && (audience === 'session' || audience === 'custom') && t('panel_titles.step3_health')}
+              {step === 3 && audience === 'groupe' && t('panel_titles.step3_groupe_confirm')}
+              {step === 4 && t('panel_titles.step4_confirm')}
             </h1>
           </div>
 
           <form key={`form-${step}`} className={`insc-form insc-anim-${dir}`} onSubmit={handleSubmit} noValidate aria-labelledby="insc-form-title">
-            {/* Honeypot anti-bot — invisible humainement, lu par robots */}
+            {/* Honeypot */}
             <div className="insc-hp" aria-hidden="true">
               <label>
-                Si tu vois ce champ, laisse-le vide
+                {t('honeypot.label')}
                 <input
                   type="text"
                   name="website_url"
@@ -1026,30 +986,29 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
               </label>
             </div>
 
-
-            {/* ── STEP 1 — Identité + logistique perso (session/custom/famille) ── */}
+            {/* ── STEP 1 — Identité ── */}
             {step === 1 && audience !== 'groupe' && (
               <div className="cand-panel">
                 <div className="cand-row">
-                  <Field label="Prénom">
+                  <Field label={t('identity.fields.prenom.label')}>
                     <input
                       className={`cand-input${errorFields.has('prenom') ? ' has-error' : ''}`}
                       type="text" autoComplete="given-name"
-                      placeholder="Ton prénom" value={form.prenom}
+                      placeholder={t('identity.fields.prenom.placeholder')} value={form.prenom}
                       aria-invalid={errorFields.has('prenom') || undefined}
                       onChange={e => set('prenom', e.target.value)} />
                   </Field>
-                  <Field label="Nom">
+                  <Field label={t('identity.fields.nom.label')}>
                     <input
                       className={`cand-input${errorFields.has('nom') ? ' has-error' : ''}`}
                       type="text" autoComplete="family-name"
-                      placeholder="Ton nom" value={form.nom}
+                      placeholder={t('identity.fields.nom.placeholder')} value={form.nom}
                       aria-invalid={errorFields.has('nom') || undefined}
                       onChange={e => set('nom', e.target.value)} />
                   </Field>
                 </div>
                 <div className="cand-row">
-                  <Field label="Date de naissance" hint="Tu dois avoir au moins 18 ans">
+                  <Field label={t('identity.fields.date_naissance.label')} hint={t('identity.fields.date_naissance.hint')}>
                     <input
                       className={`cand-input${errorFields.has('dateNaissance') ? ' has-error' : ''}`}
                       type="date"
@@ -1058,55 +1017,40 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                       aria-invalid={errorFields.has('dateNaissance') || undefined}
                       onChange={e => set('dateNaissance', e.target.value)} />
                   </Field>
-                  <Field label="Pays de résidence">
+                  <Field label={t('identity.fields.pays.label')}>
                     <input
                       className={`cand-input${errorFields.has('pays') ? ' has-error' : ''}`}
                       type="text" autoComplete="country-name" list="insc-pays-list"
-                      placeholder="France, Suisse, Belgique..." value={form.pays}
+                      placeholder={t('identity.fields.pays.placeholder')} value={form.pays}
                       aria-invalid={errorFields.has('pays') || undefined}
                       onChange={e => set('pays', e.target.value)} />
                     <datalist id="insc-pays-list">
-                      <option value="France" />
-                      <option value="Suisse" />
-                      <option value="Belgique" />
-                      <option value="Luxembourg" />
-                      <option value="Canada" />
-                      <option value="Maroc" />
-                      <option value="Algérie" />
-                      <option value="Tunisie" />
-                      <option value="Sénégal" />
-                      <option value="Côte d'Ivoire" />
-                      <option value="Allemagne" />
-                      <option value="Espagne" />
-                      <option value="Italie" />
-                      <option value="Portugal" />
-                      <option value="Royaume-Uni" />
-                      <option value="Pays-Bas" />
+                      {countryOptions.map(c => <option key={c} value={c} />)}
                     </datalist>
                   </Field>
                 </div>
                 <div className="cand-row">
-                  <Field label="Email">
+                  <Field label={t('identity.fields.email.label')}>
                     <input
                       className={`cand-input${errorFields.has('email') ? ' has-error' : ''}`}
                       type="email" autoComplete="email" inputMode="email"
-                      placeholder="ton@email.com" value={form.email}
+                      placeholder={t('identity.fields.email.placeholder')} value={form.email}
                       aria-invalid={errorFields.has('email') || undefined}
                       onChange={e => set('email', e.target.value)} />
                   </Field>
-                  <Field label="Téléphone" hint="Avec indicatif international">
+                  <Field label={t('identity.fields.telephone.label')} hint={t('identity.fields.telephone.hint')}>
                     <input
                       className="cand-input"
                       type="tel" autoComplete="tel" inputMode="tel"
-                      placeholder="+33 6 12 34 56 78" value={form.telephone}
+                      placeholder={t('identity.fields.telephone.placeholder')} value={form.telephone}
                       onChange={e => set('telephone', e.target.value)} />
                   </Field>
                 </div>
                 {renderReferralCodeField()}
-                <Field label="Ville / pays de départ" hint="Utilisé pour estimer les vols">
+                <Field label={t('identity.fields.ville_depart.label')} hint={t('identity.fields.ville_depart.hint')}>
                   <input
                     className={`cand-input${errorFields.has('villeDepart') ? ' has-error' : ''}`}
-                    type="text" placeholder="Ex : Paris, Genève, Montréal..."
+                    type="text" placeholder={t('identity.fields.ville_depart.placeholder')}
                     value={form.villeDepart}
                     aria-invalid={errorFields.has('villeDepart') || undefined}
                     onChange={e => set('villeDepart', e.target.value)} />
@@ -1114,62 +1058,62 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
               </div>
             )}
 
-            {/* ── STEP 2 — Contact (audience=groupe uniquement) ── */}
+            {/* ── STEP 2 — Contact (groupe) ── */}
             {step === 2 && audience === 'groupe' && (
               <div className="cand-panel">
                 <p className="insc-banner insc-banner--quote">
-                  <strong>Demande de devis personnalisé</strong>
-                  <span>Tes coordonnées pour que Ruslan te recontacte et envoie un devis adapté. Aucun paiement n&apos;est demandé à cette étape.</span>
+                  <strong>{t('groupe_contact.banner.title')}</strong>
+                  <span>{t('groupe_contact.banner.body')}</span>
                 </p>
                 <div className="cand-row">
-                  <Field label="Prénom du responsable">
+                  <Field label={t('groupe_contact.fields.prenom_responsable.label')}>
                     <input
                       className={`cand-input${errorFields.has('prenom') ? ' has-error' : ''}`}
                       type="text" autoComplete="given-name"
-                      placeholder="Ton prénom" value={form.prenom}
+                      placeholder={t('groupe_contact.fields.prenom_responsable.placeholder')} value={form.prenom}
                       aria-invalid={errorFields.has('prenom') || undefined}
                       onChange={e => set('prenom', e.target.value)} />
                   </Field>
-                  <Field label="Nom">
+                  <Field label={t('groupe_contact.fields.nom.label')}>
                     <input
                       className={`cand-input${errorFields.has('nom') ? ' has-error' : ''}`}
                       type="text" autoComplete="family-name"
-                      placeholder="Ton nom" value={form.nom}
+                      placeholder={t('groupe_contact.fields.nom.placeholder')} value={form.nom}
                       aria-invalid={errorFields.has('nom') || undefined}
                       onChange={e => set('nom', e.target.value)} />
                   </Field>
                 </div>
                 <div className="cand-row">
-                  <Field label="Email">
+                  <Field label={t('groupe_contact.fields.email.label')}>
                     <input
                       className={`cand-input${errorFields.has('email') ? ' has-error' : ''}`}
                       type="email" autoComplete="email" inputMode="email"
-                      placeholder="ton@email.com" value={form.email}
+                      placeholder={t('groupe_contact.fields.email.placeholder')} value={form.email}
                       aria-invalid={errorFields.has('email') || undefined}
                       onChange={e => set('email', e.target.value)} />
                   </Field>
-                  <Field label="Téléphone / WhatsApp" hint="Pour un échange direct si besoin">
+                  <Field label={t('groupe_contact.fields.telephone.label')} hint={t('groupe_contact.fields.telephone.hint')}>
                     <input
                       className="cand-input"
                       type="tel" autoComplete="tel" inputMode="tel"
-                      placeholder="+33 6 12 34 56 78" value={form.telephone}
+                      placeholder={t('groupe_contact.fields.telephone.placeholder')} value={form.telephone}
                       onChange={e => set('telephone', e.target.value)} />
                   </Field>
                 </div>
                 <div className="cand-row">
-                  <Field label="Pays de résidence">
+                  <Field label={t('groupe_contact.fields.pays.label')}>
                     <input
                       className={`cand-input${errorFields.has('pays') ? ' has-error' : ''}`}
                       type="text" autoComplete="country-name" list="insc-pays-list"
-                      placeholder="France, Suisse, Belgique..." value={form.pays}
+                      placeholder={t('groupe_contact.fields.pays.placeholder')} value={form.pays}
                       aria-invalid={errorFields.has('pays') || undefined}
                       onChange={e => set('pays', e.target.value)} />
                   </Field>
-                  <Field label="Ville de départ" hint="Origine principale du groupe">
+                  <Field label={t('groupe_contact.fields.ville_depart.label')} hint={t('groupe_contact.fields.ville_depart.hint')}>
                     <input
                       className={`cand-input${errorFields.has('villeDepart') ? ' has-error' : ''}`}
                       type="text"
-                      placeholder="Ex : Paris, Lyon, Genève..."
+                      placeholder={t('groupe_contact.fields.ville_depart.placeholder')}
                       value={form.villeDepart}
                       aria-invalid={errorFields.has('villeDepart') || undefined}
                       onChange={e => set('villeDepart', e.target.value)} />
@@ -1179,32 +1123,40 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
               </div>
             )}
 
-            {/* ── STEP 2 — Expérience individuelle (session/custom/famille) ── */}
+            {/* ── STEP 2 — Expérience (session/custom/famille) ── */}
             {step === 2 && audience !== 'groupe' && (
               <div className="cand-panel">
                 {audience === 'famille' && (
                   <p className="insc-banner insc-banner--info">
-                    <span>Cette étape concerne <strong>uniquement le parent participant</strong>. On collectera les infos des enfants à l&apos;étape Santé.</span>
+                    <span>{t('experience.banner_famille.prefix')}<strong>{t('experience.banner_famille.strong')}</strong>{t('experience.banner_famille.suffix')}</span>
                   </p>
                 )}
                 {audience === 'custom' && (
                   <p className="insc-banner insc-banner--info">
-                    <span>Tu réponds pour toi (<strong>responsable de l&apos;inscription</strong>). Pour Duo/Trio/Quatuor, les autres participants sont listés ci-dessous.</span>
+                    <span>{t('experience.banner_custom.prefix')}<strong>{t('experience.banner_custom.strong')}</strong>{t('experience.banner_custom.suffix')}</span>
                   </p>
                 )}
 
-                <Field label="Discipline principale">
+                <Field label={t('experience.fields.discipline_principale.label')}>
                   <select
                     className={`cand-select${errorFields.has('disciplinePrincipale') ? ' has-error' : ''}`}
                     value={form.disciplinePrincipale}
                     aria-invalid={errorFields.has('disciplinePrincipale') || undefined}
                     onChange={e => set('disciplinePrincipale', e.target.value)}>
-                    <option value="" disabled>Sélectionner</option>
+                    <option value="" disabled>{t('experience.select_placeholder')}</option>
                     {DISCIPLINES.map(d => <option key={d} value={d}>{d}</option>)}
                   </select>
                 </Field>
 
-                <Field label="Disciplines secondaires" hint={`Sélectionne tout ce qui s'applique${form.disciplinesSecondaires.length > 0 ? ` · ${form.disciplinesSecondaires.length} sélectionnée${form.disciplinesSecondaires.length > 1 ? 's' : ''}` : ''}`}>
+                <Field
+                  label={t('experience.fields.disciplines_secondaires.label')}
+                  hint={
+                    form.disciplinesSecondaires.length === 0
+                      ? t('experience.fields.disciplines_secondaires.hint')
+                      : form.disciplinesSecondaires.length === 1
+                        ? t('experience.fields.disciplines_secondaires.hint_selected_one')
+                        : t('experience.fields.disciplines_secondaires.hint_selected_many', { count: form.disciplinesSecondaires.length })
+                  }>
                   <div className="cand-checks">
                     {DISCIPLINES.filter(d => d !== form.disciplinePrincipale).map(d => (
                       <label key={d} className={`cand-check${form.disciplinesSecondaires.includes(d) ? ' selected' : ''}`}>
@@ -1217,111 +1169,117 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                 </Field>
 
                 <div className="cand-row">
-                  <Field label="Années de pratique">
+                  <Field label={t('experience.fields.annees_pratique.label')}>
                     <select
                       className={`cand-select${errorFields.has('anneesPratique') ? ' has-error' : ''}`}
                       value={form.anneesPratique}
                       aria-invalid={errorFields.has('anneesPratique') || undefined}
                       onChange={e => set('anneesPratique', e.target.value)}>
-                      <option value="" disabled>Sélectionner</option>
-                      <option value="1-2">1 à 2 ans</option>
-                      <option value="2-5">2 à 5 ans</option>
-                      <option value="5-10">5 à 10 ans</option>
-                      <option value="10+">10 ans et plus</option>
+                      <option value="" disabled>{t('experience.select_placeholder')}</option>
+                      <option value="1-2">{t('experience.annees_options.1-2')}</option>
+                      <option value="2-5">{t('experience.annees_options.2-5')}</option>
+                      <option value="5-10">{t('experience.annees_options.5-10')}</option>
+                      <option value="10+">{t('experience.annees_options.10+')}</option>
                     </select>
                   </Field>
                   <Field
-                    label="Niveau actuel"
-                    hint={form.campDiscipline === 'mma' ? 'Camp MMA : niveau Avancé minimum exigé' : undefined}>
+                    label={t('experience.fields.niveau.label')}
+                    hint={form.campDiscipline === 'mma' ? t('experience.fields.niveau.hint_mma') : undefined}>
                     <select
                       className={`cand-select${errorFields.has('niveau') ? ' has-error' : ''}`}
                       value={form.niveau}
                       aria-invalid={errorFields.has('niveau') || undefined}
                       onChange={e => set('niveau', e.target.value)}>
-                      <option value="" disabled>Sélectionner</option>
+                      <option value="" disabled>{t('experience.select_placeholder')}</option>
                       <option value="intermediaire" disabled={form.campDiscipline === 'mma'}>
-                        Intermédiaire{form.campDiscipline === 'mma' ? ' (insuffisant pour MMA)' : ''}
+                        {form.campDiscipline === 'mma' ? t('experience.niveau_options.intermediaire_mma_blocked') : t('experience.niveau_options.intermediaire')}
                       </option>
-                      <option value="avance">Avancé</option>
-                      <option value="competiteur-regional">Compétiteur régional</option>
-                      <option value="competiteur-national">Compétiteur national</option>
-                      <option value="competiteur-international">Compétiteur international</option>
+                      <option value="avance">{t('experience.niveau_options.avance')}</option>
+                      <option value="competiteur-regional">{t('experience.niveau_options.competiteur_regional')}</option>
+                      <option value="competiteur-national">{t('experience.niveau_options.competiteur_national')}</option>
+                      <option value="competiteur-international">{t('experience.niveau_options.competiteur_international')}</option>
                     </select>
                   </Field>
                 </div>
 
                 <div className="cand-row">
-                  <Field label="Club / Salle actuelle">
-                    <input className="cand-input" type="text" placeholder="Nom de ton club"
+                  <Field label={t('experience.fields.club.label')}>
+                    <input className="cand-input" type="text" placeholder={t('experience.fields.club.placeholder')}
                       value={form.club} onChange={e => set('club', e.target.value)} />
                   </Field>
-                  <Field label="Coach / Instructeur">
-                    <input className="cand-input" type="text" placeholder="Nom de ton coach"
+                  <Field label={t('experience.fields.coach.label')}>
+                    <input className="cand-input" type="text" placeholder={t('experience.fields.coach.placeholder')}
                       value={form.coach} onChange={e => set('coach', e.target.value)} />
                   </Field>
                 </div>
 
-                <Field label="Palmarès & compétitions" hint="Titres, classements, résultats récents">
+                <Field label={t('experience.fields.palmares.label')} hint={t('experience.fields.palmares.hint')}>
                   <textarea className="cand-textarea" rows={3}
-                    placeholder="Ex : Champion régional Lutte 2024, 2e au tournoi de Paris MMA..."
+                    placeholder={t('experience.fields.palmares.placeholder')}
                     value={form.palmares} onChange={e => set('palmares', e.target.value)} />
                 </Field>
 
-                <Field label="Lien vidéo" hint="Instagram, Vimeo, footage de compétition">
-                  <input className="cand-input" type="url" placeholder="https://instagram.com/..."
+                <Field label={t('experience.fields.lien_video.label')} hint={t('experience.fields.lien_video.hint')}>
+                  <input className="cand-input" type="url" placeholder={t('experience.fields.lien_video.placeholder')}
                     value={form.lienVideo} onChange={e => set('lienVideo', e.target.value)} />
                 </Field>
               </div>
             )}
 
-            {/* ── STEP 1 — Ton club (audience=groupe uniquement) ── */}
+            {/* ── STEP 1 — Ton club (groupe) ── */}
             {step === 1 && audience === 'groupe' && (
               <div className="cand-panel">
                 <p className="insc-banner insc-banner--info">
-                  <span>On qualifie ici le <strong>collectif</strong>, pas le responsable individuel. Les infos perso de chaque participant seront collectées après validation du devis.</span>
+                  <span>{t('club_qualification.banner.prefix')}<strong>{t('club_qualification.banner.strong')}</strong>{t('club_qualification.banner.suffix')}</span>
                 </p>
 
-                <Field label="Nom du club ou du groupe">
+                <Field label={t('club_qualification.fields.nom_club.label')}>
                   <input
                     className={`cand-input${errorFields.has('nomClub') ? ' has-error' : ''}`}
                     type="text"
-                    placeholder="Ex : Geneva Fight Club, Académie Krav Magabec..."
+                    placeholder={t('club_qualification.fields.nom_club.placeholder')}
                     value={form.nomClub}
                     aria-invalid={errorFields.has('nomClub') || undefined}
                     onChange={e => set('nomClub', e.target.value)} />
                 </Field>
                 <div className="cand-row">
-                  <Field label="Nombre approximatif de participants" hint="Tu pourras affiner après la visio. À partir de 11 personnes ou pour privatiser une session entière, le format est ajusté.">
+                  <Field label={t('club_qualification.fields.nombre_participants.label')} hint={t('club_qualification.fields.nombre_participants.hint')}>
                     <select
                       className={`cand-select${errorFields.has('nombreParticipants') ? ' has-error' : ''}`}
                       value={form.nombreParticipants}
                       aria-invalid={errorFields.has('nombreParticipants') || undefined}
                       onChange={e => set('nombreParticipants', e.target.value)}>
-                      <option value="" disabled>Sélectionner</option>
-                      <option value="5">5 personnes</option>
-                      <option value="6-10">6 à 10 personnes</option>
-                      <option value="11-20">11 personnes et plus</option>
-                      <option value="20+">Plus de 20 (privatisation totale)</option>
+                      <option value="" disabled>{t('experience.select_placeholder')}</option>
+                      <option value="5">{t('club_qualification.participants_options.5')}</option>
+                      <option value="6-10">{t('club_qualification.participants_options.6-10')}</option>
+                      <option value="11-20">{t('club_qualification.participants_options.11-20')}</option>
+                      <option value="20+">{t('club_qualification.participants_options.20+')}</option>
                     </select>
                   </Field>
-                  <Field label="Niveau global du groupe">
+                  <Field label={t('club_qualification.fields.niveau_groupe.label')}>
                     <select
                       className={`cand-select${errorFields.has('niveauGroupe') ? ' has-error' : ''}`}
                       value={form.niveauGroupe}
                       aria-invalid={errorFields.has('niveauGroupe') || undefined}
                       onChange={e => set('niveauGroupe', e.target.value)}>
-                      <option value="" disabled>Sélectionner</option>
-                      <option value="debutant">Mixte débutant / intermédiaire</option>
-                      <option value="intermediaire">Intermédiaire homogène</option>
-                      <option value="avance">Avancé / compétiteurs</option>
-                      <option value="mixte">Mixte (à préciser)</option>
+                      <option value="" disabled>{t('experience.select_placeholder')}</option>
+                      <option value="debutant">{t('club_qualification.niveau_groupe_options.debutant')}</option>
+                      <option value="intermediaire">{t('club_qualification.niveau_groupe_options.intermediaire')}</option>
+                      <option value="avance">{t('club_qualification.niveau_groupe_options.avance')}</option>
+                      <option value="mixte">{t('club_qualification.niveau_groupe_options.mixte')}</option>
                     </select>
                   </Field>
                 </div>
 
                 <Field
-                  label="Discipline(s) principale(s) du club"
-                  hint={`Sélectionne ce qui s'applique au collectif${form.disciplinesSecondaires.length > 0 ? ` · ${form.disciplinesSecondaires.length} sélectionnée${form.disciplinesSecondaires.length > 1 ? 's' : ''}` : ''}`}>
+                  label={t('club_qualification.fields.disciplines_club.label')}
+                  hint={
+                    form.disciplinesSecondaires.length === 0
+                      ? t('club_qualification.fields.disciplines_club.hint')
+                      : form.disciplinesSecondaires.length === 1
+                        ? t('club_qualification.fields.disciplines_club.hint_selected_one')
+                        : t('club_qualification.fields.disciplines_club.hint_selected_many', { count: form.disciplinesSecondaires.length })
+                  }>
                   <div className="cand-checks">
                     {DISCIPLINES.map(d => (
                       <label key={d} className={`cand-check${form.disciplinesSecondaires.includes(d) ? ' selected' : ''}`}>
@@ -1333,85 +1291,84 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                   </div>
                 </Field>
 
-                <Field label="Palmarès collectif du club" hint="Optionnel — 1 ou 2 phrases suffisent">
+                <Field label={t('club_qualification.fields.palmares_club.label')} hint={t('club_qualification.fields.palmares_club.hint')}>
                   <textarea className="cand-textarea" rows={3}
-                    placeholder="Ex : 3 champions de France juniors en 2025, 2 internationaux espoirs..."
+                    placeholder={t('club_qualification.fields.palmares_club.placeholder')}
                     value={form.palmaresClub} onChange={e => set('palmaresClub', e.target.value)} />
                 </Field>
 
-                <Field label="Lien vidéo ou réseau du club" hint="Optionnel : Instagram, site du club">
-                  <input className="cand-input" type="url" inputMode="url" placeholder="https://instagram.com/..."
+                <Field label={t('club_qualification.fields.lien_video_club.label')} hint={t('club_qualification.fields.lien_video_club.hint')}>
+                  <input className="cand-input" type="url" inputMode="url" placeholder={t('club_qualification.fields.lien_video_club.placeholder')}
                     value={form.lienVideo} onChange={e => set('lienVideo', e.target.value)} />
                 </Field>
               </div>
             )}
 
-            {/* ── STEP 3 — Santé (session/custom/famille uniquement) ── */}
-            {/* Variant individuel : session + custom */}
+            {/* ── STEP 3 — Santé (session/custom) ── */}
             {step === 3 && (audience === 'session' || audience === 'custom') && (
               <div className="cand-panel">
                 {audience === 'custom' && (
                   <p className="insc-banner insc-banner--info">
-                    <span>Cette étape concerne <strong>uniquement toi</strong> (responsable). On collectera la santé des autres participants après validation du devis.</span>
+                    <span>{t('sante.banner_custom.prefix')}<strong>{t('sante.banner_custom.strong')}</strong>{t('sante.banner_custom.suffix')}</span>
                   </p>
                 )}
-                <Field label="Comment évalues-tu ta condition physique actuelle ?">
+                <Field label={t('sante.fields.condition_physique.label')}>
                   <div className={errorFields.has('conditionPhysique') ? 'insc-radios-error' : ''}>
                     <RadioGroup name="condition" value={form.conditionPhysique}
                       onChange={v => set('conditionPhysique', v)}
                       options={[
-                        { val: '2', label: 'Moyenne · reprise récente' },
-                        { val: '3', label: 'Bonne · entraînement régulier' },
-                        { val: '4', label: 'Très bonne · entraînement intensif' },
-                        { val: '5', label: 'Excellente · niveau compétition' },
+                        { val: '2', label: t('sante.fields.condition_physique.options.2') },
+                        { val: '3', label: t('sante.fields.condition_physique.options.3') },
+                        { val: '4', label: t('sante.fields.condition_physique.options.4') },
+                        { val: '5', label: t('sante.fields.condition_physique.options.5') },
                       ]}
                     />
                   </div>
                 </Field>
-                <Field label="As-tu eu des blessures significatives ces 3 derniers mois ?">
+                <Field label={t('sante.fields.blessures.label')}>
                   <div className={errorFields.has('blessuresRecentes') ? 'insc-radios-error' : ''}>
                     <RadioGroup name="blessures" value={form.blessuresRecentes}
                       onChange={v => set('blessuresRecentes', v)}
                       options={[
-                        { val: 'non', label: 'Non, aucune blessure' },
-                        { val: 'mineure', label: 'Mineure, entièrement guérie' },
-                        { val: 'oui', label: 'Oui, à préciser' },
+                        { val: 'non', label: t('sante.fields.blessures.options.non') },
+                        { val: 'mineure', label: t('sante.fields.blessures.options.mineure') },
+                        { val: 'oui', label: t('sante.fields.blessures.options.oui') },
                       ]}
                     />
                   </div>
                   {(form.blessuresRecentes === 'oui' || form.blessuresRecentes === 'mineure') && (
                     <textarea className="cand-textarea cand-sub-field" rows={2}
-                      placeholder="Décris la nature et l'état actuel de la blessure..."
+                      placeholder={t('sante.fields.blessures.detail_placeholder')}
                       value={form.blessuresDetail}
                       onChange={e => set('blessuresDetail', e.target.value)} />
                   )}
                 </Field>
-                <Field label="As-tu des contre-indications médicales à l'effort intense ?">
+                <Field label={t('sante.fields.contre_indications.label')}>
                   <div className={errorFields.has('contreIndications') ? 'insc-radios-error' : ''}>
                     <RadioGroup name="contre" value={form.contreIndications}
                       onChange={v => set('contreIndications', v)}
                       options={[
-                        { val: 'non', label: 'Non' },
-                        { val: 'oui', label: 'Oui, à préciser' },
+                        { val: 'non', label: t('sante.fields.contre_indications.options.non') },
+                        { val: 'oui', label: t('sante.fields.contre_indications.options.oui') },
                       ]}
                     />
                   </div>
                   {form.contreIndications === 'oui' && (
                     <textarea className="cand-textarea cand-sub-field" rows={2}
-                      placeholder="Précise la nature des contre-indications..."
+                      placeholder={t('sante.fields.contre_indications.detail_placeholder')}
                       value={form.contreIndicationsDetail}
                       onChange={e => set('contreIndicationsDetail', e.target.value)} />
                   )}
                 </Field>
-                <Field label="Es-tu capable de t'entraîner deux fois par jour, 6 jours sur 7 ?"
-                  hint="Les sessions durent 2 à 3h. C'est le rythme standard du camp.">
+                <Field label={t('sante.fields.deux_fois_jour.label')}
+                  hint={t('sante.fields.deux_fois_jour.hint')}>
                   <div className={errorFields.has('deuxFoisJour') ? 'insc-radios-error' : ''}>
                     <RadioGroup name="deuxfois" value={form.deuxFoisJour}
                       onChange={v => set('deuxFoisJour', v)}
                       options={[
-                        { val: 'oui', label: 'Oui, je suis prêt(e)' },
-                        { val: 'avec-adaptation', label: 'Oui, avec quelques adaptations' },
-                        { val: 'non', label: 'Non, je préfère un rythme allégé' },
+                        { val: 'oui', label: t('sante.fields.deux_fois_jour.options.oui') },
+                        { val: 'avec-adaptation', label: t('sante.fields.deux_fois_jour.options.avec_adaptation') },
+                        { val: 'non', label: t('sante.fields.deux_fois_jour.options.non') },
                       ]}
                     />
                   </div>
@@ -1419,93 +1376,93 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
               </div>
             )}
 
-            {/* Variant FAMILLE : santé parent (sans 2x/jour) + santé enfants */}
+            {/* Variant FAMILLE santé */}
             {step === 3 && audience === 'famille' && (
               <div className="cand-panel">
-                <h3 className="insc-section-title">Santé du parent participant</h3>
-                <Field label="Comment évalues-tu ta condition physique actuelle ?">
+                <h3 className="insc-section-title">{t('sante.famille.section_parent')}</h3>
+                <Field label={t('sante.fields.condition_physique.label')}>
                   <div className={errorFields.has('conditionPhysique') ? 'insc-radios-error' : ''}>
                     <RadioGroup name="condition" value={form.conditionPhysique}
                       onChange={v => set('conditionPhysique', v)}
                       options={[
-                        { val: '2', label: 'Moyenne · reprise récente' },
-                        { val: '3', label: 'Bonne · entraînement régulier' },
-                        { val: '4', label: 'Très bonne · entraînement intensif' },
-                        { val: '5', label: 'Excellente · niveau compétition' },
+                        { val: '2', label: t('sante.fields.condition_physique.options.2') },
+                        { val: '3', label: t('sante.fields.condition_physique.options.3') },
+                        { val: '4', label: t('sante.fields.condition_physique.options.4') },
+                        { val: '5', label: t('sante.fields.condition_physique.options.5') },
                       ]}
                     />
                   </div>
                 </Field>
-                <Field label="As-tu eu des blessures significatives ces 3 derniers mois ?">
+                <Field label={t('sante.fields.blessures.label')}>
                   <div className={errorFields.has('blessuresRecentes') ? 'insc-radios-error' : ''}>
                     <RadioGroup name="blessures" value={form.blessuresRecentes}
                       onChange={v => set('blessuresRecentes', v)}
                       options={[
-                        { val: 'non', label: 'Non, aucune blessure' },
-                        { val: 'mineure', label: 'Mineure, entièrement guérie' },
-                        { val: 'oui', label: 'Oui, à préciser' },
+                        { val: 'non', label: t('sante.fields.blessures.options.non') },
+                        { val: 'mineure', label: t('sante.fields.blessures.options.mineure') },
+                        { val: 'oui', label: t('sante.fields.blessures.options.oui') },
                       ]}
                     />
                   </div>
                   {(form.blessuresRecentes === 'oui' || form.blessuresRecentes === 'mineure') && (
                     <textarea className="cand-textarea cand-sub-field" rows={2}
-                      placeholder="Décris la nature et l'état actuel de la blessure..."
+                      placeholder={t('sante.fields.blessures.detail_placeholder')}
                       value={form.blessuresDetail}
                       onChange={e => set('blessuresDetail', e.target.value)} />
                   )}
                 </Field>
-                <Field label="As-tu des contre-indications médicales à l'effort intense ?">
+                <Field label={t('sante.fields.contre_indications.label')}>
                   <div className={errorFields.has('contreIndications') ? 'insc-radios-error' : ''}>
                     <RadioGroup name="contre" value={form.contreIndications}
                       onChange={v => set('contreIndications', v)}
                       options={[
-                        { val: 'non', label: 'Non' },
-                        { val: 'oui', label: 'Oui, à préciser' },
+                        { val: 'non', label: t('sante.fields.contre_indications.options.non') },
+                        { val: 'oui', label: t('sante.fields.contre_indications.options.oui') },
                       ]}
                     />
                   </div>
                   {form.contreIndications === 'oui' && (
                     <textarea className="cand-textarea cand-sub-field" rows={2}
-                      placeholder="Précise la nature des contre-indications..."
+                      placeholder={t('sante.fields.contre_indications.detail_placeholder')}
                       value={form.contreIndicationsDetail}
                       onChange={e => set('contreIndicationsDetail', e.target.value)} />
                   )}
                 </Field>
 
-                <h3 className="insc-section-title insc-section-title--spacer">Tes enfants (8 à 17 ans)</h3>
+                <h3 className="insc-section-title insc-section-title--spacer">{t('sante.famille.section_enfants')}</h3>
                 <p className="insc-banner insc-banner--info">
-                  <span>Le programme jeunesse a son propre rythme (sessions à 10h30 et 17h30). Chaque enfant doit fournir un certificat médical pédiatrique avant le départ.</span>
+                  <span>{t('sante.famille.banner')}</span>
                 </p>
 
                 {form.enfants.map((c, i) => (
                   <div key={i} className="insc-child-card">
                     <div className="insc-child-card-head">
-                      <strong>Enfant {i + 1}</strong>
+                      <strong>{t('sante.famille.child_label', { n: i + 1 })}</strong>
                       {form.enfants.length > 1 && (
                         <button
                           type="button"
                           onClick={() => removeChild(i)}
                           className="insc-child-remove"
-                          aria-label={`Retirer l'enfant ${i + 1}`}
+                          aria-label={t('sante.famille.remove_aria', { n: i + 1 })}
                         >
                           <Icon name="x" size={14} />
-                          Retirer
+                          {t('sante.famille.remove')}
                         </button>
                       )}
                     </div>
                     <div className="cand-row">
-                      <Field label="Prénom">
+                      <Field label={t('sante.famille.fields.prenom.label')}>
                         <input
                           className={`cand-input${errorFields.has(`enfants.${i}.prenom`) ? ' has-error' : ''}`}
-                          type="text" placeholder="Prénom de l'enfant"
+                          type="text" placeholder={t('sante.famille.fields.prenom.placeholder')}
                           value={c.prenom}
                           aria-invalid={errorFields.has(`enfants.${i}.prenom`) || undefined}
                           onChange={e => updateChild(i, { prenom: e.target.value })} />
                       </Field>
-                      <Field label="Âge" hint="Entre 8 et 17 ans">
+                      <Field label={t('sante.famille.fields.age.label')} hint={t('sante.famille.fields.age.hint')}>
                         <input
                           className={`cand-input${errorFields.has(`enfants.${i}.age`) ? ' has-error' : ''}`}
-                          type="number" inputMode="numeric" min="8" max="17" placeholder="Ex : 12"
+                          type="number" inputMode="numeric" min="8" max="17" placeholder={t('sante.famille.fields.age.placeholder')}
                           value={c.age}
                           aria-invalid={errorFields.has(`enfants.${i}.age`) || undefined}
                           onChange={e => updateChild(i, { age: e.target.value })}
@@ -1518,34 +1475,34 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                           }} />
                       </Field>
                     </div>
-                    <Field label="Pratique déjà la lutte, le MMA ou un sport de combat ?">
+                    <Field label={t('sante.famille.fields.pratique_deja.label')}>
                       <RadioGroup name={`enfant-${i}-pratique`} value={c.pratiqueDeja}
                         onChange={v => updateChild(i, { pratiqueDeja: v })}
                         options={[
-                          { val: 'non', label: 'Non, première expérience' },
-                          { val: 'oui', label: 'Oui, déjà pratiquant' },
+                          { val: 'non', label: t('sante.famille.fields.pratique_deja.options.non') },
+                          { val: 'oui', label: t('sante.famille.fields.pratique_deja.options.oui') },
                         ]}
                       />
                       {c.pratiqueDeja === 'oui' && (
                         <input className="cand-input cand-sub-field" type="text"
-                          placeholder="Combien d'années ? (Ex : 2 ans de judo)"
+                          placeholder={t('sante.famille.fields.pratique_deja.annees_placeholder')}
                           value={c.anneesPratique}
                           onChange={e => updateChild(i, { anneesPratique: e.target.value })} />
                       )}
                     </Field>
-                    <Field label="Contre-indications médicales connues ?">
+                    <Field label={t('sante.famille.fields.contre_indications.label')}>
                       <div className={errorFields.has(`enfants.${i}.contreIndications`) ? 'insc-radios-error' : ''}>
                         <RadioGroup name={`enfant-${i}-contre`} value={c.contreIndications}
                           onChange={v => updateChild(i, { contreIndications: v })}
                           options={[
-                            { val: 'non', label: 'Non, aucune' },
-                            { val: 'oui', label: 'Oui, à préciser' },
+                            { val: 'non', label: t('sante.famille.fields.contre_indications.options.non') },
+                            { val: 'oui', label: t('sante.famille.fields.contre_indications.options.oui') },
                           ]}
                         />
                       </div>
                       {c.contreIndications === 'oui' && (
                         <textarea className="cand-textarea cand-sub-field" rows={2}
-                          placeholder="Allergies, asthme, blessure récente, traitement en cours..."
+                          placeholder={t('sante.famille.fields.contre_indications.detail_placeholder')}
                           value={c.contreIndicationsDetail}
                           onChange={e => updateChild(i, { contreIndicationsDetail: e.target.value })} />
                       )}
@@ -1560,18 +1517,16 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                     className="insc-child-add"
                   >
                     <Icon name="plus" size={16} />
-                    Ajouter un enfant
+                    {t('sante.famille.add_button')}
                   </button>
                 )}
               </div>
             )}
 
-
-            {/* ── STEP 0 — Le camp (la PREMIÈRE question : session+discipline / composition+discipline / format+enfants / discipline-groupe) ── */}
+            {/* ── STEP 0 — Le camp ── */}
             {step === 0 && (
               <div className="cand-panel insc-camp-step">
 
-                {/* Bandeau audience active */}
                 {audienceConfig && (
                   <div className="insc-audience-banner">
                     <span className="insc-audience-banner-label">{audienceConfig.badge}</span>
@@ -1580,18 +1535,13 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                   </div>
                 )}
 
-                {/* ───────────────────────────────────────────────
-                    AUDIENCE: SESSION OFFICIELLE
-                    1) Choix session (4 cards visuelles)
-                    2) Choix discipline (2 cards avec compteur places live)
-                    3) Choix durée
-                    ─────────────────────────────────────────────── */}
+                {/* SESSION */}
                 {audience === 'session' && (
                   <>
                     <div className="insc-camp-section">
                       <span className="insc-camp-section-num">1</span>
-                      <h2 className="insc-camp-section-label">Choisis ta session</h2>
-                      <p className="insc-camp-section-help">Quatre sessions par an, calées sur les vacances scolaires francophones (FR · CH · BE).</p>
+                      <h2 className="insc-camp-section-label">{t('step0_camp.session.section1_label')}</h2>
+                      <p className="insc-camp-section-help">{t('step0_camp.session.section1_help')}</p>
                       <div className="insc-session-grid">
                         {SESSIONS.map(s => {
                           const year = s.startDate.slice(0, 4)
@@ -1611,7 +1561,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                               <span className="insc-session-card-month">{s.monthAbbr}</span>
                               <span className="insc-session-card-season">{s.season} {year}</span>
                               <span className="insc-session-card-dates">{s.dates}</span>
-                              <span className="insc-session-card-intensity">Intensité {s.intensity.toLowerCase()}</span>
+                              <span className="insc-session-card-intensity">{t('step0_camp.session.session_intensity_prefix')} {s.intensity.toLowerCase()}</span>
                             </label>
                           )
                         })}
@@ -1620,8 +1570,10 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
 
                     <div className="insc-camp-section">
                       <span className="insc-camp-section-num">2</span>
-                      <h2 className="insc-camp-section-label">Choisis ta discipline</h2>
-                      <p className="insc-camp-section-help">C&apos;est exclusif sur les sessions officielles : Lutte (Daghestan) <strong>OU</strong> MMA (Tchétchénie). Pour combiner les deux, passe par <Link href="/inscription?type=custom" style={{ color: 'var(--primary)', textDecoration: 'underline' }}>Sur Mesure</Link>.</p>
+                      <h2 className="insc-camp-section-label">{t('step0_camp.session.section2_label')}</h2>
+                      <p className="insc-camp-section-help">
+                        {t('step0_camp.session.section2_help_prefix')}<strong>{t('step0_camp.session.section2_help_or')}</strong>{t('step0_camp.session.section2_help_suffix')}<Link href="/inscription?type=custom" style={{ color: 'var(--primary)', textDecoration: 'underline' }}>{t('step0_camp.session.section2_help_link')}</Link>{t('step0_camp.session.section2_help_end')}
+                      </p>
                       <div className="insc-discipline-grid">
                         <label className={`insc-discipline-card insc-discipline-card--lutte${form.campDiscipline === 'lutte' ? ' is-active' : ''}`}>
                           <input
@@ -1633,9 +1585,9 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                             className="insc-sr"
                           />
                           <span className="insc-discipline-card-icon">{ICON_LUTTE}</span>
-                          <span className="insc-discipline-card-name">LUTTE</span>
-                          <span className="insc-discipline-card-place">Daghestan · Makhachkala</span>
-                          <span className="insc-discipline-card-meta">15 places · ouvert à tous les niveaux</span>
+                          <span className="insc-discipline-card-name">{t('step0_camp.session.discipline_lutte.name')}</span>
+                          <span className="insc-discipline-card-place">{t('step0_camp.session.discipline_lutte.place')}</span>
+                          <span className="insc-discipline-card-meta">{t('step0_camp.session.discipline_lutte.meta')}</span>
                           {form.session && (
                             <PlacesRestantes
                               sessionId={form.session}
@@ -1655,9 +1607,9 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                             className="insc-sr"
                           />
                           <span className="insc-discipline-card-icon">{ICON_MMA}</span>
-                          <span className="insc-discipline-card-name">MMA</span>
-                          <span className="insc-discipline-card-place">Tchétchénie · Grozny</span>
-                          <span className="insc-discipline-card-meta">15 places · niveau Avancé minimum</span>
+                          <span className="insc-discipline-card-name">{t('step0_camp.session.discipline_mma.name')}</span>
+                          <span className="insc-discipline-card-place">{t('step0_camp.session.discipline_mma.place')}</span>
+                          <span className="insc-discipline-card-meta">{t('step0_camp.session.discipline_mma.meta')}</span>
                           {form.session && (
                             <PlacesRestantes
                               sessionId={form.session}
@@ -1672,12 +1624,18 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                         form.niveau && !MMA_ACCEPTED_LEVELS.has(form.niveau) ? (
                           <div className="insc-banner insc-banner--warn">
                             <Icon name="alert" size={16} />
-                            <span>Le camp MMA exige un niveau <strong>Avancé</strong> ou <strong>Compétiteur</strong>. Ton niveau actuel ({form.niveau}) ne permet pas l&apos;inscription. Choisis Lutte, ou ajuste ton niveau à l&apos;étape Expérience.</span>
+                            <span>
+                              {t('step0_camp.session.mma_alert_blocked.prefix')}
+                              <strong>{t('step0_camp.session.mma_alert_blocked.strong1')}</strong>
+                              {t('step0_camp.session.mma_alert_blocked.middle')}
+                              <strong>{t('step0_camp.session.mma_alert_blocked.strong2')}</strong>
+                              {t('step0_camp.session.mma_alert_blocked.suffix', { niveau: form.niveau })}
+                            </span>
                           </div>
                         ) : (
                           <div className="insc-banner insc-banner--warn-light">
                             <Icon name="info" size={14} />
-                            <span>Niveau Avancé minimum exigé pour le camp MMA. Tu confirmeras ton niveau à l&apos;étape Expérience.</span>
+                            <span>{t('step0_camp.session.mma_alert_warn.prefix')}</span>
                           </div>
                         )
                       )}
@@ -1685,13 +1643,13 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
 
                     <div className="insc-camp-section">
                       <span className="insc-camp-section-num">3</span>
-                      <h2 className="insc-camp-section-label">Combien de temps ?</h2>
-                      <p className="insc-camp-section-help">Tu choisis 1, 2 ou 3 semaines au sein de la fenêtre de session officielle.</p>
+                      <h2 className="insc-camp-section-label">{t('step0_camp.session.section3_label')}</h2>
+                      <p className="insc-camp-section-help">{t('step0_camp.session.section3_help')}</p>
                       <div className="insc-duration-grid">
                         {[
-                          { val: '1-semaine', weeks: 1, label: '1 semaine', sub: 'Initiation intense' },
-                          { val: '2-semaines', weeks: 2, label: '2 semaines', sub: 'Vraie progression' },
-                          { val: '3-semaines', weeks: 3, label: '3 semaines', sub: 'Immersion complète' },
+                          { val: '1-semaine', weeks: 1 as const },
+                          { val: '2-semaines', weeks: 2 as const },
+                          { val: '3-semaines', weeks: 3 as const },
                         ].map(opt => (
                           <label key={opt.val} className={`insc-duration-card${form.duree === opt.val ? ' is-active' : ''}`}>
                             <input
@@ -1702,9 +1660,9 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                               onChange={() => set('duree', opt.val)}
                               className="insc-sr"
                             />
-                            <span className="insc-duration-card-label">{opt.label}</span>
-                            <span className="insc-duration-card-sub">{opt.sub}</span>
-                            <span className="insc-duration-card-price">{formatEUR(PRICING_TIERS.duo.perAdult[opt.weeks as 1|2|3])} / adulte</span>
+                            <span className="insc-duration-card-label">{t(`step0_camp.session.duration_options.${opt.val}.label`)}</span>
+                            <span className="insc-duration-card-sub">{t(`step0_camp.session.duration_options.${opt.val}.sub`)}</span>
+                            <span className="insc-duration-card-price">{t('step0_camp.session.duration_per_adult', { price: formatEUR(PRICING_TIERS.duo.perAdult[opt.weeks]) })}</span>
                           </label>
                         ))}
                       </div>
@@ -1712,66 +1670,63 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                   </>
                 )}
 
-                {/* Audience: CAMP SUR MESURE — discipline + composition + dates en cards visuelles */}
+                {/* CUSTOM */}
                 {audience === 'custom' && (
                   <>
                     <div className="insc-camp-section">
                       <span className="insc-camp-section-num">1</span>
-                      <h2 className="insc-camp-section-label">Quelle discipline ?</h2>
-                      <p className="insc-camp-section-help">Lutte au Daghestan, MMA en Tchétchénie, ou le combo des deux destinations. Le combo se vit en séquentiel (X jours Daghestan puis Y jours Tchétchénie) et est tarifé sur devis.</p>
+                      <h2 className="insc-camp-section-label">{t('step0_camp.custom.section1_label')}</h2>
+                      <p className="insc-camp-section-help">{t('step0_camp.custom.section1_help')}</p>
                       <div className="insc-discipline-grid">
                         <label className={`insc-discipline-card insc-discipline-card--lutte${form.campDiscipline === 'lutte' ? ' is-active' : ''}`}>
                           <input type="radio" name="campDiscipline" value="lutte" checked={form.campDiscipline === 'lutte'} onChange={() => set('campDiscipline', 'lutte')} className="insc-sr" />
                           <span className="insc-discipline-card-icon">{ICON_LUTTE}</span>
-                          <span className="insc-discipline-card-name">LUTTE</span>
-                          <span className="insc-discipline-card-place">Daghestan · Makhachkala</span>
-                          <span className="insc-discipline-card-meta">Tarifs publics · tous niveaux</span>
+                          <span className="insc-discipline-card-name">{t('step0_camp.custom.discipline_lutte.name')}</span>
+                          <span className="insc-discipline-card-place">{t('step0_camp.custom.discipline_lutte.place')}</span>
+                          <span className="insc-discipline-card-meta">{t('step0_camp.custom.discipline_lutte.meta')}</span>
                         </label>
                         <label className={`insc-discipline-card insc-discipline-card--mma${form.campDiscipline === 'mma' ? ' is-active' : ''}`}>
                           <input type="radio" name="campDiscipline" value="mma" checked={form.campDiscipline === 'mma'} onChange={() => set('campDiscipline', 'mma')} className="insc-sr" />
                           <span className="insc-discipline-card-icon">{ICON_MMA}</span>
-                          <span className="insc-discipline-card-name">MMA</span>
-                          <span className="insc-discipline-card-place">Tchétchénie · Grozny</span>
-                          <span className="insc-discipline-card-meta">Niveau Avancé minimum · tarifs publics</span>
+                          <span className="insc-discipline-card-name">{t('step0_camp.custom.discipline_mma.name')}</span>
+                          <span className="insc-discipline-card-place">{t('step0_camp.custom.discipline_mma.place')}</span>
+                          <span className="insc-discipline-card-meta">{t('step0_camp.custom.discipline_mma.meta')}</span>
                         </label>
                         <label className={`insc-discipline-card insc-discipline-card--combo${form.campDiscipline === 'combo_quote' ? ' is-active' : ''}`} style={{ gridColumn: '1 / -1' }}>
                           <input type="radio" name="campDiscipline" value="combo_quote" checked={form.campDiscipline === 'combo_quote'} onChange={() => set('campDiscipline', 'combo_quote')} className="insc-sr" />
                           <span className="insc-discipline-card-icon">{ICON_COMBO}</span>
-                          <span className="insc-discipline-card-name">COMBO LUTTE + MMA</span>
-                          <span className="insc-discipline-card-place">Daghestan puis Tchétchénie</span>
-                          <span className="insc-discipline-card-meta">Durée mini 2 semaines · tarif fixé en visio</span>
+                          <span className="insc-discipline-card-name">{t('step0_camp.custom.discipline_combo.name')}</span>
+                          <span className="insc-discipline-card-place">{t('step0_camp.custom.discipline_combo.place')}</span>
+                          <span className="insc-discipline-card-meta">{t('step0_camp.custom.discipline_combo.meta')}</span>
                         </label>
                       </div>
                       {form.campDiscipline === 'mma' && (
                         <div className="insc-banner insc-banner--warn-light">
                           <Icon name="info" size={14} />
-                          <span>Niveau Avancé minimum exigé pour le camp MMA. Tu confirmeras ton niveau à l&apos;étape Expérience.</span>
+                          <span>{t('step0_camp.custom.mma_alert_warn')}</span>
                         </div>
                       )}
                     </div>
 
                     <div className="insc-camp-section">
                       <span className="insc-camp-section-num">2</span>
-                      <h2 className="insc-camp-section-label">Vous êtes combien ?</h2>
-                      <p className="insc-camp-section-help">1 à 4 adultes. Pour 5+ : <Link href="/inscription?type=groupe" className="insc-inline-link">Club & Groupe</Link>. Avec un enfant : <Link href="/inscription?type=famille" className="insc-inline-link">Famille</Link>.</p>
+                      <h2 className="insc-camp-section-label">{t('step0_camp.custom.section2_label')}</h2>
+                      <p className="insc-camp-section-help">
+                        {t('step0_camp.custom.section2_help_prefix')}<Link href="/inscription?type=groupe" className="insc-inline-link">{t('step0_camp.custom.section2_help_link_groupe')}</Link>{t('step0_camp.custom.section2_help_middle')}<Link href="/inscription?type=famille" className="insc-inline-link">{t('step0_camp.custom.section2_help_link_famille')}</Link>{t('step0_camp.custom.section2_help_end')}
+                      </p>
                       <div className="insc-compo-grid">
-                        {[
-                          { val: '1', label: 'Solo', sub: '1 adulte' },
-                          { val: '2', label: 'Duo', sub: '2 adultes' },
-                          { val: '3', label: 'Trio', sub: '3 adultes' },
-                          { val: '4', label: 'Quatuor', sub: '4 adultes' },
-                        ].map(opt => (
-                          <label key={opt.val} className={`insc-compo-card${form.nombreParticipants === opt.val ? ' is-active' : ''}`}>
+                        {(['1', '2', '3', '4'] as const).map(val => (
+                          <label key={val} className={`insc-compo-card${form.nombreParticipants === val ? ' is-active' : ''}`}>
                             <input
                               type="radio"
                               name="nombreParticipants"
-                              value={opt.val}
-                              checked={form.nombreParticipants === opt.val}
-                              onChange={() => syncCustomParticipants(opt.val)}
+                              value={val}
+                              checked={form.nombreParticipants === val}
+                              onChange={() => syncCustomParticipants(val)}
                               className="insc-sr"
                             />
-                            <span className="insc-compo-card-label">{opt.label}</span>
-                            <span className="insc-compo-card-sub">{opt.sub}</span>
+                            <span className="insc-compo-card-label">{t(`step0_camp.custom.compo_options.${val}.label`)}</span>
+                            <span className="insc-compo-card-sub">{t(`step0_camp.custom.compo_options.${val}.sub`)}</span>
                           </label>
                         ))}
                       </div>
@@ -1780,40 +1735,40 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                     {form.autresParticipants.length > 0 && (
                       <div className="insc-camp-section">
                         <span className="insc-camp-section-num">{form.autresParticipants.length > 0 ? '·' : '3'}</span>
-                        <h2 className="insc-camp-section-label">Les autres participants</h2>
-                        <p className="insc-camp-section-help">Prénom et niveau pour chaque accompagnant. Santé collectée après validation du devis.</p>
+                        <h2 className="insc-camp-section-label">{t('step0_camp.custom.participants_section_label')}</h2>
+                        <p className="insc-camp-section-help">{t('step0_camp.custom.participants_section_help')}</p>
                         {form.autresParticipants.map((p, i) => (
                           <div key={i} className="insc-child-card">
                             <div className="insc-child-card-head">
-                              <strong>Participant {i + 2}</strong>
+                              <strong>{t('step0_camp.custom.participant_label', { n: i + 2 })}</strong>
                             </div>
                             <div className="cand-row">
-                              <Field label="Prénom">
+                              <Field label={t('step0_camp.custom.participant_fields.prenom.label')}>
                                 <input
                                   className={`cand-input${errorFields.has(`autresParticipants.${i}.prenom`) ? ' has-error' : ''}`}
-                                  type="text" placeholder="Prénom"
+                                  type="text" placeholder={t('step0_camp.custom.participant_fields.prenom.placeholder')}
                                   value={p.prenom}
                                   aria-invalid={errorFields.has(`autresParticipants.${i}.prenom`) || undefined}
                                   onChange={e => updateParticipant(i, { prenom: e.target.value })} />
                               </Field>
-                              <Field label="Niveau">
+                              <Field label={t('step0_camp.custom.participant_fields.niveau.label')}>
                                 <select
                                   className={`cand-select${errorFields.has(`autresParticipants.${i}.niveau`) ? ' has-error' : ''}`}
                                   value={p.niveau}
                                   aria-invalid={errorFields.has(`autresParticipants.${i}.niveau`) || undefined}
                                   onChange={e => updateParticipant(i, { niveau: e.target.value })}>
-                                  <option value="" disabled>Sélectionner</option>
-                                  <option value="debutant">Débutant</option>
-                                  <option value="intermediaire">Intermédiaire</option>
-                                  <option value="avance">Avancé</option>
-                                  <option value="competiteur">Compétiteur</option>
+                                  <option value="" disabled>{t('experience.select_placeholder')}</option>
+                                  <option value="debutant">{t('experience.niveau_options_custom.debutant')}</option>
+                                  <option value="intermediaire">{t('experience.niveau_options_custom.intermediaire')}</option>
+                                  <option value="avance">{t('experience.niveau_options_custom.avance')}</option>
+                                  <option value="competiteur">{t('experience.niveau_options_custom.competiteur')}</option>
                                 </select>
                               </Field>
                             </div>
-                            <Field label="Discipline principale" hint="Optionnel">
+                            <Field label={t('step0_camp.custom.participant_fields.discipline.label')} hint={t('step0_camp.custom.participant_fields.discipline.hint')}>
                               <select className="cand-select" value={p.discipline}
                                 onChange={e => updateParticipant(i, { discipline: e.target.value })}>
-                                <option value="">Sélectionner (optionnel)</option>
+                                <option value="">{t('experience.discipline_options_placeholder_optional')}</option>
                                 {DISCIPLINES.map(d => <option key={d} value={d}>{d}</option>)}
                               </select>
                             </Field>
@@ -1824,10 +1779,10 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
 
                     <div className="insc-camp-section">
                       <span className="insc-camp-section-num">{form.autresParticipants.length > 0 ? '4' : '3'}</span>
-                      <h2 className="insc-camp-section-label">Quand et combien de temps ?</h2>
-                      <p className="insc-camp-section-help">Réservation 90 jours minimum avant le départ pour gérer visa, vol et organisation.</p>
+                      <h2 className="insc-camp-section-label">{t('step0_camp.custom.section3_label')}</h2>
+                      <p className="insc-camp-section-help">{t('step0_camp.custom.section3_help')}</p>
                       <div className="cand-row">
-                        <Field label="Date de début souhaitée">
+                        <Field label={t('step0_camp.custom.fields.date_debut.label')}>
                           <input
                             className={`cand-input${errorFields.has('dateDebutSouhaitee') ? ' has-error' : ''}`}
                             type="date"
@@ -1840,7 +1795,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                             aria-invalid={errorFields.has('dateDebutSouhaitee') || undefined}
                             onChange={e => set('dateDebutSouhaitee', e.target.value)} />
                         </Field>
-                        <Field label="Durée">
+                        <Field label={t('step0_camp.custom.fields.duree.label')}>
                           {(() => {
                             const adults = Math.max(1, parseInt(form.nombreParticipants || '1', 10))
                             return (
@@ -1849,100 +1804,103 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                                 value={form.duree}
                                 aria-invalid={errorFields.has('duree') || undefined}
                                 onChange={e => set('duree', e.target.value)}>
-                                <option value="" disabled>Sélectionner</option>
-                                <option value="1-semaine">1 semaine · {formatEUR(pricePerAdult(adults, 1))} / adulte</option>
-                                <option value="2-semaines">2 semaines · {formatEUR(pricePerAdult(adults, 2))} / adulte</option>
-                                <option value="3-semaines">3 semaines · {formatEUR(pricePerAdult(adults, 3))} / adulte</option>
+                                <option value="" disabled>{t('experience.select_placeholder')}</option>
+                                <option value="1-semaine">{t('step0_camp.custom.duration_select_label', { weeks_label: t('step0_camp.custom.duration_labels.1-semaine'), price: formatEUR(pricePerAdult(adults, 1)) })}</option>
+                                <option value="2-semaines">{t('step0_camp.custom.duration_select_label', { weeks_label: t('step0_camp.custom.duration_labels.2-semaines'), price: formatEUR(pricePerAdult(adults, 2)) })}</option>
+                                <option value="3-semaines">{t('step0_camp.custom.duration_select_label', { weeks_label: t('step0_camp.custom.duration_labels.3-semaines'), price: formatEUR(pricePerAdult(adults, 3)) })}</option>
                               </select>
                             )
                           })()}
                         </Field>
                       </div>
 
-                      {/* Estimation tarif live custom */}
                       {(() => {
                         const adults = Math.max(1, parseInt(form.nombreParticipants || '0', 10))
                         const weeks = parseDuration(form.duree)
                         if (!adults || !weeks || form.campDiscipline === 'combo_quote') return null
                         const total = calculatePrice({ adults, children: 0, weeks })
                         if (total <= 0) return null
+                        const breakdownKey = adults === 1 && weeks === 1
+                          ? 'estimation_breakdown_one_adult_one_week'
+                          : adults === 1
+                            ? 'estimation_breakdown_one_adult_weeks'
+                            : weeks === 1
+                              ? 'estimation_breakdown_adults_one_week'
+                              : 'estimation_breakdown_adults_weeks'
                         return (
                           <div className="insc-banner insc-banner--success">
-                            <strong>Estimation : {formatEUR(total)}</strong>
-                            <span>{adults} adulte{adults > 1 ? 's' : ''} × {formatEUR(pricePerAdult(adults, weeks))} sur {weeks} semaine{weeks > 1 ? 's' : ''}. Tarif définitif confirmé en visio.</span>
+                            <strong>{t('step0_camp.custom.estimation_total_label', { price: formatEUR(total) })}</strong>
+                            <span>{t(`step0_camp.custom.${breakdownKey}`, { adults, weeks, price_per_adult: formatEUR(pricePerAdult(adults, weeks)) })}</span>
                           </div>
                         )
                       })()}
                       {form.campDiscipline === 'combo_quote' && form.duree && (
                         <div className="insc-banner insc-banner--quote">
-                          <strong>Combo sur devis</strong>
-                          <span>Le split Daghestan / Tchétchénie et le tarif final sont fixés en visio de cadrage avec Ruslan.</span>
+                          <strong>{t('step0_camp.custom.combo_quote.title')}</strong>
+                          <span>{t('step0_camp.custom.combo_quote.body')}</span>
                         </div>
                       )}
                     </div>
                   </>
                 )}
 
-                {/* ───────────────────────────────────────────────
-                    AUDIENCE: GROUPE / CLUB
-                    100% devis : Ruslan recontacte.
-                    1) Discipline visée
-                    2) Dates indicatives + durée (modifiables en visio)
-                    ─────────────────────────────────────────────── */}
+                {/* GROUPE */}
                 {audience === 'groupe' && (
                   <>
                     <div className="insc-banner insc-banner--quote">
-                      <strong>Demande de devis personnalisé</strong>
-                      <span>Aucun paiement à ce stade. On collecte juste l&apos;essentiel pour que Ruslan te recontacte avec une offre adaptée. Dates, composition et santé seront affinées après acceptation du devis.</span>
+                      <strong>{t('step0_camp.groupe.banner.title')}</strong>
+                      <span>{t('step0_camp.groupe.banner.body')}</span>
                     </div>
 
                     <div className="insc-camp-section">
                       <span className="insc-camp-section-num">1</span>
-                      <h2 className="insc-camp-section-label">Discipline visée</h2>
-                      <p className="insc-camp-section-help">Lutte au Daghestan, MMA en Tchétchénie, ou un combo des deux destinations. MKR adapte le programme et la destination selon ton choix.</p>
+                      <h2 className="insc-camp-section-label">{t('step0_camp.groupe.section1_label')}</h2>
+                      <p className="insc-camp-section-help">{t('step0_camp.groupe.section1_help')}</p>
                       <div className="insc-discipline-grid">
                         <label className={`insc-discipline-card insc-discipline-card--lutte${form.campDiscipline === 'lutte' ? ' is-active' : ''}`}>
                           <input type="radio" name="campDiscipline" value="lutte" checked={form.campDiscipline === 'lutte'} onChange={() => set('campDiscipline', 'lutte')} className="insc-sr" />
                           <span className="insc-discipline-card-icon">{ICON_LUTTE}</span>
-                          <span className="insc-discipline-card-name">LUTTE</span>
-                          <span className="insc-discipline-card-place">Daghestan · Makhachkala</span>
-                          <span className="insc-discipline-card-meta">Tout le club au camp Lutte, ouvert à tous les niveaux</span>
+                          <span className="insc-discipline-card-name">{t('step0_camp.groupe.discipline_lutte.name')}</span>
+                          <span className="insc-discipline-card-place">{t('step0_camp.groupe.discipline_lutte.place')}</span>
+                          <span className="insc-discipline-card-meta">{t('step0_camp.groupe.discipline_lutte.meta')}</span>
                         </label>
                         <label className={`insc-discipline-card insc-discipline-card--mma${form.campDiscipline === 'mma' ? ' is-active' : ''}`}>
                           <input type="radio" name="campDiscipline" value="mma" checked={form.campDiscipline === 'mma'} onChange={() => set('campDiscipline', 'mma')} className="insc-sr" />
                           <span className="insc-discipline-card-icon">{ICON_MMA}</span>
-                          <span className="insc-discipline-card-name">MMA</span>
-                          <span className="insc-discipline-card-place">Tchétchénie · Grozny</span>
-                          <span className="insc-discipline-card-meta">Profil avancé requis pour tout le groupe</span>
+                          <span className="insc-discipline-card-name">{t('step0_camp.groupe.discipline_mma.name')}</span>
+                          <span className="insc-discipline-card-place">{t('step0_camp.groupe.discipline_mma.place')}</span>
+                          <span className="insc-discipline-card-meta">{t('step0_camp.groupe.discipline_mma.meta')}</span>
                         </label>
                         <label className={`insc-discipline-card${form.campDiscipline === 'combo_quote' ? ' is-active' : ''}`} style={{ gridColumn: '1 / -1' }}>
                           <input type="radio" name="campDiscipline" value="combo_quote" checked={form.campDiscipline === 'combo_quote'} onChange={() => set('campDiscipline', 'combo_quote')} className="insc-sr" />
                           <span className="insc-discipline-card-icon">{ICON_COMBO}</span>
-                          <span className="insc-discipline-card-name">COMBO LUTTE + MMA</span>
-                          <span className="insc-discipline-card-place">Daghestan puis Tchétchénie</span>
-                          <span className="insc-discipline-card-meta">Tarif et split fixés après cadrage visio</span>
+                          <span className="insc-discipline-card-name">{t('step0_camp.groupe.discipline_combo.name')}</span>
+                          <span className="insc-discipline-card-place">{t('step0_camp.groupe.discipline_combo.place')}</span>
+                          <span className="insc-discipline-card-meta">{t('step0_camp.groupe.discipline_combo.meta')}</span>
                         </label>
                       </div>
                     </div>
 
                     <div className="insc-camp-section">
                       <span className="insc-camp-section-num">2</span>
-                      <h2 className="insc-camp-section-label">Quand, et combien de temps ?</h2>
-                      <p className="insc-camp-section-help">Indique tes <strong>dates idéales</strong> et ta durée cible. Tout est modifiable pendant la visio de cadrage. On a besoin de 90 jours minimum entre l&apos;inscription et le départ pour gérer visas, vols et organisation.</p>
+                      <h2 className="insc-camp-section-label">{t('step0_camp.groupe.section2_label')}</h2>
+                      <p className="insc-camp-section-help">
+                        {t('step0_camp.groupe.section2_help_prefix')}<strong>{t('step0_camp.groupe.section2_help_strong')}</strong>{t('step0_camp.groupe.section2_help_suffix')}
+                      </p>
                       <div className="cand-row">
-                        <Field label="Date de début indicative">
+                        <Field label={t('step0_camp.groupe.fields.date_debut.label')}>
                           <input className="cand-input" type="date"
                             min={(() => { const d = new Date(); d.setDate(d.getDate() + 90); return d.toISOString().split('T')[0] })()}
                             value={form.dateDebutSouhaitee}
                             onChange={e => set('dateDebutSouhaitee', e.target.value)} />
                         </Field>
-                        <Field label="Durée cible">
+                        <Field label={t('step0_camp.groupe.fields.duree.label')}>
                           <select className="cand-select" value={form.duree}
                             onChange={e => set('duree', e.target.value)}>
-                            <option value="" disabled>Sélectionner</option>
-                            <option value="1-semaine">1 semaine</option>
-                            <option value="2-semaines">2 semaines</option>
-                            <option value="3-semaines">3 semaines (immersion complète)</option>
+                            <option value="" disabled>{t('experience.select_placeholder')}</option>
+                            <option value="1-semaine">{t('step0_camp.groupe.duration_options.1-semaine')}</option>
+                            <option value="2-semaines">{t('step0_camp.groupe.duration_options.2-semaines')}</option>
+                            <option value="3-semaines">{t('step0_camp.groupe.duration_options.3-semaines')}</option>
                           </select>
                         </Field>
                       </div>
@@ -1950,7 +1908,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                   </>
                 )}
 
-                {/* Audience: FAMILLE — cards visuelles harmonisées (format + composition + durée) */}
+                {/* FAMILLE */}
                 {audience === 'famille' && (
                   <>
                     <div className="insc-famille-hero">
@@ -1958,16 +1916,18 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                         <IconFamille />
                       </span>
                       <div className="insc-famille-hero-content">
-                        <span className="insc-famille-hero-label">TUNNEL FAMILLE</span>
-                        <strong className="insc-famille-hero-title">Camp Lutte au Daghestan (parent + enfant)</strong>
-                        <span className="insc-famille-hero-help">Lutte adultes + programme jeunesse 8-17 ans, sur le même camp. Pas de MMA en Famille (programme jeunesse Lutte uniquement). Pour une demande combo ou MMA, passe par <Link href="/inscription?type=custom" className="insc-inline-link">Sur Mesure</Link>.</span>
+                        <span className="insc-famille-hero-label">{t('step0_camp.famille.hero_label')}</span>
+                        <strong className="insc-famille-hero-title">{t('step0_camp.famille.hero_title')}</strong>
+                        <span className="insc-famille-hero-help">
+                          {t('step0_camp.famille.hero_help_prefix')}<Link href="/inscription?type=custom" className="insc-inline-link">{t('step0_camp.famille.hero_help_link')}</Link>{t('step0_camp.famille.hero_help_end')}
+                        </span>
                       </div>
                     </div>
 
                     <div className="insc-camp-section">
                       <span className="insc-camp-section-num">1</span>
-                      <h2 className="insc-camp-section-label">Choisis ton format</h2>
-                      <p className="insc-camp-section-help">Une de nos sessions officielles (calées sur les vacances scolaires) ou tes propres dates. Durée 1, 2 ou 3 semaines.</p>
+                      <h2 className="insc-camp-section-label">{t('step0_camp.famille.section1_label')}</h2>
+                      <p className="insc-camp-section-help">{t('step0_camp.famille.section1_help')}</p>
                       <div className="insc-format-grid">
                         {SESSIONS.map(s => {
                           const year = s.startDate.slice(0, 4)
@@ -1988,7 +1948,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                               <span className="insc-session-card-month">{s.monthAbbr}</span>
                               <span className="insc-session-card-season">{s.season} {year}</span>
                               <span className="insc-session-card-dates">{s.dates}</span>
-                              <span className="insc-session-card-intensity">Vacances scolaires</span>
+                              <span className="insc-session-card-intensity">{t('step0_camp.famille.session_card_intensity')}</span>
                             </label>
                           )
                         })}
@@ -2001,15 +1961,15 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                             onChange={() => { set('session', 'sur-mesure'); set('duree', '') }}
                             className="insc-sr"
                           />
-                          <span className="insc-session-card-month">SUR MESURE</span>
-                          <span className="insc-session-card-season">Vos dates</span>
-                          <span className="insc-session-card-dates">90 jours minimum</span>
-                          <span className="insc-session-card-intensity">Format adapté famille</span>
+                          <span className="insc-session-card-month">{t('step0_camp.famille.custom_card.month')}</span>
+                          <span className="insc-session-card-season">{t('step0_camp.famille.custom_card.season')}</span>
+                          <span className="insc-session-card-dates">{t('step0_camp.famille.custom_card.dates')}</span>
+                          <span className="insc-session-card-intensity">{t('step0_camp.famille.custom_card.intensity')}</span>
                         </label>
                       </div>
                       {form.session === 'sur-mesure' && (
                         <div className="cand-row" style={{ marginTop: '1rem' }}>
-                          <Field label="Date de début souhaitée" hint="Réservation 90 jours minimum avant">
+                          <Field label={t('step0_camp.famille.custom_date_field.label')} hint={t('step0_camp.famille.custom_date_field.hint')}>
                             <input
                               className={`cand-input${errorFields.has('dateDebutSouhaitee') ? ' has-error' : ''}`}
                               type="date"
@@ -2025,13 +1985,13 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
 
                     <div className="insc-camp-section">
                       <span className="insc-camp-section-num">2</span>
-                      <h2 className="insc-camp-section-label">Combien de temps ?</h2>
-                      <p className="insc-camp-section-help">Tu peux choisir 1, 2 ou 3 semaines.</p>
+                      <h2 className="insc-camp-section-label">{t('step0_camp.famille.section2_label')}</h2>
+                      <p className="insc-camp-section-help">{t('step0_camp.famille.section2_help')}</p>
                       <div className="insc-duration-grid">
                         {[
-                          { val: '1-semaine', weeks: 1, label: '1 semaine', sub: 'Initiation famille' },
-                          { val: '2-semaines', weeks: 2, label: '2 semaines', sub: 'Vraie progression' },
-                          { val: '3-semaines', weeks: 3, label: '3 semaines', sub: 'Immersion complète' },
+                          { val: '1-semaine', weeks: 1 as const },
+                          { val: '2-semaines', weeks: 2 as const },
+                          { val: '3-semaines', weeks: 3 as const },
                         ].map(opt => (
                           <label key={opt.val} className={`insc-duration-card${form.duree === opt.val ? ' is-active' : ''}`}>
                             <input
@@ -2042,9 +2002,9 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                               onChange={() => set('duree', opt.val)}
                               className="insc-sr"
                             />
-                            <span className="insc-duration-card-label">{opt.label}</span>
-                            <span className="insc-duration-card-sub">{opt.sub}</span>
-                            <span className="insc-duration-card-price">Forfait dès {formatEUR(FAMILY_PRICING.base[opt.weeks as 1|2|3])}</span>
+                            <span className="insc-duration-card-label">{t(`step0_camp.famille.duration_options.${opt.val}.label`)}</span>
+                            <span className="insc-duration-card-sub">{t(`step0_camp.famille.duration_options.${opt.val}.sub`)}</span>
+                            <span className="insc-duration-card-price">{t('step0_camp.famille.duration_price_prefix', { price: formatEUR(FAMILY_PRICING.base[opt.weeks]) })}</span>
                           </label>
                         ))}
                       </div>
@@ -2052,30 +2012,30 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
 
                     <div className="insc-camp-section">
                       <span className="insc-camp-section-num">3</span>
-                      <h2 className="insc-camp-section-label">Qui participe au camp ?</h2>
-                      <p className="insc-camp-section-help">Au moins un parent obligatoire. Enfants de 8 à 17 ans.</p>
+                      <h2 className="insc-camp-section-label">{t('step0_camp.famille.section3_label')}</h2>
+                      <p className="insc-camp-section-help">{t('step0_camp.famille.section3_help')}</p>
                       <div className="insc-toggle-grid">
                         <label className={`insc-toggle-card${!form.conjointParticipe ? ' is-active' : ''}`}>
                           <input type="radio" name="parents" value="solo" checked={!form.conjointParticipe} onChange={() => set('conjointParticipe', false)} className="insc-sr" />
-                          <span className="insc-toggle-card-label">1 parent</span>
-                          <span className="insc-toggle-card-sub">Forfait Parent + Enfant dès {formatEUR(FAMILY_PRICING.base[1])} (1er enfant inclus)</span>
+                          <span className="insc-toggle-card-label">{t('step0_camp.famille.parents_options.solo.label')}</span>
+                          <span className="insc-toggle-card-sub">{t('step0_camp.famille.parents_options.solo.sub', { price: formatEUR(FAMILY_PRICING.base[1]) })}</span>
                         </label>
                         <label className={`insc-toggle-card${form.conjointParticipe ? ' is-active' : ''}`}>
                           <input type="radio" name="parents" value="duo" checked={form.conjointParticipe} onChange={() => set('conjointParticipe', true)} className="insc-sr" />
-                          <span className="insc-toggle-card-label">2 parents</span>
-                          <span className="insc-toggle-card-sub">2 × {formatEUR(PRICING_TIERS.duo.perAdult[1])} (Solo/Duo) + {formatEUR(FAMILY_PRICING.extraChildPerWeek[1])}/enfant/sem</span>
+                          <span className="insc-toggle-card-label">{t('step0_camp.famille.parents_options.duo.label')}</span>
+                          <span className="insc-toggle-card-sub">{t('step0_camp.famille.parents_options.duo.sub', { price_adult: formatEUR(PRICING_TIERS.duo.perAdult[1]), price_child: formatEUR(FAMILY_PRICING.extraChildPerWeek[1]) })}</span>
                         </label>
                       </div>
 
                       <div className="insc-stepper">
-                        <span className="insc-stepper-label">Nombre d&apos;enfants</span>
+                        <span className="insc-stepper-label">{t('step0_camp.famille.stepper_label')}</span>
                         <div className="insc-stepper-controls">
                           <button
                             type="button"
                             className="insc-stepper-btn"
                             onClick={() => { if (form.enfants.length > 1) removeChild(form.enfants.length - 1) }}
                             disabled={form.enfants.length <= 1}
-                            aria-label="Retirer un enfant"
+                            aria-label={t('step0_camp.famille.stepper_remove_aria')}
                           >−</button>
                           <span className="insc-stepper-value" aria-live="polite">{form.enfants.length}</span>
                           <button
@@ -2083,49 +2043,66 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                             className="insc-stepper-btn"
                             onClick={addChild}
                             disabled={form.enfants.length >= 4}
-                            aria-label="Ajouter un enfant"
+                            aria-label={t('step0_camp.famille.stepper_add_aria')}
                           >+</button>
                         </div>
-                        <span className="insc-stepper-hint">Détails de chaque enfant à l&apos;étape Santé</span>
+                        <span className="insc-stepper-hint">{t('step0_camp.famille.stepper_hint')}</span>
                       </div>
                     </div>
 
-                    {/* Estimation tarif live famille */}
                     {(() => {
                       const weeks = parseDuration(form.duree)
                       if (!weeks || form.enfants.length === 0) return null
                       const adults = form.conjointParticipe ? 2 : 1
                       const total = calculatePrice({ adults, children: form.enfants.length, weeks })
                       if (total <= 0) return null
+                      const children = form.enfants.length
+                      // Pick the right breakdown key
+                      let breakdownKey: string
+                      if (adults === 1) {
+                        if (children === 1) {
+                          breakdownKey = weeks === 1 ? 'estimation_breakdown_one_parent_one_child_one_week' : 'estimation_breakdown_one_parent_one_child_weeks'
+                        } else {
+                          breakdownKey = weeks === 1 ? 'estimation_breakdown_one_parent_children_one_week' : 'estimation_breakdown_one_parent_children_weeks'
+                        }
+                      } else {
+                        if (children === 1) {
+                          breakdownKey = weeks === 1 ? 'estimation_breakdown_two_parents_one_child_one_week' : 'estimation_breakdown_two_parents_one_child_weeks'
+                        } else {
+                          breakdownKey = weeks === 1 ? 'estimation_breakdown_two_parents_children_one_week' : 'estimation_breakdown_two_parents_children_weeks'
+                        }
+                      }
                       return (
                         <div className="insc-banner insc-banner--primary">
-                          <strong>Estimation : {formatEUR(total)}</strong>
-                          <span>{adults} parent{adults > 1 ? 's' : ''} + {form.enfants.length} enfant{form.enfants.length > 1 ? 's' : ''} sur {weeks} semaine{weeks > 1 ? 's' : ''}.{' '}
-                            {adults === 1
-                              ? `Forfait ${formatEUR(FAMILY_PRICING.base[weeks])} (1P+1E inclus)${form.enfants.length > 1 ? ` + ${form.enfants.length - 1} × ${formatEUR(FAMILY_PRICING.extraChildPerWeek[weeks])}` : ''}`
-                              : `2 × ${formatEUR(PRICING_TIERS.duo.perAdult[weeks])} + ${form.enfants.length} × ${formatEUR(FAMILY_PRICING.extraChildPerWeek[weeks])}`}
-                          </span>
+                          <strong>{t('step0_camp.famille.estimation_total_label', { price: formatEUR(total) })}</strong>
+                          <span>{t(`step0_camp.famille.${breakdownKey}`, {
+                            weeks,
+                            children,
+                            extra: children - 1,
+                            price_forfait: formatEUR(FAMILY_PRICING.base[weeks]),
+                            price_extra: formatEUR(FAMILY_PRICING.extraChildPerWeek[weeks]),
+                            price_adult: formatEUR(PRICING_TIERS.duo.perAdult[weeks]),
+                          })}</span>
                         </div>
                       )
                     })()}
                   </>
                 )}
 
-                {/* Note redirection pour Session : pas de famille ici */}
+                {/* Note redirection famille pour session */}
                 {audience === 'session' && (
                   <div className="insc-banner insc-banner--info">
-                    <span>Tu viens avec ton enfant 8-17 ans ? <Link href="/inscription?type=famille" className="insc-inline-link">Choisis le tunnel Famille</Link> à la place : le formulaire est adapté (forfait Parent + Enfant dès {formatEUR(FAMILY_PRICING.base[1])} pour 1 semaine, 1er enfant inclus).</span>
+                    <span>
+                      {t('step0_camp.session_redirect_family.prefix')}<Link href="/inscription?type=famille" className="insc-inline-link">{t('step0_camp.session_redirect_family.link')}</Link>{t('step0_camp.session_redirect_family.suffix', { price: formatEUR(FAMILY_PRICING.base[1]) })}
+                    </span>
                   </div>
                 )}
 
               </div>
             )}
 
-            {/* ── STEP FINAL — Confirmation/Recap (par tunnel) ──
-                  session/custom/famille : step 4 (apres Sante)
-                  groupe : step 3 (apres Contact, pas de Sante) */}
+            {/* ── STEP FINAL — Confirmation/Recap ── */}
             {((step === 4 && audience !== 'groupe') || (step === 3 && audience === 'groupe')) && (() => {
-              // Calcul tarif unifié
               const weeks = parseDuration(form.duree)
               let adults = 0
               let enfants = 0
@@ -2147,130 +2124,121 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
 
               return (
               <div className="cand-panel">
-                {/* Tarif en encart visuel HAUT */}
                 <div className="insc-recap-price">
                   <div className="insc-recap-price-head">
-                    <span className="insc-recap-price-label">{isQuote ? 'Tarif' : isPriceFromOnly ? 'Estimation à partir de' : 'Total estimé'}</span>
+                    <span className="insc-recap-price-label">{isQuote ? t('summary.price_label_quote') : isPriceFromOnly ? t('summary.price_label_from') : t('summary.price_label_total')}</span>
                     <strong className="insc-recap-price-value">
-                      {isQuote ? 'Sur devis' : totalAmount > 0 ? formatEUR(totalAmount) : '—'}
+                      {isQuote ? t('sidebar.recap_rows.on_quote') : totalAmount > 0 ? formatEUR(totalAmount) : t('summary.price_dash')}
                     </strong>
                   </div>
                   {!isQuote && totalAmount > 0 && weeks && (
                     <span className="insc-recap-price-breakdown">
-                      {adults} adulte{adults > 1 ? 's' : ''}
-                      {enfants > 0 ? ` + ${enfants} enfant${enfants > 1 ? 's' : ''}` : ''}
-                      {' '}sur {weeks} semaine{weeks > 1 ? 's' : ''}
-                      {audience === 'famille' && adults === 1 ? ' · forfait Parent + Enfant' : ''}
+                      {adults === 1 ? t('summary.breakdown_adults_one') : t('summary.breakdown_adults_many', { count: adults })}
+                      {enfants > 0 ? (enfants === 1 ? t('summary.breakdown_children_one') : t('summary.breakdown_children_many', { count: enfants })) : ''}
+                      {weeks === 1 ? t('summary.breakdown_weeks_one') : t('summary.breakdown_weeks_many', { count: weeks })}
+                      {audience === 'famille' && adults === 1 ? t('summary.breakdown_family_forfait') : ''}
                     </span>
                   )}
                   {isQuote && (
                     <span className="insc-recap-price-breakdown">
                       {form.campDiscipline === 'combo_quote'
-                        ? 'Le tarif et le split Daghestan / Tchétchénie sont fixés en visio.'
-                        : 'À partir de 11 personnes : devis personnalisé en visio.'}
+                        ? t('summary.quote_combo')
+                        : t('summary.quote_groupe')}
                     </span>
                   )}
                 </div>
 
-                {/* 3 cartes récap : Identité · Camp · Détails */}
                 <div className="insc-recap-grid">
-
-                  <section className="insc-recap-card" aria-label="Identité">
+                  <section className="insc-recap-card" aria-label={audience === 'groupe' ? t('summary.cards.responsible') : t('summary.cards.candidate')}>
                     <header className="insc-recap-card-head">
                       <Icon name="user" size={16} />
-                      <span>{audience === 'groupe' ? 'Responsable' : 'Candidat'}</span>
+                      <span>{audience === 'groupe' ? t('summary.cards.responsible') : t('summary.cards.candidate')}</span>
                     </header>
                     <dl>
-                      <div><dt>Nom</dt><dd>{form.prenom} {form.nom}</dd></div>
-                      <div><dt>Email</dt><dd>{form.email}</dd></div>
-                      {form.telephone && <div><dt>Téléphone</dt><dd>{form.telephone}</dd></div>}
-                      <div><dt>Pays</dt><dd>{form.pays}</dd></div>
-                      {form.villeDepart && <div><dt>Départ</dt><dd>{form.villeDepart}</dd></div>}
+                      <div><dt>{t('summary.rows.name')}</dt><dd>{form.prenom} {form.nom}</dd></div>
+                      <div><dt>{t('summary.rows.email')}</dt><dd>{form.email}</dd></div>
+                      {form.telephone && <div><dt>{t('summary.rows.telephone')}</dt><dd>{form.telephone}</dd></div>}
+                      <div><dt>{t('summary.rows.country')}</dt><dd>{form.pays}</dd></div>
+                      {form.villeDepart && <div><dt>{t('summary.rows.departure')}</dt><dd>{form.villeDepart}</dd></div>}
                     </dl>
                   </section>
 
-                  <section className="insc-recap-card" aria-label="Camp">
+                  <section className="insc-recap-card" aria-label={t('summary.cards.camp')}>
                     <header className="insc-recap-card-head">
                       <Icon name="mountain" size={16} />
-                      <span>Camp</span>
+                      <span>{t('summary.cards.camp')}</span>
                     </header>
                     <dl>
-                      <div><dt>Type</dt><dd>{audienceConfig?.label}</dd></div>
+                      <div><dt>{t('summary.rows.type')}</dt><dd>{audienceConfig?.label}</dd></div>
                       {form.campDiscipline && (
-                        <div><dt>Discipline</dt><dd>
-                          {form.campDiscipline === 'lutte' && 'Lutte · Daghestan'}
-                          {form.campDiscipline === 'mma' && 'MMA · Tchétchénie'}
-                          {form.campDiscipline === 'combo_quote' && 'Combo Lutte + MMA'}
+                        <div><dt>{t('summary.rows.discipline')}</dt><dd>
+                          {form.campDiscipline === 'lutte' && t('summary.camp_disciplines.lutte')}
+                          {form.campDiscipline === 'mma' && t('summary.camp_disciplines.mma')}
+                          {form.campDiscipline === 'combo_quote' && t('summary.camp_disciplines.combo_quote')}
                         </dd></div>
                       )}
                       {audience === 'session' && (() => {
                         const sel = SESSIONS.find(s => s.id === form.session)
-                        return sel ? <div><dt>Session</dt><dd>{sel.season} · {sel.dates}</dd></div> : null
+                        return sel ? <div><dt>{t('summary.rows.session')}</dt><dd>{sel.season} · {sel.dates}</dd></div> : null
                       })()}
                       {audience === 'famille' && SESSION_IDS.includes(form.session) && (() => {
                         const sel = SESSIONS.find(s => s.id === form.session)
-                        return sel ? <div><dt>Format</dt><dd>Session {sel.season}</dd></div> : null
+                        return sel ? <div><dt>{t('summary.rows.format')}</dt><dd>{t('summary.rows.format_session', { season: sel.season })}</dd></div> : null
                       })()}
                       {audience === 'famille' && form.session === 'sur-mesure' && (
-                        <div><dt>Format</dt><dd>Sur mesure</dd></div>
+                        <div><dt>{t('summary.rows.format')}</dt><dd>{t('summary.rows.format_custom')}</dd></div>
                       )}
                       {(audience === 'custom' || audience === 'groupe' || (audience === 'famille' && form.session === 'sur-mesure')) && form.dateDebutSouhaitee && (
-                        <div><dt>Date</dt><dd>{form.dateDebutSouhaitee}</dd></div>
+                        <div><dt>{t('summary.rows.date')}</dt><dd>{form.dateDebutSouhaitee}</dd></div>
                       )}
-                      {form.duree && <div><dt>Durée</dt><dd>{form.duree.replace('-', ' ')}</dd></div>}
+                      {form.duree && <div><dt>{t('summary.rows.duration')}</dt><dd>{formatDurationLabel(form.duree)}</dd></div>}
                     </dl>
                   </section>
 
-                  <section className="insc-recap-card" aria-label="Détails">
+                  <section className="insc-recap-card" aria-label={audience === 'groupe' ? t('summary.cards.club') : t('summary.cards.profile')}>
                     <header className="insc-recap-card-head">
                       <Icon name="info" size={16} />
-                      <span>{audience === 'groupe' ? 'Club' : 'Profil'}</span>
+                      <span>{audience === 'groupe' ? t('summary.cards.club') : t('summary.cards.profile')}</span>
                     </header>
                     <dl>
                       {audience !== 'groupe' && form.disciplinePrincipale && (
                         <>
-                          <div><dt>Discipline d&apos;origine</dt><dd>{form.disciplinePrincipale}</dd></div>
-                          <div><dt>Niveau</dt><dd>{form.niveau}</dd></div>
-                          <div><dt>Années</dt><dd>{form.anneesPratique} ans</dd></div>
+                          <div><dt>{t('summary.rows.origin_discipline')}</dt><dd>{form.disciplinePrincipale}</dd></div>
+                          <div><dt>{t('summary.rows.level')}</dt><dd>{form.niveau}</dd></div>
+                          <div><dt>{t('summary.rows.years')}</dt><dd>{t('summary.rows.years_value', { years: form.anneesPratique })}</dd></div>
                         </>
                       )}
                       {audience === 'custom' && form.nombreParticipants && (
-                        <div><dt>Composition</dt><dd>
-                          {form.nombreParticipants === '1' && 'Solo'}
-                          {form.nombreParticipants === '2' && 'Duo'}
-                          {form.nombreParticipants === '3' && 'Trio'}
-                          {form.nombreParticipants === '4' && 'Quatuor'}
-                        </dd></div>
+                        <div><dt>{t('summary.rows.composition')}</dt><dd>{compositionLabel(form.nombreParticipants)}</dd></div>
                       )}
                       {audience === 'custom' && form.autresParticipants.length > 0 && (
-                        <div><dt>Avec</dt><dd>{form.autresParticipants.map(p => `${p.prenom || '?'} (${p.niveau || '?'})`).join(', ')}</dd></div>
+                        <div><dt>{t('summary.rows.with')}</dt><dd>{form.autresParticipants.map(p => `${p.prenom || '?'} (${p.niveau || '?'})`).join(', ')}</dd></div>
                       )}
                       {audience === 'famille' && (
                         <>
-                          <div><dt>Parents</dt><dd>{form.conjointParticipe ? '2' : '1'}</dd></div>
+                          <div><dt>{t('summary.rows.parents')}</dt><dd>{form.conjointParticipe ? '2' : '1'}</dd></div>
                           {form.enfants.length > 0 && (
-                            <div><dt>Enfants</dt><dd>{form.enfants.map((c, i) => `${c.prenom || `E${i+1}`} (${c.age || '?'}a)`).join(', ')}</dd></div>
+                            <div><dt>{t('summary.rows.children')}</dt><dd>{form.enfants.map((c, i) => `${c.prenom || `E${i+1}`} (${c.age || '?'}a)`).join(', ')}</dd></div>
                           )}
                         </>
                       )}
                       {audience === 'groupe' && (
                         <>
-                          {form.nomClub && <div><dt>Nom</dt><dd>{form.nomClub}</dd></div>}
-                          {form.nombreParticipants && <div><dt>Effectif</dt><dd>{form.nombreParticipants}</dd></div>}
-                          {form.niveauGroupe && <div><dt>Niveau</dt><dd>{form.niveauGroupe}</dd></div>}
+                          {form.nomClub && <div><dt>{t('summary.rows.name_club')}</dt><dd>{form.nomClub}</dd></div>}
+                          {form.nombreParticipants && <div><dt>{t('summary.rows.effectif')}</dt><dd>{form.nombreParticipants}</dd></div>}
+                          {form.niveauGroupe && <div><dt>{t('summary.rows.level')}</dt><dd>{form.niveauGroupe}</dd></div>}
                         </>
                       )}
                     </dl>
                   </section>
                 </div>
 
-                {/* Source découverte + message — collapsible pour ne pas alourdir */}
                 <details className="insc-extra-details" open={!!form.sourceDecouverte || !!form.message}>
-                  <summary>Détails supplémentaires (optionnel)</summary>
+                  <summary>{t('summary.extra_details_summary')}</summary>
                   <div className="insc-extra-details-body">
                     <Field
-                      label="Comment as-tu connu le camp ?"
-                      hint="Si tu choisis un partenaire ou un influenceur, on remplit ton code de recommandation automatiquement."
+                      label={t('summary.source_field.label')}
+                      hint={t('summary.source_field.hint')}
                     >
                       <select
                         className="cand-select"
@@ -2278,29 +2246,26 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                         onChange={e => {
                           const value = e.target.value
                           set('sourceDecouverte', value)
-                          // Auto-remplit le code uniquement si aucun autre code valide n'est déjà saisi.
-                          // Règle : "first valid code wins" pour éviter qu'un candidat soit attribué à deux partenaires.
                           const partner = findCodeBySourceValue(value)
                           if (!partner) return
                           const existing = findReferralCode(form.codeRecommandation)
                           if (existing && existing.code !== partner.code) {
-                            // Conflit : on n'overwrite pas. La notice ci-dessous explique au candidat ce qui sera attribué.
                             return
                           }
                           set('codeRecommandation', partner.code)
                         }}
                       >
-                        <option value="">— Optionnel —</option>
-                        <option value="instagram">Instagram</option>
-                        <option value="bouche-a-oreille">Bouche à oreille</option>
-                        <option value="coach">Recommandation de mon coach</option>
-                        <option value="google">Recherche Google</option>
+                        <option value="">{t('summary.source_field.placeholder')}</option>
+                        <option value="instagram">{t('summary.source_field.options.instagram')}</option>
+                        <option value="bouche-a-oreille">{t('summary.source_field.options.bouche_a_oreille')}</option>
+                        <option value="coach">{t('summary.source_field.options.coach')}</option>
+                        <option value="google">{t('summary.source_field.options.google')}</option>
                         {getPartnersWithSourceOption().map(p => (
                           <option key={p.code} value={p.sourceDecouverteValue}>
                             {p.sourceDecouverteLabel}
                           </option>
                         ))}
-                        <option value="autre">Autre</option>
+                        <option value="autre">{t('summary.source_field.options.autre')}</option>
                       </select>
                       {sourceCodeConflict && (
                         <span
@@ -2314,17 +2279,15 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                             lineHeight: 1.4,
                           }}
                         >
-                          Tu as déjà saisi le code <strong>{sourceCodeConflict.codePartnerCode}</strong> ({sourceCodeConflict.codePartnerName}).
-                          C'est lui qui sera attribué pour la recommandation, on ne peut pas combiner deux partenaires.
-                          {' '}Si tu veux que ce soit <strong>{sourceCodeConflict.sourcePartnerName}</strong> à la place, efface d'abord le code dans l'étape Identité.
+                          {t('summary.source_field.conflict_notice.prefix')}<strong>{sourceCodeConflict.codePartnerCode}</strong>{t('summary.source_field.conflict_notice.code_partner', { partnerName: sourceCodeConflict.codePartnerName })}<strong>{sourceCodeConflict.sourcePartnerName}</strong>{t('summary.source_field.conflict_notice.suffix')}
                         </span>
                       )}
                     </Field>
-                    <Field label={audience === 'groupe' ? 'Brief de ta demande (utile pour le devis)' : 'Questions ou informations complémentaires'}>
+                    <Field label={audience === 'groupe' ? t('summary.message_field_group.label') : t('summary.message_field_default.label')}>
                       <textarea className="cand-textarea" rows={4}
                         placeholder={audience === 'groupe'
-                          ? 'Détaille ton projet : objectifs du séjour, périodes envisagées, niveau hétérogène ou homogène, contraintes calendrier ou budget...'
-                          : 'Tes objectifs, tes attentes, toute information utile...'}
+                          ? t('summary.message_field_group.placeholder')
+                          : t('summary.message_field_default.placeholder')}
                         value={form.message}
                         onChange={e => set('message', e.target.value)} />
                     </Field>
@@ -2341,7 +2304,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                           aria-invalid={errorFields.has('accepteConditions') || undefined}
                           onChange={e => set('accepteConditions', e.target.checked)}
                         />
-                        <span>J&apos;autorise Ruslan (MKR) à me contacter par email, téléphone ou WhatsApp pour cadrer le séjour et m&apos;envoyer un devis personnalisé. Aucun paiement n&apos;est prélevé à cette étape. J&apos;accepte les <Link href="/politique-de-confidentialite" target="_blank" rel="noopener" className="insc-inline-link">conditions de traitement de mes données</Link>.</span>
+                        <span>{t('summary.confirms_groupe.accepte_conditions_prefix')}<Link href="/politique-de-confidentialite" target="_blank" rel="noopener" className="insc-inline-link">{t('summary.confirms_groupe.accepte_conditions_link')}</Link>{t('summary.confirms_groupe.accepte_conditions_suffix')}</span>
                       </label>
                     </>
                   ) : (
@@ -2353,7 +2316,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                           aria-invalid={errorFields.has('certifMedical') || undefined}
                           onChange={e => set('certifMedical', e.target.checked)}
                         />
-                        <span>Je m&apos;engage à fournir un certificat médical d&apos;aptitude à la pratique sportive intensive avant le départ.</span>
+                        <span>{t('summary.confirms_default.certif_medical')}</span>
                       </label>
                       <label className={`cand-confirm${form.accepteConditions ? ' selected' : ''}`}>
                         <input
@@ -2362,7 +2325,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                           aria-invalid={errorFields.has('accepteConditions') || undefined}
                           onChange={e => set('accepteConditions', e.target.checked)}
                         />
-                        <span>J&apos;accepte les <Link href="/cgv" target="_blank" rel="noopener" className="insc-inline-link">conditions générales du camp</Link> (rythme intensif, règles de vie collective, discipline de groupe) et la <Link href="/politique-de-confidentialite" target="_blank" rel="noopener" className="insc-inline-link">politique de confidentialité</Link>.</span>
+                        <span>{t('summary.confirms_default.accepte_conditions_prefix')}<Link href="/cgv" target="_blank" rel="noopener" className="insc-inline-link">{t('summary.confirms_default.accepte_conditions_link_cgv')}</Link>{t('summary.confirms_default.accepte_conditions_middle')}<Link href="/politique-de-confidentialite" target="_blank" rel="noopener" className="insc-inline-link">{t('summary.confirms_default.accepte_conditions_link_privacy')}</Link>{t('summary.confirms_default.accepte_conditions_suffix')}</span>
                       </label>
                       <label className={`cand-confirm${form.pret ? ' selected' : ''}`}>
                         <input
@@ -2371,7 +2334,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                           aria-invalid={errorFields.has('pret') || undefined}
                           onChange={e => set('pret', e.target.checked)}
                         />
-                        <span>Je suis prêt(e) à passer l&apos;entretien vidéo de sélection et à fournir une vidéo de ma pratique si demandé.</span>
+                        <span>{t('summary.confirms_default.pret')}</span>
                       </label>
                     </>
                   )}
@@ -2384,7 +2347,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
               <div ref={errorsRef} className="cand-errors insc-errors" role="alert" aria-live="assertive">
                 <div className="insc-errors-head">
                   <Icon name="alert" size={16} />
-                  <strong>{errors.length === 1 ? 'Un champ à compléter' : `${errors.length} champs à compléter`}</strong>
+                  <strong>{errors.length === 1 ? t('errors.single') : t('errors.many', { count: errors.length })}</strong>
                 </div>
                 <ul className="insc-errors-list">
                   {errors.map((e, i) => <li key={i}>{e}</li>)}
@@ -2396,12 +2359,12 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
               {step > 0 && (
                 <button type="button" className="cand-btn-back" onClick={prev}>
                   <Icon name="arrow-left" size={14} />
-                  Retour
+                  {t('nav.back')}
                 </button>
               )}
               {step < STEPS.length - 1 ? (
                 <button type="button" className="cand-btn-next insc-btn-primary" onClick={next}>
-                  Étape suivante
+                  {t('nav.next')}
                   <Icon name="arrow-right" size={14} />
                 </button>
               ) : (
@@ -2416,11 +2379,11 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                       <span className="insc-spinner">
                         <Icon name="spinner" size={14} />
                       </span>
-                      ENVOI EN COURS…
+                      {t('nav.submit_sending')}
                     </>
                   ) : (
                     <>
-                      ENVOYER MA CANDIDATURE
+                      {t('nav.submit')}
                       <Icon name="check" size={14} />
                     </>
                   )}
