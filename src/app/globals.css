@@ -445,6 +445,10 @@ h1, h2, h3, h4, h5 {
 @media (min-width: 1024px) and (max-width: 1499px) {
   .hero-h1 { font-size: clamp(3rem, 6.5vw, 6.5rem); max-width: calc(100vw - 520px); }
 }
+@media (max-width: 480px) {
+  /* iPhone 12 mini / 13 mini / SE : garde les 3 lignes du <br /> sans wrap supplémentaire */
+  .hero-h1 { font-size: clamp(2.35rem, 10.2vw, 2.9rem); letter-spacing: 0.02em; }
+}
 .hero-h1 .highlight { color: var(--primary); }
 .hero-subtitle {
   font-family: var(--font-barlow-condensed), sans-serif;
