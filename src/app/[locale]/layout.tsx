@@ -288,13 +288,6 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdMain) }}
         />
-        {/* Marker teaser pre-hydration : signale a SiteLoader d'attendre l'event mkr-teaser-end
-            avant de demarrer sa sequence GSAP. Auto-cleanup post 2026-05-27. */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `(function(){try{if(Date.now()>=new Date('2026-05-27T00:00:00Z').getTime())return;if(localStorage.getItem('mkr_teaser_seen_2026_05_v1')==='1')return;if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;document.documentElement.setAttribute('data-teaser-active','1');}catch(e){}})();`,
-          }}
-        />
       </head>
       <body>
         <NextIntlClientProvider messages={messages} locale={locale}>

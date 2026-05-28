@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import { usePathname } from 'next/navigation'
 
 const MIN_DURATION = 600
+const SAFETY_TIMEOUT = 4000
 
 export default function SiteLoader() {
   const pathname = usePathname()
@@ -17,9 +18,13 @@ export default function SiteLoader() {
     const reducedMotion =
       window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false
     let cancelled = false
-    let teaserCleanup: (() => void) | null = null
+    let safetyTimer: number | null = null
 
     const finish = () => {
+      if (safetyTimer !== null) {
+        window.clearTimeout(safetyTimer)
+        safetyTimer = null
+      }
       setMounted(false)
       document.documentElement.classList.remove('is-loading')
     }
@@ -27,6 +32,13 @@ export default function SiteLoader() {
     const startSequence = () => {
       if (cancelled) return
       document.documentElement.classList.add('is-loading')
+
+      // Filet de securite : si GSAP echoue a charger (bloqueur, reseau coupe,
+      // hydration cassee), on dismiss le loader apres SAFETY_TIMEOUT pour
+      // garantir qu'aucun visiteur ne reste bloque sur le preloader.
+      safetyTimer = window.setTimeout(() => {
+        if (!cancelled) finish()
+      }, SAFETY_TIMEOUT)
 
       if (reducedMotion) {
         finish()
@@ -97,27 +109,11 @@ export default function SiteLoader() {
         )
     }
 
-    // Si le TeaserSplash est actif (data-teaser-active='1' pose sur <html>),
-    // on attend l'event `mkr-teaser-end` avant de demarrer la sequence loader.
-    // Sinon (visite normale ou teaser deja vu), on demarre immediatement.
-    const teaserActive =
-      document.documentElement.getAttribute('data-teaser-active') === '1'
-
-    if (teaserActive) {
-      const onTeaserEnd = () => {
-        teaserCleanup?.()
-        teaserCleanup = null
-        startSequence()
-      }
-      window.addEventListener('mkr-teaser-end', onTeaserEnd, { once: true })
-      teaserCleanup = () => window.removeEventListener('mkr-teaser-end', onTeaserEnd)
-    } else {
-      startSequence()
-    }
+    startSequence()
 
     return () => {
       cancelled = true
-      teaserCleanup?.()
+      if (safetyTimer !== null) window.clearTimeout(safetyTimer)
       document.documentElement.classList.remove('is-loading')
     }
   }, [skip, mounted])
