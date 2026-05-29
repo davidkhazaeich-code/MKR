@@ -973,7 +973,7 @@ GEO = { latitude: 42.9849, longitude: 47.5047, country: 'RU', region: 'Daghestan
 | **Sitemap** | `app/sitemap.ts` (28 URLs) |
 | **Métadonnées par page** | exports `metadata: Metadata` dans chaque `page.tsx` |
 | **Photos coachs** | `public/images/coaches/{firstname-lastname}.webp` (lowercase, tirets) |
-| **Vidéos hero** | `public/videos/hero-mountains.mp4` (3.5s intro) puis `hero-mkr-core.mp4` (desktop horizontal, 10s) ou `hero-mkr-core-vertical.mp4` (mobile ≤700px, 720x1280). Switch via matchMedia dans `components/Hero.tsx`. Pexels village/forest/clouds gardés sur disque mais non utilisés. |
+| **Vidéos hero** | `public/videos/hero-mountains.mp4` (intro 3.5s, joué une seule fois) puis crossfade vers `hero-mkr-core.mp4` (desktop horizontal) ou `hero-mkr-core-vertical.mp4` (mobile ≤700px, 720x1280) qui loop indéfiniment sur lui-même (attribut `loop`). Pas de retour à montagne. Switch desktop/mobile via matchMedia dans `components/Hero.tsx`. Pexels village/forest/clouds gardés sur disque mais non utilisés. |
 | **Vidéo Antoine parcours (3 surfaces)** | `src/data/antoine-parcours.ts` (single source : assets + moments + 3 variants mma/temoignages/home). Composant : `src/components/VerticalVideoSplit.tsx`. Assets : `public/videos/testimonials/antoine-parcours.{mp4,webm,jpg}`. Pour changer la copy, toucher uniquement le data file. |
 
 ---

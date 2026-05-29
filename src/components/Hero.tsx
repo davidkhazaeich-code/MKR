@@ -38,10 +38,11 @@ export default function Hero() {
     return () => mq.removeEventListener('change', update)
   }, [])
 
-  // ── Video crossfade ───────────────────────────────────────
+  // ── Video crossfade (intro montagne -> MKR core qui loop sur lui-meme) ──
   useEffect(() => {
+    if (activeIndex >= HERO_VIDEOS.length - 1) return
     const timeout = setTimeout(() => {
-      setActiveIndex(prev => (prev + 1) % HERO_VIDEOS.length)
+      setActiveIndex(prev => prev + 1)
     }, VIDEO_DURATIONS[activeIndex])
     return () => clearTimeout(timeout)
   }, [activeIndex, HERO_VIDEOS.length])
