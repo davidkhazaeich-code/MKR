@@ -47,6 +47,31 @@ export default function Hero() {
     return () => clearTimeout(timeout)
   }, [activeIndex, HERO_VIDEOS.length])
 
+  // ── Prefetch MKR core pendant l'intro montagne (~600ms apres mount)
+  //    pour que le crossfade soit instant + pas de stall.
+  //    Skip sur Save-Data / 2G pour respecter la connexion utilisateur. ──
+  useEffect(() => {
+    const nextSrc = HERO_VIDEOS[1]
+    if (!nextSrc) return
+    const conn = (navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } }).connection
+    if (conn?.saveData) return
+    if (conn?.effectiveType === 'slow-2g' || conn?.effectiveType === '2g') return
+
+    let link: HTMLLinkElement | null = null
+    const timer = setTimeout(() => {
+      link = document.createElement('link')
+      link.rel = 'preload'
+      link.as = 'video'
+      link.href = nextSrc
+      link.type = 'video/mp4'
+      document.head.appendChild(link)
+    }, 600)
+    return () => {
+      clearTimeout(timer)
+      if (link?.parentNode) link.parentNode.removeChild(link)
+    }
+  }, [isMobile])
+
   // ── Force play sur mobile (iOS Safari/Android exigent .play() manuel
   //    quand preload est limité, même avec autoPlay + muted + playsInline) ──
   useEffect(() => {
