@@ -78,7 +78,7 @@ export const REFERRAL_CODES: ReferralCode[] = [
     type: 'influencer',
     bonusEur: 50,
     active: true,
-    notes: 'Influenceur MMA - partenariat Instagram (saisi MMASpirit, normalisé en MMASPIRIT)',
+    notes: 'Créateur de contenu vidéo sur le MMA - partenariat Instagram (saisi MMASpirit, normalisé en MMASPIRIT)',
     sourceDecouverteLabel: '@mma_spirit_academy (MMA Spirit Academy)',
     sourceDecouverteValue: 'mma-spirit-academy',
   },
