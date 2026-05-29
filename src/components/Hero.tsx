@@ -8,28 +8,43 @@ import { hydrateSessions } from '@/lib/session-display'
 import { MIN_PRICE_PER_ADULT_LABEL } from '@/lib/pricing-copy'
 import PlacesRestantes from '@/components/PlacesRestantes'
 
-const HERO_VIDEOS = [
+const HERO_VIDEOS_DESKTOP = [
   '/videos/hero-mountains.mp4',
-  '/videos/hero-village.mp4',
-  '/videos/hero-forest.mp4',
-  '/videos/hero-clouds.mp4',
+  '/videos/hero-mkr-core.mp4',
 ]
-const VIDEO_DURATION = 10000 // ms per video before crossfade
+const HERO_VIDEOS_MOBILE = [
+  '/videos/hero-mountains.mp4',
+  '/videos/hero-mkr-core-vertical.mp4',
+]
+const VIDEO_DURATIONS = [3500, 10000] // ms per video before crossfade (intro court montagne, puis MKR core)
 const FADE_DURATION = 1500   // ms crossfade
+const MOBILE_BREAKPOINT_QUERY = '(max-width: 700px)'
 
 export default function Hero() {
   const t = useTranslations('home.hero')
   const heroSectionRef = useRef<HTMLElement>(null)
   const [activeIndex, setActiveIndex] = useState(0)
+  const [isMobile, setIsMobile] = useState(false)
   const embersCanvasRef = useRef<HTMLCanvasElement>(null)
+
+  const HERO_VIDEOS = isMobile ? HERO_VIDEOS_MOBILE : HERO_VIDEOS_DESKTOP
+
+  // ── Mobile detection (vertical MKR core variant) ─────────
+  useEffect(() => {
+    const mq = window.matchMedia(MOBILE_BREAKPOINT_QUERY)
+    const update = () => setIsMobile(mq.matches)
+    update()
+    mq.addEventListener('change', update)
+    return () => mq.removeEventListener('change', update)
+  }, [])
 
   // ── Video crossfade ───────────────────────────────────────
   useEffect(() => {
-    const interval = setInterval(() => {
+    const timeout = setTimeout(() => {
       setActiveIndex(prev => (prev + 1) % HERO_VIDEOS.length)
-    }, VIDEO_DURATION)
-    return () => clearInterval(interval)
-  }, [])
+    }, VIDEO_DURATIONS[activeIndex])
+    return () => clearTimeout(timeout)
+  }, [activeIndex, HERO_VIDEOS.length])
 
   // ── Force play sur mobile (iOS Safari/Android exigent .play() manuel
   //    quand preload est limité, même avec autoPlay + muted + playsInline) ──
