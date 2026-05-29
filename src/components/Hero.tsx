@@ -16,6 +16,11 @@ const HERO_VIDEOS_MOBILE = [
   '/videos/hero-mountains.mp4',
   '/videos/hero-mkr-core-vertical.mp4',
 ]
+const HERO_POSTERS: Record<string, string> = {
+  '/videos/hero-mountains.mp4': '/videos/hero-mountains-poster.jpg',
+  '/videos/hero-mkr-core.mp4': '/videos/hero-mkr-core-poster.jpg',
+  '/videos/hero-mkr-core-vertical.mp4': '/videos/hero-mkr-core-vertical-poster.jpg',
+}
 const VIDEO_DURATIONS = [3500, 10000] // ms per video before crossfade (intro court montagne, puis MKR core)
 const FADE_DURATION = 1500   // ms crossfade
 const MOBILE_BREAKPOINT_QUERY = '(max-width: 700px)'
@@ -205,6 +210,7 @@ export default function Hero() {
           loop
           playsInline
           preload="metadata"
+          poster={HERO_POSTERS[src]}
           aria-hidden="true"
           {...{ 'webkit-playsinline': '' }}
         >
