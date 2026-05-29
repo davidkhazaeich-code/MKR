@@ -83,11 +83,7 @@ export default async function BlogArticlePage({ params }: { params: Promise<{ sl
     dateModified: article.dateModifiedISO || article.dateISO,
     inLanguage: locale,
     mainEntityOfPage: { '@type': 'WebPage', '@id': url },
-    author: {
-      '@type': 'Organization',
-      name: authorName,
-      url: SITE_URL,
-    },
+    author: { '@id': `${SITE_URL}/#person-ruslan` },
     publisher: { '@id': `${SITE_URL}/#organization` },
     image: {
       '@type': 'ImageObject',
@@ -152,9 +148,9 @@ export default async function BlogArticlePage({ params }: { params: Promise<{ sl
           <h1 className="blog-article-title">{article.title}</h1>
 
           <div className="blog-article-byline">
-            <span>Par {authorName}</span>
+            <span>{locale === 'en' ? 'By' : 'Par'} {authorName}{article.author_role ? ` · ${article.author_role}` : ''}</span>
             {article.dateModifiedISO && article.dateModifiedISO !== article.dateISO && (
-              <span className="blog-article-updated"> · Mis à jour le {formatDate(article.dateModifiedISO, locale)}</span>
+              <span className="blog-article-updated"> · {locale === 'en' ? 'Updated' : 'Mis à jour le'} {formatDate(article.dateModifiedISO, locale)}</span>
             )}
           </div>
 

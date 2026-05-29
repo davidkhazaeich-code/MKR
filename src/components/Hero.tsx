@@ -181,7 +181,7 @@ export default function Hero() {
       <div className="hero-content">
         <span className="hero-pill">{t('pill')}</span>
 
-        <h1 className="hero-h1">
+        <h1 className="hero-h1" aria-label={`${t('title_line1')} ${t('title_line2')} ${t('title_line3_prefix')}${t('title_line3_highlight')}`}>
           {t('title_line1')}<br />
           {t('title_line2')}<br />
           {t('title_line3_prefix')}<span className="highlight">{t('title_line3_highlight')}</span>

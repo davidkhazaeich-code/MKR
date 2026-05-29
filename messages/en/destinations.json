@@ -99,6 +99,7 @@
       "description": "Everything about Dagestan: training rooms, safety, culture, excursions. The land that forges the champions of world MMA and wrestling."
     },
     "breadcrumb": {
+      "home": "Home",
       "destinations": "Destinations",
       "current": "Dagestan"
     },
@@ -135,7 +136,11 @@
         "population": "Population",
         "population_value": "3.1 million"
       },
-      "badges": ["LAND OF MMA", "CRADLE OF WRESTLING", "KHABIB NURMAGOMEDOV"]
+      "badges": [
+        "LAND OF MMA",
+        "CRADLE OF WRESTLING",
+        "KHABIB NURMAGOMEDOV"
+      ]
     },
     "presentation": {
       "label": "INTRODUCTION",
@@ -197,6 +202,7 @@
       "description": "Everything about Chechnya: Grozny MMA gyms, safety, culture, logistics. The land that gave rise to Khamzat Chimaev and the new MMA generation."
     },
     "breadcrumb": {
+      "home": "Home",
       "destinations": "Destinations",
       "current": "Chechnya"
     },
@@ -233,7 +239,11 @@
         "population": "Population",
         "population_value": "1.5 million"
       },
-      "badges": ["LAND OF MODERN MMA", "AKHMAT FIGHT CLUB", "KHAMZAT CHIMAEV"]
+      "badges": [
+        "LAND OF MODERN MMA",
+        "AKHMAT FIGHT CLUB",
+        "KHAMZAT CHIMAEV"
+      ]
     },
     "presentation": {
       "label": "INTRODUCTION",

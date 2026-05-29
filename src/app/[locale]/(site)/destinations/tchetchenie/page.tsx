@@ -7,6 +7,7 @@ import SectionCTA from '@/components/SectionCTA'
 import DestinationReveal from '@/components/DestinationReveal'
 import DestinationSafetyProtocol from '@/components/DestinationSafetyProtocol'
 import TldrBox from '@/components/TldrBox'
+import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
@@ -34,6 +35,11 @@ export default async function TchetcheniePage({ params }: { params: Promise<{ lo
 
   return (
     <>
+      <BreadcrumbJsonLd items={[
+        { name: t('breadcrumb.home'), url: 'https://mkrcamp.com/' },
+        { name: t('breadcrumb.destinations'), url: 'https://mkrcamp.com/destinations' },
+        { name: t('breadcrumb.current'), url: 'https://mkrcamp.com/destinations/tchetchenie' },
+      ]} />
       <PageHero
         label={t('hero.label')}
         title={t('hero.title')}

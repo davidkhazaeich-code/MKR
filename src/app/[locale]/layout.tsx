@@ -45,7 +45,7 @@ export function generateStaticParams() {
 }
 
 const META_TITLE = `${SITE_NAME} · Camp MMA et Lutte au Caucase`
-const META_DESC = `${SITE_DESCRIPTION} Rejoignez ${SITE_NAME}.`
+const META_DESC = "Camp MMA et Lutte au Caucase. Lutte au Daghestan, MMA en Tchétchénie. Immersion 1 à 3 semaines, encadrement local francophone."
 const OG_IMAGE = `${SITE_URL}/images/social/og-image.webp`
 
 export const metadata: Metadata = {

@@ -8,6 +8,7 @@ import DestinationReveal from '@/components/DestinationReveal'
 import CinematicReveal from '@/components/CinematicReveal'
 import DestinationSafetyProtocol from '@/components/DestinationSafetyProtocol'
 import TldrBox from '@/components/TldrBox'
+import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
@@ -35,6 +36,11 @@ export default async function DagestanPage({ params }: { params: Promise<{ local
 
   return (
     <>
+      <BreadcrumbJsonLd items={[
+        { name: t('breadcrumb.home'), url: 'https://mkrcamp.com/' },
+        { name: t('breadcrumb.destinations'), url: 'https://mkrcamp.com/destinations' },
+        { name: t('breadcrumb.current'), url: 'https://mkrcamp.com/destinations/dagestan' },
+      ]} />
       <PageHero
         label={t('hero.label')}
         title={t('hero.title')}

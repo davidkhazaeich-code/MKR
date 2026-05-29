@@ -99,6 +99,7 @@
       "description": "Tout savoir sur le Daghestan : salles d'entraînement, sécurité, culture, excursions. La terre qui forge les champions du MMA et de la lutte mondiale."
     },
     "breadcrumb": {
+      "home": "Accueil",
       "destinations": "Destinations",
       "current": "Daghestan"
     },
@@ -135,7 +136,11 @@
         "population": "Population",
         "population_value": "3.1 millions"
       },
-      "badges": ["TERRE DU MMA", "BERCEAU DE LA LUTTE", "KHABIB NURMAGOMEDOV"]
+      "badges": [
+        "TERRE DU MMA",
+        "BERCEAU DE LA LUTTE",
+        "KHABIB NURMAGOMEDOV"
+      ]
     },
     "presentation": {
       "label": "PRÉSENTATION",
@@ -197,6 +202,7 @@
       "description": "Tout sur la Tchétchénie : salles MMA de Grozny, sécurité, culture, logistique. La terre qui a vu naître Khamzat Chimaev et la nouvelle génération MMA."
     },
     "breadcrumb": {
+      "home": "Accueil",
       "destinations": "Destinations",
       "current": "Tchétchénie"
     },
@@ -233,7 +239,11 @@
         "population": "Population",
         "population_value": "1.5 millions"
       },
-      "badges": ["TERRE DU MMA MODERNE", "AKHMAT FIGHT CLUB", "KHAMZAT CHIMAEV"]
+      "badges": [
+        "TERRE DU MMA MODERNE",
+        "AKHMAT FIGHT CLUB",
+        "KHAMZAT CHIMAEV"
+      ]
     },
     "presentation": {
       "label": "PRÉSENTATION",

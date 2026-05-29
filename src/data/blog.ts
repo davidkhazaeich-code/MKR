@@ -117,6 +117,7 @@ export interface BlogListEntry {
 
 export interface BlogPostFull extends BlogListEntry {
   author_name: string
+  author_role: string | null
   meta_title: string | null
   meta_description: string | null
   keywords: string[] | null
@@ -182,6 +183,7 @@ export function hydrateBlogPost(slug: BlogSlug, t: TFn): BlogPostFull | undefine
     dateModifiedISO: meta.dateModifiedISO,
     featured: meta.featured,
     author_name: t('author_name'),
+    author_role: safeString(t.raw('author_role')),
     meta_title: safeString(t.raw('meta_title')),
     meta_description: safeString(t.raw('meta_description')),
     keywords: safeStringArray(t.raw('keywords')),
