@@ -90,6 +90,17 @@
    Reset / base admin
    ======================================================================== */
 
+/* Reset html/body : depuis le refactor i18n (2026-05-27), /admin/* a son
+   propre root layout et n'hérite plus du reset de globals.css. Sans cette
+   règle, les marges par défaut du navigateur (8px sur body) creent des
+   bordures blanches autour de .adm-root. */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--adm-bg-base);
+}
+
 .adm-root {
   min-height: 100dvh;
   background: var(--adm-bg-base);
