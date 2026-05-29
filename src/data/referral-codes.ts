@@ -71,6 +71,17 @@ export const REFERRAL_CODES: ReferralCode[] = [
     sourceDecouverteLabel: 'Coach Tengiz Dalakishvili',
     sourceDecouverteValue: 'tengiz-dalakishvili',
   },
+  {
+    code: 'MMASPIRIT',
+    partnerName: 'MMA Spirit Academy (@mma_spirit_academy)',
+    partnerContact: 'https://instagram.com/mma_spirit_academy',
+    type: 'influencer',
+    bonusEur: 50,
+    active: true,
+    notes: 'Influenceur MMA - partenariat Instagram (saisi MMASpirit, normalisé en MMASPIRIT)',
+    sourceDecouverteLabel: '@mma_spirit_academy (MMA Spirit Academy)',
+    sourceDecouverteValue: 'mma-spirit-academy',
+  },
 ]
 
 /**
