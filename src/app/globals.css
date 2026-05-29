@@ -3164,16 +3164,16 @@ h1, h2, h3, h4, h5 {
   opacity: 0;
   animation: insc-slide-up 0.45s var(--ease-out-expo) both;
 }
-.insc-form .cand-panel > *:nth-child(1)  { animation-delay: 0.06s; }
-.insc-form .cand-panel > *:nth-child(2)  { animation-delay: 0.12s; }
-.insc-form .cand-panel > *:nth-child(3)  { animation-delay: 0.18s; }
-.insc-form .cand-panel > *:nth-child(4)  { animation-delay: 0.24s; }
-.insc-form .cand-panel > *:nth-child(5)  { animation-delay: 0.30s; }
-.insc-form .cand-panel > *:nth-child(6)  { animation-delay: 0.36s; }
-.insc-form .cand-panel > *:nth-child(7)  { animation-delay: 0.42s; }
-.insc-form .cand-panel > *:nth-child(8)  { animation-delay: 0.48s; }
-.insc-form .cand-panel > *:nth-child(9)  { animation-delay: 0.54s; }
-.insc-form .cand-panel > *:nth-child(10) { animation-delay: 0.60s; }
+.insc-form .cand-panel > *:nth-child(1)  { animation-delay: 0.03s; }
+.insc-form .cand-panel > *:nth-child(2)  { animation-delay: 0.06s; }
+.insc-form .cand-panel > *:nth-child(3)  { animation-delay: 0.09s; }
+.insc-form .cand-panel > *:nth-child(4)  { animation-delay: 0.12s; }
+.insc-form .cand-panel > *:nth-child(5)  { animation-delay: 0.15s; }
+.insc-form .cand-panel > *:nth-child(6)  { animation-delay: 0.18s; }
+.insc-form .cand-panel > *:nth-child(7)  { animation-delay: 0.21s; }
+.insc-form .cand-panel > *:nth-child(8)  { animation-delay: 0.24s; }
+.insc-form .cand-panel > *:nth-child(9)  { animation-delay: 0.27s; }
+.insc-form .cand-panel > *:nth-child(10) { animation-delay: 0.30s; }
 
 /* Input focus -underline grows from center */
 .insc-form .cand-input,
@@ -3343,8 +3343,8 @@ h1, h2, h3, h4, h5 {
   gap: 0.55rem;
 }
 .insc-form .cand-check {
-  padding: 0.55rem 1rem;
-  min-height: 40px;
+  padding: 0.65rem 1rem;
+  min-height: 44px;
   font-size: 0.82rem;
 }
 
@@ -3437,12 +3437,21 @@ h1, h2, h3, h4, h5 {
   .insc-mobile-header { display: flex; }
   .insc-main {
     margin-left: 0;
-    padding: calc(56px + 2rem) 1.25rem 3rem;
+    padding: calc(56px + 2rem) 1.25rem calc(3rem + env(safe-area-inset-bottom, 0px));
   }
   .insc-form-wrap { max-width: 100%; }
   .insc-panel-title { font-size: 1.6rem; }
-  .insc-success-page { padding: 2rem 1.25rem; }
+  .insc-success-page {
+    padding: 2rem 1.25rem calc(2rem + env(safe-area-inset-bottom, 0px));
+  }
   .insc-back-home { top: 1rem; left: 1.25rem; }
+
+  /* Bloque le zoom iOS au focus : font-size minimum 16px sur les inputs */
+  .insc-form .cand-input,
+  .insc-form .cand-select,
+  .insc-form .cand-textarea {
+    font-size: 16px;
+  }
 
   /* Buttons full-width sur mobile */
   .insc-form .cand-nav {
@@ -3458,6 +3467,96 @@ h1, h2, h3, h4, h5 {
   /* Inverse l'ordre pour que "Suivant" soit en haut */
   .insc-form .cand-btn-next,
   .insc-form .cand-btn-submit { order: -1; }
+}
+
+/* ── Mobile small ≤480px : densification Step 0 (cards horizontales) ── */
+@media (max-width: 480px) {
+  /* Padding form un peu plus compact pour gagner du vertical */
+  .insc-main {
+    padding: calc(56px + 1.5rem) 1rem calc(2.5rem + env(safe-area-inset-bottom, 0px));
+  }
+  .insc-panel-title { font-size: 1.45rem; }
+
+  /* Sessions cards : passage en lignes horizontales compactes */
+  .insc-session-card {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 0.8rem 0.85rem;
+    min-height: 64px;
+  }
+  .insc-session-card-month {
+    font-size: 0.78rem;
+    align-self: flex-start;
+    flex-shrink: 0;
+    width: 56px;
+    line-height: 1.2;
+  }
+  .insc-session-card-season {
+    font-size: 1rem;
+    flex: 1;
+    min-width: 0;
+  }
+  .insc-session-card-dates {
+    font-size: 0.72rem;
+    line-height: 1.3;
+  }
+  /* Intensity caché sur mobile small pour gagner de la place : info redondante avec le badge places */
+  .insc-session-card-intensity { display: none; }
+  .insc-session-card-places {
+    margin-top: 0;
+    margin-left: auto;
+    flex-shrink: 0;
+  }
+
+  /* Discipline cards : compactes verticales (icône + nom alignés, badge places visible) */
+  .insc-discipline-card {
+    min-height: 130px;
+    padding: 1.1rem 1.1rem 1rem;
+    gap: 0.3rem;
+  }
+  .insc-discipline-card-icon {
+    width: 28px;
+    height: 28px;
+  }
+  .insc-discipline-card--mma .insc-discipline-card-icon,
+  .insc-discipline-card--lutte .insc-discipline-card-icon {
+    width: 28px;
+    height: 28px;
+  }
+  .insc-discipline-card-name {
+    font-size: 1.25rem;
+  }
+  .insc-discipline-card-badge {
+    top: 0.6rem;
+    right: 0.6rem;
+  }
+
+  /* Duration cards : lignes horizontales compactes (label · sub · prix) */
+  .insc-duration-card {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 0.9rem;
+    min-height: 56px;
+  }
+  .insc-duration-card-label {
+    font-size: 1rem;
+    flex-shrink: 0;
+    width: 70px;
+  }
+  .insc-duration-card-sub {
+    flex: 1;
+    min-width: 0;
+  }
+  .insc-duration-card-price {
+    margin-top: 0;
+    margin-left: auto;
+    flex-shrink: 0;
+  }
+
+  /* Camp section : numéros et padding resserrés */
+  .insc-camp-section { gap: 0.75rem; }
 }
 @media (prefers-reduced-motion: reduce) {
   .insc-anim-next,
@@ -8426,7 +8525,7 @@ html.is-loading body {
   grid-template-columns: repeat(4, 1fr);
   gap: 0.75rem;
 }
-@media (max-width: 880px) {
+@media (max-width: 900px) {
   .insc-session-grid {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -8434,6 +8533,7 @@ html.is-loading body {
 @media (max-width: 480px) {
   .insc-session-grid {
     grid-template-columns: 1fr;
+    gap: 0.55rem;
   }
 }
 
@@ -8493,9 +8593,10 @@ html.is-loading body {
   grid-template-columns: 1fr 1fr;
   gap: 0.9rem;
 }
-@media (max-width: 640px) {
+@media (max-width: 480px) {
   .insc-discipline-grid {
     grid-template-columns: 1fr;
+    gap: 0.65rem;
   }
 }
 
@@ -8584,9 +8685,15 @@ html.is-loading body {
   grid-template-columns: repeat(3, 1fr);
   gap: 0.75rem;
 }
-@media (max-width: 640px) {
+@media (max-width: 900px) {
+  .insc-duration-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 480px) {
   .insc-duration-grid {
     grid-template-columns: 1fr;
+    gap: 0.55rem;
   }
 }
 
@@ -9193,11 +9300,26 @@ html.is-loading body {
   gap: 0.5rem;
 }
 .insc-mobile-chevron {
-  color: var(--text-muted);
-  transition: transform 0.25s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(248, 248, 248, 0.06);
+  color: var(--text-secondary);
+  transition: transform 0.25s ease, background 0.2s ease, color 0.2s ease;
+  flex-shrink: 0;
+}
+.insc-mobile-progress:hover .insc-mobile-chevron,
+.insc-mobile-progress:focus-visible .insc-mobile-chevron {
+  background: rgba(200, 75, 49, 0.12);
+  color: var(--primary);
 }
 .insc-mobile-progress.is-open .insc-mobile-chevron {
   transform: rotate(180deg);
+  background: rgba(200, 75, 49, 0.12);
+  color: var(--primary);
 }
 .insc-mobile-steps-panel {
   width: 100%;
@@ -9427,10 +9549,18 @@ html.is-loading body {
     bottom: 0;
     left: 0;
     right: 0;
-    padding: 1rem 1rem calc(1rem + env(safe-area-inset-bottom, 0px));
-    margin: 1rem -1.25rem -3rem;
-    background: linear-gradient(180deg, rgba(11, 11, 11, 0) 0%, var(--bg) 25%);
+    padding: 0.9rem 1rem calc(0.9rem + env(safe-area-inset-bottom, 0px));
+    margin: 1rem -1.25rem calc(-3rem - env(safe-area-inset-bottom, 0px));
+    background: rgba(11, 11, 11, 0.88);
+    backdrop-filter: blur(10px) saturate(140%);
+    -webkit-backdrop-filter: blur(10px) saturate(140%);
+    border-top: 1px solid rgba(248, 248, 248, 0.07);
+    box-shadow: 0 -10px 24px -12px rgba(0, 0, 0, 0.5);
     z-index: 5;
+  }
+  /* Fallback pour navigateurs sans backdrop-filter (FF avant 103) */
+  @supports not ((backdrop-filter: blur(10px)) or (-webkit-backdrop-filter: blur(10px))) {
+    .insc-nav-sticky { background: var(--bg); }
   }
   /* Sidebar récap : caché sur mobile (sidebar disparaît) */
   .insc-sidebar-recap { display: none; }
