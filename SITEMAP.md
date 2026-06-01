@@ -973,7 +973,7 @@ GEO = { latitude: 42.9849, longitude: 47.5047, country: 'RU', region: 'Daghestan
 | **Sitemap** | `app/sitemap.ts` (28 URLs) |
 | **Métadonnées par page** | exports `metadata: Metadata` dans chaque `page.tsx` |
 | **Photos coachs** | `public/images/coaches/{firstname-lastname}.webp` (lowercase, tirets) |
-| **Vidéos hero** | Boucle 2 vidéos : `public/videos/hero-mountains.mp4` (3.5s) puis crossfade vers `hero-mkr-core.mp4` (desktop) ou `hero-mkr-core-vertical.mp4` (mobile ≤700px, 720x1280) pendant 10s, puis retour montagne et ainsi de suite. Cycle 13.5s total. Switch desktop/mobile via matchMedia dans `components/Hero.tsx`. Posters JPG `hero-*-poster.jpg` pour éviter l'écran noir avant `canplay`. Pexels village/forest/clouds gardés sur disque mais non utilisés. |
+| **Vidéos hero** | Boucle 2 vidéos : `public/videos/hero-mountains.mp4` (3.5s) puis MKR core qui joue en entier avant retour montagne. Desktop : `hero-mkr-core.mp4` (55s, cycle 58.5s). Mobile ≤700px : `hero-mkr-core-vertical.mp4` (720x1280, 45.5s, cycle 49s). Switch desktop/mobile via matchMedia dans `components/Hero.tsx`. Posters JPG `hero-*-poster.jpg` évitent l'écran noir avant `canplay`. Pexels village/forest/clouds gardés sur disque mais non utilisés. |
 | **Vidéo Antoine parcours (3 surfaces)** | `src/data/antoine-parcours.ts` (single source : assets + moments + 3 variants mma/temoignages/home). Composant : `src/components/VerticalVideoSplit.tsx`. Assets : `public/videos/testimonials/antoine-parcours.{mp4,webm,jpg}`. Pour changer la copy, toucher uniquement le data file. |
 
 ---

@@ -21,7 +21,10 @@ const HERO_POSTERS: Record<string, string> = {
   '/videos/hero-mkr-core.mp4': '/videos/hero-mkr-core-poster.jpg',
   '/videos/hero-mkr-core-vertical.mp4': '/videos/hero-mkr-core-vertical-poster.jpg',
 }
-const VIDEO_DURATIONS = [3500, 10000] // ms per video before crossfade (intro court montagne, puis MKR core)
+// Durees alignees sur la duree naturelle de chaque MKR core
+// (desktop 55.66s, mobile vertical 46.2s) pour eviter de couper la video au milieu.
+const VIDEO_DURATIONS_DESKTOP = [3500, 55000]
+const VIDEO_DURATIONS_MOBILE = [3500, 45500]
 const FADE_DURATION = 1500   // ms crossfade
 const MOBILE_BREAKPOINT_QUERY = '(max-width: 700px)'
 
@@ -33,6 +36,7 @@ export default function Hero() {
   const embersCanvasRef = useRef<HTMLCanvasElement>(null)
 
   const HERO_VIDEOS = isMobile ? HERO_VIDEOS_MOBILE : HERO_VIDEOS_DESKTOP
+  const VIDEO_DURATIONS = isMobile ? VIDEO_DURATIONS_MOBILE : VIDEO_DURATIONS_DESKTOP
 
   // ── Mobile detection (vertical MKR core variant) ─────────
   useEffect(() => {
