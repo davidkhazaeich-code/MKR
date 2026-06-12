@@ -6,6 +6,7 @@ import {
   TRANSITION_REMINDER,
   type Status,
 } from '@/lib/admin-transitions'
+import { computeCommissionEur } from '@/data/referral-codes'
 
 // PATCH /api/admin/candidature/[id]
 // Protege par le proxy (cookie httpOnly mkr_admin). Voir src/proxy.ts.
@@ -93,7 +94,7 @@ export async function PATCH(
   // 1. Lecture de l'etat courant pour valider transitions et generer diff audit
   const { data: current, error: readError } = await supabase
     .from('candidatures')
-    .select('id, status, package_paid_at, package_amount_cents, payment_method, payment_date, notes_admin, notes_visio, referral_code, referral_code_valid, referral_partner_name, referral_bonus_eur, referral_payout_status, referral_payout_paid_at, referral_payout_method')
+    .select('id, status, package_paid_at, package_amount_cents, payment_method, payment_date, notes_admin, notes_visio, referral_code, referral_code_valid, referral_partner_name, referral_commission_type, referral_commission_pct, referral_bonus_eur, referral_payout_status, referral_payout_paid_at, referral_payout_method')
     .eq('id', id)
     .maybeSingle()
 
@@ -144,6 +145,22 @@ export async function PATCH(
       && currentPayout === 'pending'
     ) {
       updates.referral_payout_status = 'due'
+
+      // Pour un partenaire 'percent', calculer le montant depuis le CA connu a cet instant.
+      // CA absent -> on passe quand meme 'due', montant restera null (flagge en UI), calcule a la saisie du CA.
+      if (current.referral_commission_type === 'percent') {
+        const computed = computeCommissionEur(
+          { commissionType: 'percent', commissionPct: current.referral_commission_pct ?? undefined },
+          // si le CA est mis a jour dans le meme PATCH, utiliser la nouvelle valeur
+          typeof body.package_amount_cents === 'number'
+            ? body.package_amount_cents
+            : (current.package_amount_cents ?? null),
+        )
+        if (computed !== null) {
+          updates.referral_bonus_eur = computed
+        }
+      }
+
       auditEntries.push({
         candidature_id: id,
         event: 'referral_due',
@@ -151,7 +168,7 @@ export async function PATCH(
         to_value: { referral_payout_status: 'due' },
         data: {
           partner: current.referral_partner_name,
-          bonus_eur: current.referral_bonus_eur,
+          bonus_eur: updates.referral_bonus_eur ?? current.referral_bonus_eur,
         },
         actor_email: actor,
       })
@@ -199,6 +216,30 @@ export async function PATCH(
         to_value: { package_amount_cents: body.package_amount_cents },
         actor_email: actor,
       })
+
+      // Recalcul du bonus pour les partenaires 'percent' tant que le payout n'est pas fige (paid/cancelled).
+      const payoutNow = (updates.referral_payout_status ?? current.referral_payout_status) as ReferralPayoutStatus | null
+      if (
+        current.referral_commission_type === 'percent'
+        && (payoutNow === 'pending' || payoutNow === 'due')
+      ) {
+        const recomputed = computeCommissionEur(
+          { commissionType: 'percent', commissionPct: current.referral_commission_pct ?? undefined },
+          body.package_amount_cents,
+        )
+        const prevBonus = (updates.referral_bonus_eur ?? current.referral_bonus_eur) ?? null
+        if (recomputed !== prevBonus) {
+          updates.referral_bonus_eur = recomputed
+          auditEntries.push({
+            candidature_id: id,
+            event: 'referral_bonus_recomputed',
+            from_value: { referral_bonus_eur: prevBonus },
+            to_value: { referral_bonus_eur: recomputed },
+            data: { reason: 'package_amount_change', pct: current.referral_commission_pct },
+            actor_email: actor,
+          })
+        }
+      }
     }
   }
 
