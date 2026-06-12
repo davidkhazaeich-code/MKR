@@ -1,10 +1,10 @@
 import { defineConfig } from '@playwright/test';
 
 export default defineConfig({
-  // testDir racine : couvre tests/i18n/ et tests/affiliate/ dans un meme run.
-  // npm run test:i18n reste valide (playwright test = tous les projets).
-  // Pour cibler un seul projet : npx playwright test --project=i18n
-  //                               npx playwright test --project=affiliate
+  // testDir racine : couvre tests/i18n/ et tests/affiliate/ via 2 projets.
+  // npm run test:i18n      = playwright test --project=i18n  (suite layout i18n)
+  // npm run test:affiliate = playwright test --project=affiliate (flux ?ref, requiert serveur)
+  // npx playwright test (sans filtre) lance les 2 projets.
   testDir: './tests',
   fullyParallel: true,
   workers: 4,

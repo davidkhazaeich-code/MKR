@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "test:i18n": "playwright test"
+    "test:i18n": "playwright test --project=i18n",
+    "test:affiliate": "playwright test --project=affiliate"
   },
   "dependencies": {
     "@remixicon/react": "^4.9.0",
