@@ -88,6 +88,8 @@ interface CandidatureRow {
   referral_partner_name: string | null
   referral_partner_type: string | null
   referral_bonus_eur: number | null
+  referral_commission_type: string | null
+  referral_commission_pct: number | null
   referral_payout_status: string | null
   referral_payout_paid_at: string | null
   referral_payout_method: string | null
@@ -280,7 +282,8 @@ export default async function CandidatureDetailPage({
           package_amount_cents, package_paid_at, payment_method, payment_date,
           notes_admin, notes_visio, form_data, group_members,
           referral_code, referral_code_valid, referral_partner_name, referral_partner_type,
-          referral_bonus_eur, referral_payout_status, referral_payout_paid_at, referral_payout_method,
+          referral_bonus_eur, referral_commission_type, referral_commission_pct,
+          referral_payout_status, referral_payout_paid_at, referral_payout_method,
           candidate:candidates ( prenom, nom, email, telephone, date_naissance, pays, ville_depart )
         `)
         .eq('id', id)
@@ -635,6 +638,9 @@ export default async function CandidatureDetailPage({
               referralPartnerName={candidature.referral_partner_name}
               referralPartnerType={candidature.referral_partner_type}
               referralBonusEur={candidature.referral_bonus_eur}
+              referralCommissionType={candidature.referral_commission_type}
+              referralCommissionPct={candidature.referral_commission_pct}
+              packageAmountCents={candidature.package_amount_cents}
               referralPayoutStatus={candidature.referral_payout_status}
               referralPayoutPaidAt={candidature.referral_payout_paid_at}
               referralPayoutMethod={candidature.referral_payout_method}

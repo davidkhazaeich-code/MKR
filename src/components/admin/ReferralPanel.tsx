@@ -17,6 +17,9 @@ interface Props {
   referralPayoutStatus: string | null
   referralPayoutPaidAt: string | null
   referralPayoutMethod: string | null
+  referralCommissionType: string | null
+  referralCommissionPct: number | null
+  packageAmountCents: number | null
 }
 
 const STATUS_LABEL: Record<ReferralPayoutStatus, string> = {
@@ -167,12 +170,40 @@ export default function ReferralPanel(props: Props) {
           </div>
         )}
 
-        {props.referralBonusEur !== null && (
-          <div className="adm-def">
-            <dt className="adm-def-key">Bonus partenaire</dt>
-            <dd className="adm-def-val">{props.referralBonusEur} €</dd>
-          </div>
-        )}
+        <div className="adm-def">
+          <dt className="adm-def-key">Modèle</dt>
+          <dd className="adm-def-val">
+            {props.referralCommissionType === 'percent'
+              ? `${props.referralCommissionPct ?? '?'} % du CA encaissé`
+              : props.referralCommissionType === 'flat'
+                ? 'Forfait fixe'
+                : '—'}
+          </dd>
+        </div>
+
+        <div className="adm-def">
+          <dt className="adm-def-key">Commission</dt>
+          <dd className="adm-def-val">
+            {props.referralBonusEur !== null ? (
+              <strong>{props.referralBonusEur} €</strong>
+            ) : props.referralCommissionType === 'percent' ? (
+              <span style={{ color: 'var(--adm-status-reportee)', display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}>
+                <Icon name="alert-triangle" size={13} strokeWidth={2.4} />
+                CA à saisir pour calculer la commission
+              </span>
+            ) : (
+              <span className="adm-def-val--muted">—</span>
+            )}
+            {props.referralCommissionType === 'percent'
+              && props.referralBonusEur !== null
+              && props.packageAmountCents
+              && props.packageAmountCents > 0 && (
+              <span style={{ color: 'var(--adm-text-muted)', marginLeft: '0.4rem', fontSize: '0.82rem' }}>
+                ({props.referralCommissionPct} % × {Math.round(props.packageAmountCents / 100)} €)
+              </span>
+            )}
+          </dd>
+        </div>
 
         <div className="adm-def">
           <dt className="adm-def-key">Statut paiement</dt>
