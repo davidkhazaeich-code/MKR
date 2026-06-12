@@ -7,12 +7,12 @@
  *
  * Paliers :
  * - 1-2 adultes : 1 690 / 2 790 / 3 490 € par personne (Solo / Duo)
- * - 3-5 adultes : 1 390 / 1 990 / 2 690 € par personne (Trio / Quatuor / Petit groupe)
- * - 6-10 adultes : 1 290 / 1 790 / 2 390 € par personne (Club / Groupe)
+ * - 3-5 adultes : 1 490 / 2 490 / 3 090 € par personne (Trio / Quatuor / Petit groupe)
+ * - 6-10 adultes : 1 290 / 2 190 / 2 690 € par personne (Club / Groupe)
  * - 11+ : sur devis (privatisation totale)
  *
  * Famille :
- * - Forfait base 1 parent + 1 enfant : 2 590 / 4 790 / 6 890 €
+ * - Forfait base 1 parent + 1 enfant : 2 490 / 4 390 / 5 890 €
  * - Enfant supplémentaire : +790 / +1 580 / +2 370 € (selon durée)
  * - Si conjoint(e) participe : 2 × tarif 1-2 adultes + N enfants × supp/sem
  */
@@ -45,7 +45,7 @@ export const PRICING_TIERS: Record<GroupTier, TierPricing> = {
   trio: {
     min: 3,
     max: 5,
-    perAdult: { 1: 1390, 2: 1990, 3: 2690 },
+    perAdult: { 1: 1490, 2: 2490, 3: 3090 },
     label: 'Trio à 5',
     rangeLabel: '3 à 5 personnes',
     pitch: "Tarif appliqué au camp Sur Mesure en équipe (3 ou 4 amis) ou aux groupes/clubs de 5 athlètes.",
@@ -53,7 +53,7 @@ export const PRICING_TIERS: Record<GroupTier, TierPricing> = {
   club: {
     min: 6,
     max: 10,
-    perAdult: { 1: 1290, 2: 1790, 3: 2390 },
+    perAdult: { 1: 1290, 2: 2190, 3: 2690 },
     label: 'Club / Groupe',
     rangeLabel: '6 à 10 personnes',
     pitch: "Tarif appliqué aux clubs ou groupes organisés de 6 à 10 athlètes adultes.",
@@ -71,7 +71,7 @@ export const PRICING_TIERS: Record<GroupTier, TierPricing> = {
 /** Forfait Famille : 1 parent + 1 enfant inclus dans le prix de base, +N enfants supplémentaires */
 export const FAMILY_PRICING = {
   /** Prix de base 1 parent + 1 enfant (par durée) */
-  base: { 1: 2590, 2: 4790, 3: 6890 } as Record<Duration, number>,
+  base: { 1: 2490, 2: 4390, 3: 5890 } as Record<Duration, number>,
   /** Enfant supplémentaire (au-delà du 1er enfant inclus) */
   extraChildPerWeek: { 1: 790, 2: 1580, 3: 2370 } as Record<Duration, number>,
 }
@@ -157,7 +157,7 @@ export const FAMILY_EXAMPLES = [
 
 /**
  * Détail de calcul lisible (pour tooltip ou récap)
- * Ex: "1 × 2 590 € (forfait 1P+1E) + 1 × 790 € (enfant supp)"
+ * Ex: "1 × 2 490 € (forfait 1P+1E) + 1 × 790 € (enfant supp)"
  */
 export function priceBreakdown({ adults, children = 0, weeks }: PricingInput): string {
   if (adults <= 0 || weeks <= 0) return ''
