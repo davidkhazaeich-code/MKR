@@ -45,15 +45,14 @@
           "prefix": "",
           "strong": "Family package (1 parent + 1 child included)",
           "middle": ": ",
-          "after_base": ". Each additional child: ",
+          "after_base": ". Each additional person (second parent or child): ",
           "suffix": "."
         },
         "famille_2_parents": {
           "prefix": "",
           "strong": "Family with 2 participating parents",
-          "middle": ": Solo / Duo rate applied to both parents (",
-          "after_duo": " / person / week) + ",
-          "suffix": " per child per week."
+          "middle": ": Parent + Child package, then ",
+          "suffix": " per additional person (second parent and each extra child), flat for the whole stay."
         }
       },
       "payment_p1": "No payment is required at the time of online registration. Full payment of the package is due after the validation video call with the MKR team. Bank details (RIB) are sent to the candidate at the end of this call.",

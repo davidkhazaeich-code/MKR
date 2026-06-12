@@ -2,7 +2,7 @@ import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { Link } from '@/i18n/navigation'
 import { localizedMetadata } from '@/lib/i18n-helpers'
 import type { Locale } from '@/i18n/routing'
-import { PRICING_TIERS, FAMILY_PRICING, formatEUR } from '@/data/pricing'
+import { FAMILY_PRICING, formatEUR } from '@/data/pricing'
 import {
   DUO_ONE_LINE_BARE,
   TRIO_ONE_LINE_BARE,
@@ -54,7 +54,7 @@ export default async function CGVPage({ params }: { params: Promise<{ locale: st
               <strong>{t('articles.article3.items.famille.strong')}</strong>{t('articles.article3.items.famille.middle')}{FAMILY_BASE_PROSE}{t('articles.article3.items.famille.after_base')}{FAMILY_EXTRA_CHILD_FULL}{t('articles.article3.items.famille.suffix')}
             </li>
             <li>
-              <strong>{t('articles.article3.items.famille_2_parents.strong')}</strong>{t('articles.article3.items.famille_2_parents.middle')}{formatEUR(PRICING_TIERS.duo.perAdult[1])}{t('articles.article3.items.famille_2_parents.after_duo')}{formatEUR(FAMILY_PRICING.extraChildPerWeek[1])}{t('articles.article3.items.famille_2_parents.suffix')}
+              <strong>{t('articles.article3.items.famille_2_parents.strong')}</strong>{t('articles.article3.items.famille_2_parents.middle')}{formatEUR(FAMILY_PRICING.additionalPerson)}{t('articles.article3.items.famille_2_parents.suffix')}
             </li>
           </ul>
           <p>{t('articles.article3.payment_p1')}</p>

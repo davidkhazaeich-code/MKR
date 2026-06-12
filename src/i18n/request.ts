@@ -8,6 +8,8 @@ const FLAT_NAMESPACES = [
   'le-camp',
   'programme',
   'sessions',
+  'tarifs',
+  'pricing_table',
   'inscription',
   'familles',
   'sur-mesure',

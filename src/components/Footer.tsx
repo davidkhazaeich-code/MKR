@@ -66,7 +66,7 @@ export default function Footer() {
               <li><Link href="/sur-mesure">{t('col_camps.sur_mesure')}</Link></li>
               <li><Link href="/familles">{t('col_camps.famille')}</Link></li>
               <li><Link href="/clubs-groupes">{t('col_camps.clubs_groupes')}</Link></li>
-              <li><Link href="/sessions">{t('col_camps.tarifs')}</Link></li>
+              <li><Link href="/tarifs">{t('col_camps.tarifs')}</Link></li>
               <li><Link href="/comment-ca-marche">{t('col_camps.comment_ca_marche')}</Link></li>
             </ul>
           </div>

@@ -10,7 +10,8 @@
       "le_camp": "Le Camp",
       "programme": "Programme",
       "destinations": "Destinations",
-      "infos": "Découvrir"
+      "infos": "Découvrir",
+      "tarifs": "Tarifs"
     },
     "cta_apply": "POSTULER",
     "cta_apply_aria": "Postuler au camp",
@@ -30,6 +31,7 @@
         },
         "formats_label": "Autres formats",
         "formats": {
+          "tarifs": "Tarifs · grille complète",
           "sur_mesure": "Sur Mesure · tes dates",
           "famille": "Famille · parent + enfant 8-17",
           "groupe": "Club et Groupe · 5 à 20",

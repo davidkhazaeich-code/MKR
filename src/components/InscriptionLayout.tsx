@@ -2133,9 +2133,9 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                           <span>{t(`step0_camp.famille.${breakdownKey}`, {
                             weeks,
                             children,
-                            extra: children - 1,
+                            extra: Math.max(0, adults + children - 2),
                             price_forfait: formatEUR(FAMILY_PRICING.base[weeks]),
-                            price_extra: formatEUR(FAMILY_PRICING.extraChildPerWeek[weeks]),
+                            price_extra: formatEUR(FAMILY_PRICING.additionalPerson),
                             price_adult: formatEUR(PRICING_TIERS.duo.perAdult[weeks]),
                           })}</span>
                         </div>

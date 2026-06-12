@@ -1,0 +1,128 @@
+{
+  "meta": {
+    "title": "MMA and Wrestling Camp Prices in the Caucasus | All-Inclusive MKR",
+    "description": "Clear, all-inclusive pricing for the MKR camp in Dagestan (Wrestling) and Chechnya (MMA). From 1,290 EUR per person. Russian visa, domestic flight, accommodation, 2 meals per day and coaching included. Online price simulator."
+  },
+  "breadcrumb": {
+    "home": "Home",
+    "current": "Pricing"
+  },
+  "hero": {
+    "label": "PRICING",
+    "title": "CLEAR PRICING.<br/>ALL INCLUDED.",
+    "subtitle": "One price that covers the essentials: Russian visa, domestic flight, accommodation, meals and coaching. No hidden fees, no discretionary discounts."
+  },
+  "toutcompris": {
+    "label": "WHAT THE PRICE COVERS",
+    "title": "ONE PRICE, ALL INCLUDED",
+    "intro": "The MKR price is more than a training fee. It bundles everything that makes the stay possible, from your arrival in Istanbul to your return. You only arrange your international flight to Istanbul and your travel insurance.",
+    "items": {
+      "visa": {
+        "title": "Russian visa",
+        "desc": "Consular fees, full application, invitation letter and EU questionnaire all handled by MKR."
+      },
+      "vol": {
+        "title": "Domestic flight",
+        "desc": "Istanbul to Makhachkala for Wrestling in Dagestan, or Istanbul to Grozny for MMA in Chechnya."
+      },
+      "hebergement": {
+        "title": "Camp accommodation",
+        "desc": "On-site lodging for the full duration of the stay, close to the training gyms."
+      },
+      "repas": {
+        "title": "2 meals per day",
+        "desc": "Local food tuned for training, with protein and hydration designed for combat athletes."
+      },
+      "encadrement": {
+        "title": "Local coaching",
+        "desc": "2 sessions per day with the Dagestani and Chechen coaches working in the gyms year round."
+      },
+      "transferts": {
+        "title": "Transfers and follow-up",
+        "desc": "Airport to camp transfers and remote pre-departure preparation follow-up included."
+      }
+    },
+    "footnote": "Not included: international flight to Istanbul, mandatory travel insurance, personal equipment and personal expenses. A surcharge applies to applications accepted less than 30 days before departure."
+  },
+  "estimator": {
+    "label": "SIMULATOR",
+    "title": "ESTIMATE YOUR BUDGET IN 10 SECONDS",
+    "sub": "Pick your setup. The price drops as your group grows. Children aged 8 to 17 always travel with a participating parent.",
+    "adults_label": "Adults",
+    "children_label": "Children 8-17",
+    "duration_label": "Duration",
+    "adults_hint": "11 and more: full privatisation, on quote.",
+    "children_hint": "Activates the Family formula (parent plus child).",
+    "week": {
+      "1": "1 week",
+      "2": "2 weeks",
+      "3": "3 weeks",
+      "plus": "Over 3 weeks"
+    },
+    "custom_value": "Custom",
+    "custom_hint": "Beyond 3 weeks, the stay is built custom with Ruslan. Tell us your ideal length and we prepare a dedicated offer.",
+    "result_eyebrow": "Estimate",
+    "total_label": "Total stay",
+    "per_adult_label": "per adult",
+    "family_base_label": "Parent plus child package included",
+    "family_extra_label": "additional person",
+    "quote_value": "On quote",
+    "quote_hint": "Beyond 10 adults, we privatise a session for your club and build a dedicated offer.",
+    "included_note": "All included: Russian visa, domestic flight, accommodation, 2 meals per day and coaching.",
+    "disclaimer": "Indicative estimate. International flight to Istanbul and travel insurance not included.",
+    "cta_apply": "CHOOSE MY CAMP",
+    "cta_quote": "REQUEST A QUOTE"
+  },
+  "transparence": {
+    "label": "OUR PRICING POLICY",
+    "title": "WHY THIS PRICE IS FAIR",
+    "items": {
+      "degressif": {
+        "title": "Transparent volume pricing",
+        "desc": "The more of you there are, the lower the price per person. The grid is public and identical for the official session, Custom camps and clubs."
+      },
+      "pas_de_frais_caches": {
+        "title": "No hidden fees",
+        "desc": "Visa, domestic flight and meals are already in the price. What you see is what you pay, apart from the international flight and insurance."
+      },
+      "paiement_post_visio": {
+        "title": "Payment after validation",
+        "desc": "Online registration is free. You only pay for the stay after your video call with Ruslan, by bank transfer or in cash."
+      }
+    }
+  },
+  "faq": {
+    "label": "FREQUENTLY ASKED",
+    "title": "EVERYTHING ABOUT PRICING",
+    "items": {
+      "quand_payer": {
+        "question": "When do I pay?",
+        "answer": "Online registration is free. Ruslan validates each application during a video call, then sends you the bank details. You pay for the full stay after this validation, by bank transfer or in cash. No payment is required at registration."
+      },
+      "frais_caches": {
+        "question": "Are there any hidden fees?",
+        "answer": "No. The displayed price covers the Russian visa, the domestic flight from Istanbul, accommodation, 2 meals per day, coaching and transfers. You remain responsible for the international flight to Istanbul, mandatory travel insurance, personal equipment and personal expenses."
+      },
+      "vol_international": {
+        "question": "Is the international flight included?",
+        "answer": "No. The flight to Istanbul is yours to arrange, so you can freely choose your airline and departure airport. The domestic flight between Istanbul and the Caucasus (Makhachkala for Wrestling, Grozny for MMA) is included in the price."
+      },
+      "degressif": {
+        "question": "How does volume pricing work?",
+        "answer": "The price per person drops with group size. From 1,290 EUR per person for a club of 6 to 10 athletes, up to 1,690 EUR solo, for 1 week. From 11 people, we privatise a full session on quote. The grid is identical for the official session, Custom camps and groups."
+      },
+      "famille": {
+        "question": "How is the family price calculated?",
+        "answer": "The Family package covers 1 parent and 1 child aged 8 to 17, from 2,590 EUR for 1 week (4,790 EUR for 2 weeks, 6,890 EUR for 3 weeks). Each additional person, whether a second parent or an extra child, is charged 790 EUR flat for the whole stay, regardless of duration."
+      },
+      "remboursement": {
+        "question": "What is the refund policy?",
+        "answer": "A stay cancelled more than 60 days before departure is refunded in full. Between 30 and 60 days, the refund is 50 percent. Less than 30 days before departure, no refund is possible. Full conditions are in our terms of sale."
+      }
+    }
+  },
+  "section_cta": {
+    "primary_label": "CHOOSE MY CAMP",
+    "ghost_label": "REQUEST A QUOTE"
+  }
+}

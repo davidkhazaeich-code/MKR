@@ -141,7 +141,10 @@ export default async function SessionsPage({ params }: { params: Promise<{ local
             <p style={{ color: 'var(--text-secondary)', marginTop: '0.8rem', maxWidth: '620px', margin: '0.8rem auto 0' }}>
               {t('tout_compris.body')}
             </p>
-            <div style={{ marginTop: '1.4rem' }}>
+            <div style={{ marginTop: '1.4rem', display: 'flex', gap: '0.8rem', flexWrap: 'wrap', justifyContent: 'center' }}>
+              <Link href="/tarifs" className="btn-primary" style={{ fontSize: '0.85rem', padding: '0.6rem 1.4rem' }}>
+                {t('tout_compris.cta_pricing')}
+              </Link>
               <Link href="/le-camp" className="btn-ghost" style={{ fontSize: '0.85rem', padding: '0.6rem 1.4rem' }}>
                 {t('tout_compris.cta')}
               </Link>

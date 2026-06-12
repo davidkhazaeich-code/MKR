@@ -156,7 +156,7 @@
         },
         {
           "question": "How do I register as a family?",
-          "answer": "Choose the Family channel on /inscription. You declare your children (1 to 4, ages 8 to 17). If your partner also participates in the camp, tick the dedicated box: both parents move to the Solo / Duo rate ({duoPerAdult1week} per person per week) plus each child at {familyExtraChildPerWeek} per week. Otherwise, the Parent + Child package (first child included in the {familyBase1weekLabel} per week) applies. The total price is calculated automatically."
+          "answer": "Choose the Family channel on /inscription. You declare your children (1 to 4, ages 8 to 17). The Parent + Child package (first child included, from {familyBase1weekLabel} per week) applies. If your partner also participates in the camp, tick the dedicated box: they count as an additional person, charged {familyExtraChildPerWeek} flat for the whole stay, like each extra child. The total price is calculated automatically."
         },
         {
           "question": "How is the child supervised during sessions?",

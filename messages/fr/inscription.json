@@ -465,7 +465,7 @@
         },
         "duo": {
           "label": "2 parents",
-          "sub": "2 × {price_adult} (Solo/Duo) + {price_child}/enfant/sem"
+          "sub": "Forfait Parent + Enfant + {price_child} pour le 2e parent (forfait séjour)"
         }
       },
       "stepper_label": "Nombre d'enfants",
@@ -477,10 +477,10 @@
       "estimation_breakdown_one_parent_one_child_weeks": "1 parent + 1 enfant sur {weeks} semaines. Forfait {price_forfait} (1P+1E inclus)",
       "estimation_breakdown_one_parent_children_one_week": "1 parent + {children} enfants sur 1 semaine. Forfait {price_forfait} (1P+1E inclus) + {extra} × {price_extra}",
       "estimation_breakdown_one_parent_children_weeks": "1 parent + {children} enfants sur {weeks} semaines. Forfait {price_forfait} (1P+1E inclus) + {extra} × {price_extra}",
-      "estimation_breakdown_two_parents_one_child_one_week": "2 parents + 1 enfant sur 1 semaine. 2 × {price_adult} + 1 × {price_extra}",
-      "estimation_breakdown_two_parents_one_child_weeks": "2 parents + 1 enfant sur {weeks} semaines. 2 × {price_adult} + 1 × {price_extra}",
-      "estimation_breakdown_two_parents_children_one_week": "2 parents + {children} enfants sur 1 semaine. 2 × {price_adult} + {children} × {price_extra}",
-      "estimation_breakdown_two_parents_children_weeks": "2 parents + {children} enfants sur {weeks} semaines. 2 × {price_adult} + {children} × {price_extra}"
+      "estimation_breakdown_two_parents_one_child_one_week": "2 parents + 1 enfant sur 1 semaine. Forfait {price_forfait} (1P+1E inclus) + {extra} × {price_extra}",
+      "estimation_breakdown_two_parents_one_child_weeks": "2 parents + 1 enfant sur {weeks} semaines. Forfait {price_forfait} (1P+1E inclus) + {extra} × {price_extra}",
+      "estimation_breakdown_two_parents_children_one_week": "2 parents + {children} enfants sur 1 semaine. Forfait {price_forfait} (1P+1E inclus) + {extra} × {price_extra}",
+      "estimation_breakdown_two_parents_children_weeks": "2 parents + {children} enfants sur {weeks} semaines. Forfait {price_forfait} (1P+1E inclus) + {extra} × {price_extra}"
     },
     "session_redirect_family": {
       "prefix": "Tu viens avec ton enfant 8-17 ans ? ",

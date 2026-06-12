@@ -465,7 +465,7 @@
         },
         "duo": {
           "label": "2 parents",
-          "sub": "2 × {price_adult} (Solo/Duo) + {price_child}/child/week"
+          "sub": "Parent + Child package + {price_child} for the second parent (flat for the stay)"
         }
       },
       "stepper_label": "Number of children",
@@ -477,10 +477,10 @@
       "estimation_breakdown_one_parent_one_child_weeks": "1 parent + 1 child over {weeks} weeks. Package {price_forfait} (1P+1C included)",
       "estimation_breakdown_one_parent_children_one_week": "1 parent + {children} children over 1 week. Package {price_forfait} (1P+1C included) + {extra} × {price_extra}",
       "estimation_breakdown_one_parent_children_weeks": "1 parent + {children} children over {weeks} weeks. Package {price_forfait} (1P+1C included) + {extra} × {price_extra}",
-      "estimation_breakdown_two_parents_one_child_one_week": "2 parents + 1 child over 1 week. 2 × {price_adult} + 1 × {price_extra}",
-      "estimation_breakdown_two_parents_one_child_weeks": "2 parents + 1 child over {weeks} weeks. 2 × {price_adult} + 1 × {price_extra}",
-      "estimation_breakdown_two_parents_children_one_week": "2 parents + {children} children over 1 week. 2 × {price_adult} + {children} × {price_extra}",
-      "estimation_breakdown_two_parents_children_weeks": "2 parents + {children} children over {weeks} weeks. 2 × {price_adult} + {children} × {price_extra}"
+      "estimation_breakdown_two_parents_one_child_one_week": "2 parents + 1 child over 1 week. Package {price_forfait} (1P+1C included) + {extra} × {price_extra}",
+      "estimation_breakdown_two_parents_one_child_weeks": "2 parents + 1 child over {weeks} weeks. Package {price_forfait} (1P+1C included) + {extra} × {price_extra}",
+      "estimation_breakdown_two_parents_children_one_week": "2 parents + {children} children over 1 week. Package {price_forfait} (1P+1C included) + {extra} × {price_extra}",
+      "estimation_breakdown_two_parents_children_weeks": "2 parents + {children} children over {weeks} weeks. Package {price_forfait} (1P+1C included) + {extra} × {price_extra}"
     },
     "session_redirect_family": {
       "prefix": "Coming with your child 8-17 years old? ",

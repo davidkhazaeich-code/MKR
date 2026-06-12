@@ -45,15 +45,14 @@
           "prefix": "",
           "strong": "Forfait Famille (1 parent + 1 enfant inclus)",
           "middle": " : ",
-          "after_base": ". Chaque enfant supplémentaire : ",
+          "after_base": ". Chaque personne supplémentaire (2e parent ou enfant) : ",
           "suffix": "."
         },
         "famille_2_parents": {
           "prefix": "",
           "strong": "Famille avec 2 parents participants",
-          "middle": " : tarif Solo / Duo appliqué aux deux parents (",
-          "after_duo": " / pers / sem) + ",
-          "suffix": " par enfant et par semaine."
+          "middle": " : forfait Parent + Enfant, puis ",
+          "suffix": " par personne supplémentaire (2e parent et chaque enfant en plus), forfaitaire pour tout le séjour."
         }
       },
       "payment_p1": "Aucun paiement n'est demandé au moment de l'inscription en ligne. Le paiement intégral du package est dû après l'entretien de validation en visioconférence avec l'équipe MKR. Les coordonnées bancaires (RIB) sont communiquées au candidat à l'issue de cet entretien.",

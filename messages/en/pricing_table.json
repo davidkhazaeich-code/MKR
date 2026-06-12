@@ -1,0 +1,69 @@
+{
+  "header": {
+    "eyebrow": "PUBLIC PRICING",
+    "title": "PRICING BY GROUP SIZE",
+    "sub": "Same rates for the official session, the Custom camp and groups or clubs. The more of you there are, the lower the price per person. No discretionary discounts."
+  },
+  "tiers": {
+    "duo": {
+      "range": "1 to 2 people",
+      "label": "Solo / Duo",
+      "pitch": "Rate applied to the Custom camp solo or as an adult pair, or to the official session for a single adult."
+    },
+    "trio": {
+      "range": "3 to 5 people",
+      "label": "Trio to 5",
+      "pitch": "Rate applied to the Custom camp as a team (3 or 4 friends) or to groups and clubs of 5 athletes."
+    },
+    "club": {
+      "range": "6 to 10 people",
+      "label": "Club / Group",
+      "pitch": "Rate applied to organised clubs or groups of 6 to 10 adult athletes."
+    },
+    "private": {
+      "range": "11 people and more",
+      "label": "Private gym",
+      "pitch": "Full privatisation of a session for an entire club. Custom quote."
+    }
+  },
+  "week": {
+    "1": "1 week",
+    "2": "2 weeks",
+    "3": "3 weeks"
+  },
+  "per_person": "/ person",
+  "solo_note": "Also applies to solo (1 adult)",
+  "quote_value": "On quote",
+  "quote_cta": "REQUEST A QUOTE",
+  "family": {
+    "eyebrow": "FAMILY FORMULA",
+    "title": "PARENT PLUS CHILD PACKAGE",
+    "prose": "You travel with your child aged 8 to 17. The package covers 1 parent plus 1 child. Each additional person, whether a second parent or an extra child, costs {additionalPerson} flat for the whole stay, regardless of duration.",
+    "base_tag": "BASE PACKAGE",
+    "base_title": "1 parent plus 1 child included",
+    "base_sub": "Fixed package depending on duration. The first child is included.",
+    "extra_tag": "ADDITIONAL PERSON",
+    "extra_title": "Second parent or extra child",
+    "extra_sub": "Single flat fee for the whole stay, identical regardless of duration.",
+    "extra_value_suffix": "per additional person",
+    "example": "Example: 1 parent plus 2 children = {base1} + {add1} = {ex1} (1 week). 2 parents plus 1 child for 2 weeks = {base2} + {add1} = {ex2}."
+  },
+  "included": {
+    "title": "INCLUDED IN EVERY RATE",
+    "items": {
+      "hebergement": "Camp accommodation",
+      "visa": "Russian visa (fees and full application)",
+      "vol": "Domestic flight Istanbul to Makhachkala (Wrestling) or Grozny (MMA)",
+      "transferts": "Airport to camp transfers",
+      "repas": "2 meals per day",
+      "sessions": "2 training sessions per day",
+      "encadrement": "Coaching by the local coaches of the Caucasus",
+      "suivi": "Remote preparation follow-up"
+    },
+    "not_included": "Not included: international flight to Istanbul (arranged by the applicant), travel insurance (mandatory), personal equipment, personal expenses. MKR surcharge for applications less than 30 days before departure (express processing)."
+  },
+  "cta": {
+    "primary": "CHOOSE MY CAMP",
+    "secondary": "A QUESTION?"
+  }
+}

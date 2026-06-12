@@ -67,7 +67,7 @@ const TEXTS: Record<Locale, PricingCopyTexts> = {
     parenthesizedWeeks: (w) => `(${w} sem)`,
     fromPrefix: 'À partir de',
     onQuote: 'Sur devis',
-    extraChildPerWeekLabel: (amount) => `+${amount} par semaine`,
+    extraChildPerWeekLabel: (amount) => `${amount} (forfait)`,
     forfaitFamilleTeaser: (price) =>
       `Forfait Famille (1 parent + 1 enfant inclus) à partir de ${price} la semaine`,
     pricingGridProse: (p) =>
@@ -76,8 +76,7 @@ const TEXTS: Record<Locale, PricingCopyTexts> = {
       `Club / Groupe (6-10 personnes) : ${p.clubBare} par adulte. ` +
       `11 personnes et plus / privatisation : sur devis personnalisé. ` +
       `Forfait Famille (1 parent + 1 enfant inclus) : ${p.familyBaseProse}. ` +
-      `Chaque enfant supplémentaire : ${p.familyExtraChildFull}. ` +
-      `Famille avec 2 parents participants : tarif Solo/Duo pour les deux parents (${p.duoPerAdult1week} / pers / sem) + chaque enfant à ${p.familyExtraChildPerWeek} / sem.`,
+      `Chaque personne supplémentaire au-delà du forfait (2e parent ou enfant) : ${p.familyExtraChildFull}, forfaitaire pour tout le séjour.`,
     familyForfaitDetail: (p) =>
       `Forfait Famille : ${p.family1} pour 1 parent + 1 enfant (1 sem), ${p.family2} (2 sem), ${p.family3} (3 sem). ` +
       `Chaque enfant supplémentaire : ${p.extraChild1Label}.`,
@@ -92,7 +91,7 @@ const TEXTS: Record<Locale, PricingCopyTexts> = {
     parenthesizedWeeks: (w) => `(${w} sem)`,
     fromPrefix: 'À partir de',
     onQuote: 'Sur devis',
-    extraChildPerWeekLabel: (amount) => `+${amount} par semaine`,
+    extraChildPerWeekLabel: (amount) => `${amount} (forfait)`,
     forfaitFamilleTeaser: (price) =>
       `Forfait Famille (1 parent + 1 enfant inclus) à partir de ${price} la semaine`,
     pricingGridProse: (p) =>
@@ -101,8 +100,7 @@ const TEXTS: Record<Locale, PricingCopyTexts> = {
       `Club / Groupe (6-10 personnes) : ${p.clubBare} par adulte. ` +
       `11 personnes et plus / privatisation : sur devis personnalisé. ` +
       `Forfait Famille (1 parent + 1 enfant inclus) : ${p.familyBaseProse}. ` +
-      `Chaque enfant supplémentaire : ${p.familyExtraChildFull}. ` +
-      `Famille avec 2 parents participants : tarif Solo/Duo pour les deux parents (${p.duoPerAdult1week} / pers / sem) + chaque enfant à ${p.familyExtraChildPerWeek} / sem.`,
+      `Chaque personne supplémentaire au-delà du forfait (2e parent ou enfant) : ${p.familyExtraChildFull}, forfaitaire pour tout le séjour.`,
     familyForfaitDetail: (p) =>
       `Forfait Famille : ${p.family1} pour 1 parent + 1 enfant (1 sem), ${p.family2} (2 sem), ${p.family3} (3 sem). ` +
       `Chaque enfant supplémentaire : ${p.extraChild1Label}.`,
@@ -174,9 +172,7 @@ export function getPricingCopy(locale: string = 'fr'): PricingCopy {
 
   const FAMILY_EXTRA_CHILD_PER_WEEK_LABEL = formatEUR(FAMILY_PRICING.extraChildPerWeek[1])
   const FAMILY_EXTRA_CHILD_1WEEK_LABEL = tx.extraChildPerWeekLabel(FAMILY_EXTRA_CHILD_PER_WEEK_LABEL)
-  const FAMILY_EXTRA_CHILD_FULL = DURATIONS.map(
-    w => `+${formatEUR(FAMILY_PRICING.extraChildPerWeek[w])} / ${tx.weekShort(w)}`,
-  ).join(', ')
+  const FAMILY_EXTRA_CHILD_FULL = `+${formatEUR(FAMILY_PRICING.additionalPerson)}`
 
   const PACKAGE_PER_ADULT_RANGE_LABEL = `${formatEUR(PRICING_TIERS.club.perAdult[1])} - ${formatEUR(PRICING_TIERS.duo.perAdult[3])}`
 

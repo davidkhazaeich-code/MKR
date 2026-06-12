@@ -15,6 +15,7 @@ export const routing = defineRouting({
     '/programme/lutte-enfants': { fr: '/programme/lutte-enfants', en: '/program/youth-wrestling' },
     '/programme/mma': { fr: '/programme/mma', en: '/program/mma' },
     '/sessions': '/sessions',
+    '/tarifs': { fr: '/tarifs', en: '/pricing' },
     '/inscription': { fr: '/inscription', en: '/apply' },
     '/mkr-camp-2026': '/mkr-camp-2026',
     '/familles': { fr: '/familles', en: '/family' },

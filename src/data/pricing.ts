@@ -11,10 +11,11 @@
  * - 6-10 adultes : 1 290 / 1 790 / 2 390 € par personne (Club / Groupe)
  * - 11+ : sur devis (privatisation totale)
  *
- * Famille :
- * - Forfait base 1 parent + 1 enfant : 2 590 / 4 790 / 6 890 €
- * - Enfant supplémentaire : +790 / +1 580 / +2 370 € (selon durée)
- * - Si conjoint(e) participe : 2 × tarif 1-2 adultes + N enfants × supp/sem
+ * Famille (révision 2026-06-12) :
+ * - Forfait base 1 parent + 1 enfant : 2 590 / 4 790 / 6 890 € (selon durée)
+ * - Chaque personne supplémentaire (2e parent OU enfant en plus) : +790 € FORFAITAIRE
+ *   (une seule fois pour tout le séjour, quelle que soit la durée 1/2/3 sem)
+ * - Plus de règle "2 parents = tarif duo". Tout le monde au-delà du couple parent+enfant = +790 €.
  */
 
 export type Duration = 1 | 2 | 3
@@ -68,12 +69,21 @@ export const PRICING_TIERS: Record<GroupTier, TierPricing> = {
   },
 }
 
-/** Forfait Famille : 1 parent + 1 enfant inclus dans le prix de base, +N enfants supplémentaires */
+/**
+ * Forfait Famille : 1 parent + 1 enfant inclus dans le prix de base.
+ * Toute personne supplémentaire (2e parent OU enfant en plus) : +790 € forfaitaire,
+ * une seule fois pour tout le séjour (révision 2026-06-12).
+ */
 export const FAMILY_PRICING = {
   /** Prix de base 1 parent + 1 enfant (par durée) */
   base: { 1: 2590, 2: 4790, 3: 6890 } as Record<Duration, number>,
-  /** Enfant supplémentaire (au-delà du 1er enfant inclus) */
-  extraChildPerWeek: { 1: 790, 2: 1580, 3: 2370 } as Record<Duration, number>,
+  /** Forfait par personne supplémentaire (2e parent ou enfant), une fois pour tout le séjour. */
+  additionalPerson: 790,
+  /**
+   * @deprecated Conservé pour compat des importateurs existants. Désormais FORFAITAIRE :
+   * renvoie 790 quelle que soit la durée (plus de tarif par semaine).
+   */
+  extraChildPerWeek: { 1: 790, 2: 790, 3: 790 } as Record<Duration, number>,
 }
 
 /** Récupère le palier groupe correspondant à N adultes */
@@ -107,28 +117,18 @@ export interface PricingInput {
 /**
  * Calcule le prix total pour une configuration donnée.
  * - 11+ adultes : retourne 0 (UI doit afficher "Sur devis", utiliser isOnQuote)
- * - 1 parent + N enfants : forfait Parent+Enfant (1er enfant inclus) + (N-1) × supp
- * - 2 parents + N enfants : 2 × tarif Duo + N × supp
+ * - Famille (au moins 1 enfant) : forfait base (1 parent + 1 enfant) + 790 € par personne
+ *   supplémentaire (2e parent OU enfant en plus), forfaitaire pour tout le séjour.
  * - 1-10 adultes sans enfant : N × tarif palier correspondant
  */
 export function calculatePrice({ adults, children = 0, weeks }: PricingInput): number {
   if (adults <= 0 || weeks <= 0) return 0
   if (isOnQuote(adults)) return 0
 
-  // Famille (au moins 1 enfant)
+  // Famille (au moins 1 enfant) : forfait 1 parent + 1 enfant + 790 €/personne supplémentaire
   if (children > 0) {
-    if (adults === 1) {
-      const base = FAMILY_PRICING.base[weeks]
-      const extra = FAMILY_PRICING.extraChildPerWeek[weeks]
-      return base + Math.max(0, children - 1) * extra
-    }
-    if (adults === 2) {
-      const duoPrice = PRICING_TIERS.duo.perAdult[weeks]
-      const extra = FAMILY_PRICING.extraChildPerWeek[weeks]
-      return 2 * duoPrice + children * extra
-    }
-    // 3+ parents : config atypique, on facture chaque adulte au tarif de palier + enfants au tarif supp
-    return adults * pricePerAdult(adults, weeks) + children * FAMILY_PRICING.extraChildPerWeek[weeks]
+    const additionalPeople = Math.max(0, adults + children - 2)
+    return FAMILY_PRICING.base[weeks] + additionalPeople * FAMILY_PRICING.additionalPerson
   }
 
   // Groupe d'adultes (1-10 adultes)
@@ -164,18 +164,10 @@ export function priceBreakdown({ adults, children = 0, weeks }: PricingInput): s
   if (isOnQuote(adults)) return 'Devis sur mesure'
 
   if (children > 0) {
-    if (adults === 1) {
-      const base = FAMILY_PRICING.base[weeks]
-      const extra = FAMILY_PRICING.extraChildPerWeek[weeks]
-      const supp = Math.max(0, children - 1)
-      if (supp === 0) return `Forfait 1 parent + 1 enfant : ${formatEUR(base)}`
-      return `${formatEUR(base)} (forfait 1P + 1E) + ${supp} × ${formatEUR(extra)} (enfant supp.)`
-    }
-    if (adults === 2) {
-      const duoPrice = PRICING_TIERS.duo.perAdult[weeks]
-      const extra = FAMILY_PRICING.extraChildPerWeek[weeks]
-      return `2 × ${formatEUR(duoPrice)} (parents, tarif Duo) + ${children} × ${formatEUR(extra)} (enfant)`
-    }
+    const base = FAMILY_PRICING.base[weeks]
+    const supp = Math.max(0, adults + children - 2)
+    if (supp === 0) return `Forfait 1 parent + 1 enfant : ${formatEUR(base)}`
+    return `${formatEUR(base)} (forfait 1 parent + 1 enfant) + ${supp} × ${formatEUR(FAMILY_PRICING.additionalPerson)} (personne supp.)`
   }
   const tier = getTierForAdults(adults)
   const pp = PRICING_TIERS[tier].perAdult[weeks]

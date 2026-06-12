@@ -11013,3 +11013,257 @@ html.is-loading body {
   padding: 0.7rem 1rem;
   font-size: 1rem;
 }
+
+/* ─────────────────────────────────────────────────────────────────────────
+   Page Tarifs : section "tout compris" + simulateur de prix (PriceEstimator)
+   Ajouté 2026-06-12. Tokens : --primary, --surface-lowest, --text-*.
+   ───────────────────────────────────────────────────────────────────────── */
+
+/* Tout compris — icône + footnote */
+.tc-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 6px;
+  color: var(--primary);
+  background: rgba(200, 75, 49, 0.1);
+  border: 1px solid rgba(200, 75, 49, 0.22);
+}
+.tc-footnote {
+  margin-top: 2rem;
+  max-width: 760px;
+  font-size: 0.8rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+  border-left: 2px solid rgba(255, 255, 255, 0.12);
+  padding-left: 1rem;
+}
+
+/* Simulateur de prix */
+.estimator-section {
+  position: relative;
+  padding: clamp(3.5rem, 8vw, 6rem) 0;
+  overflow: hidden;
+}
+.estimator-header {
+  max-width: 720px;
+  margin-bottom: 2.5rem;
+}
+.estimator-title {
+  font-family: var(--font-teko), sans-serif;
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  text-transform: uppercase;
+  line-height: 1.05;
+}
+.estimator-sub {
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-top: 1rem;
+}
+.estimator-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 1.75rem;
+  max-width: 1080px;
+  align-items: stretch;
+}
+@media (max-width: 880px) {
+  .estimator-grid { grid-template-columns: 1fr; }
+}
+
+/* Colonne contrôles */
+.estimator-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1.75rem;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+}
+.estimator-control {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+.estimator-control-label {
+  font-family: var(--font-teko), sans-serif;
+  font-size: 1.05rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+}
+.estimator-control-hint {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+/* Stepper +/- */
+.estimator-stepper {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  width: fit-content;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 5px;
+  overflow: hidden;
+}
+.estimator-step-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text-primary);
+  border: 0;
+  cursor: pointer;
+  transition: background 160ms ease, color 160ms ease;
+}
+.estimator-step-btn:hover:not(:disabled) {
+  background: var(--primary);
+  color: #fff;
+}
+.estimator-step-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+.estimator-step-value {
+  min-width: 64px;
+  text-align: center;
+  font-family: var(--font-teko), sans-serif;
+  font-size: 1.5rem;
+  color: var(--text-primary);
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0 0.5rem;
+}
+
+/* Durée segmentée */
+.estimator-weeks {
+  display: inline-flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.estimator-week-btn {
+  padding: 0.7rem 1.1rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 5px;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 160ms ease;
+  min-height: 44px;
+}
+.estimator-week-btn:hover {
+  border-color: rgba(200, 75, 49, 0.5);
+  color: var(--text-primary);
+}
+.estimator-week-btn.is-active {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
+  font-weight: 600;
+}
+
+/* Colonne résultat */
+.estimator-result {
+  display: flex;
+  flex-direction: column;
+  padding: 1.75rem;
+  background:
+    radial-gradient(120% 90% at 100% 0%, rgba(200, 75, 49, 0.12), transparent 60%),
+    var(--surface-lowest);
+  border: 1px solid rgba(200, 75, 49, 0.25);
+  border-radius: 6px;
+}
+.estimator-result-eyebrow {
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--primary);
+  font-weight: 700;
+}
+.estimator-total-label {
+  margin-top: 1rem;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.estimator-total {
+  font-family: var(--font-teko), sans-serif;
+  font-size: clamp(2.6rem, 7vw, 3.6rem);
+  line-height: 1;
+  color: var(--text-primary);
+  margin-top: 0.2rem;
+}
+.estimator-total--quote {
+  color: var(--primary);
+  margin-top: 1rem;
+}
+.estimator-per-adult {
+  font-size: 0.92rem;
+  color: var(--text-secondary);
+  margin-top: 0.35rem;
+}
+.estimator-quote-hint {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
+  margin-top: 0.5rem;
+}
+.estimator-breakdown {
+  list-style: none;
+  margin: 1rem 0 0;
+  padding: 0.9rem 0 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+.estimator-breakdown li {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  padding: 0.3rem 0;
+}
+.estimator-breakdown li span:last-child {
+  color: var(--text-primary);
+  font-weight: 600;
+  white-space: nowrap;
+}
+.estimator-included {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin-top: 1.25rem;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+.estimator-included-icon {
+  color: var(--primary);
+  flex: 0 0 auto;
+  margin-top: 0.1rem;
+}
+.estimator-cta {
+  margin-top: 1.5rem;
+}
+.estimator-cta .btn-primary {
+  width: 100%;
+  justify-content: center;
+}
+.estimator-disclaimer {
+  margin-top: 0.9rem;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+/* Lien direct Tarifs dans la barre nav (variant anchor du .nav-trigger), ajouté 2026-06-12 */
+.nav-trigger--link { text-decoration: none; }
+.nav-trigger--link.is-active, .nav-trigger--link[aria-current="page"] { color: var(--text-primary); }

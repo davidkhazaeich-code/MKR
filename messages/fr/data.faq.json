@@ -156,7 +156,7 @@
         },
         {
           "question": "Comment s'inscrire en famille ?",
-          "answer": "Choisis le tunnel Famille sur /inscription. Tu indiques tes enfants (1 à 4, âges 8-17). Si ton conjoint(e) participe aussi au camp, coche la case dédiée : les deux parents passent au tarif Solo/Duo ({duoPerAdult1week} / pers / sem) + chaque enfant à {familyExtraChildPerWeek} / sem. Sinon, le forfait Parent + Enfant (1er enfant inclus dans les {familyBase1weekLabel} la semaine) s'applique. Le tarif total se calcule automatiquement."
+          "answer": "Choisis le tunnel Famille sur /inscription. Tu indiques tes enfants (1 à 4, âges 8-17). Le forfait Parent + Enfant (1er enfant inclus, dès {familyBase1weekLabel} la semaine) s'applique. Si ton conjoint(e) participe aussi au camp, coche la case dédiée : il compte comme une personne supplémentaire, facturée {familyExtraChildPerWeek} forfaitaire pour tout le séjour, comme chaque enfant en plus. Le tarif total se calcule automatiquement."
         },
         {
           "question": "Comment l'enfant est-il encadré pendant les sessions ?",

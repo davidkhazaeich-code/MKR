@@ -10,7 +10,7 @@
 **Fichiers créés** :
 - `src/app/[locale]/(site)/tarifs/page.tsx` — server component. JSON-LD **FAQPage** (6 Q/R) + **Product/AggregateOffer** (lowPrice = `PRICING_TIERS.club.perAdult[1]`, highPrice = `FAMILY_PRICING.base[3]`, EUR).
 - `src/app/[locale]/(site)/tarifs/opengraph-image.tsx` — OG (accent red, bg takedown-wrestling.png).
-- `src/components/PriceEstimator.tsx` — **client component**. Steppers adultes (1-11) / enfants (0-4) + durée segmentée (1/2/3 sem). Math via `calculatePrice`/`pricePerAdult`/`isOnQuote` purs (`@/data/pricing`). Labels passés en **props** depuis la page (zéro dépendance au provider i18n). CTA dynamique : `?type=famille` si enfant, `?type=groupe` si ≥6, sinon `?type=session` ; 11+ → "Sur devis" + `/contact`. CSS `.estimator-*` + `.tc-*` en fin de `globals.css`.
+- `src/components/PriceEstimator.tsx` — **client component**. Steppers adultes (1-11) / enfants (0-4) + durée segmentée **1/2/3 sem + "Plus de 3 sem"**. Math via `calculatePrice`/`pricePerAdult`/`isOnQuote` purs (`@/data/pricing`). Labels passés en **props** depuis la page (zéro dépendance au provider i18n). CTA dynamique : `?type=famille` si enfant, `?type=groupe` si ≥6, sinon `?type=session`. Deux états hors grille : **11+ adultes → "Sur devis" + `/contact`** ; **durée > 3 sem → "Sur mesure" + `/inscription?type=custom`** (tunnel Sur Mesure). CSS `.estimator-*` + `.tc-*` en fin de `globals.css`.
 - `messages/{fr,en}/tarifs.json` + `messages/{fr,en}/pricing_table.json`.
 
 **BREAKING (composant partagé)** : `src/components/PricingTable.tsx` est passé de **strings FR hardcodées → async server component i18n** (`getTranslations('pricing_table')`, numéros toujours depuis `data/pricing.ts`). **Corrige le bug** où la grille s'affichait en français sur `/en/family`, `/en/sessions`, `/en/mkr-camp-2026`. Le `<Link>` est désormais le `@/i18n/navigation` (slugs localisés). Les 4 pages qui rendent `<PricingTable />` n'ont pas changé d'appel.
@@ -23,6 +23,10 @@
 - `src/components/Footer.tsx` : libellé "Tarifs publics" repointé `/sessions`→`/tarifs`.
 - `src/app/[locale]/(site)/sessions/page.tsx` : bouton primary `/tarifs` (`tout_compris.cta_pricing`) à côté du lien `/le-camp`.
 - Clés i18n ajoutées : `common.nav.panels.le_camp.formats.tarifs`, `sessions.tout_compris.cta_pricing` (FR+EN).
+
+**Révision modèle Famille (2026-06-12, validée David)** : le forfait Parent + Enfant (base 2 590 / 4 790 / 6 890 € inchangée) facture désormais **+790 € FORFAITAIRE par personne supplémentaire** (2e parent OU enfant en plus), une seule fois pour tout le séjour (plus de tarif par semaine, plus de règle "2 parents = tarif duo"). `calculatePrice` famille = `base[weeks] + max(0, adults + children - 2) × 790`. Source : `FAMILY_PRICING.additionalPerson = 790` dans `data/pricing.ts` (`extraChildPerWeek` conservé déprécié = {790,790,790} pour compat des importateurs). Propagation copy FR+EN : `pricing-copy.ts` (labels "forfait" au lieu de "par semaine"), `PricingTable`/`pricing_table.json` (carte "Personne supplémentaire" +790 € flat), `PriceEstimator`, `tarifs.json` (FAQ), `data.faq.json`, `data.registration-types.json`, `cgv.json` (+ page, retrait clé `after_duo`), `inscription.json` (toggle 2 parents + breakdowns `estimation_breakdown_two_parents_*`). La grille Groupe (duo 1690/2790/3490) reste INCHANGÉE.
+
+**Nav findability** : `/tarifs` est désormais une **entrée top-level de la barre de navigation** (`Nav.tsx`, après "Découvrir", clé `common.nav.triggers.tarifs` = Tarifs / Pricing, lien `.nav-trigger--link`) en plus du sous-menu Le Camp + footer.
 
 **Note** : le `addressRegion: "Daghestan"` (avec H) reste dans le JSON-LD racine (`data/site.ts` GEO) sur toutes les pages EN — préexistant, donnée structurée, hors scope.
 

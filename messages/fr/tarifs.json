@@ -1,0 +1,128 @@
+{
+  "meta": {
+    "title": "Tarifs Camp MMA et Lutte au Caucase | Prix tout compris MKR",
+    "description": "Tarifs clairs et tout compris pour le camp MKR au Daghestan (Lutte) et en Tchétchénie (MMA). À partir de 1 290 € par personne. Visa russe, vol intérieur, hébergement, 2 repas par jour et encadrement inclus. Simulateur de prix en ligne."
+  },
+  "breadcrumb": {
+    "home": "Accueil",
+    "current": "Tarifs"
+  },
+  "hero": {
+    "label": "TARIFS",
+    "title": "DES TARIFS CLAIRS.<br/>TOUT COMPRIS.",
+    "subtitle": "Un seul prix qui couvre l'essentiel : visa russe, vol intérieur, hébergement, repas et encadrement. Pas de frais cachés, pas de réduction discrétionnaire."
+  },
+  "toutcompris": {
+    "label": "CE QUE COUVRE LE PRIX",
+    "title": "UN PRIX, TOUT COMPRIS",
+    "intro": "Le tarif MKR n'est pas qu'un prix d'entraînement. Il regroupe tout ce qui rend le séjour possible, de ton arrivée à Istanbul jusqu'au retour. Tu organises uniquement ton vol international jusqu'à Istanbul et ton assurance voyage.",
+    "items": {
+      "visa": {
+        "title": "Visa russe",
+        "desc": "Frais consulaires, dossier complet, lettre d'invitation et questionnaire UE pris en charge par MKR."
+      },
+      "vol": {
+        "title": "Vol intérieur",
+        "desc": "Istanbul vers Makhachkala pour la Lutte au Daghestan, ou Istanbul vers Grozny pour le MMA en Tchétchénie."
+      },
+      "hebergement": {
+        "title": "Hébergement de camp",
+        "desc": "Logement sur place pendant toute la durée du séjour, à proximité des salles d'entraînement."
+      },
+      "repas": {
+        "title": "2 repas par jour",
+        "desc": "Cuisine locale adaptée à l'effort, protéines et hydratation pensées pour les athlètes de combat."
+      },
+      "encadrement": {
+        "title": "Encadrement local",
+        "desc": "2 sessions par jour avec les coachs daghestanais et tchétchènes en poste à l'année dans les salles."
+      },
+      "transferts": {
+        "title": "Transferts et suivi",
+        "desc": "Transferts aéroport vers camp et suivi préparatoire à distance avant le départ inclus."
+      }
+    },
+    "footnote": "Non inclus : vol international jusqu'à Istanbul, assurance voyage obligatoire, équipement personnel et dépenses personnelles. Un supplément s'applique aux candidatures acceptées à moins de 30 jours du départ."
+  },
+  "estimator": {
+    "label": "SIMULATEUR",
+    "title": "ESTIME TON BUDGET EN 10 SECONDES",
+    "sub": "Choisis ta configuration. Le tarif baisse à mesure que vous êtes nombreux. Les enfants 8-17 ans voyagent toujours avec un parent participant.",
+    "adults_label": "Adultes",
+    "children_label": "Enfants 8-17 ans",
+    "duration_label": "Durée",
+    "adults_hint": "11 et plus : privatisation totale, sur devis.",
+    "children_hint": "Active la formule Famille (parent + enfant).",
+    "week": {
+      "1": "1 semaine",
+      "2": "2 semaines",
+      "3": "3 semaines",
+      "plus": "Plus de 3 sem"
+    },
+    "custom_value": "Sur mesure",
+    "custom_hint": "Au-delà de 3 semaines, le séjour est construit sur mesure avec Ruslan. Indique-nous ta durée idéale et on te prépare une offre dédiée.",
+    "result_eyebrow": "Estimation",
+    "total_label": "Total séjour",
+    "per_adult_label": "par adulte",
+    "family_base_label": "Forfait parent + enfant inclus",
+    "family_extra_label": "personne supplémentaire",
+    "quote_value": "Sur devis",
+    "quote_hint": "Au-delà de 10 adultes, on privatise une session pour ton club et on te fait une offre dédiée.",
+    "included_note": "Tout compris : visa russe, vol intérieur, hébergement, 2 repas par jour et encadrement.",
+    "disclaimer": "Estimation indicative. Vol international jusqu'à Istanbul et assurance voyage non inclus.",
+    "cta_apply": "CHOISIR MON CAMP",
+    "cta_quote": "DEMANDER UN DEVIS"
+  },
+  "transparence": {
+    "label": "NOTRE LIGNE TARIFAIRE",
+    "title": "POURQUOI CE PRIX EST JUSTE",
+    "items": {
+      "degressif": {
+        "title": "Tarif dégressif transparent",
+        "desc": "Plus vous êtes nombreux, plus le prix par personne baisse. La grille est publique et identique pour la session officielle, le Sur Mesure et les clubs."
+      },
+      "pas_de_frais_caches": {
+        "title": "Aucun frais caché",
+        "desc": "Le visa, le vol intérieur et les repas sont déjà dans le prix. Ce que tu vois est ce que tu paies, hors vol international et assurance."
+      },
+      "paiement_post_visio": {
+        "title": "Paiement après validation",
+        "desc": "L'inscription en ligne est gratuite. Tu ne règles le séjour qu'après ton entretien en visio avec Ruslan, par virement ou en espèces."
+      }
+    }
+  },
+  "faq": {
+    "label": "QUESTIONS FRÉQUENTES",
+    "title": "TOUT SAVOIR SUR LES TARIFS",
+    "items": {
+      "quand_payer": {
+        "question": "Quand est-ce que je paie ?",
+        "answer": "L'inscription en ligne est gratuite. Ruslan valide chaque candidature lors d'un entretien en visio, puis t'envoie le RIB. Tu règles l'intégralité du séjour après cette validation, par virement bancaire ou en espèces. Aucun paiement n'est demandé au moment de l'inscription."
+      },
+      "frais_caches": {
+        "question": "Y a-t-il des frais cachés ?",
+        "answer": "Non. Le tarif affiché couvre le visa russe, le vol intérieur depuis Istanbul, l'hébergement, 2 repas par jour, l'encadrement et les transferts. Restent à ta charge le vol international jusqu'à Istanbul, l'assurance voyage obligatoire, l'équipement personnel et les dépenses personnelles."
+      },
+      "vol_international": {
+        "question": "Le vol international est-il inclus ?",
+        "answer": "Non. Le vol jusqu'à Istanbul reste à ta charge, pour que tu choisisses librement ta compagnie et ton aéroport de départ. En revanche, le vol intérieur entre Istanbul et le Caucase (Makhachkala pour la Lutte, Grozny pour le MMA) est inclus dans le prix."
+      },
+      "degressif": {
+        "question": "Comment fonctionne le tarif dégressif ?",
+        "answer": "Le prix par personne baisse selon la taille du groupe. De 1 290 € par personne pour un club de 6 à 10 athlètes, jusqu'à 1 690 € en solo, pour 1 semaine. À partir de 11 personnes, on privatise une session entière sur devis. La grille est identique pour la session officielle, le Sur Mesure et les groupes."
+      },
+      "famille": {
+        "question": "Comment est calculé le tarif famille ?",
+        "answer": "Le forfait Famille couvre 1 parent et 1 enfant 8-17 ans, à partir de 2 590 € pour 1 semaine (4 790 € sur 2 semaines, 6 890 € sur 3 semaines). Chaque personne supplémentaire, qu'il s'agisse d'un second parent ou d'un enfant en plus, est facturée 790 € forfaitaire pour tout le séjour, quelle que soit la durée."
+      },
+      "remboursement": {
+        "question": "Quelle est la politique de remboursement ?",
+        "answer": "Un séjour annulé plus de 60 jours avant le départ est remboursé à 100 %. Entre 30 et 60 jours, le remboursement est de 50 %. À moins de 30 jours, aucun remboursement n'est possible. Les conditions détaillées figurent dans nos CGV."
+      }
+    }
+  },
+  "section_cta": {
+    "primary_label": "CHOISIR MON CAMP",
+    "ghost_label": "DEMANDER UN DEVIS"
+  }
+}

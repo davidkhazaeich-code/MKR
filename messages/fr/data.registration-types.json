@@ -28,7 +28,7 @@
     "short_label": "Famille",
     "badge": "Parent + enfant 8-17",
     "description": "Camp en famille au Daghestan (Lutte enfants). Parent et enfant 8-17 ans côte à côte, encadrement jeunesse dédié. Forfait à partir de {familyBase1weekLabel}.",
-    "long_description": "Tu pars en famille avec tes enfants 8-17 ans (parent participant obligatoire, c'est notre règle de sécurité). Programme parallèle : sessions adultes pour toi, programme Lutte enfants pour l'ado. Tu peux rejoindre une des quatre sessions officielles (Été 2026, Toussaint 2026, Hiver 2027, Pâques 2027), ou choisir tes propres dates (90 jours minimum). Forfait Parent + Enfant à {familyBase1weekLabel} (1 sem) avec 1er enfant inclus, {familyExtraChild1weekLabel} par enfant supplémentaire. Si ton conjoint(e) participe : les deux parents passent au tarif Solo/Duo ({duoPerAdult1week} / pers / sem) + enfants au tarif supplément ({familyExtraChild1weekLabel} chacun).",
+    "long_description": "Tu pars en famille avec tes enfants 8-17 ans (parent participant obligatoire, c'est notre règle de sécurité). Programme parallèle : sessions adultes pour toi, programme Lutte enfants pour l'ado. Tu peux rejoindre une des quatre sessions officielles (Été 2026, Toussaint 2026, Hiver 2027, Pâques 2027), ou choisir tes propres dates (90 jours minimum). Forfait Parent + Enfant à {familyBase1weekLabel} (1 sem) avec 1er enfant inclus. Chaque personne supplémentaire, 2e parent ou enfant en plus, coûte {familyExtraChild1weekLabel} pour tout le séjour.",
     "cta": "Découvrir le Camp Famille",
     "dates": "Session ou tes dates",
     "duration": "1, 2 ou 3 semaines",

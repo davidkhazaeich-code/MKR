@@ -38,6 +38,7 @@ const ICO: Record<string, React.ReactNode> = {
   inscription: <Icon name="send" size={18} />,
   guide: <Icon name="book-open" size={18} />,
   calendar: <Icon name="calendar" size={18} />,
+  tarifs: <Icon name="tag" size={18} />,
 }
 
 type PanelId = 'camp' | 'programme' | 'destinations' | 'infos'
@@ -222,6 +223,12 @@ export default function Nav() {
                   </button>
                 </li>
               ))}
+              <li>
+                <Link href="/tarifs" className="nav-trigger nav-trigger--link" onMouseEnter={scheduleClose}>
+                  {ICO.tarifs}
+                  {t('triggers.tarifs')}
+                </Link>
+              </li>
             </ul>
 
             <div className="nav-right">
@@ -279,6 +286,7 @@ export default function Nav() {
               <div>
                 <span className="mega-camp-links-label">{t('panels.le_camp.formats_label')}</span>
                 <ul className="mega-link-list" role="list">
+                  <li><Link href="/tarifs">{ICO.tarifs} {t('panels.le_camp.formats.tarifs')} {ARROW_SM}</Link></li>
                   <li><Link href="/sur-mesure">{ICO.calendar} {t('panels.le_camp.formats.sur_mesure')} {ARROW_SM}</Link></li>
                   <li><Link href="/familles">{ICO.coaches} {t('panels.le_camp.formats.famille')} {ARROW_SM}</Link></li>
                   <li><Link href="/clubs-groupes">{ICO.coaches} {t('panels.le_camp.formats.groupe')} {ARROW_SM}</Link></li>
@@ -456,7 +464,7 @@ export default function Nav() {
             <Link href="/sur-mesure" className="mob-sub-link">{ICO.calendar} {t('panels.le_camp.formats.sur_mesure')}</Link>
             <Link href="/familles" className="mob-sub-link">{ICO.coaches} {t('panels.le_camp.formats.famille')}</Link>
             <Link href="/clubs-groupes" className="mob-sub-link">{ICO.coaches} {t('panels.le_camp.formats.groupe')}</Link>
-            <Link href="/sessions" className="mob-sub-link">{ICO.sessions} {t('mobile.see_all_prices')}</Link>
+            <Link href="/tarifs" className="mob-sub-link">{ICO.tarifs} {t('mobile.see_all_prices')}</Link>
             <span className="mob-sub-label">{t('mobile.prepare_label')}</span>
             <Link href="/le-camp" className="mob-sub-link">{ICO.camp} {t('mobile.prepare.le_camp')}</Link>
             <Link href="/comment-ca-marche" className="mob-sub-link">{ICO.howItWorks} {t('mobile.prepare.comment_ca_marche')}</Link>

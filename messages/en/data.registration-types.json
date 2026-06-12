@@ -28,7 +28,7 @@
     "short_label": "Family",
     "badge": "Parent + child 8 to 17",
     "description": "Family camp in Dagestan (Youth wrestling). Parent and child aged 8 to 17 side by side, dedicated youth coaching. Package from {familyBase1weekLabel}.",
-    "long_description": "You travel as a family with your children aged 8 to 17 (participating parent required, this is our safety rule). Parallel programs: adult sessions for you, Youth wrestling program for the teenager. You can join one of the four official sessions (Summer 2026, Fall 2026, Winter 2027, Spring 2027), or pick your own dates (90 days minimum). Parent + Child package at {familyBase1weekLabel} (1 week) with the first child included, {familyExtraChild1weekLabel} per additional child. If your partner also participates: both parents move to the Solo / Duo rate ({duoPerAdult1week} per person per week) plus children at the additional rate ({familyExtraChild1weekLabel} each).",
+    "long_description": "You travel as a family with your children aged 8 to 17 (participating parent required, this is our safety rule). Parallel programs: adult sessions for you, Youth wrestling program for the teenager. You can join one of the four official sessions (Summer 2026, Fall 2026, Winter 2027, Spring 2027), or pick your own dates (90 days minimum). Parent + Child package at {familyBase1weekLabel} (1 week) with the first child included. Each additional person, second parent or extra child, costs {familyExtraChild1weekLabel} for the whole stay.",
     "cta": "Discover Family Camp",
     "dates": "Session or your dates",
     "duration": "1, 2 or 3 weeks",

@@ -1,4 +1,5 @@
-import Link from 'next/link'
+import { getTranslations } from 'next-intl/server'
+import { Link } from '@/i18n/navigation'
 import {
   PRICING_TIERS,
   FAMILY_PRICING,
@@ -16,9 +17,11 @@ interface PricingTableProps {
 
 const GROUP_TIERS_ORDER: GroupTier[] = ['duo', 'trio', 'club']
 const DURATIONS: Duration[] = [1, 2, 3]
+const INCLUDED_KEYS = ['hebergement', 'visa', 'vol', 'transferts', 'repas', 'sessions', 'encadrement', 'suivi'] as const
 
-export default function PricingTable({ withHeader = true, compact = false }: PricingTableProps) {
-  const privateTier = PRICING_TIERS.private
+export default async function PricingTable({ withHeader = true, compact = false }: PricingTableProps) {
+  const t = await getTranslations('pricing_table')
+  const weekLabel = (w: Duration) => t(`week.${w}` as 'week.1')
 
   return (
     <section
@@ -31,14 +34,13 @@ export default function PricingTable({ withHeader = true, compact = false }: Pri
         {withHeader && (
           <div className="pricing-table-header reveal">
             <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>
-              TARIFS PUBLICS
+              {t('header.eyebrow')}
             </span>
             <h2 id="pricing-heading" className="pricing-table-title">
-              GRILLE PAR TAILLE DE GROUPE
+              {t('header.title')}
             </h2>
             <p className="pricing-table-sub">
-              Tarifs identiques pour la session officielle, le camp Sur Mesure et les groupes/clubs.
-              Plus vous êtes nombreux, plus le tarif par personne baisse. Pas de réduction discrétionnaire.
+              {t('header.sub')}
             </p>
           </div>
         )}
@@ -52,22 +54,20 @@ export default function PricingTable({ withHeader = true, compact = false }: Pri
             const tier = PRICING_TIERS[tierKey]
             return (
               <div key={tierKey} className="pricing-card content-card fx-grain fx-corner-glow">
-                <span className="pricing-card-tag">{tier.rangeLabel}</span>
-                <h3 className="pricing-card-title">{tier.label}</h3>
-                <p className="pricing-card-sub">{tier.pitch}</p>
+                <span className="pricing-card-tag">{t(`tiers.${tierKey}.range`)}</span>
+                <h3 className="pricing-card-title">{t(`tiers.${tierKey}.label`)}</h3>
+                <p className="pricing-card-sub">{t(`tiers.${tierKey}.pitch`)}</p>
                 <ul className="pricing-card-list">
                   {DURATIONS.map(w => (
                     <li key={w}>
-                      <span className="pricing-list-label">
-                        {w === 1 ? '1 semaine' : `${w} semaines`}
-                      </span>
-                      <span className="pricing-list-value">{formatEUR(tier.perAdult[w])} <small style={{ fontSize: '0.7rem', opacity: 0.7, fontWeight: 400 }}>/ pers.</small></span>
+                      <span className="pricing-list-label">{weekLabel(w)}</span>
+                      <span className="pricing-list-value">{formatEUR(tier.perAdult[w])} <small style={{ fontSize: '0.7rem', opacity: 0.7, fontWeight: 400 }}>{t('per_person')}</small></span>
                     </li>
                   ))}
                 </ul>
                 {i === 0 && (
                   <p style={{ marginTop: '1rem', fontSize: '0.75rem', color: 'var(--text-muted)', textAlign: 'center' }}>
-                    S&apos;applique aussi au solo (1 adulte)
+                    {t('solo_note')}
                   </p>
                 )}
               </div>
@@ -94,21 +94,21 @@ export default function PricingTable({ withHeader = true, compact = false }: Pri
         >
           <div style={{ flex: '1 1 360px' }}>
             <span className="pricing-card-tag" style={{ marginBottom: '0.4rem' }}>
-              {privateTier.rangeLabel.toUpperCase()}
+              {t('tiers.private.range').toUpperCase()}
             </span>
             <h3 style={{ fontFamily: 'var(--font-teko), sans-serif', fontSize: '1.4rem', textTransform: 'uppercase', margin: '0 0 0.4rem' }}>
-              {privateTier.label}
+              {t('tiers.private.label')}
             </h3>
             <p style={{ color: 'var(--text-secondary)', fontSize: '0.88rem', margin: 0, lineHeight: 1.5 }}>
-              {privateTier.pitch}
+              {t('tiers.private.pitch')}
             </p>
           </div>
           <div style={{ flex: '0 0 auto', display: 'flex', alignItems: 'center', gap: '0.9rem' }}>
             <span style={{ color: 'var(--primary)', fontWeight: 700, fontSize: '1.15rem', letterSpacing: '0.04em', textTransform: 'uppercase' }}>
-              Sur devis
+              {t('quote_value')}
             </span>
             <Link href="/contact" className="btn-ghost" style={{ fontSize: '0.78rem', padding: '0.6rem 1.1rem' }}>
-              DEMANDER UN DEVIS
+              {t('quote_cta')}
             </Link>
           </div>
         </div>
@@ -120,15 +120,15 @@ export default function PricingTable({ withHeader = true, compact = false }: Pri
             style={{ transitionDelay: '0.2s', maxWidth: '1080px', padding: '2.2rem' }}
           >
             <span className="pricing-card-tag" style={{ display: 'block', textAlign: 'center', marginBottom: '0.4rem' }}>
-              FORMULE FAMILLE
+              {t('family.eyebrow')}
             </span>
             <h3 className="pricing-family-title" style={{ marginBottom: '0.5rem', fontSize: '1.15rem' }}>
-              FORFAIT PARENT + ENFANT
+              {t('family.title')}
             </h3>
             <p style={{ color: 'var(--text-secondary)', fontSize: '0.88rem', textAlign: 'center', maxWidth: '640px', margin: '0 auto 1.6rem', lineHeight: 1.5 }}>
-              Tu pars avec ton enfant 8-17 ans. Le forfait couvre <strong>1 parent + 1 enfant</strong>.
-              Chaque enfant supplémentaire est facturé au tarif &quot;enfant supp.&quot;. Si ton conjoint participe aussi,
-              les 2 parents passent au tarif Solo/Duo ({formatEUR(PRICING_TIERS.duo.perAdult[1])} par personne et par semaine) et chaque enfant est ajouté à {formatEUR(FAMILY_PRICING.extraChildPerWeek[1])} par semaine.
+              {t('family.prose', {
+                additionalPerson: formatEUR(FAMILY_PRICING.additionalPerson),
+              })}
             </p>
 
             <div
@@ -137,66 +137,65 @@ export default function PricingTable({ withHeader = true, compact = false }: Pri
             >
               {/* Forfait base */}
               <div className="pricing-card content-card fx-grain" style={{ background: 'rgba(255,255,255,0.04)' }}>
-                <span className="pricing-card-tag">FORFAIT BASE</span>
-                <h4 className="pricing-card-title" style={{ fontSize: '1.15rem' }}>1 parent + 1 enfant inclus</h4>
-                <p className="pricing-card-sub">Forfait fixe selon la durée. Le premier enfant est compris.</p>
+                <span className="pricing-card-tag">{t('family.base_tag')}</span>
+                <h4 className="pricing-card-title" style={{ fontSize: '1.15rem' }}>{t('family.base_title')}</h4>
+                <p className="pricing-card-sub">{t('family.base_sub')}</p>
                 <ul className="pricing-card-list">
                   {DURATIONS.map(w => (
                     <li key={w}>
-                      <span className="pricing-list-label">{w === 1 ? '1 semaine' : `${w} semaines`}</span>
+                      <span className="pricing-list-label">{weekLabel(w)}</span>
                       <span className="pricing-list-value">{formatEUR(FAMILY_PRICING.base[w])}</span>
                     </li>
                   ))}
                 </ul>
               </div>
 
-              {/* Enfant supplémentaire */}
-              <div className="pricing-card content-card fx-grain" style={{ background: 'rgba(255,255,255,0.04)' }}>
-                <span className="pricing-card-tag">ENFANT SUPPLÉMENTAIRE</span>
-                <h4 className="pricing-card-title" style={{ fontSize: '1.15rem' }}>À ajouter au forfait</h4>
-                <p className="pricing-card-sub">Tarif par enfant additionnel, ou par enfant si les deux parents participent.</p>
-                <ul className="pricing-card-list">
-                  {DURATIONS.map(w => (
-                    <li key={w}>
-                      <span className="pricing-list-label">{w === 1 ? '1 semaine' : `${w} semaines`}</span>
-                      <span className="pricing-list-value">+{formatEUR(FAMILY_PRICING.extraChildPerWeek[w])}</span>
-                    </li>
-                  ))}
-                </ul>
+              {/* Personne supplémentaire (forfait) */}
+              <div className="pricing-card content-card fx-grain" style={{ background: 'rgba(255,255,255,0.04)', display: 'flex', flexDirection: 'column' }}>
+                <span className="pricing-card-tag">{t('family.extra_tag')}</span>
+                <h4 className="pricing-card-title" style={{ fontSize: '1.15rem' }}>{t('family.extra_title')}</h4>
+                <p className="pricing-card-sub">{t('family.extra_sub')}</p>
+                <div style={{ marginTop: 'auto', textAlign: 'center', paddingTop: '0.6rem' }}>
+                  <div style={{ fontFamily: 'var(--font-teko), sans-serif', fontSize: '2.4rem', lineHeight: 1, color: 'var(--primary)' }}>
+                    +{formatEUR(FAMILY_PRICING.additionalPerson)}
+                  </div>
+                  <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: '0.3rem' }}>
+                    {t('family.extra_value_suffix')}
+                  </div>
+                </div>
               </div>
             </div>
 
             <p style={{ marginTop: '1.5rem', fontSize: '0.78rem', color: 'var(--text-muted)', textAlign: 'center', lineHeight: 1.6 }}>
-              <strong style={{ color: 'var(--text-secondary)' }}>Exemple :</strong> 1 parent + 2 enfants sur 1 semaine = {formatEUR(FAMILY_PRICING.base[1])} + {formatEUR(FAMILY_PRICING.extraChildPerWeek[1])} = {formatEUR(FAMILY_PRICING.base[1] + FAMILY_PRICING.extraChildPerWeek[1])}.
-              {' '}2 parents + 1 enfant sur 2 semaines = 2 × {formatEUR(PRICING_TIERS.duo.perAdult[2])} + {formatEUR(FAMILY_PRICING.extraChildPerWeek[2])} = {formatEUR(2 * PRICING_TIERS.duo.perAdult[2] + FAMILY_PRICING.extraChildPerWeek[2])}.
+              {t('family.example', {
+                base1: formatEUR(FAMILY_PRICING.base[1]),
+                add1: formatEUR(FAMILY_PRICING.additionalPerson),
+                ex1: formatEUR(FAMILY_PRICING.base[1] + FAMILY_PRICING.additionalPerson),
+                base2: formatEUR(FAMILY_PRICING.base[2]),
+                ex2: formatEUR(FAMILY_PRICING.base[2] + FAMILY_PRICING.additionalPerson),
+              })}
             </p>
           </div>
         )}
 
         <div className="pricing-included reveal" style={{ transitionDelay: '0.3s' }}>
-          <h3 className="pricing-included-title">INCLUS DANS TOUS LES TARIFS</h3>
+          <h3 className="pricing-included-title">{t('included.title')}</h3>
           <ul className="pricing-included-list">
-            <li>Hébergement de camp</li>
-            <li>Visa russe (frais et dossier complet)</li>
-            <li>Vol intérieur Istanbul → Makhachkala (Lutte) ou Grozny (MMA)</li>
-            <li>Transferts aéroport-camp</li>
-            <li>Hébergement de camp</li>
-            <li>2 repas par jour</li>
-            <li>2 sessions d&apos;entraînement / jour</li>
-            <li>Encadrement par les coachs locaux du Caucase</li>
-            <li>Suivi préparatoire à distance</li>
+            {INCLUDED_KEYS.map(key => (
+              <li key={key}>{t(`included.items.${key}`)}</li>
+            ))}
           </ul>
           <p className="pricing-not-included">
-            <strong>Non inclus</strong> : vol international jusqu&apos;à Istanbul (à organiser par le candidat), assurance voyage (obligatoire), équipement personnel, dépenses personnelles. Supplément MKR pour candidature à moins de 30 jours du départ (traitement express).
+            {t('included.not_included')}
           </p>
         </div>
 
         <div className="pricing-cta reveal" style={{ transitionDelay: '0.4s' }}>
           <Link href="/inscription" className="btn-primary">
-            CHOISIR MON CAMP
+            {t('cta.primary')}
           </Link>
           <Link href="/contact" className="btn-ghost">
-            UNE QUESTION ?
+            {t('cta.secondary')}
           </Link>
         </div>
       </div>

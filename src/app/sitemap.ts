@@ -12,6 +12,7 @@ const STATIC_PATHS = [
   { path: '/programme/lutte-enfants', priority: 0.85, changeFrequency: 'monthly' as const },
   { path: '/programme/mma', priority: 0.85, changeFrequency: 'monthly' as const },
   { path: '/sessions', priority: 0.95, changeFrequency: 'weekly' as const },
+  { path: '/tarifs', priority: 0.9, changeFrequency: 'monthly' as const },
   { path: '/inscription', priority: 1.0, changeFrequency: 'weekly' as const },
   { path: '/mkr-camp-2026', priority: 0.95, changeFrequency: 'weekly' as const },
   { path: '/familles', priority: 0.85, changeFrequency: 'monthly' as const },
