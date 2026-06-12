@@ -2,7 +2,8 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { getSupabaseAdmin } from '@/lib/supabase-admin'
 import Topbar from '@/components/admin/ui/Topbar'
-import { REFERRAL_CODES } from '@/data/referral-codes'
+import { REFERRAL_CODES, affiliateLink } from '@/data/referral-codes'
+import ReferralLinks, { type ReferralLinkItem } from '@/components/admin/ReferralLinks'
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
@@ -179,6 +180,10 @@ export default async function AdminReferralsPage() {
 
   const generatedAt = new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })
 
+  const linkItems: ReferralLinkItem[] = REFERRAL_CODES
+    .filter((c) => c.active)
+    .map((c) => ({ code: c.code, partnerName: c.partnerName, url: affiliateLink(c.code) }))
+
   return (
     <>
       <Topbar crumbs={[{ label: 'Candidatures', href: '/admin/inscriptions' }, { label: 'Partenaires referral' }]} />
@@ -231,6 +236,8 @@ export default async function AdminReferralsPage() {
             <div className="adm-stat-value">{formatEur(totalDue + totalPaid)}</div>
           </div>
         </div>
+
+        <ReferralLinks items={linkItems} />
 
         {summaries.length === 0 ? (
           <div style={{ textAlign: 'center', padding: '3rem 1rem', color: 'var(--adm-text-muted, #6b7280)' }}>
