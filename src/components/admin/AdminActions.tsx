@@ -408,7 +408,7 @@ export default function AdminActions(props: Props) {
               className="adm-input"
               value={packageEur}
               onChange={(e) => setPackageEur(e.target.value)}
-              placeholder="2900"
+              placeholder="1690"
               disabled={busy}
             />
             {packageDirty && (

@@ -6,7 +6,7 @@
  * Enfants 8-17 ans obligatoirement avec parent participant (tunnel Famille uniquement).
  *
  * Paliers :
- * - 1-2 adultes : 1 490 / 2 290 / 2 790 € par personne (Solo / Duo)
+ * - 1-2 adultes : 1 690 / 2 790 / 3 490 € par personne (Solo / Duo)
  * - 3-5 adultes : 1 390 / 1 990 / 2 690 € par personne (Trio / Quatuor / Petit groupe)
  * - 6-10 adultes : 1 290 / 1 790 / 2 390 € par personne (Club / Groupe)
  * - 11+ : sur devis (privatisation totale)
@@ -37,7 +37,7 @@ export const PRICING_TIERS: Record<GroupTier, TierPricing> = {
   duo: {
     min: 1,
     max: 2,
-    perAdult: { 1: 1490, 2: 2290, 3: 2790 },
+    perAdult: { 1: 1690, 2: 2790, 3: 3490 },
     label: 'Solo / Duo',
     rangeLabel: '1 à 2 personnes',
     pitch: "Tarif appliqué au camp Sur Mesure en solo ou en binôme adulte, ou à la session officielle pour un adulte seul.",
