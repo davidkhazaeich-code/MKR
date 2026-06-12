@@ -64,6 +64,7 @@ function applyReferralCapture(request: NextRequest, response: NextResponse): Nex
     path: '/',
     sameSite: 'lax',
     httpOnly: false, // lu par le formulaire client pour pré-remplir le code
+    secure: process.env.NODE_ENV === 'production', // HTTPS en prod, http en dev local
   });
   return response;
 }
