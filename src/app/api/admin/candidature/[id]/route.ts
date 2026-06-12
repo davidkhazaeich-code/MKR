@@ -228,7 +228,9 @@ export async function PATCH(
           body.package_amount_cents,
         )
         const prevBonus = (updates.referral_bonus_eur ?? current.referral_bonus_eur) ?? null
-        if (recomputed !== prevBonus) {
+        // Un CA <= 0 renvoie recomputed=null ("montant inconnu/vide") : ne PAS effacer un bonus deja calcule.
+        // La seule maniere de retirer un bonus reste le flux explicite d'annulation du payout.
+        if (recomputed !== null && recomputed !== prevBonus) {
           updates.referral_bonus_eur = recomputed
           auditEntries.push({
             candidature_id: id,
