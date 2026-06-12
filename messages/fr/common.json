@@ -195,5 +195,9 @@
     "switch_to_en_aria": "Switch to English",
     "switch_to_fr_aria": "Passer en français"
   },
-  "skip_link": "Aller au contenu principal"
+  "skip_link": "Aller au contenu principal",
+  "referral_banner": {
+    "text": "Tu viens de la part de {partner}",
+    "dismiss": "Fermer"
+  }
 }

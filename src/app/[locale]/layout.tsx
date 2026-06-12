@@ -9,6 +9,7 @@ import { SITE_URL, SITE_NAME, SITE_EMAIL, SITE_DESCRIPTION, SOCIALS, GEO } from 
 import { SESSIONS } from '@/data/sessions'
 import { PRICING_TIERS } from '@/data/pricing'
 import SiteLoader from '@/components/SiteLoader'
+import ReferralBanner from '@/components/ReferralBanner'
 import { routing } from '@/i18n/routing'
 import '../globals.css'
 
@@ -291,6 +292,7 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
       </head>
       <body>
         <NextIntlClientProvider messages={messages} locale={locale}>
+          <ReferralBanner />
           <SiteLoader />
           {/* Suspense requis : RouteScrollReset utilise useSearchParams (Next.js 16+) */}
           <Suspense fallback={null}>
