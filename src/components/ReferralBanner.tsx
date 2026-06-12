@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useTranslations } from 'next-intl'
 import { findReferralCode } from '@/data/referral-codes'
+import Icon from './Icon'
 
 const DISMISS_KEY = 'mkr_ref_banner_dismissed'
 
@@ -30,7 +31,7 @@ export default function ReferralBanner() {
         justifyContent: 'center',
         gap: '0.75rem',
         padding: '0.5rem 1rem',
-        /* MKR Mountain Glow — no dedicated CSS token exists for gold/yellow;
+        /* MKR Mountain Glow : no dedicated CSS token exists for gold/yellow,
            using the brand signature warm gold (#c8a04a) as literal value. */
         background: '#c8a04a',
         color: '#1a1a1a',
@@ -61,7 +62,7 @@ export default function ReferralBanner() {
           justifyContent: 'center',
         }}
       >
-        ×
+        <Icon name="x" size={18} />
       </button>
     </div>
   )
