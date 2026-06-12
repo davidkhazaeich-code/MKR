@@ -227,6 +227,8 @@ export async function POST(request: Request) {
     referral_code_valid: boolean | null
     referral_partner_name: string | null
     referral_partner_type: ReferralPartnerType | null
+    referral_commission_type: 'flat' | 'percent' | null
+    referral_commission_pct: number | null
     referral_bonus_eur: number | null
     referral_payout_status: 'not_applicable' | 'pending'
   } = rawReferral
@@ -235,7 +237,13 @@ export async function POST(request: Request) {
         referral_code_valid: matchedReferral !== null,
         referral_partner_name: matchedReferral?.partnerName ?? null,
         referral_partner_type: matchedReferral?.type ?? null,
-        referral_bonus_eur: matchedReferral?.bonusEur ?? null,
+        referral_commission_type: matchedReferral?.commissionType ?? null,
+        referral_commission_pct: matchedReferral?.commissionPct ?? null,
+        // flat : bonus connu des l'inscription. percent : montant inconnu (CA pas encore saisi) -> null.
+        referral_bonus_eur:
+          matchedReferral?.commissionType === 'flat'
+            ? (matchedReferral.bonusEur ?? null)
+            : null,
         referral_payout_status: matchedReferral ? 'pending' : 'not_applicable',
       }
     : {
@@ -243,6 +251,8 @@ export async function POST(request: Request) {
         referral_code_valid: null,
         referral_partner_name: null,
         referral_partner_type: null,
+        referral_commission_type: null,
+        referral_commission_pct: null,
         referral_bonus_eur: null,
         referral_payout_status: 'not_applicable',
       }
