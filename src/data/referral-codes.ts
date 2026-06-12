@@ -6,6 +6,8 @@
 
 export type ReferralPartnerType = 'gym' | 'influencer' | 'coach' | 'other'
 
+export type CommissionType = 'flat' | 'percent'
+
 export type ReferralCode = {
   /** Code en uppercase. Matché après trim().toUpperCase() côté API et form. */
   code: string
@@ -14,16 +16,16 @@ export type ReferralCode = {
   /** Contact interne (email, URL Insta, tel). Jamais affiché côté public. */
   partnerContact?: string
   type: ReferralPartnerType
-  /** Bonus en euros versé au partenaire quand la candidature passe en status `soldee`. */
-  bonusEur: number
-  /** Si false, le code n'est plus accepté en nouvelle inscription mais reste traçable pour l'historique. */
+  /** Modèle de commission : 'flat' (forfait fixe bonusEur) ou 'percent' (% du CA encaissé). */
+  commissionType: CommissionType
+  /** Forfait en euros versé quand la candidature passe en `soldee`. Requis si commissionType==='flat'. */
+  bonusEur?: number
+  /** Taux en % du CA (ex: 10). Requis si commissionType==='percent'. */
+  commissionPct?: number
+  /** Si false, le code n'est plus accepté en nouvelle inscription mais reste traçable. */
   active: boolean
-  /** Notes internes (contexte partenariat, date de signature, etc.). */
   notes?: string
-  /** Libellé affiché dans le dropdown "Comment as-tu connu le camp ?" du form.
-   *  Si défini, sélectionner cette option auto-remplit le code. */
   sourceDecouverteLabel?: string
-  /** Valeur slug-safe stockée dans form.sourceDecouverte. Doit être unique parmi les partenaires. */
   sourceDecouverteValue?: string
 }
 
@@ -32,6 +34,7 @@ export const REFERRAL_CODES: ReferralCode[] = [
     code: 'STRIKE',
     partnerName: 'Strike Academy (Progress Gym SA)',
     type: 'gym',
+    commissionType: 'flat',
     bonusEur: 50,
     active: true,
     notes: 'Kevin Leone - partenariat 2026',
@@ -43,6 +46,7 @@ export const REFERRAL_CODES: ReferralCode[] = [
     partnerName: 'Zelimkhan (@zelimkhan_74)',
     partnerContact: 'https://instagram.com/zelimkhan_74',
     type: 'influencer',
+    commissionType: 'flat',
     bonusEur: 50,
     active: true,
     notes: 'Lutteur champion - Tchélyabinsk (oblast 74)',
@@ -54,6 +58,7 @@ export const REFERRAL_CODES: ReferralCode[] = [
     partnerName: 'Rakhim (@rakhim.mgd)',
     partnerContact: 'https://instagram.com/rakhim.mgd',
     type: 'influencer',
+    commissionType: 'flat',
     bonusEur: 50,
     active: true,
     notes: 'Lutteur champion - Khanty-Mansi (oblast 86)',
@@ -65,6 +70,7 @@ export const REFERRAL_CODES: ReferralCode[] = [
     partnerName: 'Tengiz Dalakishvili (@tengiz_dalakishvili)',
     partnerContact: 'https://instagram.com/tengiz_dalakishvili',
     type: 'coach',
+    commissionType: 'flat',
     bonusEur: 50,
     active: true,
     notes: 'Coach de lutte - influenceur Instagram',
@@ -76,11 +82,24 @@ export const REFERRAL_CODES: ReferralCode[] = [
     partnerName: 'MMA Spirit Academy (@mma_spirit_academy)',
     partnerContact: 'https://instagram.com/mma_spirit_academy',
     type: 'influencer',
+    commissionType: 'flat',
     bonusEur: 50,
     active: true,
     notes: 'Créateur de contenu vidéo sur le MMA - partenariat Instagram (saisi MMASpirit, normalisé en MMASPIRIT)',
     sourceDecouverteLabel: '@mma_spirit_academy (MMA Spirit Academy)',
     sourceDecouverteValue: 'mma-spirit-academy',
+  },
+  {
+    code: 'PAOLOZ',
+    partnerName: 'PaoloZ (@paolo_irl)',
+    partnerContact: 'https://instagram.com/paolo_irl · WhatsApp +33 6 38 49 17 22',
+    type: 'influencer',
+    commissionType: 'percent',
+    commissionPct: 10,
+    active: true,
+    notes: 'Influenceur - partenariat 2026, commission 10% du CA encaissé',
+    sourceDecouverteLabel: '@paolo_irl (PaoloZ)',
+    sourceDecouverteValue: 'paolo-irl',
   },
 ]
 
@@ -122,4 +141,34 @@ export function findCodeBySourceValue(value: string): ReferralCode | null {
   return REFERRAL_CODES.find(
     (c) => c.active && c.sourceDecouverteValue === value,
   ) ?? null
+}
+
+/**
+ * Calcule le montant de commission en euros (arrondi à l'entier) pour un partenaire.
+ * - flat    : retourne bonusEur (indépendant du CA).
+ * - percent : retourne round(packageAmountCents * pct / 100 / 100) si le CA est connu,
+ *             sinon null (le montant sera calculable une fois le CA saisi).
+ * Retourne null si le modèle est incohérent (sécurité).
+ */
+export function computeCommissionEur(
+  partner: Pick<ReferralCode, 'commissionType' | 'bonusEur' | 'commissionPct'>,
+  packageAmountCents: number | null,
+): number | null {
+  if (partner.commissionType === 'flat') {
+    return typeof partner.bonusEur === 'number' ? partner.bonusEur : null
+  }
+  if (partner.commissionType === 'percent') {
+    if (typeof partner.commissionPct !== 'number') return null
+    if (packageAmountCents === null || packageAmountCents <= 0) return null
+    return Math.round((packageAmountCents * partner.commissionPct) / 100 / 100)
+  }
+  return null
+}
+
+/** Base URL publique du site (sans slash final). */
+export const SITE_BASE_URL = 'https://mkrcamp.com'
+
+/** Construit le lien d'affiliation partageable d'un partenaire : https://mkrcamp.com/?ref=paoloz */
+export function affiliateLink(code: string, baseUrl: string = SITE_BASE_URL): string {
+  return `${baseUrl}/?ref=${encodeURIComponent(code.toLowerCase())}`
 }
