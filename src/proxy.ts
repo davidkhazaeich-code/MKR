@@ -1,6 +1,7 @@
 import createMiddleware from 'next-intl/middleware';
 import { NextResponse, type NextRequest } from 'next/server';
 import { routing } from './i18n/routing';
+import { findReferralCode } from './data/referral-codes';
 
 // Proxy combine deux roles :
 // 1) Guard admin : protege /admin/* et /api/admin/* via cookie httpOnly 'mkr_admin'.
@@ -12,6 +13,8 @@ import { routing } from './i18n/routing';
 // Next 16+ : convention proxy.ts (anciennement middleware.ts). Runtime nodejs uniquement.
 
 const COOKIE_NAME = 'mkr_admin';
+const REF_COOKIE_NAME = 'mkr_ref';
+const REF_COOKIE_MAX_AGE = 60 * 60 * 24 * 60; // 60 jours en secondes
 
 const intlMiddleware = createMiddleware(routing);
 
@@ -48,17 +51,35 @@ function handleAdminGuard(request: NextRequest): NextResponse | null {
   return null;
 }
 
+// Si l'URL contient ?ref=<code> et que le code est valide + actif, pose le cookie
+// d'attribution mkr_ref (60j, lisible JS, SameSite=Lax) sur la réponse fournie.
+// Un ?ref inconnu/inactif est ignoré silencieusement (pas de fausse attribution).
+function applyReferralCapture(request: NextRequest, response: NextResponse): NextResponse {
+  const ref = request.nextUrl.searchParams.get('ref');
+  if (!ref) return response;
+  const matched = findReferralCode(ref);
+  if (!matched) return response;
+  response.cookies.set(REF_COOKIE_NAME, matched.code, {
+    maxAge: REF_COOKIE_MAX_AGE,
+    path: '/',
+    sameSite: 'lax',
+    httpOnly: false, // lu par le formulaire client pour pré-remplir le code
+  });
+  return response;
+}
+
 export function proxy(request: NextRequest) {
   const adminResponse = handleAdminGuard(request);
   if (adminResponse) return adminResponse;
 
-  // API routes publiques non localisees (rest neutre, payload contient submission_language)
+  // API routes publiques non localisees
   if (request.nextUrl.pathname.startsWith('/api')) {
     return NextResponse.next();
   }
 
-  // i18n routing pour toutes les pages publiques
-  return intlMiddleware(request);
+  // i18n routing pour toutes les pages publiques + capture éventuelle du ?ref d'affiliation.
+  const intlResponse = intlMiddleware(request);
+  return applyReferralCapture(request, intlResponse);
 }
 
 export const config = {
