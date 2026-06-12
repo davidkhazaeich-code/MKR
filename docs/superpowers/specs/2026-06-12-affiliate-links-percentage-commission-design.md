@@ -182,6 +182,15 @@ Rétro-compat : les candidatures existantes ont ces colonnes à `null` → trait
 
 Cookie `mkr_ref` = cookie fonctionnel d'attribution, sans PII ni tracking tiers. Ajouter une ligne dans la page politique de confidentialité / cookies. Pas de bandeau de consentement bloquant requis pour ce seul usage.
 
+## i18n (FR + EN)
+
+Le site est bilingue (next-intl, 34 namespaces). Les textes nouveaux côté visiteur doivent être traduits FR + EN :
+- Bandeau de confiance (« Tu viens de la part de X » / « You were referred by X »).
+- Encart formulaire (« Recommandé par X ✓ » + « Ce n'est pas le cas ? Retirer »).
+- Message « code non reconnu » neutre.
+
+La capture `?ref` dans `proxy.ts` est indépendante de la locale (fonctionne sur `/` et `/en`). Le cookie est partagé entre locales. L'admin reste FR uniquement (interne).
+
 ## Hors-scope v1 (YAGNI)
 
 - Tracking des clics par influenceur (vanity metric ; la conversion suffit au paiement).
