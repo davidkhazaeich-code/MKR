@@ -148,7 +148,10 @@ export function getPricingCopy(locale: string = 'fr'): PricingCopy {
     )
   }
 
-  const MIN_PRICE_PER_ADULT_EUR = PRICING_TIERS.club.perAdult[1]
+  // « À partir de » des sessions officielles : on affiche le tarif 1 semaine
+  // Solo/Duo (un adulte seul à la session officielle), pas le plancher Club 6-10.
+  // Les rabais de groupe (Trio/Club) restent visibles dans la grille détaillée.
+  const MIN_PRICE_PER_ADULT_EUR = PRICING_TIERS.duo.perAdult[1]
   const MIN_PRICE_PER_ADULT_LABEL = formatEUR(MIN_PRICE_PER_ADULT_EUR)
 
   const SOLO_PRICE_1WEEK_EUR = PRICING_TIERS.duo.perAdult[1]
