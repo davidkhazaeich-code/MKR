@@ -17,10 +17,13 @@ export const metadata: Metadata = {
 interface Row {
   id: string
   status: string
+  package_amount_cents: number | null
   referral_code: string | null
   referral_code_valid: boolean | null
   referral_partner_name: string | null
   referral_partner_type: string | null
+  referral_commission_type: string | null
+  referral_commission_pct: number | null
   referral_bonus_eur: number | null
   referral_payout_status: string | null
   referral_payout_paid_at: string | null
@@ -34,6 +37,9 @@ interface PartnerSummary {
   isKnown: boolean
   isActive: boolean
   bonusEurDefault: number
+  commissionType: string | null
+  commissionPct: number | null
+  missingAmount: number   // candidatures soldées 'percent' sans CA saisi (commission non calculée)
   total: number
   pending: number
   due: number
@@ -59,7 +65,10 @@ function aggregateByPartner(rows: Row[]): PartnerSummary[] {
       partnerType: c.type,
       isKnown: true,
       isActive: c.active,
-      bonusEurDefault: c.bonusEur,
+      bonusEurDefault: c.bonusEur ?? 0,
+      commissionType: c.commissionType,
+      commissionPct: c.commissionPct ?? null,
+      missingAmount: 0,
       total: 0,
       pending: 0,
       due: 0,
@@ -83,6 +92,9 @@ function aggregateByPartner(rows: Row[]): PartnerSummary[] {
         isKnown: false,
         isActive: false,
         bonusEurDefault: r.referral_bonus_eur ?? 0,
+        commissionType: r.referral_commission_type,
+        commissionPct: r.referral_commission_pct,
+        missingAmount: 0,
         total: 0,
         pending: 0,
         due: 0,
@@ -116,6 +128,15 @@ function aggregateByPartner(rows: Row[]): PartnerSummary[] {
         break
       // 'not_applicable' n'est pas comptabilise comme bonus.
     }
+
+    // 'percent' due/pending mais bonus non encore calculé (CA absent) -> à signaler à Ruslan.
+    if (
+      r.referral_commission_type === 'percent'
+      && (r.referral_payout_status === 'due' || r.referral_payout_status === 'pending')
+      && (r.referral_bonus_eur === null && (r.package_amount_cents === null || r.package_amount_cents <= 0))
+    ) {
+      summary.missingAmount += 1
+    }
   }
 
   return Array.from(byCode.values()).sort((a, b) => {
@@ -145,7 +166,7 @@ export default async function AdminReferralsPage() {
 
   const { data, error } = await supabase
     .from('candidatures')
-    .select('id, status, referral_code, referral_code_valid, referral_partner_name, referral_partner_type, referral_bonus_eur, referral_payout_status, referral_payout_paid_at, referral_payout_method')
+    .select('id, status, package_amount_cents, referral_code, referral_code_valid, referral_partner_name, referral_partner_type, referral_commission_type, referral_commission_pct, referral_bonus_eur, referral_payout_status, referral_payout_paid_at, referral_payout_method')
     .not('referral_code', 'is', null)
     .order('referral_code', { ascending: true })
 
@@ -223,6 +244,7 @@ export default async function AdminReferralsPage() {
                   <th style={{ padding: '0.75rem 0.5rem' }}>Code</th>
                   <th style={{ padding: '0.75rem 0.5rem' }}>Partenaire</th>
                   <th style={{ padding: '0.75rem 0.5rem' }}>Type</th>
+                  <th style={{ padding: '0.75rem 0.5rem' }}>Modèle</th>
                   <th style={{ padding: '0.75rem 0.5rem', textAlign: 'right' }}>Candidatures</th>
                   <th style={{ padding: '0.75rem 0.5rem', textAlign: 'right' }}>En attente</th>
                   <th style={{ padding: '0.75rem 0.5rem', textAlign: 'right' }}>À payer</th>
@@ -256,6 +278,21 @@ export default async function AdminReferralsPage() {
                         </span>
                       )}
                     </td>
+                    <td style={{ padding: '0.85rem 0.5rem', fontSize: '0.8rem' }}>
+                      {s.commissionType === 'percent'
+                        ? `${s.commissionPct ?? '?'} % du CA`
+                        : s.commissionType === 'flat'
+                          ? `Forfait ${s.bonusEurDefault} €`
+                          : '—'}
+                      {s.missingAmount > 0 && (
+                        <span
+                          title={`${s.missingAmount} candidature(s) soldée(s) sans CA saisi : commission non calculée`}
+                          style={{ display: 'block', marginTop: 2, color: 'var(--adm-status-reportee, #f59e0b)', fontSize: '0.72rem', fontWeight: 600 }}
+                        >
+                          ⚠ {s.missingAmount} CA à saisir
+                        </span>
+                      )}
+                    </td>
                     <td style={{ padding: '0.85rem 0.5rem', textAlign: 'right', fontWeight: 600 }}>{s.total}</td>
                     <td style={{ padding: '0.85rem 0.5rem', textAlign: 'right', color: 'var(--adm-text-muted)' }}>{s.pending || '-'}</td>
                     <td style={{ padding: '0.85rem 0.5rem', textAlign: 'right', color: s.due > 0 ? '#f59e0b' : 'var(--adm-text-muted)', fontWeight: s.due > 0 ? 700 : 400 }}>
@@ -281,7 +318,7 @@ export default async function AdminReferralsPage() {
               </tbody>
               <tfoot>
                 <tr style={{ borderTop: '2px solid var(--adm-border, #1f2937)', fontWeight: 700 }}>
-                  <td style={{ padding: '0.85rem 0.5rem' }} colSpan={3}>Total</td>
+                  <td style={{ padding: '0.85rem 0.5rem' }} colSpan={4}>Total</td>
                   <td style={{ padding: '0.85rem 0.5rem', textAlign: 'right' }}>{totalCandidatures}</td>
                   <td style={{ padding: '0.85rem 0.5rem', textAlign: 'right' }}>-</td>
                   <td style={{ padding: '0.85rem 0.5rem', textAlign: 'right', color: '#f59e0b' }}>{formatEur(totalDue)}</td>
