@@ -79,6 +79,12 @@
       "outro_link": "formulaire de contact",
       "outro_suffix": "."
     },
+    "cookies": {
+      "title": "Cookies",
+      "intro": "Ce site utilise un cookie fonctionnel d'attribution :",
+      "mkr_ref_name": "mkr_ref",
+      "mkr_ref_body": "cookie fonctionnel d'attribution de recommandation. Conserve le code du partenaire qui vous a recommandé MKR (durée 60 jours). Aucune donnée personnelle, aucun traçage publicitaire tiers."
+    },
     "security": {
       "title": "Sécurité",
       "body": "Nous mettons en œuvre des mesures techniques et organisationnelles appropriées pour protéger tes données contre tout accès non autorisé, modification, divulgation ou destruction."

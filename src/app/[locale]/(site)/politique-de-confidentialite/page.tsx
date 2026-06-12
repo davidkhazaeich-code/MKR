@@ -85,6 +85,14 @@ export default async function PolitiqueConfidentialitePage({ params }: { params:
             {t('sections.rights.outro_prefix')}<Link href="/contact">{t('sections.rights.outro_link')}</Link>{t('sections.rights.outro_suffix')}
           </p>
 
+          <h2>{t('sections.cookies.title')}</h2>
+          <p>{t('sections.cookies.intro')}</p>
+          <ul>
+            <li>
+              <code>{t('sections.cookies.mkr_ref_name')}</code> : {t('sections.cookies.mkr_ref_body')}
+            </li>
+          </ul>
+
           <h2>{t('sections.security.title')}</h2>
           <p>{t('sections.security.body')}</p>
         </div>
