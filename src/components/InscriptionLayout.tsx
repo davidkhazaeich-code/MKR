@@ -282,6 +282,25 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
     }
   }, [form.sourceDecouverte, form.codeRecommandation])
 
+  // Lecture du cookie d'attribution mkr_ref (pose par proxy.ts depuis ?ref=<code>).
+  // Pre-remplit le code de recommandation et synchronise le menu "Comment as-tu connu le camp ?".
+  // Ne s'execute qu'au montage et seulement si le candidat n'a encore rien saisi.
+  useEffect(() => {
+    if (form.codeRecommandation.trim()) return
+    const match = document.cookie.match(/(?:^|;\s*)mkr_ref=([^;]+)/)
+    if (!match) return
+    const code = decodeURIComponent(match[1])
+    const partner = findReferralCode(code)
+    if (!partner) return
+    setForm(prev => ({
+      ...prev,
+      codeRecommandation: partner.code,
+      // ne pas ecraser un choix deja fait par le candidat
+      sourceDecouverte: prev.sourceDecouverte || partner.sourceDecouverteValue || prev.sourceDecouverte,
+    }))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   const audienceConfigStructural = audience ? getRegistrationType(audience) : null
   const audienceConfig = audience && audienceConfigStructural
     ? hydrateRegistrationType(audienceConfigStructural, tRegTypesData as never, regTypePlaceholders)
