@@ -3,6 +3,31 @@
 > **Fichier de référence pour Claude Code.** Mise à jour : 2026-05-27 (site bilingue FR + EN : next-intl, 34 namespaces, sitemap 68 URLs, EN PDF guide, glossaire locked, Playwright QA spec).
 > Lis ce fichier en priorité avant toute intervention sur le site MKR. Il évite de re-explorer.
 
+## 🆕 2026-06-12 (nouvelle page /tarifs + simulateur de prix + PricingTable i18n)
+
+> **Nouvelle page dédiée `/tarifs`** (FR) ↔ **`/en/pricing`** (EN). Centralise tout le pricing avec UX/UI/SEO/GEO : hero, section "tout compris" (6 prestations avec icônes), **simulateur de prix interactif**, grille `PricingTable` complète, transparence (3 cards), FAQ tarifs (6 Q/R) et CTA. Auparavant le pricing vivait uniquement sur `/sessions` + le composant `PricingTable`.
+
+**Fichiers créés** :
+- `src/app/[locale]/(site)/tarifs/page.tsx` — server component. JSON-LD **FAQPage** (6 Q/R) + **Product/AggregateOffer** (lowPrice = `PRICING_TIERS.club.perAdult[1]`, highPrice = `FAMILY_PRICING.base[3]`, EUR).
+- `src/app/[locale]/(site)/tarifs/opengraph-image.tsx` — OG (accent red, bg takedown-wrestling.png).
+- `src/components/PriceEstimator.tsx` — **client component**. Steppers adultes (1-11) / enfants (0-4) + durée segmentée (1/2/3 sem). Math via `calculatePrice`/`pricePerAdult`/`isOnQuote` purs (`@/data/pricing`). Labels passés en **props** depuis la page (zéro dépendance au provider i18n). CTA dynamique : `?type=famille` si enfant, `?type=groupe` si ≥6, sinon `?type=session` ; 11+ → "Sur devis" + `/contact`. CSS `.estimator-*` + `.tc-*` en fin de `globals.css`.
+- `messages/{fr,en}/tarifs.json` + `messages/{fr,en}/pricing_table.json`.
+
+**BREAKING (composant partagé)** : `src/components/PricingTable.tsx` est passé de **strings FR hardcodées → async server component i18n** (`getTranslations('pricing_table')`, numéros toujours depuis `data/pricing.ts`). **Corrige le bug** où la grille s'affichait en français sur `/en/family`, `/en/sessions`, `/en/mkr-camp-2026`. Le `<Link>` est désormais le `@/i18n/navigation` (slugs localisés). Les 4 pages qui rendent `<PricingTable />` n'ont pas changé d'appel.
+
+**Intégration** :
+- `src/i18n/routing.ts` : `'/tarifs': { fr: '/tarifs', en: '/pricing' }`.
+- `src/i18n/request.ts` : ajout `'tarifs'` + `'pricing_table'` à `FLAT_NAMESPACES` (sinon `MISSING_MESSAGE` au runtime).
+- `src/app/sitemap.ts` : `/tarifs` priority 0.9 (×2 locales).
+- `src/components/Nav.tsx` : ICO.tarifs (`tag`) + lien desktop en tête de "Autres formats" (`panels.le_camp.formats.tarifs`) + mobile `see_all_prices` repointé `/sessions`→`/tarifs`.
+- `src/components/Footer.tsx` : libellé "Tarifs publics" repointé `/sessions`→`/tarifs`.
+- `src/app/[locale]/(site)/sessions/page.tsx` : bouton primary `/tarifs` (`tout_compris.cta_pricing`) à côté du lien `/le-camp`.
+- Clés i18n ajoutées : `common.nav.panels.le_camp.formats.tarifs`, `sessions.tout_compris.cta_pricing` (FR+EN).
+
+**Note** : le `addressRegion: "Daghestan"` (avec H) reste dans le JSON-LD racine (`data/site.ts` GEO) sur toutes les pages EN — préexistant, donnée structurée, hors scope.
+
+---
+
 ## 🆕 BREAKING — 2026-05-27 (site bilingue FR + EN)
 
 > **Décision David (post-interview Ruslan)** : élargir le funnel candidats anglophones (US/UK/MEA/Russian diaspora). FR reste canonical à la racine, EN ajouté sous `/en/` avec slugs SEO-friendly (slug remapping FR↔EN, pas de doublon mot pour mot).
@@ -1178,35 +1203,44 @@ GEO = { latitude: 42.9849, longitude: 47.5047, country: 'RU', region: 'Daghestan
 | `components/admin/AdminActions.tsx` | hint montant package |
 **⚠️** Si on change un tarif : modifier UNIQUEMENT `data/pricing.ts`. La plupart des autres endroits propagent. Les pages textuelles avec mention de chiffres en dur (CGV, FAQ, hero stats, sessions sub-price) doivent être retouchées séparément, voir la liste exhaustive ci-dessus.
 
-### Codes de recommandation (ajouté 2026-05-23)
+### Codes de recommandation + liens d'affiliation (ajouté 2026-05-23, étendu 2026-06-12)
 
-**Source unique** : `src/data/referral-codes.ts` (3 codes V1 : STRIKE, ZEZE74, RAKHIM86 + helpers `findReferralCode` et `getActiveCodes`)
+**Source unique** : `src/data/referral-codes.ts` (6 partenaires : STRIKE, ZEZE74, RAKHIM86, TENGIZ, MMASPIRIT en `flat` 50€ + PAOLOZ en `percent` 10% + helpers `findReferralCode`, `getActiveCodes`, `getPartnersWithSourceOption`, `findCodeBySourceValue`, `computeCommissionEur`, `affiliateLink`)
+
+**2 modèles de commission par partenaire** (champ `commissionType`) :
+- `flat` : forfait fixe `bonusEur` (50€), figé à l'inscription. Salles/coachs.
+- `percent` : `commissionPct` % du CA encaissé (`package_amount_cents`). Influenceurs (PaoloZ = 10%). Le montant euro n'est PAS connu à l'inscription (CA inconnu) : il est calculé à la transition `soldee` et recalculé si Ruslan édite le CA. Stocké dans `referral_bonus_eur` (montant payable canonique → le dashboard d'agrégation marche sans changement).
+
+**Liens d'affiliation** (ajouté 2026-06-12) : `affiliateLink(code)` → `https://mkrcamp.com/?ref=<code>`. `proxy.ts` valide le `?ref` (findReferralCode, insensible casse) et pose le cookie `mkr_ref` (60j, SameSite=Lax, secure en prod, lisible JS). Last-touch. Un `?ref` inconnu/inactif est ignoré (pas de cookie). Le cookie pré-remplit le code dans le formulaire et déclenche le bandeau de confiance.
 
 | Fichier | Forme |
 |---|---|
-| `data/referral-codes.ts` | source of truth, types `ReferralCode`/`ReferralPartnerType`, bonus 50€ par défaut |
-| `components/InscriptionLayout.tsx` | champ optionnel Step Identité (tunnels session/custom/famille) + Step Contact (tunnel groupe), helper `renderReferralCodeField()`, feedback live `referralFeedback` 3 états |
-| `app/api/inscription/route.ts` | parsing + validation + 6 colonnes insert + audit_log `referral_attached` + Slack/email enrichis |
-| `app/api/admin/candidature/[id]/route.ts` | trigger auto `pending → due` quand status `soldee`, `→ cancelled` sur `annulee`/`refusee`. Whitelist transitions manuelles (`ALLOWED_PAYOUT_TRANSITIONS`) : `due → paid/cancelled`, `paid → due`, `pending → cancelled` |
-| `app/admin/inscriptions/page.tsx` | SELECT étendu avec 6 colonnes referral |
-| `app/admin/inscriptions/[id]/page.tsx` | SELECT étendu avec 8 colonnes (les 6 + paid_at + method), `<ReferralPanel />` rendu entre paiement et historique |
-| `components/admin/InscriptionsList.tsx` | `<ReferralBadge>` inline (gym bleu / influencer violet / coach vert / invalide orange / bonus dû / bonus payé), filtre dropdown "Code partenaire" dynamique via `getActiveCodes()` |
-| `components/admin/ReferralPanel.tsx` | nouveau client component : panel détail + modal "Marquer payé" (date + méthode) + modal "Annuler le paiement" |
-| Supabase `candidatures` | 8 colonnes : `referral_code, referral_code_valid, referral_partner_name, referral_partner_type, referral_bonus_eur, referral_payout_status, referral_payout_paid_at, referral_payout_method` |
-| Supabase index | `idx_candidatures_referral_payout` (partiel `due/paid`) + `idx_candidatures_referral_code` (partiel non-null) |
+| `data/referral-codes.ts` | source of truth, `ReferralCode` (commissionType flat/percent, bonusEur?, commissionPct?), helpers `computeCommissionEur(partner, packageAmountCents)` + `affiliateLink(code)` + `SITE_BASE_URL` |
+| `proxy.ts` | capture `?ref` valide → cookie `mkr_ref` (helper `applyReferralCapture`, branche pages publiques uniquement, pas admin/api) |
+| `components/ReferralBanner.tsx` | bandeau de confiance site-wide « Tu viens de la part de X » (FR+EN `common.referral_banner`), dismissable (sessionStorage `mkr_ref_banner_dismissed`), monté dans `[locale]/layout.tsx` dans le NextIntlClientProvider au-dessus du Nav, Icon `x` |
+| `components/InscriptionLayout.tsx` | useEffect lit cookie `mkr_ref` au montage → pré-remplit `codeRecommandation` + synchronise `sourceDecouverte` (n'écrase pas un choix candidat). Le feedback vert « Recommandé par X » existant s'affiche automatiquement |
+| `app/api/inscription/route.ts` | snapshot `referral_commission_type`/`referral_commission_pct` ; `referral_bonus_eur` = bonusEur pour flat, null pour percent |
+| `app/api/admin/candidature/[id]/route.ts` | trigger auto `pending → due` à `soldee` + calcul % du CA (computeCommissionEur) ; recalcul à l'édition de `package_amount_cents` (sauf payout figé paid/cancelled, et jamais de mise à null si CA=0) ; audit `referral_bonus_recomputed`. `→ cancelled` sur `annulee`/`refusee` |
+| `app/admin/inscriptions/[id]/page.tsx` | SELECT + commission_type/pct, `<ReferralPanel />` reçoit referralCommissionType/Pct + packageAmountCents |
+| `components/admin/ReferralPanel.tsx` | lignes « Modèle » (Forfait fixe / X % du CA encaissé) + « Commission » (montant € ou « CA à saisir » si percent sans CA, + détail `P % × CA €`) |
+| `app/admin/referrals/page.tsx` | colonne « Modèle » + garde-fou orange « ⚠ N CA à saisir » (percent soldée/due sans CA) + bloc `<ReferralLinks>` en tête |
+| `components/admin/ReferralLinks.tsx` | nouveau : liens d'affiliation prêts à copier par partenaire actif (bouton Copier, navigator.clipboard) |
+| `tests/affiliate/ref-capture.spec.ts` | e2e Playwright (projet `affiliate`, `npm run test:affiliate`) : ?ref→cookie→bandeau→persistance. Requiert dev server |
+| Supabase `candidatures` | + 2 colonnes : `referral_commission_type` (text check flat/percent), `referral_commission_pct` (numeric). Migration `add_referral_commission_model` (projet bgwvrzgnoqlqqrvflwav) |
 
 **Lifecycle status** :
 - `not_applicable` : pas de code ou code invalide saisi.
 - `pending` : code valide, candidature en cours.
-- `due` : candidature `soldee`, bonus 50€ à payer.
-- `paid` : bonus payé (date + méthode renseignées dans l'admin).
-- `cancelled` : candidature annulée ou refusée, bonus annulé.
+- `due` : candidature `soldee`, commission à payer (50€ flat, ou X% du CA si CA saisi sinon « CA à saisir »).
+- `paid` : payé (date + méthode renseignées dans l'admin).
+- `cancelled` : candidature annulée ou refusée, commission annulée.
 
-**Ajouter un partenaire** : éditer `data/referral-codes.ts` + commit + push + Vercel redeploy.
-**Désactiver un code** : passer `active: false` (historique des candidatures préservé).
-**Bonus 50 EUR par défaut**, modifiable par partenaire via `bonusEur`. Le `partnerName` est snapshoté à l'inscription dans `referral_partner_name`, donc une modification ultérieure du data file n'affecte pas l'historique.
+**Ajouter un partenaire forfait** : éditer `data/referral-codes.ts` (`commissionType: 'flat', bonusEur: N`) + commit + push + Vercel redeploy.
+**Ajouter un influenceur %** : éditer `data/referral-codes.ts` (`commissionType: 'percent', commissionPct: N`) + commit + push + redeploy. Son lien = `mkrcamp.com/?ref=<code>` (récupérable via le bloc « Liens d'affiliation » dans `/admin/referrals`).
+**Désactiver un code** : `active: false` (historique préservé).
+Le `partnerName` + le modèle de commission sont snapshotés à l'inscription, donc une modif ultérieure du data file n'affecte pas l'historique.
 
-**Audit log events** : `referral_attached` (à l'inscription), `referral_due` (trigger auto soldee), `referral_cancelled` (trigger auto annulee/refusee), `referral_payout_status_change` / `referral_payout_paid_at_change` / `referral_payout_method_change` (mutations manuelles admin).
+**Audit log events** : `referral_attached`, `referral_due` (trigger soldee), `referral_bonus_recomputed` (recalcul % sur édition CA), `referral_cancelled`, `referral_payout_status_change` / `_paid_at_change` / `_method_change` (mutations manuelles admin).
 
 ### 4 types d'inscription (session / custom / famille / groupe)
 **Source unique** : `data/registration-types.ts` (REGISTRATION_TYPES)
