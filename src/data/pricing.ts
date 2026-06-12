@@ -12,7 +12,7 @@
  * - 11+ : sur devis (privatisation totale)
  *
  * Famille :
- * - Forfait base 1 parent + 1 enfant : 2 790 / 5 290 / 7 590 €
+ * - Forfait base 1 parent + 1 enfant : 2 490 / 4 390 / 5 890 €
  * - Enfant supplémentaire : +790 / +1 580 / +2 370 € (selon durée)
  * - Si conjoint(e) participe : 2 × tarif 1-2 adultes + N enfants × supp/sem
  */
@@ -71,7 +71,7 @@ export const PRICING_TIERS: Record<GroupTier, TierPricing> = {
 /** Forfait Famille : 1 parent + 1 enfant inclus dans le prix de base, +N enfants supplémentaires */
 export const FAMILY_PRICING = {
   /** Prix de base 1 parent + 1 enfant (par durée) */
-  base: { 1: 2790, 2: 5290, 3: 7590 } as Record<Duration, number>,
+  base: { 1: 2490, 2: 4390, 3: 5890 } as Record<Duration, number>,
   /** Enfant supplémentaire (au-delà du 1er enfant inclus) */
   extraChildPerWeek: { 1: 790, 2: 1580, 3: 2370 } as Record<Duration, number>,
 }
@@ -157,7 +157,7 @@ export const FAMILY_EXAMPLES = [
 
 /**
  * Détail de calcul lisible (pour tooltip ou récap)
- * Ex: "1 × 2 790 € (forfait 1P+1E) + 1 × 790 € (enfant supp)"
+ * Ex: "1 × 2 490 € (forfait 1P+1E) + 1 × 790 € (enfant supp)"
  */
 export function priceBreakdown({ adults, children = 0, weeks }: PricingInput): string {
   if (adults <= 0 || weeks <= 0) return ''
