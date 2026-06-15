@@ -27,7 +27,7 @@ import {
   FAMILY_BASE_1WEEK_LABEL,
   FAMILY_EXTRA_CHILD_1WEEK_LABEL,
 } from '@/lib/pricing-copy'
-import { findReferralCode, findCodeBySourceValue, getPartnersWithSourceOption } from '@/data/referral-codes'
+import { findReferralCode, findCodeBySourceValue } from '@/data/referral-codes'
 import PlacesRestantes from '@/components/PlacesRestantes'
 import IconLutte from '@/components/icons/IconLutte'
 import IconMMA from '@/components/icons/IconMMA'
@@ -2354,12 +2354,8 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                         <option value="instagram">{t('summary.source_field.options.instagram')}</option>
                         <option value="bouche-a-oreille">{t('summary.source_field.options.bouche_a_oreille')}</option>
                         <option value="coach">{t('summary.source_field.options.coach')}</option>
+                        <option value="influenceur">{t('summary.source_field.options.influenceur')}</option>
                         <option value="google">{t('summary.source_field.options.google')}</option>
-                        {getPartnersWithSourceOption().map(p => (
-                          <option key={p.code} value={p.sourceDecouverteValue}>
-                            {p.sourceDecouverteLabel}
-                          </option>
-                        ))}
                         <option value="autre">{t('summary.source_field.options.autre')}</option>
                       </select>
                       {sourceCodeConflict && (

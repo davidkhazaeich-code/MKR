@@ -542,12 +542,13 @@
     "extra_details_summary": "Détails supplémentaires (optionnel)",
     "source_field": {
       "label": "Comment as-tu connu le camp ?",
-      "hint": "Si tu choisis un partenaire ou un influenceur, on remplit ton code de recommandation automatiquement.",
-      "placeholder": "Optionnel",
+      "hint": "Aide-nous à savoir ce qui marche le mieux.",
+      "placeholder": "Sélectionner",
       "options": {
         "instagram": "Instagram",
         "bouche_a_oreille": "Bouche à oreille",
         "coach": "Recommandation de mon coach",
+        "influenceur": "Recommandation d'un influenceur",
         "google": "Recherche Google",
         "autre": "Autre"
       },
