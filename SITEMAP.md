@@ -1211,7 +1211,7 @@ GEO = { latitude: 42.9849, longitude: 47.5047, country: 'RU', region: 'Daghestan
 - `flat` : forfait fixe `bonusEur` (50€), figé à l'inscription. Salles/coachs.
 - `percent` : `commissionPct` % du CA encaissé (`package_amount_cents`). Influenceurs (PaoloZ = 10%). Le montant euro n'est PAS connu à l'inscription (CA inconnu) : il est calculé à la transition `soldee` et recalculé si Ruslan édite le CA. Stocké dans `referral_bonus_eur` (montant payable canonique → le dashboard d'agrégation marche sans changement).
 
-**Liens d'affiliation** (ajouté 2026-06-12) : `affiliateLink(code)` → `https://mkrcamp.com/?ref=<code>`. `proxy.ts` valide le `?ref` (findReferralCode, insensible casse) et pose le cookie `mkr_ref` (60j, SameSite=Lax, secure en prod, lisible JS). Last-touch. Un `?ref` inconnu/inactif est ignoré (pas de cookie). Le cookie pré-remplit le code dans le formulaire et déclenche le bandeau de confiance.
+**Liens d'affiliation** (ajouté 2026-06-12) : `affiliateLink(code)` → `https://mkrcamp.com/?ref=<code>`. `proxy.ts` valide le `?ref` (findReferralCode, insensible casse) et pose le cookie `mkr_ref` (90j depuis 2026-06-15, SameSite=Lax, secure en prod, lisible JS). Last-touch. Un `?ref` inconnu/inactif est ignoré (pas de cookie). Le cookie pré-remplit le code dans le formulaire (le bandeau de confiance site-wide a été retiré le 2026-06-15).
 
 | Fichier | Forme |
 |---|---|
