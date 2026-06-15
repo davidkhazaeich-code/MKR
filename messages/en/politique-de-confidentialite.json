@@ -83,7 +83,7 @@
       "title": "Cookies",
       "intro": "This site uses one functional attribution cookie:",
       "mkr_ref_name": "mkr_ref",
-      "mkr_ref_body": "functional referral attribution cookie. Stores the code of the partner who referred you to MKR (duration 60 days). No personal data, no third-party advertising tracking."
+      "mkr_ref_body": "functional referral attribution cookie. Stores the code of the partner who referred you to MKR (duration 90 days). No personal data, no third-party advertising tracking."
     },
     "security": {
       "title": "Security",

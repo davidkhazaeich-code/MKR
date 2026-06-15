@@ -14,7 +14,7 @@ import { findReferralCode } from './data/referral-codes';
 
 const COOKIE_NAME = 'mkr_admin';
 const REF_COOKIE_NAME = 'mkr_ref';
-const REF_COOKIE_MAX_AGE = 60 * 60 * 24 * 60; // 60 jours en secondes
+const REF_COOKIE_MAX_AGE = 60 * 60 * 24 * 90; // 90 jours en secondes
 
 const intlMiddleware = createMiddleware(routing);
 
@@ -52,7 +52,7 @@ function handleAdminGuard(request: NextRequest): NextResponse | null {
 }
 
 // Si l'URL contient ?ref=<code> et que le code est valide + actif, pose le cookie
-// d'attribution mkr_ref (60j, lisible JS, SameSite=Lax) sur la réponse fournie.
+// d'attribution mkr_ref (90j, lisible JS, SameSite=Lax) sur la réponse fournie.
 // Un ?ref inconnu/inactif est ignoré silencieusement (pas de fausse attribution).
 function applyReferralCapture(request: NextRequest, response: NextResponse): NextResponse {
   const ref = request.nextUrl.searchParams.get('ref');
