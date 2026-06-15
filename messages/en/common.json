@@ -195,9 +195,5 @@
     "switch_to_en_aria": "Switch to English",
     "switch_to_fr_aria": "Passer en français"
   },
-  "skip_link": "Skip to main content",
-  "referral_banner": {
-    "text": "You were referred by {partner}",
-    "dismiss": "Close"
-  }
+  "skip_link": "Skip to main content"
 }
