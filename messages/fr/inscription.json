@@ -130,7 +130,7 @@
       "prenom_responsable": { "label": "Prénom du responsable", "placeholder": "Ton prénom" },
       "nom": { "label": "Nom", "placeholder": "Ton nom" },
       "email": { "label": "Email", "placeholder": "ton@email.com" },
-      "telephone": { "label": "Téléphone / WhatsApp", "hint": "Pour un échange direct si besoin", "placeholder": "+33 6 12 34 56 78" },
+      "telephone": { "label": "Téléphone / WhatsApp", "hint": "Pour l'appel de cadrage avec Ruslan", "placeholder": "+33 6 12 34 56 78" },
       "pays": { "label": "Pays de résidence", "placeholder": "France, Suisse, Belgique..." },
       "ville_depart": { "label": "Ville de départ", "hint": "Origine principale du groupe", "placeholder": "Ex : Paris, Lyon, Genève..." }
     }
@@ -606,6 +606,9 @@
       "dateNaissance_18plus": "Tu dois avoir au moins 18 ans",
       "pays_required": "Pays de résidence requis",
       "email_invalid": "Email invalide",
+      "telephone_required": "Téléphone requis (Ruslan te rappelle pour l'entretien de sélection)",
+      "telephone_invalid": "Numéro de téléphone invalide",
+      "source_required": "Indique comment tu as connu le camp",
       "villeDepart_required": "Ville de départ requise",
       "nomClub_required": "Nom du club / groupe requis",
       "niveauGroupe_required": "Niveau global du groupe requis",
@@ -618,11 +621,14 @@
       "conditionPhysique_required": "Évalue ta condition physique",
       "blessuresRecentes_required": "Indique si tu as des blessures récentes",
       "contreIndications_required": "Indique si tu as des contre-indications médicales",
+      "blessuresDetail_required": "Précise la nature et l'état de la blessure",
+      "contreIndicationsDetail_required": "Précise tes contre-indications médicales",
       "deuxFoisJour_required": "Confirme ta disponibilité pour les doubles séances",
       "enfant_prenom": "Enfant {n} : prénom requis",
       "enfant_age_required": "Enfant {n} : âge requis",
       "enfant_age_range": "Enfant {n} : âge entre 8 et 17 ans",
       "enfant_contre_indications": "Enfant {n} : contre-indications requises",
+      "enfant_contre_indications_detail": "Enfant {n} : précise les contre-indications",
       "accepteConditions_required": "Accepter les conditions est requis",
       "certifMedical_required": "Certificat médical requis",
       "pret_required": "Confirme être prêt pour la sélection"

@@ -130,7 +130,7 @@
       "prenom_responsable": { "label": "Contact person's first name", "placeholder": "Your first name" },
       "nom": { "label": "Last name", "placeholder": "Your last name" },
       "email": { "label": "Email", "placeholder": "your@email.com" },
-      "telephone": { "label": "Phone / WhatsApp", "hint": "For a direct exchange if needed", "placeholder": "+33 6 12 34 56 78" },
+      "telephone": { "label": "Phone / WhatsApp", "hint": "For the framing call with Ruslan", "placeholder": "+33 6 12 34 56 78" },
       "pays": { "label": "Country of residence", "placeholder": "France, Switzerland, Belgium..." },
       "ville_depart": { "label": "Departure city", "hint": "Main origin of the group", "placeholder": "E.g. Paris, Lyon, Geneva..." }
     }
@@ -606,6 +606,9 @@
       "dateNaissance_18plus": "You must be at least 18 years old",
       "pays_required": "Country of residence required",
       "email_invalid": "Invalid email",
+      "telephone_required": "Phone required (Ruslan calls you back for the selection interview)",
+      "telephone_invalid": "Invalid phone number",
+      "source_required": "Tell us how you heard about the camp",
       "villeDepart_required": "Departure city required",
       "nomClub_required": "Club / group name required",
       "niveauGroupe_required": "Overall group level required",
@@ -618,11 +621,14 @@
       "conditionPhysique_required": "Assess your physical condition",
       "blessuresRecentes_required": "Indicate if you have recent injuries",
       "contreIndications_required": "Indicate if you have medical contraindications",
+      "blessuresDetail_required": "Specify the nature and status of the injury",
+      "contreIndicationsDetail_required": "Specify your medical contraindications",
       "deuxFoisJour_required": "Confirm your availability for double sessions",
       "enfant_prenom": "Child {n}: first name required",
       "enfant_age_required": "Child {n}: age required",
       "enfant_age_range": "Child {n}: age between 8 and 17 years old",
       "enfant_contre_indications": "Child {n}: contraindications required",
+      "enfant_contre_indications_detail": "Child {n}: specify the contraindications",
       "accepteConditions_required": "Accepting the conditions is required",
       "certifMedical_required": "Medical certificate required",
       "pret_required": "Confirm you are ready for the selection"

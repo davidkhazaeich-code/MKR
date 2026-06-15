@@ -899,15 +899,16 @@ GEO = { latitude: 42.9849, longitude: 47.5047, country: 'RU', region: 'Daghestan
 **Champs (26)** :
 | Step | Champs requis | Validation |
 |---|---|---|
-| 0 Identité | prenom, nom, dateNaissance, pays, email | age ≥ 18, email regex |
-| – | telephone | optionnel |
+| 0 Identité | prenom, nom, dateNaissance, pays, email, **telephone**, villeDepart | age ≥ 18, email regex, **tel ≥ 6 chiffres** |
 | 1 Expérience | disciplinePrincipale (DISCIPLINES select), anneesPratique, niveau | required |
 | – | disciplinesSecondaires[], club, coach, palmares, lienVideo | optionnel |
 | 2 Santé | conditionPhysique, blessuresRecentes, contreIndications, deuxFoisJour | required |
 | – | blessuresDetail, contreIndicationsDetail | conditionnels |
-| 3 Logistique | session ('aout-2026'), duree (1/2/3 semaines) | required |
-| – | villeDepart, sourceDecouverte, message | optionnel |
-| 4 Confirmation | certifMedical, accepteConditions, pret | checkbox required |
+| 3 Logistique | session, duree (1/2/3 semaines) | required |
+| – | message | optionnel |
+| 4 Confirmation | **sourceDecouverte**, certifMedical, accepteConditions, pret | checkbox required |
+
+> **🆕 2026-06-15 — Champs obligatoires durcis (décision David, tous tunnels)** : le composant `Field` accepte désormais un prop `required` qui affiche un astérisque `*` (`.cand-required`, `aria-hidden`) sur tous les champs validés — avant, aucun astérisque n'existait (le candidat découvrait les requis au moment de l'erreur). **Téléphone** devient obligatoire (parcours individuel + contact groupe) car Ruslan rappelle chaque candidat pour la visio de sélection (validation : non vide + ≥ 6 chiffres, clés `telephone_required` / `telephone_invalid`). **Source de découverte** devient obligatoire à l'étape finale (tous tunnels, clé `source_required`) ; le panneau `<details>` "détails supplémentaires" s'ouvre automatiquement si erreur sur ce champ. Champs restés optionnels : disciplines secondaires, club, coach, palmarès, lien vidéo, message, code de recommandation. Clés i18n ajoutées dans `messages/{fr,en}/inscription.json` → `errors.by_field`.
 
 **Submit success** : génère `<StoryCard />` (Instagram story téléchargeable PNG via html2canvas).
 

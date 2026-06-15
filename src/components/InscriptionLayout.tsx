@@ -135,12 +135,15 @@ function makeParticipant(): CustomParticipant {
 
 /* ─────────────── HELPERS ─────────────── */
 
-function Field({ label, hint, children }: {
-  label: string; hint?: string; children: React.ReactNode
+function Field({ label, required, hint, children }: {
+  label: string; required?: boolean; hint?: string; children: React.ReactNode
 }) {
   return (
     <div className="cand-field">
-      <label className="cand-label">{label}</label>
+      <label className="cand-label">
+        {label}
+        {required && <span className="cand-required" aria-hidden="true">*</span>}
+      </label>
       {children}
       {hint && <span className="cand-hint">{hint}</span>}
     </div>
@@ -485,6 +488,8 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
         }
         if (!form.pays.trim()) push(E('pays_required'), 'pays')
         if (!form.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) push(E('email_invalid'), 'email')
+        if (!form.telephone.trim()) push(E('telephone_required'), 'telephone')
+        else if (form.telephone.replace(/\D/g, '').length < 6) push(E('telephone_invalid'), 'telephone')
         if (!form.villeDepart.trim()) push(E('villeDepart_required'), 'villeDepart')
       } else {
         if (!form.nomClub.trim()) push(E('nomClub_required'), 'nomClub')
@@ -513,6 +518,8 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
         if (!form.nom.trim()) push(E('nom_required'), 'nom')
         if (!form.pays.trim()) push(E('pays_required'), 'pays')
         if (!form.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) push(E('email_invalid'), 'email')
+        if (!form.telephone.trim()) push(E('telephone_required'), 'telephone')
+        else if (form.telephone.replace(/\D/g, '').length < 6) push(E('telephone_invalid'), 'telephone')
         if (!form.villeDepart.trim()) push(E('villeDepart_required'), 'villeDepart')
       }
     }
@@ -522,12 +529,16 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
       if (audience === 'session' || audience === 'custom') {
         if (!form.conditionPhysique) push(E('conditionPhysique_required'), 'conditionPhysique')
         if (!form.blessuresRecentes) push(E('blessuresRecentes_required'), 'blessuresRecentes')
+        else if ((form.blessuresRecentes === 'oui' || form.blessuresRecentes === 'mineure') && !form.blessuresDetail.trim()) push(E('blessuresDetail_required'), 'blessuresDetail')
         if (!form.contreIndications) push(E('contreIndications_required'), 'contreIndications')
+        else if (form.contreIndications === 'oui' && !form.contreIndicationsDetail.trim()) push(E('contreIndicationsDetail_required'), 'contreIndicationsDetail')
         if (!form.deuxFoisJour) push(E('deuxFoisJour_required'), 'deuxFoisJour')
       } else if (audience === 'famille') {
         if (!form.conditionPhysique) push(E('conditionPhysique_required'), 'conditionPhysique')
         if (!form.blessuresRecentes) push(E('blessuresRecentes_required'), 'blessuresRecentes')
+        else if ((form.blessuresRecentes === 'oui' || form.blessuresRecentes === 'mineure') && !form.blessuresDetail.trim()) push(E('blessuresDetail_required'), 'blessuresDetail')
         if (!form.contreIndications) push(E('contreIndications_required'), 'contreIndications')
+        else if (form.contreIndications === 'oui' && !form.contreIndicationsDetail.trim()) push(E('contreIndicationsDetail_required'), 'contreIndicationsDetail')
         form.enfants.forEach((c, i) => {
           if (!c.prenom.trim()) push(E('enfant_prenom', { n: i + 1 }), `enfants.${i}.prenom`)
           if (!c.age) push(E('enfant_age_required', { n: i + 1 }), `enfants.${i}.age`)
@@ -536,14 +547,17 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
             if (Number.isNaN(a) || a < 8 || a > 17) push(E('enfant_age_range', { n: i + 1 }), `enfants.${i}.age`)
           }
           if (!c.contreIndications) push(E('enfant_contre_indications', { n: i + 1 }), `enfants.${i}.contreIndications`)
+          else if (c.contreIndications === 'oui' && !c.contreIndicationsDetail.trim()) push(E('enfant_contre_indications_detail', { n: i + 1 }), `enfants.${i}.contreIndicationsDetail`)
         })
       } else if (audience === 'groupe') {
+        if (!form.sourceDecouverte) push(E('source_required'), 'sourceDecouverte')
         if (!form.accepteConditions) push(E('accepteConditions_required'), 'accepteConditions')
       }
     }
 
     // STEP 4
     if (step === 4) {
+      if (!form.sourceDecouverte) push(E('source_required'), 'sourceDecouverte')
       if (!form.certifMedical) push(E('certifMedical_required'), 'certifMedical')
       if (!form.accepteConditions) push(E('accepteConditions_required'), 'accepteConditions')
       if (!form.pret) push(E('pret_required'), 'pret')
@@ -1045,7 +1059,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
             {step === 1 && audience !== 'groupe' && (
               <div className="cand-panel">
                 <div className="cand-row">
-                  <Field label={t('identity.fields.prenom.label')}>
+                  <Field label={t('identity.fields.prenom.label')} required>
                     <input
                       className={`cand-input${errorFields.has('prenom') ? ' has-error' : ''}`}
                       type="text" autoComplete="given-name"
@@ -1053,7 +1067,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                       aria-invalid={errorFields.has('prenom') || undefined}
                       onChange={e => set('prenom', e.target.value)} />
                   </Field>
-                  <Field label={t('identity.fields.nom.label')}>
+                  <Field label={t('identity.fields.nom.label')} required>
                     <input
                       className={`cand-input${errorFields.has('nom') ? ' has-error' : ''}`}
                       type="text" autoComplete="family-name"
@@ -1063,7 +1077,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                   </Field>
                 </div>
                 <div className="cand-row">
-                  <Field label={t('identity.fields.date_naissance.label')} hint={t('identity.fields.date_naissance.hint')}>
+                  <Field label={t('identity.fields.date_naissance.label')} required hint={t('identity.fields.date_naissance.hint')}>
                     <input
                       className={`cand-input${errorFields.has('dateNaissance') ? ' has-error' : ''}`}
                       type="date"
@@ -1072,7 +1086,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                       aria-invalid={errorFields.has('dateNaissance') || undefined}
                       onChange={e => set('dateNaissance', e.target.value)} />
                   </Field>
-                  <Field label={t('identity.fields.pays.label')}>
+                  <Field label={t('identity.fields.pays.label')} required>
                     <input
                       className={`cand-input${errorFields.has('pays') ? ' has-error' : ''}`}
                       type="text" autoComplete="country-name" list="insc-pays-list"
@@ -1085,7 +1099,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                   </Field>
                 </div>
                 <div className="cand-row">
-                  <Field label={t('identity.fields.email.label')}>
+                  <Field label={t('identity.fields.email.label')} required>
                     <input
                       className={`cand-input${errorFields.has('email') ? ' has-error' : ''}`}
                       type="email" autoComplete="email" inputMode="email"
@@ -1093,16 +1107,17 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                       aria-invalid={errorFields.has('email') || undefined}
                       onChange={e => set('email', e.target.value)} />
                   </Field>
-                  <Field label={t('identity.fields.telephone.label')} hint={t('identity.fields.telephone.hint')}>
+                  <Field label={t('identity.fields.telephone.label')} required hint={t('identity.fields.telephone.hint')}>
                     <input
-                      className="cand-input"
+                      className={`cand-input${errorFields.has('telephone') ? ' has-error' : ''}`}
                       type="tel" autoComplete="tel" inputMode="tel"
                       placeholder={t('identity.fields.telephone.placeholder')} value={form.telephone}
+                      aria-invalid={errorFields.has('telephone') || undefined}
                       onChange={e => set('telephone', e.target.value)} />
                   </Field>
                 </div>
                 {renderReferralCodeField()}
-                <Field label={t('identity.fields.ville_depart.label')} hint={t('identity.fields.ville_depart.hint')}>
+                <Field label={t('identity.fields.ville_depart.label')} required hint={t('identity.fields.ville_depart.hint')}>
                   <input
                     className={`cand-input${errorFields.has('villeDepart') ? ' has-error' : ''}`}
                     type="text" placeholder={t('identity.fields.ville_depart.placeholder')}
@@ -1121,7 +1136,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                   <span>{t('groupe_contact.banner.body')}</span>
                 </p>
                 <div className="cand-row">
-                  <Field label={t('groupe_contact.fields.prenom_responsable.label')}>
+                  <Field label={t('groupe_contact.fields.prenom_responsable.label')} required>
                     <input
                       className={`cand-input${errorFields.has('prenom') ? ' has-error' : ''}`}
                       type="text" autoComplete="given-name"
@@ -1129,7 +1144,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                       aria-invalid={errorFields.has('prenom') || undefined}
                       onChange={e => set('prenom', e.target.value)} />
                   </Field>
-                  <Field label={t('groupe_contact.fields.nom.label')}>
+                  <Field label={t('groupe_contact.fields.nom.label')} required>
                     <input
                       className={`cand-input${errorFields.has('nom') ? ' has-error' : ''}`}
                       type="text" autoComplete="family-name"
@@ -1139,7 +1154,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                   </Field>
                 </div>
                 <div className="cand-row">
-                  <Field label={t('groupe_contact.fields.email.label')}>
+                  <Field label={t('groupe_contact.fields.email.label')} required>
                     <input
                       className={`cand-input${errorFields.has('email') ? ' has-error' : ''}`}
                       type="email" autoComplete="email" inputMode="email"
@@ -1147,16 +1162,17 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                       aria-invalid={errorFields.has('email') || undefined}
                       onChange={e => set('email', e.target.value)} />
                   </Field>
-                  <Field label={t('groupe_contact.fields.telephone.label')} hint={t('groupe_contact.fields.telephone.hint')}>
+                  <Field label={t('groupe_contact.fields.telephone.label')} required hint={t('groupe_contact.fields.telephone.hint')}>
                     <input
-                      className="cand-input"
+                      className={`cand-input${errorFields.has('telephone') ? ' has-error' : ''}`}
                       type="tel" autoComplete="tel" inputMode="tel"
                       placeholder={t('groupe_contact.fields.telephone.placeholder')} value={form.telephone}
+                      aria-invalid={errorFields.has('telephone') || undefined}
                       onChange={e => set('telephone', e.target.value)} />
                   </Field>
                 </div>
                 <div className="cand-row">
-                  <Field label={t('groupe_contact.fields.pays.label')}>
+                  <Field label={t('groupe_contact.fields.pays.label')} required>
                     <input
                       className={`cand-input${errorFields.has('pays') ? ' has-error' : ''}`}
                       type="text" autoComplete="country-name" list="insc-pays-list"
@@ -1164,7 +1180,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                       aria-invalid={errorFields.has('pays') || undefined}
                       onChange={e => set('pays', e.target.value)} />
                   </Field>
-                  <Field label={t('groupe_contact.fields.ville_depart.label')} hint={t('groupe_contact.fields.ville_depart.hint')}>
+                  <Field label={t('groupe_contact.fields.ville_depart.label')} required hint={t('groupe_contact.fields.ville_depart.hint')}>
                     <input
                       className={`cand-input${errorFields.has('villeDepart') ? ' has-error' : ''}`}
                       type="text"
@@ -1192,7 +1208,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                   </p>
                 )}
 
-                <Field label={t('experience.fields.discipline_principale.label')}>
+                <Field label={t('experience.fields.discipline_principale.label')} required>
                   <select
                     className={`cand-select${errorFields.has('disciplinePrincipale') ? ' has-error' : ''}`}
                     value={form.disciplinePrincipale}
@@ -1224,7 +1240,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                 </Field>
 
                 <div className="cand-row">
-                  <Field label={t('experience.fields.annees_pratique.label')}>
+                  <Field label={t('experience.fields.annees_pratique.label')} required>
                     <select
                       className={`cand-select${errorFields.has('anneesPratique') ? ' has-error' : ''}`}
                       value={form.anneesPratique}
@@ -1239,6 +1255,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                   </Field>
                   <Field
                     label={t('experience.fields.niveau.label')}
+                    required
                     hint={form.campDiscipline === 'mma' ? t('experience.fields.niveau.hint_mma') : undefined}>
                     <select
                       className={`cand-select${errorFields.has('niveau') ? ' has-error' : ''}`}
@@ -1288,7 +1305,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                   <span>{t('club_qualification.banner.prefix')}<strong>{t('club_qualification.banner.strong')}</strong>{t('club_qualification.banner.suffix')}</span>
                 </p>
 
-                <Field label={t('club_qualification.fields.nom_club.label')}>
+                <Field label={t('club_qualification.fields.nom_club.label')} required>
                   <input
                     className={`cand-input${errorFields.has('nomClub') ? ' has-error' : ''}`}
                     type="text"
@@ -1298,7 +1315,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                     onChange={e => set('nomClub', e.target.value)} />
                 </Field>
                 <div className="cand-row">
-                  <Field label={t('club_qualification.fields.nombre_participants.label')} hint={t('club_qualification.fields.nombre_participants.hint')}>
+                  <Field label={t('club_qualification.fields.nombre_participants.label')} required hint={t('club_qualification.fields.nombre_participants.hint')}>
                     <select
                       className={`cand-select${errorFields.has('nombreParticipants') ? ' has-error' : ''}`}
                       value={form.nombreParticipants}
@@ -1311,7 +1328,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                       <option value="20+">{t('club_qualification.participants_options.20+')}</option>
                     </select>
                   </Field>
-                  <Field label={t('club_qualification.fields.niveau_groupe.label')}>
+                  <Field label={t('club_qualification.fields.niveau_groupe.label')} required>
                     <select
                       className={`cand-select${errorFields.has('niveauGroupe') ? ' has-error' : ''}`}
                       value={form.niveauGroupe}
@@ -1367,7 +1384,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                     <span>{t('sante.banner_custom.prefix')}<strong>{t('sante.banner_custom.strong')}</strong>{t('sante.banner_custom.suffix')}</span>
                   </p>
                 )}
-                <Field label={t('sante.fields.condition_physique.label')}>
+                <Field label={t('sante.fields.condition_physique.label')} required>
                   <div className={errorFields.has('conditionPhysique') ? 'insc-radios-error' : ''}>
                     <RadioGroup name="condition" value={form.conditionPhysique}
                       onChange={v => set('conditionPhysique', v)}
@@ -1380,7 +1397,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                     />
                   </div>
                 </Field>
-                <Field label={t('sante.fields.blessures.label')}>
+                <Field label={t('sante.fields.blessures.label')} required>
                   <div className={errorFields.has('blessuresRecentes') ? 'insc-radios-error' : ''}>
                     <RadioGroup name="blessures" value={form.blessuresRecentes}
                       onChange={v => set('blessuresRecentes', v)}
@@ -1392,13 +1409,16 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                     />
                   </div>
                   {(form.blessuresRecentes === 'oui' || form.blessuresRecentes === 'mineure') && (
-                    <textarea className="cand-textarea cand-sub-field" rows={2}
+                    <textarea
+                      className={`cand-textarea cand-sub-field${errorFields.has('blessuresDetail') ? ' has-error' : ''}`}
+                      rows={2}
                       placeholder={t('sante.fields.blessures.detail_placeholder')}
                       value={form.blessuresDetail}
+                      aria-invalid={errorFields.has('blessuresDetail') || undefined}
                       onChange={e => set('blessuresDetail', e.target.value)} />
                   )}
                 </Field>
-                <Field label={t('sante.fields.contre_indications.label')}>
+                <Field label={t('sante.fields.contre_indications.label')} required>
                   <div className={errorFields.has('contreIndications') ? 'insc-radios-error' : ''}>
                     <RadioGroup name="contre" value={form.contreIndications}
                       onChange={v => set('contreIndications', v)}
@@ -1409,13 +1429,16 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                     />
                   </div>
                   {form.contreIndications === 'oui' && (
-                    <textarea className="cand-textarea cand-sub-field" rows={2}
+                    <textarea
+                      className={`cand-textarea cand-sub-field${errorFields.has('contreIndicationsDetail') ? ' has-error' : ''}`}
+                      rows={2}
                       placeholder={t('sante.fields.contre_indications.detail_placeholder')}
                       value={form.contreIndicationsDetail}
+                      aria-invalid={errorFields.has('contreIndicationsDetail') || undefined}
                       onChange={e => set('contreIndicationsDetail', e.target.value)} />
                   )}
                 </Field>
-                <Field label={t('sante.fields.deux_fois_jour.label')}
+                <Field label={t('sante.fields.deux_fois_jour.label')} required
                   hint={t('sante.fields.deux_fois_jour.hint')}>
                   <div className={errorFields.has('deuxFoisJour') ? 'insc-radios-error' : ''}>
                     <RadioGroup name="deuxfois" value={form.deuxFoisJour}
@@ -1435,7 +1458,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
             {step === 3 && audience === 'famille' && (
               <div className="cand-panel">
                 <h3 className="insc-section-title">{t('sante.famille.section_parent')}</h3>
-                <Field label={t('sante.fields.condition_physique.label')}>
+                <Field label={t('sante.fields.condition_physique.label')} required>
                   <div className={errorFields.has('conditionPhysique') ? 'insc-radios-error' : ''}>
                     <RadioGroup name="condition" value={form.conditionPhysique}
                       onChange={v => set('conditionPhysique', v)}
@@ -1448,7 +1471,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                     />
                   </div>
                 </Field>
-                <Field label={t('sante.fields.blessures.label')}>
+                <Field label={t('sante.fields.blessures.label')} required>
                   <div className={errorFields.has('blessuresRecentes') ? 'insc-radios-error' : ''}>
                     <RadioGroup name="blessures" value={form.blessuresRecentes}
                       onChange={v => set('blessuresRecentes', v)}
@@ -1460,13 +1483,16 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                     />
                   </div>
                   {(form.blessuresRecentes === 'oui' || form.blessuresRecentes === 'mineure') && (
-                    <textarea className="cand-textarea cand-sub-field" rows={2}
+                    <textarea
+                      className={`cand-textarea cand-sub-field${errorFields.has('blessuresDetail') ? ' has-error' : ''}`}
+                      rows={2}
                       placeholder={t('sante.fields.blessures.detail_placeholder')}
                       value={form.blessuresDetail}
+                      aria-invalid={errorFields.has('blessuresDetail') || undefined}
                       onChange={e => set('blessuresDetail', e.target.value)} />
                   )}
                 </Field>
-                <Field label={t('sante.fields.contre_indications.label')}>
+                <Field label={t('sante.fields.contre_indications.label')} required>
                   <div className={errorFields.has('contreIndications') ? 'insc-radios-error' : ''}>
                     <RadioGroup name="contre" value={form.contreIndications}
                       onChange={v => set('contreIndications', v)}
@@ -1477,9 +1503,12 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                     />
                   </div>
                   {form.contreIndications === 'oui' && (
-                    <textarea className="cand-textarea cand-sub-field" rows={2}
+                    <textarea
+                      className={`cand-textarea cand-sub-field${errorFields.has('contreIndicationsDetail') ? ' has-error' : ''}`}
+                      rows={2}
                       placeholder={t('sante.fields.contre_indications.detail_placeholder')}
                       value={form.contreIndicationsDetail}
+                      aria-invalid={errorFields.has('contreIndicationsDetail') || undefined}
                       onChange={e => set('contreIndicationsDetail', e.target.value)} />
                   )}
                 </Field>
@@ -1506,7 +1535,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                       )}
                     </div>
                     <div className="cand-row">
-                      <Field label={t('sante.famille.fields.prenom.label')}>
+                      <Field label={t('sante.famille.fields.prenom.label')} required>
                         <input
                           className={`cand-input${errorFields.has(`enfants.${i}.prenom`) ? ' has-error' : ''}`}
                           type="text" placeholder={t('sante.famille.fields.prenom.placeholder')}
@@ -1514,7 +1543,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                           aria-invalid={errorFields.has(`enfants.${i}.prenom`) || undefined}
                           onChange={e => updateChild(i, { prenom: e.target.value })} />
                       </Field>
-                      <Field label={t('sante.famille.fields.age.label')} hint={t('sante.famille.fields.age.hint')}>
+                      <Field label={t('sante.famille.fields.age.label')} required hint={t('sante.famille.fields.age.hint')}>
                         <input
                           className={`cand-input${errorFields.has(`enfants.${i}.age`) ? ' has-error' : ''}`}
                           type="number" inputMode="numeric" min="8" max="17" placeholder={t('sante.famille.fields.age.placeholder')}
@@ -1545,7 +1574,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                           onChange={e => updateChild(i, { anneesPratique: e.target.value })} />
                       )}
                     </Field>
-                    <Field label={t('sante.famille.fields.contre_indications.label')}>
+                    <Field label={t('sante.famille.fields.contre_indications.label')} required>
                       <div className={errorFields.has(`enfants.${i}.contreIndications`) ? 'insc-radios-error' : ''}>
                         <RadioGroup name={`enfant-${i}-contre`} value={c.contreIndications}
                           onChange={v => updateChild(i, { contreIndications: v })}
@@ -1556,9 +1585,12 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                         />
                       </div>
                       {c.contreIndications === 'oui' && (
-                        <textarea className="cand-textarea cand-sub-field" rows={2}
+                        <textarea
+                          className={`cand-textarea cand-sub-field${errorFields.has(`enfants.${i}.contreIndicationsDetail`) ? ' has-error' : ''}`}
+                          rows={2}
                           placeholder={t('sante.famille.fields.contre_indications.detail_placeholder')}
                           value={c.contreIndicationsDetail}
+                          aria-invalid={errorFields.has(`enfants.${i}.contreIndicationsDetail`) || undefined}
                           onChange={e => updateChild(i, { contreIndicationsDetail: e.target.value })} />
                       )}
                     </Field>
@@ -1798,7 +1830,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                               <strong>{t('step0_camp.custom.participant_label', { n: i + 2 })}</strong>
                             </div>
                             <div className="cand-row">
-                              <Field label={t('step0_camp.custom.participant_fields.prenom.label')}>
+                              <Field label={t('step0_camp.custom.participant_fields.prenom.label')} required>
                                 <input
                                   className={`cand-input${errorFields.has(`autresParticipants.${i}.prenom`) ? ' has-error' : ''}`}
                                   type="text" placeholder={t('step0_camp.custom.participant_fields.prenom.placeholder')}
@@ -1806,7 +1838,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                                   aria-invalid={errorFields.has(`autresParticipants.${i}.prenom`) || undefined}
                                   onChange={e => updateParticipant(i, { prenom: e.target.value })} />
                               </Field>
-                              <Field label={t('step0_camp.custom.participant_fields.niveau.label')}>
+                              <Field label={t('step0_camp.custom.participant_fields.niveau.label')} required>
                                 <select
                                   className={`cand-select${errorFields.has(`autresParticipants.${i}.niveau`) ? ' has-error' : ''}`}
                                   value={p.niveau}
@@ -1837,7 +1869,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                       <h2 className="insc-camp-section-label">{t('step0_camp.custom.section3_label')}</h2>
                       <p className="insc-camp-section-help">{t('step0_camp.custom.section3_help')}</p>
                       <div className="cand-row">
-                        <Field label={t('step0_camp.custom.fields.date_debut.label')}>
+                        <Field label={t('step0_camp.custom.fields.date_debut.label')} required>
                           <input
                             className={`cand-input${errorFields.has('dateDebutSouhaitee') ? ' has-error' : ''}`}
                             type="date"
@@ -1850,7 +1882,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                             aria-invalid={errorFields.has('dateDebutSouhaitee') || undefined}
                             onChange={e => set('dateDebutSouhaitee', e.target.value)} />
                         </Field>
-                        <Field label={t('step0_camp.custom.fields.duree.label')}>
+                        <Field label={t('step0_camp.custom.fields.duree.label')} required>
                           {(() => {
                             const adults = Math.max(1, parseInt(form.nombreParticipants || '1', 10))
                             return (
@@ -1943,14 +1975,20 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                         {t('step0_camp.groupe.section2_help_prefix')}<strong>{t('step0_camp.groupe.section2_help_strong')}</strong>{t('step0_camp.groupe.section2_help_suffix')}
                       </p>
                       <div className="cand-row">
-                        <Field label={t('step0_camp.groupe.fields.date_debut.label')}>
-                          <input className="cand-input" type="date"
+                        <Field label={t('step0_camp.groupe.fields.date_debut.label')} required>
+                          <input
+                            className={`cand-input${errorFields.has('dateDebutSouhaitee') ? ' has-error' : ''}`}
+                            type="date"
                             min={(() => { const d = new Date(); d.setDate(d.getDate() + 90); return d.toISOString().split('T')[0] })()}
                             value={form.dateDebutSouhaitee}
+                            aria-invalid={errorFields.has('dateDebutSouhaitee') || undefined}
                             onChange={e => set('dateDebutSouhaitee', e.target.value)} />
                         </Field>
-                        <Field label={t('step0_camp.groupe.fields.duree.label')}>
-                          <select className="cand-select" value={form.duree}
+                        <Field label={t('step0_camp.groupe.fields.duree.label')} required>
+                          <select
+                            className={`cand-select${errorFields.has('duree') ? ' has-error' : ''}`}
+                            value={form.duree}
+                            aria-invalid={errorFields.has('duree') || undefined}
                             onChange={e => set('duree', e.target.value)}>
                             <option value="" disabled>{t('experience.select_placeholder')}</option>
                             <option value="1-semaine">{t('step0_camp.groupe.duration_options.1-semaine')}</option>
@@ -2024,7 +2062,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                       </div>
                       {form.session === 'sur-mesure' && (
                         <div className="cand-row" style={{ marginTop: '1rem' }}>
-                          <Field label={t('step0_camp.famille.custom_date_field.label')} hint={t('step0_camp.famille.custom_date_field.hint')}>
+                          <Field label={t('step0_camp.famille.custom_date_field.label')} required hint={t('step0_camp.famille.custom_date_field.hint')}>
                             <input
                               className={`cand-input${errorFields.has('dateDebutSouhaitee') ? ' has-error' : ''}`}
                               type="date"
@@ -2288,16 +2326,18 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                   </section>
                 </div>
 
-                <details className="insc-extra-details" open={!!form.sourceDecouverte || !!form.message}>
+                <details className="insc-extra-details" open={!!form.sourceDecouverte || !!form.message || errorFields.has('sourceDecouverte')}>
                   <summary>{t('summary.extra_details_summary')}</summary>
                   <div className="insc-extra-details-body">
                     <Field
                       label={t('summary.source_field.label')}
+                      required
                       hint={t('summary.source_field.hint')}
                     >
                       <select
-                        className="cand-select"
+                        className={`cand-select${errorFields.has('sourceDecouverte') ? ' has-error' : ''}`}
                         value={form.sourceDecouverte}
+                        aria-invalid={errorFields.has('sourceDecouverte') || undefined}
                         onChange={e => {
                           const value = e.target.value
                           set('sourceDecouverte', value)
