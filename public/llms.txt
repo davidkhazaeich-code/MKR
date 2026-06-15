@@ -9,6 +9,7 @@
 ## Informations cles
 
 - **Nom** : MKR Caucasian Camp
+- **Aussi connu sous** : MKR Camp, MKR (memes entreprise et site ; MKR = diminutif de Mukhtarov, nom du fondateur)
 - **Site** : https://mkrcamp.com
 - **Email** : contact@mkrcamp.com
 - **WhatsApp** : +33 6 66 17 76 91
