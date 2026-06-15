@@ -51,14 +51,20 @@ function handleAdminGuard(request: NextRequest): NextResponse | null {
   return null;
 }
 
-// Si l'URL contient ?ref=<code> et que le code est valide + actif, pose le cookie
-// d'attribution mkr_ref (90j, lisible JS, SameSite=Lax) sur la réponse fournie.
-// Un ?ref inconnu/inactif est ignoré silencieusement (pas de fausse attribution).
-function applyReferralCapture(request: NextRequest, response: NextResponse): NextResponse {
+// Si l'URL contient ?ref=<code> valide + actif, pose le cookie d'attribution mkr_ref
+// (90j, lisible JS, SameSite=Lax) PUIS redirige (307) vers la meme URL sans le ?ref,
+// pour que le visiteur atterrisse sur une URL propre (mkrcamp.com/ au lieu de /?ref=paoloz).
+// Redirection serveur instantanee, aucun rendu de page intermediaire.
+// Un ?ref inconnu/inactif est ignoré (pas de redirection, pas de fausse attribution).
+function captureReferralRedirect(request: NextRequest): NextResponse | null {
   const ref = request.nextUrl.searchParams.get('ref');
-  if (!ref) return response;
+  if (!ref) return null;
   const matched = findReferralCode(ref);
-  if (!matched) return response;
+  if (!matched) return null;
+
+  const cleanUrl = request.nextUrl.clone();
+  cleanUrl.searchParams.delete('ref'); // garde le chemin + les autres params, retire seulement ref
+  const response = NextResponse.redirect(cleanUrl);
   response.cookies.set(REF_COOKIE_NAME, matched.code, {
     maxAge: REF_COOKIE_MAX_AGE,
     path: '/',
@@ -78,9 +84,12 @@ export function proxy(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // i18n routing pour toutes les pages publiques + capture éventuelle du ?ref d'affiliation.
-  const intlResponse = intlMiddleware(request);
-  return applyReferralCapture(request, intlResponse);
+  // Affiliation : ?ref valide -> pose le cookie + redirige vers l'URL propre (sans ?ref).
+  const refRedirect = captureReferralRedirect(request);
+  if (refRedirect) return refRedirect;
+
+  // i18n routing pour toutes les pages publiques.
+  return intlMiddleware(request);
 }
 
 export const config = {

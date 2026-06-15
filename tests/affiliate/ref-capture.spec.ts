@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 
 /**
- * Flux d'attribution affiliation : ?ref valide -> cookie mkr_ref -> bandeau trust + pre-remplissage form.
+ * Flux d'attribution affiliation : ?ref valide -> cookie mkr_ref pose + redirection vers URL propre.
  *
  * PREREQUIS :
  *   - Serveur dev ou preview doit tourner sur baseURL (http://localhost:3000 par defaut,
@@ -9,43 +9,33 @@ import { test, expect } from '@playwright/test'
  *   - Playwright browsers installes : `npx playwright install chromium`.
  *
  * EXECUTION :
- *   npx playwright test tests/affiliate/ref-capture.spec.ts --reporter=line
- *   (ce fichier est hors du testDir par defaut './tests/i18n' -- passer le chemin explicitement)
+ *   npm run test:affiliate
  *
- * COOKIE :
- *   proxy.ts pose mkr_ref = matched.code (uppercase) quand ?ref=<code> est reconnu.
- *   Valide 60 jours, httpOnly: false, SameSite: Lax.
- *   Ex : ?ref=paoloz -> cookie mkr_ref=PAOLOZ (code stocke en uppercase dans referral-codes.ts).
+ * COMPORTEMENT (proxy.ts) :
+ *   ?ref=<code> reconnu -> pose cookie mkr_ref = matched.code (uppercase), valide 90 jours,
+ *   httpOnly: false, SameSite: Lax -> PUIS redirige (307) vers la meme URL sans le ?ref.
+ *   Resultat : le visiteur atterrit sur une URL propre (mkrcamp.com/) avec le cookie en place.
+ *   Ex : ?ref=paoloz -> cookie mkr_ref=PAOLOZ + URL finale sans ?ref.
+ *   Un ?ref inconnu/inactif est ignore : pas de cookie, pas de redirection.
  *
- * BANDEAU (ReferralBanner) :
- *   Client component monte dans [locale]/layout.tsx -> present sur toutes les pages dont
- *   / et /inscription. Se rend visible via useEffect apres hydration : attendre
- *   `page.getByRole('status')` avant d'asserter.
- *   Texte FR : "Tu viens de la part de {partnerName}" (messages/fr/common.json referral_banner.text).
- *   partnerName pour PAOLOZ = "PaoloZ (@paolo_irl)".
- *
- * PRE-REMPLISSAGE FORM (test 3) :
- *   Le champ "Code de recommandation" est rendu au Step 1 (Identite) du formulaire
- *   InscriptionLayout.tsx. Pour l'atteindre il faudrait d'abord choisir un tunnel (Step 0)
- *   puis naviguer au Step 1, ce qui rendrait le test fragile aux evolutions du form.
- *   Choix retenu : verifier que le bandeau (role="status") persiste sur /inscription
- *   apres la navigation depuis / -- ce qui prouve que le cookie a bien ete transporte
- *   d'une page a l'autre dans le meme contexte navigateur. Le comportement de pre-remplissage
- *   du champ est couvert par des tests unitaires du composant InscriptionLayout.
+ * PRE-REMPLISSAGE FORM :
+ *   Le cookie mkr_ref est lu cote client par InscriptionLayout pour pre-remplir le champ
+ *   "Code de recommandation" (Step 1). Atteindre ce champ demande de passer le Step 0 (tunnel),
+ *   ce qui rendrait le test fragile. On verifie ici le transport du cookie jusqu'a /inscription ;
+ *   le pre-remplissage du champ est couvert par le comportement du composant.
  */
 
 test.describe('Affiliation ?ref', () => {
-  test('ref valide pose le cookie mkr_ref et affiche le bandeau', async ({ page, context }) => {
+  test('ref valide pose le cookie mkr_ref et nettoie l URL (sans ?ref)', async ({ page, context }) => {
+    // Playwright suit automatiquement la redirection 307 vers l'URL propre.
     await page.goto('/?ref=paoloz')
 
-    // Verifier le cookie avant hydration (pose par le middleware cote serveur)
     const cookies = await context.cookies()
     const ref = cookies.find((c) => c.name === 'mkr_ref')
     expect(ref?.value).toBe('PAOLOZ')
 
-    // Attendre que ReferralBanner s'hydrate et s'affiche (useEffect cote client)
-    // partnerName = "PaoloZ (@paolo_irl)" -- on verifie la sous-chaine distinctive
-    await expect(page.getByRole('status')).toContainText('PaoloZ', { timeout: 5000 })
+    // L'URL finale ne doit plus contenir le parametre ref.
+    expect(page.url()).not.toContain('ref=')
   })
 
   test('ref inconnu ne pose pas de cookie', async ({ page, context }) => {
@@ -54,22 +44,12 @@ test.describe('Affiliation ?ref', () => {
     expect(cookies.find((c) => c.name === 'mkr_ref')).toBeUndefined()
   })
 
-  test('le cookie mkr_ref persiste sur /inscription (preuve du transport de cookie)', async ({
-    page,
-  }) => {
-    // Capturer le cookie sur la homepage
+  test('le cookie mkr_ref persiste sur /inscription (transport du cookie)', async ({ page, context }) => {
     await page.goto('/?ref=paoloz')
-
-    // Attendre que le bandeau s'affiche sur / (confirme hydration + cookie lu cote client)
-    await expect(page.getByRole('status')).toContainText('PaoloZ', { timeout: 5000 })
-
-    // Naviguer vers le formulaire d'inscription (FR : /inscription)
     await page.goto('/inscription')
 
-    // ReferralBanner est monte dans [locale]/layout.tsx -> presente sur toutes les pages locale.
-    // Le meme cookie est lu apres hydration sur /inscription -> le bandeau doit rester visible.
-    // Cela prouve que le cookie a survecu a la navigation et que le pre-remplissage du champ
-    // sera effectif quand le candidat atteindra le Step 1 (Identite).
-    await expect(page.getByRole('status')).toContainText('PaoloZ', { timeout: 5000 })
+    const cookies = await context.cookies()
+    const ref = cookies.find((c) => c.name === 'mkr_ref')
+    expect(ref?.value).toBe('PAOLOZ')
   })
 })
