@@ -440,11 +440,13 @@ h1, h2, h3, h4, h5 {
   .hero-eyebrow-h1 { letter-spacing: 0.1em; font-size: 0.6rem; }
 }
 .hero-h1 {
+  font-family: var(--font-teko), sans-serif;
+  font-weight: 700;
   font-size: clamp(3rem, 8.5vw, 8rem);
   color: var(--text-primary);
   line-height: 0.88;
   letter-spacing: 0.04em;
-  margin-bottom: 1.6rem;
+  margin: 0 0 1.6rem;
   text-shadow: 0 4px 40px rgba(0,0,0,0.85);
   max-width: 1000px;
 }
