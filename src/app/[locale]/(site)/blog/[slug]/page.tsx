@@ -197,13 +197,18 @@ export default async function BlogArticlePage({ params }: { params: Promise<{ sl
       {related.length > 0 && (
         <section className="blog-related fx-grid" aria-labelledby="blog-related-title">
           <div className="inner">
-            <div className="blog-related-header">
-              <span className="blog-related-label">À LIRE ENSUITE</span>
-              <h2 id="blog-related-title" className="blog-related-title">SUR LE MÊME SUJET</h2>
+            <div className="blog-related-header reveal">
+              <span className="blog-related-label">{tList('related.eyebrow')}</span>
+              <h2 id="blog-related-title" className="blog-related-title">{tList('related.title')}</h2>
             </div>
             <div className="blog-related-grid">
-              {related.map(post => (
-                <Link key={post.slug} href={`/blog/${post.slug}`} className="blog-related-card">
+              {related.map((post, i) => (
+                <Link
+                  key={post.slug}
+                  href={`/blog/${post.slug}`}
+                  className="blog-related-card reveal"
+                  style={{ transitionDelay: `${0.08 * (i + 1)}s` }}
+                >
                   <div className="blog-related-img">
                     <img
                       src={post.img}
@@ -211,7 +216,8 @@ export default async function BlogArticlePage({ params }: { params: Promise<{ sl
                       width={400}
                       height={225}
                       loading="lazy"
-                      style={{ aspectRatio: '16/9', objectFit: 'cover', width: '100%' }}
+                      decoding="async"
+                      style={{ aspectRatio: '16/9', objectFit: 'cover', width: '100%', height: '100%', display: 'block' }}
                     />
                   </div>
                   <div className="blog-related-body">

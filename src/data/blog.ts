@@ -50,7 +50,7 @@ export const BLOG_POSTS: BlogPostMeta[] = [
     slug: 'preparer-son-premier-camp',
     dateISO: '2026-03-10',
     dateModifiedISO: '2026-05-14',
-    img: '/images/blog/preparer-camp.webp',
+    img: '/images/blog/prep-camp.webp',
     relatedSlugs: [
       'nutrition-athlete-combat',
       'securite-dagestan-2026',
@@ -61,7 +61,7 @@ export const BLOG_POSTS: BlogPostMeta[] = [
     slug: 'lutte-daghestanaise-guide-complet',
     dateISO: '2026-03-05',
     dateModifiedISO: '2026-05-14',
-    img: '/images/blog/lutte-daghestan.webp',
+    img: '/images/blog/lutte-guide.webp',
     relatedSlugs: [
       'pourquoi-le-dagestan-domine-le-mma',
       'khabib-methode-entrainement',
@@ -82,7 +82,7 @@ export const BLOG_POSTS: BlogPostMeta[] = [
     slug: 'nutrition-athlete-combat',
     dateISO: '2026-02-20',
     dateModifiedISO: '2026-05-14',
-    img: '/images/blog/nutrition-combat.webp',
+    img: '/images/blog/nutrition.webp',
     relatedSlugs: [
       'preparer-son-premier-camp',
       'khabib-methode-entrainement',
@@ -92,7 +92,7 @@ export const BLOG_POSTS: BlogPostMeta[] = [
     slug: 'khabib-methode-entrainement',
     dateISO: '2026-02-15',
     dateModifiedISO: '2026-05-14',
-    img: '/images/blog/khabib-entrainement.webp',
+    img: '/images/blog/khabib-methode.webp',
     relatedSlugs: [
       'pourquoi-le-dagestan-domine-le-mma',
       'lutte-daghestanaise-guide-complet',
