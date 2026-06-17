@@ -10,6 +10,7 @@
     "test:affiliate": "playwright test --project=affiliate"
   },
   "dependencies": {
+    "@calcom/embed-react": "^1.5.3",
     "@remixicon/react": "^4.9.0",
     "@supabase/supabase-js": "^2.105.1",
     "dotted-map": "^3.1.0",

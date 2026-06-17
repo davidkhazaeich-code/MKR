@@ -4727,6 +4727,36 @@ h1, h2, h3, h4, h5 {
   margin-bottom: 1rem;
 }
 
+/* ─── CONTENT CARD CLIQUABLE (cross-sell <Link>) ───
+ * Une content-card rendue en <a> héritait du bleu par défaut du navigateur
+ * sur son .card-title. On force le titre en blanc et on signale la
+ * cliquabilité par une flèche qui glisse au survol (pas par la couleur).
+ */
+a.content-card {
+  display: block;
+  color: var(--text-primary);
+}
+a.content-card .card-title {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.4em;
+  color: var(--text-primary);
+  transition: color 0.2s linear;
+}
+a.content-card .card-title::after {
+  content: "\2192"; /* flèche → */
+  color: var(--primary);
+  font-size: 0.85em;
+  opacity: 0.55;
+  transform: translateX(0);
+  transition: transform 0.25s var(--ease-out-expo), opacity 0.2s linear;
+}
+a.content-card:hover .card-title { color: var(--primary); }
+a.content-card:hover .card-title::after {
+  opacity: 1;
+  transform: translateX(0.35em);
+}
+
 /* ─── SECTION CTA ─── */
 .section-cta {
   padding: clamp(4rem, 8vh, 6rem) 0;
@@ -11024,4 +11054,72 @@ html.is-loading body {
   min-height: 44px;
   padding: 0.7rem 1rem;
   font-size: 1rem;
+}
+
+/* ─────────────── Visio Booking (Cal.com inline, ecran succes inscription) ─────────────── */
+.visio-booking {
+  width: 100%;
+  max-width: 920px;
+  margin: 2.5rem auto 0;
+  text-align: center;
+}
+.visio-booking-step {
+  display: block;
+  margin-bottom: 0.6rem;
+}
+.visio-booking-title {
+  font-size: clamp(1.4rem, 3.5vw, 2rem);
+  line-height: 1.15;
+  margin: 0 0 0.6rem;
+  color: var(--text-primary);
+}
+.visio-booking-sub {
+  max-width: 620px;
+  margin: 0 auto 1.6rem;
+  color: var(--text-secondary);
+  font-size: 1rem;
+  line-height: 1.55;
+}
+.visio-booking-embed {
+  width: 100%;
+  height: 680px;
+  border: 1px solid var(--border, #1e293b);
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--surface-lowest, #0f172a);
+}
+.visio-booking-embed > * {
+  width: 100%;
+  height: 100%;
+}
+.visio-booking-fallback {
+  margin: 1rem auto 0;
+  font-size: 0.9rem;
+  color: var(--text-muted, #94a3b8);
+}
+.visio-booking-fallback a {
+  color: var(--primary);
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+/* Bloc de partage (StoryCard) repasse en action secondaire sous la visio */
+.insc-share-block {
+  width: 100%;
+  max-width: 920px;
+  margin: 3rem auto 0;
+  padding-top: 2.5rem;
+  border-top: 1px solid var(--border, #1e293b);
+  text-align: center;
+}
+.insc-share-label {
+  display: block;
+  margin-bottom: 1.2rem;
+}
+
+@media (max-width: 640px) {
+  .visio-booking-embed {
+    height: 560px;
+    border-radius: 12px;
+  }
 }

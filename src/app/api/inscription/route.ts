@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import { getSupabaseAdmin } from '@/lib/supabase-admin'
 import { SESSIONS } from '@/data/sessions'
 import { getSessionPlaces } from '@/lib/places'
-import { sendMail, wrapEmail, row } from '@/lib/email'
+import { sendMail, wrapEmail, row, escapeHtml } from '@/lib/email'
 import { rateLimit, clientIp as rlClientIp } from '@/lib/rate-limit'
 import { findReferralCode, type ReferralPartnerType } from '@/data/referral-codes'
 
@@ -337,6 +337,9 @@ export async function POST(request: Request) {
     notifyEmail(notifyPayload).catch((err) => {
       console.error('[api/inscription] Email notify failed (non-fatal)', err)
     }),
+    notifyCandidate(notifyPayload).catch((err) => {
+      console.error('[api/inscription] Candidate email failed (non-fatal)', err)
+    }),
   ])
 
   return NextResponse.json({
@@ -411,6 +414,63 @@ async function notifyEmail(p: SlackPayload): Promise<void> {
     text,
     replyTo: p.email,
     tag: 'inscription',
+  })
+}
+
+// Lien Cal.com de Ruslan pour la visio de selection (event "15min").
+const CAL_BOOKING_URL = `https://cal.com/${process.env.NEXT_PUBLIC_CAL_LINK || 'ruslan-mukhtarov-mkr/15min'}`
+
+const DISCIPLINE_LABELS_EN: Record<CampDiscipline, string> = {
+  lutte: 'Wrestling · Dagestan',
+  mma: 'MMA · Chechnya',
+  combo_quote: 'Combo Wrestling + MMA (on quote)',
+}
+
+// Email de confirmation au CANDIDAT (different de la notif interne a Ruslan).
+// Contient le recap + le lien pour reserver la visio de selection qui valide
+// le dossier. Fire-and-forget : ne bloque jamais la soumission.
+async function notifyCandidate(p: SlackPayload): Promise<void> {
+  if (!p.email || !EMAIL_RE.test(p.email)) return
+  const en = p.submission_language === 'en'
+  const discipline = p.camp_discipline
+    ? (en ? DISCIPLINE_LABELS_EN[p.camp_discipline] : DISCIPLINE_LABELS[p.camp_discipline])
+    : null
+  const duree = p.duree_semaines ? String(p.duree_semaines) : null
+
+  const title = en ? 'Application received' : 'Candidature reçue'
+  const subject = en
+    ? 'Your MKR application, book your selection call'
+    : 'Votre candidature MKR, réservez votre visio de sélection'
+
+  const intro = en
+    ? `Hi ${p.prenom}, thank you for your application to MKR Caucasian Camp. To validate your file, please book your selection call with Ruslan below. You will automatically receive a calendar invite.`
+    : `Bonjour ${p.prenom}, merci pour votre candidature au MKR Caucasian Camp. Pour valider votre dossier, réservez votre visio de sélection avec Ruslan ci-dessous. Vous recevrez automatiquement une invitation dans votre calendrier.`
+
+  const recapLabel = en ? 'Your application' : 'Votre candidature'
+  const campLabel = en ? 'Camp' : 'Camp'
+  const durationLabel = en ? 'Duration (weeks)' : 'Durée (semaines)'
+  const ctaLabel = en ? 'Book my selection call' : 'Réserver ma visio de sélection'
+  const footer = en
+    ? 'The call validates your application. See you soon. MKR Caucasian Camp.'
+    : 'La visio valide votre dossier. À très vite. MKR Caucasian Camp.'
+
+  const recapRows = `${row(campLabel, discipline)}${row(durationLabel, duree)}`
+  const bodyHtml = `
+    <p style="margin:0 0 18px;color:#e2e8f0;font-size:15px;line-height:1.6">${escapeHtml(intro)}</p>
+    ${recapRows ? `<table style="width:100%;border-collapse:collapse;background:#0b1220;border:1px solid #1e293b;border-radius:6px;margin:0 0 22px"><tbody>${recapRows}</tbody></table>` : ''}
+    <p style="margin:0 0 8px">
+      <a href="${CAL_BOOKING_URL}" style="background:#C0392B;color:#fff;padding:13px 22px;border-radius:6px;text-decoration:none;font-weight:600;display:inline-block;font-size:15px">${escapeHtml(ctaLabel)}</a>
+    </p>
+    <p style="margin:14px 0 0;color:#94a3b8;font-size:13px">${escapeHtml(CAL_BOOKING_URL)}</p>
+  `
+  const text = `${intro}\n\n${ctaLabel}: ${CAL_BOOKING_URL}\n\n${footer}`
+
+  await sendMail({
+    to: p.email,
+    subject,
+    html: wrapEmail(title, bodyHtml, footer),
+    text,
+    tag: 'inscription-candidate',
   })
 }
 

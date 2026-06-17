@@ -7,10 +7,33 @@
   "back_to_home": "BACK TO HOME",
   "back_aria": "Back to home",
   "steps_by_tunnel": {
-    "session": ["The camp", "Identity", "Experience", "Health", "Confirmation"],
-    "custom": ["The camp", "Identity", "Experience", "Health", "Confirmation"],
-    "famille": ["The camp", "Identity", "Experience", "Health", "Confirmation"],
-    "groupe": ["The camp", "Your club", "Contact", "Confirmation"]
+    "session": [
+      "The camp",
+      "Identity",
+      "Experience",
+      "Health",
+      "Confirmation"
+    ],
+    "custom": [
+      "The camp",
+      "Identity",
+      "Experience",
+      "Health",
+      "Confirmation"
+    ],
+    "famille": [
+      "The camp",
+      "Identity",
+      "Experience",
+      "Health",
+      "Confirmation"
+    ],
+    "groupe": [
+      "The camp",
+      "Your club",
+      "Contact",
+      "Confirmation"
+    ]
   },
   "audience_selector": {
     "label": "PRELIMINARY STEP",
@@ -87,13 +110,36 @@
   },
   "identity": {
     "fields": {
-      "prenom": { "label": "First name", "placeholder": "Your first name" },
-      "nom": { "label": "Last name", "placeholder": "Your last name" },
-      "date_naissance": { "label": "Date of birth", "hint": "You must be at least 18 years old" },
-      "pays": { "label": "Country of residence", "placeholder": "France, Switzerland, Belgium..." },
-      "email": { "label": "Email", "placeholder": "your@email.com" },
-      "telephone": { "label": "Phone", "hint": "With international dialing code", "placeholder": "+33 6 12 34 56 78" },
-      "ville_depart": { "label": "Departure city / country", "hint": "Used to estimate flights", "placeholder": "E.g. Paris, Geneva, Montreal..." }
+      "prenom": {
+        "label": "First name",
+        "placeholder": "Your first name"
+      },
+      "nom": {
+        "label": "Last name",
+        "placeholder": "Your last name"
+      },
+      "date_naissance": {
+        "label": "Date of birth",
+        "hint": "You must be at least 18 years old"
+      },
+      "pays": {
+        "label": "Country of residence",
+        "placeholder": "France, Switzerland, Belgium..."
+      },
+      "email": {
+        "label": "Email",
+        "placeholder": "your@email.com"
+      },
+      "telephone": {
+        "label": "Phone",
+        "hint": "With international dialing code",
+        "placeholder": "+33 6 12 34 56 78"
+      },
+      "ville_depart": {
+        "label": "Departure city / country",
+        "hint": "Used to estimate flights",
+        "placeholder": "E.g. Paris, Geneva, Montreal..."
+      }
     },
     "country_options": [
       "France",
@@ -127,12 +173,32 @@
       "body": "Your contact details so Ruslan can reach out and send a tailored quote. No payment is required at this stage."
     },
     "fields": {
-      "prenom_responsable": { "label": "Contact person's first name", "placeholder": "Your first name" },
-      "nom": { "label": "Last name", "placeholder": "Your last name" },
-      "email": { "label": "Email", "placeholder": "your@email.com" },
-      "telephone": { "label": "Phone / WhatsApp", "hint": "For the framing call with Ruslan", "placeholder": "+33 6 12 34 56 78" },
-      "pays": { "label": "Country of residence", "placeholder": "France, Switzerland, Belgium..." },
-      "ville_depart": { "label": "Departure city", "hint": "Main origin of the group", "placeholder": "E.g. Paris, Lyon, Geneva..." }
+      "prenom_responsable": {
+        "label": "Contact person's first name",
+        "placeholder": "Your first name"
+      },
+      "nom": {
+        "label": "Last name",
+        "placeholder": "Your last name"
+      },
+      "email": {
+        "label": "Email",
+        "placeholder": "your@email.com"
+      },
+      "telephone": {
+        "label": "Phone / WhatsApp",
+        "hint": "For the framing call with Ruslan",
+        "placeholder": "+33 6 12 34 56 78"
+      },
+      "pays": {
+        "label": "Country of residence",
+        "placeholder": "France, Switzerland, Belgium..."
+      },
+      "ville_depart": {
+        "label": "Departure city",
+        "hint": "Main origin of the group",
+        "placeholder": "E.g. Paris, Lyon, Geneva..."
+      }
     }
   },
   "experience": {
@@ -147,22 +213,40 @@
       "suffix": "). For Duo/Trio/Quartet, the other participants are listed below."
     },
     "fields": {
-      "discipline_principale": { "label": "Main discipline" },
+      "discipline_principale": {
+        "label": "Main discipline"
+      },
       "disciplines_secondaires": {
         "label": "Secondary disciplines",
         "hint": "Select all that apply",
         "hint_selected_one": "Select all that apply · 1 selected",
         "hint_selected_many": "Select all that apply · {count} selected"
       },
-      "annees_pratique": { "label": "Years of practice" },
+      "annees_pratique": {
+        "label": "Years of practice"
+      },
       "niveau": {
         "label": "Current level",
         "hint_mma": "MMA camp: Advanced level minimum required"
       },
-      "club": { "label": "Current club / gym", "placeholder": "Name of your club" },
-      "coach": { "label": "Coach / Instructor", "placeholder": "Name of your coach" },
-      "palmares": { "label": "Achievements and competitions", "hint": "Titles, rankings, recent results", "placeholder": "E.g. Regional Wrestling Champion 2024, 2nd at Paris MMA tournament..." },
-      "lien_video": { "label": "Video link", "hint": "Instagram, Vimeo, competition footage", "placeholder": "https://instagram.com/..." }
+      "club": {
+        "label": "Current club / gym",
+        "placeholder": "Name of your club"
+      },
+      "coach": {
+        "label": "Coach / Instructor",
+        "placeholder": "Name of your coach"
+      },
+      "palmares": {
+        "label": "Achievements and competitions",
+        "hint": "Titles, rankings, recent results",
+        "placeholder": "E.g. Regional Wrestling Champion 2024, 2nd at Paris MMA tournament..."
+      },
+      "lien_video": {
+        "label": "Video link",
+        "hint": "Instagram, Vimeo, competition footage",
+        "placeholder": "https://instagram.com/..."
+      }
     },
     "select_placeholder": "Select",
     "annees_options": {
@@ -194,20 +278,33 @@
       "suffix": ", not the individual contact person. Personal information for each participant will be collected after the quote is approved."
     },
     "fields": {
-      "nom_club": { "label": "Club or group name", "placeholder": "E.g. Geneva Fight Club, Krav Magabec Academy..." },
+      "nom_club": {
+        "label": "Club or group name",
+        "placeholder": "E.g. Geneva Fight Club, Krav Magabec Academy..."
+      },
       "nombre_participants": {
         "label": "Approximate number of participants",
         "hint": "You can refine this after the video call. From 11 people or to privatize an entire session, the format is adjusted."
       },
-      "niveau_groupe": { "label": "Overall group level" },
+      "niveau_groupe": {
+        "label": "Overall group level"
+      },
       "disciplines_club": {
         "label": "Main discipline(s) of the club",
         "hint": "Select what applies to the collective",
         "hint_selected_one": "Select what applies to the collective · 1 selected",
         "hint_selected_many": "Select what applies to the collective · {count} selected"
       },
-      "palmares_club": { "label": "Club's collective achievements", "hint": "Optional, 1 or 2 sentences are enough", "placeholder": "E.g. 3 French junior champions in 2025, 2 international prospects..." },
-      "lien_video_club": { "label": "Video or social link of the club", "hint": "Optional: Instagram, club website", "placeholder": "https://instagram.com/..." }
+      "palmares_club": {
+        "label": "Club's collective achievements",
+        "hint": "Optional, 1 or 2 sentences are enough",
+        "placeholder": "E.g. 3 French junior champions in 2025, 2 international prospects..."
+      },
+      "lien_video_club": {
+        "label": "Video or social link of the club",
+        "hint": "Optional: Instagram, club website",
+        "placeholder": "https://instagram.com/..."
+      }
     },
     "participants_options": {
       "5": "5 people",
@@ -274,8 +371,15 @@
       "remove_aria": "Remove child {n}",
       "add_button": "Add a child",
       "fields": {
-        "prenom": { "label": "First name", "placeholder": "Child's first name" },
-        "age": { "label": "Age", "hint": "Between 8 and 17 years old", "placeholder": "E.g. 12" },
+        "prenom": {
+          "label": "First name",
+          "placeholder": "Child's first name"
+        },
+        "age": {
+          "label": "Age",
+          "hint": "Between 8 and 17 years old",
+          "placeholder": "E.g. 12"
+        },
         "pratique_deja": {
           "label": "Already practices wrestling, MMA or a combat sport?",
           "options": {
@@ -329,9 +433,18 @@
       "section3_label": "How long?",
       "section3_help": "You choose 1, 2 or 3 weeks within the official session window.",
       "duration_options": {
-        "1-semaine": { "label": "1 week", "sub": "Intense introduction" },
-        "2-semaines": { "label": "2 weeks", "sub": "Real progression" },
-        "3-semaines": { "label": "3 weeks", "sub": "Full immersion" }
+        "1-semaine": {
+          "label": "1 week",
+          "sub": "Intense introduction"
+        },
+        "2-semaines": {
+          "label": "2 weeks",
+          "sub": "Real progression"
+        },
+        "3-semaines": {
+          "label": "3 weeks",
+          "sub": "Full immersion"
+        }
       },
       "duration_per_adult": "{price} / adult"
     },
@@ -361,24 +474,48 @@
       "section2_help_link_famille": "Family",
       "section2_help_end": ".",
       "compo_options": {
-        "1": { "label": "Solo", "sub": "1 adult" },
-        "2": { "label": "Duo", "sub": "2 adults" },
-        "3": { "label": "Trio", "sub": "3 adults" },
-        "4": { "label": "Quartet", "sub": "4 adults" }
+        "1": {
+          "label": "Solo",
+          "sub": "1 adult"
+        },
+        "2": {
+          "label": "Duo",
+          "sub": "2 adults"
+        },
+        "3": {
+          "label": "Trio",
+          "sub": "3 adults"
+        },
+        "4": {
+          "label": "Quartet",
+          "sub": "4 adults"
+        }
       },
       "participants_section_label": "The other participants",
       "participants_section_help": "First name and level for each companion. Health information collected after the quote is approved.",
       "participant_label": "Participant {n}",
       "participant_fields": {
-        "prenom": { "label": "First name", "placeholder": "First name" },
-        "niveau": { "label": "Level" },
-        "discipline": { "label": "Main discipline", "hint": "Optional" }
+        "prenom": {
+          "label": "First name",
+          "placeholder": "First name"
+        },
+        "niveau": {
+          "label": "Level"
+        },
+        "discipline": {
+          "label": "Main discipline",
+          "hint": "Optional"
+        }
       },
       "section3_label": "When and how long?",
       "section3_help": "Booking 90 days minimum before departure to handle visa, flight and logistics.",
       "fields": {
-        "date_debut": { "label": "Preferred start date" },
-        "duree": { "label": "Duration" }
+        "date_debut": {
+          "label": "Preferred start date"
+        },
+        "duree": {
+          "label": "Duration"
+        }
       },
       "duration_select_label": "{weeks_label} · {price} / adult",
       "duration_labels": {
@@ -423,8 +560,12 @@
       "section2_help_strong": "ideal dates",
       "section2_help_suffix": " and your target duration. Everything is adjustable during the kickoff video call. We need 90 days minimum between registration and departure to handle visas, flights and logistics.",
       "fields": {
-        "date_debut": { "label": "Indicative start date" },
-        "duree": { "label": "Target duration" }
+        "date_debut": {
+          "label": "Indicative start date"
+        },
+        "duree": {
+          "label": "Target duration"
+        }
       },
       "duration_options": {
         "1-semaine": "1 week",
@@ -447,13 +588,25 @@
         "dates": "90 days minimum",
         "intensity": "Family-adapted format"
       },
-      "custom_date_field": { "label": "Preferred start date", "hint": "Booking 90 days minimum in advance" },
+      "custom_date_field": {
+        "label": "Preferred start date",
+        "hint": "Booking 90 days minimum in advance"
+      },
       "section2_label": "How long?",
       "section2_help": "You can choose 1, 2 or 3 weeks.",
       "duration_options": {
-        "1-semaine": { "label": "1 week", "sub": "Family introduction" },
-        "2-semaines": { "label": "2 weeks", "sub": "Real progression" },
-        "3-semaines": { "label": "3 weeks", "sub": "Full immersion" }
+        "1-semaine": {
+          "label": "1 week",
+          "sub": "Family introduction"
+        },
+        "2-semaines": {
+          "label": "2 weeks",
+          "sub": "Real progression"
+        },
+        "3-semaines": {
+          "label": "3 weeks",
+          "sub": "Full immersion"
+        }
       },
       "duration_price_prefix": "Package from {price}",
       "section3_label": "Who takes part in the camp?",
@@ -647,7 +800,15 @@
     "label": "APPLICATION RECEIVED",
     "title": "FILE SENT",
     "subtitle": "We are reviewing your application and will reply within 48h.<br/>Get ready for the video selection interview.",
-    "session_fallback": "CUSTOM"
+    "session_fallback": "CUSTOM",
+    "share_label": "SHARE YOUR PARTICIPATION",
+    "booking": {
+      "step": "LAST STEP",
+      "title": "Book your selection call",
+      "subtitle": "Pick a time with Ruslan to validate your application. You will automatically receive the calendar invite.",
+      "fallback_prefix": "Calendar not showing?",
+      "fallback_link": "Book on Cal.com"
+    }
   },
   "story_card": {
     "logo_alt": "MKR Caucasian Camp",

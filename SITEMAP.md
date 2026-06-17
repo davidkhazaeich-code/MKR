@@ -3,6 +3,30 @@
 > **Fichier de référence pour Claude Code.** Mise à jour : 2026-05-27 (site bilingue FR + EN : next-intl, 34 namespaces, sitemap 68 URLs, EN PDF guide, glossaire locked, Playwright QA spec).
 > Lis ce fichier en priorité avant toute intervention sur le site MKR. Il évite de re-explorer.
 
+## 🆕 2026-06-17 (visio de sélection Cal.com en fin de candidature + email candidat)
+
+> **Décision David** : à la fin du tunnel d'inscription, le lead doit réserver sa visio de sélection avec Ruslan (calendrier Cal.com inline, event `15min`). La réservation déclenche nativement l'invitation iCal (.ics) aux deux parties. En plus, le candidat reçoit un email de confirmation avec le lien de réservation pour valider son dossier. Comble le backlog V2 « Email transactionnel candidat » (cf. anciennes notes "À refaire").
+
+**Dépendance ajoutée** : `@calcom/embed-react@^1.5.3` (composant React inline, pas de `<script>` brut).
+
+**Env** : `NEXT_PUBLIC_CAL_LINK=ruslan-mukhtarov-mkr/15min` (`.env.local` + à reporter sur Vercel). Valeur de repli codée en dur si absente. Lien public = `https://cal.com/ruslan-mukhtarov-mkr/15min`.
+
+**Nouveau composant** : `src/components/VisioBooking.tsx` (client, dynamic-importé). Calendrier Cal.com inline pré-rempli avec `name` + `email` du candidat. Titre/sous-titre i18n `inscription.success.booking`. Lien texte de repli si l'embed ne charge pas.
+
+**Écran de succès réordonné** (`src/components/InscriptionLayout.tsx`, bloc `if (submitted)`) : 1. message « Candidature reçue » · 2. **`<VisioBooking />` = action principale** · 3. `<StoryCard />` repassé en action secondaire dans `.insc-share-block` sous séparateur (`inscription.success.share_label`) · 4. lien retour accueil.
+
+**Email candidat** (`src/app/api/inscription/route.ts`) : nouvelle fonction `notifyCandidate()` (fire-and-forget dans le `Promise.all` aux côtés de `notifySlack`/`notifyEmail`, ne bloque jamais). Localisée FR/EN selon `submission_language`. Récap camp + durée + bouton CTA vers le lien Cal. Tag Resend `inscription-candidate` (ajouté à l'union de `src/lib/email.ts`). Expéditeur `mkr@dkdp.ch`. La notif interne à Ruslan (`notifyEmail`) est inchangée. `escapeHtml` ajouté à l'import depuis `@/lib/email`.
+
+**CSS** : section `/* Visio Booking */` en fin de `globals.css` (`.visio-booking*`, `.visio-booking-embed` height 680px/560px mobile, `.insc-share-block`, `.insc-share-label`).
+
+**i18n** : clés `success.booking.{step,title,subtitle,fallback_prefix,fallback_link}` + `success.share_label` dans `messages/{fr,en}/inscription.json`. Parité 2645 clés OK. Build OK.
+
+**Hors périmètre (V2 possible)** : webhook Cal.com → Supabase pour tracer `visio_booked_at` + badge admin « visio réservée ». Pour l'instant les RDV se voient dans le compte Cal.com.
+
+**Spec** : `docs/superpowers/specs/2026-06-17-mkr-visio-booking-design.md`.
+
+---
+
 ## 🆕 2026-06-17 (audit i18n composants : extraction des strings FR hardcodées)
 
 > **Bug rapporté** : le bouton « Découvrir » (chevron scroll homepage) restait en français sur `/en`. **Cause** : plusieurs composants `.tsx` contenaient des strings FR en dur, qui contournent totalement le système i18n. Le filet `scripts/i18n-check.js` ne valide QUE la parité des clés JSON, il NE détecte PAS les strings hardcodées dans les `.tsx`. Il faut un grep TSX dédié pour les attraper.

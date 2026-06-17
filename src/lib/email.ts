@@ -26,7 +26,7 @@ export interface SendMailParams {
   to?: string
   replyTo?: string
   // Tag Resend pour filtrage analytics dashboard.
-  tag?: 'contact' | 'inscription' | 'guide-caucase'
+  tag?: 'contact' | 'inscription' | 'inscription-candidate' | 'guide-caucase'
 }
 
 // Envoie un email via Resend. Retourne true si OK, false si KO ou no-op.

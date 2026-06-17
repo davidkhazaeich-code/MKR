@@ -38,6 +38,7 @@ const DEFAULT_SESSION_ID = SESSIONS[0]?.id ?? 'aout-2026'
 const SESSION_IDS = SESSIONS.map(s => s.id)
 
 const StoryCard = dynamic(() => import('./StoryCard'))
+const VisioBooking = dynamic(() => import('./VisioBooking'))
 
 /* ─────────────── DATA ─────────────── */
 
@@ -769,11 +770,22 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
             <h2 className="cand-success-title">{t('success.title')}</h2>
             <p className="cand-success-sub" dangerouslySetInnerHTML={{ __html: t.raw('success.subtitle') as string }} />
 
-            <StoryCard
+            <VisioBooking
               prenom={form.prenom}
-              campDiscipline={form.campDiscipline}
-              session={sel.name}
+              nom={form.nom}
+              email={form.email}
             />
+
+            <div className="insc-share-block">
+              <span className="label-tag insc-share-label" style={{ color: 'var(--primary)' }}>
+                {t('success.share_label')}
+              </span>
+              <StoryCard
+                prenom={form.prenom}
+                campDiscipline={form.campDiscipline}
+                session={sel.name}
+              />
+            </div>
 
             <Link href="/" className="insc-back-btn" style={{ marginTop: '1.5rem' }}>{t('back_to_home')}</Link>
           </div>
