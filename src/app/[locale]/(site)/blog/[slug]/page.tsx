@@ -1,11 +1,11 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
+import { Link } from '@/i18n/navigation'
 import SectionCTA from '@/components/SectionCTA'
 import Breadcrumb from '@/components/Breadcrumb'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 import { localizedMetadata, getBlogAlternateLinks } from '@/lib/i18n-helpers'
-import type { Locale } from '@/i18n/routing'
+import { type Locale, getBlogSlug, getCanonicalBlogSlug } from '@/i18n/routing'
 import {
   hydrateBlogPost,
   getAllBlogSlugs,
@@ -18,19 +18,26 @@ import {
 
 const SITE_URL = 'https://mkrcamp.com'
 
-export function generateStaticParams() {
-  return getAllBlogSlugs().map(slug => ({ slug }))
+// Receives the parent [locale] param (Next 16: child generateStaticParams runs
+// once per parent param). Emit the locale-appropriate slug so EN articles are
+// pre-rendered at their EN slug (/en/blog/<en-slug>) and FR at /blog/<fr-slug>.
+export function generateStaticParams({ params }: { params: { locale: string } }) {
+  const lang: Locale = params?.locale === 'en' ? 'en' : 'fr'
+  return getAllBlogSlugs().map(canonical => ({ slug: getBlogSlug(canonical, lang) }))
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string; locale: string }> }): Promise<Metadata> {
   const { slug, locale } = await params
-  if (!isBlogSlug(slug)) return {}
-  const tPost = await getTranslations({ locale, namespace: `blog.${slug}` })
-  const article = hydrateBlogPost(slug, tPost as never)
+  const lang: Locale = locale === 'en' ? 'en' : 'fr'
+  // slug may be the canonical FR slug (FR) or the localized EN slug (EN);
+  // resolve to canonical for translation/data lookup.
+  const canonical = isBlogSlug(slug) ? slug : getCanonicalBlogSlug(slug)
+  if (!canonical || !isBlogSlug(canonical)) return {}
+  const tPost = await getTranslations({ locale, namespace: `blog.${canonical}` })
+  const article = hydrateBlogPost(canonical, tPost as never)
   if (!article) return {}
 
-  const lang = (locale as Locale) ?? 'fr'
-  const alternates = getBlogAlternateLinks(slug, lang)
+  const alternates = getBlogAlternateLinks(canonical, lang)
 
   const title = article.meta_title ?? `${article.title} | MKR Caucasian Camp`
   const description =
@@ -55,17 +62,20 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 export default async function BlogArticlePage({ params }: { params: Promise<{ slug: string; locale: string }> }) {
   const { slug, locale } = await params
   setRequestLocale(locale)
+  const lang: Locale = locale === 'en' ? 'en' : 'fr'
 
-  if (!isBlogSlug(slug)) {
+  const canonical = isBlogSlug(slug) ? slug : getCanonicalBlogSlug(slug)
+  if (!canonical || !isBlogSlug(canonical)) {
     return <BlogFallback />
   }
 
-  const tPost = await getTranslations(`blog.${slug}`)
+  const tPost = await getTranslations(`blog.${canonical}`)
   const tList = await getTranslations('blog')
-  const article = hydrateBlogPost(slug, tPost as never)
+  const article = hydrateBlogPost(canonical, tPost as never)
   if (!article) return <BlogFallback />
 
-  const url = `${SITE_URL}/blog/${slug}`
+  const localizedSlug = getBlogSlug(canonical, lang)
+  const url = lang === 'en' ? `${SITE_URL}/en/blog/${localizedSlug}` : `${SITE_URL}/blog/${localizedSlug}`
   const imageUrl = article.img.startsWith('http') ? article.img : `${SITE_URL}${article.img}`
   const description = article.meta_description ?? article.excerpt ?? stripHtml(article.content_html).substring(0, 200)
   const authorName = article.author_name
@@ -205,7 +215,7 @@ export default async function BlogArticlePage({ params }: { params: Promise<{ sl
               {related.map((post, i) => (
                 <Link
                   key={post.slug}
-                  href={`/blog/${post.slug}`}
+                  href={{ pathname: '/blog/[slug]', params: { slug: getBlogSlug(post.slug, lang) } }}
                   className="blog-related-card reveal"
                   style={{ transitionDelay: `${0.08 * (i + 1)}s` }}
                 >

@@ -1,7 +1,7 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { localizedMetadata } from '@/lib/i18n-helpers'
-import type { Locale } from '@/i18n/routing'
-import Link from 'next/link'
+import { type Locale, getBlogSlug } from '@/i18n/routing'
+import { Link } from '@/i18n/navigation'
 import PageHero from '@/components/PageHero'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 import { getBlogList } from '@/data/blog'
@@ -27,6 +27,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 export default async function BlogPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   setRequestLocale(locale)
+  const lang: Locale = locale === 'en' ? 'en' : 'fr'
   const tBlog = await getTranslations('blog')
 
   const posts = getBlogList(tBlog as never)
@@ -52,7 +53,7 @@ export default async function BlogPage({ params }: { params: Promise<{ locale: s
         <div className="inner">
           {/* Featured */}
           {featured && (
-            <Link href={`/blog/${featured.slug}`} className="blog-featured reveal">
+            <Link href={{ pathname: '/blog/[slug]', params: { slug: getBlogSlug(featured.slug, lang) } }} className="blog-featured reveal">
               <div className="blog-featured-img">
                 <img
                   src={featured.img}
@@ -70,7 +71,7 @@ export default async function BlogPage({ params }: { params: Promise<{ locale: s
                 <span className="blog-date">{featured.date}</span>
                 <h2>{featured.title}</h2>
                 <p>{featured.excerpt}</p>
-                <span className="blog-read-more">Lire l&apos;article</span>
+                <span className="blog-read-more">{tBlog('read_article')}</span>
               </div>
             </Link>
           )}
@@ -78,7 +79,7 @@ export default async function BlogPage({ params }: { params: Promise<{ locale: s
           {/* Grid */}
           <div className="grid-2" style={{ marginTop: '3rem' }}>
             {rest.map((article, i) => (
-              <Link key={i} href={`/blog/${article.slug}`} className="blog-card reveal" style={{ transitionDelay: `${i * 0.06}s` }}>
+              <Link key={i} href={{ pathname: '/blog/[slug]', params: { slug: getBlogSlug(article.slug, lang) } }} className="blog-card reveal" style={{ transitionDelay: `${i * 0.06}s` }}>
                 <img
                   src={article.img}
                   alt={article.img_alt}
