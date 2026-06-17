@@ -30,6 +30,7 @@ const FLAT_NAMESPACES = [
   'mkr-camp-2026',
   'blog',
   'meta',
+  'pricing_table',
 ] as const;
 
 // Data namespaces are nested under `data.*` so next-intl resolves them via

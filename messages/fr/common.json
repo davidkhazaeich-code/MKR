@@ -188,6 +188,28 @@
     "apply": "POSTULER AU CAMP",
     "apply_aria": "Postuler au camp MKR Caucasian Camp"
   },
+  "scroll_nav": {
+    "sections_aria": "Navigation entre les sections",
+    "go_to_aria": "Aller à : {label}",
+    "discover_next_aria": "Découvrir la section suivante",
+    "discover": "Découvrir",
+    "section_fallback": "Section {number}"
+  },
+  "video_modal": {
+    "dialog_aria_named": "Témoignage vidéo de {name}",
+    "dialog_aria": "Témoignage vidéo",
+    "close_aria": "Fermer la vidéo"
+  },
+  "breadcrumb": {
+    "aria": "Fil d'Ariane",
+    "home": "Accueil"
+  },
+  "site_loader": {
+    "loading_aria": "Chargement"
+  },
+  "scroll_indicator": {
+    "scroll": "SCROLL"
+  },
   "locale_switcher": {
     "label": "Langue",
     "fr": "FR",

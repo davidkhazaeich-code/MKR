@@ -1,4 +1,16 @@
 {
+  "safety_protocol": {
+    "label": "SÉCURITÉ",
+    "title": "LA QUESTION QUE TOUT LE MONDE POSE",
+    "card_title": "PROTOCOLE MKR",
+    "items": {
+      "emergency": "Contact d'urgence 24/7 sur place",
+      "team": "Équipe francophone permanente",
+      "insurance": "Assurance rapatriement obligatoire",
+      "briefing": "Briefing sécurité avant départ",
+      "monitoring": "Suivi des recommandations gouvernementales en continu"
+    }
+  },
   "root": {
     "meta": {
       "title": "Destinations Daghestan et Tchétchénie | MKR Caucasian Camp",

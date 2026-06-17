@@ -3,7 +3,32 @@
 > **Fichier de référence pour Claude Code.** Mise à jour : 2026-05-27 (site bilingue FR + EN : next-intl, 34 namespaces, sitemap 68 URLs, EN PDF guide, glossaire locked, Playwright QA spec).
 > Lis ce fichier en priorité avant toute intervention sur le site MKR. Il évite de re-explorer.
 
-## 🆕 2026-06-12 (nouvelle page /tarifs + simulateur de prix + PricingTable i18n)
+## 🆕 2026-06-17 (audit i18n composants : extraction des strings FR hardcodées)
+
+> **Bug rapporté** : le bouton « Découvrir » (chevron scroll homepage) restait en français sur `/en`. **Cause** : plusieurs composants `.tsx` contenaient des strings FR en dur, qui contournent totalement le système i18n. Le filet `scripts/i18n-check.js` ne valide QUE la parité des clés JSON, il NE détecte PAS les strings hardcodées dans les `.tsx`. Il faut un grep TSX dédié pour les attraper.
+
+**Composants migrés vers next-intl (live)** :
+- `ScrollNav.tsx` → `common.scroll_nav` (le bug « Découvrir » rapporté + aria sections + fallback)
+- `VideoModal.tsx` → `common.video_modal` (rendu sur /programme/mma, /temoignages, home via VerticalVideoSplit)
+- `Breadcrumb.tsx` → `common.breadcrumb` (async server component, ~12 pages)
+- `SiteLoader.tsx` → `common.site_loader` (layout racine)
+- `ScrollIndicator.tsx` → `common.scroll_indicator` (CinematicReveal + DestinationReveal)
+- `DestinationSafetyProtocol.tsx` → `destinations.safety_protocol` (async, /destinations/dagestan + /tchetchenie)
+- `PricingTable.tsx` → **nouveau namespace `pricing_table`** (FR+EN), async server component, `getTranslations('pricing_table')`. Les NUMÉROS restent dans `data/pricing.ts` (`PRICING_TIERS`, `FAMILY_PRICING`, `formatEUR`), seuls les libellés (label/range/pitch des paliers, listes inclus/non-inclus, copy famille, CTA) passent en i18n. Enregistré dans `src/i18n/request.ts` `FLAT_NAMESPACES`. Rendu sur 5 pages : /familles, /sur-mesure, /sessions, /clubs-groupes, /mkr-camp-2026 (toutes ×2 locales). Bug de contenu corrigé au passage : « Hébergement de camp » était listé 2× dans les inclus.
+
+**Orphelins NON migrés (non rendus, à supprimer au prochain audit)** : `VideoSection.tsx`, `RuslanRevealSlider.tsx`, `CandidatureForm.tsx` (le vrai form est `InscriptionLayout.tsx`).
+
+**Réflexe à ajouter au workflow i18n** : après `node scripts/i18n-check.js` (parité JSON), lancer aussi un grep des strings FR hardcodées dans les composants LIVE :
+```
+for f in $(grep -rln "" src/components --include="*.tsx" | grep -v /admin/); do
+  grep -q "useTranslations\|getTranslations" "$f" || grep -lE "aria-label=\"[^\"]*[éèàç]|>[A-ZÉ][a-zéèàç ]{3,}<" "$f"
+done
+```
+Parité après fix : **2639 clés** FR=EN. Build OK (82 pages).
+
+> ⚠️ **CORRECTION 2026-06-17** : l'entrée « 2026-06-12 » ci-dessous est INEXACTE. La page `/tarifs`, `opengraph-image.tsx`, `PriceEstimator.tsx`, `messages/{fr,en}/tarifs.json` et `messages/{fr,en}/pricing_table.json` décrits N'EXISTAIENT PAS dans le repo (jamais commités ou revertés). Au 2026-06-17, `PricingTable.tsx` était encore 100% FR hardcodé (jamais migré comme l'entrée le prétend). Seul le travail d'affiliation (`referral-codes.ts`) du 2026-06-12 était réel. La migration i18n de `PricingTable` a réellement été faite le 2026-06-17 (voir entrée ci-dessus), mais sans page `/tarifs` ni simulateur. **À refaire si besoin** : créer la page `/tarifs` + `PriceEstimator` décrits ci-dessous.
+
+## 🆕 2026-06-12 (nouvelle page /tarifs + simulateur de prix + PricingTable i18n) — ⚠️ NON IMPLÉMENTÉ, voir correction ci-dessus
 
 > **Nouvelle page dédiée `/tarifs`** (FR) ↔ **`/en/pricing`** (EN). Centralise tout le pricing avec UX/UI/SEO/GEO : hero, section "tout compris" (6 prestations avec icônes), **simulateur de prix interactif**, grille `PricingTable` complète, transparence (3 cards), FAQ tarifs (6 Q/R) et CTA. Auparavant le pricing vivait uniquement sur `/sessions` + le composant `PricingTable`.
 

@@ -2,12 +2,14 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { usePathname } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 
 const MIN_DURATION = 600
 const SAFETY_TIMEOUT = 4000
 
 export default function SiteLoader() {
   const pathname = usePathname()
+  const t = useTranslations('common.site_loader')
   const skip = pathname !== '/'
   const [mounted, setMounted] = useState(true)
   const rootRef = useRef<HTMLDivElement>(null)
@@ -126,7 +128,7 @@ export default function SiteLoader() {
       className="site-loader"
       role="status"
       aria-live="polite"
-      aria-label="Chargement"
+      aria-label={t('loading_aria')}
     >
       <div
         className="site-loader-panel site-loader-panel--top"

@@ -1,0 +1,59 @@
+{
+  "eyebrow": "TARIFS PUBLICS",
+  "title": "GRILLE PAR TAILLE DE GROUPE",
+  "sub": "Tarifs identiques pour la session officielle, le camp Sur Mesure et les groupes/clubs. Plus vous êtes nombreux, plus le tarif par personne baisse. Pas de réduction discrétionnaire.",
+  "per_person": "/ pers.",
+  "week_singular": "1 semaine",
+  "week_plural": "{count} semaines",
+  "solo_note": "S'applique aussi au solo (1 adulte)",
+  "tiers": {
+    "duo": {
+      "label": "Solo / Duo",
+      "range": "1 à 2 personnes",
+      "pitch": "Tarif appliqué au camp Sur Mesure en solo ou en binôme adulte, ou à la session officielle pour un adulte seul."
+    },
+    "trio": {
+      "label": "Trio à 5",
+      "range": "3 à 5 personnes",
+      "pitch": "Tarif appliqué au camp Sur Mesure en équipe (3 ou 4 amis) ou aux groupes/clubs de 5 athlètes."
+    },
+    "club": {
+      "label": "Club / Groupe",
+      "range": "6 à 10 personnes",
+      "pitch": "Tarif appliqué aux clubs ou groupes organisés de 6 à 10 athlètes adultes."
+    },
+    "private": {
+      "label": "Salle privée",
+      "range": "11 personnes et plus",
+      "pitch": "Privatisation totale d'une session pour un club entier. Devis personnalisé."
+    }
+  },
+  "quote_value": "Sur devis",
+  "quote_cta": "DEMANDER UN DEVIS",
+  "family": {
+    "eyebrow": "FORMULE FAMILLE",
+    "title": "FORFAIT PARENT + ENFANT",
+    "intro": "Tu pars avec ton enfant 8-17 ans. Le forfait couvre <b>1 parent + 1 enfant</b>. Chaque enfant supplémentaire est facturé au tarif « enfant supp. ». Si ton conjoint participe aussi, les 2 parents passent au tarif Solo/Duo ({duoPrice} par personne et par semaine) et chaque enfant est ajouté à {extraChild} par semaine.",
+    "base_tag": "FORFAIT BASE",
+    "base_title": "1 parent + 1 enfant inclus",
+    "base_sub": "Forfait fixe selon la durée. Le premier enfant est compris.",
+    "extra_tag": "ENFANT SUPPLÉMENTAIRE",
+    "extra_title": "À ajouter au forfait",
+    "extra_sub": "Tarif par enfant additionnel, ou par enfant si les deux parents participent.",
+    "example": "<b>Exemple :</b> 1 parent + 2 enfants sur 1 semaine = {ex1base} + {ex1child} = {ex1total}. 2 parents + 1 enfant sur 2 semaines = 2 × {ex2adult} + {ex2child} = {ex2total}."
+  },
+  "included_title": "INCLUS DANS TOUS LES TARIFS",
+  "included": {
+    "accommodation": "Hébergement de camp",
+    "visa": "Visa russe (frais et dossier complet)",
+    "flight": "Vol intérieur Istanbul vers Makhachkala (Lutte) ou Grozny (MMA)",
+    "transfers": "Transferts aéroport-camp",
+    "meals": "2 repas par jour",
+    "sessions": "2 sessions d'entraînement / jour",
+    "coaching": "Encadrement par les coachs locaux du Caucase",
+    "prep": "Suivi préparatoire à distance"
+  },
+  "not_included": "<b>Non inclus</b> : vol international jusqu'à Istanbul (à organiser par le candidat), assurance voyage (obligatoire), équipement personnel, dépenses personnelles. Supplément MKR pour candidature à moins de 30 jours du départ (traitement express).",
+  "cta_primary": "CHOISIR MON CAMP",
+  "cta_secondary": "UNE QUESTION ?"
+}

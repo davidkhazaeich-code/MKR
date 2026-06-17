@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
+import { useTranslations } from 'next-intl'
 import Icon from './Icon'
 
 interface VideoModalProps {
@@ -14,6 +15,7 @@ interface VideoModalProps {
 export default function VideoModal({ src, poster, title, subtitle, onClose }: VideoModalProps) {
   const videoRef = useRef<HTMLVideoElement>(null)
   const closeBtnRef = useRef<HTMLButtonElement>(null)
+  const t = useTranslations('common.video_modal')
 
   useEffect(() => {
     if (!src) return
@@ -72,14 +74,14 @@ export default function VideoModal({ src, poster, title, subtitle, onClose }: Vi
       className="video-modal-overlay"
       role="dialog"
       aria-modal="true"
-      aria-label={title ? `Témoignage vidéo de ${title}` : 'Témoignage vidéo'}
+      aria-label={title ? t('dialog_aria_named', { name: title }) : t('dialog_aria')}
       onClick={onClose}
     >
       <button
         ref={closeBtnRef}
         type="button"
         className="video-modal-close"
-        aria-label="Fermer la vidéo"
+        aria-label={t('close_aria')}
         onClick={onClose}
       >
         <Icon name="x" size={22} />

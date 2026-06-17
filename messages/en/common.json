@@ -188,6 +188,28 @@
     "apply": "APPLY TO THE CAMP",
     "apply_aria": "Apply to the MKR Caucasian Camp"
   },
+  "scroll_nav": {
+    "sections_aria": "Section navigation",
+    "go_to_aria": "Go to: {label}",
+    "discover_next_aria": "Discover the next section",
+    "discover": "Discover",
+    "section_fallback": "Section {number}"
+  },
+  "video_modal": {
+    "dialog_aria_named": "Video testimonial from {name}",
+    "dialog_aria": "Video testimonial",
+    "close_aria": "Close the video"
+  },
+  "breadcrumb": {
+    "aria": "Breadcrumb",
+    "home": "Home"
+  },
+  "site_loader": {
+    "loading_aria": "Loading"
+  },
+  "scroll_indicator": {
+    "scroll": "SCROLL"
+  },
   "locale_switcher": {
     "label": "Language",
     "fr": "FR",

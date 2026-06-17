@@ -1,4 +1,16 @@
 {
+  "safety_protocol": {
+    "label": "SAFETY",
+    "title": "THE QUESTION EVERYONE ASKS",
+    "card_title": "MKR PROTOCOL",
+    "items": {
+      "emergency": "On-site 24/7 emergency contact",
+      "team": "Permanent French-speaking team",
+      "insurance": "Mandatory repatriation insurance",
+      "briefing": "Safety briefing before departure",
+      "monitoring": "Continuous monitoring of government travel advisories"
+    }
+  },
   "root": {
     "meta": {
       "title": "Dagestan and Chechnya Destinations | MKR Caucasian Camp",

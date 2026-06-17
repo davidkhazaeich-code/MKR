@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { usePathname } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 
 type Section = { id: string; label: string }
 
@@ -12,16 +13,17 @@ function truncate(s: string, n: number) {
   return s.length > n ? s.slice(0, n - 1) + '…' : s
 }
 
-function deriveLabel(el: HTMLElement, fallbackIdx: number): string {
+function deriveLabel(el: HTMLElement, fallbackIdx: number, sectionFallback: (n: number) => string): string {
   const explicit = el.getAttribute('data-scroll-label')
   if (explicit) return truncate(explicit, LABEL_MAX)
   const heading = el.querySelector('h1, h2, .label-tag, .insc-panel-title') as HTMLElement | null
   if (heading?.textContent) return truncate(heading.textContent.trim(), LABEL_MAX)
-  return `Section ${fallbackIdx + 1}`
+  return sectionFallback(fallbackIdx + 1)
 }
 
 export default function ScrollNav() {
   const pathname = usePathname()
+  const t = useTranslations('common.scroll_nav')
   const [sections, setSections] = useState<Section[]>([])
   const [activeIdx, setActiveIdx] = useState(0)
   const [progress, setProgress] = useState(0)
@@ -60,7 +62,7 @@ export default function ScrollNav() {
       const found: Section[] = []
       top.forEach((el, i) => {
         if (!el.id) el.id = `scrollsec-${i}`
-        found.push({ id: el.id, label: deriveLabel(el, i) })
+        found.push({ id: el.id, label: deriveLabel(el, i, (n) => t('section_fallback', { number: n })) })
       })
       setSections(prev => {
         // Évite les renders inutiles si rien n'a changé
@@ -90,7 +92,7 @@ export default function ScrollNav() {
       if (rescanTimer) clearTimeout(rescanTimer)
       observer.disconnect()
     }
-  }, [pathname])
+  }, [pathname, t])
 
   // ─── IntersectionObserver pour la section active (recréé quand sections changent) ───
   useEffect(() => {
@@ -159,13 +161,13 @@ export default function ScrollNav() {
       </div>
 
       {/* Desktop : dots verticaux à droite */}
-      <nav className="hs-dots" aria-label="Navigation entre les sections">
+      <nav className="hs-dots" aria-label={t('sections_aria')}>
         {sections.map((s, i) => (
           <button
             key={s.id}
             type="button"
             onClick={() => scrollTo(s.id)}
-            aria-label={`Aller à : ${s.label}`}
+            aria-label={t('go_to_aria', { label: s.label })}
             aria-current={i === activeIdx ? 'true' : undefined}
             className={`hs-dot${i === activeIdx ? ' is-active' : ''}`}
           >
@@ -178,10 +180,10 @@ export default function ScrollNav() {
       <button
         type="button"
         onClick={next}
-        aria-label="Découvrir la section suivante"
+        aria-label={t('discover_next_aria')}
         className={`hs-chevron${scrolled ? ' is-hidden' : ''}`}
       >
-        <span className="hs-chevron-label">Découvrir</span>
+        <span className="hs-chevron-label">{t('discover')}</span>
         <span className="hs-chevron-arrow" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" width="22" height="22">
             <polyline points="6 9 12 15 18 9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
