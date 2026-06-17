@@ -26,6 +26,8 @@ done
 ```
 Parité après fix : **2639 clés** FR=EN. Build OK (82 pages).
 
+**Blogs SEO/GEO (commit b426b3a)** : les 6 articles avaient `meta_title: null` (FR+EN) → next-intl logguait `MISSING_MESSAGE` à chaque build (il traite une valeur `null` comme clé manquante) et aucun `<title>` SEO custom. Ajout de meta_titles SEO (keyword en tête, 45-56 chars, brand « MKR Caucasian Camp », glossaire EN Dagestan/Wrestling) dans `messages/{fr,en}/blog/<slug>.json`. Contenu, `about`/`tldr`/`faq` (GEO) et `keywords` étaient déjà traduits et complets. `MISSING_MESSAGE` count = 0 après fix. **Restes optionnels** : (1) les `opengraph-image.tsx` sont en FR en dur sur les pages `/en` (image sociale non localisée), (2) 2 meta_descriptions FR > 200 chars (tronquées en SERP, pas bloquant ranking).
+
 > ⚠️ **CORRECTION 2026-06-17** : l'entrée « 2026-06-12 » ci-dessous est INEXACTE. La page `/tarifs`, `opengraph-image.tsx`, `PriceEstimator.tsx`, `messages/{fr,en}/tarifs.json` et `messages/{fr,en}/pricing_table.json` décrits N'EXISTAIENT PAS dans le repo (jamais commités ou revertés). Au 2026-06-17, `PricingTable.tsx` était encore 100% FR hardcodé (jamais migré comme l'entrée le prétend). Seul le travail d'affiliation (`referral-codes.ts`) du 2026-06-12 était réel. La migration i18n de `PricingTable` a réellement été faite le 2026-06-17 (voir entrée ci-dessus), mais sans page `/tarifs` ni simulateur. **À refaire si besoin** : créer la page `/tarifs` + `PriceEstimator` décrits ci-dessous.
 
 ## 🆕 2026-06-12 (nouvelle page /tarifs + simulateur de prix + PricingTable i18n) — ⚠️ NON IMPLÉMENTÉ, voir correction ci-dessus
