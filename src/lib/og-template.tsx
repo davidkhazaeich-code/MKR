@@ -19,6 +19,8 @@ export interface OgTemplateInput {
   accent?: 'red' | 'green' | 'orange' | 'gold'
   /** Background image PNG depuis /public/og-bg/. Affichée à opacité 0.18 par-dessus le noir */
   bgImage?: string
+  /** Locale pour la tagline footer (fr par défaut). */
+  locale?: 'fr' | 'en'
 }
 
 const ACCENT_MAP: Record<NonNullable<OgTemplateInput['accent']>, string> = {
@@ -71,10 +73,12 @@ export async function createOgImageResponse({
   subtitle,
   accent = 'red',
   bgImage,
+  locale = 'fr',
 }: OgTemplateInput) {
   const logoDataUri = await readPublicAsset('/logo-white.png')
   const bgDataUri = bgImage ? await readPublicAsset(bgImage) : null
   const accentColor = ACCENT_MAP[accent]
+  const tagline = locale === 'en' ? 'Immersion among champions' : "L'immersion au milieu des champions"
 
   const TEXT = '#FFFFFF'
   const MUTED = '#D8D8D8'
@@ -336,7 +340,7 @@ export async function createOgImageResponse({
               display: 'flex',
             }}
           >
-            L&apos;immersion au milieu des champions
+            {tagline}
           </div>
         </div>
       </div>

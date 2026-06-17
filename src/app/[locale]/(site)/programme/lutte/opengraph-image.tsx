@@ -1,16 +1,38 @@
 import { createOgImageResponse, OG_SIZE, OG_CONTENT_TYPE } from '@/lib/og-template'
 
 export const runtime = 'nodejs'
-export const alt = 'Programme Lutte au Daghestan · Méthode Khabib'
-export const size = OG_SIZE
-export const contentType = OG_CONTENT_TYPE
 
-export default async function OG() {
-  return createOgImageResponse({
+const COPY = {
+  fr: {
+    alt: 'Programme Lutte au Daghestan · Méthode Khabib',
     keywords: 'Lutte · Daghestan · Khabib',
     title: 'Méthode daghestanaise',
     subtitle: 'Leg rides, chain wrestling, takedowns. 30+ médaillés olympiques.',
+  },
+  en: {
+    alt: 'Wrestling program in Dagestan · Khabib method',
+    keywords: 'Wrestling · Dagestan · Khabib',
+    title: 'Dagestani method',
+    subtitle: 'Leg rides, chain wrestling, takedowns. 30+ Olympic medalists.',
+  },
+} as const
+
+export async function generateImageMetadata({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale: raw } = await params
+  const locale = raw === 'en' ? 'en' : 'fr'
+  return [{ id: 'og', alt: COPY[locale].alt, size: OG_SIZE, contentType: OG_CONTENT_TYPE }]
+}
+
+export default async function OG({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale: raw } = await params
+  const locale = raw === 'en' ? 'en' : 'fr'
+  const c = COPY[locale]
+  return createOgImageResponse({
+    keywords: c.keywords,
+    title: c.title,
+    subtitle: c.subtitle,
     bgImage: '/og-bg/takedown-wrestling.png',
     accent: 'green',
+    locale,
   })
 }

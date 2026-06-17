@@ -4,16 +4,16 @@ export const runtime = 'nodejs'
 
 const COPY = {
   fr: {
-    alt: 'Guide Caucase MKR · PDF gratuit 20 pages',
-    keywords: 'Guide gratuit · PDF · 20 pages',
-    title: 'Le guide du Caucase',
-    subtitle: 'Visa, vols, budget, prépa, équipement. 20 pages. Téléchargement instantané.',
+    alt: 'Mentions légales MKR Caucasian Camp',
+    keywords: 'Légal',
+    title: 'Mentions légales',
+    subtitle: 'Éditeur, hébergement, contact et propriété intellectuelle.',
   },
   en: {
-    alt: 'MKR Caucasus Guide · Free 20-page PDF',
-    keywords: 'Free guide · PDF · 20 pages',
-    title: 'The Caucasus guide',
-    subtitle: 'Visa, flights, budget, prep, equipment. 20 pages. Instant download.',
+    alt: 'Legal notice MKR Caucasian Camp',
+    keywords: 'Legal',
+    title: 'Legal notice',
+    subtitle: 'Publisher, hosting, contact and intellectual property.',
   },
 } as const
 
@@ -32,7 +32,6 @@ export default async function OG({ params }: { params: Promise<{ locale: string 
     title: c.title,
     subtitle: c.subtitle,
     bgImage: '/og-bg/dagestan-panorama.png',
-    accent: 'gold',
     locale,
   })
 }

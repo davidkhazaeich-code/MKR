@@ -22,7 +22,6 @@ import { routing, type Locale, getBlogSlug } from '@/i18n/routing'
 import { getPathname } from '@/i18n/navigation'
 
 const SITE_URL = 'https://mkrcamp.com'
-const DEFAULT_OG_IMAGE = '/images/social/og-image.webp'
 const DEFAULT_OG_WIDTH = 1376
 const DEFAULT_OG_HEIGHT = 768
 
@@ -126,6 +125,10 @@ export function localizedMetadata(
 ): Metadata {
   const alternates = opts?.alternates ?? getAlternateLinks(canonicalPath, locale)
 
+  // When the caller passes explicit images (e.g. blog uses the article image),
+  // set them. Otherwise we OMIT openGraph.images so Next.js falls back to the
+  // per-route file-convention `opengraph-image.tsx` (localized, page-specific),
+  // which is inherited from the `(site)` group root for pages without their own.
   const images =
     opts?.images && opts.images.length > 0
       ? opts.images.map((img) => ({
@@ -134,14 +137,7 @@ export function localizedMetadata(
           height: img.height ?? DEFAULT_OG_HEIGHT,
           alt: img.alt ?? title,
         }))
-      : [
-          {
-            url: `${SITE_URL}${DEFAULT_OG_IMAGE}`,
-            width: 1200,
-            height: 630,
-            alt: 'MKR Caucasian Camp',
-          },
-        ]
+      : undefined
 
   const ogType = opts?.ogType ?? 'website'
 
@@ -156,7 +152,7 @@ export function localizedMetadata(
       url: alternates.canonical,
       locale: locale === 'fr' ? 'fr_FR' : 'en_US',
       siteName: 'MKR Caucasian Camp',
-      images,
+      ...(images ? { images } : {}),
       ...(ogType === 'article' && opts?.publishedTime ? { publishedTime: opts.publishedTime } : {}),
       ...(ogType === 'article' && opts?.modifiedTime ? { modifiedTime: opts.modifiedTime } : {}),
       ...(ogType === 'article' && opts?.authors ? { authors: opts.authors } : {}),
@@ -165,7 +161,7 @@ export function localizedMetadata(
       card: 'summary_large_image',
       title,
       description,
-      images: images.map((img) => img.url),
+      ...(images ? { images: images.map((img) => img.url) } : {}),
     },
   }
 
