@@ -682,7 +682,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
   if (!audience) {
     return (
       <div className="insc-wrapper">
-        <div className="insc-success-page" style={{ paddingTop: '4rem' }}>
+        <div className="insc-success-page insc-chooser" style={{ paddingTop: '4rem' }}>
           <Link href="/" className="insc-back-home">← {t('back_to_site')}</Link>
           <div className="insc-audience-selector">
             <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>
@@ -692,14 +692,14 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
             <p className="cand-success-sub">
               {t('audience_selector.subtitle')}
             </p>
-            <div className="audience-grid" style={{ marginTop: '2.5rem' }}>
+            <div className="audience-grid">
               {hydratedRegistrationTypes.map((type, i) => (
                 <button
                   key={type.id}
                   type="button"
                   onClick={() => selectAudience(type.id)}
                   className={`audience-card audience-card--clickable audience-card--photo${type.recommended ? ' audience-card--recommended' : ''}`}
-                  style={{ transitionDelay: `${i * 0.06}s`, textAlign: 'left' }}
+                  style={{ textAlign: 'left' }}
                 >
                   <div className="audience-card-photo" aria-hidden="true">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -707,7 +707,8 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                       src={type.image}
                       alt={type.image_alt}
                       className="audience-card-photo-img"
-                      loading="lazy"
+                      loading={i === 0 ? 'eager' : 'lazy'}
+                      fetchPriority={i === 0 ? 'high' : 'auto'}
                       style={{ width: '100%', height: '100%', objectFit: 'cover', position: 'absolute', inset: 0 }}
                     />
                     <div className="audience-card-photo-overlay" />

@@ -3,6 +3,20 @@
 > **Fichier de référence pour Claude Code.** Mise à jour : 2026-05-27 (site bilingue FR + EN : next-intl, 34 namespaces, sitemap 68 URLs, EN PDF guide, glossaire locked, Playwright QA spec).
 > Lis ce fichier en priorité avant toute intervention sur le site MKR. Il évite de re-explorer.
 
+## 🆕 2026-06-19 (chooser /inscription : affichage instantané + compactage mobile)
+
+> **Décision David** : sur l'écran de choix du type d'inscription (`/inscription` sans `?type=`), le texte arrivait trop tard après les images. La page doit être directe, sans animation d'entrée, charger le plus vite possible, et bien lisible en mobile (comprendre qu'il y a plusieurs types d'inscription).
+
+**Cause** : la branche `if (!audience)` de `InscriptionLayout.tsx` rend le chooser dans `<div className="insc-success-page">`, wrapper PARTAGÉ avec l'écran de succès post-submit. Celui-ci porte des animations d'entrée (`globals.css` ~3270-3285) : `.cand-success-title` fade-up à **0.85s**, `.cand-success-sub` à **1s**. Le chooser héritait de ces délais alors que les cartes/images s'affichent direct → "le texte arrive après les images".
+
+**Fix** :
+- Wrapper du chooser passé à `className="insc-success-page insc-chooser"`. Nouvel override CSS `.insc-success-page.insc-chooser .label-tag/.cand-success-title/.cand-success-sub { opacity:1; animation:none }` (juste après le bloc d'anim success-page). ⚠️ Ne PAS tuer globalement les anims de `.insc-success-page` : le vrai écran de succès (branche `if (submitted)`, sans `.insc-chooser`) les garde.
+- Retiré le `style={{ transitionDelay: ... }}` par carte. Première image de carte en `loading="eager" fetchPriority="high"` (les autres restent `lazy`).
+- Marge du grid sortie de l'inline → CSS `.insc-audience-selector .audience-grid { margin-top: 2.5rem }`.
+- Mobile ≤600px (bloc média ajouté après `.audience-card--clickable.audience-card--photo`) : photo `aspect-ratio: 5/2`, description `-webkit-line-clamp: 2`, marges/CTA resserrés, grid `margin-top: 1.5rem` → la 2e carte dépasse sous la ligne de flottaison.
+
+**Fichiers** : `src/components/InscriptionLayout.tsx` (branche `!audience`), `src/app/globals.css`. Aucun changement de copy (pas de propagation i18n). Build OK, vérifié screenshots 390px (carte 2 peek) + 1280px (grille 4 col intacte). Memory : `project_mkr_inscription_chooser_instant`.
+
 ## 🆕 2026-06-17 (visio de sélection Cal.com en fin de candidature + email candidat)
 
 > **Décision David** : à la fin du tunnel d'inscription, le lead doit réserver sa visio de sélection avec Ruslan (calendrier Cal.com inline, event `15min`). La réservation déclenche nativement l'invitation iCal (.ics) aux deux parties. En plus, le candidat reçoit un email de confirmation avec le lien de réservation pour valider son dossier. Comble le backlog V2 « Email transactionnel candidat » (cf. anciennes notes "À refaire").
@@ -24,6 +38,18 @@
 **Hors périmètre (V2 possible)** : webhook Cal.com → Supabase pour tracer `visio_booked_at` + badge admin « visio réservée ». Pour l'instant les RDV se voient dans le compte Cal.com.
 
 **Spec** : `docs/superpowers/specs/2026-06-17-mkr-visio-booking-design.md`.
+
+### 🐛 Correctif 2026-06-19 (le calendrier ne s'affichait pas : CSP + thème + hauteur)
+
+> **Symptôme** : sur l'écran de succès, le calendrier Cal.com était une **boîte noire vide** (capture David). **Cause racine = la CSP de `next.config.ts`**, pas le composant. Reproduit : CSP appliquée → `embed.js` bloqué → aucune iframe injectée → boîte vide. CSP retirée → l'embed rend parfaitement.
+
+**3 corrections (toutes vérifiées Playwright desktop + mobile 390px) :**
+
+1. **CSP (`next.config.ts`) — LA cause** : `script-src 'self' 'unsafe-inline'` bloquait `https://app.cal.com/embed/embed.js`, et l'absence de `frame-src` faisait retomber l'iframe sur `default-src 'self'` (donc bloquée). Ajouté `https://app.cal.com` à `script-src` + `connect-src`, et **nouvelle directive** `frame-src 'self' https://app.cal.com https://cal.com`. ⚠️ `frame-ancestors 'none'` (qui empêche les AUTRES d'embarquer MKR) est SANS RAPPORT — ne pas confondre avec `frame-src` (ce que MKR embarque). **Tout futur embed tiers (YouTube, Maps, widget BSport...) exige d'ajouter son origine ici.**
+2. **Thème (`VisioBooking.tsx`)** : l'embed rendait en clair sur l'écran sombre MKR. `theme: 'dark'` doit être dans le **`config` du `<Cal>`** (= param d'URL de l'iframe), pas seulement dans `cal('ui', ...)` (trop tardif, URL déjà construite). Couleur de marque via `cssVarsPerTheme` (les 2 clés `dark` + `light` requises par les types). Accent `cal-brand: #C84B31`.
+3. **Hauteur (`globals.css` + `VisioBooking.tsx`)** : `.visio-booking-embed` était `height: 680px; overflow: hidden`, ce qui coupait le contenu mobile (~1015px empilé). Passé en `min-height` + enfant `height: auto`, `<Cal style={{height:'auto'}}>` + `useSlotsViewOnSmallScreen: 'true'` (vue créneaux compacte sur petit écran). Le conteneur grandit avec le contenu, plus de découpe.
+
+**Fichiers** : `next.config.ts` (CSP), `src/components/VisioBooking.tsx` (config theme + slots + height auto), `src/app/globals.css` (`.visio-booking-embed` min-height + enfant height auto). `tsc --noEmit` OK, `next build` OK.
 
 ---
 

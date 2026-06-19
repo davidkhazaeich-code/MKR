@@ -3284,6 +3284,19 @@ h1, h2, h3, h4, h5 {
   animation: insc-fade-up 0.5s var(--ease-out-expo) 1.15s forwards;
 }
 
+/* ── Écran de choix du type d'inscription (chooser) ──
+   Réutilise le layout .insc-success-page mais doit s'afficher INSTANTANÉMENT.
+   Sans cet override, le titre (.cand-success-title) et le sous-titre
+   (.cand-success-sub) héritaient des fade-up de l'écran de succès (0.85s / 1s)
+   et "arrivaient après les images". Demande David 2026-06-19 : page directe,
+   pas d'animation d'entrée, chargement le plus rapide possible. */
+.insc-success-page.insc-chooser .label-tag,
+.insc-success-page.insc-chooser .cand-success-title,
+.insc-success-page.insc-chooser .cand-success-sub {
+  opacity: 1;
+  animation: none;
+}
+
 /* Sidebar step transitions */
 .insc-step-dot,
 .insc-step-label {
@@ -7857,6 +7870,9 @@ html.is-loading body {
   padding: 2rem 1.5rem 4rem;
 }
 
+/* Marge du grid pilotée en CSS (plus en inline) pour pouvoir la réduire en mobile. */
+.insc-audience-selector .audience-grid { margin-top: 2.5rem; }
+
 .audience-card--clickable {
   background: rgba(255,255,255,0.03);
   border: 1px solid rgba(255,255,255,0.07);
@@ -8014,6 +8030,41 @@ html.is-loading body {
 /* Sélecteur inscription (clickable) avec photo */
 .audience-card--clickable.audience-card--photo {
   padding: 0 1.6rem 1.8rem;
+}
+
+/* ── Mobile : cartes du chooser plus compactes ──
+   Photo en bandeau + description tronquée à 2 lignes + espacements resserrés,
+   pour que la carte suivante dépasse sous la ligne de flottaison : on comprend
+   tout de suite qu'il y a d'autres types d'inscription à faire défiler.
+   Demande David 2026-06-19. */
+@media (max-width: 600px) {
+  .insc-audience-selector { padding: 1.25rem 1rem 3rem; }
+  .insc-chooser .cand-success-sub { margin-bottom: 0; }
+  .insc-audience-selector .audience-grid { margin-top: 1.5rem; }
+
+  .audience-card--clickable.audience-card--photo {
+    padding: 0 1.1rem 1.2rem;
+  }
+  .audience-card--clickable.audience-card--photo .audience-card-photo {
+    aspect-ratio: 5 / 2;
+    margin: 0 -1.1rem 1rem;
+  }
+  /* Description : aperçu 2 lignes (le détail complet vit sur la page produit). */
+  .audience-card-desc {
+    font-size: 0.88rem;
+    line-height: 1.5;
+    margin-bottom: 0.9rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .audience-card-meta {
+    margin-bottom: 1rem;
+    padding-top: 0.85rem;
+    gap: 0.35rem;
+  }
+  .audience-card-cta { padding: 0.75rem 1.1rem; }
 }
 
 
@@ -11082,7 +11133,10 @@ html.is-loading body {
 }
 .visio-booking-embed {
   width: 100%;
-  height: 680px;
+  /* min-height (et non height fixe) : reserve la place au chargement mais laisse le
+     conteneur grandir avec le contenu de Cal. Une hauteur fixe + overflow:hidden coupait
+     le calendrier sur mobile (contenu plus haut que la boite). */
+  min-height: 580px;
   border: 1px solid var(--border, #1e293b);
   border-radius: 14px;
   overflow: hidden;
@@ -11090,7 +11144,7 @@ html.is-loading body {
 }
 .visio-booking-embed > * {
   width: 100%;
-  height: 100%;
+  height: auto;
 }
 .visio-booking-fallback {
   margin: 1rem auto 0;
@@ -11119,7 +11173,7 @@ html.is-loading body {
 
 @media (max-width: 640px) {
   .visio-booking-embed {
-    height: 560px;
+    min-height: 560px;
     border-radius: 12px;
   }
 }

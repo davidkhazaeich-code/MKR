@@ -30,7 +30,17 @@ export default function VisioBooking({ prenom, nom, email }: Props) {
     ;(async () => {
       try {
         const cal = await getCalApi({ namespace: CAL_NAMESPACE })
-        cal('ui', { hideEventTypeDetails: false, layout: 'month_view' })
+        // Theme sombre force pour matcher l'ecran de succes MKR (fond #0E0E0E) + accent
+        // marque (--primary). cssVarsPerTheme exige les 2 cles (dark + light) cote types.
+        cal('ui', {
+          hideEventTypeDetails: false,
+          layout: 'month_view',
+          theme: 'dark',
+          cssVarsPerTheme: {
+            dark: { 'cal-brand': '#C84B31' },
+            light: { 'cal-brand': '#C84B31' },
+          },
+        })
       } catch {
         // L'embed n'a pas pu s'initialiser : on garde le lien de repli visible.
       }
@@ -53,9 +63,16 @@ export default function VisioBooking({ prenom, nom, email }: Props) {
         <Cal
           namespace={CAL_NAMESPACE}
           calLink={CAL_LINK}
-          style={{ width: '100%', height: '100%', overflow: 'scroll' }}
+          // height auto : on laisse Cal dimensionner l'iframe selon son contenu (sinon
+          // le mois empile sur mobile (~1015px) est coupe par un conteneur a hauteur fixe).
+          style={{ width: '100%', height: 'auto' }}
           config={{
             layout: 'month_view',
+            // theme dans le config (= param d'URL de l'iframe) sinon il n'est pas applique :
+            // le passer uniquement via cal('ui') est trop tardif, l'URL est deja construite.
+            theme: 'dark',
+            // vue creneaux dediee sur petit ecran : evite l'empilement vertical qui deborde.
+            useSlotsViewOnSmallScreen: 'true',
             name: fullName,
             email,
           }}
