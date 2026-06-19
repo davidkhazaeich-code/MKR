@@ -32,6 +32,7 @@ export default async function OG({ params }: { params: Promise<{ locale: string 
     title: c.title,
     subtitle: c.subtitle,
     accent: 'orange',
+    bgImage: '/og-bg/mosque-grozny.png',
     locale,
   })
 }
