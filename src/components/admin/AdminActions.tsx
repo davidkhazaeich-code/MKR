@@ -397,7 +397,7 @@ export default function AdminActions(props: Props) {
             <label className="adm-input-row-label" htmlFor="package-amount">
               Montant package (€)
               <span style={{ display: 'block', fontSize: '0.75rem', color: 'var(--adm-text-muted)', marginTop: '0.15rem' }}>
-                Total convenu avec le candidat. Référence adulte palier Solo/Duo : {ADMIN_SOLO_DUO_HINT}. Voir data/pricing.ts pour la grille complète.
+                Pré-rempli automatiquement depuis la grille selon la demande (durée, composition, discipline). Ajuste-le si tu conviens d&apos;un autre montant. Référence adulte Solo/Duo : {ADMIN_SOLO_DUO_HINT}. Vide = sur devis (combo, 11+, club 6-10).
               </span>
             </label>
             <input

@@ -802,6 +802,9 @@
     "subtitle": "We are reviewing your application and will reply within 48h.<br/>Get ready for the video selection interview.",
     "session_fallback": "CUSTOM",
     "share_label": "SHARE YOUR PARTICIPATION",
+    "booked_badge": "Call booked",
+    "share_locked_hint": "Your shareable image appears as soon as your call is booked.",
+    "share_reveal_link": "Show it now",
     "booking": {
       "step": "LAST STEP",
       "title": "Book your selection call",

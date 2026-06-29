@@ -3,6 +3,63 @@
 > **Fichier de référence pour Claude Code.** Mise à jour : 2026-05-27 (site bilingue FR + EN : next-intl, 34 namespaces, sitemap 68 URLs, EN PDF guide, glossaire locked, Playwright QA spec).
 > Lis ce fichier en priorité avant toute intervention sur le site MKR. Il évite de re-explorer.
 
+## 🆕 2026-06-23 (montant package auto-calculé et persisté à l'inscription)
+
+> **Bug rapporté David** : « le montant dans le backend doit correspondre à la demande et à son prix ». **Cause racine** : le formulaire calculait bien le prix exact de la demande (récap `InscriptionLayout` étape finale via `calculatePrice`) **mais ne l'envoyait jamais** — `POST /api/inscription` n'écrivait pas `package_amount_cents`. Résultat : `package_amount_cents` était `NULL` sur **100% des candidatures** (les 10 dernières vérifiées), Ruslan devait recalculer et le saisir à la main. Le backend ne reflétait donc jamais le prix de la demande.
+
+**Fix (3 couches, server-side, jamais le client)** :
+1. **`src/data/pricing.ts`** — nouveau helper pur `estimateDemandAmountCents({ tunnel, weeks, campDiscipline, composition, parents, children, groupSize })` → centimes EUR, en **miroir exact** de la dérivation adults/children/isQuote du récap du form. Retourne `null` pour les cas **sur devis** (combo, 11+, club 6-10 « à partir de », durée absente). Réutilise `calculatePrice`/`isOnQuote` (DRY, single source `PRICING_TIERS`).
+2. **`src/app/api/inscription/route.ts`** — dérive les inputs depuis la demande validée + `form_data` (custom.composition / famille.nombre_parents+enfants / groupe.nombre_participants), calcule `package_amount_cents` et le **persiste à l'insert** (firm prices uniquement, sinon `null` = sur devis). Audit_log `package_amount_estimated`. Le montant est aussi ajouté aux notifs **email + Slack** (« Montant (selon demande) », `formatAmountLabel`, « Sur devis » si null).
+3. **`src/components/admin/AdminActions.tsx`** — hint « Montant package » réécrit : pré-rempli depuis la grille selon la demande, ajustable, vide = sur devis.
+
+**Backfill** : `UPDATE` Supabase (projet `bgwvrzgnoqlqqrvflwav`) des 10 candidatures à `package_amount_cents IS NULL` avec la grille (audit_log `package_amount_backfilled`). Vérifié : **0 null, 0 mismatch, 0 firm-price manquant** sur l'ensemble. Logique SQL = miroir de `calculatePrice` (dry-run validé avant apply).
+
+**Interaction referral** : améliore le système % (PaoloZ). À `soldee`, la commission % se calcule désormais sur un CA non-null (avant : « CA à saisir » si Ruslan oubliait de saisir). Pas de régression : à l'insert le payout est `pending`, aucun recompute prématuré ; l'édition admin du montant recalcule comme avant.
+
+**Pas d'impact i18n** : messages d'erreur API et libellés admin/notifs sont des strings FR inline (pas `messages/**`), parité intacte. `tsc --noEmit` OK + `next build` OK.
+
+**Pour changer un prix** : toujours `data/pricing.ts` uniquement. `estimateDemandAmountCents` (donc le montant persisté) se met à jour automatiquement au prochain build.
+
+## 🆕 2026-06-19 (refonte du template OG : polices de marque + layout anti-superposition)
+
+> **Bug rapporté David** : sur les vignettes OG (ex. /sessions « ÉTÉ »), le texte était illisible, **superposé au logo** et **pas dans la bonne typographie**. Cause racine double dans `src/lib/og-template.tsx`.
+
+**Cause racine #1 — aucune police chargée** : `next/og` (Satori) ignore `fontWeight: 900/800/...` si on ne lui passe pas explicitement des fichiers de police. Sans `fonts`, il retombe sur **Geist Regular 400** (le TTF par défaut bundlé dans `@vercel/og`). D'où le titre fin/illisible et hors-charte (le site utilise **Teko** + **Barlow Condensed**). ⚠️ Satori ne lit **que TTF/OTF/WOFF, jamais woff2** → on ne peut pas réutiliser les fichiers `next/font`.
+
+**Cause racine #2 — superposition** : le bloc titre était `position:absolute; top:0; height:100%; justifyContent:center`, donc centré sur TOUTE la hauteur → il chevauchait le logo absolu (haut) et le footer (bas) dès que le titre était long (auto-scale qui wrap).
+
+**Fix** :
+1. **Polices de marque chargées** dans `ImageResponse({ fonts })` : `public/og-fonts/Teko-Bold.ttf` (titre, 700), `BarlowCondensed-SemiBold.ttf` (keywords + footer + tagline, 600), `Barlow-Medium.ttf` (sous-titre, 500). Lues via `fs.readFile` (même pattern que le logo/bg). Source fiable des TTF statiques : **Fontsource jsdelivr** (`cdn.jsdelivr.net/fontsource/fonts/<famille>@latest/latin-<poids>-normal.ttf`). ⚠️ l'API Google `/l/font?kit=` renvoie un format obfusqué non-TTF. Loader caché + `try/catch` → fallback gracieux (police défaut) si fichier absent, jamais de crash. Comme les OG sont **SSG-prérendues au build**, les TTF ne sont nécessaires qu'au build (présents dans le repo, non gitignorés).
+2. **Layout en colonne flex** (header logo+keywords / `main flex:1` centré / footer) → le titre ne peut **structurellement plus** chevaucher le logo ni le footer, quelle que soit sa longueur. Auto-scale du titre recalibré pour Teko (condensé : 56→150px).
+3. **2 OG sans fond corrigées** : `/programme/mma` → `/og-bg/sparring-mma-wall.png`, `/destinations/tchetchenie` → `/og-bg/mosque-grozny.png` (asset orphelin enfin utilisé). Elles n'avaient aucun `bgImage` (rendu noir plat).
+
+**Vérifié** : les 30 routes OG re-rendues (FR + EN, accents É/È/À/Ç/Œ OK, cas extrêmes titre 2 lignes + sous-titre 86 chars), `next build` OK (30 routes ● SSG), rendu confirmé en `next start` (prod). Aucune clé i18n touchée (parité intacte, pas de propagation EN). Fichiers : `src/lib/og-template.tsx`, `public/og-fonts/*.ttf`, `programme/mma/opengraph-image.tsx`, `destinations/tchetchenie/opengraph-image.tsx`. **Pour ajouter une OG** : créer `opengraph-image.tsx` avec `COPY.{fr,en}` + passer un `bgImage` existant de `public/og-bg/` (4 dispos). Ne jamais demander un `fontWeight` non chargé.
+
+## 🆕 2026-06-19 (image Instagram à partager révélée APRÈS la réservation de la visio)
+
+> **Décision David** : sur l'écran de succès, l'image `<StoryCard />` à partager sur Instagram ne doit apparaître qu'**une fois la visio Cal.com réservée** (récompense de fin de parcours), au lieu de s'afficher en même temps que le calendrier.
+
+**Mécanisme** : Cal.com émet nativement l'event `bookingSuccessfulV2` (+ legacy `bookingSuccessful`) quand une réservation est confirmée dans l'embed. `VisioBooking.tsx` s'y abonne via `cal('on', { action, callback })` (API confirmée dans `@calcom/embed-core/dist/src/sdk-action-manager.d.ts`) et appelle un nouveau prop `onBooked`. Callback gardé dans un `useRef` pour que l'effet de montage reste à deps `[]` (pas de re-souscription).
+
+**Écran de succès** (`InscriptionLayout.tsx`, branche `if (submitted)`) : 2 nouveaux states `visioBooked` / `forceShare`.
+- Avant réservation : à la place de la StoryCard, une ligne discrète `.insc-share-locked` (clé `success.share_locked_hint`) + lien `success.share_reveal_link` (« L'afficher maintenant ») qui force l'affichage (`forceShare`). **Filet pour les non-bookers** : ceux qui réservent plus tard via le lien de l'email ne perdent pas l'image.
+- Après réservation (`bookingSuccessfulV2` → `setVisioBooked(true)`) OU `forceShare` : la StoryCard s'affiche (`.insc-share-block--revealed`, fade-up) précédée d'un badge `.insc-booked-badge` « Visio réservée » (clé `success.booked_badge`, accent marque, pas de vert hors-charte).
+
+**i18n** : 3 clés ajoutées dans `messages/{fr,en}/inscription.json` → `success.booked_badge`, `success.share_locked_hint`, `success.share_reveal_link`. Parité OK (2651 clés). **CSS** : `.insc-share-block--revealed`, `.insc-booked-badge`, `.insc-share-locked`, `.insc-share-reveal` ajoutés à la section « Bloc de partage » de `globals.css`.
+
+**Limite de test** : la révélation déclenchée par la réservation n'est pas testable en local (écran de succès = submit Supabase réussi + vraie réservation Cal). Confirmer par une réservation test sur le déploiement. Build + parité OK. Memory : `reference_calcom_booking_event`.
+
+## 🆕 2026-06-19 (anti-spam invisible du formulaire d'inscription)
+
+> **Décision David** : renforcer l'anti-spam de `/api/inscription` SANS dégrader l'UX (aucun CAPTCHA, aucune friction visible, aucun compte tiers). 3 couches invisibles ajoutées par-dessus l'existant (honeypot `_hp` + rate-limit in-memory + dedup 60s + caps de taille).
+
+**Couches ajoutées** (`src/app/api/inscription/route.ts`, ordre d'exécution) :
+1. **Time-trap** : `InscriptionLayout.tsx` envoie `form_started_at` (ms epoch du montage, via `useState(() => Date.now())`). Le serveur rejette si `0 <= elapsed < MIN_FILL_MS` (4000ms) avec une **réponse 200 fake** (`candidatureId:'noop'`, comme le honeypot, pour ne pas signaler la détection aux bots). Absence du champ TOLÉRÉE (client en cache pendant un déploiement → pas de faux positif). Un humain met > 4s sur un tunnel 4-5 étapes, donc zéro faux positif.
+2. **Blocage emails jetables** : `src/lib/disposable-email.ts` (`isDisposableEmail`, ~48 domaines connus mailinator/yopmail/guerrillamail/temp-mail… + sous-domaines, liste conservatrice). Refus = **400 user-facing localisé FR/EN** (message inline, pas dans `messages/**`). Réutilisable pour `/api/contact` et `/api/guide-caucase` (pas encore branché).
+3. **Rate-limit DURABLE** : après `getSupabaseAdmin()`, compte les candidatures réellement créées par IP sur 1h (`DURABLE_IP_LIMIT=10`, `DURABLE_IP_WINDOW_SECONDS=3600`) via `.eq('form_data->_meta->>ip', ip)`. Survit aux cold starts serverless (≠ le bucket in-memory de `lib/rate-limit.ts` qui leak et n'est pas partagé entre instances Vercel). **Fail-open** (try/catch + skip si `ip==='unknown'`) : un souci d'infra ne bloque jamais un vrai candidat. L'IP est déjà stockée dans `form_data._meta.ip` (vérifié : 8/8 lignes l'ont), donc le filtre JSON matche en prod.
+
+**Pas de changement i18n** : les messages d'erreur API sont des strings TS inline (FR/EN), pas des clés `messages/**` → la CI i18n n'est pas concernée. **Aucun changement UX** côté formulaire (time-trap 100% invisible). Build OK, gates testées en local via curl (honeypot/time-trap → 200 noop ; jetable → 400 FR/EN ; email normal → passe). Memory : `project_mkr_inscription_antispam`.
+
 ## 🆕 2026-06-19 (chooser /inscription : affichage instantané + compactage mobile)
 
 > **Décision David** : sur l'écran de choix du type d'inscription (`/inscription` sans `?type=`), le texte arrivait trop tard après les images. La page doit être directe, sans animation d'entrée, charger le plus vite possible, et bien lisible en mobile (comprendre qu'il y a plusieurs types d'inscription).

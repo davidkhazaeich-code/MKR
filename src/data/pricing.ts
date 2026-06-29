@@ -135,6 +135,75 @@ export function calculatePrice({ adults, children = 0, weeks }: PricingInput): n
   return adults * pricePerAdult(adults, weeks)
 }
 
+/** Type de tunnel d'inscription (miroir des 4 parcours du formulaire). */
+export type DemandTunnel = 'session' | 'custom' | 'famille' | 'groupe'
+
+/** Discipline choisie ('combo_quote' = toujours sur devis). */
+export type DemandDiscipline = 'lutte' | 'mma' | 'combo_quote'
+
+export interface DemandInput {
+  tunnel: DemandTunnel
+  /** Durée en semaines (1/2/3). null/invalide => pas de total ferme. */
+  weeks: Duration | null
+  /** Discipline ('combo_quote' force le devis). */
+  campDiscipline?: DemandDiscipline | null
+  /** custom : nombre d'adultes (composition Solo/Duo/Trio/Quatuor). */
+  composition?: number | null
+  /** famille : nombre de parents participants (1 ou 2). */
+  parents?: number | null
+  /** famille : nombre d'enfants 8-17 ans. */
+  children?: number | null
+  /** groupe : palier de taille saisi ('5' | '6-10' | '11-20' ...). */
+  groupSize?: string | null
+}
+
+/**
+ * Estime le montant FERME d'une demande, en centimes d'euro, en miroir EXACT
+ * du récap du formulaire (`InscriptionLayout` étape finale, cf. la dérivation
+ * adults/children/isQuote). C'est le prix public de la grille pour la demande.
+ *
+ * Retourne `null` quand il n'y a pas de total ferme à figer (le backend doit
+ * rester « sur devis ») :
+ * - Combo Lutte + MMA (toujours sur devis)
+ * - 11 adultes et plus (privatisation totale, sur devis)
+ * - Club 6-10 (affiché « à partir de », montant exact après cadrage)
+ * - Durée absente / invalide
+ *
+ * Ce montant est persisté dans `candidatures.package_amount_cents` à
+ * l'inscription pour que le backend reflète la demande et son prix.
+ * L'admin peut l'ajuster ensuite (négociation, cas atypique).
+ */
+export function estimateDemandAmountCents(input: DemandInput): number | null {
+  const { tunnel, weeks } = input
+  if (weeks !== 1 && weeks !== 2 && weeks !== 3) return null
+
+  let adults = 0
+  let children = 0
+  let quoteOnly = false
+  let priceFromOnly = false
+
+  if (tunnel === 'famille') {
+    adults = input.parents === 2 ? 2 : 1
+    children = Math.max(0, Math.trunc(input.children ?? 0))
+  } else if (tunnel === 'session') {
+    adults = 1
+  } else if (tunnel === 'custom') {
+    const c = Math.trunc(input.composition ?? 0)
+    adults = c > 0 ? c : 1
+  } else if (tunnel === 'groupe') {
+    if (input.groupSize === '5') adults = 5
+    else if (input.groupSize === '6-10') { adults = 6; priceFromOnly = true }
+    else quoteOnly = true
+  }
+
+  if (input.campDiscipline === 'combo_quote') quoteOnly = true
+  if (adults > 0 && isOnQuote(adults)) quoteOnly = true
+  if (quoteOnly || priceFromOnly || adults <= 0) return null
+
+  const totalEur = calculatePrice({ adults, children, weeks })
+  return totalEur > 0 ? Math.round(totalEur * 100) : null
+}
+
 /** Format prix EUR (séparateur milliers espace, symbole € espacé) */
 export function formatEUR(amount: number): string {
   return `${amount.toLocaleString('fr-FR').replace(/ /g, ' ').replace(/ /g, ' ')} €`

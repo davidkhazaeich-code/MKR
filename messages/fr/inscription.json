@@ -802,6 +802,9 @@
     "subtitle": "Nous étudions ta candidature et te répondons sous 48h.<br/>Prépare-toi pour l'entretien vidéo de sélection.",
     "session_fallback": "SUR MESURE",
     "share_label": "PARTAGE TA PARTICIPATION",
+    "booked_badge": "Visio réservée",
+    "share_locked_hint": "Ton image souvenir à partager arrive dès que ta visio est réservée.",
+    "share_reveal_link": "L’afficher maintenant",
     "booking": {
       "step": "DERNIÈRE ÉTAPE",
       "title": "Réserve ta visio de sélection",

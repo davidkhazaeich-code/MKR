@@ -4,7 +4,9 @@ import { SESSIONS } from '@/data/sessions'
 import { getSessionPlaces } from '@/lib/places'
 import { sendMail, wrapEmail, row, escapeHtml } from '@/lib/email'
 import { rateLimit, clientIp as rlClientIp } from '@/lib/rate-limit'
+import { isDisposableEmail } from '@/lib/disposable-email'
 import { findReferralCode, type ReferralPartnerType } from '@/data/referral-codes'
+import { estimateDemandAmountCents } from '@/data/pricing'
 
 const VALID_TUNNELS = ['session', 'custom', 'famille', 'groupe'] as const
 type TunnelType = (typeof VALID_TUNNELS)[number]
@@ -23,6 +25,11 @@ const MAX_CITY = 80
 const MAX_FORM_DATA_BYTES = 20_000 // 20KB
 const MAX_REFERRAL_CODE = 40
 const DEDUP_WINDOW_SECONDS = 60
+// Time-trap : un humain met plusieurs secondes a parcourir le tunnel multi-etapes.
+const MIN_FILL_MS = 4000
+// Rate-limit durable (Supabase) : candidatures reellement creees par IP / fenetre.
+const DURABLE_IP_LIMIT = 10
+const DURABLE_IP_WINDOW_SECONDS = 3600
 
 type CandidatePayload = {
   prenom?: string
@@ -46,6 +53,8 @@ type InscriptionPayload = {
   submission_language?: string | null
   // Honeypot : champ invisible pour utilisateurs humains, rempli par bots.
   _hp?: string
+  // Horodatage (ms epoch) du montage du formulaire cote client (time-trap anti-bot).
+  form_started_at?: number
 }
 
 function badRequest(message: string) {
@@ -79,6 +88,17 @@ export async function POST(request: Request) {
   // 1. Honeypot. Reponse 200 fake pour pas signaler aux bots qu'on les detecte.
   if (typeof body._hp === 'string' && body._hp.trim().length > 0) {
     return NextResponse.json({ ok: true, candidatureId: 'noop', createdAt: new Date().toISOString() })
+  }
+
+  // 1 bis. Time-trap. Un humain met plusieurs secondes a parcourir le tunnel
+  // multi-etapes ; un envoi quasi instantane = bot qui poste direct sur l'API.
+  // Meme reponse 200 fake que le honeypot pour ne pas signaler la detection.
+  // Absence de form_started_at toleree (client en cache pendant un deploiement).
+  if (typeof body.form_started_at === 'number') {
+    const elapsed = Date.now() - body.form_started_at
+    if (elapsed >= 0 && elapsed < MIN_FILL_MS) {
+      return NextResponse.json({ ok: true, candidatureId: 'noop', createdAt: new Date().toISOString() })
+    }
   }
 
   const tunnel = body.tunnel_type
@@ -127,6 +147,12 @@ export async function POST(request: Request) {
   if (email.length > MAX_EMAIL || !EMAIL_RE.test(email)) {
     return badRequest('Email invalide')
   }
+  // Refus des boites jetables / temporaires (anti-spam, message user-facing clair).
+  if (isDisposableEmail(email)) {
+    return badRequest(body.submission_language === 'en'
+      ? 'Please use a permanent email address; temporary inboxes are not accepted.'
+      : 'Merci d’utiliser une adresse email permanente. Les boîtes temporaires ne sont pas acceptées.')
+  }
   if (candidate.telephone && candidate.telephone.length > MAX_PHONE) {
     return badRequest('Telephone trop long')
   }
@@ -145,6 +171,26 @@ export async function POST(request: Request) {
   }
 
   const supabase = getSupabaseAdmin()
+
+  // Rate-limit DURABLE : contrairement au bucket in-memory (qui leak au cold
+  // start serverless et n'est pas partage entre instances Vercel), on compte les
+  // candidatures reellement creees par cette IP sur la fenetre. Fail-open : un
+  // souci d'infra ne doit jamais bloquer un vrai candidat.
+  if (ip && ip !== 'unknown') {
+    try {
+      const durableSince = new Date(Date.now() - DURABLE_IP_WINDOW_SECONDS * 1000).toISOString()
+      const { count, error: durableError } = await supabase
+        .from('candidatures')
+        .select('id', { count: 'exact', head: true })
+        .gte('created_at', durableSince)
+        .eq('form_data->_meta->>ip', ip)
+      if (!durableError && typeof count === 'number' && count >= DURABLE_IP_LIMIT) {
+        return tooMany('Trop de candidatures depuis cette adresse. Reessaie plus tard.')
+      }
+    } catch (err) {
+      console.error('[api/inscription] durable rate-limit check failed (non-fatal)', err)
+    }
+  }
 
   const candidateRow = {
     prenom,
@@ -261,6 +307,42 @@ export async function POST(request: Request) {
   // Sert a l'admin pour identifier les candidatures internationales et a Slack pour le flag.
   const submissionLanguage: 'fr' | 'en' = body.submission_language === 'en' ? 'en' : 'fr'
 
+  // Montant package estime (centimes EUR), calcule SERVEUR depuis la demande validee,
+  // en miroir exact du recap du formulaire. On le persiste pour que le backend reflete
+  // la demande et son prix des l'inscription (l'admin peut l'ajuster ensuite).
+  // null = sur devis (combo, 11+, club 6-10, duree absente) -> reste a saisir.
+  const fdCustom = (formData as { custom?: { composition?: unknown } }).custom
+  const fdFamille = (formData as { famille?: { nombre_parents?: unknown; enfants?: unknown } }).famille
+  const fdGroupe = (formData as { groupe?: { nombre_participants?: unknown } }).groupe
+  const compositionNum =
+    typeof fdCustom?.composition === 'number'
+      ? fdCustom.composition
+      : typeof fdCustom?.composition === 'string'
+        ? parseInt(fdCustom.composition, 10)
+        : null
+  const parentsNum =
+    typeof fdFamille?.nombre_parents === 'number'
+      ? fdFamille.nombre_parents
+      : typeof fdFamille?.nombre_parents === 'string'
+        ? parseInt(fdFamille.nombre_parents, 10)
+        : null
+  const childrenCount = Array.isArray(fdFamille?.enfants) ? fdFamille.enfants.length : 0
+  const groupSize = typeof fdGroupe?.nombre_participants === 'string' ? fdGroupe.nombre_participants : null
+  const weeksInput =
+    body.duree_semaines === 1 || body.duree_semaines === 2 || body.duree_semaines === 3
+      ? body.duree_semaines
+      : null
+
+  const packageAmountCents = estimateDemandAmountCents({
+    tunnel: tunnel as TunnelType,
+    weeks: weeksInput,
+    campDiscipline,
+    composition: Number.isNaN(compositionNum) ? null : compositionNum,
+    parents: Number.isNaN(parentsNum) ? null : parentsNum,
+    children: childrenCount,
+    groupSize,
+  })
+
   const candidatureRow = {
     candidate_id: upsertedCandidate.id,
     tunnel_type: tunnel,
@@ -268,6 +350,7 @@ export async function POST(request: Request) {
     duree_semaines: body.duree_semaines ?? null,
     date_debut_souhaitee: body.date_debut_souhaitee || null,
     camp_discipline: campDiscipline,
+    package_amount_cents: packageAmountCents,
     submission_language: submissionLanguage,
     ...referralFields,
     form_data: {
@@ -299,6 +382,17 @@ export async function POST(request: Request) {
     actor_email: 'system',
   })
 
+  // Trace du montant estime par le systeme (selon la grille publique). Permet a
+  // l'admin de distinguer un montant auto-calcule d'un montant saisi a la main.
+  if (packageAmountCents !== null) {
+    await supabase.from('audit_log').insert({
+      candidature_id: candidature.id,
+      event: 'package_amount_estimated',
+      to_value: { package_amount_cents: packageAmountCents },
+      actor_email: 'system',
+    })
+  }
+
   if (referralFields.referral_code_valid === true) {
     await supabase.from('audit_log').insert({
       candidature_id: candidature.id,
@@ -322,6 +416,7 @@ export async function POST(request: Request) {
     telephone: candidate.telephone?.trim() || null,
     duree_semaines: body.duree_semaines ?? null,
     camp_discipline: campDiscipline,
+    package_amount_cents: packageAmountCents,
     candidature_id: candidature.id,
     referral_code: referralFields.referral_code,
     referral_partner_name: referralFields.referral_partner_name,
@@ -358,6 +453,7 @@ interface SlackPayload {
   telephone: string | null
   duree_semaines: number | null
   camp_discipline: CampDiscipline | null
+  package_amount_cents: number | null
   candidature_id: string
   referral_code: string | null
   referral_partner_name: string | null
@@ -379,6 +475,12 @@ const DISCIPLINE_LABELS: Record<CampDiscipline, string> = {
   combo_quote: 'Combo Lutte+MMA · sur devis',
 }
 
+// Montant lisible pour les notifs admin. null = pas de total ferme (sur devis).
+function formatAmountLabel(cents: number | null): string {
+  if (cents === null) return 'Sur devis'
+  return `${(cents / 100).toLocaleString('fr-FR')} €`
+}
+
 async function notifyEmail(p: SlackPayload): Promise<void> {
   const tunnelLabel = TUNNEL_LABELS[p.tunnel] ?? p.tunnel
   const discipline = p.camp_discipline ? DISCIPLINE_LABELS[p.camp_discipline] : null
@@ -390,10 +492,13 @@ async function notifyEmail(p: SlackPayload): Promise<void> {
       ? `Code "${p.referral_code}" non reconnu - à vérifier`
       : null
 
+  const montantLabel = formatAmountLabel(p.package_amount_cents)
+
   const bodyHtml = `
     <table style="width:100%;border-collapse:collapse;background:#0b1220;border:1px solid #1e293b;border-radius:6px">
       ${row('Tunnel', tunnelLabel)}
       ${row('Camp', discipline)}
+      ${row('Montant (selon demande)', montantLabel)}
       ${row('Recommandation', referralLabel)}
       ${row('Nom', `${p.prenom} ${p.nom}`)}
       ${row('Email', p.email)}
@@ -493,6 +598,7 @@ async function notifySlack(p: SlackPayload): Promise<void> {
     `${enFlag}*Nouvelle candidature MKR* (${TUNNEL_LABELS[p.tunnel] ?? p.tunnel})`,
     `*${p.prenom} ${p.nom}* — ${p.email}${p.pays ? ` — ${p.pays}` : ''}${p.duree_semaines ? ` — ${p.duree_semaines} sem.` : ''}`,
     p.camp_discipline ? `*Camp* : ${DISCIPLINE_LABELS[p.camp_discipline]}` : null,
+    `*Montant (selon demande)* : ${formatAmountLabel(p.package_amount_cents)}`,
     referralLine,
     `<${adminBase}/admin/inscriptions/${p.candidature_id}|Voir le dossier>`,
   ].filter(Boolean).join('\n')

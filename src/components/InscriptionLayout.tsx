@@ -235,10 +235,17 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
   const [errors, setErrors] = useState<string[]>([])
   const [errorFields, setErrorFields] = useState<Set<string>>(new Set())
   const [submitted, setSubmitted] = useState(false)
+  // Ecran de succes : l'image Instagram a partager n'apparait qu'une fois la visio
+  // Cal.com reservee (visioBooked), ou a la demande explicite du candidat (forceShare).
+  const [visioBooked, setVisioBooked] = useState(false)
+  const [forceShare, setForceShare] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState<string | null>(null)
   const [hp, setHp] = useState('')
   const [mobileStepsOpen, setMobileStepsOpen] = useState(false)
+  // Time-trap anti-spam : horodatage du montage du formulaire, envoye au submit.
+  // Le serveur rejette les envois quasi instantanes (bots). Invisible cote UX.
+  const [formStartedAt] = useState(() => Date.now())
 
   const mainRef = useRef<HTMLDivElement | null>(null)
   const errorsRef = useRef<HTMLDivElement | null>(null)
@@ -591,6 +598,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
     const payload = {
       tunnel_type: audience,
       _hp: hp,
+      form_started_at: formStartedAt,
       submission_language: locale,
       candidate: {
         prenom: form.prenom,
@@ -775,18 +783,34 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
               prenom={form.prenom}
               nom={form.nom}
               email={form.email}
+              onBooked={() => setVisioBooked(true)}
             />
 
-            <div className="insc-share-block">
-              <span className="label-tag insc-share-label" style={{ color: 'var(--primary)' }}>
-                {t('success.share_label')}
-              </span>
-              <StoryCard
-                prenom={form.prenom}
-                campDiscipline={form.campDiscipline}
-                session={sel.name}
-              />
-            </div>
+            {visioBooked || forceShare ? (
+              <div className="insc-share-block insc-share-block--revealed">
+                {visioBooked && (
+                  <span className="insc-booked-badge">
+                    <Icon name="check" size={14} />
+                    {t('success.booked_badge')}
+                  </span>
+                )}
+                <span className="label-tag insc-share-label" style={{ color: 'var(--primary)' }}>
+                  {t('success.share_label')}
+                </span>
+                <StoryCard
+                  prenom={form.prenom}
+                  campDiscipline={form.campDiscipline}
+                  session={sel.name}
+                />
+              </div>
+            ) : (
+              <p className="insc-share-locked">
+                {t('success.share_locked_hint')}{' '}
+                <button type="button" className="insc-share-reveal" onClick={() => setForceShare(true)}>
+                  {t('success.share_reveal_link')}
+                </button>
+              </p>
+            )}
 
             <Link href="/" className="insc-back-btn" style={{ marginTop: '1.5rem' }}>{t('back_to_home')}</Link>
           </div>

@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import Cal, { getCalApi } from '@calcom/embed-react'
 import { useTranslations } from 'next-intl'
 
@@ -15,6 +15,9 @@ type Props = {
   prenom: string
   nom: string
   email: string
+  // Appele quand la reservation Cal.com est confirmee (event natif bookingSuccessful).
+  // Sert a reveler l'image Instagram a partager seulement une fois la visio reservee.
+  onBooked?: () => void
 }
 
 /**
@@ -23,8 +26,13 @@ type Props = {
  * nativement l'invitation iCal (.ics) au candidat et a Ruslan. Pre-rempli avec
  * le nom + email deja saisis dans le formulaire.
  */
-export default function VisioBooking({ prenom, nom, email }: Props) {
+export default function VisioBooking({ prenom, nom, email, onBooked }: Props) {
   const t = useTranslations('inscription.success.booking')
+
+  // Ref pour garder le dernier onBooked sans re-souscrire les listeners Cal a chaque
+  // render (l'effet de montage reste a deps []).
+  const onBookedRef = useRef(onBooked)
+  useEffect(() => { onBookedRef.current = onBooked }, [onBooked])
 
   useEffect(() => {
     ;(async () => {
@@ -41,6 +49,12 @@ export default function VisioBooking({ prenom, nom, email }: Props) {
             light: { 'cal-brand': '#C84B31' },
           },
         })
+        // Reservation confirmee : on previent le parent (revele l'image a partager).
+        // V2 = event courant ; on ecoute aussi le legacy par robustesse. Idempotent
+        // cote parent (setState booleen), un double-fire eventuel est sans effet.
+        const notify = () => { onBookedRef.current?.() }
+        cal('on', { action: 'bookingSuccessfulV2', callback: notify })
+        cal('on', { action: 'bookingSuccessful', callback: notify })
       } catch {
         // L'embed n'a pas pu s'initialiser : on garde le lien de repli visible.
       }
