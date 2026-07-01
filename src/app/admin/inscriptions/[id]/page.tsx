@@ -5,6 +5,7 @@ import { getSupabaseAdmin } from '@/lib/supabase-admin'
 import { STATUS_LABEL, type Status } from '@/lib/admin-transitions'
 import AdminActions from '@/components/admin/AdminActions'
 import DangerSection from '@/components/admin/DangerSection'
+import FormAnswers from '@/components/admin/FormAnswers'
 import ReferralPanel from '@/components/admin/ReferralPanel'
 import Avatar from '@/components/admin/ui/Avatar'
 import BackShortcut from '@/components/admin/ui/BackShortcut'
@@ -114,55 +115,6 @@ interface AuditRow {
   at: string
 }
 
-const SECTION_LABELS: Record<string, string> = {
-  experience: 'Expérience sportive',
-  sante: 'Santé',
-  groupe: 'Groupe / Club',
-  famille: 'Famille',
-  custom: 'Sur mesure',
-  logistique: 'Logistique',
-  confirmations: 'Confirmations',
-  _meta: 'Métadonnées techniques',
-}
-
-const FIELD_LABELS: Record<string, string> = {
-  discipline_principale: 'Discipline principale',
-  disciplines_secondaires: 'Disciplines secondaires',
-  annees_pratique: 'Années de pratique',
-  niveau: 'Niveau',
-  club: 'Club',
-  coach: 'Coach',
-  palmares: 'Palmarès',
-  lien_video: 'Lien vidéo',
-  condition_physique: 'Condition physique',
-  blessures_recentes: 'Blessures récentes',
-  blessures_detail: 'Détail blessures',
-  contre_indications: 'Contre-indications',
-  contre_indications_detail: 'Détail contre-indications',
-  deux_fois_jour: "S'entraîner 2× par jour",
-  nom_club: 'Nom du club',
-  nombre_participants: 'Nombre de participants',
-  niveau_groupe: 'Niveau du groupe',
-  disciplines: 'Disciplines',
-  palmares_club: 'Palmarès club',
-  certifs_confirme: 'Certificats confirmés',
-  restrictions: 'Restrictions',
-  format: 'Format',
-  enfants: 'Enfants',
-  conjoint_participe: 'Conjoint(e) participe aussi',
-  nombre_parents: 'Nombre de parents participants',
-  composition: 'Composition',
-  autres_participants: 'Autres participants',
-  source_decouverte: 'Comment il/elle nous a connus',
-  disponible_entretien: 'Disponible pour entretien',
-  message: 'Message libre',
-  certif_medical: 'Certificat médical OK',
-  accepte_conditions: 'Accepte conditions',
-  pret: 'Prêt à venir',
-  ip: 'IP',
-  ua: 'User-Agent',
-}
-
 // Decrit un evenement audit en label explicite + detail optionnel.
 // Le label change selon la direction du change (set vs unset).
 function describeEvent(e: AuditRow): { label: string; detail: string | null; accent?: string } {
@@ -247,17 +199,6 @@ function formatRelative(iso: string): string {
   if (diffH < 24) return `il y a ${diffH}h`
   const diffD = Math.floor(diffH / 24)
   return `il y a ${diffD}j`
-}
-
-function renderValue(value: unknown): string {
-  if (value === null || value === undefined || value === '') return '—'
-  if (typeof value === 'boolean') return value ? 'Oui' : 'Non'
-  if (Array.isArray(value)) {
-    if (value.length === 0) return '—'
-    return value.map((v) => (typeof v === 'object' ? JSON.stringify(v) : String(v))).join(', ')
-  }
-  if (typeof value === 'object') return JSON.stringify(value)
-  return String(value)
 }
 
 export default async function CandidatureDetailPage({
@@ -491,21 +432,7 @@ export default async function CandidatureDetailPage({
               />
             </section>
 
-            {Object.entries(formData).map(([sectionKey, sectionValue]) => {
-              if (sectionValue === null || sectionValue === undefined) return null
-              if (typeof sectionValue !== 'object') return null
-              const label = SECTION_LABELS[sectionKey] ?? sectionKey
-              const entries = Object.entries(sectionValue as Record<string, unknown>)
-              if (entries.length === 0) return null
-              return (
-                <section key={sectionKey} className="adm-card">
-                  <h2 className="adm-card-title">{label}</h2>
-                  <DefList
-                    items={entries.map(([k, v]) => [FIELD_LABELS[k] ?? k, renderValue(v)])}
-                  />
-                </section>
-              )
-            })}
+            <FormAnswers formData={formData} tunnelType={candidature.tunnel_type} />
 
             {candidature.group_members ? (
               <section className="adm-card">
