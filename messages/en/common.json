@@ -217,5 +217,12 @@
     "switch_to_en_aria": "Switch to English",
     "switch_to_fr_aria": "Passer en français"
   },
+  "cookie_consent": {
+    "aria": "Cookie consent",
+    "message": "We use cookies to measure our audience and advertising. You can accept or decline.",
+    "learn_more": "Learn more",
+    "accept": "Accept",
+    "refuse": "Decline"
+  },
   "skip_link": "Skip to main content"
 }

@@ -5,6 +5,7 @@ import { useState, useRef, useEffect, useMemo, FormEvent } from 'react'
 import dynamic from 'next/dynamic'
 import { useLocale, useTranslations } from 'next-intl'
 import Icon from './Icon'
+import { trackConversion } from '@/lib/gtag'
 import {
   REGISTRATION_TYPES,
   type RegistrationTypeId,
@@ -239,6 +240,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
   // Cal.com reservee (visioBooked), ou a la demande explicite du candidat (forceShare).
   const [visioBooked, setVisioBooked] = useState(false)
   const [forceShare, setForceShare] = useState(false)
+  const visioTracked = useRef(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState<string | null>(null)
   const [hp, setHp] = useState('')
@@ -678,6 +680,11 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
         setSubmitError(data.error || t('submit_error_generic'))
         return
       }
+      trackConversion('inscription', {
+        transaction_id: typeof data?.candidatureId === 'string' ? data.candidatureId : undefined,
+        tunnel: audience ?? undefined,
+        camp_discipline: form.campDiscipline || undefined,
+      })
       setSubmitted(true)
     } catch {
       setSubmitError(t('submit_error_network'))
@@ -783,7 +790,13 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
               prenom={form.prenom}
               nom={form.nom}
               email={form.email}
-              onBooked={() => setVisioBooked(true)}
+              onBooked={() => {
+                setVisioBooked(true)
+                if (!visioTracked.current) {
+                  visioTracked.current = true
+                  trackConversion('visio')
+                }
+              }}
             />
 
             {visioBooked || forceShare ? (

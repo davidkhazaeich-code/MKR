@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { useLocale, useTranslations } from 'next-intl'
+import { trackConversion } from '@/lib/gtag'
 
 type Status = 'idle' | 'submitting' | 'success' | 'error'
 
@@ -46,6 +47,7 @@ export default function GuideForm() {
       }
       setDownloadUrl(data.downloadUrl ?? '/guide-caucase.pdf')
       setStatus('success')
+      trackConversion('guide')
       if (typeof window !== 'undefined' && data.downloadUrl) {
         window.open(data.downloadUrl, '_blank', 'noopener,noreferrer')
       }

@@ -1,7 +1,33 @@
 # SITEMAP MKR Caucasian Camp — Cartographie complète
 
-> **Fichier de référence pour Claude Code.** Mise à jour : 2026-07-03 (contrat de participation PDF généré + envoyé depuis le dashboard admin).
+> **Fichier de référence pour Claude Code.** Mise à jour : 2026-07-03 (balise Google Ads + suivi des conversions ; contrat de participation PDF).
 > Lis ce fichier en priorité avant toute intervention sur le site MKR. Il évite de re-explorer.
+
+## 🆕 2026-07-03 (balise Google Ads AW-18296696470 + suivi des conversions + Consent Mode v2)
+
+> **Demande David** : poser la balise Google Ads pour tracker toutes les conversions, **surtout la validation du formulaire d'inscription**, avec **Consent Mode v2 + bandeau cookies**. Version « balise directe » (pas de GTM/GA4 pour l'instant). Voir memory `project_mkr_google_ads_campaign`.
+
+**Balise de base** : `src/app/[locale]/layout.tsx` injecte gtag.js (`AW-18296696470`) via `next/script` (`strategy="afterInteractive"`). Elle couvre donc **toutes les pages publiques FR + EN + `/inscription`** (le layout `[locale]` est la racine du site), mais **PAS `/admin`** (layout séparé `src/app/admin/layout.tsx`, sans tag). ID centralisé dans `src/lib/gtag.ts`.
+
+**Helper conversions** : `src/lib/gtag.ts` — `trackConversion(action, params?)` et `trackEvent(name, params?)`, safe côté serveur et avant chargement de gtag (no-op sinon, fallback `dataLayer.push`). Pour chaque action, un **évènement GA nommé** est toujours envoyé (approche event-based : l'écran de succès est une SPA, pas une URL `/merci`) ; si un **label** Google Ads est configuré, la conversion classique `send_to: 'AW-18296696470/<label>'` part aussi. Labels vides par défaut → renseigner soit les constantes `LABELS` dans `gtag.ts`, soit les env `NEXT_PUBLIC_GADS_LABEL_{INSCRIPTION,CONTACT,GUIDE,VISIO}`.
+
+**4 points de conversion câblés** :
+| Action | Fichier / déclencheur | Évènement GA |
+|---|---|---|
+| **Inscription soumise** (la principale) | `InscriptionLayout.tsx` `handleSubmit` après succès `/api/inscription` (tous tunnels) | `generate_lead` (+ `transaction_id`=candidatureId, `tunnel`, `camp_discipline`) |
+| Visio Cal.com réservée | `InscriptionLayout.tsx` `onBooked` (`bookingSuccessfulV2`), ref-guard anti-double | `schedule_call` |
+| Contact envoyé | `ContactForm.tsx` après succès `/api/contact` | `contact` |
+| Guide téléchargé | `GuideForm.tsx` après succès `/api/guide-caucase` | `guide_download` |
+
+**CSP ouverte** (`next.config.ts`) : `script-src` + `www.googletagmanager.com www.googleadservices.com googleads.g.doubleclick.net` ; `connect-src` + `googletagmanager + google-analytics (+ *.google-analytics) + googleadservices + doubleclick + www.google.com` ; `frame-src` + `td.doubleclick.net + www.googletagmanager.com`. Les pixels de conversion passent par `img-src 'https:'` (déjà large). **Sans ça, la balise est bloquée et rien ne remonte.**
+
+**Vérifié** : `tsc` clean sur les fichiers touchés (seuls les préexistants `contract-pdf.tsx` erronent), `i18n-check` OK (2651 clés, aucun `messages/**` touché), `next build --experimental-build-mode compile` OK, runtime dev = balise présente sur `/`, `/en`, `/inscription`, absente sur `/admin`, header CSP correct. ⚠️ `node_modules` était désync (`@react-pdf/renderer` manquant) → `npm install` requis avant tout build.
+
+**Consentement (Google Consent Mode v2)** : signaux `ad_storage`/`ad_user_data`/`ad_personalization`/`analytics_storage` en **`denied` par défaut** (script inline dans le `<head>` du layout, exécuté avant gtag.js) + `ads_data_redaction` + `url_passthrough`. Bandeau cookies `src/components/CookieConsent.tsx` (bilingue `common.cookie_consent`, monté dans `[locale]/layout.tsx`) : « Accepter » / « Refuser » (poids égal, conforme), choix mémorisé dans le cookie `mkr_consent` (180j) et propagé via `gtag('consent','update',…)`. Tant que l'utilisateur n'a pas accepté, la mesure part sans cookies (modélisation). CSS `.cookie-consent*` en fin de `globals.css`.
+
+**Reste à faire (non bloquant, cf. plan campagne)** : (1) créer les actions de conversion côté Google Ads (event-based sur les 4 évènements, ou coller un label dans `gtag.ts`) ; (2) éventuel **CMP granulaire** par finalité (le bandeau actuel est accept/refus global, suffisant mais pas par catégorie) ; (3) valeur de conversion = montant package ; (4) GA4 + GTM si besoin d'un plan de taggage plus riche ; (5) Enhanced Conversions for Leads + capture GCLID pour la vente offline post-visio.
+
+**Pour changer l'ID de balise ou un label** : `src/lib/gtag.ts` (`GADS_ID`, `LABELS`). **Bandeau / consentement** : `src/components/CookieConsent.tsx` + script default dans `[locale]/layout.tsx` + textes `common.cookie_consent` (FR+EN).
 
 ## 🆕 2026-07-03 (contrat de participation : génération + envoi depuis le dashboard)
 
@@ -1166,6 +1192,7 @@ GEO = { latitude: 42.9849, longitude: 47.5047, country: 'RU', region: 'Daghestan
 | **JSON-LD Organization globale** | `app/layout.tsx` (Organization + SportsActivityLocation l.~98) |
 | **Sitemap** | `app/sitemap.ts` (28 URLs) |
 | **Métadonnées par page** | exports `metadata: Metadata` dans chaque `page.tsx` |
+| **Balise Google Ads / conversions / consentement** | `src/lib/gtag.ts` (`GADS_ID` = AW-18296696470, `LABELS`) + injection + Consent Mode dans `src/app/[locale]/layout.tsx` + CSP dans `next.config.ts` + bandeau `src/components/CookieConsent.tsx` (textes `common.cookie_consent`). Points de conversion : `InscriptionLayout.tsx` (inscription + visio), `ContactForm.tsx`, `GuideForm.tsx`. Voir section « 🆕 2026-07-03 (balise Google Ads) » en tête. |
 | **Photos coachs** | `public/images/coaches/{firstname-lastname}.webp` (lowercase, tirets) |
 | **Vidéos hero** | Boucle 2 vidéos : `public/videos/hero-mountains.mp4` (3.5s) puis MKR core qui joue en entier avant retour montagne. Desktop : `hero-mkr-core.mp4` (55s, cycle 58.5s). Mobile ≤700px : `hero-mkr-core-vertical.mp4` (720x1280, 45.5s, cycle 49s). Switch desktop/mobile via matchMedia dans `components/Hero.tsx`. Posters JPG `hero-*-poster.jpg` évitent l'écran noir avant `canplay`. Pexels village/forest/clouds gardés sur disque mais non utilisés. |
 | **Vidéo Antoine parcours (3 surfaces)** | `src/data/antoine-parcours.ts` (single source : assets + moments + 3 variants mma/temoignages/home). Composant : `src/components/VerticalVideoSplit.tsx`. Assets : `public/videos/testimonials/antoine-parcours.{mp4,webm,jpg}`. Pour changer la copy, toucher uniquement le data file. |

@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useLocale, useTranslations } from 'next-intl'
 import Icon from './Icon'
+import { trackConversion } from '@/lib/gtag'
 
 type Status = 'idle' | 'submitting' | 'success' | 'error'
 
@@ -36,6 +37,7 @@ export default function ContactForm() {
         return
       }
       setStatus('success')
+      trackConversion('contact', { subject: subject || undefined })
     } catch {
       setError(t('error_network'))
       setStatus('error')

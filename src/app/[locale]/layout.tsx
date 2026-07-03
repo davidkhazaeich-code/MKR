@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next'
 import { Suspense } from 'react'
 import dynamic from 'next/dynamic'
+import Script from 'next/script'
 import { notFound } from 'next/navigation'
 import { Teko, Barlow, Barlow_Condensed } from 'next/font/google'
 import { NextIntlClientProvider, hasLocale } from 'next-intl'
@@ -9,7 +10,9 @@ import { SITE_URL, SITE_NAME, SITE_EMAIL, SITE_DESCRIPTION, SOCIALS, GEO } from 
 import { SESSIONS } from '@/data/sessions'
 import { PRICING_TIERS } from '@/data/pricing'
 import SiteLoader from '@/components/SiteLoader'
+import CookieConsent from '@/components/CookieConsent'
 import { routing } from '@/i18n/routing'
+import { GADS_ID } from '@/lib/gtag'
 import '../globals.css'
 
 // Reset scroll instantane a chaque changement de route, couvre tout le site
@@ -281,6 +284,13 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
       className={`${teko.variable} ${barlow.variable} ${barlowCondensed.variable}`}
     >
       <head>
+        {/* Google Consent Mode v2 — defaut 'denied', mis a jour par le bandeau cookies
+            (CookieConsent). Inline dans <head> pour s'executer AVANT gtag.js (body). */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied',wait_for_update:500});gtag('set','ads_data_redaction',true);gtag('set','url_passthrough',true);try{if(document.cookie.split('; ').indexOf('mkr_consent=granted')!==-1){gtag('consent','update',{ad_storage:'granted',ad_user_data:'granted',ad_personalization:'granted',analytics_storage:'granted'});}}catch(e){}`,
+          }}
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebSite) }}
@@ -291,6 +301,18 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
         />
       </head>
       <body>
+        {/* Google tag (gtag.js) — Google Ads AW-18296696470 (conversions : voir src/lib/gtag.ts) */}
+        <Script
+          id="gtag-js"
+          src={`https://www.googletagmanager.com/gtag/js?id=${GADS_ID}`}
+          strategy="afterInteractive"
+        />
+        <Script id="gtag-init" strategy="afterInteractive">
+          {`window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', '${GADS_ID}');`}
+        </Script>
         <NextIntlClientProvider messages={messages} locale={locale}>
           <SiteLoader />
           {/* Suspense requis : RouteScrollReset utilise useSearchParams (Next.js 16+) */}
@@ -298,6 +320,7 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
             <RouteScrollReset />
           </Suspense>
           {children}
+          <CookieConsent />
         </NextIntlClientProvider>
       </body>
     </html>
