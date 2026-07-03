@@ -30,6 +30,16 @@ const CSP = [
 ].join('; ')
 
 const nextConfig: NextConfig = {
+  // @react-pdf/renderer (contrat PDF admin) : jamais bundlé côté serveur
+  // (Turbopack), résolu depuis node_modules au runtime. Voir
+  // docs/superpowers/specs/2026-07-03-mkr-contrat-validation-design.md
+  serverExternalPackages: ['@react-pdf/renderer'],
+  // Les routes contrat lisent fonts + logo via fs depuis public/ (pattern OG).
+  // On force leur inclusion dans le bundle serverless Vercel (ceinture+bretelles).
+  outputFileTracingIncludes: {
+    '/api/admin/candidature/[id]/contract/preview': ['./public/og-fonts/**', './public/logo-dark.png'],
+    '/api/admin/candidature/[id]/contract/send': ['./public/og-fonts/**', './public/logo-dark.png'],
+  },
   async redirects() {
     return [
       {

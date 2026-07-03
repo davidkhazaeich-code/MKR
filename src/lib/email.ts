@@ -19,14 +19,24 @@ function getClient(): Resend | null {
   return cached
 }
 
+export interface SendMailAttachment {
+  filename: string
+  /** Contenu binaire. Encodé en base64 avant envoi (compat SDK Resend). */
+  content: Buffer
+}
+
 export interface SendMailParams {
   subject: string
   html: string
   text?: string
   to?: string
+  /** Copie cachée (ex : copie exacte du contrat à contact@mkrcamp.com). */
+  bcc?: string
   replyTo?: string
+  /** Pièces jointes (ex : contrat PDF). */
+  attachments?: SendMailAttachment[]
   // Tag Resend pour filtrage analytics dashboard.
-  tag?: 'contact' | 'inscription' | 'inscription-candidate' | 'guide-caucase'
+  tag?: 'contact' | 'inscription' | 'inscription-candidate' | 'guide-caucase' | 'contract'
 }
 
 // Envoie un email via Resend. Retourne true si OK, false si KO ou no-op.
@@ -43,11 +53,17 @@ export async function sendMail(params: SendMailParams): Promise<boolean> {
     const { error } = await client.emails.send({
       from: FROM_DEFAULT,
       to: params.to || TO_DEFAULT,
+      bcc: params.bcc,
       replyTo: params.replyTo,
       subject: params.subject,
       html: params.html,
       text: params.text,
       tags: params.tag ? [{ name: 'kind', value: params.tag }] : undefined,
+      // base64 string plutôt que Buffer : stable à travers les versions du SDK.
+      attachments: params.attachments?.map((a) => ({
+        filename: a.filename,
+        content: a.content.toString('base64'),
+      })),
     })
     if (error) {
       console.error('[lib/email] resend send failed', error)

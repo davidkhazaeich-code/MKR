@@ -94,6 +94,19 @@ interface CandidatureRow {
   referral_payout_status: string | null
   referral_payout_paid_at: string | null
   referral_payout_method: string | null
+  submission_language: 'fr' | 'en'
+  contract_start_date: string | null
+  contract_end_date: string | null
+  contract_duration_weeks: number | null
+  contract_inclusions: string | null
+  contract_exclusions: string | null
+  contract_note: string | null
+  contract_payment_deadline: string | null
+  contract_locale: 'fr' | 'en' | null
+  contract_number: number | null
+  contract_sent_at: string | null
+  contract_sent_count: number
+  contract_pdf_path: string | null
   candidate: {
     prenom: string
     nom: string
@@ -170,6 +183,23 @@ function describeEvent(e: AuditRow): { label: string; detail: string | null; acc
       return { label: 'Notes admin éditées', detail: null }
     case 'notes_visio_update':
       return { label: 'Compte-rendu visio édité', detail: null }
+    case 'contract_fields_update': {
+      const fields = Array.isArray(e.data?.fields) ? (e.data.fields as string[]) : []
+      return {
+        label: 'Infos contrat mises à jour',
+        detail: fields.length > 0 ? fields.map((f) => f.replace('contract_', '')).join(', ') : null,
+      }
+    }
+    case 'contract_sent': {
+      const num = e.data?.contract_number ? String(e.data.contract_number) : null
+      const to = e.data?.to ? String(e.data.to) : null
+      const count = e.to_value?.contract_sent_count as number | undefined
+      return {
+        label: count && count > 1 ? `Contrat renvoyé (envoi n°${count})` : 'Contrat envoyé',
+        detail: [num, to].filter(Boolean).join(' → '),
+        accent: 'var(--adm-status-validee)',
+      }
+    }
     default:
       return { label: e.event, detail: null }
   }
@@ -225,6 +255,11 @@ export default async function CandidatureDetailPage({
           referral_code, referral_code_valid, referral_partner_name, referral_partner_type,
           referral_bonus_eur, referral_commission_type, referral_commission_pct,
           referral_payout_status, referral_payout_paid_at, referral_payout_method,
+          submission_language,
+          contract_start_date, contract_end_date, contract_duration_weeks,
+          contract_inclusions, contract_exclusions, contract_note,
+          contract_payment_deadline, contract_locale, contract_number,
+          contract_sent_at, contract_sent_count, contract_pdf_path,
           candidate:candidates ( prenom, nom, email, telephone, date_naissance, pays, ville_depart )
         `)
         .eq('id', id)
@@ -633,6 +668,23 @@ export default async function CandidatureDetailPage({
               paymentDate={candidature.payment_date}
               notesAdmin={candidature.notes_admin ?? ''}
               notesVisio={candidature.notes_visio ?? ''}
+              candidateEmail={c?.email ?? null}
+              submissionLanguage={candidature.submission_language ?? 'fr'}
+              sessionId={candidature.session_id}
+              dureeSemaines={candidature.duree_semaines}
+              dateDebutSouhaitee={candidature.date_debut_souhaitee}
+              contractStartDate={candidature.contract_start_date}
+              contractEndDate={candidature.contract_end_date}
+              contractDurationWeeks={candidature.contract_duration_weeks}
+              contractInclusions={candidature.contract_inclusions}
+              contractExclusions={candidature.contract_exclusions}
+              contractNote={candidature.contract_note}
+              contractPaymentDeadline={candidature.contract_payment_deadline}
+              contractLocale={candidature.contract_locale}
+              contractNumber={candidature.contract_number}
+              contractSentAt={candidature.contract_sent_at}
+              contractSentCount={candidature.contract_sent_count ?? 0}
+              contractPdfPath={candidature.contract_pdf_path}
             />
           </div>
         </div>

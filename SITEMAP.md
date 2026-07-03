@@ -1,7 +1,29 @@
 # SITEMAP MKR Caucasian Camp — Cartographie complète
 
-> **Fichier de référence pour Claude Code.** Mise à jour : 2026-05-27 (site bilingue FR + EN : next-intl, 34 namespaces, sitemap 68 URLs, EN PDF guide, glossaire locked, Playwright QA spec).
+> **Fichier de référence pour Claude Code.** Mise à jour : 2026-07-03 (contrat de participation PDF généré + envoyé depuis le dashboard admin).
 > Lis ce fichier en priorité avant toute intervention sur le site MKR. Il évite de re-explorer.
+
+## 🆕 2026-07-03 (contrat de participation : génération + envoi depuis le dashboard)
+
+> **Feature David** : Ruslan génère, prévisualise et envoie le **contrat de participation PDF** au candidat depuis `/admin/inscriptions/[id]`, avec archivage de la copie exacte. Spec complète : `docs/superpowers/specs/2026-07-03-mkr-contrat-validation-design.md`.
+
+**Chaîne complète** :
+1. **DB (migrations `add_contract_fields` + `add_next_contract_number_fn`)** : 12 colonnes `contract_*` sur `candidatures` (dates, durée, inclusions/exclusions texte 1 item/ligne, note, échéance, locale fr/en, `contract_number` unique via séquence `contract_number_seq` + rpc `next_contract_number()`, sent_at/sent_count/pdf_path) + bucket Storage **privé** `contracts` (chemin `{candidature_id}/MKR-YYYY-XXXX-vN.pdf`).
+2. **Contenu** : `src/data/contract.ts` = source unique FR+EN (partie MKR, RIB Revolut Ruslan — ⚠️ **IBAN placeholder, envoi bloqué par `isRibConfigured()` tant que non renseigné**, prestations par défaut = miroir CGV art. 5/6, grille annulation localisée mappée sur `REFUND_TIERS` par index, clauses acceptation/assurance/CGV, translittération cyrillique `sanitizeForPdf`).
+3. **PDF** : `src/lib/contract-pdf.tsx` (`@react-pdf/renderer` v4.5.1, en `serverExternalPackages` — jamais bundlé par Turbopack). Fonts brand Teko/Barlow + logo lus via `fs` depuis `public/` (pattern OG éprouvé) + `outputFileTracingIncludes` sur les 2 routes (ceinture-bretelles), fallback Helvetica sans crash. Filigrane « APERÇU » sur la route preview uniquement. ⚠️ Teko : `lineHeight` explicite obligatoire sur les gros corps (sinon chevauchement) ; filigrane = un seul mot (le texte rotaté wrappe).
+4. **Routes** (protégées proxy) : `GET …/contract/preview` (PDF inline filigrané, ne stocke rien), `POST …/contract/send` (PDF → upload Storage → email candidat avec PJ + **bcc contact@mkrcamp.com** + replyTo contact@ → update + audit `contract_sent` ; échec email = aucun état modifié), `GET …/contract/file` (URL signée 60 s vers la dernière copie envoyée). PATCH `/api/admin/candidature/[id]` étendu : champs contrat validés (fin ≥ début, échéance ≤ début, durée 1-12) + attribution du n° au premier save + audit `contract_fields_update` (1 event, liste des champs).
+5. **UI** : `src/components/admin/ContractCard.tsx` (rendue par `AdminActions`, montant/statut LIVE). Pré-remplissage intelligent : dates depuis la session officielle (`SESSIONS`) ou `date_debut_souhaitee`, fin auto = début + semaines×7 (fin de session si durée pleine) tant que non éditée à la main, échéance J+14 clampée au début, prestations par défaut dans la langue du contrat (bascule auto si non éditées), langue pré-réglée sur `submission_language`. **Enregistrement explicite** (document légal, pas d'auto-save), save-then-preview anti popup-blocker (`window.open('about:blank')` puis redirect), modale de confirmation avec récap (destinataire, n°, montant, langue), bouton « Renvoyer » avec avertissement vN, ligne d'état + lien « Voir le PDF envoyé », bloc « À compléter avant envoi » listant les garde-fous en clair (miroir des garde-fous serveur qui restent l'autorité).
+6. **Email** : `src/lib/email.ts` étendu (`attachments` base64 + `bcc` + tag `'contract'`). Email candidat FR tutoiement / EN, récap + RIB dans le corps + PDF joint `MKR-YYYY-XXXX-contrat.pdf`.
+
+**Garde-fous envoi (serveur)** : statut ∈ {validee, soldee}, email présent, montant non nul (« sur devis » bloqué), dates/durée/échéance valides, IBAN réel configuré.
+
+**Reminder transition `validee` mis à jour** (`admin-transitions.ts`) : pointe vers la carte Contrat (le RIB part dans le contrat, plus à envoyer à la main).
+
+**Pas d'impact i18n** : contenu contrat inline FR/EN dans `contract.ts`, admin FR inline. Parité `i18n-check` intacte (2651 clés).
+
+**Vérifs** : `tsc --noEmit` OK · i18n-check OK · `next build --experimental-build-mode compile` (Turbopack) OK · rendu PDF FR/EN validé visuellement (fonts, logo, cyrillique translittéré, montant, filigrane).
+
+**Reste à faire** : renseigner l'IBAN réel dans `src/data/contract.ts` (constante `CONTRACT_RIB.iban`) — l'envoi est bloqué d'ici là. Follow-ups possibles : badge « contrat envoyé » dans la liste `/admin/inscriptions`, relance auto échéance dépassée, e-signature.
 
 ## 🆕 2026-06-23 (montant package auto-calculé et persisté à l'inscription)
 

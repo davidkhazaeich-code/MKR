@@ -23,7 +23,17 @@ import { computeCommissionEur } from '@/data/referral-codes'
 //   referral_payout_status?: 'not_applicable' | 'pending' | 'due' | 'paid' | 'cancelled' | null
 //   referral_payout_paid_at?: string (YYYY-MM-DD) | null
 //   referral_payout_method?: 'virement' | 'cash' | 'autre' | null
+//   contract_start_date?: string (YYYY-MM-DD) | null      -> champs contrat (carte Contrat)
+//   contract_end_date?: string (YYYY-MM-DD) | null
+//   contract_duration_weeks?: number (1..12) | null
+//   contract_inclusions?: string                          -> 1 item par ligne
+//   contract_exclusions?: string
+//   contract_note?: string
+//   contract_payment_deadline?: string (YYYY-MM-DD) | null
+//   contract_locale?: 'fr' | 'en'
 // }
+// Au premier enregistrement d'un champ contrat, contract_number est attribué
+// via la séquence Postgres (rpc next_contract_number) — jamais réattribué.
 
 export const dynamic = 'force-dynamic'
 
@@ -45,6 +55,10 @@ const ALLOWED_PAYOUT_TRANSITIONS: Record<ReferralPayoutStatus, ReferralPayoutSta
   cancelled: [],
 }
 
+const CONTRACT_LOCALES = ['fr', 'en'] as const
+type ContractLocale = (typeof CONTRACT_LOCALES)[number]
+const MAX_CONTRACT_TEXT = 8000
+
 interface PatchBody {
   status?: string
   package_paid?: boolean
@@ -56,7 +70,26 @@ interface PatchBody {
   referral_payout_status?: ReferralPayoutStatus | null
   referral_payout_paid_at?: string | null
   referral_payout_method?: ReferralPayoutMethod | null
+  contract_start_date?: string | null
+  contract_end_date?: string | null
+  contract_duration_weeks?: number | null
+  contract_inclusions?: string
+  contract_exclusions?: string
+  contract_note?: string
+  contract_payment_deadline?: string | null
+  contract_locale?: ContractLocale
 }
+
+const CONTRACT_FIELD_KEYS = [
+  'contract_start_date',
+  'contract_end_date',
+  'contract_duration_weeks',
+  'contract_inclusions',
+  'contract_exclusions',
+  'contract_note',
+  'contract_payment_deadline',
+  'contract_locale',
+] as const
 
 interface AuditEntry {
   candidature_id: string
@@ -94,7 +127,7 @@ export async function PATCH(
   // 1. Lecture de l'etat courant pour valider transitions et generer diff audit
   const { data: current, error: readError } = await supabase
     .from('candidatures')
-    .select('id, status, package_paid_at, package_amount_cents, payment_method, payment_date, notes_admin, notes_visio, referral_code, referral_code_valid, referral_partner_name, referral_commission_type, referral_commission_pct, referral_bonus_eur, referral_payout_status, referral_payout_paid_at, referral_payout_method')
+    .select('id, status, package_paid_at, package_amount_cents, payment_method, payment_date, notes_admin, notes_visio, referral_code, referral_code_valid, referral_partner_name, referral_commission_type, referral_commission_pct, referral_bonus_eur, referral_payout_status, referral_payout_paid_at, referral_payout_method, contract_start_date, contract_end_date, contract_duration_weeks, contract_inclusions, contract_exclusions, contract_note, contract_payment_deadline, contract_locale, contract_number')
     .eq('id', id)
     .maybeSingle()
 
@@ -378,6 +411,80 @@ export async function PATCH(
     }
   }
 
+  // 8 bis. Champs contrat (carte Contrat du dashboard)
+  const contractFieldsInBody = CONTRACT_FIELD_KEYS.filter((k) => k in body)
+  if (contractFieldsInBody.length > 0) {
+    // Validation de formats
+    for (const key of ['contract_start_date', 'contract_end_date', 'contract_payment_deadline'] as const) {
+      if (key in body) {
+        const v = body[key]
+        if (v !== null && v !== undefined && !DATE_RE.test(v)) {
+          return badRequest(`${key} invalide (format attendu YYYY-MM-DD)`)
+        }
+      }
+    }
+    if ('contract_duration_weeks' in body) {
+      const v = body.contract_duration_weeks
+      if (v !== null && v !== undefined && (!Number.isInteger(v) || v < 1 || v > 12)) {
+        return badRequest('contract_duration_weeks invalide (entier entre 1 et 12)')
+      }
+    }
+    if ('contract_locale' in body && !CONTRACT_LOCALES.includes(body.contract_locale as ContractLocale)) {
+      return badRequest(`contract_locale inconnue: ${body.contract_locale}`)
+    }
+    for (const key of ['contract_inclusions', 'contract_exclusions', 'contract_note'] as const) {
+      if (key in body && typeof body[key] === 'string' && (body[key] as string).length > MAX_CONTRACT_TEXT) {
+        return badRequest(`${key} trop long (max ${MAX_CONTRACT_TEXT} caractères)`)
+      }
+    }
+
+    // Validation croisée sur l'état FUSIONNÉ (valeur du body sinon valeur courante)
+    const cur = current as unknown as Record<string, unknown>
+    const merged = (key: (typeof CONTRACT_FIELD_KEYS)[number]) =>
+      (key in body ? (body as Record<string, unknown>)[key] : cur[key]) as string | null
+    const mStart = merged('contract_start_date')
+    const mEnd = merged('contract_end_date')
+    const mDeadline = merged('contract_payment_deadline')
+    if (mStart && mEnd && mEnd < mStart) {
+      return badRequest('La date de fin du séjour précède la date de début.')
+    }
+    if (mStart && mDeadline && mDeadline > mStart) {
+      return badRequest('L’échéance de paiement doit être au plus tard le jour du début du camp.')
+    }
+
+    // Diff → updates + un seul event d'audit (pas un par champ)
+    const changed: string[] = []
+    for (const key of contractFieldsInBody) {
+      const next = (body as Record<string, unknown>)[key] ?? null
+      const prev = cur[key] ?? null
+      if (next !== prev) {
+        updates[key] = next
+        changed.push(key)
+      }
+    }
+    if (changed.length > 0) {
+      // Attribution du n° de contrat au premier enregistrement (séquence Postgres,
+      // jamais réattribué ensuite — les trous de séquence sont acceptés).
+      if (cur.contract_number === null || cur.contract_number === undefined) {
+        const { data: seq, error: seqError } = await supabase.rpc('next_contract_number')
+        if (seqError || typeof seq !== 'number') {
+          console.error('[api/admin/candidature] next_contract_number échoué', seqError)
+          return NextResponse.json(
+            { ok: false, error: 'Attribution du n° de contrat échouée' },
+            { status: 500 },
+          )
+        }
+        updates.contract_number = seq
+      }
+      auditEntries.push({
+        candidature_id: id,
+        event: 'contract_fields_update',
+        data: { fields: changed },
+        actor_email: actor,
+      })
+    }
+  }
+
   if (Object.keys(updates).length === 0) {
     return NextResponse.json({ ok: true, candidatureId: id, message: 'Rien à mettre à jour' })
   }
@@ -387,7 +494,7 @@ export async function PATCH(
     .from('candidatures')
     .update(updates)
     .eq('id', id)
-    .select('id, status, status_changed_at, package_paid_at, package_amount_cents, payment_method, payment_date, notes_admin, notes_visio, referral_code, referral_code_valid, referral_partner_name, referral_partner_type, referral_bonus_eur, referral_payout_status, referral_payout_paid_at, referral_payout_method')
+    .select('id, status, status_changed_at, package_paid_at, package_amount_cents, payment_method, payment_date, notes_admin, notes_visio, referral_code, referral_code_valid, referral_partner_name, referral_partner_type, referral_bonus_eur, referral_payout_status, referral_payout_paid_at, referral_payout_method, contract_start_date, contract_end_date, contract_duration_weeks, contract_inclusions, contract_exclusions, contract_note, contract_payment_deadline, contract_locale, contract_number, contract_sent_at, contract_sent_count, contract_pdf_path')
     .single()
 
   if (updateError || !updated) {

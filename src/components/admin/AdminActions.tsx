@@ -13,6 +13,8 @@ import ConfirmModal from './ui/ConfirmModal'
 import Icon from './ui/Icon'
 import { useToast } from './ui/Toast'
 import { ADMIN_SOLO_DUO_HINT } from '@/lib/pricing-copy'
+import ContractCard from './ContractCard'
+import type { ContractLocale } from '@/data/contract'
 
 type PaymentMethod = 'virement' | 'cash' | 'autre'
 
@@ -31,6 +33,24 @@ interface Props {
   paymentDate: string | null
   notesAdmin: string
   notesVisio: string
+  // Carte Contrat
+  candidateEmail: string | null
+  submissionLanguage: 'fr' | 'en'
+  sessionId: string | null
+  dureeSemaines: number | null
+  dateDebutSouhaitee: string | null
+  contractStartDate: string | null
+  contractEndDate: string | null
+  contractDurationWeeks: number | null
+  contractInclusions: string | null
+  contractExclusions: string | null
+  contractNote: string | null
+  contractPaymentDeadline: string | null
+  contractLocale: ContractLocale | null
+  contractNumber: number | null
+  contractSentAt: string | null
+  contractSentCount: number
+  contractPdfPath: string | null
 }
 
 interface ServerCandidature {
@@ -477,6 +497,31 @@ export default function AdminActions(props: Props) {
             }
           />
         </section>
+
+        {/* === Contrat === */}
+        <ContractCard
+          candidatureId={props.candidatureId}
+          status={status}
+          packageAmountCents={packageCents}
+          candidateEmail={props.candidateEmail}
+          submissionLanguage={props.submissionLanguage}
+          sessionId={props.sessionId}
+          dureeSemaines={props.dureeSemaines}
+          dateDebutSouhaitee={props.dateDebutSouhaitee}
+          contractStartDate={props.contractStartDate}
+          contractEndDate={props.contractEndDate}
+          contractDurationWeeks={props.contractDurationWeeks}
+          contractInclusions={props.contractInclusions}
+          contractExclusions={props.contractExclusions}
+          contractNote={props.contractNote}
+          contractPaymentDeadline={props.contractPaymentDeadline}
+          contractLocale={props.contractLocale}
+          contractNumber={props.contractNumber}
+          contractSentAt={props.contractSentAt}
+          contractSentCount={props.contractSentCount}
+          contractPdfPath={props.contractPdfPath}
+          busyExternal={busy}
+        />
 
         {/* === Notes === */}
         <section className="adm-card">

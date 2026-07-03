@@ -43,7 +43,7 @@ export function canTransition(from: Status, to: Status): boolean {
 // Note manuelle ajoutée à audit_log pour rappeler à Ruslan ce qu'il doit
 // faire hors-app (envoi du RIB, vérification du virement reçu, etc.).
 export const TRANSITION_REMINDER: Partial<Record<Status, string>> = {
-  validee: 'À FAIRE : planifier la visio avec le candidat et lui envoyer le RIB pour le virement post-visio.',
+  validee: 'À FAIRE : planifier la visio avec le candidat, puis préparer et envoyer le contrat depuis la carte Contrat (le RIB est inclus dans le contrat et l’email).',
   refusee: 'Aucun paiement n\'a été pris : pas de remboursement à effectuer.',
   reportee: 'Recaler le candidat sur une session ultérieure ou des dates sur mesure (90 j minimum).',
   soldee: 'À VÉRIFIER : montant total reçu (virement ou espèces) avant le départ du camp.',

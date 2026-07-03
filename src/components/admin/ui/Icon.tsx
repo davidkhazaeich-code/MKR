@@ -26,6 +26,7 @@ type IconName =
   | 'trash'
   | 'flame'
   | 'zap'
+  | 'file-text'
 
 const PATHS: Record<IconName, React.ReactNode> = {
   search: (
@@ -172,6 +173,15 @@ const PATHS: Record<IconName, React.ReactNode> = {
   // Eclair (action / shortcut)
   zap: (
     <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+  ),
+  // Document (contrat)
+  'file-text': (
+    <>
+      <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" />
+      <path d="M14 2v4a2 2 0 0 0 2 2h4" />
+      <line x1="8" x2="16" y1="13" y2="13" />
+      <line x1="8" x2="16" y1="17" y2="17" />
+    </>
   ),
 }
 
