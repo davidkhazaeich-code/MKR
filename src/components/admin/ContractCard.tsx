@@ -13,7 +13,7 @@
  * Les garde-fous UI sont un miroir de ceux du serveur (source d'autorité).
  */
 
-import { useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useTransition } from 'react'
 import {
@@ -36,6 +36,12 @@ export interface ContractCardProps {
   status: Status
   /** Montant LIVE (état optimiste d'AdminActions). */
   packageAmountCents: number | null
+  /**
+   * Callback quand le montant est modifié + enregistré depuis CETTE carte,
+   * pour resynchroniser l'état de la carte Paiement (AdminActions) sans
+   * attendre le router.refresh. Source unique : package_amount_cents.
+   */
+  onAmountSaved?: (cents: number) => void
   candidateEmail: string | null
   submissionLanguage: 'fr' | 'en'
   sessionId: string | null
@@ -124,6 +130,29 @@ export default function ContractCard(props: ContractCardProps) {
   const [exclusions, setExclusions] = useState(props.contractExclusions ?? DEFAULT_EXCLUSIONS[initialLocale])
   const [note, setNote] = useState(props.contractNote ?? '')
 
+  // Montant du séjour : MÊME champ que la carte Paiement (package_amount_cents,
+  // source unique — suivi paiement, commissions referral % et contrat restent
+  // cohérents). Draft local, resynchronisé depuis la prop tant que non touché
+  // (édition possible depuis la carte Paiement en parallèle).
+  const [amountEur, setAmountEur] = useState(
+    props.packageAmountCents ? String(props.packageAmountCents / 100) : '',
+  )
+  const [amountTouched, setAmountTouched] = useState(false)
+  useEffect(() => {
+    if (!amountTouched) {
+      setAmountEur(props.packageAmountCents ? String(props.packageAmountCents / 100) : '')
+    }
+  }, [props.packageAmountCents, amountTouched])
+
+  const amountDraftCents =
+    amountEur.trim() === '' ? null : Math.round(parseFloat(amountEur) * 100)
+  const amountDraftValid = amountDraftCents !== null && Number.isFinite(amountDraftCents) && amountDraftCents > 0
+  /** Montant effectif pour les garde-fous UI et le récap : draft si touché, sinon la valeur live. */
+  const effectiveAmountCents = amountTouched
+    ? (amountDraftValid ? amountDraftCents : null)
+    : props.packageAmountCents
+  const amountDirty = amountTouched && amountDraftCents !== props.packageAmountCents
+
   // Fin auto-liée tant que Ruslan ne l'a pas éditée à la main.
   const autoEndRef = useRef<string>(props.contractEndDate ? '' : initialEnd)
 
@@ -159,7 +188,8 @@ export default function ContractCard(props: ContractCardProps) {
     deadline !== (saved.deadline ?? '') ||
     inclusions !== (saved.inclusions ?? '') ||
     exclusions !== (saved.exclusions ?? '') ||
-    note !== (saved.note ?? '')
+    note !== (saved.note ?? '') ||
+    amountDirty
 
   const neverSaved = number === null
 
@@ -170,12 +200,12 @@ export default function ContractCard(props: ContractCardProps) {
     if (!start || !end) list.push('Dates du séjour (début et fin)')
     else if (end < start) list.push('La date de fin précède le début')
     if (!weeksNum || weeksNum < 1 || weeksNum > 12) list.push('Durée (1 à 12 semaines)')
-    if (!props.packageAmountCents || props.packageAmountCents <= 0)
-      list.push('Montant package — saisis-le dans la carte Paiement (« sur devis » bloqué)')
+    if (!effectiveAmountCents || effectiveAmountCents <= 0)
+      list.push('Montant du séjour manquant ou invalide (« sur devis » bloqué) — saisis-le dans le champ Montant')
     if (!deadline) list.push('Échéance de paiement')
     else if (start && deadline > start) list.push('Échéance après le début du camp')
     return list
-  }, [start, end, weeksNum, deadline, props.packageAmountCents])
+  }, [start, end, weeksNum, deadline, effectiveAmountCents])
 
   const sendBlockers = useMemo(() => {
     const list: string[] = []
@@ -207,6 +237,13 @@ export default function ContractCard(props: ContractCardProps) {
   }
 
   const save = async (): Promise<boolean> => {
+    // Montant touché mais invalide : on refuse d'enregistrer plutôt que
+    // d'ignorer silencieusement la saisie de Ruslan.
+    if (amountTouched && amountEur.trim() !== '' && !amountDraftValid) {
+      toast.show('Montant du séjour invalide (doit être supérieur à 0)', 'error')
+      return false
+    }
+    const sendAmount = amountDirty && amountDraftValid
     setBusy(true)
     try {
       const res = await fetch(`/api/admin/candidature/${props.candidatureId}`, {
@@ -221,6 +258,9 @@ export default function ContractCard(props: ContractCardProps) {
           contract_inclusions: inclusions,
           contract_exclusions: exclusions,
           contract_note: note,
+          // Même champ que la carte Paiement : audit package_amount_change +
+          // recalcul des commissions % gérés par le PATCH existant.
+          ...(sendAmount ? { package_amount_cents: amountDraftCents } : {}),
         }),
       })
       const data = await res.json().catch(() => ({}))
@@ -239,6 +279,10 @@ export default function ContractCard(props: ContractCardProps) {
         exclusions,
         note,
       })
+      if (sendAmount && amountDraftCents !== null) {
+        props.onAmountSaved?.(amountDraftCents)
+        setAmountTouched(false) // re-liaison sur la prop (désormais à jour)
+      }
       startTransition(() => router.refresh())
       return true
     } catch {
@@ -304,8 +348,8 @@ export default function ContractCard(props: ContractCardProps) {
 
   const displayNumber = number !== null ? formatContractNumber(number, new Date().getFullYear()) : null
   const amountLabel =
-    props.packageAmountCents && props.packageAmountCents > 0
-      ? formatEurCents(props.packageAmountCents, 'fr')
+    effectiveAmountCents && effectiveAmountCents > 0
+      ? formatEurCents(effectiveAmountCents, 'fr')
       : null
   const isResend = sentCount > 0
 
@@ -470,6 +514,28 @@ export default function ContractCard(props: ContractCardProps) {
             setEnd(e.target.value)
             autoEndRef.current = '' // édition manuelle : on coupe le lien auto
           }}
+          disabled={inputsDisabled}
+        />
+      </div>
+      <div className="adm-input-row">
+        <label className="adm-input-row-label" htmlFor="contract-amount">
+          Montant du séjour (€)
+          <span style={{ display: 'block', fontSize: '0.75rem', color: 'var(--adm-text-muted)', marginTop: '0.15rem' }}>
+            Montant unique du dossier : contrat, suivi paiement et commissions partenaire. Repris de la carte Paiement, modifiable ici.
+          </span>
+        </label>
+        <input
+          id="contract-amount"
+          type="number"
+          step="0.01"
+          min="0"
+          className="adm-input"
+          value={amountEur}
+          onChange={(e) => {
+            setAmountEur(e.target.value)
+            setAmountTouched(true)
+          }}
+          placeholder="2900"
           disabled={inputsDisabled}
         />
       </div>

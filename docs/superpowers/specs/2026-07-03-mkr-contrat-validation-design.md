@@ -108,8 +108,14 @@ et désactive les boutons ; le serveur reste l'autorité.
 
 - Dossier non validé → carte repliée « Valide la candidature pour préparer le contrat ».
 - Champs : langue (fr/en), dates début/fin (fin auto = début + semaines×7 tant que
-  non éditée à la main), durée, échéance (défaut J+14 clampé à la veille du début),
-  inclusions/exclusions (textarea, 1 item/ligne, pré-remplies selon langue), note.
+  non éditée à la main), durée, montant (€), échéance (défaut J+14 clampé à la veille
+  du début), inclusions/exclusions (textarea, 1 item/ligne, pré-remplies selon langue), note.
+- **Montant éditable depuis la carte (ajout 2026-07-03)** : MÊME champ que la carte
+  Paiement (`package_amount_cents`, source unique — suivi paiement, commissions
+  referral % et contrat restent cohérents ; pas de montant contractuel séparé).
+  Draft resynchronisé depuis l'état live tant que non touché, save via le PATCH
+  existant (audit `package_amount_change` + recompute commissions inchangés),
+  callback `onAmountSaved` pour resynchroniser la carte Paiement sans refresh.
 - « Enregistrer » explicite (pas d'auto-save : document légal), indicateur dirty.
 - « Prévisualiser le PDF » (save-then-open, nouvel onglet).
 - « Envoyer le contrat » → ConfirmModal récap (destinataire, montant, langue, n°) ;

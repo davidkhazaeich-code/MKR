@@ -105,7 +105,7 @@ export function getFieldBlockers(row: ContractCandidatureRow): string[] {
     blockers.push('Durée du séjour manquante.')
   }
   if (!row.package_amount_cents || row.package_amount_cents <= 0) {
-    blockers.push('Montant package manquant (« sur devis ») — saisis-le dans la carte Paiement.')
+    blockers.push('Montant du séjour manquant (« sur devis ») — saisis-le dans la carte Contrat ou Paiement.')
   }
   if (!row.contract_payment_deadline) {
     blockers.push('Échéance de paiement manquante.')

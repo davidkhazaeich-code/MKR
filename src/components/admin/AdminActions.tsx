@@ -503,6 +503,12 @@ export default function AdminActions(props: Props) {
           candidatureId={props.candidatureId}
           status={status}
           packageAmountCents={packageCents}
+          onAmountSaved={(cents) => {
+            // Montant édité depuis la carte Contrat : resynchronise la carte
+            // Paiement (même source unique package_amount_cents).
+            setPackageCents(cents)
+            setPackageEur(String(cents / 100))
+          }}
           candidateEmail={props.candidateEmail}
           submissionLanguage={props.submissionLanguage}
           sessionId={props.sessionId}
