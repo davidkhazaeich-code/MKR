@@ -412,7 +412,8 @@ function ContractDocument({
             <Text style={s.ribTitle}>{L.bankDetails}</Text>
             <Kv s={s} k={L.holder} v={CONTRACT_RIB.holder} />
             <Kv s={s} k="IBAN" v={CONTRACT_RIB.iban} />
-            <Kv s={s} k="BIC" v={`${CONTRACT_RIB.bic} (${CONTRACT_RIB.bank})`} />
+            <Kv s={s} k="BIC" v={CONTRACT_RIB.bic} />
+            <Kv s={s} k={locale === 'fr' ? 'Banque' : 'Bank'} v={`${CONTRACT_RIB.bank} — ${CONTRACT_RIB.bankAddress}`} />
             <Text style={{ fontSize: 8.6, marginTop: 4 }}>{paymentInstruction(locale, data.contractNumber)}</Text>
             <Text style={{ fontSize: 8.6, marginTop: 2, color: MUTED }}>{PAYMENT_METHODS_NOTE[locale]}</Text>
             {!ribOk ? <Text style={s.ribMissing}>{L.ribMissing}</Text> : null}

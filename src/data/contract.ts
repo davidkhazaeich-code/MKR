@@ -32,19 +32,20 @@ export const MKR_PARTY = {
 } as const
 
 /* ───────────────────────── RIB ─────────────────────────
- * ⚠️ IBAN : placeholder tant que David/Ruslan n'a pas fourni l'IBAN complet.
- * `isRibConfigured()` sert de garde-fou serveur : l'envoi du contrat est
- * REFUSÉ tant que le placeholder est en place (l'aperçu affiche un bandeau).
- * Remplacer UNIQUEMENT la constante `iban` ci-dessous (format espacé libre).
+ * Compte EUR Revolut de Ruslan (fourni par David le 2026-07-03, checksum
+ * mod-97 vérifié). BIC banque correspondante (virements hors SEPA) : CHASDEFX
+ * — volontairement pas affiché sur le contrat pour ne pas embrouiller les
+ * candidats SEPA ; à communiquer au cas par cas si un candidat vire en USD.
+ * `isRibConfigured()` reste le garde-fou serveur : l'envoi est refusé si un
+ * placeholder (caractère X) réapparaît dans l'IBAN.
  */
-
-const IBAN_PLACEHOLDER = 'FR76 XXXX XXXX XXXX XXXX XXXX 075'
 
 export const CONTRACT_RIB = {
   holder: 'Ruslan Mukhtarov',
-  iban: IBAN_PLACEHOLDER,
+  iban: 'FR76 2823 3000 0191 6735 1775 075',
   bic: 'REVOFRP2',
-  bank: 'Revolut',
+  bank: 'Revolut Bank SA',
+  bankAddress: '10 avenue Kléber, 75116 Paris, France',
 } as const
 
 export function isRibConfigured(): boolean {
