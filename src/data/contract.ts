@@ -219,9 +219,14 @@ export function formatDateLong(isoDate: string, locale: ContractLocale): string 
 
 export function formatEurCents(cents: number, locale: ContractLocale): string {
   const eur = cents / 100
-  return locale === 'fr'
-    ? `${eur.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €`
-    : `€${eur.toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+  const formatted =
+    locale === 'fr'
+      ? `${eur.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €`
+      : `€${eur.toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+  // ICU fr-FR groupe les milliers avec une espace fine insécable (U+202F) que
+  // Teko/Barlow n'ont pas en glyphe → rendu « 2/900,00 € » dans le PDF.
+  // On normalise toutes les espaces Unicode en espace simple (safe partout).
+  return formatted.replace(/[\u00A0\u2000-\u200B\u202F\u205F\u3000]/g, ' ')
 }
 
 export function weeksLabel(weeks: number, locale: ContractLocale): string {
@@ -243,8 +248,11 @@ const CYRILLIC_MAP: Record<string, string> = {
 }
 
 export function sanitizeForPdf(input: string): string {
+  // Espaces Unicode (NBSP, fine insécable… — fréquentes dans du texte collé
+  // depuis Word/site) → espace simple : Teko/Barlow n'ont pas ces glyphes.
+  const normalized = input.replace(/[\u00A0\u2000-\u200B\u202F\u205F\u3000]/g, ' ')
   let out = ''
-  for (const ch of input) {
+  for (const ch of normalized) {
     const lower = ch.toLowerCase()
     if (CYRILLIC_MAP[lower] !== undefined) {
       const mapped = CYRILLIC_MAP[lower]
