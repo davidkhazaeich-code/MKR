@@ -219,7 +219,7 @@
   },
   "cookie_consent": {
     "aria": "Cookie consent",
-    "message": "We use cookies to measure our audience and advertising. You can accept or decline.",
+    "message": "We use cookies to measure our audience and advertising.",
     "learn_more": "Learn more",
     "accept": "Accept",
     "refuse": "Decline"
