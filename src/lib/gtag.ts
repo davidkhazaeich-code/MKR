@@ -23,10 +23,10 @@ export type ConversionAction = 'inscription' | 'contact' | 'guide' | 'visio'
 // Google Ads (Nouvelle conversion > Depuis la balise Google > choisir l'evenement).
 // Renseignables aussi via variables d'env NEXT_PUBLIC_GADS_LABEL_* (override).
 const LABELS: Record<ConversionAction, string> = {
-  inscription: process.env.NEXT_PUBLIC_GADS_LABEL_INSCRIPTION ?? '',
-  contact: process.env.NEXT_PUBLIC_GADS_LABEL_CONTACT ?? '',
-  guide: process.env.NEXT_PUBLIC_GADS_LABEL_GUIDE ?? '',
-  visio: process.env.NEXT_PUBLIC_GADS_LABEL_VISIO ?? '',
+  inscription: process.env.NEXT_PUBLIC_GADS_LABEL_INSCRIPTION ?? 'biNBCOm8kMscEJbdxZRE',
+  contact: process.env.NEXT_PUBLIC_GADS_LABEL_CONTACT ?? 'xvjLCLTLqMscEJbdxZRE',
+  guide: process.env.NEXT_PUBLIC_GADS_LABEL_GUIDE ?? '1DwACO-8kMscEJbdxZRE',
+  visio: process.env.NEXT_PUBLIC_GADS_LABEL_VISIO ?? 'nQxHCOy8kMscEJbdxZRE',
 }
 
 // Nom d'evenement GA4 refletant chaque action. Envoye systematiquement pour

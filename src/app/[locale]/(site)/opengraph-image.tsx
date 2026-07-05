@@ -7,13 +7,13 @@ const COPY = {
     alt: 'MKR Caucasian Camp · Camp MMA et Lutte au Caucase',
     keywords: 'Caucase · Lutte · MMA',
     title: 'Naissent les champions',
-    subtitle: 'Khabib. Makhachev. Akhmat. Lutte au Daghestan, MMA en Tchétchénie.',
+    subtitle: 'Lutte au Daghestan, MMA en Tchétchénie. L’immersion au milieu des champions.',
   },
   en: {
     alt: 'MKR Caucasian Camp · MMA and Wrestling camp in the Caucasus',
     keywords: 'Caucasus · Wrestling · MMA',
     title: 'Where champions are born',
-    subtitle: 'Khabib. Makhachev. Akhmat. Wrestling in Dagestan, MMA in Chechnya.',
+    subtitle: 'Wrestling in Dagestan, MMA in Chechnya. Immersion among champions.',
   },
 } as const
 

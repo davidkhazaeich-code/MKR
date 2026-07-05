@@ -4,14 +4,14 @@ export const runtime = 'nodejs'
 
 const COPY = {
   fr: {
-    alt: 'Programme Lutte au Daghestan · Méthode Khabib',
-    keywords: 'Lutte · Daghestan · Khabib',
+    alt: 'Programme Lutte au Daghestan · Berceau de la lutte',
+    keywords: 'Lutte · Daghestan · Champions',
     title: 'Méthode daghestanaise',
     subtitle: 'Leg rides, chain wrestling, takedowns. 30+ médaillés olympiques.',
   },
   en: {
-    alt: 'Wrestling program in Dagestan · Khabib method',
-    keywords: 'Wrestling · Dagestan · Khabib',
+    alt: 'Wrestling program in Dagestan · The home of wrestling',
+    keywords: 'Wrestling · Dagestan · Champions',
     title: 'Dagestani method',
     subtitle: 'Leg rides, chain wrestling, takedowns. 30+ Olympic medalists.',
   },

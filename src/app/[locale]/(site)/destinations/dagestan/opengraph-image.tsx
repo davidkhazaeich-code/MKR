@@ -6,13 +6,13 @@ const COPY = {
   fr: {
     alt: 'Daghestan · La terre des champions',
     keywords: 'Daghestan · Makhachkala · Lutte',
-    title: 'La terre de Khabib',
+    title: 'La terre des champions',
     subtitle: '30+ champions olympiques. 3 champions UFC. Berceau du MMA mondial.',
   },
   en: {
     alt: 'Dagestan · The land of champions',
     keywords: 'Dagestan · Makhachkala · Wrestling',
-    title: 'The land of Khabib',
+    title: 'The land of champions',
     subtitle: '30+ Olympic champions. 3 UFC champions. Cradle of world MMA.',
   },
 } as const
