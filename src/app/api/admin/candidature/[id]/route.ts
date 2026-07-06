@@ -7,6 +7,11 @@ import {
   type Status,
 } from '@/lib/admin-transitions'
 import { computeCommissionEur } from '@/data/referral-codes'
+import { sendSouvenirIfNeeded } from '@/lib/souvenir-notify'
+
+// Runtime Node explicite : la validation d'un dossier declenche la generation
+// server-side de l'image souvenir (Satori + lecture fs des polices/fonds).
+export const runtime = 'nodejs'
 
 // PATCH /api/admin/candidature/[id]
 // Protege par le proxy (cookie httpOnly mkr_admin). Voir src/proxy.ts.
@@ -508,6 +513,13 @@ export async function PATCH(
       console.error('[api/admin/candidature] audit insert failed', auditError)
       // pas de rollback — on log mais on ne casse pas le flow user
     }
+  }
+
+  // Dossier validé → envoi auto de l'image souvenir au candidat (idempotent via
+  // souvenir_sent_at, ne throw jamais). Awaité pour garantir l'exécution en serverless
+  // (le travail post-réponse n'est pas fiable sur Vercel) ; ajoute ~1-2s à l'action.
+  if (updates.status === 'validee') {
+    await sendSouvenirIfNeeded(id)
   }
 
   return NextResponse.json({
