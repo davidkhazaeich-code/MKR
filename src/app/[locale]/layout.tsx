@@ -6,11 +6,13 @@ import { notFound } from 'next/navigation'
 import { Teko, Barlow, Barlow_Condensed } from 'next/font/google'
 import { NextIntlClientProvider, hasLocale } from 'next-intl'
 import { setRequestLocale, getMessages, getTranslations } from 'next-intl/server'
+import { Analytics } from '@vercel/analytics/next'
 import { SITE_URL, SITE_NAME, SITE_EMAIL, SITE_DESCRIPTION, SOCIALS, GEO } from '@/data/site'
 import { SESSIONS } from '@/data/sessions'
 import { PRICING_TIERS } from '@/data/pricing'
 import SiteLoader from '@/components/SiteLoader'
 import CookieConsent from '@/components/CookieConsent'
+import AttributionCapture from '@/components/AttributionCapture'
 import { routing } from '@/i18n/routing'
 import { GADS_ID } from '@/lib/gtag'
 import '../globals.css'
@@ -321,7 +323,10 @@ gtag('config', '${GADS_ID}');`}
           </Suspense>
           {children}
           <CookieConsent />
+          {/* Capture d'attribution (Google Ads / UTM) dans le cookie mkr_attr. */}
+          <AttributionCapture />
         </NextIntlClientProvider>
+        <Analytics />
       </body>
     </html>
   )

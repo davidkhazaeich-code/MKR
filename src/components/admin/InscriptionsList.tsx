@@ -9,6 +9,7 @@ import Icon from './ui/Icon'
 import { STATUS_LABEL, type Status } from '@/lib/admin-transitions'
 import { SESSIONS } from '@/data/sessions'
 import { getActiveCodes } from '@/data/referral-codes'
+import { ATTRIBUTION_SOURCE_LABEL, ATTRIBUTION_SOURCE_COLOR, type AttributionSource } from '@/lib/attribution'
 import sessionsDisplayFr from '../../../messages/fr/data.sessions.json'
 
 type AdminSessionDisplay = { label?: string; dates?: string }
@@ -52,6 +53,7 @@ interface Row {
   referral_bonus_eur: number | null
   referral_payout_status: string | null
   submission_language: 'fr' | 'en' | null
+  attribution_source: string | null
   candidate: {
     prenom: string
     nom: string
@@ -171,6 +173,22 @@ function ReferralBadge({ c }: {
         </Badge>
       )}
     </>
+  )
+}
+
+// Badge d'acquisition pour la liste. Google Ads ressort (icone + bleu Google).
+// On n'affiche rien pour les visites directes (bruit inutile).
+function AttributionBadge({ source }: { source: string | null }) {
+  if (!source || source === 'direct') return null
+  const src = source as AttributionSource
+  const label = ATTRIBUTION_SOURCE_LABEL[src] ?? source
+  const color = ATTRIBUTION_SOURCE_COLOR[src] ?? 'var(--adm-text-secondary)'
+  const isGoogleAds = src === 'google_ads'
+  return (
+    <Badge color={color} dot={!isGoogleAds}>
+      {isGoogleAds && <Icon name="zap" size={11} strokeWidth={2.5} />}
+      {label}
+    </Badge>
   )
 }
 
@@ -577,6 +595,7 @@ function CandidatureRow({
                 Devis à envoyer
               </Badge>
             )}
+            <AttributionBadge source={row.attribution_source} />
             {isNew && <Badge color="var(--adm-brand)">Nouveau</Badge>}
             {isStaleVisio && (
               <Badge color="var(--adm-status-refusee)">

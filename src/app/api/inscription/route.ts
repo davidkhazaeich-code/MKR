@@ -7,6 +7,12 @@ import { rateLimit, clientIp as rlClientIp } from '@/lib/rate-limit'
 import { isDisposableEmail } from '@/lib/disposable-email'
 import { findReferralCode, type ReferralPartnerType } from '@/data/referral-codes'
 import { estimateDemandAmountCents } from '@/data/pricing'
+import {
+  sanitizeAttribution,
+  ATTRIBUTION_SOURCE_LABEL,
+  type AttributionSource,
+  type AttributionData,
+} from '@/lib/attribution'
 
 const VALID_TUNNELS = ['session', 'custom', 'famille', 'groupe'] as const
 type TunnelType = (typeof VALID_TUNNELS)[number]
@@ -51,6 +57,8 @@ type InscriptionPayload = {
   form_data?: Record<string, unknown>
   code_recommandation?: string | null
   submission_language?: string | null
+  // Attribution marketing capturee cote client (cookie mkr_attr). Re-classee serveur.
+  attribution?: unknown
   // Honeypot : champ invisible pour utilisateurs humains, rempli par bots.
   _hp?: string
   // Horodatage (ms epoch) du montage du formulaire cote client (time-trap anti-bot).
@@ -343,6 +351,13 @@ export async function POST(request: Request) {
     groupSize,
   })
 
+  // Attribution marketing : re-classee et sanitize serveur (jamais confiance au
+  // client). null si aucun signal (visite directe). Sert au back office a savoir
+  // si le lead vient de Google Ads.
+  const attributionResult = sanitizeAttribution(body.attribution)
+  const attributionSource: AttributionSource | null = attributionResult?.source ?? null
+  const attributionData: AttributionData | null = attributionResult?.attribution ?? null
+
   const candidatureRow = {
     candidate_id: upsertedCandidate.id,
     tunnel_type: tunnel,
@@ -352,6 +367,8 @@ export async function POST(request: Request) {
     camp_discipline: campDiscipline,
     package_amount_cents: packageAmountCents,
     submission_language: submissionLanguage,
+    attribution_source: attributionSource,
+    attribution: attributionData,
     ...referralFields,
     form_data: {
       ...formData,
@@ -393,6 +410,21 @@ export async function POST(request: Request) {
     })
   }
 
+  // Trace l'acquisition (hors direct) dans l'historique, pour que Ruslan voie
+  // "vient de Google Ads" dans la timeline du dossier.
+  if (attributionSource && attributionSource !== 'direct') {
+    await supabase.from('audit_log').insert({
+      candidature_id: candidature.id,
+      event: 'attribution_captured',
+      to_value: {
+        source: attributionSource,
+        gclid: attributionData?.gclid ?? attributionData?.gbraid ?? attributionData?.wbraid ?? null,
+        utm_campaign: attributionData?.utm_campaign ?? null,
+      },
+      actor_email: 'system',
+    })
+  }
+
   if (referralFields.referral_code_valid === true) {
     await supabase.from('audit_log').insert({
       candidature_id: candidature.id,
@@ -423,6 +455,8 @@ export async function POST(request: Request) {
     referral_bonus_eur: referralFields.referral_bonus_eur,
     referral_code_valid: referralFields.referral_code_valid,
     submission_language: submissionLanguage,
+    attribution_source: attributionSource,
+    utm_campaign: attributionData?.utm_campaign ?? null,
   }
 
   await Promise.all([
@@ -460,6 +494,8 @@ interface SlackPayload {
   referral_bonus_eur: number | null
   referral_code_valid: boolean | null
   submission_language: 'fr' | 'en'
+  attribution_source: AttributionSource | null
+  utm_campaign: string | null
 }
 
 const TUNNEL_LABELS: Record<string, string> = {
@@ -494,11 +530,16 @@ async function notifyEmail(p: SlackPayload): Promise<void> {
 
   const montantLabel = formatAmountLabel(p.package_amount_cents)
 
+  const acquisitionLabel = p.attribution_source
+    ? `${ATTRIBUTION_SOURCE_LABEL[p.attribution_source]}${p.utm_campaign ? ` (campagne ${p.utm_campaign})` : ''}`
+    : null
+
   const bodyHtml = `
     <table style="width:100%;border-collapse:collapse;background:#0b1220;border:1px solid #1e293b;border-radius:6px">
       ${row('Tunnel', tunnelLabel)}
       ${row('Camp', discipline)}
       ${row('Montant (selon demande)', montantLabel)}
+      ${row('Acquisition', acquisitionLabel)}
       ${row('Recommandation', referralLabel)}
       ${row('Nom', `${p.prenom} ${p.nom}`)}
       ${row('Email', p.email)}
@@ -599,6 +640,9 @@ async function notifySlack(p: SlackPayload): Promise<void> {
     `*${p.prenom} ${p.nom}* — ${p.email}${p.pays ? ` — ${p.pays}` : ''}${p.duree_semaines ? ` — ${p.duree_semaines} sem.` : ''}`,
     p.camp_discipline ? `*Camp* : ${DISCIPLINE_LABELS[p.camp_discipline]}` : null,
     `*Montant (selon demande)* : ${formatAmountLabel(p.package_amount_cents)}`,
+    p.attribution_source
+      ? `*Acquisition* : ${ATTRIBUTION_SOURCE_LABEL[p.attribution_source]}${p.utm_campaign ? ` (campagne ${p.utm_campaign})` : ''}`
+      : null,
     referralLine,
     `<${adminBase}/admin/inscriptions/${p.candidature_id}|Voir le dossier>`,
   ].filter(Boolean).join('\n')

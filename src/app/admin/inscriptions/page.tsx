@@ -5,6 +5,7 @@ import StatsBand from '@/components/admin/StatsBand'
 import Pipeline from '@/components/admin/ui/Pipeline'
 import Topbar from '@/components/admin/ui/Topbar'
 import { STATUS_LABEL, STATUS_VALUES, type Status } from '@/lib/admin-transitions'
+import { ATTRIBUTION_SOURCE_LABEL, ATTRIBUTION_SOURCE_COLOR, type AttributionSource } from '@/lib/attribution'
 import { SESSIONS } from '@/data/sessions'
 import sessionsDisplayFr from '../../../../messages/fr/data.sessions.json'
 
@@ -60,6 +61,7 @@ interface ListRow {
   referral_bonus_eur: number | null
   referral_payout_status: string | null
   submission_language: 'fr' | 'en' | null
+  attribution_source: string | null
   candidate: {
     prenom: string
     nom: string
@@ -75,6 +77,7 @@ interface StatsRow {
   session_id: string | null
   tunnel_type: TunnelType
   camp_discipline: CampDiscipline | null
+  attribution_source: string | null
 }
 
 const CONSUMING_STATUSES: Status[] = ['recue', 'validee', 'soldee']
@@ -86,10 +89,15 @@ const SEVEN_DAYS = 7 * 24 * 60 * 60 * 1000
 const SESSION_UPCOMING = 'upcoming'
 const SESSION_NONE = 'none'
 
+// Sources d'acquisition affichees en filtre (ordre : Google Ads en tete = priorite business).
+const ATTRIBUTION_SOURCE_VALUES: string[] = [
+  'google_ads', 'meta_ads', 'instagram', 'facebook', 'google_organic', 'referral', 'other', 'direct',
+]
+
 export default async function AdminInscriptionsPage({
   searchParams,
 }: {
-  searchParams: Promise<{ tunnel?: string; status?: string; session?: string; discipline?: string }>
+  searchParams: Promise<{ tunnel?: string; status?: string; session?: string; discipline?: string; source?: string }>
 }) {
   const params = await searchParams
 
@@ -110,7 +118,7 @@ export default async function AdminInscriptionsPage({
     // Stats : toute la base avec session_id + tunnel pour pouvoir agreger
     const statsRes = await supabase
       .from('candidatures')
-      .select('status, status_changed_at, session_id, tunnel_type, camp_discipline')
+      .select('status, status_changed_at, session_id, tunnel_type, camp_discipline, attribution_source')
       .limit(2000)
     allRowsForStats = (statsRes.data ?? []) as unknown as StatsRow[]
 
@@ -124,7 +132,7 @@ export default async function AdminInscriptionsPage({
         notes_admin,
         referral_code, referral_code_valid, referral_partner_name, referral_partner_type,
         referral_bonus_eur, referral_payout_status,
-        submission_language,
+        submission_language, attribution_source,
         candidate:candidates ( prenom, nom, email, telephone, pays )
       `)
       .order('created_at', { ascending: false })
@@ -138,6 +146,9 @@ export default async function AdminInscriptionsPage({
     }
     if (params.discipline && (['lutte', 'mma', 'combo_quote'] as string[]).includes(params.discipline)) {
       q = q.eq('camp_discipline', params.discipline)
+    }
+    if (params.source && ATTRIBUTION_SOURCE_VALUES.includes(params.source)) {
+      q = q.eq('attribution_source', params.source)
     }
 
     if (params.session === SESSION_NONE) {
@@ -212,19 +223,29 @@ export default async function AdminInscriptionsPage({
   }
   const orphanSessionIds = Object.keys(sessionCounts).filter((id) => !knownSessionIds.includes(id))
 
+  // Counts par source d'acquisition (toute la base, pour les pills de filtre).
+  const sourceCounts: Record<string, number> = {}
+  for (const r of allRowsForStats) {
+    if (r.attribution_source) {
+      sourceCounts[r.attribution_source] = (sourceCounts[r.attribution_source] ?? 0) + 1
+    }
+  }
+  const sourcesWithData = ATTRIBUTION_SOURCE_VALUES.filter((s) => (sourceCounts[s] ?? 0) > 0)
+
   // Tunnel counts (basé sur rows actuelles pour montrer ce qui s'affiche)
   const tunnelCounts: Record<TunnelType, number> = { session: 0, custom: 0, famille: 0, groupe: 0 }
   for (const r of rows) {
     tunnelCounts[r.tunnel_type] = (tunnelCounts[r.tunnel_type] ?? 0) + 1
   }
 
-  const buildHref = (overrides: Partial<{ tunnel: string; status: string; session: string; discipline: string }>): string => {
-    const merged = { tunnel: params.tunnel, status: params.status, session: params.session, discipline: params.discipline, ...overrides }
+  const buildHref = (overrides: Partial<{ tunnel: string; status: string; session: string; discipline: string; source: string }>): string => {
+    const merged = { tunnel: params.tunnel, status: params.status, session: params.session, discipline: params.discipline, source: params.source, ...overrides }
     const usp = new URLSearchParams()
     if (merged.tunnel) usp.set('tunnel', merged.tunnel)
     if (merged.status) usp.set('status', merged.status)
     if (merged.session) usp.set('session', merged.session)
     if (merged.discipline) usp.set('discipline', merged.discipline)
+    if (merged.source) usp.set('source', merged.source)
     const qs = usp.toString()
     return qs ? `/admin/inscriptions?${qs}` : '/admin/inscriptions'
   }
@@ -426,6 +447,34 @@ export default async function AdminInscriptionsPage({
               <span style={{ color: 'var(--adm-text-faint)', fontWeight: 500 }}>{disciplineCounts.combo_quote}</span>
             </a>
           </div>
+
+          {sourcesWithData.length > 0 && (
+            <div className="adm-filter-row">
+              <span className="adm-filter-row-label">Source</span>
+              <a
+                href={buildHref({ source: undefined })}
+                className={!params.source ? 'adm-pill adm-pill--active' : 'adm-pill'}
+              >
+                Toutes
+              </a>
+              {sourcesWithData.map((s) => {
+                const src = s as AttributionSource
+                return (
+                  <a
+                    key={s}
+                    href={buildHref({ source: s })}
+                    data-accent
+                    className={params.source === s ? 'adm-pill adm-pill--active' : 'adm-pill'}
+                    style={{ ['--adm-pill-accent' as string]: ATTRIBUTION_SOURCE_COLOR[src] }}
+                    title={`Candidatures via ${ATTRIBUTION_SOURCE_LABEL[src]}`}
+                  >
+                    {ATTRIBUTION_SOURCE_LABEL[src]}
+                    <span style={{ color: 'var(--adm-text-faint)', fontWeight: 500 }}>{sourceCounts[s]}</span>
+                  </a>
+                )
+              })}
+            </div>
+          )}
 
           <div className="adm-filter-row">
             <span className="adm-filter-row-label">Statut</span>

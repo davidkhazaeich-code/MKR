@@ -3,6 +3,11 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { getSupabaseAdmin } from '@/lib/supabase-admin'
 import { STATUS_LABEL, type Status } from '@/lib/admin-transitions'
+import {
+  ATTRIBUTION_SOURCE_LABEL,
+  ATTRIBUTION_SOURCE_COLOR,
+  type AttributionSource,
+} from '@/lib/attribution'
 import AdminActions from '@/components/admin/AdminActions'
 import DangerSection from '@/components/admin/DangerSection'
 import FormAnswers from '@/components/admin/FormAnswers'
@@ -107,6 +112,8 @@ interface CandidatureRow {
   contract_sent_at: string | null
   contract_sent_count: number
   contract_pdf_path: string | null
+  attribution_source: string | null
+  attribution: Record<string, unknown> | null
   candidate: {
     prenom: string
     nom: string
@@ -179,6 +186,16 @@ function describeEvent(e: AuditRow): { label: string; detail: string | null; acc
     // bruts pour préserver l'historique sans casser l'UI.
     case 'fee_paid_change':
       return { label: '[archive] Frais d\'inscription marqués payés/retirés', detail: null }
+    case 'attribution_captured': {
+      const src = e.to_value?.source as AttributionSource | undefined
+      const campaign = e.to_value?.utm_campaign as string | undefined
+      const label = src ? ATTRIBUTION_SOURCE_LABEL[src] ?? src : 'inconnue'
+      return {
+        label: 'Source d\'acquisition',
+        detail: campaign ? `${label} · ${campaign}` : label,
+        accent: src === 'google_ads' ? '#4285F4' : undefined,
+      }
+    }
     case 'notes_admin_update':
       return { label: 'Notes admin éditées', detail: null }
     case 'notes_visio_update':
@@ -260,6 +277,7 @@ export default async function CandidatureDetailPage({
           contract_inclusions, contract_exclusions, contract_note,
           contract_payment_deadline, contract_locale, contract_number,
           contract_sent_at, contract_sent_count, contract_pdf_path,
+          attribution_source, attribution,
           candidate:candidates ( prenom, nom, email, telephone, date_naissance, pays, ville_depart )
         `)
         .eq('id', id)
@@ -466,6 +484,8 @@ export default async function CandidatureDetailPage({
                 ]}
               />
             </section>
+
+            <AcquisitionCard source={candidature.attribution_source} attribution={candidature.attribution} />
 
             <FormAnswers formData={formData} tunnelType={candidature.tunnel_type} />
 
@@ -704,6 +724,101 @@ export default async function CandidatureDetailPage({
         <span>Actions</span>
       </a>
     </>
+  )
+}
+
+// Carte "Acquisition" : d'ou vient le candidat (Google Ads en priorite), avec le
+// detail brut de l'attribution (click id, campagne, referent, page d'atterrissage).
+function AcquisitionCard({
+  source,
+  attribution,
+}: {
+  source: string | null
+  attribution: Record<string, unknown> | null
+}) {
+  const src = (source as AttributionSource | null) ?? null
+  const label = src ? ATTRIBUTION_SOURCE_LABEL[src] ?? src : 'Direct / inconnu'
+  const color = src ? ATTRIBUTION_SOURCE_COLOR[src] ?? 'var(--adm-text-muted)' : 'var(--adm-text-muted)'
+  const isGoogleAds = src === 'google_ads'
+
+  const attr = attribution ?? {}
+  const str = (k: string): string | null => {
+    const v = attr[k]
+    return typeof v === 'string' && v.trim() ? v.trim() : null
+  }
+  const clickId = str('gclid') ?? str('gbraid') ?? str('wbraid') ?? str('fbclid') ?? str('msclkid') ?? null
+  const clickIdLabel = str('gclid')
+    ? 'gclid'
+    : str('gbraid')
+      ? 'gbraid'
+      : str('wbraid')
+        ? 'wbraid'
+        : str('fbclid')
+          ? 'fbclid'
+          : str('msclkid')
+            ? 'msclkid'
+            : 'Click ID'
+  const capturedAt = str('ts')
+
+  const rows: Array<[string, React.ReactNode]> = [
+    [
+      'Source',
+      <Badge key="src" color={color} dot>
+        {isGoogleAds && <Icon name="zap" size={11} strokeWidth={2.5} />}
+        {label}
+      </Badge>,
+    ],
+  ]
+  if (str('utm_source')) rows.push(['utm_source', str('utm_source')])
+  if (str('utm_medium')) rows.push(['utm_medium', str('utm_medium')])
+  if (str('utm_campaign')) rows.push(['Campagne (utm_campaign)', str('utm_campaign')])
+  if (str('utm_term')) rows.push(['Mot-cle (utm_term)', str('utm_term')])
+  if (str('utm_content')) rows.push(['Annonce (utm_content)', str('utm_content')])
+  if (clickId) {
+    rows.push([
+      clickIdLabel,
+      <code key="cid" style={{ fontSize: '0.72rem', wordBreak: 'break-all', color: 'var(--adm-text-secondary)' }}>
+        {clickId}
+      </code>,
+    ])
+  }
+  if (str('referrer')) {
+    rows.push([
+      'Site referent',
+      <span key="ref" style={{ wordBreak: 'break-all' }}>{str('referrer')}</span>,
+    ])
+  }
+  if (str('landing')) rows.push(['Page d\'atterrissage', str('landing')])
+  if (capturedAt) rows.push(['Capture', formatDateTime(capturedAt)])
+
+  return (
+    <section className="adm-card">
+      <h2 className="adm-card-title">
+        <Icon name="zap" size={14} />
+        Acquisition
+      </h2>
+      {isGoogleAds && (
+        <div
+          style={{
+            marginBottom: '0.9rem',
+            padding: '0.7rem 0.9rem',
+            borderRadius: 10,
+            border: '1px solid rgba(66, 133, 244, 0.35)',
+            background: 'rgba(66, 133, 244, 0.08)',
+            color: '#4285F4',
+            fontSize: '0.85rem',
+            fontWeight: 600,
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '0.4rem',
+          }}
+        >
+          <Icon name="zap" size={14} strokeWidth={2.4} />
+          Ce candidat vient de Google Ads
+        </div>
+      )}
+      <DefList items={rows} />
+    </section>
   )
 }
 

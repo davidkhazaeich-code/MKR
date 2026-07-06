@@ -6,6 +6,7 @@ import dynamic from 'next/dynamic'
 import { useLocale, useTranslations } from 'next-intl'
 import Icon from './Icon'
 import { trackConversion } from '@/lib/gtag'
+import { ATTR_COOKIE_NAME } from '@/lib/attribution'
 import {
   REGISTRATION_TYPES,
   type RegistrationTypeId,
@@ -597,11 +598,24 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
     e.preventDefault()
     if (!validate()) return
     if (isSubmitting) return
+    // Attribution (Google Ads / UTM) capturee au chargement dans le cookie mkr_attr.
+    // Best-effort : jamais bloquant. Le serveur re-classe et sanitize.
+    let attribution: Record<string, unknown> | null = null
+    try {
+      const m = document.cookie.match(new RegExp('(?:^|;\\s*)' + ATTR_COOKIE_NAME + '=([^;]+)'))
+      if (m) {
+        const parsed = JSON.parse(decodeURIComponent(m[1]))
+        if (parsed && typeof parsed === 'object') attribution = parsed
+      }
+    } catch {
+      attribution = null
+    }
     const payload = {
       tunnel_type: audience,
       _hp: hp,
       form_started_at: formStartedAt,
       submission_language: locale,
+      attribution,
       candidate: {
         prenom: form.prenom,
         nom: form.nom,
