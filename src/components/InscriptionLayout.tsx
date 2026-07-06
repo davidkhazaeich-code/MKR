@@ -51,6 +51,23 @@ const DISCIPLINES = [
   'Jiu-Jitsu Brésilien', 'Judo', 'Autre',
 ]
 
+// Slug stable et neutre en langue pour traduire l'AFFICHAGE des disciplines.
+// La valeur stockee (envoyee a l'API, lue par l'admin 100% FR) reste le libelle
+// FR canonique ci-dessus : on ne traduit que le label rendu (cf. disciplineLabel).
+const DISCIPLINE_SLUGS: Record<string, string> = {
+  'MMA': 'mma',
+  'Lutte Libre': 'lutte_libre',
+  'Lutte Gréco-Romaine': 'lutte_greco',
+  'Boxe Anglaise': 'boxe_anglaise',
+  'Kickboxing / K-1': 'kickboxing',
+  'Muay Thaï': 'muay_thai',
+  'Grappling / No-Gi': 'grappling',
+  'Sambo': 'sambo',
+  'Jiu-Jitsu Brésilien': 'jjb',
+  'Judo': 'judo',
+  'Autre': 'autre',
+}
+
 // Participant individuel pour tunnel custom (Duo/Trio/Quatuor)
 export type CustomParticipant = {
   prenom: string
@@ -918,8 +935,12 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
   // Helpers traduits
   const formatDurationLabel = (duree: string) => {
     if (!duree) return ''
-    return duree.replace('-', ' ')
+    return t(`step0_camp.custom.duration_labels.${duree}`)
   }
+
+  // Libelle traduit d'une discipline d'origine du candidat. La valeur stockee
+  // reste le libelle FR canonique (cf. DISCIPLINE_SLUGS) : seul l'affichage change.
+  const disciplineLabel = (d: string) => t(`disciplines.${DISCIPLINE_SLUGS[d] ?? 'autre'}`)
 
   const compositionLabel = (n: string) => {
     if (n === '1') return t('sidebar.compositions.solo')
@@ -1320,7 +1341,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                     aria-invalid={errorFields.has('disciplinePrincipale') || undefined}
                     onChange={e => set('disciplinePrincipale', e.target.value)}>
                     <option value="" disabled>{t('experience.select_placeholder')}</option>
-                    {DISCIPLINES.map(d => <option key={d} value={d}>{d}</option>)}
+                    {DISCIPLINES.map(d => <option key={d} value={d}>{disciplineLabel(d)}</option>)}
                   </select>
                 </Field>
 
@@ -1338,7 +1359,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                       <label key={d} className={`cand-check${form.disciplinesSecondaires.includes(d) ? ' selected' : ''}`}>
                         <input type="checkbox" checked={form.disciplinesSecondaires.includes(d)}
                           onChange={() => toggleDiscipline(d)} />
-                        {d}
+                        {disciplineLabel(d)}
                       </label>
                     ))}
                   </div>
@@ -1462,7 +1483,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                       <label key={d} className={`cand-check${form.disciplinesSecondaires.includes(d) ? ' selected' : ''}`}>
                         <input type="checkbox" checked={form.disciplinesSecondaires.includes(d)}
                           onChange={() => toggleDiscipline(d)} />
-                        {d}
+                        {disciplineLabel(d)}
                       </label>
                     ))}
                   </div>
@@ -1962,7 +1983,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                               <select className="cand-select" value={p.discipline}
                                 onChange={e => updateParticipant(i, { discipline: e.target.value })}>
                                 <option value="">{t('experience.discipline_options_placeholder_optional')}</option>
-                                {DISCIPLINES.map(d => <option key={d} value={d}>{d}</option>)}
+                                {DISCIPLINES.map(d => <option key={d} value={d}>{disciplineLabel(d)}</option>)}
                               </select>
                             </Field>
                           </div>

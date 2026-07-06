@@ -1,4 +1,17 @@
 {
+  "disciplines": {
+    "mma": "MMA",
+    "lutte_libre": "Freestyle Wrestling",
+    "lutte_greco": "Greco-Roman Wrestling",
+    "boxe_anglaise": "Boxing",
+    "kickboxing": "Kickboxing / K-1",
+    "muay_thai": "Muay Thai",
+    "grappling": "Grappling / No-Gi",
+    "sambo": "Sambo",
+    "jjb": "Brazilian Jiu-Jitsu",
+    "judo": "Judo",
+    "autre": "Other"
+  },
   "meta": {
     "title": "Registration · MKR Caucasian Camp",
     "description": "Submit your application to join an MMA and Wrestling camp in the Caucasus. 4 sessions per year, custom, family or clubs: 4 tunnels."
