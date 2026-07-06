@@ -9283,6 +9283,14 @@ html.is-loading body {
   font-size: 0.75rem;
   color: var(--text-muted);
 }
+/* Prix par personne (degressif selon la taille du groupe), aligne en bas de carte */
+.insc-compo-card-price {
+  margin-top: auto;
+  padding-top: 0.3rem;
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--primary);
+}
 
 /* ── Famille : format grid (sessions + sur mesure) ── */
 .insc-format-grid {
@@ -11772,3 +11780,119 @@ html.is-loading body {
 
 /* UpdatedAt : signal de fraicheur visible */
 .updated-at { color: var(--text-muted); font-size: 0.78rem; letter-spacing: 0.04em; margin: 1rem 0 0; }
+
+/* ═══════════════════════════════════════════════
+   Instagram Feed — section "Suivez le camp" (homepage, avant le footer)
+   Feed live Behold.so rendu maison, style sombre MKR (rust + ghost).
+   Fallback images locales si BEHOLD_FEED_URL absent. Cf InstagramFeed.tsx.
+   ═══════════════════════════════════════════════ */
+.ig-feed { padding: clamp(4rem, 8vw, 7rem) 0; background: var(--surface-lowest); }
+.ig-feed-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.25rem 2rem;
+  flex-wrap: wrap;
+  margin-bottom: clamp(1.75rem, 3vw, 2.75rem);
+}
+.ig-feed-intro { max-width: 52ch; }
+.ig-feed-eyebrow { display: block; margin-bottom: 0.75rem; }
+.ig-feed-title {
+  font-family: var(--font-teko), sans-serif;
+  font-size: clamp(1.8rem, 4.5vw, 2.8rem);
+  text-transform: uppercase;
+  letter-spacing: -0.005em;
+  line-height: 0.98;
+  margin: 0 0 0.75rem;
+  color: var(--text-primary);
+}
+.ig-feed-sub {
+  font-family: var(--font-barlow), sans-serif;
+  color: var(--text-secondary);
+  font-size: 1rem;
+  line-height: 1.55;
+  margin: 0;
+  max-width: 46ch;
+}
+.ig-feed-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  flex-shrink: 0;
+  font-family: var(--font-barlow-condensed), sans-serif;
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  text-decoration: none;
+  padding: 0.7rem 1.4rem;
+  border: 1px solid var(--ghost-border);
+  border-radius: 10px;
+  background: var(--surface-high);
+  white-space: nowrap;
+  transition: border-color 200ms linear, color 200ms linear,
+              box-shadow 200ms linear, transform 200ms var(--ease-out-expo);
+}
+.ig-feed-cta svg { color: var(--primary); flex-shrink: 0; }
+.ig-feed-cta:hover,
+.ig-feed-cta:focus-visible {
+  border-color: var(--primary);
+  box-shadow: 0 6px 20px var(--primary-glow);
+  transform: translateY(-1px);
+}
+.ig-feed-cta:focus-visible { outline: none; }
+.ig-feed-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(0.5rem, 1vw, 0.85rem);
+}
+.ig-feed-item { margin: 0; }
+.ig-feed-link {
+  position: relative;
+  display: block;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border-radius: 12px;
+  background: var(--surface-high);
+  text-decoration: none;
+}
+.ig-feed-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 500ms var(--ease-out-expo);
+}
+.ig-feed-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  background: linear-gradient(to top, rgba(19, 19, 19, 0.55), rgba(19, 19, 19, 0) 55%);
+  opacity: 0;
+  transition: opacity 260ms linear;
+}
+.ig-feed-overlay svg { filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5)); }
+.ig-feed-link:hover .ig-feed-img,
+.ig-feed-link:focus-visible .ig-feed-img { transform: scale(1.06); }
+.ig-feed-link:hover .ig-feed-overlay,
+.ig-feed-link:focus-visible .ig-feed-overlay { opacity: 1; }
+.ig-feed-link:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+@media (max-width: 900px) {
+  .ig-feed-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 560px) {
+  .ig-feed-grid { grid-template-columns: repeat(2, 1fr); }
+  .ig-feed-cta { width: 100%; justify-content: center; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ig-feed-img, .ig-feed-overlay, .ig-feed-cta { transition: none; }
+  .ig-feed-link:hover .ig-feed-img,
+  .ig-feed-link:focus-visible .ig-feed-img { transform: none; }
+}

@@ -289,5 +289,11 @@
     "title_line2": "LE CAUCASE ?",
     "subtitle": "Prochain camp · {dates} {year} · Daghestan (Lutte) ou Tchétchénie (MMA)",
     "cta": "DÉPOSER MA CANDIDATURE"
+  },
+  "instagram_feed": {
+    "eyebrow": "SUIVEZ LE CAMP",
+    "title": "La vie au camp, en direct",
+    "subtitle": "Entraînements, coulisses et champions du Caucase. Suis le quotidien du camp sur Instagram.",
+    "cta": "Voir sur Instagram"
   }
 }

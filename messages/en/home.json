@@ -289,5 +289,11 @@
     "title_line2": "THE CAUCASUS?",
     "subtitle": "Next camp · {dates} {year} · Dagestan (Wrestling) or Chechnya (MMA)",
     "cta": "SUBMIT MY APPLICATION"
+  },
+  "instagram_feed": {
+    "eyebrow": "FOLLOW THE CAMP",
+    "title": "Camp life, live",
+    "subtitle": "Training, behind the scenes and Caucasus champions. Follow the camp's daily life on Instagram.",
+    "cta": "View on Instagram"
   }
 }
