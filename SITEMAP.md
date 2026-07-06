@@ -1,7 +1,23 @@
 # SITEMAP MKR Caucasian Camp — Cartographie complète
 
-> **Fichier de référence pour Claude Code.** Mise à jour : 2026-07-06 (refonte conversion pages destination ; VisioBooking Cal.com responsive).
+> **Fichier de référence pour Claude Code.** Mise à jour : 2026-07-06 (Instagram mis en valeur dans le header ; refonte conversion pages destination ; VisioBooking Cal.com responsive).
 > Lis ce fichier en priorité avant toute intervention sur le site MKR. Il évite de re-explorer.
+
+## 🆕 2026-07-06 (Instagram mis en valeur dans le header, desktop + responsive)
+
+> **Demande David** : mettre l'Instagram (@mkrcamp) en valeur dans le menu header, desktop et responsive, soigné UX/UI. Avant, l'IG ne vivait que dans le Footer et le bloc Contact ; il était absent de la barre de nav.
+
+**Fichiers touchés** : `src/components/Nav.tsx` (+ import `SOCIALS` depuis `@/data/site`), `src/app/globals.css` (bloc `/* Nav Instagram */` après le mobile menu), `messages/{fr,en}/common.json` (3 clés miroir). Aucune dépendance, aucune route, aucune donnée.
+
+**Ce qui a été ajouté** :
+- **Desktop (`.nav-right`)** : une pastille sociale `.nav-ig` (lien vers `SOCIALS.instagram`, nouvel onglet) insérée entre le LocaleSwitcher et le CTA POSTULER. Icône Instagram dans un carré au **dégradé Instagram authentique** (radial 34px) pour une reconnaissance immédiate sur le fond sombre, sans concurrencer le CTA orange. Handle `@mkrcamp` affiché ≥ 1361px (`.nav-ig-handle`), masqué en dessous → icône seule.
+- **Mobile / tablette (≤1100px)** : la même pastille reste visible dans la top bar **avant le hamburger** (cible tactile 44px), accès direct sans ouvrir le menu.
+- **Drawer mobile (`.mob-cta-wrap`)** : bouton `.mob-instagram` « SUIVRE @MKRCAMP » (EN « FOLLOW @MKRCAMP ») en **bordure au dégradé IG + fond sombre** (pas un 3e aplat criard), placé au-dessus de WhatsApp et POSTULER. Hiérarchie : POSTULER (primaire, orange) > WhatsApp (vert) > Instagram (bordure dégradé).
+- **A11y** : `aria-label` localisé (`nav.social_instagram_aria`), `rel="noopener noreferrer"`, `target="_blank"`, `focus-visible` (contour blanc sur l'icône), `prefers-reduced-motion` respecté (pas de lift/scale).
+
+**Clés i18n ajoutées (parité 2770)** : `common.nav.social_instagram_handle` (« @mkrcamp », identique FR/EN), `common.nav.social_instagram_aria`, `common.nav.mobile.cta_instagram`. Cf. aussi la ligne « Réseaux sociaux » de la Propagation Map (§6bis) qui inclut désormais `Nav.tsx`.
+
+**QA** : i18n-check OK (2770 clés), `tsc --noEmit` clean, `next build` ✓ Compiled successfully, captures Playwright header aux breakpoints 1440 (chip+handle) / 1200 (icône seule) / 390 (top bar + drawer) en FR et EN → rendu conforme, zéro overflow. Erreurs console dev = préexistantes (api/places 500 sans clé Supabase locale, CSP analytics/ads), non liées.
 
 ## 🆕 2026-07-06 (refonte conversion des pages destination FR+EN, commit 5020974)
 
@@ -1435,6 +1451,7 @@ GEO = { latitude: 42.9849, longitude: 47.5047, country: 'RU', region: 'Daghestan
 | Fichier | Forme |
 |---|---|
 | `data/site.ts` | SOCIALS object |
+| `components/Nav.tsx` | chip Instagram desktop (`.nav-ig` + handle) + bouton drawer mobile (`.mob-instagram`), lit `SOCIALS.instagram` (ajouté 2026-07-06) |
 | `components/Footer.tsx` | footer-socials (3 liens) + footer-contact-link Instagram |
 | `components/Contact.tsx` | bloc Instagram homepage |
 | `app/(site)/contact/page.tsx` | carte Instagram |

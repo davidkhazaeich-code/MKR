@@ -14,6 +14,8 @@
     },
     "cta_apply": "POSTULER",
     "cta_apply_aria": "Postuler au camp",
+    "social_instagram_handle": "@mkrcamp",
+    "social_instagram_aria": "Suivre MKR sur Instagram, nouvel onglet",
     "panels": {
       "le_camp": {
         "section_label": "Le Camp MKR · Choisis ta venue",
@@ -129,7 +131,8 @@
       },
       "cta_whatsapp": "WHATSAPP",
       "cta_whatsapp_aria": "Contacter MKR sur WhatsApp",
-      "cta_apply": "POSTULER AU CAMP"
+      "cta_apply": "POSTULER AU CAMP",
+      "cta_instagram": "SUIVRE @MKRCAMP"
     }
   },
   "footer": {

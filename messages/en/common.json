@@ -14,6 +14,8 @@
     },
     "cta_apply": "APPLY",
     "cta_apply_aria": "Apply to the camp",
+    "social_instagram_handle": "@mkrcamp",
+    "social_instagram_aria": "Follow MKR on Instagram, new tab",
     "panels": {
       "le_camp": {
         "section_label": "MKR Camp · Choose your stay",
@@ -129,7 +131,8 @@
       },
       "cta_whatsapp": "WHATSAPP",
       "cta_whatsapp_aria": "Contact MKR on WhatsApp",
-      "cta_apply": "APPLY TO THE CAMP"
+      "cta_apply": "APPLY TO THE CAMP",
+      "cta_instagram": "FOLLOW @MKRCAMP"
     }
   },
   "footer": {

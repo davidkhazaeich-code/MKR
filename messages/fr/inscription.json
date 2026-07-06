@@ -799,12 +799,16 @@
   "success": {
     "label": "INSCRIPTION REÇUE",
     "title": "DOSSIER ENVOYÉ",
-    "subtitle": "Nous étudions ta candidature et te répondons sous 48h.<br/>Prépare-toi pour l'entretien vidéo de sélection.",
+    "subtitle": "Il te reste <strong>une seule étape</strong> pour valider ton dossier : réserver ta visio de sélection avec Ruslan.<br/>Sans cet appel, ta candidature n'est pas validée.",
     "session_fallback": "SUR MESURE",
-    "share_label": "PARTAGE TA PARTICIPATION",
-    "booked_badge": "Visio réservée",
-    "share_locked_hint": "Ton image souvenir à partager arrive dès que ta visio est réservée.",
-    "share_reveal_link": "L’afficher maintenant",
+    "call_why": {
+      "title": "Pourquoi cette visio est obligatoire",
+      "p1": "Ruslan valide personnellement chaque dossier, et les places sont limitées.",
+      "p2": "15 minutes pour cadrer ton projet, tes dates et répondre à tes questions.",
+      "p3": "Ton dossier n'est validé qu'après cet échange, réserve-le maintenant."
+    },
+    "booked_confirm": "Visio réservée. Tu recevras l'invitation dans ton calendrier. À très vite avec Ruslan.",
+    "souvenir_teaser": "Une fois ton dossier validé, tu reçois par email ton image souvenir personnalisée et tes prochaines étapes.",
     "booking": {
       "step": "DERNIÈRE ÉTAPE",
       "title": "Réserve ta visio de sélection",

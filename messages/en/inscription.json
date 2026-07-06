@@ -799,12 +799,16 @@
   "success": {
     "label": "APPLICATION RECEIVED",
     "title": "FILE SENT",
-    "subtitle": "We are reviewing your application and will reply within 48h.<br/>Get ready for the video selection interview.",
+    "subtitle": "You have <strong>one step left</strong> to validate your file: book your selection call with Ruslan.<br/>Without this call, your application is not validated.",
     "session_fallback": "CUSTOM",
-    "share_label": "SHARE YOUR PARTICIPATION",
-    "booked_badge": "Call booked",
-    "share_locked_hint": "Your shareable image appears as soon as your call is booked.",
-    "share_reveal_link": "Show it now",
+    "call_why": {
+      "title": "Why this call is required",
+      "p1": "Ruslan personally reviews every file, and spots are limited.",
+      "p2": "15 minutes to frame your project, your dates and answer your questions.",
+      "p3": "Your file is only validated after this call, book it now."
+    },
+    "booked_confirm": "Call booked. You will receive the invite in your calendar. See you soon with Ruslan.",
+    "souvenir_teaser": "Once your file is validated, you receive your personalized keepsake image and next steps by email.",
     "booking": {
       "step": "LAST STEP",
       "title": "Book your selection call",

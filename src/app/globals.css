@@ -337,6 +337,99 @@ h1, h2, h3, h4, h5 {
 .mob-cta { display: flex; align-items: center; justify-content: center; font-family: var(--font-barlow-condensed), sans-serif; font-weight: 700; font-size: .9rem; letter-spacing: .2em; text-transform: uppercase; color: #fff; background: var(--cta); padding: 1.1rem 2rem; text-decoration: none; min-height: 52px; transition: background 200ms linear; }
 .mob-cta:hover { background: var(--cta-hover); }
 
+/* ─────────── Nav Instagram (mise en valeur header, desktop + mobile) ───────────
+   Lien social Instagram dans la barre de nav. Toujours visible : pastille au
+   degrade Instagram authentique (reconnaissance immediate sur le fond sombre),
+   handle "@mkrcamp" ajoute >= 1361px, icone seule en dessous et sur mobile
+   (cible tactile 44px, placee avant le hamburger). */
+.nav-ig {
+  display: inline-flex;
+  align-items: center;
+  gap: .55rem;
+  flex-shrink: 0;
+  padding: .25rem;
+  border-radius: 12px;
+  text-decoration: none;
+  transition: transform 200ms var(--ease-out-expo);
+}
+.nav-ig-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  color: var(--primary);
+  background: var(--surface-high);
+  border: 1px solid var(--ghost-border);
+  transition: transform 220ms var(--ease-out-expo), box-shadow 220ms linear,
+              border-color 220ms linear, background-color 220ms linear, color 220ms linear;
+}
+.nav-ig-icon svg { width: 18px; height: 18px; }
+.nav-ig-handle {
+  font-family: var(--font-barlow-condensed), sans-serif;
+  font-weight: 600;
+  font-size: .82rem;
+  letter-spacing: .04em;
+  color: var(--text-secondary);
+  transition: color 200ms linear;
+}
+.nav-ig:hover .nav-ig-icon,
+.nav-ig:focus-visible .nav-ig-icon {
+  transform: translateY(-1px) scale(1.04);
+  border-color: var(--primary);
+  background: var(--primary-glow);
+  box-shadow: 0 6px 20px rgba(200,75,49,0.30);
+}
+.nav-ig:hover .nav-ig-handle { color: var(--text-primary); }
+.nav-ig:focus-visible { outline: none; }
+.nav-ig:focus-visible .nav-ig-icon { outline: 2px solid #fff; outline-offset: 2px; }
+@media (max-width: 1360px) {
+  .nav-ig-handle { display: none; }
+}
+@media (max-width: 1100px) {
+  .nav-ig { min-width: 44px; min-height: 44px; justify-content: center; padding: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nav-ig, .nav-ig-icon { transition: none; }
+  .nav-ig:hover .nav-ig-icon,
+  .nav-ig:focus-visible .nav-ig-icon { transform: none; }
+}
+
+/* Bouton Instagram du drawer mobile : fond sombre + bordure ghost, glyphe rust MKR,
+   featured sans etre un 3e aplat criard a cote de WhatsApp/POSTULER. */
+.mob-instagram {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .6rem;
+  font-family: var(--font-barlow-condensed), sans-serif;
+  font-weight: 700;
+  font-size: .9rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  text-decoration: none;
+  min-height: 52px;
+  padding: 1.1rem 2rem;
+  border: 1.5px solid var(--ghost-border);
+  background: var(--surface);
+  transition: border-color 200ms linear, color 200ms linear,
+              box-shadow 200ms linear, transform 200ms var(--ease-out-expo);
+}
+.mob-instagram svg { flex-shrink: 0; color: var(--primary); }
+.mob-instagram:hover,
+.mob-instagram:focus-visible {
+  border-color: var(--primary);
+  box-shadow: 0 6px 20px var(--primary-glow);
+  transform: translateY(-1px);
+}
+@media (prefers-reduced-motion: reduce) {
+  .mob-instagram { transition: none; }
+  .mob-instagram:hover,
+  .mob-instagram:focus-visible { transform: none; }
+}
+
 /* ═══════════════════════════════════════════════
    HERO SECTION
 ═══════════════════════════════════════════════ */
@@ -11110,16 +11203,16 @@ html.is-loading body {
 
 /* ─────────────── Visio Booking (Cal.com inline, ecran succes inscription) ─────────────── */
 .visio-booking {
-  /* Base (jusqu'a 1151px) : le calendrier remplit la colonne .cand-success (cap 560px), ce
-     qui donne un mois plein ecran propre sur mobile ET tablette. On n'elargit qu'a partir de
-     1152px (cf. media query plus bas) : en dessous de ce seuil, Cal (avec
-     useSlotsViewOnSmallScreen) bascule en vue creneaux compacte des que l'embed depasse
-     ~600px, ce qui casse la mise en page (mini-picker + panneau de creneaux vide). Seuil a
-     1152px et non 1024 (la bascule interne de Cal) : exactement a la bascule le rendu est
-     instable ; a partir de 1152px il est fiable (verifie 1152 / 1280 / 1440). */
+  /* VisioBooking est un enfant direct de .insc-success-page (pleine largeur, centre) :
+     centrage normal-flow via max-width + margin auto (plus de debordement d'une colonne
+     etroite). Jusqu'a 1151px le calendrier reste en colonne <=560px (mois plein propre) ;
+     a partir de 1152px il s'elargit vers mois + creneaux. Seuil a 1152px et non 1024 (la
+     bascule interne de Cal) : en dessous, Cal (useSlotsViewOnSmallScreen) passe en vue
+     creneaux compacte des que l'embed depasse ~600px, ce qui casse la mise en page ;
+     fiable a partir de 1152px (verifie 1152 / 1280 / 1440). */
   width: 100%;
-  max-width: 100%;
-  margin: 2.5rem 0 0;
+  max-width: 560px;
+  margin: 2rem auto 0;
   text-align: center;
 }
 .visio-booking-step {
@@ -11259,15 +11352,14 @@ html.is-loading body {
 .insc-share-reveal:hover { opacity: 0.85; }
 
 /* ── Desktop >=1152px : SEUL point de rupture ou l'on elargit le calendrier. Au-dela de ce
-   seuil Cal affiche de facon fiable le mois + les creneaux cote a cote. .cand-success (cap
-   560px) etant centre dans le viewport, un enfant plus large deborde symetriquement
-   (align-items:center) : la bande reste donc centree a l'ecran. Largeur bornee a 100vw - 2x3rem
-   (padding de la page) pour ne jamais depasser. En dessous de 1152px on NE deroge PAS (une
-   bande large a viewport <1152 = vue creneaux cassee de Cal, cf. commentaire de .visio-booking). ── */
+   seuil Cal affiche de facon fiable le mois + les creneaux cote a cote. VisioBooking etant un
+   enfant direct de .insc-success-page (pleine largeur, centre), un simple max-width suffit :
+   width:100% borne a 1040px, centre par margin auto, sans jamais depasser le padding de la
+   page. En dessous de 1152px on NE deroge PAS (une bande large a viewport <1152 = vue creneaux
+   cassee de Cal, cf. commentaire de .visio-booking). ── */
 @media (min-width: 1152px) {
   .visio-booking {
-    width: min(1040px, calc(100vw - 6rem));
-    max-width: none;
+    max-width: 1040px;
   }
   /* Desktop = mois + creneaux cote a cote (~570px). Reservation juste en dessous. */
   .visio-booking-embed {
@@ -11281,6 +11373,87 @@ html.is-loading body {
     min-height: 380px;
     border-radius: 13px;
   }
+}
+
+/* ─────── Ecran de succes : reassurance "pourquoi l'appel" + teaser souvenir ─────── */
+/* Bloc "pourquoi cette visio est obligatoire" : encadre discret, texte a gauche, place
+   juste avant le calendrier pour lever l'objection avant l'action. */
+.insc-callwhy {
+  width: 100%;
+  max-width: 560px;
+  margin: 1.6rem auto 0;
+  padding: 1.1rem 1.25rem;
+  text-align: left;
+  border: 1px solid var(--border, #1e293b);
+  border-left: 3px solid var(--primary);
+  border-radius: 12px;
+  background: rgba(200, 75, 49, 0.05);
+}
+.insc-callwhy-title {
+  display: block;
+  margin-bottom: 0.7rem;
+  font-family: var(--font-barlow-condensed), sans-serif;
+  font-weight: 600;
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--primary);
+}
+.insc-callwhy-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+.insc-callwhy-list li {
+  position: relative;
+  padding-left: 1.4rem;
+  color: var(--text-secondary);
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+/* Puce = coche SVG inline (jamais d'emoji) en couleur marque. */
+.insc-callwhy-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.16em;
+  width: 0.95rem;
+  height: 0.95rem;
+  background: var(--primary);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z'/%3E%3C/svg%3E") no-repeat center / contain;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z'/%3E%3C/svg%3E") no-repeat center / contain;
+}
+/* Confirmation "visio reservee" apres booking Cal.com. */
+.insc-booked-confirm {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: auto;
+  margin: 1.4rem auto 0;
+  padding: 0.6rem 1.1rem;
+  border-radius: 999px;
+  background: rgba(200, 75, 49, 0.12);
+  border: 1px solid rgba(200, 75, 49, 0.4);
+  color: var(--primary);
+  font-family: var(--font-barlow), sans-serif;
+  font-weight: 600;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  text-align: left;
+  animation: insc-fade-up 0.4s var(--ease-out-expo) both;
+}
+/* Teaser : l'image souvenir arrive par email a la validation du dossier. */
+.insc-souvenir-teaser {
+  width: 100%;
+  max-width: 560px;
+  margin: 1.8rem auto 0;
+  color: var(--text-muted, #94a3b8);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  text-align: center;
 }
 
 /* ==========================================================================

@@ -16,15 +16,16 @@ const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 // - Google Ads / gtag.js (AW-18296696470) : googletagmanager.com sert gtag.js (script-src)
 //   et recoit la mesure (connect-src) ; google-analytics + googleadservices + doubleclick
 //   pour la mesure/conversions (connect-src) et le conversion linker (frame-src). Les pixels
-//   de conversion passent par img-src 'https:' (deja large). Sans ces origines, la balise
-//   est bloquee et aucune conversion ne remonte. Voir src/lib/gtag.ts.
+//   de conversion passent par img-src 'https:' (deja large). pagead2.googlesyndication.com
+//   recoit les hits ccm/collect de gtag (connect-src) + remarketing (script-src). Sans ces
+//   origines, la balise est bloquee et aucune conversion ne remonte. Voir src/lib/gtag.ts.
 const CSP = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline' https://app.cal.com https://www.googletagmanager.com https://www.googleadservices.com https://googleads.g.doubleclick.net",
+  "script-src 'self' 'unsafe-inline' https://app.cal.com https://www.googletagmanager.com https://www.googleadservices.com https://googleads.g.doubleclick.net https://pagead2.googlesyndication.com",
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "img-src 'self' data: blob: https:",
   "font-src 'self' https://fonts.gstatic.com data:",
-  "connect-src 'self' https://bgwvrzgnoqlqqrvflwav.supabase.co https://app.cal.com https://www.googletagmanager.com https://www.google-analytics.com https://*.google-analytics.com https://www.googleadservices.com https://googleads.g.doubleclick.net https://www.google.com",
+  "connect-src 'self' https://bgwvrzgnoqlqqrvflwav.supabase.co https://app.cal.com https://www.googletagmanager.com https://www.google-analytics.com https://*.google-analytics.com https://www.googleadservices.com https://googleads.g.doubleclick.net https://pagead2.googlesyndication.com https://www.google.com",
   "media-src 'self'",
   "frame-src 'self' https://app.cal.com https://cal.com https://td.doubleclick.net https://www.googletagmanager.com",
   "frame-ancestors 'none'",

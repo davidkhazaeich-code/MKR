@@ -8,6 +8,7 @@ import IconLutte from '@/components/icons/IconLutte'
 import IconMMA from '@/components/icons/IconMMA'
 import Icon from './Icon'
 import LocaleSwitcher from './LocaleSwitcher'
+import { SOCIALS } from '@/data/site'
 
 const CHEVRON = <Icon name="chevron-down" size={10} className="nav-trigger-arrow" />
 const ARROW_RIGHT = <Icon name="arrow-right" size={13} />
@@ -226,6 +227,16 @@ export default function Nav() {
 
             <div className="nav-right">
               <LocaleSwitcher variant="desktop" />
+              <a
+                href={SOCIALS.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="nav-ig"
+                aria-label={t('social_instagram_aria')}
+              >
+                <span className="nav-ig-icon" aria-hidden="true"><Icon name="instagram" size={18} /></span>
+                <span className="nav-ig-handle">{t('social_instagram_handle')}</span>
+              </a>
               <Link href="/inscription" className="nav-cta" aria-label={t('cta_apply_aria')}>{t('cta_apply')}</Link>
               <button
                 className={`nav-hamburger${menuOpen ? ' open' : ''}`}
@@ -486,6 +497,16 @@ export default function Nav() {
             <Link href="/contact" className="mob-sub-link">{ICO.contact} {t('mobile.infos.contact')}</Link>
           </MobAccordion>
           <div className="mob-cta-wrap">
+            <a
+              href={SOCIALS.instagram}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mob-instagram"
+              aria-label={t('social_instagram_aria')}
+            >
+              <Icon name="instagram" size={20} />
+              {t('mobile.cta_instagram')}
+            </a>
             <a
               href="https://wa.me/33666177691"
               target="_blank"
