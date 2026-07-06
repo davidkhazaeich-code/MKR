@@ -41,7 +41,11 @@ export default function VisioBooking({ prenom, nom, email, onBooked }: Props) {
         // Theme sombre force pour matcher l'ecran de succes MKR (fond #0E0E0E) + accent
         // marque (--primary). cssVarsPerTheme exige les 2 cles (dark + light) cote types.
         cal('ui', {
-          hideEventTypeDetails: false,
+          // Details de l'event masques : sur mobile ils forcaient une mise en page 2 colonnes
+          // ecrasee (en-tetes de jours qui se chevauchaient). Masques, le calendrier occupe
+          // toute la largeur (mois plein ecran sur mobile, mois + creneaux sur desktop). Le
+          // contexte (visio avec Ruslan) est deja donne par le titre/sous-titre autour.
+          hideEventTypeDetails: true,
           layout: 'month_view',
           theme: 'dark',
           cssVarsPerTheme: {

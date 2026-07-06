@@ -1,7 +1,71 @@
 # SITEMAP MKR Caucasian Camp — Cartographie complète
 
-> **Fichier de référence pour Claude Code.** Mise à jour : 2026-07-03 (balise Google Ads + suivi des conversions ; contrat de participation PDF).
+> **Fichier de référence pour Claude Code.** Mise à jour : 2026-07-06 (refonte conversion pages destination ; VisioBooking Cal.com responsive).
 > Lis ce fichier en priorité avant toute intervention sur le site MKR. Il évite de re-explorer.
+
+## 🆕 2026-07-06 (refonte conversion des pages destination FR+EN, commit 5020974)
+
+> **Demande David** : reprendre de A à Z les pages destination (zone, camp, spécificités) pour maximiser les conversions du trafic SEO/SEA. Pages refondues : `/le-camp`, `/destinations` (hub), `/destinations/dagestan`, `/destinations/tchetchenie`, `/programme/lutte`, `/programme/mma` (FR + EN). Spec : `docs/superpowers/specs/2026-07-06-refonte-pages-destination-conversion-design.md`.
+
+**6 nouveaux composants LP réutilisables** (CSS en fin de `globals.css`, section « LP conversion ») :
+| Composant | Classes | Rôle |
+|---|---|---|
+| `KeyFactsBand` | `.kfb-*` | Bandeau sous hero, message match annonces Google (visa inclus, vol intérieur, 2 sessions/j, sélection, 15 places) |
+| `AudienceFit` | `.afit-*` | Qualification « C'est pour toi si / Passe ton tour si » (règle d'entrée assumée) |
+| `PageFaq` | `.pfaq-*` | FAQ de page (réutilise FAQAccordion) + JSON-LD FAQPage inline, questions spécifiques par page |
+| `ProcessStrip` | `.pstrip-*` | 4 étapes candidature → départ, note « aucun paiement avant validation » |
+| `PriceAnchor` | `.panchor-*` | Prix dérivé de `data/pricing.ts` (jamais en dur), prochaine session `getNextSession()`, places live `PlacesRestantes`, CTA + WhatsApp |
+| `UpdatedAt` | `.updated-at` | Datestamp visible (prop `date` par page, à bumper à chaque révision éditoriale) |
+
+**Clés i18n** : nouveaux groupes par page (`key_facts`, `fit`, `process`, `faq`) dans `messages/{fr,en}/{le-camp,destinations,programme}.json` + labels partagés `common.lp.*` (updated_at, price_anchor). Parité 2767 clés.
+
+**Décisions de contenu appliquées** :
+- **Règle d'entrée 2026-06-20 propagée** (memory `project_mkr_entry_rule_1an_base_sol`) : minimum 1 an de pratique + vraie base au sol, MMA Avancé 5+ ans. Touche aussi `data.faq.json` (3 réponses), `preparer-son-camp.json` (section niveau), `programme.root.pour_qui`, llms.txt. Le discours « ouvert à tous / débutants motivés » est supprimé du site.
+- **Sécurité honnête** : les advisories officielles (France déconseille la Russie, FCDO le Caucase Nord) sont assumées frontalement puis cadrées par le protocole MKR. Fini le « le Quai d'Orsay ne déconseille que les zones frontalières » (inexact).
+- **Noms de champions** : zéro nom sur les 6 pages refondues (continuité policy Google Ads du commit 1fb37ab). Khabib retiré de partout (destinations, hub, llms) sauf l'article blog conservé. Exception : légende photo factuelle Chimaev sur `/programme/mma` (preuve sociale photos réelles, décision 2026-05-23). OG tchetchenie nettoyée. Image `pads-direct-kadyrov.webp` remplacée par `pads-akhmat-power-fairtex.webp` sur programme/mma.
+- **Faits recherche intégrés** (sourcés, rapport interne 2026-07-06) : Khasavyourt 8 ors olympiques sur 4 cycles, 50 000+ lutteurs licenciés à Makhachkala, ACA 2e organisation MMA mondiale par combattants classés, vol direct IST-GRV ~2h30, cartes bancaires étrangères inopérantes en Russie (cash euros).
+
+**🐛 Fix conversion EN important** : `SectionCTA.tsx` utilisait `next/link` brut → sur les pages EN, les CTA renvoyaient vers les routes FR (`/inscription` au lieu de `/en/apply`). Passage au `Link` de `@/i18n/navigation` avec cast (pattern Hero/Sessions). Touche les 21 pages qui rendent SectionCTA.
+
+**llms.txt + llms-en.txt resync complets** : grille tarifaire juin 2026 (l'ancienne grille pré-refonte y traînait), visa désormais INCLUS (était listé non inclus, faux depuis 2026-05-14), règle d'entrée, section « Regle d'entree (selection) », FAQ IA enrichies (accès sans invitation impossible, cash, trajet). Datestamp « Mis a jour : 2026-07-06 ».
+
+**QA** : parité i18n 2767 clés OK, tsc clean, build vert, QA Playwright CLI 10 pages × 3 viewports (375/768/1440) = 0 overflow horizontal, 1 seul h1/page, JSON-LD FAQPage présent sur les 5 pages de contenu. Captures dans `/tmp/mkr-qa/`.
+
+**Pour modifier une page destination désormais** : le contenu vit dans `messages/{fr,en}/<ns>.json` (groupes `key_facts`, `tldr`, `fit`, `process`, `faq`), la structure dans le `page.tsx`. Bumper la const `UPDATED` de la page à chaque révision éditoriale substantielle. Les prix ne se modifient QUE via `data/pricing.ts` (PriceAnchor et llms.txt : penser à resync llms manuellement si la grille change).
+
+## 🆕 2026-07-06 (VisioBooking Cal.com : mise en page responsive desktop large + mobile)
+
+> **Demande David** : améliorer la mise en page du calendrier Cal.com de l'écran de succès, autant en desktop large qu'en responsive mobile. Fichiers touchés : `src/components/VisioBooking.tsx` (1 flag) + `src/app/globals.css` (bloc `.visio-booking*`). Aucune clé i18n, aucun changement de dépendance. On garde `@calcom/embed-react` (déjà câblé thème sombre + accent marque + prefill + events `bookingSuccessful`) : le problème était purement CSS, pas la lib.
+
+**Cause racine** : le calendrier vivait dans `.cand-success` (colonne de texte **cap 560px**), donc écrasé sur desktop. En plus, `hideEventTypeDetails: false` forçait une mise en page 2 colonnes illisible sur mobile (en-têtes de jours qui se chevauchaient).
+
+**3 corrections** :
+1. **`hideEventTypeDetails: true`** (dans `cal('ui', …)`) : masque la colonne "détails de l'event" (redondante, le titre/sous-titre autour donnent déjà le contexte). Résultat : **mobile = mois plein largeur propre**, **desktop = mois + créneaux côte à côte**.
+2. **Breakout responsive** (`.visio-booking`) : jusqu'à 1151px le calendrier reste dans la colonne étroite (≤560px = mois plein propre) ; **à partir de 1152px** il sort du cap 560px vers une bande centrée `min(1040px, calc(100vw - 6rem))`. Technique = débordement symétrique d'un enfant plus large que son parent flex centré (`.cand-success` est `align-items:center` et centré dans le viewport → l'enfant large déborde à égalité des 2 côtés → reste centré à l'écran).
+3. **`min-height` calibré + cadre + spinner** : `min-height` volontairement < à la hauteur réelle du calendrier à chaque breakpoint (mobile ~386px, colonne 560 ~566px, desktop mois+créneaux ~570px) → **zéro bande noire vide** sous l'iframe. Cadre premium (`box-shadow` inset + ombre portée, radius 16px). Spinner de chargement **langue-neutre** (pas de texte à traduire) en `::after` sous l'iframe (`z-index:0`, l'iframe `z-index:1` le recouvre au chargement).
+
+**⚠️ Pièges Cal.com appris (réutilisables pour tout embed Cal)** :
+- Cal choisit sa mise en page d'après **le viewport**, pas la largeur de l'iframe. Avec `useSlotsViewOnSmallScreen: 'true'`, dès que l'embed dépasse ~600px de large à un **viewport < 1024px**, Cal bascule en "vue créneaux" cassée (mini-picker qui chevauche + panneau de créneaux vide). D'où : **on n'élargit qu'à 1152px** (marge au-dessus de la bascule interne 1024px de Cal, instable pile à 1024). En dessous, on garde ≤560px (mois plein, toujours propre).
+- **On garde `useSlotsViewOnSmallScreen: 'true'`** : c'est lui qui donne le mois compact propre sur mobile (sans lui, Cal empile mois + tous les créneaux = 810px+ de haut).
+- **Test en `file://` = faux négatifs** : l'API de créneaux de Cal échoue par intermittence sur une origine nulle (`file://`) → panneau de créneaux vide. Toujours tester un embed Cal **via HTTP** (`python3 -m http.server`) : sur origine réelle (prod `https://mkrcamp.com`), le rendu large est déterministe (vérifié 3/3).
+
+**Vérifié** : rendu réel du calendrier Cal via Playwright headless (harnais reproduisant DOM + CSS de l'écran de succès), sur origine HTTP, aux breakpoints 390 / 900 / 1100 / 1152 / 1440px → tous propres, `gap` conteneur/iframe = 0 partout. L'écran de succès n'est pas atteignable en local (submit Supabase requis), d'où le harnais.
+
+## 🆕 2026-07-06 (blog : 7e article « Comment s'entraîner au Daghestan » FR + EN)
+
+> Nouvel article, slug canonical `comment-s-entrainer-au-dagestan` ↔ EN `how-to-train-in-dagestan`. Catégorie Préparation, ~1700 mots par locale, TL;DR 5 points + FAQ 7 Q/R (JSON-LD BlogPosting + FAQPage émis par le template), SVG « journée type » inline (texte clair sur `--surface` sombre), 2 images Nanobanana conformes metaprompt (`entrainement-dagestan.webp` héro 1920×1071 + `entrainement-dagestan-course.webp` figure 1600×894, webp 131/151 KB). Référencé dans les `relatedSlugs` de 4 articles existants (dont 2 slots qui pointaient vers `khabib-methode-entrainement`, retirés conformément à la règle « pas de Khabib »). Contenu aligné sur la règle d'entrée 2026-06-20 (1 an de pratique + base au sol, MMA Tchétchénie avancé).
+
+**Enregistrer un nouvel article blog = 5 fichiers** (le reste est automatique : sitemap, hreflang, OG, listes, related) :
+1. `messages/fr/blog/<slug>.json` + `messages/en/blog/<slug>.json` (article complet, MÊME nom de fichier canonical pour les 2 locales)
+2. `messages/{fr,en}/blog.json` (entrée index : title, excerpt, date, read_time, category, img_alt)
+3. `src/data/blog.ts` (union `BlogSlug` + entrée `BLOG_POSTS` + maillage `relatedSlugs`)
+4. `src/i18n/routing.ts` (`BLOG_SLUG_MAP` : slug EN localisé)
+5. `src/i18n/request.ts` (`BLOG_SLUGS` : sinon namespace non chargé → fallback « Article en cours de rédaction »)
+
+**Fix i18n blog au passage** :
+- Template `blog/[slug]/page.tsx` : « À RETENIR », « QUESTIONS FRÉQUENTES » et « de lecture » étaient hardcodés FR (fuyaient sur les pages EN) → clés `blog.{tldr_label,faq_title,read_time_suffix}` (FR + EN, parité 2680 clés OK). Breadcrumb JSON-LD Accueil/Home localisé.
+- Liste `blog/page.tsx` : héro « LE JOURNAL DU CAMP » hardcodé → const `BLOG_LIST_HERO` fr/en (EN = « THE CAMP JOURNAL »).
+- ⚠️ Dette restante : le `content_html` EN des **6 anciens articles** pointe encore vers les chemins FR (`/logistique`, `/clubs-groupes`…). Le nouvel article utilise les chemins localisés `/en/...` : faire pareil pour tout nouvel article, et reprendre les 6 anciens un jour.
 
 ## 🆕 2026-07-03 (balise Google Ads AW-18296696470 + suivi des conversions + Consent Mode v2)
 

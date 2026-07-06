@@ -11110,9 +11110,16 @@ html.is-loading body {
 
 /* ─────────────── Visio Booking (Cal.com inline, ecran succes inscription) ─────────────── */
 .visio-booking {
+  /* Base (jusqu'a 1151px) : le calendrier remplit la colonne .cand-success (cap 560px), ce
+     qui donne un mois plein ecran propre sur mobile ET tablette. On n'elargit qu'a partir de
+     1152px (cf. media query plus bas) : en dessous de ce seuil, Cal (avec
+     useSlotsViewOnSmallScreen) bascule en vue creneaux compacte des que l'embed depasse
+     ~600px, ce qui casse la mise en page (mini-picker + panneau de creneaux vide). Seuil a
+     1152px et non 1024 (la bascule interne de Cal) : exactement a la bascule le rendu est
+     instable ; a partir de 1152px il est fiable (verifie 1152 / 1280 / 1440). */
   width: 100%;
-  max-width: 920px;
-  margin: 2.5rem auto 0;
+  max-width: 100%;
+  margin: 2.5rem 0 0;
   text-align: center;
 }
 .visio-booking-step {
@@ -11133,17 +11140,50 @@ html.is-loading body {
   line-height: 1.55;
 }
 .visio-booking-embed {
+  position: relative; /* contexte de positionnement pour le spinner de chargement */
   width: 100%;
-  /* min-height (et non height fixe) : reserve la place au chargement mais laisse le
-     conteneur grandir avec le contenu de Cal. Une hauteur fixe + overflow:hidden coupait
-     le calendrier sur mobile (contenu plus haut que la boite). */
-  min-height: 580px;
+  /* min-height = reservation de chargement uniquement (le conteneur grandit ensuite avec le
+     contenu via height:auto). Volontairement < a la hauteur reelle du calendrier a chaque
+     breakpoint (mobile mois seul ~386px, desktop mois+creneaux ~571px) pour ne jamais laisser
+     de bande vide sombre sous l'iframe une fois Cal charge. Une hauteur fixe + overflow:hidden
+     coupait autrefois le calendrier mobile. */
+  min-height: 440px;
   border: 1px solid var(--border, #1e293b);
-  border-radius: 14px;
+  border-radius: 16px;
   overflow: hidden;
   background: var(--surface-lowest, #0f172a);
+  /* Cadre sombre premium : filet de lumiere en haut + ombre portee profonde. */
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    0 30px 60px -34px rgba(0, 0, 0, 0.65);
+}
+/* Spinner de chargement langue-neutre, affiche SOUS l'iframe : des que Cal peint son
+   fond opaque, il recouvre le spinner. Evite la "boite noire vide" pendant le chargement
+   reseau, sans texte a traduire (site bilingue FR + EN). */
+.visio-booking-embed::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 34px;
+  height: 34px;
+  margin: -17px 0 0 -17px;
+  border-radius: 50%;
+  border: 2px solid rgba(200, 75, 49, 0.22);
+  border-top-color: var(--primary);
+  animation: visio-embed-spin 0.8s linear infinite;
+  z-index: 0;
+  pointer-events: none;
+}
+@keyframes visio-embed-spin {
+  to { transform: rotate(360deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .visio-booking-embed::after { animation: none; }
 }
 .visio-booking-embed > * {
+  position: relative; /* passe au-dessus du spinner de chargement */
+  z-index: 1;
   width: 100%;
   height: auto;
 }
@@ -11218,10 +11258,28 @@ html.is-loading body {
 }
 .insc-share-reveal:hover { opacity: 0.85; }
 
+/* ── Desktop >=1152px : SEUL point de rupture ou l'on elargit le calendrier. Au-dela de ce
+   seuil Cal affiche de facon fiable le mois + les creneaux cote a cote. .cand-success (cap
+   560px) etant centre dans le viewport, un enfant plus large deborde symetriquement
+   (align-items:center) : la bande reste donc centree a l'ecran. Largeur bornee a 100vw - 2x3rem
+   (padding de la page) pour ne jamais depasser. En dessous de 1152px on NE deroge PAS (une
+   bande large a viewport <1152 = vue creneaux cassee de Cal, cf. commentaire de .visio-booking). ── */
+@media (min-width: 1152px) {
+  .visio-booking {
+    width: min(1040px, calc(100vw - 6rem));
+    max-width: none;
+  }
+  /* Desktop = mois + creneaux cote a cote (~570px). Reservation juste en dessous. */
+  .visio-booking-embed {
+    min-height: 520px;
+  }
+}
+
+/* ── Mobile (<=640px) : mois plein ecran seul (~386px avant selection d'un jour). ── */
 @media (max-width: 640px) {
   .visio-booking-embed {
-    min-height: 560px;
-    border-radius: 12px;
+    min-height: 380px;
+    border-radius: 13px;
   }
 }
 
