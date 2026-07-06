@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
-import { Link } from '@/i18n/navigation'
+import { Link, permanentRedirect } from '@/i18n/navigation'
 import SectionCTA from '@/components/SectionCTA'
 import Breadcrumb from '@/components/Breadcrumb'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
@@ -69,12 +69,19 @@ export default async function BlogArticlePage({ params }: { params: Promise<{ sl
     return <BlogFallback />
   }
 
+  // Normalize cross-locale slugs (e.g. /en/blog/<fr-slug>) onto the single
+  // localized URL per locale: no duplicate content, and the locale switcher
+  // always lands on the right slug.
+  const localizedSlug = getBlogSlug(canonical, lang)
+  if (slug !== localizedSlug) {
+    permanentRedirect({ href: { pathname: '/blog/[slug]', params: { slug: localizedSlug } }, locale: lang })
+  }
+
   const tPost = await getTranslations(`blog.${canonical}`)
   const tList = await getTranslations('blog')
   const article = hydrateBlogPost(canonical, tPost as never)
   if (!article) return <BlogFallback />
 
-  const localizedSlug = getBlogSlug(canonical, lang)
   const url = lang === 'en' ? `${SITE_URL}/en/blog/${localizedSlug}` : `${SITE_URL}/blog/${localizedSlug}`
   const imageUrl = article.img.startsWith('http') ? article.img : `${SITE_URL}${article.img}`
   const description = article.meta_description ?? article.excerpt ?? stripHtml(article.content_html).substring(0, 200)

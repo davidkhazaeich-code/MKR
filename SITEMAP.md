@@ -67,6 +67,12 @@
 - Liste `blog/page.tsx` : héro « LE JOURNAL DU CAMP » hardcodé → const `BLOG_LIST_HERO` fr/en (EN = « THE CAMP JOURNAL »).
 - ⚠️ Dette restante : le `content_html` EN des **6 anciens articles** pointe encore vers les chemins FR (`/logistique`, `/clubs-groupes`…). Le nouvel article utilise les chemins localisés `/en/...` : faire pareil pour tout nouvel article, et reprendre les 6 anciens un jour.
 
+**Fix switch de langue sur les articles (bug rapporté David 2026-07-06)** :
+- **Cause** : `LocaleSwitcher.tsx` appelait `router.replace(pathname)` où `usePathname()` next-intl renvoie le TEMPLATE `/blog/[slug]` sur les routes dynamiques, sans jamais passer les `params` → next-intl ne peut pas construire l'URL, le clic FR/EN ne faisait rien sur les pages article (OK partout ailleurs, seule route dynamique publique).
+- **Fix 1 (client)** : `LocaleSwitcher` lit `useParams()`, et sur `/blog/[slug]` remappe le slug vers la locale cible via `getCanonicalBlogSlug` + `getBlogSlug` avant `router.replace({ pathname, params }, { locale })`.
+- **Fix 2 (serveur, SEO)** : `blog/[slug]/page.tsx` fait un `permanentRedirect` (308, export ajouté à `src/i18n/navigation.ts`) de tout slug de mauvaise locale vers l'URL localisée (`/en/blog/<fr-slug>` → `/en/blog/<en-slug>` et inversement, pour les 7 articles) : zéro contenu dupliqué, tous les points d'entrée corrigés (y compris les liens FR des 6 anciens articles EN).
+- Vérifié Playwright : clic EN/FR sur article neuf + ancien article + `/le-camp` + home + `/blog` → URLs et contenus corrects, non-régression statique OK.
+
 ## 🆕 2026-07-03 (balise Google Ads AW-18296696470 + suivi des conversions + Consent Mode v2)
 
 > **Demande David** : poser la balise Google Ads pour tracker toutes les conversions, **surtout la validation du formulaire d'inscription**, avec **Consent Mode v2 + bandeau cookies**. Version « balise directe » (pas de GTM/GA4 pour l'instant). Voir memory `project_mkr_google_ads_campaign`.

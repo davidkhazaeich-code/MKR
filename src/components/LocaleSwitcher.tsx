@@ -1,8 +1,9 @@
 'use client'
 
 import { useLocale, useTranslations } from 'next-intl'
+import { useParams } from 'next/navigation'
 import { usePathname, useRouter } from '@/i18n/navigation'
-import { routing, type Locale } from '@/i18n/routing'
+import { routing, getBlogSlug, getCanonicalBlogSlug, type Locale } from '@/i18n/routing'
 
 interface Props {
   variant?: 'desktop' | 'mobile'
@@ -21,14 +22,25 @@ export default function LocaleSwitcher({ variant = 'desktop' }: Props) {
   const currentLocale = useLocale() as Locale
   const router = useRouter()
   const pathname = usePathname()
+  const params = useParams()
   const t = useTranslations('common.locale_switcher')
 
   function switchTo(target: Locale) {
     if (target === currentLocale) return
     document.cookie = `NEXT_LOCALE=${target}; max-age=31536000; path=/; SameSite=Lax`
-    // Cast: usePathname() returns the canonical path (incl. dynamic segments
-    // like "/blog/[slug]"); router.replace expects a stricter typed union.
-    // Runtime handles dynamic segments correctly; we bypass the TS check.
+    // On dynamic routes, usePathname() returns the TEMPLATE ("/blog/[slug]"):
+    // router.replace needs the params too, otherwise next-intl cannot build
+    // the URL and the switch silently fails. Blog slugs are also localized
+    // (BLOG_SLUG_MAP), so remap the slug for the target locale.
+    if (pathname === '/blog/[slug]' && typeof params?.slug === 'string') {
+      const canonical = getCanonicalBlogSlug(params.slug) ?? params.slug
+      router.replace(
+        { pathname: '/blog/[slug]', params: { slug: getBlogSlug(canonical, target) } },
+        { locale: target },
+      )
+      return
+    }
+    // Cast: static pathnames only from here; bypass the strict typed union.
     router.replace(pathname as Parameters<typeof router.replace>[0], { locale: target })
   }
 
