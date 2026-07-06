@@ -12,6 +12,7 @@ import type { TFn } from '@/lib/session-display'
 
 /** Internal slug used for /blog/[slug] routes. Stable URLs. */
 export type BlogSlug =
+  | 'comment-s-entrainer-au-dagestan'
   | 'pourquoi-le-dagestan-domine-le-mma'
   | 'preparer-son-premier-camp'
   | 'lutte-daghestanaise-guide-complet'
@@ -35,13 +36,23 @@ export interface BlogPostMeta {
 
 export const BLOG_POSTS: BlogPostMeta[] = [
   {
+    slug: 'comment-s-entrainer-au-dagestan',
+    dateISO: '2026-07-06',
+    img: '/images/blog/entrainement-dagestan.webp',
+    relatedSlugs: [
+      'preparer-son-premier-camp',
+      'securite-dagestan-2026',
+      'lutte-daghestanaise-guide-complet',
+    ],
+  },
+  {
     slug: 'pourquoi-le-dagestan-domine-le-mma',
     dateISO: '2026-03-15',
     dateModifiedISO: '2026-05-14',
     featured: true,
     img: '/images/blog/dagestan-mma.webp',
     relatedSlugs: [
-      'khabib-methode-entrainement',
+      'comment-s-entrainer-au-dagestan',
       'lutte-daghestanaise-guide-complet',
       'preparer-son-premier-camp',
     ],
@@ -52,9 +63,9 @@ export const BLOG_POSTS: BlogPostMeta[] = [
     dateModifiedISO: '2026-05-14',
     img: '/images/blog/prep-camp.webp',
     relatedSlugs: [
+      'comment-s-entrainer-au-dagestan',
       'nutrition-athlete-combat',
       'securite-dagestan-2026',
-      'pourquoi-le-dagestan-domine-le-mma',
     ],
   },
   {
@@ -64,7 +75,7 @@ export const BLOG_POSTS: BlogPostMeta[] = [
     img: '/images/blog/lutte-guide.webp',
     relatedSlugs: [
       'pourquoi-le-dagestan-domine-le-mma',
-      'khabib-methode-entrainement',
+      'comment-s-entrainer-au-dagestan',
       'preparer-son-premier-camp',
     ],
   },
@@ -74,6 +85,7 @@ export const BLOG_POSTS: BlogPostMeta[] = [
     dateModifiedISO: '2026-05-14',
     img: '/images/blog/securite-dagestan.webp',
     relatedSlugs: [
+      'comment-s-entrainer-au-dagestan',
       'preparer-son-premier-camp',
       'pourquoi-le-dagestan-domine-le-mma',
     ],

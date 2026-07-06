@@ -17,6 +17,11 @@ const BLOG_LIST_META = {
   },
 } as const
 
+const BLOG_LIST_HERO = {
+  fr: { label: 'BLOG', title: 'LE JOURNAL DU CAMP', home: 'Accueil' },
+  en: { label: 'BLOG', title: 'THE CAMP JOURNAL', home: 'Home' },
+} as const
+
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   const lang = (locale as Locale) ?? 'fr'
@@ -33,18 +38,19 @@ export default async function BlogPage({ params }: { params: Promise<{ locale: s
   const posts = getBlogList(tBlog as never)
   const featured = posts.find(a => a.featured)
   const rest = posts.filter(a => !a.featured)
+  const hero = BLOG_LIST_HERO[lang] ?? BLOG_LIST_HERO.fr
 
   return (
     <>
       <BreadcrumbJsonLd items={[
-        { name: 'Accueil', url: 'https://mkrcamp.com/' },
+        { name: hero.home, url: 'https://mkrcamp.com/' },
         { name: 'Blog', url: 'https://mkrcamp.com/blog' },
       ]} />
 
 
       <PageHero
-        label="BLOG"
-        title="LE JOURNAL DU CAMP"
+        label={hero.label}
+        title={hero.title}
         compact
       />
 

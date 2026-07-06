@@ -137,7 +137,7 @@ export default async function BlogArticlePage({ params }: { params: Promise<{ sl
         />
       )}
       <BreadcrumbJsonLd items={[
-        { name: 'Accueil', url: `${SITE_URL}/` },
+        { name: locale === 'en' ? 'Home' : 'Accueil', url: `${SITE_URL}/` },
         { name: 'Blog', url: `${SITE_URL}/blog` },
         { name: article.title, url },
       ]} />
@@ -152,7 +152,7 @@ export default async function BlogArticlePage({ params }: { params: Promise<{ sl
           <div className="blog-article-meta">
             {article.category && <span className="blog-article-category">{article.category}</span>}
             {article.date && <span>{article.date}</span>}
-            {article.read_time && <><span>·</span><span>{article.read_time} de lecture</span></>}
+            {article.read_time && <><span>·</span><span>{article.read_time} {tList('read_time_suffix')}</span></>}
           </div>
 
           <h1 className="blog-article-title">{article.title}</h1>
@@ -176,8 +176,8 @@ export default async function BlogArticlePage({ params }: { params: Promise<{ sl
           </div>
 
           {article.tldr && article.tldr.length > 0 && (
-            <aside className="blog-tldr" aria-label="À retenir">
-              <div className="blog-tldr-label">À RETENIR</div>
+            <aside className="blog-tldr" aria-label={tList('tldr_label')}>
+              <div className="blog-tldr-label">{tList('tldr_label')}</div>
               <ul className="blog-tldr-list">
                 {article.tldr.map((point, i) => (
                   <li key={i}>{point}</li>
@@ -190,7 +190,7 @@ export default async function BlogArticlePage({ params }: { params: Promise<{ sl
 
           {article.faq && article.faq.length > 0 && (
             <section className="blog-faq" aria-labelledby="blog-faq-title">
-              <h2 id="blog-faq-title" className="blog-faq-title">QUESTIONS FRÉQUENTES</h2>
+              <h2 id="blog-faq-title" className="blog-faq-title">{tList('faq_title')}</h2>
               <div className="blog-faq-list">
                 {article.faq.map((item, i) => (
                   <details key={i} className="blog-faq-item">

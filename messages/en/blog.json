@@ -1,6 +1,17 @@
 {
   "read_article": "Read the article",
   "related": { "eyebrow": "Read next", "title": "Related articles" },
+  "read_time_suffix": "read",
+  "tldr_label": "KEY TAKEAWAYS",
+  "faq_title": "FREQUENTLY ASKED QUESTIONS",
+  "comment-s-entrainer-au-dagestan": {
+    "title": "How to train in Dagestan: the complete guide",
+    "excerpt": "Required level, Makhachkala and Khasavyurt gyms, visa, budget, gym etiquette and a typical training week: everything you need to know before going to train in Dagestan, alone or with a structured camp.",
+    "date": "July 6, 2026",
+    "read_time": "12 min",
+    "category": "Preparation",
+    "img_alt": "Wrestling session in a bright hangar gym in Dagestan: pairs of wrestlers drill takedowns on a round red, yellow and blue mat while a coach watches from the mat edge."
+  },
   "pourquoi-le-dagestan-domine-le-mma": {
     "title": "Why Dagestan dominates world MMA",
     "excerpt": "Full analysis: 3 million inhabitants, 4 UFC champions, a thousand-year wrestling culture, and a repeatable training system. Why the Russian Caucasus became the world's fighter factory.",

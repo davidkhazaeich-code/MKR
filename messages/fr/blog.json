@@ -1,6 +1,17 @@
 {
   "read_article": "Lire l’article",
   "related": { "eyebrow": "À lire ensuite", "title": "Sur le même sujet" },
+  "read_time_suffix": "de lecture",
+  "tldr_label": "À RETENIR",
+  "faq_title": "QUESTIONS FRÉQUENTES",
+  "comment-s-entrainer-au-dagestan": {
+    "title": "Comment s'entraîner au Daghestan : le guide complet",
+    "excerpt": "Niveau requis, salles de Makhachkala et Khasavyourt, visa, budget, codes des salles et semaine type : tout ce qu'il faut savoir avant de partir s'entraîner au Daghestan, seul ou en camp encadré.",
+    "date": "6 juillet 2026",
+    "read_time": "12 min",
+    "category": "Préparation",
+    "img_alt": "Session de lutte dans un hangar lumineux au Daghestan : des paires de lutteurs drillent des takedowns sur un tapis rond rouge, jaune et bleu, un coach observe au bord du tapis."
+  },
   "pourquoi-le-dagestan-domine-le-mma": {
     "title": "Pourquoi le Daghestan domine le MMA mondial",
     "excerpt": "Analyse complète : 3 millions d'habitants, 4 champions UFC, une culture lutte millénaire et un système d'entraînement reproductible. Pourquoi le Caucase russe est devenu l'usine à combattants.",
