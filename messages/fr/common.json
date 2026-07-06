@@ -224,5 +224,18 @@
     "accept": "Accepter",
     "refuse": "Refuser"
   },
+  "lp": {
+    "updated_at": "Mis à jour le {date}",
+    "price_anchor": {
+      "kicker": "TARIF TOUT COMPRIS",
+      "main": "{solo} par personne · 1 semaine",
+      "main_sub": "Visa russe, vol intérieur depuis Istanbul, transferts, hébergement, 2 repas et 2 entraînements par jour. Tu ne gères que ton vol jusqu'à Istanbul.",
+      "degressive": "Dégressif en groupe (dès {min} par personne) · Forfait Famille dédié",
+      "next_session": "Prochaine session",
+      "cta": "POSTULER",
+      "cta_sub": "Candidature gratuite en 5 min · Aucun paiement avant validation en visio",
+      "whatsapp": "Une question précise ? WhatsApp direct"
+    }
+  },
   "skip_link": "Aller au contenu principal"
 }

@@ -4,16 +4,16 @@ export const runtime = 'nodejs'
 
 const COPY = {
   fr: {
-    alt: 'Tchétchénie · Grozny · Akhmat Fight Club',
+    alt: 'Tchétchénie · Grozny · Camp MMA',
     keywords: 'Tchétchénie · Grozny · MMA',
     title: 'L\'épicentre du MMA',
-    subtitle: 'Akhmat Fight Club. Héritage Khamzat Chimaev. Ecuries d\'État.',
+    subtitle: 'Écuries professionnelles de Grozny. Sparring du top mondial.',
   },
   en: {
-    alt: 'Chechnya · Grozny · Akhmat Fight Club',
+    alt: 'Chechnya · Grozny · MMA Camp',
     keywords: 'Chechnya · Grozny · MMA',
     title: 'The epicenter of MMA',
-    subtitle: 'Akhmat Fight Club. Khamzat Chimaev legacy. State-backed teams.',
+    subtitle: 'Grozny professional teams. World-class sparring.',
   },
 } as const
 

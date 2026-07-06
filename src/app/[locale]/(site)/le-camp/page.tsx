@@ -7,13 +7,30 @@ import SectionCTA from '@/components/SectionCTA'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 import CinematicReveal from '@/components/CinematicReveal'
 import TldrBox from '@/components/TldrBox'
+import UpdatedAt from '@/components/UpdatedAt'
+import KeyFactsBand from '@/components/KeyFactsBand'
+import AudienceFit from '@/components/AudienceFit'
+import ProcessStrip, { type ProcessStep } from '@/components/ProcessStrip'
+import PageFaq from '@/components/PageFaq'
+import PriceAnchor from '@/components/PriceAnchor'
 import Icon, { type IconName } from '@/components/Icon'
+import type { FAQItem } from '@/components/FAQAccordion'
+
+const UPDATED = '2026-07-06'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: 'le-camp' })
   return localizedMetadata('/le-camp', locale as Locale, t('meta.title'), t('meta.description'))
 }
+
+const KEY_FACT_KEYS: { key: string; icon: IconName }[] = [
+  { key: 'visa', icon: 'passport' },
+  { key: 'flight', icon: 'plane' },
+  { key: 'housing', icon: 'hotel' },
+  { key: 'training', icon: 'fire' },
+  { key: 'selection', icon: 'shield-check' },
+]
 
 const INCLUDE_KEYS: { key: string; icon: IconName }[] = [
   { key: 'visa', icon: 'passport' },
@@ -34,6 +51,10 @@ export default async function LeCampPage({ params }: { params: Promise<{ locale:
   const facts = t.raw('tldr.facts') as string[]
   const notIncluded = t.raw('not_included.items') as string[]
   const dailySchedule = t.raw('daily_schedule.slots') as { time: string; activity: string; desc: string }[]
+  const fitFor = t.raw('fit.for_items') as string[]
+  const fitNot = t.raw('fit.not_items') as string[]
+  const processSteps = t.raw('process.steps') as ProcessStep[]
+  const faqItems = t.raw('faq.items') as FAQItem[]
 
   return (
     <>
@@ -48,11 +69,21 @@ export default async function LeCampPage({ params }: { params: Promise<{ locale:
         subtitle={t('hero.subtitle')}
       />
 
+      {/* Message match avec les composants d'annonces (visa, vol, places, selection) */}
+      <KeyFactsBand
+        facts={KEY_FACT_KEYS.map(({ key, icon }) => ({
+          icon,
+          label: t(`key_facts.${key}.label`),
+          sub: t(`key_facts.${key}.sub`),
+        }))}
+      />
+
       <div className="inner">
         <TldrBox
           title={t('tldr.title')}
           facts={facts}
         />
+        <UpdatedAt date={UPDATED} />
       </div>
 
       {/* Cinematic reveal */}
@@ -133,6 +164,9 @@ export default async function LeCampPage({ params }: { params: Promise<{ locale:
         </div>
       </section>
 
+      {/* Prix transparent + prochaine session + places live */}
+      <PriceAnchor href="/inscription?type=session" />
+
       {/* Journee type */}
       <section id="journee-type" className="camp-section fx-texture-concrete fx-mask-b fx-stack-4">
         <div className="inner">
@@ -154,7 +188,7 @@ export default async function LeCampPage({ params }: { params: Promise<{ locale:
         </div>
       </section>
 
-      {/* Les salles */}
+      {/* Les salles et la vie au camp */}
       <section className="camp-section fx-grid fx-glow fx-stack-5">
         <div className="fx-glow-orb fx-glow-orb--right fx-glow-breathe" />
         <div className="inner">
@@ -165,7 +199,7 @@ export default async function LeCampPage({ params }: { params: Promise<{ locale:
           <div className="grid-2">
             <figure className="photo-card reveal">
               <img
-                src="/images/environment/gym-interior.webp"
+                src="/images/galerie-real/mma-cercle-session.webp"
                 alt={t('venues.main_alt')}
                 width={800}
                 height={600}
@@ -176,7 +210,7 @@ export default async function LeCampPage({ params }: { params: Promise<{ locale:
             </figure>
             <figure className="photo-card reveal" style={{ transitionDelay: '0.1s' }}>
               <img
-                src="/images/action/boxing-pads.webp"
+                src="/images/galerie-real/coachs-salle.webp"
                 alt={t('venues.secondary_alt')}
                 width={800}
                 height={600}
@@ -215,10 +249,37 @@ export default async function LeCampPage({ params }: { params: Promise<{ locale:
         </div>
       </section>
 
+      {/* Qualification self-select (regle d'entree 2026-06-20) */}
+      <AudienceFit
+        label={t('fit.label')}
+        title={t('fit.title')}
+        forTitle={t('fit.for_title')}
+        forItems={fitFor}
+        notTitle={t('fit.not_title')}
+        notItems={fitNot}
+        note={t('fit.note')}
+      />
+
+      {/* Parcours candidature -> depart */}
+      <ProcessStrip
+        label={t('process.label')}
+        title={t('process.title')}
+        steps={processSteps}
+        note={t('process.note')}
+      />
+
+      {/* Objections locales + JSON-LD FAQPage */}
+      <PageFaq
+        label={t('faq.label')}
+        title={t('faq.title')}
+        items={faqItems}
+        id="faq-le-camp"
+      />
+
       <SectionCTA
-        primaryHref="/sessions"
+        primaryHref="/inscription?type=session"
         primaryLabel={t('section_cta.primary_label')}
-        ghostHref="/programme"
+        ghostHref="/sessions"
         ghostLabel={t('section_cta.ghost_label')}
       />
     </>

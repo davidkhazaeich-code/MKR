@@ -1,4 +1,8 @@
-import Link from 'next/link'
+import { Link } from '@/i18n/navigation'
+
+// Le Link i18n localise le pathname (ex: /inscription -> /en/apply cote EN).
+// L'ancien next/link brut envoyait les visiteurs EN vers les routes FR.
+type LocalizedHref = Parameters<typeof Link>[0]['href']
 
 interface SectionCTAProps {
   primaryHref: string
@@ -12,9 +16,9 @@ export default function SectionCTA({ primaryHref, primaryLabel, ghostHref, ghost
     <section className="section-cta" data-scroll-section data-scroll-label="Passer à l'action">
       <div className="inner reveal">
         <div className="section-cta-buttons">
-          <Link href={primaryHref} className="btn-primary">{primaryLabel}</Link>
+          <Link href={primaryHref as LocalizedHref} className="btn-primary">{primaryLabel}</Link>
           {ghostHref && ghostLabel && (
-            <Link href={ghostHref} className="btn-ghost">{ghostLabel}</Link>
+            <Link href={ghostHref as LocalizedHref} className="btn-ghost">{ghostLabel}</Link>
           )}
         </div>
       </div>

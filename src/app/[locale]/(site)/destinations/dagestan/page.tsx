@@ -8,7 +8,13 @@ import DestinationReveal from '@/components/DestinationReveal'
 import CinematicReveal from '@/components/CinematicReveal'
 import DestinationSafetyProtocol from '@/components/DestinationSafetyProtocol'
 import TldrBox from '@/components/TldrBox'
+import UpdatedAt from '@/components/UpdatedAt'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
+import PageFaq from '@/components/PageFaq'
+import PriceAnchor from '@/components/PriceAnchor'
+import type { FAQItem } from '@/components/FAQAccordion'
+
+const UPDATED = '2026-07-06'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
@@ -34,6 +40,8 @@ export default async function DagestanPage({ params }: { params: Promise<{ local
   setRequestLocale(locale)
   const t = await getTranslations('destinations.dagestan')
 
+  const faqItems = t.raw('faq.items') as FAQItem[]
+
   return (
     <>
       <BreadcrumbJsonLd items={[
@@ -56,6 +64,7 @@ export default async function DagestanPage({ params }: { params: Promise<{ local
           title={t('tldr.title')}
           facts={t.raw('tldr.facts') as string[]}
         />
+        <UpdatedAt date={UPDATED} />
       </div>
 
       <DestinationReveal
@@ -67,7 +76,7 @@ export default async function DagestanPage({ params }: { params: Promise<{ local
           { label: t('reveal.facts.capitale'), value: t('reveal.facts.capitale_value') },
           { label: t('reveal.facts.altitude'), value: t('reveal.facts.altitude_value') },
           { label: t('reveal.facts.olympiques'), value: t('reveal.facts.olympiques_value') },
-          { label: t('reveal.facts.ufc'), value: t('reveal.facts.ufc_value') },
+          { label: t('reveal.facts.khasavyurt'), value: t('reveal.facts.khasavyurt_value') },
           { label: t('reveal.facts.salles'), value: t('reveal.facts.salles_value') },
           { label: t('reveal.facts.population'), value: t('reveal.facts.population_value') },
         ]}
@@ -117,7 +126,7 @@ export default async function DagestanPage({ params }: { params: Promise<{ local
           <div className="grid-2">
             <figure className="photo-card reveal">
               <img
-                src="/images/environment/gym-interior.webp"
+                src="/images/action/lutte-banner-makhachkala.webp"
                 alt={t('salles.photo1_alt')}
                 width={800}
                 height={600}
@@ -128,7 +137,7 @@ export default async function DagestanPage({ params }: { params: Promise<{ local
             </figure>
             <figure className="photo-card reveal" style={{ transitionDelay: '0.1s' }}>
               <img
-                src="/images/action/sparring-mma-wall.webp"
+                src="/images/action/lutte-coach-gereev.webp"
                 alt={t('salles.photo2_alt')}
                 width={800}
                 height={600}
@@ -177,6 +186,17 @@ export default async function DagestanPage({ params }: { params: Promise<{ local
         tagline={t('cinematic.tagline')}
       />
 
+      {/* Prix transparent + prochaine session + places live */}
+      <PriceAnchor discipline="lutte" href="/inscription?type=session" />
+
+      {/* Objections zone + JSON-LD FAQPage */}
+      <PageFaq
+        label={t('faq.label')}
+        title={t('faq.title')}
+        items={faqItems}
+        id="faq-dagestan"
+      />
+
       {/* Logistique resume */}
       <section className="logi-section fx-grid fx-stack-5">
         <div className="inner">
@@ -193,7 +213,7 @@ export default async function DagestanPage({ params }: { params: Promise<{ local
       <SectionCTA
         primaryHref="/inscription?type=session"
         primaryLabel={t('section_cta.primary_label')}
-        ghostHref="/destinations/tchetchenie"
+        ghostHref="/programme/lutte"
         ghostLabel={t('section_cta.ghost_label')}
       />
     </>

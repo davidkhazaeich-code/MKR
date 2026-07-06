@@ -5,7 +5,7 @@
     "card_title": "PROTOCOLE MKR",
     "items": {
       "emergency": "Contact d'urgence 24/7 sur place",
-      "team": "Équipe francophone permanente",
+      "team": "Référents locaux et francophones en permanence",
       "insurance": "Assurance rapatriement obligatoire",
       "briefing": "Briefing sécurité avant départ",
       "monitoring": "Suivi des recommandations gouvernementales en continu"
@@ -14,7 +14,7 @@
   "root": {
     "meta": {
       "title": "Destinations Daghestan et Tchétchénie | MKR Caucasian Camp",
-      "description": "Deux destinations, deux disciplines : Lutte adultes et enfants au Daghestan, MMA en Tchétchénie. Combo possible uniquement en sur-mesure."
+      "description": "Deux destinations, deux disciplines : Lutte adultes et enfants au Daghestan, MMA en Tchétchénie. Compare les deux camps et choisis ta terre d'entraînement."
     },
     "breadcrumb": {
       "home": "Accueil",
@@ -29,7 +29,7 @@
       "daghestan": {
         "region": "Caucase · Russie · Lutte",
         "name": "DAGHESTAN",
-        "tagline": "Berceau de la lutte libre mondiale. Khabib, Makhachev, des centaines de champions olympiques.",
+        "tagline": "Berceau mondial de la lutte libre. Plus de médailles olympiques par habitant que nulle part ailleurs sur Terre.",
         "discipline": "Lutte adultes et Lutte enfants",
         "alt": "Paysage du Daghestan",
         "cta": "EXPLORER LE DAGHESTAN",
@@ -38,7 +38,7 @@
       "tchetchenie": {
         "region": "Caucase · Russie · MMA",
         "name": "TCHÉTCHÉNIE",
-        "tagline": "Épicentre du MMA moderne. Akhmat Fight Club, Khamzat Chimaev, la nouvelle génération du combat.",
+        "tagline": "Épicentre du MMA moderne. Écuries professionnelles de Grozny, sparring du top mondial.",
         "discipline": "MMA adultes",
         "alt": "Paysage de Tchétchénie",
         "cta": "EXPLORER LA TCHÉTCHÉNIE",
@@ -81,17 +81,17 @@
         },
         "signature": {
           "label": "Signature",
-          "daghestan": "Berceau de la lutte libre. Khabib Nurmagomedov, Islam Makhachev, plus de 30 champions olympiques de lutte.",
-          "tchetchenie": "Épicentre du MMA moderne. Akhmat Fight Club, héritage de Khamzat Chimaev, sparring très haut niveau."
+          "daghestan": "Berceau de la lutte libre : plus de 30 médailles olympiques et une filière qui alimente le top mondial du MMA en continu.",
+          "tchetchenie": "Épicentre du MMA moderne : écuries professionnelles, la 2e organisation MMA au monde basée à Grozny, sparring très haut niveau."
         },
         "ambiance": {
           "label": "Ambiance",
           "daghestan": "Tradition montagnarde, villages de lutteurs, transmission père-fils, esprit fondateur.",
-          "tchetchenie": "MMA moderne, écuries pro, ambiance urbaine forte, architecture spectaculaire (mosquée Akhmad Kadyrov)."
+          "tchetchenie": "MMA moderne, écuries pro, ambiance urbaine forte, architecture spectaculaire."
         },
         "pour_qui": {
           "label": "Pour qui",
-          "daghestan": "Tout niveau adulte (Pro / Inter / Amateur sérieux) · enfants 8-17 ans avec parent participant.",
+          "daghestan": "Adultes avec 1 an de pratique minimum et une base au sol · enfants 8-17 ans avec parent participant.",
           "tchetchenie": "Niveau Avancé minimum exigé (form bloquant). Compétiteurs régionaux à internationaux."
         },
         "combo": {
@@ -107,8 +107,8 @@
   },
   "dagestan": {
     "meta": {
-      "title": "Daghestan : Camps MMA et Lutte au cœur du Caucase | MKR",
-      "description": "Tout savoir sur le Daghestan : salles d'entraînement, sécurité, culture, excursions. La terre qui forge les champions du MMA et de la lutte mondiale."
+      "title": "Daghestan : la terre de la Lutte au Caucase | MKR Camp",
+      "description": "Le Daghestan côté tapis : salles de Makhachkala et Kaspiysk, sécurité sans langue de bois, culture, excursions. Le camp Lutte MKR au cœur de la région des champions."
     },
     "breadcrumb": {
       "home": "Accueil",
@@ -116,18 +116,18 @@
       "current": "Daghestan"
     },
     "hero": {
-      "label": "DAGHESTAN",
+      "label": "DAGHESTAN · CAMP LUTTE",
       "title": "LA TERRE QUI FORGE LES CHAMPIONS",
-      "subtitle": "Berceau du MMA mondial. Khabib, Makhachev, et des centaines de champions olympiques de lutte."
+      "subtitle": "Plus de médailles olympiques de lutte par habitant que n'importe où sur Terre. C'est ici que MKR t'emmène t'entraîner."
     },
     "tldr": {
       "title": "En bref · Daghestan",
       "facts": [
-        "Région du Caucase Nord (Fédération de Russie), capitale Makhachkala, 3,1 millions d'habitants.",
-        "Berceau du MMA mondial : Khabib Nurmagomedov, Islam Makhachev, Magomed Ankalaev (3 champions UFC actuels).",
-        "Plus de 30 médailles olympiques de lutte rapportées par la région, méthode daghestanaise mondialement reconnue.",
-        "Camp MKR : salles de Makhachkala et Kaspiysk, vol intérieur Istanbul-Makhachkala inclus, transfert 1h30.",
-        "Lutte (adultes et enfants 8-17 avec parent) , pour le MMA, voir la Tchétchénie."
+        "République du Caucase Nord (Fédération de Russie), capitale Makhachkala, 3,1 millions d'habitants au bord de la mer Caspienne.",
+        "Berceau mondial de la lutte libre : plus de 30 médailles olympiques issues de la région, et la seule ville de Khasavyourt compte 8 titres olympiques sur les 4 derniers cycles.",
+        "Plus de 50 000 lutteurs licenciés autour de Makhachkala. La lutte s'y apprend dès 5 ans, de père en fils.",
+        "Camp MKR Lutte : salles partenaires de Makhachkala et Kaspiysk, vol intérieur Istanbul-Makhachkala et transfert (1h30) inclus.",
+        "Lutte adultes (1 an de pratique minimum) et enfants 8-17 ans avec parent. Pour le MMA, voir la Tchétchénie."
       ]
     },
     "reveal": {
@@ -139,40 +139,40 @@
         "capitale_value": "Makhachkala",
         "altitude": "Altitude moyenne",
         "altitude_value": "1 000 m",
-        "olympiques": "Champions olympiques",
+        "olympiques": "Médailles olympiques de lutte",
         "olympiques_value": "30+",
-        "ufc": "Champions UFC",
-        "ufc_value": "3",
-        "salles": "Salles de combat",
-        "salles_value": "100+",
+        "khasavyurt": "Ors olympiques à Khasavyourt",
+        "khasavyurt_value": "8",
+        "salles": "Lutteurs licenciés",
+        "salles_value": "50 000+",
         "population": "Population",
-        "population_value": "3.1 millions"
+        "population_value": "3,1 millions"
       },
       "badges": [
-        "TERRE DU MMA",
-        "BERCEAU DE LA LUTTE",
-        "KHABIB NURMAGOMEDOV"
+        "BERCEAU DE LA LUTTE LIBRE",
+        "30+ MÉDAILLES OLYMPIQUES",
+        "TERRE DES CHAMPIONS"
       ]
     },
     "presentation": {
       "label": "PRÉSENTATION",
       "title": "LE DAGHESTAN",
-      "p1": "République du Caucase russe, le Daghestan est une terre de montagnes et de traditions. C'est ici que la lutte se transmet de père en fils depuis des siècles. Les villages de montagne ont produit plus de champions olympiques par habitant que n'importe quel autre endroit sur Terre.",
-      "p2": "Makhachkala, la capitale, abrite des dizaines de salles de combat où s'entraînent quotidiennement des centaines d'athlètes de niveau international. C'est dans ces salles que MKR t'emmène."
+      "p1": "République du Caucase russe entre montagnes et mer Caspienne, le Daghestan est l'endroit qui produit le plus de champions de lutte par habitant au monde. Ici, la lutte n'est pas un sport : c'est un fait social. Chaque village a ses champions, les tournois se disputent entre vallées, et un garçon commence à lutter avant d'apprendre à lire.",
+      "p2": "Makhachkala et sa région alignent des dizaines de salles où s'entraînent quotidiennement des centaines d'athlètes de niveau international, dont beaucoup basculent ensuite vers le MMA mondial. Ces salles ne s'ouvrent pas aux visiteurs de passage : on y entre par invitation. C'est exactement l'accès que MKR t'ouvre."
     },
     "safety": {
-      "p1": "Pas de formule creuse. La réalité du terrain en 2026 : la région où se déroule le camp est stable et fréquentée par des athlètes du monde entier. Les villes d'entraînement (Makhachkala, Kaspiysk) sont des zones urbaines normales.",
-      "p2": "Le Quai d'Orsay déconseille certaines zones frontalières, pas les zones urbaines où nous opérons. Chaque participant est informé en détail avant le départ.",
+      "p1": "Pas de formule creuse : la France déconseille officiellement les voyages en Russie, Caucase compris. C'est le cadre officiel et tu dois le connaître. La réalité du terrain que vivent nos athlètes est différente : Makhachkala et Kaspiysk sont des villes actives et stables, habituées aux sportifs étrangers, où l'hospitalité envers les combattants est une fierté locale.",
+      "p2": "Entre les deux, MKR ne te laisse pas trancher seul : référents locaux avec toi en permanence, déplacements organisés, zones urbaines uniquement, briefing complet avant départ, contact d'urgence 24/7 et assurance rapatriement obligatoire. Tu pars informé, encadré, jamais seul.",
       "testimonial_quote": "Je suis parti seul, sans parler russe. L'accueil est incroyable. Sur le tapis, le niveau est brutal.",
       "testimonial_author": "Romain V. · Sambo · Toulouse"
     },
     "salles": {
       "label": "SALLES",
       "title": "LIEUX D'ENTRAÎNEMENT",
-      "photo1_alt": "Salle d'entraînement principale à Makhachkala, Daghestan",
-      "photo1_caption": "Salle principale, Makhachkala. Tapis olympiques, espace frappe.",
-      "photo2_alt": "Entraînement MMA à Kaspiysk, Daghestan",
-      "photo2_caption": "Salle secondaire, Kaspiysk. MMA, cage, équipement complet."
+      "photo1_alt": "Salle de lutte de Makhachkala avec sa bannière traditionnelle, lutteurs en échauffement",
+      "photo1_caption": "Salle partenaire, Makhachkala. Tapis olympiques, devise au mur, rythme local.",
+      "photo2_alt": "Coach de lutte daghestanais en pleine correction technique",
+      "photo2_caption": "Les coachs locaux corrigent en quelques secondes ce que tu fais mal depuis des années."
     },
     "excursions": {
       "label": "CULTURE",
@@ -198,20 +198,50 @@
       "title": "LA ROUTE DU CHAMPION",
       "tagline": "Des montagnes qui forgent le caractère. Chaque virage rapproche du camp."
     },
+    "faq": {
+      "label": "QUESTIONS",
+      "title": "AVANT DE PARTIR AU DAGHESTAN",
+      "items": [
+        {
+          "question": "Le Daghestan est-il sûr pour un athlète étranger en 2026 ?",
+          "answer": "Le cadre officiel d'abord : la France déconseille les voyages en Russie et le Royaume-Uni déconseille spécifiquement le Caucase Nord. La réalité du terrain ensuite : les villes d'entraînement (Makhachkala, Kaspiysk) sont stables et accueillent des athlètes étrangers toute l'année, l'hospitalité envers les sportifs y est une fierté. MKR encadre tout le séjour : référents locaux permanents, zones urbaines uniquement, briefing avant départ, contact d'urgence 24/7, assurance rapatriement obligatoire."
+        },
+        {
+          "question": "Pourquoi le Daghestan produit autant de champions de lutte ?",
+          "answer": "Trois raisons mesurables. La culture : on commence la lutte à 5 ans, chaque village a sa salle, et un lutteur sérieux accumule environ 5 000 heures de tapis avant ses 18 ans. Le volume : plus de 50 000 lutteurs licenciés autour de Makhachkala se disputent les places. La sélection : seuls les meilleurs émergent d'une concurrence permanente. Résultat : plus de 30 médailles olympiques pour la région, dont 8 titres pour la seule ville de Khasavyourt sur les 4 derniers cycles."
+        },
+        {
+          "question": "Comment se rendre au Daghestan depuis l'Europe ?",
+          "answer": "Il n'existe pas de vol direct depuis l'Europe de l'Ouest. Le trajet passe par Istanbul : tu prends un vol jusqu'à Istanbul (à ta charge), puis le vol intérieur Istanbul-Makhachkala (MCX), inclus dans ton package MKR, environ 2h30 de vol. À l'arrivée, un référent MKR t'accueille à l'aéroport et le transfert d'1h30 vers le camp est inclus."
+        },
+        {
+          "question": "Peut-on s'entraîner dans les salles locales sans invitation ?",
+          "answer": "Non, et c'est le point que sous-estiment tous ceux qui veulent organiser le voyage seuls. Les salles daghestanaises fonctionnent par cooptation : il faut être introduit par un coach ou un membre de confiance du réseau. Sans invitation, tu restes à la porte. L'accès MKR repose sur le réseau personnel de Ruslan Mukhtarov, né au Daghestan et ancien membre de l'équipe olympique de France de lutte."
+        },
+        {
+          "question": "Peut-on payer par carte sur place ?",
+          "answer": "Non. Les cartes Visa et Mastercard émises hors de Russie ne fonctionnent ni en magasin ni aux distributeurs. Prévois du liquide en euros à changer en roubles sur place (nos référents t'accompagnent au change). Ton package MKR couvrant hébergement, repas et transports, le budget de poche reste limité : compte l'équivalent de 50 à 100 euros par semaine pour tes extras."
+        },
+        {
+          "question": "Quelle est la meilleure période pour un camp au Daghestan ?",
+          "answer": "D'avril à septembre pour le climat le plus agréable, mais les salles tournent toute l'année. MKR organise 4 sessions officielles par an (été, Toussaint, hiver, printemps), calées sur les vacances scolaires francophones. Les places étant limitées à 15 par discipline, la vraie contrainte est moins la météo que la disponibilité."
+        }
+      ]
+    },
     "logistique": {
       "title": "LOGISTIQUE DAGHESTAN",
-      "body": "Aéroport : Makhachkala (MCX). Transfert MKR depuis l'aéroport inclus. Hébergement en logement de camp.",
+      "body": "Aéroport : Makhachkala (MCX). Vol intérieur depuis Istanbul et transfert MKR (1h30) inclus. Hébergement en logement de camp. Visa russe géré par MKR.",
       "cta": "DÉTAIL COMPLET"
     },
     "section_cta": {
       "primary_label": "POSTULER · CAMP LUTTE DAGHESTAN",
-      "ghost_label": "VOIR LA TCHÉTCHÉNIE · MMA"
+      "ghost_label": "VOIR LE PROGRAMME LUTTE"
     }
   },
   "tchetchenie": {
     "meta": {
-      "title": "Tchétchénie : Camp MMA au Caucase | MKR Caucasian Camp",
-      "description": "Tout sur la Tchétchénie : salles MMA de Grozny, sécurité, culture, logistique. La terre qui a vu naître Khamzat Chimaev et la nouvelle génération MMA."
+      "title": "Tchétchénie : Camp MMA à Grozny | MKR Caucasian Camp",
+      "description": "La Tchétchénie côté cage : salles professionnelles de Grozny, sécurité sans langue de bois, culture, logistique. Le camp MMA MKR dans l'épicentre du MMA moderne."
     },
     "breadcrumb": {
       "home": "Accueil",
@@ -219,22 +249,22 @@
       "current": "Tchétchénie"
     },
     "hero": {
-      "label": "TCHÉTCHÉNIE",
+      "label": "TCHÉTCHÉNIE · CAMP MMA",
       "title": "LA TERRE QUI FORGE LA NOUVELLE GÉNÉRATION DU MMA",
-      "subtitle": "Akhmat Fight Club, Khamzat Chimaev, et un écosystème MMA parmi les plus durs au monde."
+      "subtitle": "Grozny concentre des écuries MMA parmi les plus dures au monde. C'est dans cet écosystème que MKR t'ouvre les portes."
     },
     "tldr": {
       "title": "En bref · Tchétchénie",
       "facts": [
         "République du Caucase Nord (Fédération de Russie), capitale Grozny, 1,5 million d'habitants.",
-        "Épicentre du MMA moderne : Akhmat Fight Club, héritage Khamzat Chimaev, écuries State et privées.",
-        "Plus de 15 combattants au top mondial MMA, 30+ salles professionnelles dans la région.",
-        "Camp MKR : salles MMA de Grozny, vol intérieur Istanbul-Grozny inclus, transfert 30 min.",
-        "MMA uniquement (niveau Avancé minimum, 5+ ans de pratique) , pour la Lutte, voir le Daghestan."
+        "Épicentre du MMA moderne : écuries d'État et privées, dont l'Akhmat Fight Club, et la 2e organisation MMA au monde par nombre de combattants classés (ACA), basée à Grozny.",
+        "Plus de 15 combattants du top mondial MMA formés dans la région, plus de 30 salles professionnelles.",
+        "Camp MKR MMA : salles partenaires de Grozny, vol intérieur Istanbul-Grozny (direct, environ 2h30) et transfert de 30 minutes inclus.",
+        "MMA uniquement, niveau Avancé minimum (5 ans et plus de pratique). Pour la Lutte, voir le Daghestan."
       ]
     },
     "reveal": {
-      "image_alt": "Mosquée Akhmad Kadyrov et tours de Grozny City au crépuscule, Tchétchénie",
+      "image_alt": "Mosquée du Cœur de la Tchétchénie et tours de Grozny City au crépuscule",
       "label": "CAUCASE · RUSSIE",
       "title": "LE PAYS<br/>VAÏNAKH",
       "facts": {
@@ -242,47 +272,47 @@
         "capitale_value": "Grozny",
         "altitude": "Altitude moyenne",
         "altitude_value": "600 m",
-        "champions_mma": "Champions MMA top mondial",
+        "champions_mma": "Combattants top mondial",
         "champions_mma_value": "15+",
-        "ufc": "Champion UFC top 5",
-        "ufc_value": "1",
+        "transfert": "Transfert aéroport-camp",
+        "transfert_value": "30 min",
         "salles": "Salles MMA professionnelles",
         "salles_value": "30+",
         "population": "Population",
-        "population_value": "1.5 millions"
+        "population_value": "1,5 million"
       },
       "badges": [
-        "TERRE DU MMA MODERNE",
-        "AKHMAT FIGHT CLUB",
-        "KHAMZAT CHIMAEV"
+        "ÉPICENTRE DU MMA MODERNE",
+        "ÉCURIES PROFESSIONNELLES",
+        "SPARRING TOP MONDIAL"
       ]
     },
     "presentation": {
       "label": "PRÉSENTATION",
       "title": "LA TCHÉTCHÉNIE",
-      "p1": "République du Caucase russe à l'ouest du Daghestan, la Tchétchénie est l'épicentre du MMA moderne. En quinze ans, Grozny est devenue un point de passage obligé pour les combattants mondiaux : structures d'État, écuries privées et sparring de très haut niveau.",
-      "p2": "L'Akhmat Fight Club rassemble une concentration unique de combattants pro. C'est dans cet écosystème que MKR ouvre l'accès pour ses camps MMA, avec un encadrement francophone et des partenariats locaux."
+      "p1": "République du Caucase russe à l'ouest du Daghestan, la Tchétchénie est devenue en quinze ans l'épicentre du MMA moderne. Grozny héberge des structures d'État et des écuries privées qui salarient leurs combattants au mois, et la 2e organisation MMA au monde par nombre de combattants classés y organise ses galas.",
+      "p2": "L'Akhmat Fight Club et les salles professionnelles de Grozny concentrent un niveau de sparring que tu ne trouveras nulle part en Europe. C'est dans cet écosystème que MKR ouvre l'accès pour ses camps MMA, avec des référents sur place et des partenariats directs avec les salles."
     },
     "safety": {
-      "p1": "Pas de formule creuse. La réalité du terrain en 2026 : Grozny est aujourd'hui l'une des villes les plus sûres du Caucase en termes de criminalité urbaine. Police visible, vie nocturne quasi inexistante, hospitalité forte envers les sportifs étrangers.",
-      "p2": "Le Quai d'Orsay maintient une vigilance régionale. MKR opère uniquement dans les zones urbaines et les salles partenaires accréditées. Chaque participant reçoit un briefing détaillé.",
+      "p1": "Pas de formule creuse : la France déconseille officiellement les voyages en Russie et le Royaume-Uni déconseille spécifiquement la Tchétchénie. C'est le cadre officiel et tu dois le connaître. La réalité du terrain : Grozny est aujourd'hui une ville ordonnée et très contrôlée, à la criminalité urbaine faible, où les sportifs étrangers sont accueillis avec respect.",
+      "p2": "Entre les deux, MKR met un protocole complet : référents locaux en permanence, salles partenaires accréditées, zones urbaines uniquement, briefing détaillé avant départ, contact d'urgence 24/7 et assurance rapatriement obligatoire. La culture locale est musulmane et conservatrice : tenue sobre, pas d'alcool, respect des usages. Tout est cadré au briefing.",
       "testimonial_quote": "Le respect pour les combattants est total. Sur le tapis, on ne te fait aucun cadeau.",
       "testimonial_author": "Mehdi R. · MMA Pro · Marseille"
     },
     "salles": {
       "label": "SALLES",
       "title": "LIEUX D'ENTRAÎNEMENT",
-      "photo1_alt": "Combattant MMA dans la cage de la salle Akhmat Fight Club, Grozny, Tchétchénie",
-      "photo1_caption": "Salle Akhmat Fight Club, Grozny. Cage MMA, tapis rouge, équipement de frappe complet.",
-      "photo2_alt": "Sparring MMA dans la cage avec un coach Akhmat Fight Club, Grozny",
-      "photo2_caption": "Sparring quotidien encadré par les combattants de l'écurie Akhmat et leurs coachs."
+      "photo1_alt": "Combattant MMA dans la cage d'une salle professionnelle de Grozny, Tchétchénie",
+      "photo1_caption": "Salle partenaire, Grozny. Cage MMA, tapis, équipement de frappe complet.",
+      "photo2_alt": "Sparring MMA encadré par un coach dans une salle de Grozny",
+      "photo2_caption": "Sparring quotidien encadré par les coachs des écuries professionnelles."
     },
     "excursions": {
       "label": "CULTURE",
       "title": "EXCURSIONS ET DÉCOUVERTE",
       "items": {
         "mosquee": {
-          "title": "Mosquée Akhmad Kadyrov",
+          "title": "Mosquée du Cœur de la Tchétchénie",
           "desc": "L'une des plus grandes mosquées d'Europe, au cœur de Grozny. Architecture spectaculaire."
         },
         "vainakh": {
@@ -295,14 +325,40 @@
         }
       }
     },
+    "faq": {
+      "label": "QUESTIONS",
+      "title": "AVANT DE PARTIR EN TCHÉTCHÉNIE",
+      "items": [
+        {
+          "question": "Grozny est-elle une ville sûre pour un camp MMA en 2026 ?",
+          "answer": "Le cadre officiel d'abord : la France déconseille les voyages en Russie et le Royaume-Uni déconseille spécifiquement la Tchétchénie. La réalité du terrain ensuite : Grozny est une ville très contrôlée, à la criminalité urbaine faible, où les combattants étrangers sont accueillis avec un respect réel. MKR encadre l'intégralité du séjour : référents locaux permanents, salles partenaires, briefing avant départ, contact d'urgence 24/7 et assurance rapatriement obligatoire."
+        },
+        {
+          "question": "Pourquoi Grozny est-elle devenue un épicentre du MMA mondial ?",
+          "answer": "Parce que la région a industrialisé la formation : des écuries d'État et privées salarient leurs combattants au mois, les salles professionnelles se comptent par dizaines, et la 2e organisation MMA au monde par nombre de combattants classés y organise ses événements. Ajoute l'héritage de la lutte caucasienne comme base technique, et tu obtiens une densité de partenaires de sparring de haut niveau introuvable en Europe."
+        },
+        {
+          "question": "Comment se rendre à Grozny depuis l'Europe ?",
+          "answer": "Aucun vol direct depuis l'Europe de l'Ouest. Le trajet passe par Istanbul : vol jusqu'à Istanbul à ta charge, puis vol intérieur direct Istanbul-Grozny (GRV), environ 2h30, inclus dans ton package MKR. Un référent t'accueille à l'aéroport et le transfert vers le camp ne prend que 30 minutes, inclus lui aussi."
+        },
+        {
+          "question": "Quel niveau faut-il pour s'entraîner au MMA à Grozny ?",
+          "answer": "Le niveau Avancé est exigé : 5 ans et plus de pratique régulière ou une expérience de compétition. Le formulaire d'inscription bloque les niveaux inférieurs, et Ruslan confirme le niveau en visio. Ce n'est pas de l'élitisme : tes partenaires de sparring sont des professionnels, et le rythme des sessions suppose un bagage technique réel. Si tu n'y es pas encore, le camp Lutte au Daghestan est la meilleure porte d'entrée."
+        },
+        {
+          "question": "Peut-on visiter la Tchétchénie pendant le camp ?",
+          "answer": "Oui, le jour de repos. Les excursions optionnelles incluent la mosquée du Cœur de la Tchétchénie à Grozny, les tours vaïnakh médiévales d'Itoum-Kalé et le lac d'altitude Kezenoy-Am. Toujours accompagné par les référents MKR : les zones de montagne ne se visitent pas seul."
+        }
+      ]
+    },
     "logistique": {
       "title": "LOGISTIQUE TCHÉTCHÉNIE",
-      "body": "Aéroport : Grozny (GRV). Vol intérieur depuis Istanbul inclus dans le package. Transfert MKR depuis l'aéroport inclus. Hébergement en logement de camp à Grozny.",
+      "body": "Aéroport : Grozny (GRV). Vol intérieur direct depuis Istanbul et transfert MKR (30 min) inclus. Hébergement en logement de camp à Grozny. Visa russe géré par MKR.",
       "cta": "DÉTAIL COMPLET"
     },
     "section_cta": {
       "primary_label": "POSTULER · CAMP MMA TCHÉTCHÉNIE",
-      "ghost_label": "VOIR LE DAGHESTAN · LUTTE"
+      "ghost_label": "VOIR LE PROGRAMME MMA"
     }
   }
 }

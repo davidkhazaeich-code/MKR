@@ -23,7 +23,7 @@
         "label": "DISCIPLINE · TCHÉTCHÉNIE",
         "title": "MMA",
         "alt": "Sparring MMA dans une salle du Caucase",
-        "desc": "Striking, clinch, takedowns, soumissions. Sparring quotidien avec les combattants de l'écurie Akhmat. Camp basé à Grozny, en Tchétchénie. Le MMA tchétchène en immersion totale.",
+        "desc": "Striking, clinch, takedowns, soumissions. Sparring quotidien avec les combattants des écuries professionnelles de Grozny. Niveau Avancé minimum. Le MMA tchétchène en immersion totale.",
         "cta": "VOIR LE PROGRAMME MMA"
       },
       "lutte": {
@@ -55,7 +55,7 @@
         },
         "amateur": {
           "title": "AMATEUR SÉRIEUX",
-          "desc": "2 ans minimum de pratique. Condition physique solide. Engagement total pendant le camp."
+          "desc": "Minimum 1 an de pratique et une vraie base au sol. Condition physique sérieuse. Engagement total pendant le camp."
         }
       }
     },
@@ -66,8 +66,8 @@
   },
   "lutte": {
     "meta": {
-      "title": "Programme Lutte libre au Daghestan | MKR Caucasian Camp",
-      "description": "Programme de lutte libre au Caucase. Méthodes daghestanaises ancestrales, leg rides, chain wrestling, sparring quotidien, coachs champions du monde."
+      "title": "Camp de Lutte libre au Daghestan | MKR Caucasian Camp",
+      "description": "Camp de lutte libre au Daghestan tout compris : visa, vol intérieur, hébergement, 2 sessions/jour avec les méthodes daghestanaises. Dès 1 an de pratique, 15 places."
     },
     "breadcrumb": {
       "home": "Accueil",
@@ -75,26 +75,33 @@
       "current": "Lutte"
     },
     "hero": {
-      "label": "LUTTE · DAGHESTAN",
+      "label": "CAMP LUTTE · DAGHESTAN",
       "title": "LA DISCIPLINE QUI A FORGÉ LE CAUCASE",
-      "subtitle": "Lutte libre uniquement, au cœur du Daghestan. Les méthodes ancestrales transmises dans les salles de Makhachkala et Kaspiysk."
+      "subtitle": "Lutte libre uniquement, dans les salles de Makhachkala et Kaspiysk. Les méthodes qui produisent des champions olympiques en série, transmises sur le tapis."
+    },
+    "key_facts": {
+      "visa": { "label": "Visa russe inclus", "sub": "Dossier géré de A à Z par MKR" },
+      "flight": { "label": "Vol intérieur inclus", "sub": "Istanbul vers Makhachkala (MCX)" },
+      "training": { "label": "2 sessions/jour", "sub": "10h30 et 17h30, 6 jours sur 7" },
+      "level": { "label": "Dès 1 an de pratique", "sub": "Base au sol exigée, sélection en visio" },
+      "spots": { "label": "15 places par session", "sub": "4 sessions par an" }
     },
     "tldr": {
-      "title": "En bref · Programme Lutte",
+      "title": "En bref · Camp Lutte",
       "facts": [
-        "Lutte libre exclusivement (pas de gréco-romaine) au Daghestan, Makhachkala et Kaspiysk.",
-        "15 places par session officielle. Ouvert aux adultes et enfants 8-17 ans avec parent (tunnel Famille).",
+        "Lutte libre exclusivement (pas de gréco-romaine) au Daghestan, dans les salles partenaires de Makhachkala et Kaspiysk.",
+        "15 places par session officielle. Adultes dès 1 an de pratique avec base au sol, enfants 8-17 ans avec parent via le tunnel Famille.",
         "6 modules techniques : takedowns, leg rides daghestanais, chain wrestling, funk rolls, mat returns, défense.",
-        "Sparring quotidien avec lutteurs locaux issus de la filière qui a produit 30+ médaillés olympiques.",
-        "Horaires : sessions à 10h30 et 17h30, 6 jours sur 7. Combo Lutte + MMA disponible en Sur Mesure."
+        "Sparring quotidien avec des lutteurs locaux issus de la filière aux 30+ médailles olympiques.",
+        "Sessions à 10h30 et 17h30, 6 jours sur 7. Tout compris : visa russe, vol intérieur, hébergement, 2 repas/jour."
       ]
     },
     "description": {
       "label": "LE PROGRAMME",
       "title": "LUTTE AU DAGHESTAN",
-      "p1": "Au Daghestan, la lutte n'est pas un sport. C'est une identité. Chaque village a son champion, chaque famille transmet ses techniques. Les méthodes daghestanaises ont produit plus de champions olympiques de lutte par habitant que n'importe quel autre endroit au monde.",
-      "p2": "Le programme MKR te donne accès à ce savoir : lutte libre exclusivement, et les techniques spécifiques du Caucase que tu ne trouveras dans aucune académie européenne.",
-      "img1_alt": "Coach Gereev en pleine séance dans la salle de lutte daghestanaise",
+      "p1": "Au Daghestan, la lutte n'est pas un sport. C'est une identité. Chaque village a son champion, chaque famille transmet ses techniques, et un lutteur sérieux accumule 5 000 heures de tapis avant ses 18 ans. Cette région produit plus de champions olympiques de lutte par habitant que n'importe quel autre endroit au monde.",
+      "p2": "Le programme MKR te donne accès à ce savoir : lutte libre exclusivement, dans les salles réelles, avec les techniques spécifiques du Caucase que tu ne trouveras dans aucune académie européenne. Et des coachs capables de corriger en quelques secondes ce que tu fais mal depuis des années.",
+      "img1_alt": "Coach en pleine séance dans la salle de lutte daghestanaise",
       "img2_alt": "Pont de lutte au sol, exercice ancestral pratiqué en groupe au Daghestan"
     },
     "cinematic": {
@@ -164,6 +171,66 @@
       "hours_note_and": " et ",
       "hours_note_afternoon": "après-midi 17h30",
       "hours_note_suffix": ". Pas de chevauchement avec les sessions MMA."
+    },
+    "fit": {
+      "label": "SÉLECTION",
+      "title": "CE CAMP EST-IL FAIT POUR TOI ?",
+      "for_title": "C'est pour toi si",
+      "for_items": [
+        "Tu as au moins 1 an de lutte, grappling, JJB, judo ou MMA, avec une vraie base au sol.",
+        "Tu veux le volume daghestanais : 2 sessions par jour, drilling intensif, sparring quotidien.",
+        "Tu viens chercher les techniques du Caucase (leg rides, chain wrestling) introuvables en Europe.",
+        "Tu viens avec ton enfant de 8-17 ans et tu veux lutter pendant qu'il apprend avec un coach jeunesse."
+      ],
+      "not_title": "Passe ton tour si",
+      "not_items": [
+        "Tu n'as jamais lutté ni fait de sol : construis d'abord un an de base en club.",
+        "Tu veux surtout du striking : regarde le camp MMA en Tchétchénie (niveau Avancé exigé).",
+        "Tu cherches un stage loisir à une séance par jour.",
+        "Tu ne peux pas encaisser 6 jours d'entraînement sur 7 pendant au moins une semaine."
+      ],
+      "note": "Chaque candidature est validée en visio par Ruslan Mukhtarov, ancien membre de l'équipe olympique de France de lutte. Si ton niveau ne suffit pas encore, il te le dira et te proposera un plan pour l'atteindre."
+    },
+    "process": {
+      "label": "COMMENT ÇA MARCHE",
+      "title": "DE LA CANDIDATURE AU TAPIS",
+      "steps": [
+        { "title": "Candidature en ligne", "desc": "5 minutes, gratuite et sans engagement. Ton profil lutte, ton niveau, tes dates." },
+        { "title": "Visio avec Ruslan", "desc": "Sous 48h. Validation du niveau, réponses à tes questions, cadrage du projet." },
+        { "title": "MKR prépare tout", "desc": "Visa russe, vol intérieur Istanbul-Makhachkala, hébergement, salles. Toi : vol jusqu'à Istanbul, assurance, préparation physique." },
+        { "title": "Départ", "desc": "Accueil à Makhachkala, transfert d'1h30 au camp, premier entraînement le lendemain." }
+      ],
+      "note": "Aucun paiement à la candidature. Le règlement intervient uniquement après validation en visio."
+    },
+    "faq": {
+      "label": "QUESTIONS",
+      "title": "AVANT DE POSTULER AU CAMP LUTTE",
+      "items": [
+        {
+          "question": "Faut-il déjà être un bon lutteur pour venir au Daghestan ?",
+          "answer": "Non, mais il faut une base : minimum 1 an de pratique régulière en lutte, grappling, JJB, judo ou MMA, avec un vrai travail au sol. L'instruction se fait par démonstration et au rythme local : sans cette base, tu ne suis pas et tu casses dès la première semaine. Le niveau est confirmé en visio avec Ruslan avant validation, et les groupes de sparring sont organisés par niveau une fois sur place."
+        },
+        {
+          "question": "Qu'est-ce que je vais apprendre que je ne trouverai pas en Europe ?",
+          "answer": "Trois choses. Les techniques signature du Caucase : leg rides, chain wrestling, mat returns enchaînés, très peu enseignés en Europe. Le volume : 2 sessions par jour, 6 jours sur 7, avec plus de rounds de sparring sérieux en 2 semaines que dans 6 mois de club européen. Et les corrections : des coachs qui ont vu des milliers de versions de chaque geste et corrigent en quelques secondes ce que tu traînes depuis des années."
+        },
+        {
+          "question": "À quoi ressemble une semaine type au camp Lutte ?",
+          "answer": "6 jours d'entraînement, 1 jour de repos. Chaque jour : session à 10h30 (technique, drills, situations) et session à 17h30 (intensité compétition, sparring dirigé), avec récupération et repas entre les deux. Le jour de repos, excursion optionnelle : canyon de Sulak, dune de Sarykum ou village de Gamsutl. Le tout encadré par les référents MKR."
+        },
+        {
+          "question": "Mon enfant peut-il vraiment s'entraîner au Daghestan ?",
+          "answer": "Oui, de 8 à 17 ans, à condition qu'un parent participe au camp (c'est le tunnel Famille). Les enfants ont leur propre programme avec un coach jeunesse dédié, un ratio d'un coach pour 5 enfants, des sessions séparées à 10h30 et 17h30 et jamais de sparring libre. Les parents peuvent assister à chaque session. C'est ici que les champions locaux ont tous commencé enfants."
+        },
+        {
+          "question": "Avec qui vais-je m'entraîner ?",
+          "answer": "Avec des lutteurs locaux de niveau régional à national selon les sessions, dans les salles partenaires de Makhachkala et Kaspiysk. Les partenaires sont habitués aux athlètes étrangers et calibrent le sparring : au Daghestan, le sparring contrôlé est une fierté de coach, pas une foire d'empoigne. Les référents MKR sont sur le tapis avec toi."
+        },
+        {
+          "question": "Qu'est-ce qui est inclus dans le prix du camp ?",
+          "answer": "Le package couvre le visa russe (dossier complet géré par MKR), le vol intérieur Istanbul-Makhachkala, les transferts, l'hébergement, 2 repas par jour et les 2 entraînements quotidiens. Restent à ta charge : le vol jusqu'à Istanbul, ton assurance voyage et ton équipement. Le tarif dépend de la taille du groupe et de la durée (1 à 3 semaines) : la grille complète est publique sur la page Sessions."
+        }
+      ]
     },
     "section_cta": {
       "primary_label": "POSTULER · LUTTE DAGHESTAN",
@@ -292,8 +359,8 @@
   },
   "mma": {
     "meta": {
-      "title": "Programme MMA en Tchétchénie | MKR Caucasian Camp",
-      "description": "Programme MMA complet à Grozny : stand-up, clinch, takedowns, soumissions, transitions. Sparring quotidien avec les combattants Akhmat."
+      "title": "Camp MMA en Tchétchénie, à Grozny | MKR Caucasian Camp",
+      "description": "Camp MMA à Grozny tout compris : visa, vol intérieur, hébergement, sparring quotidien avec les écuries pro. Niveau Avancé exigé, 15 places par session."
     },
     "breadcrumb": {
       "home": "Accueil",
@@ -301,50 +368,57 @@
       "current": "MMA"
     },
     "hero": {
-      "label": "MMA · TCHÉTCHÉNIE",
+      "label": "CAMP MMA · TCHÉTCHÉNIE",
       "title": "FRAPPE. PROJETTE. SOUMETS.",
-      "subtitle": "Programme MMA complet à Grozny, Tchétchénie. Les méthodes de l'écurie Akhmat et de la nouvelle génération du combat."
+      "subtitle": "Programme MMA complet à Grozny, dans l'épicentre du MMA moderne. Le niveau de sparring que tu ne reproduiras nulle part en Europe."
+    },
+    "key_facts": {
+      "visa": { "label": "Visa russe inclus", "sub": "Dossier géré de A à Z par MKR" },
+      "flight": { "label": "Vol intérieur inclus", "sub": "Istanbul vers Grozny (GRV), direct" },
+      "training": { "label": "2 sessions/jour", "sub": "11h00 et 18h00, 6 jours sur 7" },
+      "level": { "label": "Niveau Avancé exigé", "sub": "5 ans et plus, sélection en visio" },
+      "spots": { "label": "15 places par session", "sub": "4 sessions par an" }
     },
     "tldr": {
-      "title": "En bref · Programme MMA",
+      "title": "En bref · Camp MMA",
       "facts": [
         "Camp MMA exclusif à Grozny, Tchétchénie. 15 places par session officielle.",
-        "Niveau Avancé minimum exigé (5+ ans de pratique régulière ou compétiteur).",
+        "Niveau Avancé minimum exigé : 5 ans et plus de pratique régulière ou expérience de compétition. Le formulaire bloque en dessous.",
         "6 modules techniques : stand-up, clinch, takedowns, ground et pound, soumissions, transitions.",
-        "Sparring quotidien avec les combattants de l'écurie Akhmat Fight Club et de la scène MMA tchétchène.",
-        "Horaires : sessions à 11h00 et 18h00, 6 jours sur 7. Combo Lutte + MMA disponible en Sur Mesure."
+        "Sparring quotidien avec les combattants des écuries professionnelles de Grozny, calibré à ton niveau.",
+        "Sessions à 11h00 et 18h00, 6 jours sur 7. Tout compris : visa russe, vol intérieur, hébergement, 2 repas/jour."
       ]
     },
     "description": {
       "label": "LE PROGRAMME",
       "title": "MMA EN TCHÉTCHÉNIE",
-      "p1": "La Tchétchénie est l'un des écosystèmes MMA les plus durs au monde. Les coachs partenaires de MKR enseignent un MMA complet, hérité de la tradition de la lutte et enrichi par des années de compétition internationale au sein de l'Akhmat Fight Club et des structures de Grozny.",
-      "p2": "Chaque session est structurée : technique, drills, sparring. Le niveau s'adapte à chaque participant, mais l'intensité reste élevée pour tous. Le camp MMA est exclusivement basé à Grozny.",
-      "img1_alt": "Sparring pads MMA dans la salle Akhmat Fight Club de Grozny, Tchétchénie, devant le portrait de Ramzan Kadyrov",
-      "img2_alt": "Combattant exécute un crochet précis sur pads de coach, équipement RCA, salle de Grozny"
+      "p1": "La Tchétchénie est l'un des écosystèmes MMA les plus durs au monde : des écuries qui salarient leurs combattants, des salles professionnelles par dizaines et la 2e organisation MMA mondiale basée à Grozny. Les coachs partenaires de MKR enseignent un MMA complet, hérité de la lutte caucasienne et affûté par des années de compétition internationale.",
+      "p2": "Chaque session est structurée : technique, drills, sparring, débrief. L'intensité reste élevée pour tous, mais le sparring est calibré à ton niveau par les coachs. Le camp MMA est exclusivement basé à Grozny.",
+      "img1_alt": "Travail aux pads MMA dans une salle professionnelle de Grozny, Tchétchénie",
+      "img2_alt": "Combattant exécute un crochet précis sur pads de coach, salle de Grozny"
     },
     "cinematic": {
-      "alt": "Sparring MMA intense face à face dans la salle Akhmat de Grozny, gants rouges, regards concentrés",
+      "alt": "Sparring MMA intense face à face dans une salle de Grozny, gants rouges, regards concentrés",
       "label": "LE NIVEAU TCHÉTCHÈNE",
       "title": "SPARRER AVEC LES MEILLEURS",
-      "tagline": "Sessions partagées avec les combattants Akhmat Fight Club et la nouvelle vague de Grozny. L'intensité que tu ne reproduiras nulle part en Europe."
+      "tagline": "Sessions partagées avec les combattants des écuries professionnelles et la nouvelle vague de Grozny. L'intensité que tu ne reproduiras nulle part en Europe."
     },
     "chimaev": {
       "label": "NIVEAU DU SPARRING",
       "title": "L'ÉCURIE DES CHAMPIONS",
-      "p1_before": "La salle d'Akhmat Fight Club entraîne plusieurs combattants du top mondial, dont",
-      "p1_name": " Khamzat Chimaev",
-      "p1_after": ", ancien champion UFC poids moyens. Nos coachs partenaires sont les mêmes qui forment cette génération.",
-      "p2": "Pendant ton camp, tu partages le tapis avec des combattants qui ont ce niveau dans le sang et qui calibrent leur sparring à ton niveau. La pression et la précision technique sont immédiatement perceptibles.",
+      "p1_before": "Les salles partenaires de Grozny entraînent plusieurs combattants du",
+      "p1_name": " top mondial, jusqu'aux ceintures UFC",
+      "p1_after": ". Nos coachs partenaires sont les mêmes qui forment cette génération, dans les mêmes salles où tu vas t'entraîner.",
+      "p2": "Pendant ton camp, tu partages le tapis avec des combattants qui ont ce niveau dans le sang et qui calibrent leur sparring au tien. La pression et la précision technique se sentent dès le premier round.",
       "img_alt": "Khamzat Chimaev, ancien champion UFC poids moyens, dans la salle Akhmat Fight Club de Grozny avec un coach tenant une ceinture UFC",
-      "img_caption": "Khamzat Chimaev (ancien champion UFC poids moyens) · salle Akhmat Fight Club, Grozny"
+      "img_caption": "Khamzat Chimaev, ancien champion UFC poids moyens · salle Akhmat Fight Club, Grozny"
     },
     "briefing": {
       "label": "ENCADREMENT",
       "title": "DÉBRIEF APRÈS CHAQUE SESSION",
-      "p1": "Les coachs Akhmat ne te laissent jamais finir une session sans débrief technique. Les corrections sont précises, individuelles, et reposent sur des milliers de versions du même geste observées et corrigées.",
+      "p1": "Les coachs de Grozny ne te laissent jamais finir une session sans débrief technique. Les corrections sont précises, individuelles, et reposent sur des milliers de versions du même geste observées et corrigées.",
       "p2": "Cette boucle technique courte (technique, drills, sparring, débrief) est l'ADN de l'école tchétchène et explique pourquoi les combattants de Grozny progressent aussi vite.",
-      "img_alt": "Coach Akhmat Power en briefing avec 4 combattants après la session technique"
+      "img_alt": "Coach en briefing avec 4 combattants après la session technique, salle de Grozny"
     },
     "techniques": {
       "items": {
@@ -407,6 +481,66 @@
       "hours_note_and": " et ",
       "hours_note_afternoon": "après-midi 18h00",
       "hours_note_suffix": ". Pas de chevauchement avec les sessions Lutte."
+    },
+    "fit": {
+      "label": "SÉLECTION",
+      "title": "CE CAMP EST-IL FAIT POUR TOI ?",
+      "for_title": "C'est pour toi si",
+      "for_items": [
+        "Tu as 5 ans et plus de pratique régulière ou une expérience de compétition (régionale à internationale).",
+        "Tu veux sparrer avec des professionnels et voir où tu en es vraiment.",
+        "Tu cherches un MMA complet basé sur la lutte : clinch, takedowns, contrôle au sol.",
+        "Tu acceptes le cadre local : discipline, respect des coachs, culture conservatrice."
+      ],
+      "not_title": "Passe ton tour si",
+      "not_items": [
+        "Tu as moins de 5 ans de pratique : le formulaire bloque en dessous du niveau Avancé, sans exception.",
+        "Tu n'as pas de base au sol : le MMA tchétchène est construit sur la lutte.",
+        "Tu veux découvrir le MMA en vacances : commence par le camp Lutte au Daghestan.",
+        "Tu ne supportes pas d'être dominé au sparring : ici, tout le monde l'est les premiers jours."
+      ],
+      "note": "Le niveau Avancé n'est pas négociable : tes partenaires de sparring sont des professionnels et le rythme suppose un bagage réel. Ruslan confirme chaque profil en visio avant validation. Pas encore le niveau ? Le camp Lutte au Daghestan est la meilleure porte d'entrée."
+    },
+    "process": {
+      "label": "COMMENT ÇA MARCHE",
+      "title": "DE LA CANDIDATURE À LA CAGE",
+      "steps": [
+        { "title": "Candidature en ligne", "desc": "5 minutes, gratuite et sans engagement. Ton profil MMA, ton palmarès, tes dates." },
+        { "title": "Visio avec Ruslan", "desc": "Sous 48h. Validation du niveau Avancé, réponses à tes questions, cadrage du projet." },
+        { "title": "MKR prépare tout", "desc": "Visa russe, vol intérieur direct Istanbul-Grozny, hébergement, salles. Toi : vol jusqu'à Istanbul, assurance, préparation." },
+        { "title": "Départ", "desc": "Accueil à Grozny, transfert de 30 minutes au camp, premier entraînement le lendemain." }
+      ],
+      "note": "Aucun paiement à la candidature. Le règlement intervient uniquement après validation en visio."
+    },
+    "faq": {
+      "label": "QUESTIONS",
+      "title": "AVANT DE POSTULER AU CAMP MMA",
+      "items": [
+        {
+          "question": "Quel niveau exact faut-il pour le camp MMA en Tchétchénie ?",
+          "answer": "Niveau Avancé minimum : 5 ans et plus de pratique régulière, ou une expérience de compétition (régionale, nationale ou internationale). Le formulaire d'inscription bloque automatiquement les niveaux inférieurs quand tu choisis MMA, et Ruslan confirme chaque profil en visio. La raison est simple : tes partenaires de sparring sont des professionnels et le rythme des sessions suppose un bagage technique réel."
+        },
+        {
+          "question": "Avec qui je sparre concrètement à Grozny ?",
+          "answer": "Avec les combattants des écuries professionnelles de Grozny et leur nouvelle génération, dans les salles partenaires de MKR. Ce sont des athlètes qui vivent du MMA, encadrés par leurs coachs pendant les sessions. Le sparring est calibré : les coachs ajustent l'intensité à ton niveau, round après round. C'est exigeant, jamais gratuit."
+        },
+        {
+          "question": "À quoi ressemble une journée type au camp MMA ?",
+          "answer": "Deux sessions par jour, 6 jours sur 7 : 11h00 et 18h00. Chaque session suit la même boucle : échauffement, technique du jour, drills, sparring en rounds de 5 minutes, puis débrief individuel par le coach. Entre les deux sessions : repas, récupération, soins. Le jour de repos, excursion optionnelle ou récupération complète."
+        },
+        {
+          "question": "Pourquoi la Tchétchénie plutôt que la Thaïlande ?",
+          "answer": "Ce sont deux produits différents. La Thaïlande offre des camps ouverts à tous, orientés striking, dans un écosystème touristique. Grozny offre un MMA complet basé sur la lutte, une densité de sparring partners professionnels introuvable ailleurs, et zéro touriste sur le tapis. Si ton objectif est la compétition MMA et que ton sol doit progresser, le Caucase est l'option la plus directe."
+        },
+        {
+          "question": "Et la sécurité à Grozny ?",
+          "answer": "En deux phrases honnêtes : les gouvernements occidentaux déconseillent les voyages en Russie, Tchétchénie comprise, et tu dois le savoir. Sur le terrain, Grozny est une ville très contrôlée où les sportifs étrangers sont respectés, et MKR encadre tout : référents permanents, briefing avant départ, contact d'urgence 24/7, assurance rapatriement obligatoire. Le détail complet est sur la page destination Tchétchénie."
+        },
+        {
+          "question": "Je viens de la lutte ou du grappling, sans vrai striking : MMA ou Lutte ?",
+          "answer": "Si tu as 5 ans et plus de tapis et que tu veux ajouter la dimension MMA (frappe, cage, transitions), le camp MMA est fait pour ça : le stand-up s'enseigne, ta base au sol fera la différence. Si ton objectif est de perfectionner ta lutte pure, choisis le camp Lutte au Daghestan. En cas de doute, pose la question en visio : Ruslan cadre ton profil avant de valider."
+        }
+      ]
     },
     "section_cta": {
       "primary_label": "POSTULER · MMA TCHÉTCHÉNIE",

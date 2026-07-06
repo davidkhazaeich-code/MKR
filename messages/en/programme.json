@@ -11,7 +11,7 @@
     "hero": {
       "label": "PROGRAM",
       "title": "THREE DISCIPLINES.<br/>TWO LANDS OF THE CAUCASUS.",
-      "subtitle": "Adult Wrestling and Youth Wrestling in Dagestan. MMA in Chechnya. The combo is only available as a custom camp."
+      "subtitle": "Adult and youth Wrestling in Dagestan. MMA in Chechnya. Combining both is only possible in Custom format."
     },
     "stats_band": {
       "sessions_per_day": "Sessions per day",
@@ -23,21 +23,21 @@
         "label": "DISCIPLINE · CHECHNYA",
         "title": "MMA",
         "alt": "MMA sparring in a Caucasus gym",
-        "desc": "Striking, clinch, takedowns, submissions. Daily sparring with fighters from the Akhmat team. Camp based in Grozny, Chechnya. Chechen MMA in total immersion.",
+        "desc": "Striking, clinch, takedowns, submissions. Daily sparring with the fighters of Grozny's professional teams. Advanced level minimum. Chechen MMA in total immersion.",
         "cta": "SEE THE MMA PROGRAM"
       },
       "lutte": {
         "label": "DISCIPLINE · DAGESTAN",
         "title": "ADULT WRESTLING",
         "alt": "Freestyle wrestling takedown in Dagestan",
-        "desc": "Freestyle wrestling exclusively, at the heart of Dagestan. Dagestani methods passed down by champions. Projections, ground control, scrambles. The founding discipline of combat in the Caucasus.",
+        "desc": "Freestyle wrestling exclusively, in the heart of Dagestan. Dagestani methods passed on by champions. Takedowns, ground control, scrambles. The founding discipline of Caucasus fighting.",
         "cta": "SEE THE WRESTLING PROGRAM"
       },
       "lutte_enfants": {
-        "label": "DISCIPLINE · DAGESTAN · 8-17 YEARS",
+        "label": "DISCIPLINE · DAGESTAN · AGES 8-17",
         "title": "YOUTH WRESTLING",
-        "alt": "Wrestling adapted for young athletes in Dagestan",
-        "desc": "Youth program in Dagestan. Progressive teaching, specialized supervision, ratio of 1 coach for 5 children, sessions at 10:30 and 17:30. Children aged 8-17 always accompanied by a participating parent. Family package: {familyBaseProse}. Each additional child: {familyExtraChild1week}.",
+        "alt": "Wrestling adapted to young athletes in Dagestan",
+        "desc": "Youth program in Dagestan. Progressive teaching, specialised supervision, 1 coach for 5 kids, sessions at 10:30 and 17:30. Kids 8-17 always accompanied by a participating parent. Family package: {familyBaseProse}. Each additional child: {familyExtraChild1week}.",
         "cta": "SEE THE YOUTH WRESTLING PROGRAM"
       }
     },
@@ -47,15 +47,15 @@
       "levels": {
         "pro": {
           "title": "PROFESSIONAL",
-          "desc": "Pro or semi-pro fighters. Intense sparring, advanced tactical coaching, specific competition preparation."
+          "desc": "Pro or semi-pro fighters. Sustained sparring, advanced tactical coaching, competition-specific preparation."
         },
         "inter": {
           "title": "INTERMEDIATE",
-          "desc": "2 to 5 years of regular practice. Solid base on the feet and on the ground. The core of the MKR group."
+          "desc": "2 to 5 years of regular practice. Solid base standing and on the ground. The core of the MKR group."
         },
         "amateur": {
           "title": "SERIOUS AMATEUR",
-          "desc": "2 years minimum of practice. Solid physical condition. Total commitment during the camp."
+          "desc": "Minimum 1 year of practice and a real ground game base. Serious physical condition. Total commitment during the camp."
         }
       }
     },
@@ -66,8 +66,8 @@
   },
   "lutte": {
     "meta": {
-      "title": "Freestyle Wrestling Program in Dagestan | MKR Caucasian Camp",
-      "description": "Freestyle wrestling program in the Caucasus. Ancestral Dagestani methods, leg rides, chain wrestling, daily sparring, world champion coaches."
+      "title": "Freestyle Wrestling Camp in Dagestan | MKR Caucasian Camp",
+      "description": "All-inclusive wrestling camp in Dagestan: visa, domestic flight, housing, 2 sessions/day with Dagestani methods. From 1 year of practice, 15 spots."
     },
     "breadcrumb": {
       "home": "Home",
@@ -75,59 +75,66 @@
       "current": "Wrestling"
     },
     "hero": {
-      "label": "WRESTLING · DAGESTAN",
+      "label": "WRESTLING CAMP · DAGESTAN",
       "title": "THE DISCIPLINE THAT FORGED THE CAUCASUS",
-      "subtitle": "Freestyle wrestling only, at the heart of Dagestan. The ancestral methods passed down in the gyms of Makhachkala and Kaspiysk."
+      "subtitle": "Freestyle wrestling only, in the gyms of Makhachkala and Kaspiysk. The methods that produce Olympic champions in series, passed on mat-side."
+    },
+    "key_facts": {
+      "visa": { "label": "Russian visa included", "sub": "Application handled end to end by MKR" },
+      "flight": { "label": "Domestic flight included", "sub": "Istanbul to Makhachkala (MCX)" },
+      "training": { "label": "2 sessions/day", "sub": "10:30 and 17:30, 6 days a week" },
+      "level": { "label": "From 1 year of practice", "sub": "Ground base required, selection by video call" },
+      "spots": { "label": "15 spots per session", "sub": "4 sessions per year" }
     },
     "tldr": {
-      "title": "In short · Wrestling Program",
+      "title": "In short · Wrestling Camp",
       "facts": [
-        "Freestyle wrestling exclusively (no Greco-Roman) in Dagestan, Makhachkala and Kaspiysk.",
-        "15 spots per official session. Open to adults and children 8-17 with a parent (Family tunnel).",
+        "Freestyle wrestling exclusively (no Greco-Roman) in Dagestan, in the partner gyms of Makhachkala and Kaspiysk.",
+        "15 spots per official session. Adults from 1 year of practice with a ground base, kids 8-17 with a parent via the Family track.",
         "6 technical modules: takedowns, Dagestani leg rides, chain wrestling, funk rolls, mat returns, defense.",
-        "Daily sparring with local wrestlers from the pipeline that has produced 30+ Olympic medalists.",
-        "Schedule: sessions at 10:30 and 17:30, 6 days a week. Combo Wrestling + MMA available as Custom Camp."
+        "Daily sparring with local wrestlers from the pipeline behind 30+ Olympic medals.",
+        "Sessions at 10:30 and 17:30, 6 days a week. All-inclusive: Russian visa, domestic flight, housing, 2 meals/day."
       ]
     },
     "description": {
       "label": "THE PROGRAM",
       "title": "WRESTLING IN DAGESTAN",
-      "p1": "In Dagestan, wrestling is not a sport. It is an identity. Every village has its champion, every family passes down its techniques. Dagestani methods have produced more Olympic wrestling champions per capita than anywhere else in the world.",
-      "p2": "The MKR program gives you access to this knowledge: freestyle wrestling exclusively, and the specific techniques of the Caucasus that you will find in no European academy.",
-      "img1_alt": "Coach Gereev in a full session in the Dagestani wrestling gym",
-      "img2_alt": "Wrestling ground bridge, an ancestral exercise practiced in groups in Dagestan"
+      "p1": "In Dagestan, wrestling is not a sport. It is an identity. Every village has its champion, every family passes on its techniques, and a serious wrestler logs 5,000 hours of mat time before turning 18. This region produces more Olympic wrestling champions per capita than anywhere else in the world.",
+      "p2": "The MKR program gives you access to that knowledge: freestyle wrestling exclusively, in the real gyms, with the Caucasus-specific techniques you will not find in any European academy. And coaches able to fix in seconds what you have been doing wrong for years.",
+      "img1_alt": "Coach mid-session in a Dagestani wrestling gym",
+      "img2_alt": "Wrestling bridge on the mat, ancestral exercise practised in groups in Dagestan"
     },
     "cinematic": {
-      "alt": "Wrestling gym in Dagestan, banner 'Wrestlers are not born, they are made', wrestlers warming up",
+      "alt": "Wrestling gym in Dagestan, banner 'Wrestlers are made, not born', wrestlers warming up",
       "label": "HERITAGE",
-      "title": "WRESTLERS ARE NOT BORN, THEY ARE MADE",
+      "title": "WRESTLERS ARE MADE, NOT BORN",
       "tagline": "Борцами не рождаются, борцами становятся. The motto written on the walls of Dagestani gyms."
     },
     "techniques": {
       "items": {
         "lutte_libre": {
           "title": "Freestyle wrestling",
-          "desc": "Explosive takedowns, leg control, scrambles. The base of combat in Dagestan."
+          "desc": "Explosive takedowns, leg control, scrambles. The base of fighting in Dagestan."
         },
         "leg_rides": {
           "title": "Leg rides",
-          "desc": "Dagestani specialty. Ground control with the legs. A technique you will not find in Europe."
+          "desc": "A Dagestani specialty. Ground control with the legs. A technique you will not find in Europe."
         },
         "chain_wrestling": {
           "title": "Chain wrestling",
-          "desc": "Sequence of takedowns. If the first fails, the second is already on the way."
+          "desc": "Chained takedown attacks. If the first fails, the second is already on its way."
         },
         "funk_rolls": {
           "title": "Funk rolls",
-          "desc": "Acrobatic position recoveries. Turn a defensive situation into an attack."
+          "desc": "Acrobatic position recoveries. Turning a defensive situation into an attack."
         },
         "mat_returns": {
           "title": "Mat returns",
-          "desc": "Bring the opponent back to the ground from the standing position. A control technique."
+          "desc": "Bringing the opponent back to the ground from standing. A control technique."
         },
         "defense": {
           "title": "Takedown defense",
-          "desc": "Sprawl, underhooks, counter-attacks. Cancel the opponent's attack and regain the initiative."
+          "desc": "Sprawl, underhooks, counter-attacks. Cancel the attack and take back the initiative."
         }
       }
     },
@@ -141,7 +148,7 @@
         "technique": {
           "time": "30 min",
           "activity": "Technique",
-          "desc": "Demonstration by the coach. Repetition in pairs. Individual corrections."
+          "desc": "Coach demonstration. Repetition in pairs. Individual corrections."
         },
         "situations": {
           "time": "20 min",
@@ -156,24 +163,84 @@
         "conditioning": {
           "time": "10 min",
           "activity": "Conditioning",
-          "desc": "Final circuit: push-ups, squats, wrestling bridge, core work."
+          "desc": "Final circuit: push-ups, squats, wrestling bridge, core."
         }
       },
-      "hours_note_prefix": "Official Adult Wrestling schedule: ",
+      "hours_note_prefix": "Official adult Wrestling hours: ",
       "hours_note_morning": "morning 10:30",
       "hours_note_and": " and ",
       "hours_note_afternoon": "afternoon 17:30",
       "hours_note_suffix": ". No overlap with MMA sessions."
     },
+    "fit": {
+      "label": "SELECTION",
+      "title": "IS THIS CAMP FOR YOU?",
+      "for_title": "It is for you if",
+      "for_items": [
+        "You have at least 1 year of wrestling, grappling, BJJ, judo or MMA, with a real ground game base.",
+        "You want the Dagestani volume: 2 sessions a day, intensive drilling, daily sparring.",
+        "You are coming for the Caucasus techniques (leg rides, chain wrestling) you cannot find in Europe.",
+        "You are coming with your 8-17 year old and want to wrestle while they learn with a youth coach."
+      ],
+      "not_title": "Skip it if",
+      "not_items": [
+        "You have never wrestled or trained on the ground: build one year of basics in a club first.",
+        "You mainly want striking: look at the MMA camp in Chechnya (Advanced level required).",
+        "You are looking for a leisure camp with one session a day.",
+        "You cannot handle 6 training days out of 7 for at least one week."
+      ],
+      "note": "Every application is validated on a video call by Ruslan Mukhtarov, former member of the French Olympic wrestling team. If your level is not there yet, he will tell you and give you a plan to reach it."
+    },
+    "process": {
+      "label": "HOW IT WORKS",
+      "title": "FROM APPLICATION TO THE MAT",
+      "steps": [
+        { "title": "Online application", "desc": "5 minutes, free and without commitment. Your wrestling profile, your level, your dates." },
+        { "title": "Video call with Ruslan", "desc": "Within 48 hours. Level validation, answers to your questions, project framing." },
+        { "title": "MKR prepares everything", "desc": "Russian visa, Istanbul-Makhachkala domestic flight, housing, gyms. You: flight to Istanbul, insurance, physical preparation." },
+        { "title": "Departure", "desc": "Pickup in Makhachkala, 1h30 transfer to camp, first training the next day." }
+      ],
+      "note": "No payment at application. You only pay after validation on the video call."
+    },
+    "faq": {
+      "label": "QUESTIONS",
+      "title": "BEFORE APPLYING TO THE WRESTLING CAMP",
+      "items": [
+        {
+          "question": "Do I need to already be a good wrestler to train in Dagestan?",
+          "answer": "No, but you need a base: minimum 1 year of regular practice in wrestling, grappling, BJJ, judo or MMA, with real ground work. Instruction happens by demonstration, at the local pace: without that base you cannot follow, and you break down within the first week. Your level is confirmed on the video call with Ruslan before validation, and sparring groups are organised by level once on site."
+        },
+        {
+          "question": "What will I learn that I cannot find in Europe?",
+          "answer": "Three things. The Caucasus signature techniques: leg rides, chain wrestling, chained mat returns, rarely taught in Europe. The volume: 2 sessions a day, 6 days a week, with more serious sparring rounds in 2 weeks than in 6 months at an average European club. And the corrections: coaches who have seen thousands of versions of every move and fix in seconds what you have been dragging for years."
+        },
+        {
+          "question": "What does a typical week look like at the Wrestling camp?",
+          "answer": "6 training days, 1 rest day. Every day: a 10:30 session (technique, drills, situations) and a 17:30 session (competition intensity, directed sparring), with recovery and meals in between. On rest day, optional excursion: Sulak Canyon, Sarykum Dune or Gamsutl village. All of it with MKR liaisons around."
+        },
+        {
+          "question": "Can my child really train in Dagestan?",
+          "answer": "Yes, from 8 to 17, provided a parent takes part in the camp (that is the Family track). Kids have their own program with a dedicated youth coach, a 1-to-5 coach ratio, separate sessions at 10:30 and 17:30 and never any free sparring. Parents can attend every session. This is where the local champions all started as kids."
+        },
+        {
+          "question": "Who will I train with?",
+          "answer": "With local wrestlers of regional to national level depending on the session, in the partner gyms of Makhachkala and Kaspiysk. Partners are used to foreign athletes and calibrate the sparring: in Dagestan, controlled sparring is a coach's pride, not a free-for-all. MKR liaisons are on the mat with you."
+        },
+        {
+          "question": "What is included in the camp price?",
+          "answer": "The package covers the Russian visa (full application handled by MKR), the Istanbul-Makhachkala domestic flight, transfers, housing, 2 meals a day and the 2 daily training sessions. On your side: the flight to Istanbul, your travel insurance and your equipment. The rate depends on group size and duration (1 to 3 weeks): the full grid is public on the Sessions page."
+        }
+      ]
+    },
     "section_cta": {
-      "primary_label": "APPLY · WRESTLING DAGESTAN",
+      "primary_label": "APPLY · DAGESTAN WRESTLING",
       "ghost_label": "DISCOVER THE DESTINATION"
     }
   },
   "lutte_enfants": {
     "meta": {
-      "title": "Youth Wrestling 8-17 in Dagestan | MKR Caucasian Camp",
-      "description": "Wrestling program for young athletes 8-17 with a parent. Progressive teaching, specialized supervision, Dagestani fundamentals."
+      "title": "Youth Wrestling Ages 8-17 in Dagestan | MKR Caucasian Camp",
+      "description": "Wrestling program for young athletes ages 8-17 with a parent. Progressive teaching, specialised supervision, Dagestani fundamentals."
     },
     "breadcrumb": {
       "home": "Home",
@@ -181,19 +248,19 @@
       "current": "Youth"
     },
     "hero": {
-      "label": "YOUTH 8-17 · DAGESTAN",
-      "title": "TRAIN YOUR CHILD<br/>AT THE SOURCE.",
-      "subtitle": "Youth program in Dagestan, where wrestling has been passed down for generations. Specialized supervision, progressive teaching, participating parent mandatory.",
-      "image_alt": "Young Dagestani wrestlers attentive to their coach before the session, real briefing in a Russian wrestling school"
+      "label": "YOUTH AGES 8-17 · DAGESTAN",
+      "title": "SHAPE YOUR CHILD<br/>AT THE SOURCE.",
+      "subtitle": "Youth program in Dagestan, where wrestling has been passed down for generations. Specialised supervision, progressive teaching, participating parent required.",
+      "image_alt": "Young Dagestani wrestlers listening to their coach's instructions before the session, a real briefing in a Russian wrestling school"
     },
     "stats_band": {
       "ages": {
         "num": "8-17",
-        "label": "Years · With parent mandatory"
+        "label": "Years old · With parent required"
       },
       "ratio": {
         "num": "1:5",
-        "label": "Youth coach / children ratio"
+        "label": "Youth coach / kids ratio"
       },
       "sessions": {
         "num": "2",
@@ -203,16 +270,16 @@
     },
     "description": {
       "label": "THE PROGRAM",
-      "title": "WRESTLING FOR THE YOUNG",
-      "p1": "In Dagestan, you start wrestling very young. The world champions all learned the same moves there, in the same gyms, with the same coaches. MKR opens this access to young European athletes, in a setting adapted to their age.",
-      "p2": "The Youth Wrestling program is led by coaches trained in youth teaching. Progression remains gradual, never forced. The objective: pass on passion and fundamentals, without pressure or premature competition.",
+      "title": "WRESTLING FOR YOUTH",
+      "p1": "In Dagestan, wrestling starts very young. The world champions all learned the same moves, in the same gyms, from the same coaches. MKR opens this access to young European athletes, in a setting adapted to their age.",
+      "p2": "The Youth Wrestling program is led by coaches trained in youth pedagogy. Progression stays gradual, never forced. The goal: pass on the passion and the fundamentals, without pressure or premature competition.",
       "img1_alt": "Young wrestlers lined up on the mat, Dagestani wrestling school",
-      "img2_alt": "Young wrestler in solo warm-up, wrestling gym in Dagestan"
+      "img2_alt": "Young wrestler warming up individually, Dagestan wrestling gym"
     },
     "cinematic": {
-      "alt": "Young Dagestani wrestler in stance, training gym in Makhachkala",
+      "alt": "Young Dagestani wrestler in stance, Makhachkala training gym",
       "label": "TRANSMISSION",
-      "title": "THE RIGHT MOVE,<br/>FIRST AND FOREMOST",
+      "title": "THE RIGHT MOVE,<br/>ABOVE ALL",
       "tagline": "Fundamentals first. Confidence, technique, respect for the mat. Everything starts there."
     },
     "pillars": {
@@ -221,15 +288,15 @@
       "items": {
         "pedagogie": {
           "title": "Progressive teaching",
-          "desc": "Fundamentals first. We build the right move before intensity. Each child progresses at their own pace."
+          "desc": "Fundamentals first. We build the right move before intensity. Every child progresses at their own pace."
         },
         "encadrement": {
-          "title": "Specialized supervision",
-          "desc": "Coaches trained in youth teaching. Reinforced safety, adapted communication, individual follow-up."
+          "title": "Specialised supervision",
+          "desc": "Coaches trained in youth pedagogy. Reinforced safety, adapted communication, individual follow-up."
         },
         "heritage": {
           "title": "Dagestani heritage",
-          "desc": "The ancestral techniques of the Caucasus, passed down with patience to new generations."
+          "desc": "The ancestral techniques of the Caucasus, patiently passed on to new generations."
         },
         "esprit": {
           "title": "Spirit of the mat",
@@ -237,7 +304,7 @@
         },
         "groupes": {
           "title": "Level groups",
-          "desc": "Sessions by age and level. Learning adapted, without competition pressure."
+          "desc": "Sessions by age bracket and level. Adapted learning, without competitive pressure."
         },
         "cadre": {
           "title": "Safe setting",
@@ -250,27 +317,27 @@
         "echauffement": {
           "time": "15 min",
           "activity": "Playful warm-up",
-          "desc": "Games, mobility, activation. Gradual and supportive start."
+          "desc": "Games, mobility, activation. Progressive, supportive start."
         },
         "technique": {
           "time": "20 min",
-          "activity": "Basic technique",
+          "activity": "Base technique",
           "desc": "Step-by-step demonstration. Falls, stances, first grips. Guided repetition."
         },
         "drills": {
           "time": "15 min",
           "activity": "Drills in pairs",
-          "desc": "Pair application, similar levels. The coach circulates and corrects."
+          "desc": "Application in duos, similar levels. The coach circulates and corrects."
         },
         "situations": {
           "time": "15 min",
           "activity": "Supervised situations",
-          "desc": "Supervised scenarios. Never free sparring, always under coach control."
+          "desc": "Supervised scenarios. Never free sparring, always under the coach's control."
         },
         "retour": {
           "time": "10 min",
           "activity": "Cool-down",
-          "desc": "Stretching, debrief, key points. Each child leaves with a goal for the next session."
+          "desc": "Stretching, debrief, key points. Every child leaves with a goal for the next session."
         }
       },
       "hours_note_prefix": "Morning sessions at ",
@@ -282,7 +349,7 @@
     "for_parents": {
       "label": "FOR PARENTS",
       "title": "YOUR CHILD IS IN GOOD HANDS",
-      "body": "Dedicated youth coach, 1 to 5 ratio, participating parent mandatory, briefing after each session. The full details of the family setting (safety, accommodation, parallel program, Family package from {familyBase1week}) are on the Family Camp page.",
+      "body": "Dedicated youth coach, 1-to-5 ratio, participating parent required, briefing after every session. The full family setup (safety, housing, parallel program, Family package from {familyBase1week}) is on the Family Camp page.",
       "cta": "DISCOVER THE FAMILY CAMP"
     },
     "section_cta": {
@@ -292,8 +359,8 @@
   },
   "mma": {
     "meta": {
-      "title": "MMA Program in Chechnya | MKR Caucasian Camp",
-      "description": "Complete MMA program in Grozny: stand-up, clinch, takedowns, submissions, transitions. Daily sparring with Akhmat fighters."
+      "title": "MMA Camp in Chechnya, in Grozny | MKR Caucasian Camp",
+      "description": "All-inclusive MMA camp in Grozny: visa, domestic flight, housing, daily sparring with pro teams. Advanced level required, 15 spots per session."
     },
     "breadcrumb": {
       "home": "Home",
@@ -301,64 +368,71 @@
       "current": "MMA"
     },
     "hero": {
-      "label": "MMA · CHECHNYA",
-      "title": "STRIKE. TAKEDOWN. SUBMIT.",
-      "subtitle": "Complete MMA program in Grozny, Chechnya. The methods of the Akhmat team and the new generation of combat."
+      "label": "MMA CAMP · CHECHNYA",
+      "title": "STRIKE. TAKE DOWN. SUBMIT.",
+      "subtitle": "Complete MMA program in Grozny, in the epicentre of modern MMA. The level of sparring you will not reproduce anywhere in Europe."
+    },
+    "key_facts": {
+      "visa": { "label": "Russian visa included", "sub": "Application handled end to end by MKR" },
+      "flight": { "label": "Domestic flight included", "sub": "Istanbul to Grozny (GRV), direct" },
+      "training": { "label": "2 sessions/day", "sub": "11:00 and 18:00, 6 days a week" },
+      "level": { "label": "Advanced level required", "sub": "5+ years, selection by video call" },
+      "spots": { "label": "15 spots per session", "sub": "4 sessions per year" }
     },
     "tldr": {
-      "title": "In short · MMA Program",
+      "title": "In short · MMA Camp",
       "facts": [
         "Exclusive MMA camp in Grozny, Chechnya. 15 spots per official session.",
-        "Advanced level minimum required (5+ years of regular practice or competitor).",
+        "Advanced level minimum required: 5+ years of regular practice or competition experience. The form blocks below that.",
         "6 technical modules: stand-up, clinch, takedowns, ground and pound, submissions, transitions.",
-        "Daily sparring with fighters from Akhmat Fight Club and the Chechen MMA scene.",
-        "Schedule: sessions at 11:00 and 18:00, 6 days a week. Combo Wrestling + MMA available as Custom Camp."
+        "Daily sparring with the fighters of Grozny's professional teams, calibrated to your level.",
+        "Sessions at 11:00 and 18:00, 6 days a week. All-inclusive: Russian visa, domestic flight, housing, 2 meals/day."
       ]
     },
     "description": {
       "label": "THE PROGRAM",
       "title": "MMA IN CHECHNYA",
-      "p1": "Chechnya is one of the toughest MMA ecosystems in the world. MKR's partner coaches teach complete MMA, inherited from the wrestling tradition and enriched by years of international competition within Akhmat Fight Club and the Grozny structures.",
-      "p2": "Each session is structured: technique, drills, sparring. The level adapts to each participant, but intensity stays high for all. The MMA camp is based exclusively in Grozny.",
-      "img1_alt": "MMA sparring pads in the Akhmat Fight Club gym in Grozny, Chechnya, in front of a portrait of Ramzan Kadyrov",
-      "img2_alt": "Fighter throws a precise hook on coach pads, RCA equipment, Grozny gym"
+      "p1": "Chechnya is one of the hardest MMA ecosystems in the world: teams that pay their fighters a salary, professional gyms by the dozen, and the world's 2nd largest MMA organisation based in Grozny. MKR's partner coaches teach a complete MMA, inherited from Caucasian wrestling and sharpened by years of international competition.",
+      "p2": "Every session is structured: technique, drills, sparring, debrief. Intensity stays high for everyone, but sparring is calibrated to your level by the coaches. The MMA camp is exclusively based in Grozny.",
+      "img1_alt": "MMA pad work in a professional gym in Grozny, Chechnya",
+      "img2_alt": "Fighter lands a precise hook on coach's pads, Grozny gym"
     },
     "cinematic": {
-      "alt": "Intense face-to-face MMA sparring in the Akhmat gym of Grozny, red gloves, focused eyes",
+      "alt": "Intense face-to-face MMA sparring in a Grozny gym, red gloves, focused stares",
       "label": "THE CHECHEN LEVEL",
       "title": "SPAR WITH THE BEST",
-      "tagline": "Sessions shared with Akhmat Fight Club fighters and the new wave of Grozny. The intensity you will not reproduce anywhere in Europe."
+      "tagline": "Sessions shared with the fighters of the professional teams and Grozny's new wave. An intensity you will not reproduce anywhere in Europe."
     },
     "chimaev": {
       "label": "SPARRING LEVEL",
-      "title": "THE STABLE OF CHAMPIONS",
-      "p1_before": "The Akhmat Fight Club gym trains several top-ranked fighters in the world, including",
-      "p1_name": " Khamzat Chimaev",
-      "p1_after": ", former UFC middleweight champion. Our partner coaches are the same ones who train this generation.",
-      "p2": "During your camp, you share the mat with fighters who have this level in their blood and who calibrate their sparring to your level. The pressure and technical precision are immediately noticeable.",
-      "img_alt": "Khamzat Chimaev, former UFC middleweight champion, in the Akhmat Fight Club gym of Grozny with a coach holding a UFC belt",
-      "img_caption": "Khamzat Chimaev (former UFC middleweight champion) · Akhmat Fight Club gym, Grozny"
+      "title": "THE CHAMPIONS' TEAM",
+      "p1_before": "Grozny's partner gyms train several fighters from the",
+      "p1_name": " world's elite, up to UFC belts",
+      "p1_after": ". Our partner coaches are the same ones shaping that generation, in the same gyms where you will train.",
+      "p2": "During your camp, you share the mat with fighters who have that level in their blood and who calibrate their sparring to yours. The pressure and technical precision are felt from the first round.",
+      "img_alt": "Khamzat Chimaev, former UFC middleweight champion, in the Akhmat Fight Club gym in Grozny with a coach holding a UFC belt",
+      "img_caption": "Khamzat Chimaev, former UFC middleweight champion · Akhmat Fight Club gym, Grozny"
     },
     "briefing": {
-      "label": "COACHING STAFF",
+      "label": "COACHING",
       "title": "DEBRIEF AFTER EVERY SESSION",
-      "p1": "The Akhmat coaches never let you finish a session without a technical debrief. The corrections are precise, individual, and based on thousands of versions of the same move observed and corrected.",
+      "p1": "Grozny coaches never let you finish a session without a technical debrief. Corrections are precise, individual, and built on thousands of versions of the same move observed and corrected.",
       "p2": "This short technical loop (technique, drills, sparring, debrief) is the DNA of the Chechen school and explains why Grozny fighters progress so fast.",
-      "img_alt": "Coach Akhmat Power in briefing with 4 fighters after the technical session"
+      "img_alt": "Coach briefing 4 fighters after the technical session, Grozny gym"
     },
     "techniques": {
       "items": {
         "stand_up": {
           "title": "Stand-up",
-          "desc": "Boxing, kickboxing, elbow and knee strikes. Work on distance and timing."
+          "desc": "Boxing, kickboxing, elbows and knees. Distance and timing work."
         },
         "clinch": {
           "title": "Clinch",
-          "desc": "Wall control, dirty boxing, projections from the clinch. Caucasian specialty."
+          "desc": "Wall control, dirty boxing, throws from the clinch. A Caucasian specialty."
         },
         "takedowns": {
           "title": "Takedowns",
-          "desc": "Singles, doubles, body locks. Integration of wrestling techniques into MMA."
+          "desc": "Singles, doubles, body locks. Integrating wrestling techniques into MMA."
         },
         "ground_pound": {
           "title": "Ground and Pound",
@@ -366,11 +440,11 @@
         },
         "soumissions": {
           "title": "Submissions",
-          "desc": "Chokes, arm and leg locks. Sequences from transitions."
+          "desc": "Chokes, arm and leg locks. Chains from the transitions."
         },
         "transitions": {
           "title": "Transitions",
-          "desc": "Fluid stand-up to ground transitions. Scrambles, position recoveries. The strong point of the Caucasus."
+          "desc": "Fluid standing-to-ground switches. Scrambles, position recoveries. The Caucasus strong point."
         }
       }
     },
@@ -389,7 +463,7 @@
         "drills": {
           "time": "20 min",
           "activity": "Drills",
-          "desc": "Combat situations, sequences, timing."
+          "desc": "Fight situations, combinations, timing."
         },
         "sparring": {
           "time": "30 min",
@@ -399,17 +473,77 @@
         "debrief": {
           "time": "10 min",
           "activity": "Debrief",
-          "desc": "Coach feedback, key points, individual feedback."
+          "desc": "Coach feedback, key points, individual notes."
         }
       },
-      "hours_note_prefix": "Official MMA schedule: ",
+      "hours_note_prefix": "Official MMA hours: ",
       "hours_note_morning": "morning 11:00",
       "hours_note_and": " and ",
       "hours_note_afternoon": "afternoon 18:00",
       "hours_note_suffix": ". No overlap with Wrestling sessions."
     },
+    "fit": {
+      "label": "SELECTION",
+      "title": "IS THIS CAMP FOR YOU?",
+      "for_title": "It is for you if",
+      "for_items": [
+        "You have 5+ years of regular practice or competition experience (regional to international).",
+        "You want to spar with professionals and see where you really stand.",
+        "You are looking for a complete, wrestling-based MMA: clinch, takedowns, ground control.",
+        "You accept the local frame: discipline, respect for the coaches, conservative culture."
+      ],
+      "not_title": "Skip it if",
+      "not_items": [
+        "You have less than 5 years of practice: the form blocks below Advanced level, no exceptions.",
+        "You have no ground game: Chechen MMA is built on wrestling.",
+        "You want to discover MMA on holiday: start with the Wrestling camp in Dagestan.",
+        "You cannot stand being dominated in sparring: here, everyone is in the first days."
+      ],
+      "note": "The Advanced level is non-negotiable: your sparring partners are professionals and the pace assumes a real technical base. Ruslan confirms every profile on a video call before validation. Not there yet? The Wrestling camp in Dagestan is the best way in."
+    },
+    "process": {
+      "label": "HOW IT WORKS",
+      "title": "FROM APPLICATION TO THE CAGE",
+      "steps": [
+        { "title": "Online application", "desc": "5 minutes, free and without commitment. Your MMA profile, your record, your dates." },
+        { "title": "Video call with Ruslan", "desc": "Within 48 hours. Advanced level validation, answers to your questions, project framing." },
+        { "title": "MKR prepares everything", "desc": "Russian visa, direct Istanbul-Grozny domestic flight, housing, gyms. You: flight to Istanbul, insurance, preparation." },
+        { "title": "Departure", "desc": "Pickup in Grozny, 30-minute transfer to camp, first training the next day." }
+      ],
+      "note": "No payment at application. You only pay after validation on the video call."
+    },
+    "faq": {
+      "label": "QUESTIONS",
+      "title": "BEFORE APPLYING TO THE MMA CAMP",
+      "items": [
+        {
+          "question": "What exact level do I need for the MMA camp in Chechnya?",
+          "answer": "Advanced level minimum: 5+ years of regular practice, or competition experience (regional, national or international). The application form automatically blocks lower levels when you choose MMA, and Ruslan confirms every profile on a video call. The reason is simple: your sparring partners are professionals and the pace of the sessions assumes a real technical base."
+        },
+        {
+          "question": "Who do I actually spar with in Grozny?",
+          "answer": "With the fighters of Grozny's professional teams and their new generation, in MKR's partner gyms. These are athletes who make a living from MMA, supervised by their coaches during the sessions. Sparring is calibrated: coaches adjust the intensity to your level, round after round. Demanding, never reckless."
+        },
+        {
+          "question": "What does a typical day look like at the MMA camp?",
+          "answer": "Two sessions a day, 6 days a week: 11:00 and 18:00. Every session follows the same loop: warm-up, technique of the day, drills, sparring in 5-minute rounds, then an individual debrief by the coach. Between sessions: meals, recovery, treatment. On rest day, optional excursion or full recovery."
+        },
+        {
+          "question": "Why Chechnya rather than Thailand?",
+          "answer": "They are two different products. Thailand offers camps open to everyone, striking-oriented, in a tourist ecosystem. Grozny offers a complete wrestling-based MMA, a density of professional sparring partners you will not find anywhere else, and zero tourists on the mat. If your goal is MMA competition and your ground game needs to grow, the Caucasus is the most direct option."
+        },
+        {
+          "question": "What about safety in Grozny?",
+          "answer": "Two honest sentences: Western governments advise against travel to Russia, Chechnya included, and you should know it. On the ground, Grozny is a tightly controlled city where foreign athletes are respected, and MKR manages everything: permanent liaisons, pre-departure briefing, 24/7 emergency contact, mandatory repatriation insurance. Full details are on the Chechnya destination page."
+        },
+        {
+          "question": "I come from wrestling or grappling with no real striking: MMA or Wrestling?",
+          "answer": "If you have 5+ years on the mat and want to add the MMA dimension (striking, cage, transitions), the MMA camp is built for that: stand-up can be taught, and your ground base will make the difference. If your goal is to sharpen your pure wrestling, choose the Wrestling camp in Dagestan. In doubt, ask on the video call: Ruslan frames your profile before validating."
+        }
+      ]
+    },
     "section_cta": {
-      "primary_label": "APPLY · MMA CHECHNYA",
+      "primary_label": "APPLY · CHECHNYA MMA",
       "ghost_label": "DISCOVER THE DESTINATION"
     }
   }

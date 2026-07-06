@@ -1,25 +1,32 @@
 {
   "meta": {
     "title": "The MKR Camp: Wrestling in Dagestan, MMA in Chechnya",
-    "description": "MMA camp in Chechnya or Wrestling camp in Dagestan, 1 to 3 weeks. Visa, domestic flight from Istanbul, lodging, 2 meals a day and local coaching included."
+    "description": "Wrestling or MMA camp in the Caucasus, 1 to 3 weeks all-inclusive: Russian visa, Istanbul domestic flight, housing, 2 meals/day. Selective entry, 15 spots per discipline."
   },
   "breadcrumb": {
     "home": "Home",
     "current": "The Camp"
   },
   "hero": {
-    "label": "THE CAMP",
-    "title": "1 TO 3 WEEKS THAT CHANGE THE WAY YOU FIGHT.",
-    "subtitle": "Total immersion in the Caucasus. Wrestling in Dagestan, MMA in Chechnya. Coaching, accommodation and meals handled. You just fight."
+    "label": "THE CAMP · DAGESTAN AND CHECHNYA",
+    "title": "1 TO 3 WEEKS OF IMMERSION THAT CHANGE THE WAY YOU FIGHT.",
+    "subtitle": "Wrestling in Dagestan or MMA in Chechnya. MKR handles the visa, domestic flight, housing, meals and gym access. You train."
+  },
+  "key_facts": {
+    "visa": { "label": "Russian visa included", "sub": "Application handled end to end by MKR" },
+    "flight": { "label": "Domestic flight included", "sub": "Istanbul to Makhachkala or Grozny" },
+    "housing": { "label": "Housing + 2 meals/day", "sub": "Camp lodging, local cuisine" },
+    "training": { "label": "2 training sessions/day", "sub": "6 days a week, local coaches" },
+    "selection": { "label": "Selective entry", "sub": "15 spots per discipline per session" }
   },
   "tldr": {
     "title": "In short · The MKR Camp",
     "facts": [
-      "Flexible duration: 1, 2 or 3 weeks within a 3-week window (4 sessions per year).",
-      "Two exclusive destinations per session: Wrestling in Dagestan (Makhachkala/Kaspiysk) or MMA in Chechnya (Grozny).",
-      "2 training sessions per day, 6 days a week. Wrestling at 10:30 and 17:30, MMA at 11:00 and 18:00.",
-      "Included: Russian visa, domestic flight Istanbul-Caucasus, accommodation, 2 meals per day, transfers, local coaching staff. International flight on your side.",
-      "Capacity: 15 Wrestling spots + 15 MMA spots per session (exclusive). Combo Wrestling + MMA available only as Custom Camp."
+      "1, 2 or 3 weeks, 4 sessions per year. 15 Wrestling spots + 15 MMA spots per session, exclusive choice at application.",
+      "Wrestling in Dagestan (Makhachkala, Kaspiysk) or MMA in Chechnya (Grozny). Combining both is only possible in Custom format.",
+      "All-inclusive: Russian visa, domestic flight from Istanbul, transfers, housing, 2 meals and 2 training sessions per day. You cover: your flight to Istanbul and travel insurance.",
+      "Selective entry: minimum 1 year of practice and a real ground game base. MMA: Advanced level (5+ years). Kids 8-17 with a participating parent via the Family track.",
+      "Free online application, selection video call with Ruslan Mukhtarov, no payment before validation."
     ]
   },
   "cinematic": {
@@ -31,15 +38,15 @@
   "philosophie": {
     "label": "PHILOSOPHY",
     "title": "WHY THE CAUCASUS",
-    "p1": "The best fighters on the planet all come from the same place. The Caucasus. Here, fighting methods have been passed down from father to son for centuries. Mats, sweat, and coaches who have built world champions.",
-    "p2": "MKR opens the doors of this world to you. Whether you are an experienced competitor or a serious amateur who wants to live elite conditions, you train at the same level of demand.",
+    "p1": "The best fighters on the planet come from the same place. The Caucasus produces more Olympic wrestling medals per capita than any other region in the world, and its gyms feed the global MMA elite year after year. Here, fighting is passed down from father to son, and has been for centuries.",
+    "p2": "These gyms do not take walk-ins. You get in through invitation, trust and network. That is exactly what MKR opens for you: you train in the real gyms, at the local level of demand, with a setup that lets you get the most out of it from day one.",
     "card_immersion": {
       "title": "TOTAL IMMERSION",
-      "body": "For 1 to 3 weeks, you live, eat and train with local athletes. Complete immersion in Caucasian fighting culture."
+      "body": "For 1 to 3 weeks, you live, eat and train with local athletes. Not a gym rented for tourists: the real sessions, at the local pace."
     },
     "card_heritage": {
-      "title": "HERITAGE OF THE CAUCASUS",
-      "body": "Methods that have produced the biggest names in MMA and hundreds of Olympic wrestling champions. In Grozny, professional gyms shape the new generation of MMA."
+      "title": "CAUCASUS HERITAGE",
+      "body": "In Dagestan, wrestling is an identity: every village has its champions. In Grozny, professional structures shape the next generation of world MMA."
     }
   },
   "includes": {
@@ -48,35 +55,35 @@
     "items": {
       "visa": {
         "title": "Russian visa",
-        "desc": "Consular fees, invitation letter, EU questionnaire and file support. Everything is included."
+        "desc": "Consular fees, invitation letter, questionnaire and full application support. You sign, MKR handles it."
       },
       "flight": {
         "title": "Domestic flight",
-        "desc": "From Istanbul to Makhachkala (Wrestling) or Grozny (MMA). You only organize the flight to Istanbul."
+        "desc": "From Istanbul to Makhachkala (Wrestling) or Grozny (MMA). You only book your flight to Istanbul."
       },
       "transport": {
-        "title": "Local transport",
-        "desc": "Airport-camp transfers and all on-site travel."
+        "title": "Transfers",
+        "desc": "Airport pickup, transfer to the camp and all rides to the gyms."
       },
       "accommodation": {
-        "title": "Accommodation",
+        "title": "Housing",
         "desc": "Shared camp lodging, clean and functional. You focus on training."
       },
       "sessions": {
-        "title": "2 sessions/day",
-        "desc": "Twice-daily training in your discipline. Morning and late afternoon."
+        "title": "2 training sessions/day",
+        "desc": "Morning and late afternoon session in your discipline, 6 days a week."
       },
       "coaches": {
         "title": "Local coaches",
-        "desc": "Champions and veterans of the Caucasus. Methods passed down from generation to generation."
+        "desc": "Champions and veterans of the Caucasus, coaching year-round. MKR liaisons by your side in the gym."
       },
       "excursions": {
         "title": "Excursions",
-        "desc": "Mountain hikes and cultural visits on the rest day."
+        "desc": "Mountains, canyon, local culture on rest day. Optional, depending on the session."
       },
       "meals": {
         "title": "2 meals/day",
-        "desc": "Caucasian cuisine rich in protein. Diet adapted to athletes."
+        "desc": "Protein-rich Caucasian cuisine. A diet built for two sessions a day."
       }
     }
   },
@@ -84,11 +91,11 @@
     "label": "NOT INCLUDED",
     "title": "WHAT IS NOT INCLUDED",
     "items": [
-      "International flight to Istanbul (book freely)",
-      "Travel insurance (mandatory, on your side)",
-      "Personal equipment (gloves, shin guards, mouthguard, groin protection)",
-      "Personal expenses on site (drinks, shopping, tips)",
-      "MKR surcharge for applications under 30 days before departure (express processing)"
+      "International flight to Istanbul (book it freely)",
+      "Travel insurance with repatriation (mandatory, on your side)",
+      "Personal equipment (gloves, shin guards, mouthguard, groin guard)",
+      "Personal expenses on site (bring cash in euros: foreign bank cards do not work in Russia)",
+      "MKR surcharge for applications less than 30 days before departure (express processing)"
     ],
     "cta_logistique": "LOGISTICS DETAILS"
   },
@@ -96,30 +103,90 @@
     "label": "24 HOURS",
     "title": "A TYPICAL DAY",
     "slots": [
-      { "time": "07:30", "activity": "Wake up", "desc": "The morning belongs to those who rise early." },
+      { "time": "07:30", "activity": "Wake up", "desc": "The morning belongs to those who get up early." },
       { "time": "08:30", "activity": "Breakfast", "desc": "Hearty meal, protein, energy for the morning." },
-      { "time": "10:30 / 11:00", "activity": "Morning session", "desc": "Wrestling (adults or youth) at 10:30. MMA at 11:00. Sparring, technique, drills." },
+      { "time": "10:30 / 11:00", "activity": "Morning session", "desc": "Wrestling (adults or kids) at 10:30. MMA at 11:00. Technique, drills, sparring." },
       { "time": "13:00", "activity": "Lunch", "desc": "Recovery and nutrition." },
       { "time": "14:30", "activity": "Recovery", "desc": "Rest, stretching, treatment if needed." },
-      { "time": "17:30 / 18:00", "activity": "Afternoon session", "desc": "Wrestling at 17:30. MMA at 18:00. Competition intensity, supervised sparring." },
-      { "time": "20:00", "activity": "Dinner", "desc": "Evening meal free according to your personal plan." },
+      { "time": "17:30 / 18:00", "activity": "Afternoon session", "desc": "Wrestling at 17:30. MMA at 18:00. Competition intensity, directed sparring." },
+      { "time": "20:00", "activity": "Dinner", "desc": "Evening meal, free according to your personal plan." },
       { "time": "22:00", "activity": "Rest", "desc": "Sleep. The body rebuilds." }
     ]
   },
   "venues": {
     "label": "VENUES",
-    "title": "THE TRAINING GYMS",
-    "main_alt": "Main training gym in the Caucasus, Olympic mats",
-    "main_caption": "Main gym. Olympic mats, climate controlled. Capacity 30 athletes.",
-    "secondary_alt": "Striking training on pads in the secondary gym",
-    "secondary_caption": "Secondary gym. Striking equipment, heavy bags, MMA cage.",
-    "accommodation_alt": "MKR camp accommodation in the Caucasus",
-    "accommodation_caption": "Camp accommodation. Simple, clean, functional. Not a hotel, a place to rest.",
+    "title": "THE GYMS AND CAMP LIFE",
+    "main_alt": "Circle training session in an MKR partner gym in the Caucasus",
+    "main_caption": "A real session in a partner gym. Olympic mats, local pace.",
+    "secondary_alt": "Coaches in a Caucasus training gym",
+    "secondary_caption": "Local coaches, on duty year-round. Precise, individual corrections.",
+    "accommodation_alt": "MKR camp housing in the Caucasus",
+    "accommodation_caption": "Camp housing. Simple, clean, functional. Not a hotel, a place to rest.",
     "meal_alt": "Communal meal between athletes and coaches",
     "meal_caption": "Communal meal. Caucasian cuisine, protein, brotherhood."
   },
+  "fit": {
+    "label": "SELECTION",
+    "title": "IS THIS CAMP FOR YOU?",
+    "for_title": "It is for you if",
+    "for_items": [
+      "You have at least 1 year of practice in wrestling, grappling, BJJ, judo or MMA, with a real ground game base.",
+      "You want the local level of demand: 2 sessions a day, daily sparring, no watered-down version.",
+      "You accept simple comfort: camp lodging, local food, unreliable wifi.",
+      "You are ready to get dominated the first days and come back the next morning."
+    ],
+    "not_title": "Skip it if",
+    "not_items": [
+      "You have never set foot on a mat: build one year of basics in a club first.",
+      "You want MMA in Chechnya without an Advanced level: start with the Wrestling camp in Dagestan.",
+      "You are looking for a fitness holiday with spa, room service and one class a day.",
+      "You want to visit Russia: this camp is a progression tool, not a tourist trip."
+    ],
+    "note": "Selection is not a marketing line: every application goes through a video call with Ruslan Mukhtarov before validation. That is what guarantees the level of the group, your safety and the quality of the experience for everyone."
+  },
+  "process": {
+    "label": "HOW IT WORKS",
+    "title": "FROM APPLICATION TO THE MAT",
+    "steps": [
+      { "title": "Online application", "desc": "5 minutes, free and without commitment. Your profile, your level, your dates." },
+      { "title": "Video call with Ruslan", "desc": "Within 48 hours. He validates your level, answers your questions and frames your project." },
+      { "title": "MKR prepares everything", "desc": "Visa, domestic flight, housing, gyms. You: your flight to Istanbul, your insurance and your physical preparation." },
+      { "title": "Departure", "desc": "Airport pickup, transfer to the camp, first training session. All you pack is your bag." }
+    ],
+    "note": "No payment at application. You only pay after validation on the video call, by bank transfer."
+  },
+  "faq": {
+    "label": "QUESTIONS",
+    "title": "WHAT EVERYONE ASKS",
+    "items": [
+      {
+        "question": "Is it dangerous to train in the Caucasus in 2026?",
+        "answer": "Straight answer: the UK FCDO advises against travel to Dagestan and Chechnya, and most Western governments advise against travel to Russia. That is the official frame, and you should know it before applying. The reality our athletes live: stable training cities, strong hospitality towards foreign athletes, and a full MKR protocol: local liaisons with you at all times, urban areas only, pre-departure briefing, 24/7 emergency contact and mandatory repatriation insurance. You leave informed and supported, never alone."
+      },
+      {
+        "question": "Who takes care of the Russian visa?",
+        "answer": "MKR handles your application end to end: invitation letter, questionnaire, consular fees included in the package. Depending on your camp duration, the e-visa or classic visa route is chosen for you. Just make sure your passport is valid 6 months after your return, and apply ideally 60 to 90 days before departure. Under 30 days, an express processing surcharge applies."
+      },
+      {
+        "question": "I speak neither Russian nor the local languages: how do I follow training?",
+        "answer": "Instruction in the Caucasus works by demonstration: coaches show, you repeat, they correct. On top of that, MKR liaisons are with you in the gym and at the camp to translate what needs translating, from technical briefings to meals. Language has never stopped a participant from progressing."
+      },
+      {
+        "question": "Can I just organise this myself, without a camp?",
+        "answer": "Realistically, no. Gyms in Dagestan and Chechnya do not take walk-ins: you get in through an invitation from a coach or a trusted member of the network. Without structure you end up with no gym, no proper lodging and no sports visa. MKR access is built on the personal network of Ruslan Mukhtarov, Chechen, born in Dagestan, former member of the French Olympic wrestling team."
+      },
+      {
+        "question": "What level do I need to be accepted?",
+        "answer": "Minimum 1 year of regular practice and a real ground game base (wrestling, grappling, BJJ, judo or MMA). For the MMA camp in Chechnya, Advanced level is required: 5+ years of practice or competition experience, because your sparring partners are professionals. Your level is confirmed on the video call with Ruslan before any validation."
+      },
+      {
+        "question": "When do I pay?",
+        "answer": "Never at application. You apply for free, you take the selection video call, and only after validation do you pay your package by bank transfer. Cancellation terms are tiered and written in plain terms in the T&C: more than 60 days before departure, full refund."
+      }
+    ]
+  },
   "section_cta": {
-    "primary_label": "SEE AVAILABLE SESSIONS",
-    "ghost_label": "DISCOVER THE PROGRAM"
+    "primary_label": "APPLY TO THE CAMP",
+    "ghost_label": "SEE THE 4 SESSIONS"
   }
 }

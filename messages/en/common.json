@@ -224,5 +224,18 @@
     "accept": "Accept",
     "refuse": "Decline"
   },
+  "lp": {
+    "updated_at": "Updated on {date}",
+    "price_anchor": {
+      "kicker": "ALL-INCLUSIVE PRICE",
+      "main": "{solo} per person · 1 week",
+      "main_sub": "Russian visa, domestic flight from Istanbul, transfers, housing, 2 meals and 2 training sessions per day. You only handle your flight to Istanbul.",
+      "degressive": "Group rates (from {min} per person) · Dedicated Family package",
+      "next_session": "Next session",
+      "cta": "APPLY",
+      "cta_sub": "Free 5-minute application · No payment before your video call validation",
+      "whatsapp": "A specific question? Direct WhatsApp"
+    }
+  },
   "skip_link": "Skip to main content"
 }

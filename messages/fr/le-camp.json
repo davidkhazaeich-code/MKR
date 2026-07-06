@@ -1,25 +1,32 @@
 {
   "meta": {
     "title": "Le Camp MKR : Lutte au Daghestan, MMA en Tchétchénie",
-    "description": "Camp MMA Tchétchénie ou Lutte Daghestan, 1 à 3 semaines au Caucase. Visa russe, vol intérieur Istanbul, hébergement, 2 repas/jour et coaching local inclus."
+    "description": "Camp Lutte ou MMA au Caucase, 1 à 3 semaines tout compris : visa russe, vol intérieur Istanbul, hébergement, 2 repas/jour. Entrée sélective, 15 places par discipline."
   },
   "breadcrumb": {
     "home": "Accueil",
     "current": "Le Camp"
   },
   "hero": {
-    "label": "LE CAMP",
-    "title": "1 À 3 SEMAINES QUI CHANGENT TA MANIÈRE DE COMBATTRE.",
-    "subtitle": "Immersion totale au Caucase. Lutte au Daghestan, MMA en Tchétchénie. Coaching, hébergement, repas pris en charge. Toi, tu combats."
+    "label": "LE CAMP · DAGHESTAN ET TCHÉTCHÉNIE",
+    "title": "1 À 3 SEMAINES D'IMMERSION QUI CHANGENT TA MANIÈRE DE COMBATTRE.",
+    "subtitle": "Lutte au Daghestan ou MMA en Tchétchénie. MKR gère le visa, le vol intérieur, l'hébergement, les repas et l'accès aux salles. Toi, tu t'entraînes."
+  },
+  "key_facts": {
+    "visa": { "label": "Visa russe inclus", "sub": "Dossier géré de A à Z par MKR" },
+    "flight": { "label": "Vol intérieur inclus", "sub": "Istanbul vers Makhachkala ou Grozny" },
+    "housing": { "label": "Hébergement + 2 repas/jour", "sub": "Logement de camp, cuisine locale" },
+    "training": { "label": "2 entraînements/jour", "sub": "6 jours sur 7, coachs locaux" },
+    "selection": { "label": "Entrée sélective", "sub": "15 places par discipline et par session" }
   },
   "tldr": {
     "title": "En bref · Le Camp MKR",
     "facts": [
-      "Durée flexible : 1, 2 ou 3 semaines au sein d'une fenêtre de 3 semaines (4 sessions par an).",
-      "Deux destinations exclusives par session : Lutte au Daghestan (Makhachkala/Kaspiysk) ou MMA en Tchétchénie (Grozny).",
-      "2 sessions d'entraînement par jour, 6 jours sur 7. Lutte 10h30/17h30, MMA 11h00/18h00.",
-      "Inclus : visa russe, vol intérieur Istanbul-Caucase, hébergement, 2 repas/jour, transferts, encadrement local. Vol international à organiser de ton côté.",
-      "Capacité : 15 places Lutte + 15 places MMA par session (exclusif). Combo Lutte + MMA disponible uniquement en Sur Mesure."
+      "Durée 1, 2 ou 3 semaines, 4 sessions par an. 15 places Lutte + 15 places MMA par session, choix exclusif à l'inscription.",
+      "Lutte au Daghestan (Makhachkala, Kaspiysk) ou MMA en Tchétchénie (Grozny). Combo des deux uniquement en Sur Mesure.",
+      "Tout compris : visa russe, vol intérieur depuis Istanbul, transferts, hébergement, 2 repas et 2 entraînements par jour. Reste à ta charge : le vol jusqu'à Istanbul et ton assurance voyage.",
+      "Entrée sélective : minimum 1 an de pratique et une vraie base au sol. MMA : niveau Avancé (5 ans et plus). Enfants 8-17 ans avec parent participant via le tunnel Famille.",
+      "Candidature gratuite en ligne, visio de sélection avec Ruslan Mukhtarov, aucun paiement avant validation."
     ]
   },
   "cinematic": {
@@ -31,15 +38,15 @@
   "philosophie": {
     "label": "PHILOSOPHIE",
     "title": "POURQUOI LE CAUCASE",
-    "p1": "Les meilleurs combattants de la planète sortent tous du même endroit. Le Caucase. Ici, les méthodes de combat se transmettent de père en fils depuis des siècles. Tapis, sueur, et coachs qui ont formé des champions du monde.",
-    "p2": "MKR t'ouvre les portes de cet univers. Que tu sois compétiteur confirmé ou amateur sérieux qui veut vivre les conditions de l'élite, tu t'entraînes au même niveau d'exigence.",
+    "p1": "Les meilleurs combattants de la planète sortent du même endroit. Le Caucase produit plus de médailles olympiques de lutte par habitant que n'importe quelle autre région au monde, et ses salles alimentent le top mondial du MMA en continu. Ici, le combat se transmet de père en fils depuis des siècles.",
+    "p2": "Ces salles ne prennent pas de visiteurs de passage. On y entre par invitation, par confiance, par réseau. C'est exactement ce que MKR t'ouvre : tu t'entraînes dans les vraies salles, au niveau d'exigence local, avec un cadre qui te permet d'en profiter dès le premier jour.",
     "card_immersion": {
       "title": "IMMERSION TOTALE",
-      "body": "Pendant 1 à 3 semaines, tu vis, manges et t'entraînes avec des athlètes locaux. Immersion complète dans la culture du combat caucasien."
+      "body": "Pendant 1 à 3 semaines, tu vis, manges et t'entraînes avec des athlètes locaux. Pas une salle louée pour touristes : les sessions réelles, au rythme local."
     },
     "card_heritage": {
       "title": "HÉRITAGE DU CAUCASE",
-      "body": "Des méthodes qui ont produit les plus grands noms du MMA et des centaines de champions olympiques de lutte. À Grozny, les salles professionnelles façonnent la nouvelle génération du MMA."
+      "body": "Au Daghestan, la lutte est une identité : chaque village a ses champions. À Grozny, les structures professionnelles façonnent la nouvelle génération du MMA mondial."
     }
   },
   "includes": {
@@ -48,35 +55,35 @@
     "items": {
       "visa": {
         "title": "Visa Russie",
-        "desc": "Frais consulaires, lettre d'invitation, questionnaire UE et accompagnement du dossier. Tout est inclus."
+        "desc": "Frais consulaires, lettre d'invitation, questionnaire et accompagnement du dossier. Tu signes, MKR gère."
       },
       "flight": {
         "title": "Vol intérieur",
         "desc": "Depuis Istanbul jusqu'à Makhachkala (Lutte) ou Grozny (MMA). Tu n'organises que le vol jusqu'à Istanbul."
       },
       "transport": {
-        "title": "Transport local",
-        "desc": "Transferts aéroport-camp et tous les déplacements sur place."
+        "title": "Transferts",
+        "desc": "Accueil à l'aéroport, transfert au camp et tous les déplacements vers les salles."
       },
       "accommodation": {
         "title": "Hébergement",
         "desc": "Logement de camp partagé, propre et fonctionnel. Tu te concentres sur l'entraînement."
       },
       "sessions": {
-        "title": "2 sessions/jour",
-        "desc": "Entraînement biquotidien dans ta discipline. Matin et fin d'après-midi."
+        "title": "2 entraînements/jour",
+        "desc": "Session matin et session fin d'après-midi dans ta discipline, 6 jours sur 7."
       },
       "coaches": {
         "title": "Coachs locaux",
-        "desc": "Champions et vétérans du Caucase. Méthodes transmises de génération en génération."
+        "desc": "Champions et vétérans du Caucase, en poste à l'année. Référents MKR à tes côtés dans la salle."
       },
       "excursions": {
         "title": "Excursions",
-        "desc": "Randonnées en montagne et visites culturelles le jour de repos."
+        "desc": "Montagne, canyon, culture locale le jour de repos. En option, selon la session."
       },
       "meals": {
         "title": "2 repas/jour",
-        "desc": "Cuisine caucasienne riche en protéines. Régime adapté aux athlètes."
+        "desc": "Cuisine caucasienne riche en protéines. Régime pensé pour deux sessions par jour."
       }
     }
   },
@@ -85,9 +92,9 @@
     "title": "CE QUI N'EST PAS INCLUS",
     "items": [
       "Vol international jusqu'à Istanbul (à organiser librement)",
-      "Assurance voyage (obligatoire, à souscrire de ton côté)",
+      "Assurance voyage avec rapatriement (obligatoire, à souscrire de ton côté)",
       "Équipement personnel (gants, protège-tibias, protège-dents, coquille)",
-      "Dépenses personnelles sur place (boissons, achats, pourboires)",
+      "Dépenses personnelles sur place (prévois du liquide en euros : les cartes étrangères ne fonctionnent pas en Russie)",
       "Supplément MKR pour candidature à moins de 30 jours du départ (traitement express)"
     ],
     "cta_logistique": "DÉTAIL LOGISTIQUE"
@@ -98,7 +105,7 @@
     "slots": [
       { "time": "07:30", "activity": "Réveil", "desc": "Le matin appartient à ceux qui se lèvent tôt." },
       { "time": "08:30", "activity": "Petit-déjeuner", "desc": "Repas copieux, protéines, énergie pour la matinée." },
-      { "time": "10:30 / 11:00", "activity": "Session matin", "desc": "Lutte (adultes ou enfants) à 10h30. MMA à 11h00. Sparring, technique, drills." },
+      { "time": "10:30 / 11:00", "activity": "Session matin", "desc": "Lutte (adultes ou enfants) à 10h30. MMA à 11h00. Technique, drills, sparring." },
       { "time": "13:00", "activity": "Déjeuner", "desc": "Récupération et nutrition." },
       { "time": "14:30", "activity": "Récupération", "desc": "Repos, étirements, soins si nécessaire." },
       { "time": "17:30 / 18:00", "activity": "Session après-midi", "desc": "Lutte à 17h30. MMA à 18h00. Intensité compétition, sparring dirigé." },
@@ -108,18 +115,78 @@
   },
   "venues": {
     "label": "LIEUX",
-    "title": "LES SALLES D'ENTRAÎNEMENT",
-    "main_alt": "Salle d'entraînement principale au Caucase, tapis olympiques",
-    "main_caption": "Salle principale. Tapis olympiques, climat contrôlé. Capacité 30 athlètes.",
-    "secondary_alt": "Entraînement de frappe sur mitaines dans la salle secondaire",
-    "secondary_caption": "Salle secondaire. Équipement de frappe, sacs lourds, cage MMA.",
+    "title": "LES SALLES ET LA VIE AU CAMP",
+    "main_alt": "Session d'entraînement en cercle dans une salle partenaire MKR au Caucase",
+    "main_caption": "Session réelle dans une salle partenaire. Tapis olympiques, rythme local.",
+    "secondary_alt": "Coachs dans une salle d'entraînement du Caucase",
+    "secondary_caption": "Les coachs locaux, en poste à l'année. Corrections précises, individuelles.",
     "accommodation_alt": "Hébergement du camp MKR au Caucase",
     "accommodation_caption": "Hébergement de camp. Simple, propre, fonctionnel. Pas un hôtel, un lieu de repos.",
     "meal_alt": "Repas communautaire entre athlètes et coachs",
     "meal_caption": "Repas communautaire. Cuisine caucasienne, protéines, fraternité."
   },
+  "fit": {
+    "label": "SÉLECTION",
+    "title": "CE CAMP EST-IL FAIT POUR TOI ?",
+    "for_title": "C'est pour toi si",
+    "for_items": [
+      "Tu as au moins 1 an de pratique en lutte, grappling, JJB, judo ou MMA, avec une vraie base au sol.",
+      "Tu veux vivre le niveau d'exigence local : 2 sessions par jour, sparring quotidien, pas de version allégée.",
+      "Tu acceptes un confort simple : logement de camp, cuisine locale, wifi aléatoire.",
+      "Tu es prêt à te faire dominer les premiers jours et à revenir le lendemain."
+    ],
+    "not_title": "Passe ton tour si",
+    "not_items": [
+      "Tu n'as jamais mis les pieds sur un tapis : construis d'abord un an de base en club.",
+      "Tu vises le MMA en Tchétchénie sans niveau Avancé : commence par le camp Lutte au Daghestan.",
+      "Tu cherches des vacances sportives avec spa, room service et une séance par jour.",
+      "Tu veux visiter la Russie : ce camp est un outil de progression, pas un séjour touristique."
+    ],
+    "note": "La sélection n'est pas un argument marketing : chaque candidature passe par une visio avec Ruslan Mukhtarov avant validation. C'est ce qui garantit le niveau du groupe, ta sécurité et la qualité de l'expérience pour tout le monde."
+  },
+  "process": {
+    "label": "COMMENT ÇA MARCHE",
+    "title": "DE LA CANDIDATURE AU TAPIS",
+    "steps": [
+      { "title": "Candidature en ligne", "desc": "5 minutes, gratuite et sans engagement. Ton profil, ton niveau, tes dates." },
+      { "title": "Visio avec Ruslan", "desc": "Sous 48h. Il valide ton niveau, répond à tes questions et cadre ton projet." },
+      { "title": "MKR prépare tout", "desc": "Visa, vol intérieur, hébergement, salles. Toi : ton vol jusqu'à Istanbul, ton assurance et ta préparation physique." },
+      { "title": "Départ", "desc": "Accueil à l'aéroport, transfert au camp, premier entraînement. Tu n'as qu'à préparer ton sac." }
+    ],
+    "note": "Aucun paiement à la candidature. Le règlement intervient uniquement après validation en visio, par virement bancaire."
+  },
+  "faq": {
+    "label": "QUESTIONS",
+    "title": "CE QUE TOUT LE MONDE DEMANDE",
+    "items": [
+      {
+        "question": "Est-ce que c'est dangereux d'aller s'entraîner au Caucase en 2026 ?",
+        "answer": "Parlons franchement : la France déconseille officiellement les voyages en Russie depuis 2022, Caucase inclus. C'est le cadre, tu dois le connaître avant de candidater. La réalité vécue par nos athlètes : des villes d'entraînement stables, une hospitalité forte envers les sportifs et un protocole MKR complet : référents locaux en permanence, zones urbaines uniquement, briefing avant départ, contact d'urgence 24/7 et assurance rapatriement obligatoire. Tu pars informé et encadré, jamais seul."
+      },
+      {
+        "question": "Qui s'occupe du visa russe ?",
+        "answer": "MKR gère ton dossier de A à Z : lettre d'invitation, questionnaire, frais consulaires inclus dans le package. Selon la durée de ton camp, le format e-visa ou visa classique est choisi pour toi. Prévois simplement un passeport valide 6 mois après le retour et candidate idéalement 60 à 90 jours avant le départ. À moins de 30 jours, un supplément de traitement express s'applique."
+      },
+      {
+        "question": "Je ne parle ni russe ni anglais : comment je suis les entraînements ?",
+        "answer": "L'instruction au Caucase passe par la démonstration : les coachs montrent, tu répètes, ils corrigent. En plus, les référents MKR francophones sont avec toi dans la salle et au camp pour traduire ce qui doit l'être, du briefing technique aux repas. La langue n'a jamais empêché un participant de progresser."
+      },
+      {
+        "question": "Je ne peux pas organiser ça par moi-même, sans passer par un camp ?",
+        "answer": "Concrètement, non. Les salles du Daghestan et de Tchétchénie ne prennent pas de visiteurs de passage : on y entre par invitation d'un coach ou d'un membre de confiance du réseau. Sans structure, tu te retrouves sans salle, sans logement adapté et sans visa sportif. L'accès MKR repose sur le réseau personnel de Ruslan Mukhtarov, Tchétchène né au Daghestan et ancien membre de l'équipe olympique de France de lutte."
+      },
+      {
+        "question": "Quel niveau faut-il pour être accepté ?",
+        "answer": "Minimum 1 an de pratique régulière et une vraie base au sol (lutte, grappling, JJB, judo ou MMA). Pour le camp MMA en Tchétchénie, le niveau Avancé est exigé : 5 ans et plus de pratique ou expérience de compétition, car les partenaires de sparring sont des professionnels. Le niveau est confirmé en visio avec Ruslan avant toute validation."
+      },
+      {
+        "question": "Quand est-ce que je paye ?",
+        "answer": "Jamais à la candidature. Tu postules gratuitement, tu passes la visio de sélection, et c'est seulement après validation que tu règles ton package par virement bancaire. Les conditions d'annulation sont dégressives et écrites noir sur blanc dans les CGV : plus de 60 jours avant le départ, remboursement intégral."
+      }
+    ]
+  },
   "section_cta": {
-    "primary_label": "VOIR LES SESSIONS DISPONIBLES",
-    "ghost_label": "DÉCOUVRIR LE PROGRAMME"
+    "primary_label": "POSTULER AU CAMP",
+    "ghost_label": "VOIR LES 4 SESSIONS"
   }
 }

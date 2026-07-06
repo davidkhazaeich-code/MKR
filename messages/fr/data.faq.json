@@ -2,7 +2,7 @@
   "homepage": [
     {
       "question": "Quel niveau est requis ?",
-      "answer": "Cela dépend de la discipline. Lutte (Daghestan) : ouverte à tous les niveaux, y compris débutants. MMA (Tchétchénie) : niveau Avancé minimum (5+ ans de pratique régulière) ou Compétiteur, car les sparring partners locaux sont des pros de l'écurie Akhmat. Le niveau est confirmé lors de l'entretien vidéo."
+      "answer": "Lutte (Daghestan) : minimum 1 an de pratique régulière et une vraie base au sol (lutte, grappling, JJB, judo ou MMA). MMA (Tchétchénie) : niveau Avancé minimum (5+ ans de pratique régulière) ou Compétiteur, car les sparring partners locaux sont des pros de l'écurie Akhmat. Le niveau est confirmé lors de l'entretien vidéo."
     },
     {
       "question": "Le visa est-il nécessaire ?",
@@ -22,7 +22,7 @@
     },
     {
       "question": "Quel niveau est exigé pour le camp MMA ?",
-      "answer": "Niveau Avancé minimum (plus de 5 ans de pratique régulière) ou Compétiteur (régional, national, international). Le formulaire d'inscription bloque les niveaux Intermédiaire et en-dessous quand tu choisis MMA. Cette exigence vient du rythme du camp et du niveau des sparring partners locaux : tu vas t'entraîner avec des combattants pros de l'écurie Akhmat. Si tu n'es pas encore au niveau, choisis Lutte (Daghestan), ouverte à tous les niveaux y compris débutants motivés. Ruslan refine la sélection en visio finale."
+      "answer": "Niveau Avancé minimum (plus de 5 ans de pratique régulière) ou Compétiteur (régional, national, international). Le formulaire d'inscription bloque les niveaux Intermédiaire et en-dessous quand tu choisis MMA. Cette exigence vient du rythme du camp et du niveau des sparring partners locaux : tu vas t'entraîner avec des combattants pros de l'écurie Akhmat. Si tu n'es pas encore au niveau, choisis le camp Lutte au Daghestan, accessible dès 1 an de pratique avec une base au sol. Ruslan affine la sélection en visio finale."
     },
     {
       "question": "Quelle est la langue d'entraînement ?",
@@ -88,7 +88,7 @@
       "items": [
         {
           "question": "Quel niveau est requis pour participer ?",
-          "answer": "Cela dépend de la discipline choisie. Lutte (Daghestan) : ouverte à tous les niveaux, y compris débutants motivés. Tu progresses dans un cadre adapté à ton point de départ. MMA (Tchétchénie) : niveau Avancé minimum (plus de 5 ans de pratique régulière) ou Compétiteur, car les sparring partners locaux sont des combattants pros. Le niveau est confirmé lors de l'entretien vidéo dans tous les cas."
+          "answer": "Cela dépend de la discipline choisie. Lutte (Daghestan) : minimum 1 an de pratique régulière et une vraie base au sol (lutte, grappling, JJB, judo ou MMA). L'instruction se fait par démonstration au rythme local : sans base au sol, tu ne suis pas. MMA (Tchétchénie) : niveau Avancé minimum (plus de 5 ans de pratique régulière) ou Compétiteur, car les sparring partners locaux sont des combattants pros. Le niveau est confirmé lors de l'entretien vidéo dans tous les cas."
         },
         {
           "question": "Quelle est la langue d'entraînement ?",

@@ -7,7 +7,13 @@ import SectionCTA from '@/components/SectionCTA'
 import DestinationReveal from '@/components/DestinationReveal'
 import DestinationSafetyProtocol from '@/components/DestinationSafetyProtocol'
 import TldrBox from '@/components/TldrBox'
+import UpdatedAt from '@/components/UpdatedAt'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
+import PageFaq from '@/components/PageFaq'
+import PriceAnchor from '@/components/PriceAnchor'
+import type { FAQItem } from '@/components/FAQAccordion'
+
+const UPDATED = '2026-07-06'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
@@ -33,6 +39,8 @@ export default async function TchetcheniePage({ params }: { params: Promise<{ lo
   setRequestLocale(locale)
   const t = await getTranslations('destinations.tchetchenie')
 
+  const faqItems = t.raw('faq.items') as FAQItem[]
+
   return (
     <>
       <BreadcrumbJsonLd items={[
@@ -55,6 +63,7 @@ export default async function TchetcheniePage({ params }: { params: Promise<{ lo
           title={t('tldr.title')}
           facts={t.raw('tldr.facts') as string[]}
         />
+        <UpdatedAt date={UPDATED} />
       </div>
 
       <DestinationReveal
@@ -66,7 +75,7 @@ export default async function TchetcheniePage({ params }: { params: Promise<{ lo
           { label: t('reveal.facts.capitale'), value: t('reveal.facts.capitale_value') },
           { label: t('reveal.facts.altitude'), value: t('reveal.facts.altitude_value') },
           { label: t('reveal.facts.champions_mma'), value: t('reveal.facts.champions_mma_value') },
-          { label: t('reveal.facts.ufc'), value: t('reveal.facts.ufc_value') },
+          { label: t('reveal.facts.transfert'), value: t('reveal.facts.transfert_value') },
           { label: t('reveal.facts.salles'), value: t('reveal.facts.salles_value') },
           { label: t('reveal.facts.population'), value: t('reveal.facts.population_value') },
         ]}
@@ -168,6 +177,17 @@ export default async function TchetcheniePage({ params }: { params: Promise<{ lo
         </div>
       </section>
 
+      {/* Prix transparent + prochaine session + places live */}
+      <PriceAnchor discipline="mma" href="/inscription?type=session" />
+
+      {/* Objections zone + JSON-LD FAQPage */}
+      <PageFaq
+        label={t('faq.label')}
+        title={t('faq.title')}
+        items={faqItems}
+        id="faq-tchetchenie"
+      />
+
       {/* Logistique resume */}
       <section className="logi-section fx-grid fx-stack-5">
         <div className="inner">
@@ -184,7 +204,7 @@ export default async function TchetcheniePage({ params }: { params: Promise<{ lo
       <SectionCTA
         primaryHref="/inscription?type=session"
         primaryLabel={t('section_cta.primary_label')}
-        ghostHref="/destinations/dagestan"
+        ghostHref="/programme/mma"
         ghostLabel={t('section_cta.ghost_label')}
       />
     </>

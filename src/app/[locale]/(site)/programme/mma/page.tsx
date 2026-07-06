@@ -8,14 +8,32 @@ import CinematicReveal from '@/components/CinematicReveal'
 import DisciplineTechniques from '@/components/DisciplineTechniques'
 import DisciplineSessionFlow from '@/components/DisciplineSessionFlow'
 import TldrBox from '@/components/TldrBox'
+import UpdatedAt from '@/components/UpdatedAt'
+import KeyFactsBand from '@/components/KeyFactsBand'
+import AudienceFit from '@/components/AudienceFit'
+import ProcessStrip, { type ProcessStep } from '@/components/ProcessStrip'
+import PageFaq from '@/components/PageFaq'
+import PriceAnchor from '@/components/PriceAnchor'
 import VerticalVideoSplit from '@/components/VerticalVideoSplit'
 import { getAntoineParcoursProps } from '@/data/antoine-parcours'
+import type { IconName } from '@/components/Icon'
+import type { FAQItem } from '@/components/FAQAccordion'
+
+const UPDATED = '2026-07-06'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: 'programme.mma' })
   return localizedMetadata('/programme/mma', locale as Locale, t('meta.title'), t('meta.description'))
 }
+
+const KEY_FACT_KEYS: { key: string; icon: IconName }[] = [
+  { key: 'visa', icon: 'passport' },
+  { key: 'flight', icon: 'plane' },
+  { key: 'training', icon: 'fire' },
+  { key: 'level', icon: 'shield-check' },
+  { key: 'spots', icon: 'team' },
+]
 
 const TECHNIQUE_KEYS = [
   'stand_up',
@@ -51,6 +69,10 @@ export default async function ProgrammeMMAPage({ params }: { params: Promise<{ l
     activity: t(`session_flow.steps.${key}.activity`),
     desc: t(`session_flow.steps.${key}.desc`),
   }))
+  const fitFor = t.raw('fit.for_items') as string[]
+  const fitNot = t.raw('fit.not_items') as string[]
+  const processSteps = t.raw('process.steps') as ProcessStep[]
+  const faqItems = t.raw('faq.items') as FAQItem[]
 
   return (
     <>
@@ -69,6 +91,15 @@ export default async function ProgrammeMMAPage({ params }: { params: Promise<{ l
         ]}
       />
 
+      {/* Message match avec les annonces (visa, vol, niveau, places) */}
+      <KeyFactsBand
+        facts={KEY_FACT_KEYS.map(({ key, icon }) => ({
+          icon,
+          label: t(`key_facts.${key}.label`),
+          sub: t(`key_facts.${key}.sub`),
+        }))}
+      />
+
       <VerticalVideoSplit {...antoineProps} />
 
       <div className="inner">
@@ -76,6 +107,7 @@ export default async function ProgrammeMMAPage({ params }: { params: Promise<{ l
           title={t('tldr.title')}
           facts={facts}
         />
+        <UpdatedAt date={UPDATED} />
       </div>
 
       {/* Description */}
@@ -96,7 +128,7 @@ export default async function ProgrammeMMAPage({ params }: { params: Promise<{ l
             <div>
               <figure className="photo-card">
                 <img
-                  src="/images/mma-tchechenie/pads-direct-kadyrov.webp"
+                  src="/images/mma-tchechenie/pads-akhmat-power-fairtex.webp"
                   alt={t('description.img1_alt')}
                   width={800}
                   height={600}
@@ -128,7 +160,7 @@ export default async function ProgrammeMMAPage({ params }: { params: Promise<{ l
         tagline={t('cinematic.tagline')}
       />
 
-      {/* Preuve sociale Chimaev */}
+      {/* Preuve sociale ecurie (photo reelle, nom uniquement en legende factuelle) */}
       <section className="logi-section fx-grid fx-stack-1" style={{ paddingBlock: '4rem 3rem' }}>
         <div className="inner">
           <div className="layout-split reveal">
@@ -202,6 +234,36 @@ export default async function ProgrammeMMAPage({ params }: { params: Promise<{ l
             {t('session_flow.hours_note_prefix')}<strong>{t('session_flow.hours_note_morning')}</strong>{t('session_flow.hours_note_and')}<strong>{t('session_flow.hours_note_afternoon')}</strong>{t('session_flow.hours_note_suffix')}
           </>
         }
+      />
+
+      {/* Prix transparent + prochaine session + places live */}
+      <PriceAnchor discipline="mma" href="/inscription?type=session" />
+
+      {/* Qualification self-select (niveau Avance) */}
+      <AudienceFit
+        label={t('fit.label')}
+        title={t('fit.title')}
+        forTitle={t('fit.for_title')}
+        forItems={fitFor}
+        notTitle={t('fit.not_title')}
+        notItems={fitNot}
+        note={t('fit.note')}
+      />
+
+      {/* Parcours candidature -> depart */}
+      <ProcessStrip
+        label={t('process.label')}
+        title={t('process.title')}
+        steps={processSteps}
+        note={t('process.note')}
+      />
+
+      {/* Objections + JSON-LD FAQPage */}
+      <PageFaq
+        label={t('faq.label')}
+        title={t('faq.title')}
+        items={faqItems}
+        id="faq-mma"
       />
 
       <SectionCTA
