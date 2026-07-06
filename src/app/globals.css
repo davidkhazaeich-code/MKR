@@ -11896,3 +11896,20 @@ html.is-loading body {
   .ig-feed-link:hover .ig-feed-img,
   .ig-feed-link:focus-visible .ig-feed-img { transform: none; }
 }
+
+/* Widget Trustindex : la section est sur fond sombre MKR. Le widget sort par
+   defaut du texte fonce -> on force le texte en clair pour qu'il reste lisible.
+   Filet de securite cote site ; le reglage le plus fiable reste le theme
+   "sombre / texte clair" dans le dashboard Trustindex (indispensable si le
+   widget rend une iframe, non stylable de l'exterieur). */
+.ti-feed-mount { color: var(--text-primary); }
+.ti-feed-mount [class*="ti-"],
+.ti-feed-mount p,
+.ti-feed-mount span,
+.ti-feed-mount a,
+.ti-feed-mount h1,
+.ti-feed-mount h2,
+.ti-feed-mount h3,
+.ti-feed-mount h4,
+.ti-feed-mount time,
+.ti-feed-mount li { color: var(--text-primary) !important; }

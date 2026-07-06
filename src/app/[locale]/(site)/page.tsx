@@ -1,7 +1,6 @@
 import dynamic from 'next/dynamic'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 import Hero from '@/components/Hero'
-import InstagramFeed from '@/components/InstagramFeed'
 import { localizedMetadata } from '@/lib/i18n-helpers'
 import type { Locale } from '@/i18n/routing'
 import { getAntoineParcoursProps } from '@/data/antoine-parcours'
@@ -61,7 +60,6 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
       <div data-scroll-section data-scroll-label="Le parcours" className="hs-anchor"><Timeline /></div>
       <div data-scroll-section data-scroll-label="FAQ" className="hs-anchor"><FAQ /></div>
       <div data-scroll-section data-scroll-label="Prochain camp" className="hs-anchor"><CTAFinal /></div>
-      <div data-scroll-section className="hs-anchor"><InstagramFeed /></div>
     </>
   )
 }
