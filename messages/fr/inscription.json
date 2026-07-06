@@ -400,6 +400,7 @@
     }
   },
   "step0_camp": {
+    "earliest_date_hint": "Au plus tôt le {date}",
     "session": {
       "section1_label": "Choisis ta session",
       "section1_help": "Quatre sessions par an, calées sur les vacances scolaires francophones (FR · CH · BE).",
@@ -491,6 +492,7 @@
           "sub": "4 adultes"
         }
       },
+      "compo_from_price": "dès {price}/pers",
       "participants_section_label": "Les autres participants",
       "participants_section_help": "Prénom et niveau pour chaque accompagnant. Santé collectée après validation du devis.",
       "participant_label": "Participant {n}",

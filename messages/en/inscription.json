@@ -400,6 +400,7 @@
     }
   },
   "step0_camp": {
+    "earliest_date_hint": "Earliest start: {date}",
     "session": {
       "section1_label": "Choose your session",
       "section1_help": "Four sessions per year, aligned with French-speaking school holidays (FR · CH · BE).",
@@ -491,6 +492,7 @@
           "sub": "4 adults"
         }
       },
+      "compo_from_price": "from {price}/pers",
       "participants_section_label": "The other participants",
       "participants_section_help": "First name and level for each companion. Health information collected after the quote is approved.",
       "participant_label": "Participant {n}",

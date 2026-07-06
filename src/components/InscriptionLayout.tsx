@@ -135,6 +135,34 @@ function makeParticipant(): CustomParticipant {
   return { prenom: '', niveau: '', discipline: '' }
 }
 
+/**
+ * Camp sur mesure : delai de preparation minimum (visa russe, vols, logistique
+ * sur place). En dessous, MKR ne peut pas organiser un sejour bespoke.
+ */
+const CUSTOM_MIN_LEAD_DAYS = 90
+
+/**
+ * Date de debut la plus proche possible (aujourd'hui + delai mini), calee sur
+ * minuit local. UNE seule source pour l'attribut `min` du calendrier ET la
+ * validation, pour eviter l'incoherence "le calendrier propose une date que la
+ * validation refuse" (l'ancien calcul melangeait toISOString UTC et un diff en
+ * millisecondes arrondi vers le bas).
+ */
+function computeMinStartDate(): Date {
+  const d = new Date()
+  d.setHours(0, 0, 0, 0)
+  d.setDate(d.getDate() + CUSTOM_MIN_LEAD_DAYS)
+  return d
+}
+
+/** Date locale au format YYYY-MM-DD (sans decalage UTC, contrairement a toISOString). */
+function toLocalISODate(d: Date): string {
+  const y = d.getFullYear()
+  const m = String(d.getMonth() + 1).padStart(2, '0')
+  const day = String(d.getDate()).padStart(2, '0')
+  return `${y}-${m}-${day}`
+}
+
 /* ─────────────── HELPERS ─────────────── */
 
 function Field({ label, required, hint, children }: {
@@ -180,6 +208,16 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
   const t = useTranslations('inscription')
   const tSessionsData = useTranslations('data.sessions')
   const tRegTypesData = useTranslations('data.registration-types')
+
+  // Date de debut la plus proche possible pour un camp sur mesure (delai 90 j).
+  // Sert a la fois au `min` du calendrier, a la validation et au libelle affiche
+  // sous le champ ("Au plus tot le ..."), pour que les trois soient coherents.
+  const minStartDate = useMemo(() => computeMinStartDate(), [])
+  const minStartISO = useMemo(() => toLocalISODate(minStartDate), [minStartDate])
+  const minStartLabel = useMemo(
+    () => new Intl.DateTimeFormat(locale, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }).format(minStartDate),
+    [minStartDate, locale],
+  )
 
   // Hydrated arrays with translated display copy.
   const hydratedSessions = useMemo(
@@ -454,9 +492,8 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
         if (!form.nombreParticipants) push(E('nombreParticipants_custom'), 'nombreParticipants')
         if (!form.dateDebutSouhaitee) {
           push(E('dateDebut_required'), 'dateDebutSouhaitee')
-        } else {
-          const diffDays = Math.floor((new Date(form.dateDebutSouhaitee).getTime() - Date.now()) / (1000 * 60 * 60 * 24))
-          if (diffDays < 90) push(E('dateDebut_90j'), 'dateDebutSouhaitee')
+        } else if (form.dateDebutSouhaitee < minStartISO) {
+          push(E('dateDebut_90j'), 'dateDebutSouhaitee')
         }
         if (!form.duree) push(E('duree_required_short'), 'duree')
       }
@@ -467,9 +504,8 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
         if (form.session === 'sur-mesure') {
           if (!form.dateDebutSouhaitee) {
             push(E('dateDebut_required'), 'dateDebutSouhaitee')
-          } else {
-            const diffDays = Math.floor((new Date(form.dateDebutSouhaitee).getTime() - Date.now()) / (1000 * 60 * 60 * 24))
-            if (diffDays < 90) push(E('dateDebut_90j'), 'dateDebutSouhaitee')
+          } else if (form.dateDebutSouhaitee < minStartISO) {
+            push(E('dateDebut_90j'), 'dateDebutSouhaitee')
           }
         }
       }
@@ -1873,6 +1909,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                             />
                             <span className="insc-compo-card-label">{t(`step0_camp.custom.compo_options.${val}.label`)}</span>
                             <span className="insc-compo-card-sub">{t(`step0_camp.custom.compo_options.${val}.sub`)}</span>
+                            <span className="insc-compo-card-price">{t('step0_camp.custom.compo_from_price', { price: formatEUR(pricePerAdult(parseInt(val, 10), 1)) })}</span>
                           </label>
                         ))}
                       </div>
@@ -1928,15 +1965,11 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                       <h2 className="insc-camp-section-label">{t('step0_camp.custom.section3_label')}</h2>
                       <p className="insc-camp-section-help">{t('step0_camp.custom.section3_help')}</p>
                       <div className="cand-row">
-                        <Field label={t('step0_camp.custom.fields.date_debut.label')} required>
+                        <Field label={t('step0_camp.custom.fields.date_debut.label')} required hint={t('step0_camp.earliest_date_hint', { date: minStartLabel })}>
                           <input
                             className={`cand-input${errorFields.has('dateDebutSouhaitee') ? ' has-error' : ''}`}
                             type="date"
-                            min={(() => {
-                              const d = new Date()
-                              d.setDate(d.getDate() + 90)
-                              return d.toISOString().split('T')[0]
-                            })()}
+                            min={minStartISO}
                             value={form.dateDebutSouhaitee}
                             aria-invalid={errorFields.has('dateDebutSouhaitee') || undefined}
                             onChange={e => set('dateDebutSouhaitee', e.target.value)} />
@@ -2034,11 +2067,11 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                         {t('step0_camp.groupe.section2_help_prefix')}<strong>{t('step0_camp.groupe.section2_help_strong')}</strong>{t('step0_camp.groupe.section2_help_suffix')}
                       </p>
                       <div className="cand-row">
-                        <Field label={t('step0_camp.groupe.fields.date_debut.label')} required>
+                        <Field label={t('step0_camp.groupe.fields.date_debut.label')} required hint={t('step0_camp.earliest_date_hint', { date: minStartLabel })}>
                           <input
                             className={`cand-input${errorFields.has('dateDebutSouhaitee') ? ' has-error' : ''}`}
                             type="date"
-                            min={(() => { const d = new Date(); d.setDate(d.getDate() + 90); return d.toISOString().split('T')[0] })()}
+                            min={minStartISO}
                             value={form.dateDebutSouhaitee}
                             aria-invalid={errorFields.has('dateDebutSouhaitee') || undefined}
                             onChange={e => set('dateDebutSouhaitee', e.target.value)} />
@@ -2121,11 +2154,11 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                       </div>
                       {form.session === 'sur-mesure' && (
                         <div className="cand-row" style={{ marginTop: '1rem' }}>
-                          <Field label={t('step0_camp.famille.custom_date_field.label')} required hint={t('step0_camp.famille.custom_date_field.hint')}>
+                          <Field label={t('step0_camp.famille.custom_date_field.label')} required hint={`${t('step0_camp.famille.custom_date_field.hint')} · ${t('step0_camp.earliest_date_hint', { date: minStartLabel })}`}>
                             <input
                               className={`cand-input${errorFields.has('dateDebutSouhaitee') ? ' has-error' : ''}`}
                               type="date"
-                              min={(() => { const d = new Date(); d.setDate(d.getDate() + 90); return d.toISOString().split('T')[0] })()}
+                              min={minStartISO}
                               value={form.dateDebutSouhaitee}
                               aria-invalid={errorFields.has('dateDebutSouhaitee') || undefined}
                               onChange={e => set('dateDebutSouhaitee', e.target.value)} />
