@@ -1,7 +1,17 @@
 # SITEMAP MKR Caucasian Camp — Cartographie complète
 
-> **Fichier de référence pour Claude Code.** Mise à jour : 2026-07-06 (Instagram mis en valeur dans le header ; refonte conversion pages destination ; VisioBooking Cal.com responsive).
+> **Fichier de référence pour Claude Code.** Mise à jour : 2026-07-06 (écran succès orienté conversion + email post-inscription refondu ; Instagram header ; refonte conversion pages destination ; VisioBooking Cal.com responsive).
 > Lis ce fichier en priorité avant toute intervention sur le site MKR. Il évite de re-explorer.
+
+## 🆕 2026-07-06 (écran de succès orienté conversion + email post-inscription refondu)
+
+> **Demande David** : maximiser la conversion et la prise d'appel obligatoire (la visio valide le dossier), refondre l'email post-inscription pour pousser l'appel (photo Ruslan + logo, responsive), et garder la conversion Google Ads au submit. **Phase 1 livrée** (écran succès + email). Phase 2 à venir : image souvenir générée serveur + envoyée par email à la validation (`validee`) du dossier.
+
+**Écran de succès** (`InscriptionLayout.tsx` branche `submitted` + `globals.css` + `messages/{fr,en}/inscription.json` clés `success.*`) : recadré 100% sur la visio obligatoire. Sous-titre « une seule étape pour valider ton dossier », bloc réassurance `success.call_why` (3 points : Ruslan valide en personne / 15 min / dossier validé qu'après l'appel), petite confirmation `success.booked_confirm` après réservation, teaser `success.souvenir_teaser` (l'image souvenir arrive par email à la validation). **StoryCard retirée de l'écran** (plus de partage immédiat) : `StoryCard` import + états `forceShare`/share block supprimés. **VisioBooking sorti de `.cand-success`** (colonne 560px) et remonté en enfant direct de `.insc-success-page` → centrage normal-flow (`max-width:560px`, puis `1040px` ≥1152px) au lieu du débordement flex (plus simple, cf. commentaire CSS). Conversion `trackConversion('visio')` conservée au booking.
+
+**Email candidat** (`notifyCandidate` dans `api/inscription/route.ts`) : refonte complète en **HTML responsive table-based** (compat Gmail/Apple/Outlook), thème sombre marque, **logo `logo-white.png` + photo de Ruslan** (`public/images/ruslan/ruslan-portrait-chemise-noire.jpg`, jpg créé pour compat email, servie en absolu via `SITE_URL`), eyebrow « DERNIÈRE ÉTAPE, OBLIGATOIRE », crédibilité (ex-équipe de France, INSEP), **un seul CTA fort** vers Cal, recap camp/durée, encart d'urgence (« sans cet appel, dossier pas validé »). Bilingue FR/EN (strings inline dans la route, pas `messages/**`). Vérifié via rendu Playwright desktop + mobile.
+
+**Google Ads** : la conversion au submit était déjà câblée (`trackConversion('inscription')` → `generate_lead` + label + enhanced conversions email/tel/nom). `api/inscription` renvoie désormais `packageAmountCents` dans la réponse (dispo pour une valeur de conversion). Vérifs : `next build --experimental-build-mode compile` OK, `i18n-check` OK (2772 clés).
 
 ## 🆕 2026-07-06 (Instagram mis en valeur dans le header, desktop + responsive)
 
