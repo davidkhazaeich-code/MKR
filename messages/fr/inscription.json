@@ -525,6 +525,7 @@
         "2-semaines": "2 semaines",
         "3-semaines": "3 semaines"
       },
+      "combo_min_weeks_note": "Le combo se réserve sur 2 ou 3 semaines.",
       "estimation_total_label": "Estimation : {price}",
       "estimation_breakdown_one_adult_one_week": "1 adulte × {price_per_adult} sur 1 semaine. Tarif définitif confirmé en visio.",
       "estimation_breakdown_adults_one_week": "{adults} adultes × {price_per_adult} sur 1 semaine. Tarif définitif confirmé en visio.",
@@ -748,6 +749,7 @@
       "session_required": "Choisis ta session officielle",
       "duree_required": "Choisis la durée du séjour",
       "duree_required_short": "Durée requise",
+      "combo_min_2_weeks": "Le combo Lutte + MMA se réserve sur 2 semaines minimum",
       "duree_groupe": "Durée indicative requise (1, 2 ou 3 semaines)",
       "nombreParticipants_custom": "Choisis ta composition (1 à 4 adultes)",
       "nombreParticipants_groupe": "Nombre approximatif de participants requis",

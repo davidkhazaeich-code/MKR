@@ -309,6 +309,15 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
     }
   }, [submitError])
 
+  // Combo Lutte + MMA = 2 semaines minimum (sejour sequentiel Daghestan puis
+  // Tchetchenie). Si 1 semaine avait ete choisie avant de basculer sur combo,
+  // on reinitialise la duree (l'option 1 semaine est masquee pour le combo).
+  useEffect(() => {
+    if (audience === 'custom' && form.campDiscipline === 'combo_quote' && form.duree === '1-semaine') {
+      setForm(prev => ({ ...prev, duree: '' }))
+    }
+  }, [audience, form.campDiscipline, form.duree])
+
   const referralFeedback = useMemo(() => {
     const raw = form.codeRecommandation.trim()
     if (!raw) return { tone: 'neutral' as const, message: null as string | null }
@@ -496,6 +505,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
           push(E('dateDebut_90j'), 'dateDebutSouhaitee')
         }
         if (!form.duree) push(E('duree_required_short'), 'duree')
+        else if (form.campDiscipline === 'combo_quote' && form.duree === '1-semaine') push(E('combo_min_2_weeks'), 'duree')
       }
       if (audience === 'famille') {
         if (!form.session) push(E('format_famille'), 'session')
@@ -1974,9 +1984,10 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                             aria-invalid={errorFields.has('dateDebutSouhaitee') || undefined}
                             onChange={e => set('dateDebutSouhaitee', e.target.value)} />
                         </Field>
-                        <Field label={t('step0_camp.custom.fields.duree.label')} required>
+                        <Field label={t('step0_camp.custom.fields.duree.label')} required hint={form.campDiscipline === 'combo_quote' ? t('step0_camp.custom.combo_min_weeks_note') : undefined}>
                           {(() => {
                             const adults = Math.max(1, parseInt(form.nombreParticipants || '1', 10))
+                            const isCombo = form.campDiscipline === 'combo_quote'
                             return (
                               <select
                                 className={`cand-select${errorFields.has('duree') ? ' has-error' : ''}`}
@@ -1984,7 +1995,9 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                                 aria-invalid={errorFields.has('duree') || undefined}
                                 onChange={e => set('duree', e.target.value)}>
                                 <option value="" disabled>{t('experience.select_placeholder')}</option>
-                                <option value="1-semaine">{t('step0_camp.custom.duration_select_label', { weeks_label: t('step0_camp.custom.duration_labels.1-semaine'), price: formatEUR(pricePerAdult(adults, 1)) })}</option>
+                                {!isCombo && (
+                                  <option value="1-semaine">{t('step0_camp.custom.duration_select_label', { weeks_label: t('step0_camp.custom.duration_labels.1-semaine'), price: formatEUR(pricePerAdult(adults, 1)) })}</option>
+                                )}
                                 <option value="2-semaines">{t('step0_camp.custom.duration_select_label', { weeks_label: t('step0_camp.custom.duration_labels.2-semaines'), price: formatEUR(pricePerAdult(adults, 2)) })}</option>
                                 <option value="3-semaines">{t('step0_camp.custom.duration_select_label', { weeks_label: t('step0_camp.custom.duration_labels.3-semaines'), price: formatEUR(pricePerAdult(adults, 3)) })}</option>
                               </select>

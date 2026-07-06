@@ -525,6 +525,7 @@
         "2-semaines": "2 weeks",
         "3-semaines": "3 weeks"
       },
+      "combo_min_weeks_note": "The combo runs over 2 or 3 weeks.",
       "estimation_total_label": "Estimate: {price}",
       "estimation_breakdown_one_adult_one_week": "1 adult × {price_per_adult} over 1 week. Final price confirmed during video call.",
       "estimation_breakdown_adults_one_week": "{adults} adults × {price_per_adult} over 1 week. Final price confirmed during video call.",
@@ -748,6 +749,7 @@
       "session_required": "Choose your official session",
       "duree_required": "Choose the duration of the stay",
       "duree_required_short": "Duration required",
+      "combo_min_2_weeks": "The Wrestling + MMA combo requires a 2-week minimum",
       "duree_groupe": "Indicative duration required (1, 2 or 3 weeks)",
       "nombreParticipants_custom": "Choose your composition (1 to 4 adults)",
       "nombreParticipants_groupe": "Approximate number of participants required",
