@@ -37,7 +37,9 @@ export default function ContactForm() {
         return
       }
       setStatus('success')
-      trackConversion('contact', { subject: subject || undefined })
+      // Enhanced conversions : email transmis a la balise (hache SHA-256 par
+      // gtag.js, envoye seulement si ad_user_data granted).
+      trackConversion('contact', { subject: subject || undefined }, { email })
     } catch {
       setError(t('error_network'))
       setStatus('error')

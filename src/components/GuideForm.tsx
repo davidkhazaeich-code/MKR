@@ -47,7 +47,9 @@ export default function GuideForm() {
       }
       setDownloadUrl(data.downloadUrl ?? '/guide-caucase.pdf')
       setStatus('success')
-      trackConversion('guide')
+      // Enhanced conversions : email transmis a la balise (hache SHA-256 par
+      // gtag.js, envoye seulement si ad_user_data granted).
+      trackConversion('guide', {}, { email })
       if (typeof window !== 'undefined' && data.downloadUrl) {
         window.open(data.downloadUrl, '_blank', 'noopener,noreferrer')
       }

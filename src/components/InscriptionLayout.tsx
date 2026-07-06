@@ -39,7 +39,6 @@ import IconFamille from '@/components/icons/IconFamille'
 const DEFAULT_SESSION_ID = SESSIONS[0]?.id ?? 'aout-2026'
 const SESSION_IDS = SESSIONS.map(s => s.id)
 
-const StoryCard = dynamic(() => import('./StoryCard'))
 const VisioBooking = dynamic(() => import('./VisioBooking'))
 
 /* ─────────────── DATA ─────────────── */
@@ -237,10 +236,8 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
   const [errors, setErrors] = useState<string[]>([])
   const [errorFields, setErrorFields] = useState<Set<string>>(new Set())
   const [submitted, setSubmitted] = useState(false)
-  // Ecran de succes : l'image Instagram a partager n'apparait qu'une fois la visio
-  // Cal.com reservee (visioBooked), ou a la demande explicite du candidat (forceShare).
+  // Ecran de succes : petite confirmation "visio reservee" une fois le creneau Cal.com pris.
   const [visioBooked, setVisioBooked] = useState(false)
-  const [forceShare, setForceShare] = useState(false)
   const visioTracked = useRef(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState<string | null>(null)
@@ -694,10 +691,17 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
         setSubmitError(data.error || t('submit_error_generic'))
         return
       }
+      // Enhanced conversions : email/tel/nom transmis a la balise (haches
+      // SHA-256 par gtag.js, envoyes seulement si ad_user_data granted).
       trackConversion('inscription', {
         transaction_id: typeof data?.candidatureId === 'string' ? data.candidatureId : undefined,
         tunnel: audience ?? undefined,
         camp_discipline: form.campDiscipline || undefined,
+      }, {
+        email: form.email,
+        phone: form.telephone,
+        firstName: form.prenom,
+        lastName: form.nom,
       })
       setSubmitted(true)
     } catch {
@@ -779,15 +783,6 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
 
   /* ── Success ── */
   if (submitted) {
-    const SESSION_MAP: Record<string, { name: string }> = hydratedSessions.reduce(
-      (acc, s) => {
-        acc[s.id] = { name: s.name }
-        return acc
-      },
-      {} as Record<string, { name: string }>,
-    )
-    const sel = SESSION_MAP[form.session] || { name: form.session || t('success.session_fallback') }
-
     return (
       <div className="insc-wrapper">
         <div className="insc-success-page">
@@ -800,47 +795,47 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
             <h2 className="cand-success-title">{t('success.title')}</h2>
             <p className="cand-success-sub" dangerouslySetInnerHTML={{ __html: t.raw('success.subtitle') as string }} />
 
-            <VisioBooking
-              prenom={form.prenom}
-              nom={form.nom}
-              email={form.email}
-              onBooked={() => {
-                setVisioBooked(true)
-                if (!visioTracked.current) {
-                  visioTracked.current = true
-                  trackConversion('visio')
-                }
-              }}
-            />
-
-            {visioBooked || forceShare ? (
-              <div className="insc-share-block insc-share-block--revealed">
-                {visioBooked && (
-                  <span className="insc-booked-badge">
-                    <Icon name="check" size={14} />
-                    {t('success.booked_badge')}
-                  </span>
-                )}
-                <span className="label-tag insc-share-label" style={{ color: 'var(--primary)' }}>
-                  {t('success.share_label')}
-                </span>
-                <StoryCard
-                  prenom={form.prenom}
-                  campDiscipline={form.campDiscipline}
-                  session={sel.name}
-                />
-              </div>
-            ) : (
-              <p className="insc-share-locked">
-                {t('success.share_locked_hint')}{' '}
-                <button type="button" className="insc-share-reveal" onClick={() => setForceShare(true)}>
-                  {t('success.share_reveal_link')}
-                </button>
-              </p>
-            )}
-
-            <Link href="/" className="insc-back-btn" style={{ marginTop: '1.5rem' }}>{t('back_to_home')}</Link>
+            {/* Reassurance : pourquoi la visio est obligatoire (pousse a reserver maintenant) */}
+            <div className="insc-callwhy">
+              <span className="insc-callwhy-title">{t('success.call_why.title')}</span>
+              <ul className="insc-callwhy-list">
+                <li>{t('success.call_why.p1')}</li>
+                <li>{t('success.call_why.p2')}</li>
+                <li>{t('success.call_why.p3')}</li>
+              </ul>
+            </div>
           </div>
+
+          {/* Action principale = reserver la visio (hors colonne texte pour respirer sur desktop) */}
+          <VisioBooking
+            prenom={form.prenom}
+            nom={form.nom}
+            email={form.email}
+            onBooked={() => {
+              setVisioBooked(true)
+              if (!visioTracked.current) {
+                visioTracked.current = true
+                trackConversion('visio', {}, {
+                  email: form.email,
+                  phone: form.telephone,
+                  firstName: form.prenom,
+                  lastName: form.nom,
+                })
+              }
+            }}
+          />
+
+          {visioBooked && (
+            <p className="insc-booked-confirm">
+              <Icon name="check-circle" size={17} />
+              {t('success.booked_confirm')}
+            </p>
+          )}
+
+          {/* L'image souvenir n'est plus revelee ici : elle est envoyee par email a la validation du dossier. */}
+          <p className="insc-souvenir-teaser">{t('success.souvenir_teaser')}</p>
+
+          <Link href="/" className="insc-back-btn">{t('back_to_home')}</Link>
         </div>
       </div>
     )

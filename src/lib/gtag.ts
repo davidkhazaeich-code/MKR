@@ -40,6 +40,50 @@ const EVENT_NAME: Record<ConversionAction, string> = {
 
 type GtagParams = Record<string, unknown>
 
+// ── Enhanced conversions (suivi avance) ──────────────────────────────────
+// Actif au niveau du compte Google Ads 265-827-7574 (methode "balise Google",
+// conditions d'utilisation des donnees client acceptees, verifie le 06/07/2026).
+// On passe les donnees fournies par l'utilisateur NON hachees via
+// gtag('set', 'user_data', ...) juste avant l'evenement de conversion :
+// gtag.js normalise et hache (SHA-256) cote navigateur avant tout envoi.
+// Consent Mode v2 : la balise n'envoie user_data QUE si ad_user_data est
+// 'granted' (bandeau cookies accepte) — aucun garde-fou supplementaire ici.
+// Doc : https://support.google.com/google-ads/answer/13258081
+
+export interface ConversionUserData {
+  email?: string
+  // Numero brut du formulaire : envoye uniquement s'il est convertible en
+  // E.164 (+41791234567). Un numero sans indicatif pays est inexploitable
+  // pour le matching, on prefere ne rien envoyer.
+  phone?: string
+  firstName?: string
+  lastName?: string
+}
+
+// Convertit une saisie libre en E.164, sinon null.
+function toE164(raw: string | undefined): string | null {
+  if (!raw) return null
+  let v = raw.trim().replace(/[\s.\-()/]/g, '')
+  if (v.startsWith('00')) v = '+' + v.slice(2)
+  return /^\+[1-9]\d{7,14}$/.test(v) ? v : null
+}
+
+// Construit l'objet user_data au format attendu par la balise Google.
+// Retourne null si aucune donnee exploitable (on ne set rien dans ce cas).
+function buildUserData(u: ConversionUserData): Record<string, unknown> | null {
+  const out: Record<string, unknown> = {}
+  const email = u.email?.trim().toLowerCase()
+  if (email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) out.email = email
+  const phone = toE164(u.phone)
+  if (phone) out.phone_number = phone
+  const first = u.firstName?.trim()
+  const last = u.lastName?.trim()
+  // Prenom/nom seuls ne suffisent pas comme cle de matching (il faudrait
+  // code postal + pays), mais ils affinent le matching combines a l'email.
+  if (first && last) out.address = { first_name: first, last_name: last }
+  return Object.keys(out).length > 0 ? out : null
+}
+
 interface GtagWindow {
   gtag?: (...args: unknown[]) => void
   dataLayer?: unknown[]
@@ -66,11 +110,23 @@ export function trackEvent(name: string, params: GtagParams = {}): void {
  * Envoie systematiquement l'evenement GA nomme (pour les conversions basees
  * sur evenement) ET, si un label Google Ads est configure pour l'action, la
  * conversion classique `send_to: 'AW-18296696470/<label>'`.
+ *
+ * `userData` (optionnel) alimente le suivi avance des conversions (enhanced
+ * conversions) : gtag('set','user_data') DOIT preceder l'evenement de
+ * conversion pour que la balise y attache les donnees hachees.
  */
-export function trackConversion(action: ConversionAction, params: GtagParams = {}): void {
+export function trackConversion(
+  action: ConversionAction,
+  params: GtagParams = {},
+  userData?: ConversionUserData,
+): void {
   const clean = Object.fromEntries(
     Object.entries(params).filter(([, v]) => v !== undefined && v !== null && v !== ''),
   )
+  if (userData) {
+    const ud = buildUserData(userData)
+    if (ud) gtag('set', 'user_data', ud)
+  }
   trackEvent(EVENT_NAME[action], clean)
   const label = LABELS[action]
   if (label) {
