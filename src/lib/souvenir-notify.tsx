@@ -26,7 +26,10 @@ function sessionLabel(sessionId: string | null): string | null {
   if (!sessionId) return null
   const s = SESSIONS.find((x) => x.id === sessionId)
   if (!s) return null
-  return (s.datesFull || s.dates || s.label || s.name || '').replace(/\n/g, ' ').trim() || null
+  // Les libelles d'affichage (dates/label/name) ont migre vers l'i18n
+  // (messages/*/data.sessions.json). Le type Session structurel n'expose plus
+  // que season + startDate : on compose un libelle simple "Saison AAAA".
+  return `${s.season} ${s.startDate.slice(0, 4)}`.trim() || null
 }
 
 interface CandidatureRow {
