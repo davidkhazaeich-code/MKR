@@ -46,6 +46,7 @@ const DATA_NAMESPACES = [
 ] as const;
 
 const BLOG_SLUGS = [
+  'combien-coute-s-entrainer-au-dagestan',
   'comment-s-entrainer-au-dagestan',
   'pourquoi-le-dagestan-domine-le-mma',
   'preparer-son-premier-camp',

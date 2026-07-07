@@ -45,6 +45,10 @@ export const routing = defineRouting({
 export type Locale = (typeof routing.locales)[number];
 
 export const BLOG_SLUG_MAP: Record<string, { fr: string; en: string }> = {
+  'combien-coute-s-entrainer-au-dagestan': {
+    fr: 'combien-coute-s-entrainer-au-dagestan',
+    en: 'how-much-does-it-cost-to-train-in-dagestan',
+  },
   'comment-s-entrainer-au-dagestan': {
     fr: 'comment-s-entrainer-au-dagestan',
     en: 'how-to-train-in-dagestan',

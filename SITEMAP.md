@@ -1,7 +1,17 @@
 # SITEMAP MKR Caucasian Camp — Cartographie complète
 
-> **Fichier de référence pour Claude Code.** Mise à jour : 2026-07-07 (admin : « retirer la validation » d'un dossier — retour VALIDEE → RECUE).
+> **Fichier de référence pour Claude Code.** Mise à jour : 2026-07-07 (blog : 8e article « Combien ça coûte de s'entraîner au Daghestan » FR+EN + styles tableaux d'article).
 > Lis ce fichier en priorité avant toute intervention sur le site MKR. Il évite de re-explorer.
+
+## 🆕 2026-07-07 (blog : 8e article « Combien ça coûte de s'entraîner au Daghestan » FR + EN + styles tableaux d'article)
+
+> Nouvel article étude de coûts (demande David : combien coûte de s'entraîner au Dagestan, comparatif complet, risques du solo, univers fermé, mise en avant MKR). Slug canonical `combien-coute-s-entrainer-au-dagestan` ↔ EN `how-much-does-it-cost-to-train-in-dagestan`. Catégorie **Logistique**, ~2 650 mots par locale (~3 400 avec TL;DR + FAQ), TL;DR 5 points + FAQ 7 Q/R, **3 tableaux HTML** (budget solo ligne par ligne, grille MKR 2026, comparatif 10 critères avec colonne MKR surlignée `.is-mkr`) + **2 SVG inline** (« Cinq portes qui ne s'ouvrent pas toutes seules » barrières du solo + bar chart budget réel 2 semaines), 5 images Nanobanana (héro still-life sac/passeport/roubles 1920×1080 `cout-entrainement-dagestan.webp` généré Gemini 3 Pro + 4 inline 1600×900 `cout-dagestan-{arrivee,salle,coach,repas}.webp`, repas en mode Réalité Brute). Enregistré via la checklist 5 fichiers (cf. section 2026-07-06), relatedSlugs mis à jour sur 4 articles voisins (comment-s-entrainer, pourquoi-le-dagestan, preparer-son-premier-camp, securite-dagestan-2026).
+
+**Cohérence chiffres (à maintenir si le pricing change)** : grille = `data/pricing.ts` verbatim (1 690/2 790/3 490 duo · 1 490/2 490/3 090 trio · 1 290/2 190/2 690 club · Famille 2 490/4 390/5 890 + 790/sem/enfant supp). Solo aligné article 7 (60-80 €/j sur place, ~800 € de vols, e-visa UE ~16j, cash only). Concurrents anglophones : 3 199-3 499 $ les 2 semaines (tarifs publics 2026 constatés sur les organisateurs US type Rise N'Glide/Fighter Travel en juillet 2026), cités en **catégorie générique sans nommer personne** dans l'article (même approche que l'article 7). Supplément -30j mentionné honnêtement en FAQ « frais cachés ».
+
+**Nouveau CSS générique blog (réutilisable)** : `.article-table-wrap` (overflow-x auto + bordure + fond surface, zéro overflow page) et `.article-table` (variante `--compare` min-width 680px, `caption` Barlow Condensed en primary, `th` uppercase muted, `.is-mkr` colonne surlignée rust 10%, `.article-table-total` ligne total bordée primary, media query 640px) ajoutés dans `globals.css` entre `.article-illustration` et `.blog-related`. Tout futur tableau d'article doit utiliser ces classes.
+
+**QA** : i18n-check 2812 clés OK · tsc clean · build 86 pages (84 + 2 nouvelles routes article) · Playwright 3 breakpoints (375/768/1440) × 2 locales = 0 overflow horizontal, 3 tables scrollables à 375px, 1 seul h1 · JSON-LD BlogPosting + FAQPage émis · og:image = héro webp · redirect 308 wrong-locale OK (`/en/blog/<fr-slug>` → slug EN). Note : le « Daghestan » (avec H) détecté dans le HTML EN vient du JSON-LD racine `data/site.ts` (préexistant, hors scope, déjà documenté au 2026-06-12).
 
 ## 🆕 2026-07-07 (admin : retirer la validation d'un dossier — retour VALIDEE → RECUE)
 

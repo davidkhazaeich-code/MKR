@@ -12,6 +12,7 @@ import type { TFn } from '@/lib/session-display'
 
 /** Internal slug used for /blog/[slug] routes. Stable URLs. */
 export type BlogSlug =
+  | 'combien-coute-s-entrainer-au-dagestan'
   | 'comment-s-entrainer-au-dagestan'
   | 'pourquoi-le-dagestan-domine-le-mma'
   | 'preparer-son-premier-camp'
@@ -36,13 +37,23 @@ export interface BlogPostMeta {
 
 export const BLOG_POSTS: BlogPostMeta[] = [
   {
+    slug: 'combien-coute-s-entrainer-au-dagestan',
+    dateISO: '2026-07-07',
+    img: '/images/blog/cout-entrainement-dagestan.webp',
+    relatedSlugs: [
+      'comment-s-entrainer-au-dagestan',
+      'securite-dagestan-2026',
+      'preparer-son-premier-camp',
+    ],
+  },
+  {
     slug: 'comment-s-entrainer-au-dagestan',
     dateISO: '2026-07-06',
     img: '/images/blog/entrainement-dagestan.webp',
     relatedSlugs: [
+      'combien-coute-s-entrainer-au-dagestan',
       'preparer-son-premier-camp',
       'securite-dagestan-2026',
-      'lutte-daghestanaise-guide-complet',
     ],
   },
   {
@@ -53,8 +64,8 @@ export const BLOG_POSTS: BlogPostMeta[] = [
     img: '/images/blog/dagestan-mma.webp',
     relatedSlugs: [
       'comment-s-entrainer-au-dagestan',
+      'combien-coute-s-entrainer-au-dagestan',
       'lutte-daghestanaise-guide-complet',
-      'preparer-son-premier-camp',
     ],
   },
   {
@@ -64,8 +75,8 @@ export const BLOG_POSTS: BlogPostMeta[] = [
     img: '/images/blog/prep-camp.webp',
     relatedSlugs: [
       'comment-s-entrainer-au-dagestan',
+      'combien-coute-s-entrainer-au-dagestan',
       'nutrition-athlete-combat',
-      'securite-dagestan-2026',
     ],
   },
   {
@@ -86,8 +97,8 @@ export const BLOG_POSTS: BlogPostMeta[] = [
     img: '/images/blog/securite-dagestan.webp',
     relatedSlugs: [
       'comment-s-entrainer-au-dagestan',
+      'combien-coute-s-entrainer-au-dagestan',
       'preparer-son-premier-camp',
-      'pourquoi-le-dagestan-domine-le-mma',
     ],
   },
   {

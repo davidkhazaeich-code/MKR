@@ -6380,6 +6380,82 @@ a.content-card:hover .card-title::after {
   color: var(--text-muted);
 }
 
+/* Tableaux dans un article (budget, grilles, comparatifs) */
+.article-table-wrap {
+  margin: clamp(2rem, 4vh, 3rem) 0;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  background: var(--surface);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+.article-table {
+  width: 100%;
+  min-width: 560px;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+.article-table--compare {
+  min-width: 680px;
+}
+.article-table caption {
+  caption-side: top;
+  text-align: left;
+  padding: 0.9rem 1rem 0.6rem;
+  font-family: var(--font-barlow-condensed), sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--primary);
+}
+.article-table th {
+  font-family: var(--font-barlow-condensed), sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  text-align: left;
+  padding: 0.6rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  white-space: nowrap;
+}
+.article-table td {
+  padding: 0.65rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  color: var(--text-secondary);
+  vertical-align: top;
+}
+.article-table tbody tr:last-child td {
+  border-bottom: none;
+}
+.article-table td:first-child {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+.article-table .is-mkr {
+  background: rgba(200, 75, 49, 0.1);
+  color: var(--text-primary);
+}
+.article-table th.is-mkr {
+  color: var(--primary);
+}
+.article-table .article-table-total td {
+  border-top: 2px solid var(--primary);
+  color: var(--text-primary);
+  font-weight: 600;
+}
+@media (max-width: 640px) {
+  .article-table {
+    font-size: 0.88rem;
+  }
+  .article-table th,
+  .article-table td {
+    padding: 0.55rem 0.75rem;
+  }
+}
+
 /* À lire ensuite — section articles connexes */
 .blog-related {
   padding: clamp(3rem, 8vh, 5rem) 0;
