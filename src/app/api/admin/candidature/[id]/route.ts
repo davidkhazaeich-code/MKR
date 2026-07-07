@@ -132,7 +132,7 @@ export async function PATCH(
   // 1. Lecture de l'etat courant pour valider transitions et generer diff audit
   const { data: current, error: readError } = await supabase
     .from('candidatures')
-    .select('id, status, package_paid_at, package_amount_cents, payment_method, payment_date, notes_admin, notes_visio, referral_code, referral_code_valid, referral_partner_name, referral_commission_type, referral_commission_pct, referral_bonus_eur, referral_payout_status, referral_payout_paid_at, referral_payout_method, contract_start_date, contract_end_date, contract_duration_weeks, contract_inclusions, contract_exclusions, contract_note, contract_payment_deadline, contract_locale, contract_number')
+    .select('id, status, souvenir_sent_at, package_paid_at, package_amount_cents, payment_method, payment_date, notes_admin, notes_visio, referral_code, referral_code_valid, referral_partner_name, referral_commission_type, referral_commission_pct, referral_bonus_eur, referral_payout_status, referral_payout_paid_at, referral_payout_method, contract_start_date, contract_end_date, contract_duration_weeks, contract_inclusions, contract_exclusions, contract_note, contract_payment_deadline, contract_locale, contract_number')
     .eq('id', id)
     .maybeSingle()
 
@@ -166,6 +166,22 @@ export async function PATCH(
         data: TRANSITION_REMINDER[next] ? { reminder: TRANSITION_REMINDER[next] } : {},
         actor_email: actor,
       })
+
+      // Retour arrière VALIDEE -> RECUE (« retirer la validation ») : on remet le
+      // dossier à son état initial. Le garde-fou d'envoi de l'image souvenir est
+      // réinitialisé pour que l'image reparte à la prochaine (vraie) validation
+      // (l'envoi reste idempotent via souvenir_sent_at). Sans effet si aucun
+      // souvenir n'avait été envoyé (souvenir_sent_at déjà null).
+      if (next === 'recue' && current.souvenir_sent_at) {
+        updates.souvenir_sent_at = null
+        auditEntries.push({
+          candidature_id: id,
+          event: 'souvenir_reset',
+          from_value: { souvenir_sent_at: current.souvenir_sent_at },
+          to_value: { souvenir_sent_at: null },
+          actor_email: actor,
+        })
+      }
     }
   }
 

@@ -1,7 +1,21 @@
 # SITEMAP MKR Caucasian Camp — Cartographie complète
 
-> **Fichier de référence pour Claude Code.** Mise à jour : 2026-07-06 (écran succès orienté conversion + email post-inscription refondu ; Instagram header ; refonte conversion pages destination ; VisioBooking Cal.com responsive).
+> **Fichier de référence pour Claude Code.** Mise à jour : 2026-07-07 (admin : « retirer la validation » d'un dossier — retour VALIDEE → RECUE).
 > Lis ce fichier en priorité avant toute intervention sur le site MKR. Il évite de re-explorer.
+
+## 🆕 2026-07-07 (admin : retirer la validation d'un dossier — retour VALIDEE → RECUE)
+
+> **Demande David** : pouvoir enlever la validation d'un dossier depuis le dashboard pour le remettre à l'état initial. Cas d'usage : un dossier validé par erreur alors que la visio de sélection n'avait pas encore été faite.
+
+**Nouvelle transition admin** `validee → recue` (« retirer la validation »). Elle vient s'ajouter aux transitions existantes de `validee` (`soldee` / `annulee` / `reportee`). C'est le **seul** chemin retour vers `recue` ; les autres statuts (soldee, camp_fait, terminaux) ne peuvent toujours pas revenir en arrière.
+
+**4 fichiers touchés (admin only, aucun i18n, pas de migration DB)** :
+- `src/lib/admin-transitions.ts` : `ALLOWED_TRANSITIONS.validee` ajoute `'recue'` + `TRANSITION_REMINDER.recue` (rappel : faire la visio avant de revalider) + commentaire de flow.
+- `src/app/api/admin/candidature/[id]/route.ts` : sur `next==='recue'`, **reset de `souvenir_sent_at` à null** (+ audit `souvenir_reset`) pour que l'image souvenir reparte à la prochaine (vraie) validation (l'envoi souvenir reste idempotent via cette colonne). `souvenir_sent_at` ajouté au SELECT. Sans effet si aucun souvenir n'avait été envoyé.
+- `src/components/admin/AdminActions.tsx` : bouton **« Retirer la validation »** (via `ACTION_LABEL` override, icône `history`, couleur grise neutre `ACTION_COLOR.recue`), ajouté à `NEEDS_CONFIRM` + `ACTION_CONFIRM.recue` (modale de confirmation, variant `warning`). Aucun raccourci clavier (pas de déclenchement accidentel).
+- `src/app/admin/inscriptions/[id]/page.tsx` : `describeEvent` gère `souvenir_sent` et `souvenir_reset` (timeline propre).
+
+**Comportement clé à retenir** : retirer la validation renvoie l'image souvenir à la prochaine validation (le candidat peut donc recevoir l'email « dossier validé » une 2e fois si le dossier est revalidé). C'est volontaire (« état initial »). Vérifs : `tsc` clean, `next build` compile OK, `i18n-check` 2791 clés OK, table de transitions testée (validee→recue autorisé, soldee/camp_fait→recue interdits).
 
 ## 🆕 2026-07-06 (écran de succès orienté conversion + email post-inscription refondu)
 

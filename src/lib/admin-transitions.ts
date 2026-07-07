@@ -2,6 +2,9 @@
 // Reflète le diagramme §4.1 de PLAN_GESTION_INSCRIPTIONS.md.
 // Flow : form -> RECUE -> Ruslan valide -> VALIDEE -> visio + virement/cash post-visio -> SOLDEE -> camp -> CAMP_FAIT.
 // Branches : REFUSEE (avant paiement), ANNULEE / REPORTEE (à toute étape).
+// Retour arrière : VALIDEE -> RECUE (« retirer la validation ») quand un dossier a été
+// validé par erreur alors que la visio de sélection n'avait pas encore été faite. Le
+// dossier revient à son état initial et pourra être revalidé après la vraie visio.
 // Pas de paiement upfront, pas de Stripe : tout passe par virement bancaire ou espèces après l'entretien visio.
 
 export const STATUS_VALUES = [
@@ -28,7 +31,8 @@ export const STATUS_LABEL: Record<Status, string> = {
 
 export const ALLOWED_TRANSITIONS: Record<Status, Status[]> = {
   recue: ['validee', 'refusee', 'annulee', 'reportee'],
-  validee: ['soldee', 'annulee', 'reportee'],
+  // 'recue' = retour arrière (« retirer la validation ») si le dossier a été validé par erreur.
+  validee: ['soldee', 'annulee', 'reportee', 'recue'],
   soldee: ['camp_fait', 'annulee'],
   refusee: [],
   annulee: [],
@@ -43,6 +47,7 @@ export function canTransition(from: Status, to: Status): boolean {
 // Note manuelle ajoutée à audit_log pour rappeler à Ruslan ce qu'il doit
 // faire hors-app (envoi du RIB, vérification du virement reçu, etc.).
 export const TRANSITION_REMINDER: Partial<Record<Status, string>> = {
+  recue: 'Validation retirée : le dossier est revenu à son état initial. Fais la visio de sélection avec le candidat avant de le revalider (l’image souvenir repartira à la prochaine validation).',
   validee: 'À FAIRE : planifier la visio avec le candidat, puis préparer et envoyer le contrat depuis la carte Contrat (le RIB est inclus dans le contrat et l’email).',
   refusee: 'Aucun paiement n\'a été pris : pas de remboursement à effectuer.',
   reportee: 'Recaler le candidat sur une session ultérieure ou des dates sur mesure (90 j minimum).',

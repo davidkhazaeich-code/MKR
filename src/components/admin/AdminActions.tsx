@@ -75,8 +75,8 @@ const ACTION_COLOR: Record<Status, { color: string; bg: string; border: string }
   reportee: { color: 'var(--adm-status-reportee)', bg: 'rgba(251, 191, 36, 0.1)', border: 'rgba(251, 191, 36, 0.4)' },
 }
 
-const ACTION_ICON: Record<Status, 'check' | 'x' | 'rotate-ccw' | 'pause' | 'sparkles' | 'check-circle'> = {
-  recue: 'check',
+const ACTION_ICON: Record<Status, 'check' | 'x' | 'rotate-ccw' | 'pause' | 'sparkles' | 'check-circle' | 'history'> = {
+  recue: 'history', // retour arrière (« retirer la validation »)
   validee: 'check-circle',
   refusee: 'x',
   soldee: 'check',
@@ -86,7 +86,7 @@ const ACTION_ICON: Record<Status, 'check' | 'x' | 'rotate-ccw' | 'pause' | 'spar
 }
 
 const ACTION_VARIANT: Record<Status, 'warning' | 'danger' | 'primary'> = {
-  recue: 'primary',
+  recue: 'warning',
   validee: 'primary',
   refusee: 'danger',
   soldee: 'primary',
@@ -95,10 +95,20 @@ const ACTION_VARIANT: Record<Status, 'warning' | 'danger' | 'primary'> = {
   reportee: 'warning',
 }
 
-const NEEDS_CONFIRM: Status[] = ['refusee', 'annulee', 'reportee']
+const NEEDS_CONFIRM: Status[] = ['refusee', 'annulee', 'reportee', 'recue']
+
+// Libellé de bouton spécifique (sinon STATUS_LABEL). 'recue' est ici un retour
+// arrière (« retirer la validation »), pas l'état d'arrivée normal d'un dossier.
+const ACTION_LABEL: Partial<Record<Status, string>> = {
+  recue: 'Retirer la validation',
+}
 
 const ACTION_CONFIRM: Record<Status, { title: string; message: string } | undefined> = {
-  recue: undefined,
+  recue: {
+    title: 'Retirer la validation de ce dossier ?',
+    message:
+      'Le dossier repasse en « Reçue » (état initial), comme avant la validation. À utiliser si la visio de sélection n\'a pas encore été faite. Tu pourras le revalider ensuite : l\'image souvenir sera alors renvoyée au candidat.',
+  },
   validee: undefined,
   soldee: undefined,
   camp_fait: undefined,
@@ -398,7 +408,7 @@ export default function AdminActions(props: Props) {
                     }}
                   >
                     <Icon name={ACTION_ICON[next]} size={15} strokeWidth={2.4} />
-                    {STATUS_LABEL[next]}
+                    {ACTION_LABEL[next] ?? STATUS_LABEL[next]}
                   </button>
                 )
               })}
@@ -571,7 +581,7 @@ export default function AdminActions(props: Props) {
         open={!!confirm && !!confirmConfig}
         title={confirmConfig?.title ?? ''}
         message={`${confirmConfig?.message ?? ''}${confirmReminder ? `\n\nRappel post-action : ${confirmReminder}` : ''}`}
-        confirmLabel={confirm ? STATUS_LABEL[confirm] : ''}
+        confirmLabel={confirm ? (ACTION_LABEL[confirm] ?? STATUS_LABEL[confirm]) : ''}
         cancelLabel="Annuler"
         variant={confirmVariant}
         onConfirm={() => {

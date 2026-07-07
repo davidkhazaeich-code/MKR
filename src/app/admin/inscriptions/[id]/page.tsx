@@ -217,6 +217,20 @@ function describeEvent(e: AuditRow): { label: string; detail: string | null; acc
         accent: 'var(--adm-status-validee)',
       }
     }
+    case 'souvenir_sent': {
+      const to = e.data?.to ? String(e.data.to) : null
+      return {
+        label: 'Image souvenir envoyée au candidat',
+        detail: to,
+        accent: 'var(--adm-status-validee)',
+      }
+    }
+    case 'souvenir_reset':
+      return {
+        label: 'Image souvenir réinitialisée',
+        detail: 'sera renvoyée à la prochaine validation',
+        accent: 'var(--adm-text-muted)',
+      }
     default:
       return { label: e.event, detail: null }
   }
