@@ -12,6 +12,8 @@ import type { Session } from '@/data/sessions'
 
 export interface SessionDisplay {
   name: string
+  /** Localized season word only (e.g. "Summer"), derived from `season_names`. */
+  season: string
   season_label: string
   label: string
   month_abbr: string
@@ -39,7 +41,22 @@ export type TFn = ((key: string, values?: Record<string, unknown>) => string) & 
  *   const t = await getTranslations('data.sessions')
  *   const view = hydrateSession(session, t)
  */
-export function hydrateSession(session: Session, t: TFn): Session & SessionDisplay {
+/**
+ * Maps the FR-canonical `season` (stored in `data/sessions.ts`) to the ASCII
+ * slug used as a key in the `season_names` translation block. Lets us render a
+ * localized season word ("Summer" / "Été") without duplicating it per session.
+ */
+const SEASON_SLUG: Record<Session['season'], string> = {
+  'Été': 'ete',
+  'Automne': 'automne',
+  'Hiver': 'hiver',
+  'Printemps': 'printemps',
+}
+
+export function hydrateSession(session: Session, t: TFn): Omit<Session, 'season'> & SessionDisplay {
+  const seasonNames = t.raw('season_names') as Record<string, string> | undefined
+  // Localized season word; falls back to the FR-canonical value if the block is missing.
+  const season = seasonNames?.[SEASON_SLUG[session.season]] ?? session.season
   const raw = t.raw(session.id) as SessionDisplay | undefined
   if (!raw) {
     // Fallback: synthesize from the structural fields. Should never happen if
@@ -47,9 +64,10 @@ export function hydrateSession(session: Session, t: TFn): Session & SessionDispl
     const year = session.startDate.slice(0, 4)
     return {
       ...session,
+      season,
       name: session.id.toUpperCase(),
-      season_label: `${session.season} ${year}`,
-      label: `${session.season.toUpperCase()} ${year}`,
+      season_label: `${season} ${year}`,
+      label: `${season.toUpperCase()} ${year}`,
       month_abbr: '',
       dates: '',
       dates_full: '',
@@ -59,10 +77,11 @@ export function hydrateSession(session: Session, t: TFn): Session & SessionDispl
       destination: 'Daghestan ou Tchétchénie',
     }
   }
-  return { ...session, ...raw }
+  // `season` after the spread so the localized value wins over the FR-canonical one.
+  return { ...session, ...raw, season }
 }
 
-export function hydrateSessions(sessions: Session[], t: TFn): (Session & SessionDisplay)[] {
+export function hydrateSessions(sessions: Session[], t: TFn): (Omit<Session, 'season'> & SessionDisplay)[] {
   return sessions.map(s => hydrateSession(s, t))
 }
 
