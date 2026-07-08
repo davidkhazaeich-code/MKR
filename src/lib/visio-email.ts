@@ -151,8 +151,8 @@ export function buildVisioEmail(input: VisioEmailInput): BuiltVisioEmail {
 <div style="display:none;max-height:0;overflow:hidden;opacity:0">${escapeHtml(c.preheader)}</div>
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#000"><tr><td align="center" style="padding:24px 12px">
   <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="width:100%;max-width:600px;background:#0E0E0E;border:1px solid #262626;border-radius:14px;overflow:hidden">
-    <tr><td align="center" style="padding:22px 24px 18px;background:#050505;border-bottom:1px solid #1c1c1c">
-      <img src="${SITE_URL}/logo-white.png" width="132" alt="MKR Caucasian Camp" style="display:block;width:132px;height:auto;border:0">
+    <tr><td align="center" style="padding:24px 24px 22px;background:#ffffff;border-bottom:1px solid #e5e5e5">
+      <img src="${SITE_URL}/logo-dark.png" width="150" alt="MKR Caucasian Camp" style="display:block;width:150px;height:auto;border:0">
     </td></tr>
     <tr><td style="padding:26px 26px 6px">
       <table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>
