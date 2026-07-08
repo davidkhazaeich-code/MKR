@@ -14,6 +14,7 @@ import Icon from './ui/Icon'
 import { useToast } from './ui/Toast'
 import { ADMIN_SOLO_DUO_HINT } from '@/lib/pricing-copy'
 import ContractCard from './ContractCard'
+import VisioReminderCard from './VisioReminderCard'
 import type { ContractLocale } from '@/data/contract'
 
 type PaymentMethod = 'virement' | 'cash' | 'autre'
@@ -36,6 +37,9 @@ interface Props {
   // Carte Contrat
   candidateEmail: string | null
   submissionLanguage: 'fr' | 'en'
+  // Carte Relance visio
+  visioReminderSentAt: string | null
+  visioReminderCount: number
   sessionId: string | null
   dureeSemaines: number | null
   dateDebutSouhaitee: string | null
@@ -415,6 +419,17 @@ export default function AdminActions(props: Props) {
             </div>
           )}
         </section>
+
+        {/* === Relance visio (dossiers en attente de la visio de sélection) === */}
+        <VisioReminderCard
+          candidatureId={props.candidatureId}
+          status={status}
+          candidateEmail={props.candidateEmail}
+          submissionLanguage={props.submissionLanguage}
+          visioReminderSentAt={props.visioReminderSentAt}
+          visioReminderCount={props.visioReminderCount}
+          busyExternal={busy}
+        />
 
         {/* === Paiement === */}
         <section className="adm-card">

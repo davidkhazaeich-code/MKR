@@ -2,7 +2,8 @@ import { NextResponse } from 'next/server'
 import { getSupabaseAdmin } from '@/lib/supabase-admin'
 import { SESSIONS } from '@/data/sessions'
 import { getSessionPlaces } from '@/lib/places'
-import { sendMail, wrapEmail, row, escapeHtml } from '@/lib/email'
+import { sendMail, wrapEmail, row } from '@/lib/email'
+import { buildVisioEmail } from '@/lib/visio-email'
 import { rateLimit, clientIp as rlClientIp } from '@/lib/rate-limit'
 import { isDisposableEmail } from '@/lib/disposable-email'
 import { findReferralCode, type ReferralPartnerType } from '@/data/referral-codes'
@@ -566,105 +567,23 @@ async function notifyEmail(p: SlackPayload): Promise<void> {
   })
 }
 
-// Lien Cal.com de Ruslan pour la visio de selection (event "15min").
-const CAL_BOOKING_URL = `https://cal.com/${process.env.NEXT_PUBLIC_CAL_LINK || 'ruslan-mukhtarov-mkr/15min'}`
-
-const DISCIPLINE_LABELS_EN: Record<CampDiscipline, string> = {
-  lutte: 'Wrestling · Dagestan',
-  mma: 'MMA · Chechnya',
-  combo_quote: 'Combo Wrestling + MMA (on quote)',
-}
-
-// URL publique du site (images d'email : logo + photo de Ruslan servis en absolu).
-const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || 'https://mkrcamp.com').replace(/\/$/, '')
-
 // Email de confirmation au CANDIDAT (different de la notif interne a Ruslan).
-// Objectif = pousser la prise de la visio de selection avec Ruslan, seule etape qui valide
-// le dossier. HTML responsive table-based (compat Gmail/Apple/Outlook), theme sombre marque,
-// logo + photo de Ruslan + un seul CTA fort. Fire-and-forget : ne bloque jamais la soumission.
+// Objectif = pousser la prise de la visio de selection avec Ruslan, seule etape qui
+// valide le dossier. Reutilise le template unique buildVisioEmail (variante
+// 'confirmation'), partage avec le bouton « Relance visio » du back office, pour que
+// les deux emails ne puissent plus deriver. Fire-and-forget : ne bloque jamais la soumission.
 async function notifyCandidate(p: SlackPayload): Promise<void> {
   if (!p.email || !EMAIL_RE.test(p.email)) return
-  const en = p.submission_language === 'en'
-  const prenom = escapeHtml(p.prenom || (en ? 'there' : ''))
-  const discipline = p.camp_discipline
-    ? (en ? DISCIPLINE_LABELS_EN[p.camp_discipline] : DISCIPLINE_LABELS[p.camp_discipline])
-    : null
-  const duree = p.duree_semaines ? String(p.duree_semaines) : null
-
-  const c = en
-    ? {
-        subject: 'One step left, book your call with Ruslan',
-        preheader: 'Your MKR file is validated only after your selection call with Ruslan.',
-        eyebrow: 'FINAL STEP, REQUIRED',
-        title: 'Book your call with Ruslan',
-        caption: 'Ruslan Mukhtarov, former French national wrestling team, INSEP',
-        intro: `Hi ${prenom}, we received your application to MKR Caucasian Camp. One step remains to validate your file: your selection call with Ruslan. He personally reviews every applicant, and spots are limited.`,
-        campLabel: 'Camp',
-        durationLabel: 'Duration (weeks)',
-        cta: 'Book my selection call',
-        urgency: 'Without this call, your file cannot be validated. Pick your slot now, you will receive the calendar invite automatically.',
-        footer: 'MKR Caucasian Camp. Immersion among champions.',
-      }
-    : {
-        subject: 'Il te reste une étape, réserve ta visio avec Ruslan',
-        preheader: 'Ton dossier MKR n\'est validé qu\'après ta visio de sélection avec Ruslan.',
-        eyebrow: 'DERNIÈRE ÉTAPE, OBLIGATOIRE',
-        title: 'Réserve ta visio avec Ruslan',
-        caption: 'Ruslan Mukhtarov, ex-équipe de France de lutte, INSEP',
-        intro: `Bonjour ${prenom}, ta candidature au MKR Caucasian Camp est bien reçue. Une seule étape reste pour valider ton dossier : ta visio de sélection avec Ruslan. Il valide personnellement chaque candidat, et les places sont limitées.`,
-        campLabel: 'Camp',
-        durationLabel: 'Durée (semaines)',
-        cta: 'Réserver ma visio de sélection',
-        urgency: 'Sans cet échange, ton dossier ne peut pas être validé. Choisis ton créneau maintenant, tu recevras l\'invitation dans ton calendrier.',
-        footer: 'MKR Caucasian Camp. L\'immersion au milieu des champions.',
-      }
-
-  const recapCell = (label: string, value: string) =>
-    `<tr><td style="padding:8px 14px;color:#8A8A84;font-size:13px;border-bottom:1px solid #262626">${escapeHtml(label)}</td><td style="padding:8px 14px;color:#F1F1EF;font-size:14px;font-weight:600;border-bottom:1px solid #262626;text-align:right">${escapeHtml(value)}</td></tr>`
-  const recapRows = `${discipline ? recapCell(c.campLabel, discipline) : ''}${duree ? recapCell(c.durationLabel, duree) : ''}`
-
-  const html = `<!DOCTYPE html>
-<html lang="${en ? 'en' : 'fr'}"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="dark"></head>
-<body style="margin:0;padding:0;background:#000;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif">
-<div style="display:none;max-height:0;overflow:hidden;opacity:0">${escapeHtml(c.preheader)}</div>
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#000"><tr><td align="center" style="padding:24px 12px">
-  <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="width:100%;max-width:600px;background:#0E0E0E;border:1px solid #262626;border-radius:14px;overflow:hidden">
-    <tr><td align="center" style="padding:22px 24px 18px;background:#050505;border-bottom:1px solid #1c1c1c">
-      <img src="${SITE_URL}/logo-white.png" width="132" alt="MKR Caucasian Camp" style="display:block;width:132px;height:auto;border:0">
-    </td></tr>
-    <tr><td style="padding:26px 26px 6px">
-      <table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>
-        <td width="76" valign="top" style="width:76px">
-          <img src="${SITE_URL}/images/ruslan/ruslan-portrait-chemise-noire.jpg" width="64" height="64" alt="Ruslan Mukhtarov" style="display:block;width:64px;height:64px;border-radius:50%;object-fit:cover;border:2px solid #C84B31">
-        </td>
-        <td valign="middle" style="padding-left:14px">
-          <div style="color:#C84B31;font-size:12px;font-weight:700;letter-spacing:0.12em">${escapeHtml(c.eyebrow)}</div>
-          <div style="color:#F8F8F8;font-size:22px;font-weight:700;line-height:1.2;margin-top:3px">${escapeHtml(c.title)}</div>
-        </td>
-      </tr></table>
-      <div style="color:#8A8A84;font-size:12px;margin-top:10px">${escapeHtml(c.caption)}</div>
-    </td></tr>
-    <tr><td style="padding:16px 26px 4px">
-      <p style="margin:0 0 18px;color:#C9C9C4;font-size:15px;line-height:1.65">${escapeHtml(c.intro)}</p>
-      ${recapRows ? `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#141412;border:1px solid #262626;border-radius:8px;margin:0 0 22px"><tbody>${recapRows}</tbody></table>` : ''}
-      <table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 auto 14px"><tr>
-        <td align="center" style="border-radius:8px;background:#C0392B">
-          <a href="${CAL_BOOKING_URL}" style="display:inline-block;padding:15px 30px;color:#fff;font-size:16px;font-weight:700;text-decoration:none;border-radius:8px">${escapeHtml(c.cta)} &rarr;</a>
-        </td>
-      </tr></table>
-      <p style="margin:0 0 20px;text-align:center;color:#6f6f6a;font-size:12px;word-break:break-all">${escapeHtml(CAL_BOOKING_URL)}</p>
-      <p style="margin:0 0 8px;padding:14px 16px;background:rgba(200,75,49,0.08);border-left:3px solid #C84B31;border-radius:6px;color:#C9C9C4;font-size:13px;line-height:1.6">${escapeHtml(c.urgency)}</p>
-    </td></tr>
-    <tr><td style="padding:20px 26px;background:#050505;border-top:1px solid #1c1c1c;color:#6f6f6a;font-size:12px;line-height:1.6">${escapeHtml(c.footer)}</td></tr>
-  </table>
-</td></tr></table>
-</body></html>`
-
-  const text = `${c.intro}\n\n${c.cta}: ${CAL_BOOKING_URL}\n\n${c.urgency}\n\n${c.footer}`
-
+  const { subject, html, text } = buildVisioEmail({
+    prenom: p.prenom,
+    campDiscipline: p.camp_discipline,
+    dureeSemaines: p.duree_semaines,
+    locale: p.submission_language,
+    variant: 'confirmation',
+  })
   await sendMail({
     to: p.email,
-    subject: c.subject,
+    subject,
     html,
     text,
     tag: 'inscription-candidate',

@@ -100,6 +100,8 @@ interface CandidatureRow {
   referral_payout_paid_at: string | null
   referral_payout_method: string | null
   submission_language: 'fr' | 'en'
+  visio_reminder_sent_at: string | null
+  visio_reminder_count: number
   contract_start_date: string | null
   contract_end_date: string | null
   contract_duration_weeks: number | null
@@ -231,6 +233,15 @@ function describeEvent(e: AuditRow): { label: string; detail: string | null; acc
         detail: 'sera renvoyée à la prochaine validation',
         accent: 'var(--adm-text-muted)',
       }
+    case 'visio_reminder_sent': {
+      const to = e.data?.to ? String(e.data.to) : null
+      const cnt = e.to_value?.visio_reminder_count as number | undefined
+      return {
+        label: cnt && cnt > 1 ? `Rappel visio renvoyé (envoi n°${cnt})` : 'Rappel visio envoyé au candidat',
+        detail: to,
+        accent: 'var(--adm-status-reportee)',
+      }
+    }
     default:
       return { label: e.event, detail: null }
   }
@@ -286,7 +297,7 @@ export default async function CandidatureDetailPage({
           referral_code, referral_code_valid, referral_partner_name, referral_partner_type,
           referral_bonus_eur, referral_commission_type, referral_commission_pct,
           referral_payout_status, referral_payout_paid_at, referral_payout_method,
-          submission_language,
+          submission_language, visio_reminder_sent_at, visio_reminder_count,
           contract_start_date, contract_end_date, contract_duration_weeks,
           contract_inclusions, contract_exclusions, contract_note,
           contract_payment_deadline, contract_locale, contract_number,
@@ -704,6 +715,8 @@ export default async function CandidatureDetailPage({
               notesVisio={candidature.notes_visio ?? ''}
               candidateEmail={c?.email ?? null}
               submissionLanguage={candidature.submission_language ?? 'fr'}
+              visioReminderSentAt={candidature.visio_reminder_sent_at}
+              visioReminderCount={candidature.visio_reminder_count ?? 0}
               sessionId={candidature.session_id}
               dureeSemaines={candidature.duree_semaines}
               dateDebutSouhaitee={candidature.date_debut_souhaitee}

@@ -1,7 +1,26 @@
 # SITEMAP MKR Caucasian Camp — Cartographie complète
 
-> **Fichier de référence pour Claude Code.** Mise à jour : 2026-07-07 (blog : 8e article « Combien ça coûte de s'entraîner au Daghestan » FR+EN + styles tableaux d'article).
+> **Fichier de référence pour Claude Code.** Mise à jour : 2026-07-08 (admin : bouton « Relance visio » + template email visio partagé).
 > Lis ce fichier en priorité avant toute intervention sur le site MKR. Il évite de re-explorer.
+
+## 🆕 2026-07-08 (admin : bouton « Relance visio » qui renvoie l'email d'invitation à réserver la visio)
+
+> **Demande David** : ajouter un bouton dans le back office pour renvoyer un rappel au prospect l'invitant à réserver sa visio avec Ruslan, belle mise en page (photo + logo), dans la bonne langue selon le prospect, avec le lien d'appel, email responsive.
+
+**Idée clé** : l'email de confirmation post-inscription (`notifyCandidate`) était DÉJÀ le mail responsive voulu (logo + photo Ruslan + CTA Cal, FR/EN). On l'a extrait en template unique réutilisable et on en a dérivé une variante « relance », renvoyée à la demande depuis `/admin/inscriptions/[id]`.
+
+**Chaîne complète** :
+1. **Template partagé** : `src/lib/visio-email.ts` — `buildVisioEmail({ prenom, campDiscipline, dureeSemaines, locale, variant })` retourne `{ subject, html, text }`. `variant: 'confirmation' | 'reminder'`, même layout (logo `logo-white.png` + photo `ruslan-portrait-chemise-noire.jpg` servis en absolu via `SITE_URL`, un seul CTA `CAL_BOOKING_URL`), seuls eyebrow/objet/intro changent. Source UNIQUE : les 2 emails ne peuvent plus dériver.
+2. **Refactor** `src/app/api/inscription/route.ts` : `notifyCandidate` appelle `buildVisioEmail({ variant:'confirmation' })` (les ~90 lignes de HTML inline + constantes `CAL_BOOKING_URL`/`DISCIPLINE_LABELS_EN`/`SITE_URL` retirées de la route ; `escapeHtml` retiré de l'import). **Sortie identique** (objets vérifiés : « Il te reste une étape… » / « One step left… »), zéro régression pour le candidat au submit.
+3. **Route envoi** `POST /api/admin/candidature/[id]/visio-reminder/route.ts` (calquée sur `contract/send`) : garde-fous (email présent, `status==='recue'`) → `buildVisioEmail({ variant:'reminder' })` → `sendMail` (to candidat, **bcc + replyTo** `contact@mkrcamp.com`, tag `'visio-reminder'`) → update `visio_reminder_sent_at` + `visio_reminder_count++` + audit `visio_reminder_sent`. Email KO = aucun état modifié (502), rejouable.
+4. **Route aperçu** `GET …/visio-reminder/preview/route.ts` : renvoie le HTML du mail relance (`text/html`), aucun envoi, aucun état (ouvert dans un onglet).
+5. **UI** `src/components/admin/VisioReminderCard.tsx` (rendue par `AdminActions`, juste après la carte Statut) : **visible uniquement sur les dossiers `recue`** (le rappel sert à faire réserver la visio, seule étape qui valide). Destinataire + langue, état « Rappel envoyé le X · N fois » (si count>0), blocage si email manquant, bouton **Prévisualiser** (ouvre le GET) + bouton **Envoyer le rappel** → `ConfirmModal` → POST, toast + `router.refresh` + état optimiste.
+6. **Câblage** : `AdminActions.tsx` (import + 2 props `visioReminderSentAt`/`visioReminderCount` + rendu carte), `[id]/page.tsx` (SELECT `visio_reminder_sent_at, visio_reminder_count` + interface + props + `describeEvent('visio_reminder_sent')` → « Rappel visio envoyé »), `src/lib/email.ts` (tag `'visio-reminder'` ajouté à l'union).
+7. **Migration Supabase** (`bgwvrzgnoqlqqrvflwav`, `add_visio_reminder_tracking`) : `alter table candidatures add column visio_reminder_sent_at timestamptz, add column visio_reminder_count integer not null default 0`.
+
+**Pas d'impact i18n** : strings email FR/EN inline dans `visio-email.ts` (comme `notifyCandidate` et l'email contrat), admin 100% FR inline → **aucun `messages/**` touché**, parité intacte (2812 clés). **Vérifs** : `tsc --noEmit` 0 erreur, `i18n-check` 2812 OK, `next build --experimental-build-mode compile` OK (2 nouvelles routes API), **rendu visuel** relance FR + EN à 600px (desktop) et 375px (mobile) via Playwright → logo + photo OK, responsive, glossaire EN respecté (« Wrestling · Dagestan », « Immersion among champions »).
+
+**Pour modifier la copy de l'email visio** : `src/lib/visio-email.ts` (fonction `buildCopy`, blocs `confirmation`/`reminder` × `fr`/`en`). Un seul endroit pour les 2 emails.
 
 ## 🆕 2026-07-07 (blog : 8e article « Combien ça coûte de s'entraîner au Daghestan » FR + EN + styles tableaux d'article)
 

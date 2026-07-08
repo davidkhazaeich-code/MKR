@@ -36,7 +36,7 @@ export interface SendMailParams {
   /** Pièces jointes (ex : contrat PDF). */
   attachments?: SendMailAttachment[]
   // Tag Resend pour filtrage analytics dashboard.
-  tag?: 'contact' | 'inscription' | 'inscription-candidate' | 'guide-caucase' | 'contract'
+  tag?: 'contact' | 'inscription' | 'inscription-candidate' | 'guide-caucase' | 'contract' | 'visio-reminder'
 }
 
 // Envoie un email via Resend. Retourne true si OK, false si KO ou no-op.
