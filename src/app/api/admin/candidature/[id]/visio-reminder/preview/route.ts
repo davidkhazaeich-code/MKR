@@ -11,10 +11,13 @@ import { buildVisioEmail, type VisioCampDiscipline } from '@/lib/visio-email'
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
 
+const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || 'https://mkrcamp.com').replace(/\/$/, '')
+
 interface PreviewRow {
   submission_language: 'fr' | 'en' | null
   camp_discipline: VisioCampDiscipline | null
   duree_semaines: number | null
+  cancel_token: string | null
   candidate:
     | { prenom: string | null }
     | { prenom: string | null }[]
@@ -37,7 +40,7 @@ export async function GET(_request: Request, ctx: { params: Promise<{ id: string
   const { data, error } = await supabase
     .from('candidatures')
     .select(
-      `submission_language, camp_discipline, duree_semaines,
+      `submission_language, camp_discipline, duree_semaines, cancel_token,
        candidate:candidates ( prenom )`,
     )
     .eq('id', id)
@@ -52,12 +55,16 @@ export async function GET(_request: Request, ctx: { params: Promise<{ id: string
 
   const row = data as unknown as PreviewRow
   const locale: 'fr' | 'en' = row.submission_language === 'en' ? 'en' : 'fr'
+  const cancelUrl = row.cancel_token
+    ? `${SITE_URL}/api/cancel-place?c=${id}&t=${row.cancel_token}`
+    : undefined
   const { html } = buildVisioEmail({
     prenom: firstPrenom(row.candidate),
     campDiscipline: row.camp_discipline ?? null,
     dureeSemaines: row.duree_semaines ?? null,
     locale,
     variant: 'reminder',
+    cancelUrl,
   })
 
   return new NextResponse(html, {

@@ -17,6 +17,7 @@ export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
 
 const COPY_TO = process.env.MKR_EMAIL_TO || 'contact@mkrcamp.com'
+const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || 'https://mkrcamp.com').replace(/\/$/, '')
 
 interface ReminderRow {
   status: string
@@ -24,6 +25,7 @@ interface ReminderRow {
   camp_discipline: VisioCampDiscipline | null
   duree_semaines: number | null
   visio_reminder_count: number | null
+  cancel_token: string | null
   candidate:
     | { prenom: string | null; email: string | null }
     | { prenom: string | null; email: string | null }[]
@@ -48,7 +50,7 @@ export async function POST(_request: Request, ctx: { params: Promise<{ id: strin
   const { data, error } = await supabase
     .from('candidatures')
     .select(
-      `status, submission_language, camp_discipline, duree_semaines, visio_reminder_count,
+      `status, submission_language, camp_discipline, duree_semaines, visio_reminder_count, cancel_token,
        candidate:candidates ( prenom, email )`,
     )
     .eq('id', id)
@@ -78,12 +80,16 @@ export async function POST(_request: Request, ctx: { params: Promise<{ id: strin
   }
 
   const locale: 'fr' | 'en' = row.submission_language === 'en' ? 'en' : 'fr'
+  const cancelUrl = row.cancel_token
+    ? `${SITE_URL}/api/cancel-place?c=${id}&t=${row.cancel_token}`
+    : undefined
   const { subject, html, text } = buildVisioEmail({
     prenom: candidate?.prenom ?? null,
     campDiscipline: row.camp_discipline ?? null,
     dureeSemaines: row.duree_semaines ?? null,
     locale,
     variant: 'reminder',
+    cancelUrl,
   })
 
   const sent = await sendMail({

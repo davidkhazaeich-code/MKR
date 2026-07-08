@@ -23,6 +23,11 @@ export interface VisioEmailInput {
   dureeSemaines: number | null
   locale: 'fr' | 'en'
   variant: VisioEmailVariant
+  /**
+   * Lien public d'abandon de place (`/api/cancel-place?c=...&t=...`). Rendu UNIQUEMENT
+   * pour `variant='reminder'`. Absent = pas de bloc « J'abandonne ma place ».
+   */
+  cancelUrl?: string
 }
 
 export interface BuiltVisioEmail {
@@ -61,6 +66,9 @@ interface Copy {
   cta: string
   urgency: string
   footer: string
+  /** Bloc « abandon de place » (reminder only). */
+  giveUpPrefix?: string
+  giveUpLink?: string
 }
 
 // Copy par variante x locale. `prenom` est deja echappe (safe HTML) avant interpolation.
@@ -79,8 +87,10 @@ function buildCopy(variant: VisioEmailVariant, locale: 'fr' | 'en', prenom: stri
           campLabel: 'Camp',
           durationLabel: 'Duration (weeks)',
           cta: 'Book my call now',
-          urgency: 'Without this call, your file cannot be validated. Pick your slot now, you will receive the calendar invite automatically.',
+          urgency: 'Heads up: without a reply from you in the coming days, we will unfortunately have to release the place we reserved for you. Pick your slot now, you will receive the calendar invite automatically.',
           footer: 'MKR Caucasian Camp. Immersion among champions.',
+          giveUpPrefix: 'Can\'t join the camp anymore?',
+          giveUpLink: 'I give up my place',
         }
       : {
           subject: 'Petit rappel, réserve ta visio avec Ruslan',
@@ -92,8 +102,10 @@ function buildCopy(variant: VisioEmailVariant, locale: 'fr' | 'en', prenom: stri
           campLabel: 'Camp',
           durationLabel: 'Durée (semaines)',
           cta: 'Réserver ma visio maintenant',
-          urgency: 'Sans cet échange, ton dossier ne peut pas être validé. Choisis ton créneau maintenant, tu recevras l\'invitation dans ton calendrier.',
+          urgency: 'Important : sans réponse de ta part dans les prochains jours, on devra malheureusement libérer la place qu\'on t\'a réservée. Choisis ton créneau maintenant, tu recevras l\'invitation dans ton calendrier.',
           footer: 'MKR Caucasian Camp. L\'immersion au milieu des champions.',
+          giveUpPrefix: 'Tu ne peux plus venir au camp ?',
+          giveUpLink: 'J\'abandonne ma place',
         }
   }
 
@@ -145,6 +157,16 @@ export function buildVisioEmail(input: VisioEmailInput): BuiltVisioEmail {
     `<tr><td style="padding:8px 14px;color:#8A8A84;font-size:13px;border-bottom:1px solid #262626">${escapeHtml(label)}</td><td style="padding:8px 14px;color:#F1F1EF;font-size:14px;font-weight:600;border-bottom:1px solid #262626;text-align:right">${escapeHtml(value)}</td></tr>`
   const recapRows = `${discipline ? recapCell(c.campLabel, discipline) : ''}${duree ? recapCell(c.durationLabel, duree) : ''}`
 
+  // Bloc « J'abandonne ma place » (reminder only, si un lien d'annulation est fourni).
+  // Lien secondaire, muted, volontairement discret sous le CTA principal.
+  const showGiveUp = input.variant === 'reminder' && !!input.cancelUrl && !!c.giveUpLink
+  const giveUpHtml = showGiveUp
+    ? `<div style="margin:18px 0 4px;padding-top:16px;border-top:1px solid #1c1c1c;text-align:center">
+        <span style="color:#6f6f6a;font-size:12px">${escapeHtml(c.giveUpPrefix || '')}</span><br>
+        <a href="${escapeHtml(input.cancelUrl || '')}" style="display:inline-block;margin-top:8px;padding:9px 18px;color:#9a9a95;font-size:13px;font-weight:600;text-decoration:none;border:1px solid #2e2e2e;border-radius:7px">${escapeHtml(c.giveUpLink || '')}</a>
+      </div>`
+    : ''
+
   const html = `<!DOCTYPE html>
 <html lang="${en ? 'en' : 'fr'}"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="dark"></head>
 <body style="margin:0;padding:0;background:#000;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif">
@@ -176,13 +198,15 @@ export function buildVisioEmail(input: VisioEmailInput): BuiltVisioEmail {
       </tr></table>
       <p style="margin:0 0 20px;text-align:center;color:#6f6f6a;font-size:12px;word-break:break-all">${escapeHtml(CAL_BOOKING_URL)}</p>
       <p style="margin:0 0 8px;padding:14px 16px;background:rgba(200,75,49,0.08);border-left:3px solid #C84B31;border-radius:6px;color:#C9C9C4;font-size:13px;line-height:1.6">${escapeHtml(c.urgency)}</p>
+      ${giveUpHtml}
     </td></tr>
     <tr><td style="padding:20px 26px;background:#050505;border-top:1px solid #1c1c1c;color:#6f6f6a;font-size:12px;line-height:1.6">${escapeHtml(c.footer)}</td></tr>
   </table>
 </td></tr></table>
 </body></html>`
 
-  const text = `${c.intro}\n\n${c.cta}: ${CAL_BOOKING_URL}\n\n${c.urgency}\n\n${c.footer}`
+  const giveUpText = showGiveUp ? `\n\n${c.giveUpPrefix} ${c.giveUpLink}: ${input.cancelUrl}` : ''
+  const text = `${c.intro}\n\n${c.cta}: ${CAL_BOOKING_URL}\n\n${c.urgency}${giveUpText}\n\n${c.footer}`
 
   return { subject: c.subject, html, text }
 }

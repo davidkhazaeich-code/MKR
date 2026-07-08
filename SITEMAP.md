@@ -1,7 +1,29 @@
 # SITEMAP MKR Caucasian Camp — Cartographie complète
 
-> **Fichier de référence pour Claude Code.** Mise à jour : 2026-07-08 (admin : bouton « Relance visio » + template email visio partagé).
+> **Fichier de référence pour Claude Code.** Mise à jour : 2026-07-08 (admin : bouton « Relance visio » + template email visio partagé + abandon de place self-service).
 > Lis ce fichier en priorité avant toute intervention sur le site MKR. Il évite de re-explorer.
+
+## 🆕 2026-07-08 (email relance : avertissement « place libérée » + bouton d'abandon de place self-service)
+
+> **Demande David** : dans l'email de RELANCE, expliquer que sans retour dans les prochains jours on retire la place réservée, ET ajouter un bouton « J'abandonne ma place » qui passe la candidature en annulation (le compteur se libère automatiquement).
+
+**Copy relance renforcée** (`src/lib/visio-email.ts`, variante `reminder` UNIQUEMENT) : l'encart d'urgence prévient maintenant « sans réponse dans les prochains jours, on devra libérer la place qu'on t'a réservée ». Bloc secondaire discret sous le CTA (divider + muted) : « Tu ne peux plus venir au camp ? » / « Can't join the camp anymore? » + lien ghost « J'abandonne ma place » / « I give up my place » → lien d'annulation. Rendu seulement si `cancelUrl` fourni (jamais dans l'email de confirmation post-inscription).
+
+**Lien d'abandon self-service sécurisé** :
+- **Jeton** : colonne `candidatures.cancel_token uuid not null default gen_random_uuid()` (migration `add_cancel_token`, backfill auto des lignes existantes). Non devinable (122 bits), propre à chaque dossier.
+- **Route publique** `src/app/api/cancel-place/route.ts` (hors admin, laissée passer par `proxy.ts` comme toute route `/api` non-admin) :
+  - `GET ?c=<id>&t=<token>` = **page de confirmation brandée uniquement, AUCUNE mutation** (évite l'auto-annulation par un pré-fetch de lien / scanner email type Outlook Safe Links). Vérifie le couple (id, token).
+  - `POST` (formulaire de la page) = annulation effective : `recue → annulee` (garde-fou `.eq('status','recue')` anti-course) + payout referral pending/due → `cancelled` + audit `status_change` (actor `candidate`, note « abandon volontaire ») + `referral_cancelled`. **Miroir de la logique `annulee` de `api/admin/candidature/[id]/route.ts`** (source d'autorité).
+  - La place se libère automatiquement : `annulee` est exclu de `CONSUMING_STATUSES` (`lib/places.ts`), aucun compteur à toucher.
+  - Garde-fous : annulation seulement depuis `recue` ; `annulee` = idempotent (« déjà annulée ») ; autre statut (validee/soldee) = « contacte-nous » (pas d'auto-annulation d'un dossier avancé) ; token/id non-uuid ou introuvable = « lien invalide ».
+- **Pages HTML** : `src/lib/cancel-page.ts` (`buildCancelPage(state, {locale,id,token})`, états `confirm|done|already|not_cancellable|invalid`), même charte que l'email (bandeau logo blanc + carte sombre), **bilingue selon `submission_language` du candidat** (PAS la locale d'URL, c'est une route API neutre). Isolé du route handler pour rester prévisualisable/testable.
+- **Câblage** : les routes `visio-reminder` (send + preview) sélectionnent `cancel_token` et passent `cancelUrl = ${SITE_URL}/api/cancel-place?c=…&t=…` à `buildVisioEmail`. La preview admin montre donc aussi le bouton d'abandon.
+
+**Sécurité** : GET safe (pas de mutation) → immunisé contre les pré-fetch. POST = capacité portée par le token (pas de cookie de session → pas de CSRF pertinent). Impossible d'annuler le dossier d'autrui (uuid id + uuid token requis) ni un dossier payé. Escape HTML systématique (`escapeHtml`).
+
+**Vérifs** : `tsc` 0 erreur, `i18n-check` 2812 OK (aucun `messages/**`), `next build` complet vert (route `/api/cancel-place` = ƒ dynamique), rendus Playwright : email relance FR+EN (encart renforcé + bouton abandon) desktop+mobile, pages cancel confirm/done/already/not_cancellable/invalid FR+EN.
+
+**Où changer la copy** : email → `src/lib/visio-email.ts` (`buildCopy`, blocs `reminder`) ; pages d'abandon → `src/lib/cancel-page.ts` (`buildCancelPage`).
 
 ## 🆕 2026-07-08 (admin : bouton « Relance visio » qui renvoie l'email d'invitation à réserver la visio)
 
