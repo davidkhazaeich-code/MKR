@@ -1,6 +1,9 @@
 # PLAN — Automatisation email MKR (rappels, automatisations, newsletter)
 
-> Statut : **S1 + S2 + C0 DÉPLOYÉS EN PROD le 2026-07-09** (commits `532af6e`, `778138a`, `4862595`) — relances candidat en **dry-run** (`EMAIL_AUTOMATION_ENABLED=false`), à activer après observation des logs (protocole §5).
+> Statut : **S1 + S2 + S3 (A2+A3) + C0 DÉPLOYÉS EN PROD le 2026-07-09** · relances candidat en dry-run (`EMAIL_AUTOMATION_ENABLED=false`), testées end-to-end en réel sur candidatures de test (paiement palier 1 + pré-départ, verrous et priorité 1 email/candidat/run validés, données test nettoyées).
+> ⚠️ Correction pass implémentation : le « kill-switch sans deploy » était FAUX — sur Vercel une env var ne s'applique qu'au deploy suivant. Rollback réel = flip + redeploy API (~1 min).
+> Emails : layout partagé `email-layout.ts`, VRAIES photos (galerie-real) exigées par David, templates paiement (2 paliers) + pré-départ (checklist) + guide. Prochaine fenêtre réelle : 2 impayés entrent en palier 1 le 14.07.
+> Historique : **S1 + S2 + C0 DÉPLOYÉS EN PROD le 2026-07-09** (commits `532af6e`, `778138a`, `4862595`) — relances candidat en **dry-run** (`EMAIL_AUTOMATION_ENABLED=false`), à activer après observation des logs (protocole §5).
 > Fait : cron quotidien 09h00 CH + digest (fallback email → contact@mkrcamp.com, Slack jamais configuré), webhook Cal créé et actif via API (id `7725f137`, compte Ruslan), C0 testé bout en bout, migration colonnes appliquée. Reste : A2/A3/B3 (S3-S4), IBAN, SPF Google, opt-in newsletter.
 > Découvertes en implémentation : `SLACK_WEBHOOK_URL` jamais posée (digest par email en attendant) ; bug historique route guide (`Promise.all` non await → notifs jamais parties, corrigé via `after()`) ; API Cal v1 décommissionnée (v2 utilisée).
 > Créé le 2026-07-09. Fondation : bascule expéditeur `contact@mkrcamp.com` via compte Resend MKR dédié (domaine vérifié, DKIM/DMARC alignés) faite le même jour. Chaque pass est tracée en §8.
