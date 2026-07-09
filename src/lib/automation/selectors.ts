@@ -171,26 +171,26 @@ export function buildDigestData(rows: AutomationRow[], now: Date): DigestData {
       const age = ageDays(row.created_at, nowMs)
       if (age >= 3) {
         const relances = row.visio_reminder_count ?? 0
-        d.recueSansVisio.push(`${who(row)} — ${age} j, ${relances} relance(s)`)
+        d.recueSansVisio.push(`${who(row)} · ${age} j, ${relances} relance(s)`)
       }
     }
 
     if (row.status === 'validee' && !row.contract_sent_at) {
       const since = row.status_changed_at ? ageDays(row.status_changed_at, nowMs) : null
       if (since === null || since >= 2) {
-        d.valideeSansContrat.push(`${who(row)} — validee depuis ${since ?? '?'} j, contrat non envoye`)
+        d.valideeSansContrat.push(`${who(row)} · validée depuis ${since ?? '?'} j, contrat non envoyé`)
       }
     }
 
     if (row.status === 'validee' && row.contract_sent_at && !row.package_paid_at) {
-      const cashNote = row.payment_method === 'cash' ? ' [cash a l arrivee]' : ''
+      const cashNote = row.payment_method === 'cash' ? ' [cash à l’arrivée]' : ''
       if (!row.contract_payment_deadline) {
-        d.contratSansDeadline.push(`${who(row)} — contrat envoye SANS deadline de paiement${cashNote}`)
+        d.contratSansDeadline.push(`${who(row)} · contrat envoyé SANS deadline de paiement${cashNote}`)
       } else {
         const diff = daysBetween(row.contract_payment_deadline, today)
-        const quand = diff < 0 ? `deadline depassee de ${-diff} j` : `deadline dans ${diff} j`
+        const quand = diff < 0 ? `deadline dépassée de ${-diff} j` : `deadline dans ${diff} j`
         impayesTmp.push({
-          line: `${who(row)} — ${quand} (${row.contract_payment_deadline})${cashNote}`,
+          line: `${who(row)} · ${quand} (${row.contract_payment_deadline})${cashNote}`,
           deadline: row.contract_payment_deadline,
         })
       }
@@ -215,33 +215,33 @@ export function formatDigestSlack(d: DigestData, run: DigestRunInfo): string {
   const nothingToReport =
     d.recueSansVisio.length + d.valideeSansContrat.length + d.contratSansDeadline.length + d.impayes.length === 0
 
-  parts.push('*Digest MKR — pipeline candidatures*')
+  parts.push('*Digest MKR · pipeline candidatures*')
 
   if (nothingToReport) {
     // Heartbeat : on envoie TOUJOURS quelque chose. Silence total = cron mort.
-    parts.push(`[OK] RAS — ${d.actifs.recue + d.actifs.validee + d.actifs.soldee} dossiers actifs (recue ${d.actifs.recue} / validee ${d.actifs.validee} / soldee ${d.actifs.soldee})`)
+    parts.push(`[OK] RAS · ${d.actifs.recue + d.actifs.validee + d.actifs.soldee} dossiers actifs (reçue ${d.actifs.recue} / validée ${d.actifs.validee} / soldée ${d.actifs.soldee})`)
   } else {
     if (d.valideeSansContrat.length) {
-      parts.push(`*Validees SANS contrat envoye (${d.valideeSansContrat.length})* :\n- ${d.valideeSansContrat.join('\n- ')}`)
+      parts.push(`*Validées SANS contrat envoyé (${d.valideeSansContrat.length})* :\n- ${d.valideeSansContrat.join('\n- ')}`)
     }
     if (d.contratSansDeadline.length) {
       parts.push(`*Contrats sans deadline de paiement (${d.contratSansDeadline.length})* :\n- ${d.contratSansDeadline.join('\n- ')}`)
     }
     if (d.impayes.length) {
-      parts.push(`*Contrats envoyes, en attente de paiement (${d.impayes.length})* :\n- ${d.impayes.join('\n- ')}`)
+      parts.push(`*Contrats envoyés, en attente de paiement (${d.impayes.length})* :\n- ${d.impayes.join('\n- ')}`)
     }
     if (d.recueSansVisio.length) {
-      parts.push(`*Recues sans visio reservee > 3 j (${d.recueSansVisio.length})* :\n- ${d.recueSansVisio.join('\n- ')}`)
+      parts.push(`*Reçues sans visio réservée > 3 j (${d.recueSansVisio.length})* :\n- ${d.recueSansVisio.join('\n- ')}`)
     }
-    parts.push(`Actifs : recue ${d.actifs.recue} / validee ${d.actifs.validee} / soldee ${d.actifs.soldee}`)
+    parts.push(`Actifs : reçue ${d.actifs.recue} / validée ${d.actifs.validee} / soldée ${d.actifs.soldee}`)
   }
 
   if (run.sentVisio.length) {
-    parts.push(`*Relances visio auto envoyees ce matin (${run.sentVisio.length})* :\n- ${run.sentVisio.join('\n- ')}`)
+    parts.push(`*Relances visio auto envoyées ce matin (${run.sentVisio.length})* :\n- ${run.sentVisio.join('\n- ')}`)
   }
   if (run.wouldSendVisio.length) {
     const motif = run.automationEnabled ? 'hors prod' : 'EMAIL_AUTOMATION_ENABLED=false'
-    parts.push(`*[DRY-RUN ${motif}] relances visio qui SERAIENT envoyees (${run.wouldSendVisio.length})* :\n- ${run.wouldSendVisio.join('\n- ')}`)
+    parts.push(`*[DRY-RUN ${motif}] relances visio qui SERAIENT envoyées (${run.wouldSendVisio.length})* :\n- ${run.wouldSendVisio.join('\n- ')}`)
   }
 
   return parts.join('\n\n')

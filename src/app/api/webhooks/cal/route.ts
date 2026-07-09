@@ -74,7 +74,7 @@ export async function POST(request: Request) {
         .maybeSingle()
 
       if (!candidate) {
-        await postSlack(`[Cal] Visio reservee sans candidature correspondante : ${attendeeEmail}`)
+        await postSlack(`[Cal] Visio réservée sans candidature correspondante : ${attendeeEmail}`)
         return NextResponse.json({ ok: true, matched: false })
       }
 
@@ -88,7 +88,7 @@ export async function POST(request: Request) {
         .maybeSingle()
 
       if (!candidature) {
-        await postSlack(`[Cal] Visio reservee mais aucune candidature active : ${attendeeEmail}`)
+        await postSlack(`[Cal] Visio réservée mais aucune candidature active : ${attendeeEmail}`)
         return NextResponse.json({ ok: true, matched: false })
       }
 
@@ -104,7 +104,7 @@ export async function POST(request: Request) {
         data: { email: attendeeEmail, start_time: p.startTime ?? null },
         actor_email: 'cal-webhook',
       })
-      await postSlack(`[Cal] ${candidate.prenom ?? attendeeEmail} a reserve sa visio de selection`)
+      await postSlack(`[Cal] ${candidate.prenom ?? attendeeEmail} a réservé sa visio de sélection`)
       return NextResponse.json({ ok: true, matched: true })
     }
 
@@ -143,7 +143,7 @@ export async function POST(request: Request) {
           data: { email: attendeeEmail, uid },
           actor_email: 'cal-webhook',
         })
-        await postSlack(`[Cal] Visio ANNULEE : ${attendeeEmail ?? uid} — le candidat redevient relançable`)
+        await postSlack(`[Cal] Visio ANNULÉE : ${attendeeEmail ?? uid} · le candidat redevient relançable`)
       }
       return NextResponse.json({ ok: true, matched: Boolean(candidatureId) })
     }

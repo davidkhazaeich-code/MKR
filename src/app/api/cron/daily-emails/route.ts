@@ -67,7 +67,7 @@ export async function GET(request: Request) {
   const failures: string[] = []
 
   for (const t of targets) {
-    const label = `${t.prenom ?? '?'} (${t.email}) — relance ${t.expectedCount + 1}`
+    const label = `${t.prenom ?? '?'} (${t.email}) · relance ${t.expectedCount + 1}`
     if (dryRun) {
       wouldSendVisio.push(label)
       continue
@@ -150,7 +150,7 @@ export async function GET(request: Request) {
       const today = now.toLocaleDateString('fr-CH', { timeZone: 'Europe/Zurich' })
       digestPosted = await sendMail({
         to: COPY_TO,
-        subject: `[MKR digest] Pipeline candidatures — ${today}`,
+        subject: `[MKR digest] Pipeline candidatures · ${today}`,
         html: `<pre style="font-family:ui-monospace,Menlo,monospace;font-size:13px;line-height:1.6;white-space:pre-wrap">${escapeHtml(digestText)}</pre>`,
         text: digestText,
         tag: 'digest-interne',
