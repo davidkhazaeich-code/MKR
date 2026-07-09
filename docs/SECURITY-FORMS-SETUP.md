@@ -26,6 +26,10 @@ Si plus tard tu veux envoyer depuis `mkrcamp.com` (cohérence brand pure), il fa
 | `RESEND_API_KEY` | `re_xxxxxxxxxxxxxxxxxxxxxxxxxx` | Production + Preview |
 | `MKR_EMAIL_FROM` | `MKR Caucasian Camp <contact@mkrcamp.com>` | Production + Preview |
 | `MKR_EMAIL_TO` | `contact@mkrcamp.com` | Production + Preview |
+| `CRON_SECRET` | secret hex 48 (voir `.env.local`) — auth du cron `/api/cron/daily-emails` | Production + Preview |
+| `CAL_WEBHOOK_SECRET` | secret hex 48 (voir `.env.local`) — signature HMAC `/api/webhooks/cal` | Production + Preview |
+| `EMAIL_AUTOMATION_ENABLED` | `false` par défaut — kill-switch des envois candidat automatiques (digest non concerné). Flip à `true` après validation dry-run (PLAN_EMAIL_AUTOMATION.md §5) | Production + Preview |
+| `SLACK_WEBHOOK_URL` | ⚠️ JAMAIS configurée à ce jour (2026-07-09) : les notifs Slack sont no-op, le digest part par email. À poser si un Slack MKR est créé | — |
 
 Puis **Redeploy** (le redeploy est obligatoire pour que les nouvelles env vars soient prises en compte).
 

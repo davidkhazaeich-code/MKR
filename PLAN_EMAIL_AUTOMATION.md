@@ -1,6 +1,8 @@
 # PLAN — Automatisation email MKR (rappels, automatisations, newsletter)
 
-> Statut : **v5 — boucle améliorative terminée (5/5 passes), prêt pour arbitrage David/Ruslan**
+> Statut : **S1 + S2 + C0 DÉPLOYÉS EN PROD le 2026-07-09** (commits `532af6e`, `778138a`, `4862595`) — relances candidat en **dry-run** (`EMAIL_AUTOMATION_ENABLED=false`), à activer après observation des logs (protocole §5).
+> Fait : cron quotidien 09h00 CH + digest (fallback email → contact@mkrcamp.com, Slack jamais configuré), webhook Cal créé et actif via API (id `7725f137`, compte Ruslan), C0 testé bout en bout, migration colonnes appliquée. Reste : A2/A3/B3 (S3-S4), IBAN, SPF Google, opt-in newsletter.
+> Découvertes en implémentation : `SLACK_WEBHOOK_URL` jamais posée (digest par email en attendant) ; bug historique route guide (`Promise.all` non await → notifs jamais parties, corrigé via `after()`) ; API Cal v1 décommissionnée (v2 utilisée).
 > Créé le 2026-07-09. Fondation : bascule expéditeur `contact@mkrcamp.com` via compte Resend MKR dédié (domaine vérifié, DKIM/DMARC alignés) faite le même jour. Chaque pass est tracée en §8.
 
 ## 0 — Résumé exécutif
