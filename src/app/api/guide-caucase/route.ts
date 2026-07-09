@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server'
+import { NextResponse, after } from 'next/server'
 import { getSupabaseAdmin } from '@/lib/supabase-admin'
 import { sendMail, wrapEmail, row } from '@/lib/email'
 import { buildGuideEmail, type GuideEmailLocale } from '@/lib/guide-email'
@@ -89,19 +89,23 @@ export async function POST(request: Request) {
     )
   }
 
-  // Notifs fire-and-forget : Slack + email interne + email lead (C0, transactionnel).
-  // Ne bloquent jamais.
-  Promise.all([
-    notifySlack({ email, utm_source: row.utm_source }).catch((err) => {
-      console.error('[api/guide-caucase] slack notify failed (non-fatal)', err)
-    }),
-    notifyEmail({ email, utm_source: row.utm_source, locale: row.locale }).catch((err) => {
-      console.error('[api/guide-caucase] email notify failed (non-fatal)', err)
-    }),
-    notifyLead({ email, locale: submissionLanguage }).catch((err) => {
-      console.error('[api/guide-caucase] lead email failed (non-fatal)', err)
-    }),
-  ])
+  // Notifs : Slack + email interne + email lead (C0, transactionnel). Via after()
+  // pour partir APRES la reponse sans etre tuees par le gel de la lambda.
+  // (Bug historique corrige 2026-07-09 : Promise.all non awaite -> les notifs de
+  // cette route ne partaient JAMAIS en serverless. Ne pas retirer le after().)
+  after(async () => {
+    await Promise.all([
+      notifySlack({ email, utm_source: row.utm_source }).catch((err) => {
+        console.error('[api/guide-caucase] slack notify failed (non-fatal)', err)
+      }),
+      notifyEmail({ email, utm_source: row.utm_source, locale: row.locale }).catch((err) => {
+        console.error('[api/guide-caucase] email notify failed (non-fatal)', err)
+      }),
+      notifyLead({ email, locale: submissionLanguage }).catch((err) => {
+        console.error('[api/guide-caucase] lead email failed (non-fatal)', err)
+      }),
+    ])
+  })
 
   return NextResponse.json({ ok: true, downloadUrl: '/guide-caucase.pdf' })
 }
