@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { getSupabaseAdmin } from '@/lib/supabase-admin'
 import { sendMail, wrapEmail, row } from '@/lib/email'
+import { buildGuideEmail, type GuideEmailLocale } from '@/lib/guide-email'
 import { rateLimit, clientIp as rlClientIp } from '@/lib/rate-limit'
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -88,7 +89,8 @@ export async function POST(request: Request) {
     )
   }
 
-  // Notifs fire-and-forget : Slack + email. Ne bloquent jamais.
+  // Notifs fire-and-forget : Slack + email interne + email lead (C0, transactionnel).
+  // Ne bloquent jamais.
   Promise.all([
     notifySlack({ email, utm_source: row.utm_source }).catch((err) => {
       console.error('[api/guide-caucase] slack notify failed (non-fatal)', err)
@@ -96,9 +98,27 @@ export async function POST(request: Request) {
     notifyEmail({ email, utm_source: row.utm_source, locale: row.locale }).catch((err) => {
       console.error('[api/guide-caucase] email notify failed (non-fatal)', err)
     }),
+    notifyLead({ email, locale: submissionLanguage }).catch((err) => {
+      console.error('[api/guide-caucase] lead email failed (non-fatal)', err)
+    }),
   ])
 
   return NextResponse.json({ ok: true, downloadUrl: '/guide-caucase.pdf' })
+}
+
+// C0 (PLAN_EMAIL_AUTOMATION.md §4) : email « Ton guide » au lead. UN seul envoi,
+// transactionnel (il vient de demander le guide) — toute sequence nurture derriere
+// exigerait l'opt-in newsletter (C1). Reply-to = boite humaine contact@.
+async function notifyLead(p: { email: string; locale: GuideEmailLocale }) {
+  const { subject, html, text } = buildGuideEmail(p.locale)
+  await sendMail({
+    to: p.email,
+    replyTo: process.env.MKR_EMAIL_TO || 'contact@mkrcamp.com',
+    subject,
+    html,
+    text,
+    tag: 'guide-lead',
+  })
 }
 
 async function notifyEmail(p: { email: string; utm_source: string | null; locale: string }) {
