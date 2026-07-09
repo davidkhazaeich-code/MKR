@@ -24,7 +24,7 @@ Si plus tard tu veux envoyer depuis `mkrcamp.com` (cohérence brand pure), il fa
 | Name | Value | Environments |
 |---|---|---|
 | `RESEND_API_KEY` | `re_xxxxxxxxxxxxxxxxxxxxxxxxxx` | Production + Preview |
-| `MKR_EMAIL_FROM` | `MKR Caucasian Camp <mkr@dkdp.ch>` | Production + Preview |
+| `MKR_EMAIL_FROM` | `MKR Caucasian Camp <contact@mkrcamp.com>` | Production + Preview |
 | `MKR_EMAIL_TO` | `contact@mkrcamp.com` | Production + Preview |
 
 Puis **Redeploy** (le redeploy est obligatoire pour que les nouvelles env vars soient prises en compte).

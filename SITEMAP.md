@@ -304,7 +304,7 @@
 
 **Écran de succès réordonné** (`src/components/InscriptionLayout.tsx`, bloc `if (submitted)`) : 1. message « Candidature reçue » · 2. **`<VisioBooking />` = action principale** · 3. `<StoryCard />` repassé en action secondaire dans `.insc-share-block` sous séparateur (`inscription.success.share_label`) · 4. lien retour accueil.
 
-**Email candidat** (`src/app/api/inscription/route.ts`) : nouvelle fonction `notifyCandidate()` (fire-and-forget dans le `Promise.all` aux côtés de `notifySlack`/`notifyEmail`, ne bloque jamais). Localisée FR/EN selon `submission_language`. Récap camp + durée + bouton CTA vers le lien Cal. Tag Resend `inscription-candidate` (ajouté à l'union de `src/lib/email.ts`). Expéditeur `mkr@dkdp.ch`. La notif interne à Ruslan (`notifyEmail`) est inchangée. `escapeHtml` ajouté à l'import depuis `@/lib/email`.
+**Email candidat** (`src/app/api/inscription/route.ts`) : nouvelle fonction `notifyCandidate()` (fire-and-forget dans le `Promise.all` aux côtés de `notifySlack`/`notifyEmail`, ne bloque jamais). Localisée FR/EN selon `submission_language`. Récap camp + durée + bouton CTA vers le lien Cal. Tag Resend `inscription-candidate` (ajouté à l'union de `src/lib/email.ts`). Expéditeur `contact@mkrcamp.com` (compte Resend MKR, domaine vérifié 2026-07-09). La notif interne à Ruslan (`notifyEmail`) est inchangée. `escapeHtml` ajouté à l'import depuis `@/lib/email`.
 
 **CSS** : section `/* Visio Booking */` en fin de `globals.css` (`.visio-booking*`, `.visio-booking-embed` height 680px/560px mobile, `.insc-share-block`, `.insc-share-label`).
 
