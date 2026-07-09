@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import { getSupabaseAdmin } from '@/lib/supabase-admin'
-import { sendMail } from '@/lib/email'
+import { escapeHtml, sendMail } from '@/lib/email'
 import { buildVisioEmail, type VisioCampDiscipline } from '@/lib/visio-email'
 import {
   buildDigestData,
@@ -134,12 +134,29 @@ export async function GET(request: Request) {
     if (auditError) console.error('[cron/daily-emails] audit insert échoué', auditError)
   }
 
-  // --- B1 : digest Slack (toujours en prod — heartbeat) --------------------
+  // --- B1 : digest interne (toujours en prod — heartbeat) ------------------
+  // Canal : Slack si SLACK_WEBHOOK_URL est configuree, sinon FALLBACK EMAIL a
+  // contact@mkrcamp.com (constat 2026-07-09 : la var Slack n'a jamais ete posee,
+  // ni en local ni sur Vercel — l'email garantit que le heartbeat vit quand meme).
   const digest = buildDigestData(rows, now)
   const digestText = formatDigestSlack(digest, { dryRun, automationEnabled, sentVisio, wouldSendVisio })
   let digestPosted = false
+  let digestChannel: 'slack' | 'email' | 'none' = 'none'
   if (isProd) {
     digestPosted = await postSlack(digestText)
+    if (digestPosted) {
+      digestChannel = 'slack'
+    } else {
+      const today = now.toLocaleDateString('fr-CH', { timeZone: 'Europe/Zurich' })
+      digestPosted = await sendMail({
+        to: COPY_TO,
+        subject: `[MKR digest] Pipeline candidatures — ${today}`,
+        html: `<pre style="font-family:ui-monospace,Menlo,monospace;font-size:13px;line-height:1.6;white-space:pre-wrap">${escapeHtml(digestText)}</pre>`,
+        text: digestText,
+        tag: 'digest-interne',
+      })
+      if (digestPosted) digestChannel = 'email'
+    }
   }
 
   const summary = {
@@ -152,6 +169,7 @@ export async function GET(request: Request) {
     failures,
     digest: {
       posted: digestPosted,
+      channel: digestChannel,
       recueSansVisio: digest.recueSansVisio.length,
       valideeSansContrat: digest.valideeSansContrat.length,
       contratSansDeadline: digest.contratSansDeadline.length,
