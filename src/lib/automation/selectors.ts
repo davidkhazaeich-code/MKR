@@ -26,6 +26,12 @@ export interface AutomationRow {
   contract_payment_deadline: string | null
   package_paid_at: string | null
   payment_method: string | null
+  package_amount_cents: number | null
+  contract_number: number | null
+  contract_start_date: string | null
+  payment_reminder_sent_at: string | null
+  payment_reminder_count: number | null
+  predeparture_sent_at: string | null
   candidate: AutomationCandidate | AutomationCandidate[] | null
 }
 
@@ -112,6 +118,139 @@ export function selectVisioReminders(rows: AutomationRow[], now: Date): VisioRem
 }
 
 // ---------------------------------------------------------------------------
+// A2 — rappels de paiement (paliers avec rattrapage, cf. plan §2 A2).
+// ---------------------------------------------------------------------------
+
+export interface PaymentReminderTarget {
+  id: string
+  email: string
+  prenom: string | null
+  locale: 'fr' | 'en'
+  amountCents: number | null
+  deadline: string
+  contractNumber: number | null
+  stage: 1 | 2
+  /** Compteur attendu AVANT envoi (verrou optimiste). */
+  expectedCount: number
+}
+
+const PAYMENT_STAGE1_WINDOW_DAYS = 7 // rappel courtois : deadline sous 7 jours
+const PAYMENT_STAGE2_WINDOW_DAYS = 1 // rappel ferme : deadline demain (rattrapage jusqu'a +1)
+const PAYMENT_STAGE2_MIN_GAP_MS = 72 * HOUR_MS
+
+// Regles :
+//   - eligibles : validee + contrat envoye + non paye + deadline posee + pas cash
+//   - palier 1 (count=0) : J-7 <= aujourd'hui <= deadline
+//   - palier 2 (count=1) : J-1 <= aujourd'hui <= deadline+1, espace de 72 h min
+//   - deadline depassee de 3 j+ : escalade INTERNE (digest), pas d'email candidat
+// Pas de cutoff created_at ici : les deadlines sont posees a la main dans le
+// back office, donc fiables pour tout le stock.
+export function selectPaymentReminders(rows: AutomationRow[], now: Date): PaymentReminderTarget[] {
+  const nowMs = now.getTime()
+  const today = todayZurich(now)
+  const seenEmails = new Set<string>()
+  const targets: PaymentReminderTarget[] = []
+
+  const sorted = [...rows].sort((a, b) => Date.parse(b.created_at) - Date.parse(a.created_at))
+
+  for (const row of sorted) {
+    if (row.status !== 'validee') continue
+    if (!row.contract_sent_at) continue
+    if (row.package_paid_at) continue
+    if (row.payment_method === 'cash') continue
+    const deadline = row.contract_payment_deadline
+    if (!deadline) continue
+
+    const count = row.payment_reminder_count ?? 0
+    const daysToDeadline = daysBetween(deadline, today) // negatif = depassee
+
+    let stage: 1 | 2 | null = null
+    if (count === 0) {
+      if (daysToDeadline <= PAYMENT_STAGE1_WINDOW_DAYS && daysToDeadline >= 0) stage = 1
+    } else if (count === 1) {
+      const lastMs = row.payment_reminder_sent_at ? Date.parse(row.payment_reminder_sent_at) : 0
+      if (
+        daysToDeadline <= PAYMENT_STAGE2_WINDOW_DAYS &&
+        daysToDeadline >= -1 &&
+        nowMs - lastMs >= PAYMENT_STAGE2_MIN_GAP_MS
+      ) {
+        stage = 2
+      }
+    }
+    if (!stage) continue
+
+    const candidate = normalizeCandidate(row.candidate)
+    const email = candidate?.email?.trim().toLowerCase()
+    if (!email) continue
+    if (seenEmails.has(email)) continue
+    seenEmails.add(email)
+
+    targets.push({
+      id: row.id,
+      email,
+      prenom: candidate?.prenom ?? null,
+      locale: row.submission_language === 'en' ? 'en' : 'fr',
+      amountCents: row.package_amount_cents,
+      deadline,
+      contractNumber: row.contract_number,
+      stage,
+      expectedCount: count,
+    })
+  }
+
+  return targets.slice(0, SEND_CAP_PER_RUN)
+}
+
+// ---------------------------------------------------------------------------
+// A3 — infos pratiques pre-depart (fenetre J-14 -> J-3 avec rattrapage).
+// ---------------------------------------------------------------------------
+
+export interface PredepartureTarget {
+  id: string
+  email: string
+  prenom: string | null
+  locale: 'fr' | 'en'
+  startDate: string
+  dureeSemaines: number | null
+}
+
+const PREDEPARTURE_MAX_DAYS_BEFORE = 14
+const PREDEPARTURE_MIN_DAYS_BEFORE = 3
+
+export function selectPredeparture(rows: AutomationRow[], now: Date): PredepartureTarget[] {
+  const today = todayZurich(now)
+  const seenEmails = new Set<string>()
+  const targets: PredepartureTarget[] = []
+
+  for (const row of rows) {
+    if (row.status !== 'soldee') continue
+    if (row.predeparture_sent_at) continue
+    const start = row.contract_start_date
+    if (!start) continue
+
+    const daysToStart = daysBetween(start, today)
+    if (daysToStart > PREDEPARTURE_MAX_DAYS_BEFORE || daysToStart < PREDEPARTURE_MIN_DAYS_BEFORE) continue
+
+    const candidate = normalizeCandidate(row.candidate)
+    const email = candidate?.email?.trim().toLowerCase()
+    if (!email) continue
+    if (seenEmails.has(email)) continue
+    seenEmails.add(email)
+
+    targets.push({
+      id: row.id,
+      email,
+      prenom: candidate?.prenom ?? null,
+      locale: row.submission_language === 'en' ? 'en' : 'fr',
+      startDate: start,
+      dureeSemaines: row.duree_semaines,
+    })
+  }
+
+  return targets.slice(0, SEND_CAP_PER_RUN)
+}
+
+// ---------------------------------------------------------------------------
 // B1 — digest quotidien interne (Slack).
 // ---------------------------------------------------------------------------
 
@@ -189,8 +328,10 @@ export function buildDigestData(rows: AutomationRow[], now: Date): DigestData {
       } else {
         const diff = daysBetween(row.contract_payment_deadline, today)
         const quand = diff < 0 ? `deadline dépassée de ${-diff} j` : `deadline dans ${diff} j`
+        // Palier 3 (plan §2 A2) : retard de 3 j+ = escalade humaine, pas d'email auto.
+        const escalade = diff <= -3 ? ' [ESCALADE : relancer par téléphone]' : ''
         impayesTmp.push({
-          line: `${who(row)} · ${quand} (${row.contract_payment_deadline})${cashNote}`,
+          line: `${who(row)} · ${quand} (${row.contract_payment_deadline})${cashNote}${escalade}`,
           deadline: row.contract_payment_deadline,
         })
       }
@@ -207,6 +348,10 @@ export interface DigestRunInfo {
   automationEnabled: boolean
   sentVisio: string[]
   wouldSendVisio: string[]
+  sentPayment: string[]
+  wouldSendPayment: string[]
+  sentPredeparture: string[]
+  wouldSendPredeparture: string[]
 }
 
 // ASCII only (pas d'emoji, cf. memory feedback_no_emoji_use_svg).
@@ -236,12 +381,23 @@ export function formatDigestSlack(d: DigestData, run: DigestRunInfo): string {
     parts.push(`Actifs : reçue ${d.actifs.recue} / validée ${d.actifs.validee} / soldée ${d.actifs.soldee}`)
   }
 
-  if (run.sentVisio.length) {
-    parts.push(`*Relances visio auto envoyées ce matin (${run.sentVisio.length})* :\n- ${run.sentVisio.join('\n- ')}`)
+  const sentAll = [
+    ...run.sentPayment.map((l) => `[paiement] ${l}`),
+    ...run.sentVisio.map((l) => `[visio] ${l}`),
+    ...run.sentPredeparture.map((l) => `[pré-départ] ${l}`),
+  ]
+  if (sentAll.length) {
+    parts.push(`*Emails automatiques envoyés ce matin (${sentAll.length})* :\n- ${sentAll.join('\n- ')}`)
   }
-  if (run.wouldSendVisio.length) {
+
+  const wouldAll = [
+    ...run.wouldSendPayment.map((l) => `[paiement] ${l}`),
+    ...run.wouldSendVisio.map((l) => `[visio] ${l}`),
+    ...run.wouldSendPredeparture.map((l) => `[pré-départ] ${l}`),
+  ]
+  if (wouldAll.length) {
     const motif = run.automationEnabled ? 'hors prod' : 'EMAIL_AUTOMATION_ENABLED=false'
-    parts.push(`*[DRY-RUN ${motif}] relances visio qui SERAIENT envoyées (${run.wouldSendVisio.length})* :\n- ${run.wouldSendVisio.join('\n- ')}`)
+    parts.push(`*[DRY-RUN ${motif}] emails qui SERAIENT envoyés (${wouldAll.length})* :\n- ${wouldAll.join('\n- ')}`)
   }
 
   return parts.join('\n\n')
