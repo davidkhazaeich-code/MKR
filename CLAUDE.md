@@ -7,6 +7,7 @@ Tout email MKR (candidat, lead, interne) respecte ces règles :
 
 1. **Jamais de tiret cadratin** dans sujets et corps. Séparateur : « · » (comme les emails visio).
 2. **Photos dans les emails candidat/lead** : JPEG uniquement (compat Outlook, pas de webp), hébergées sur le site dans `public/images/email/` (1120px de large = 2x retina pour 560px), servies en URL absolue `${SITE_URL}/images/email/...`. Portrait Ruslan : `images/ruslan/ruslan-portrait-chemise-noire.jpg`.
+   **Vraies photos d'abord** (David, 2026-07-09) : puiser dans `public/images/galerie-real/` (photos réelles du camp) ou `MKR-PHOTOS-FINAL-4K/` côté client — jamais les visuels IA léchés de `action/`/`environment/` pour les emails. Si génération nécessaire (nanobanana), exiger un rendu réaliste avec imperfections (luminosité imparfaite, cadrage amateur, grain).
 3. **Dark + light mode** : design sombre de marque FIXE (fond #000/#111110, orange #C84B31), verrouillé par `bgcolor` + couleurs inline + `meta color-scheme` + gardes `prefers-color-scheme` avec `!important` (voir `src/lib/guide-email.ts`, le modèle de référence).
 4. **Responsive** : table 560px max-width fluide, media query < 480px (padding, taille de texte, boutons full-width).
 5. **Bilingue FR/EN** systématique, sélection par `submission_language`. Français AVEC accents corrects (é, à, ç…) dans tout contenu visible — les commentaires code restent ASCII.

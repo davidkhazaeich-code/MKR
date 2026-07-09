@@ -95,7 +95,7 @@ export function buildPaymentEmail(input: PaymentEmailInput): BuiltPaymentEmail {
   ]
 
   const contentRows = [
-    renderHeroImage('payment-recovery.jpg', locale === 'en' ? 'Athlete resting after training at the camp' : 'Athlète au repos après l’entraînement au camp'),
+    renderHeroImage('payment-hero.jpg', locale === 'en' ? 'The camp coaches at the gym' : 'Les coachs du camp dans la salle'),
     renderParagraph(escapeHtml(c.hello), { main: true, padTop: true }),
     renderParagraph(escapeHtml(c.intro)),
     renderInfoPanel(panelRows),

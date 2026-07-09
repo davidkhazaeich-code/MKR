@@ -54,8 +54,8 @@ export function buildPredepartureEmail(input: PredepartureEmailInput): BuiltPred
     reply: 'Une question sur le voyage ou l’équipement ? Réponds directement à cet email.',
     footer: 'Email automatique lié à ton inscription MKR Caucasian Camp. Réponds directement à ce message pour parler à un humain.',
     signoff: 'On se voit très bientôt,',
-    heroAlt: 'Lever de soleil sur le lac Kezenoy, dans les montagnes du Caucase',
-    mealAlt: 'Repas d’équipe au camp après l’entraînement',
+    heroAlt: 'Fin de journée en quad dans les montagnes du Caucase',
+    mealAlt: 'L’équipe réunie sur les tapis du camp',
     guidePath: '/preparer-son-camp',
   }
 
@@ -77,21 +77,21 @@ export function buildPredepartureEmail(input: PredepartureEmailInput): BuiltPred
     reply: 'Any question about the trip or the gear? Just reply to this email.',
     footer: 'Automated email related to your MKR Caucasian Camp registration. Reply directly to this message to talk to a human.',
     signoff: 'See you very soon,',
-    heroAlt: 'Sunrise over Lake Kezenoy in the Caucasus mountains',
-    mealAlt: 'Team meal at the camp after training',
+    heroAlt: 'Golden hour quad ride in the Caucasus mountains',
+    mealAlt: 'The team gathered on the camp mats',
     guidePath: '/en/preparer-son-camp',
   }
 
   const c = locale === 'en' ? en : fr
 
   const contentRows = [
-    renderHeroImage('predeparture-lake.jpg', c.heroAlt),
+    renderHeroImage('predeparture-hero.jpg', c.heroAlt),
     renderParagraph(escapeHtml(c.hello), { main: true, padTop: true }),
     renderParagraph(escapeHtml(c.intro)),
     renderSectionTitle(c.checklistTitle),
     renderBullets(c.checklist),
     renderButton(`${SITE_URL}${c.guidePath}`, c.cta),
-    renderHeroImage('predeparture-meal.jpg', c.mealAlt),
+    renderHeroImage('predeparture-team.jpg', c.mealAlt),
     renderParagraph(escapeHtml(c.onSite), { padTop: true }),
     renderParagraph(escapeHtml(c.reply)),
     renderSignature(locale, c.signoff),

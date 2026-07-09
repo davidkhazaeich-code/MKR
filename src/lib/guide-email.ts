@@ -59,7 +59,7 @@ const COPY: Record<GuideEmailLocale, GuideEmailCopy> = {
     pdfPath: '/guide-caucase.pdf',
     tunnelPath: '/mkr-camp-2026',
     heroAlt: 'Le guide du Caucase MKR, ouvert sur la carte de la région',
-    actionAlt: 'Entraînement de lutte au Daghestan, travail de takedown',
+    actionAlt: 'Séance au camp : le groupe réuni en cercle autour de la démonstration',
   },
   en: {
     subject: 'Your Caucasus guide is here',
@@ -82,7 +82,7 @@ const COPY: Record<GuideEmailLocale, GuideEmailCopy> = {
     pdfPath: '/caucasus-guide.pdf',
     tunnelPath: '/en/mkr-camp-2026',
     heroAlt: 'The MKR Caucasus guide, open on the map of the region',
-    actionAlt: 'Wrestling training in Dagestan, takedown work',
+    actionAlt: 'Camp session: the group gathered around the demonstration',
   },
 }
 
@@ -104,7 +104,7 @@ export function buildGuideEmail(locale: GuideEmailLocale): BuiltGuideEmail {
     renderButton(pdfUrl, c.cta),
     renderSectionTitle(c.tipsTitle),
     renderBullets(c.tips),
-    renderHeroImage('action-takedown.jpg', c.actionAlt),
+    renderHeroImage('guide-action.jpg', c.actionAlt),
     renderParagraph(escapeHtml(c.candidatureLine), { padTop: true }),
     renderButton(tunnelUrl, c.ctaCandidature, { primary: false }),
     renderSignature(locale, c.signoff),
