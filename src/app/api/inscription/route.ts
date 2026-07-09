@@ -559,7 +559,7 @@ async function notifyEmail(p: SlackPayload): Promise<void> {
   const text = `Nouvelle candidature ${tunnelLabel}\n${p.prenom} ${p.nom} <${p.email}>\nDossier: ${adminBase}/admin/inscriptions/${p.candidature_id}`
 
   await sendMail({
-    subject: `[MKR candidature] ${tunnelLabel} — ${p.prenom} ${p.nom}`,
+    subject: `[MKR candidature] ${tunnelLabel} · ${p.prenom} ${p.nom}`,
     html,
     text,
     replyTo: p.email,

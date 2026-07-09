@@ -216,7 +216,7 @@ export function buildContractEmail(
   const reference = paymentInstruction(locale, data.contractNumber)
 
   if (locale === 'fr') {
-    const subject = `Ton contrat MKR Caucasian Camp — ${data.contractNumber}`
+    const subject = `Ton contrat MKR Caucasian Camp · ${data.contractNumber}`
     const body = `
 <p style="color:#e2e8f0;font-size:15px;line-height:1.6;margin:0 0 16px">Salut ${escapeHtml(prenom)},</p>
 <p style="color:#cbd5e1;font-size:14px;line-height:1.6;margin:0 0 16px">
@@ -267,7 +267,7 @@ Pense aussi à ton <strong style="color:#f1f5f9">assurance voyage</strong> (rapa
     }
   }
 
-  const subject = `Your MKR Caucasian Camp agreement — ${data.contractNumber}`
+  const subject = `Your MKR Caucasian Camp agreement · ${data.contractNumber}`
   const body = `
 <p style="color:#e2e8f0;font-size:15px;line-height:1.6;margin:0 0 16px">Hi ${escapeHtml(prenom)},</p>
 <p style="color:#cbd5e1;font-size:14px;line-height:1.6;margin:0 0 16px">

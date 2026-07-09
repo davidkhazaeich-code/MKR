@@ -17,7 +17,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
 const VISA_STEP_KEYS = ['step1', 'step2', 'step3', 'step4'] as const
 const FLIGHT_KEYS = ['paris', 'geneve', 'bruxelles'] as const
-const INFO_KEYS = ['decalage', 'monnaie', 'internet', 'climat', 'langue', 'alimentation'] as const
+const INFO_KEYS = ['decalage', 'monnaie', 'internet', 'arrivee', 'climat', 'langue', 'alimentation'] as const
 
 export default async function LogistiquePage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params

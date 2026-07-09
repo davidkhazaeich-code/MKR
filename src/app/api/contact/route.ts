@@ -92,11 +92,11 @@ export async function POST(request: Request) {
     </table>
     <div style="background:#0b1220;border:1px solid #1e293b;border-radius:6px;padding:16px;color:#e2e8f0;font-size:14px;line-height:1.6;white-space:pre-wrap">${escapeHtml(message)}</div>
   `
-  const html = wrapEmail(`Contact MKR · ${subjectLabel}`, bodyHtml, "Email envoye via le formulaire mkrcamp.com/contact — Reply-To = email du visiteur.")
+  const html = wrapEmail(`Contact MKR · ${subjectLabel}`, bodyHtml, "Email envoye via le formulaire mkrcamp.com/contact · Reply-To = email du visiteur.")
   const text = `Sujet : ${subjectLabel}\nNom : ${name}\nEmail : ${email}\nIP : ${ip}\n\n${message}`
 
   const ok = await sendMail({
-    subject: `[MKR contact] ${subjectLabel} — ${name}`,
+    subject: `[MKR contact] ${subjectLabel} · ${name}`,
     html,
     text,
     replyTo: email,

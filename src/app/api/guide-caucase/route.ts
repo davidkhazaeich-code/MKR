@@ -138,7 +138,7 @@ async function notifyEmail(p: { email: string; utm_source: string | null; locale
   `
   const html = wrapEmail('Nouveau lead Guide Caucase', bodyHtml, 'Notif automatique envoyee par /api/guide-caucase.')
   await sendMail({
-    subject: `[MKR guide] Nouveau lead — ${p.email}`,
+    subject: `[MKR guide] Nouveau lead · ${p.email}`,
     html,
     text: `Nouveau lead Guide Caucase\nEmail : ${p.email}\nUTM : ${p.utm_source ?? '-'}`,
     replyTo: p.email,
