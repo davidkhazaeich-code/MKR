@@ -31,7 +31,10 @@
   },
   "videos": {
     "label": "VIDÉOS",
-    "title": "EN MOUVEMENT"
+    "title": "EN MOUVEMENT",
+    "badge": "Bientôt",
+    "description": "On monte les images des sessions au Caucase. En attendant, retrouve les dernières vidéos du camp sur notre Instagram.",
+    "cta": "Voir sur Instagram"
   },
   "photos": {
     "lutte_singleleg_cercle": "Single leg en cercle, lutteurs daghestanais au tapis",

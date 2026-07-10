@@ -31,7 +31,10 @@
   },
   "videos": {
     "label": "VIDEOS",
-    "title": "IN MOTION"
+    "title": "IN MOTION",
+    "badge": "Coming soon",
+    "description": "We are editing the footage from the Caucasus sessions. In the meantime, catch the latest camp videos on our Instagram.",
+    "cta": "Watch on Instagram"
   },
   "photos": {
     "lutte_singleleg_cercle": "Single leg in a circle, Dagestani wrestlers on the mat",

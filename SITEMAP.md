@@ -1,7 +1,27 @@
 # SITEMAP MKR Caucasian Camp — Cartographie complète
 
-> **Fichier de référence pour Claude Code.** Mise à jour : 2026-07-08 (admin : bouton « Relance visio » + template email visio partagé + abandon de place self-service).
+> **Fichier de référence pour Claude Code.** Mise à jour : 2026-07-09 (galerie : fix overlap filtres + refonte UX/UI).
 > Lis ce fichier en priorité avant toute intervention sur le site MKR. Il évite de re-explorer.
+
+## 🆕 2026-07-09 (galerie : bug « images par-dessus les filtres » corrigé + refonte UX/UI responsive)
+
+> **Bug rapporté David** : sur `/galerie`, les images se positionnaient PAR-DESSUS la barre de filtres. **Cause racine** (confirmée navigateur, style calculé) : la section était `<section className="galerie-section fx-grid">`. La règle générique `.fx-grid > * { position: relative; z-index: 1 }` (globals.css) a la **même spécificité (0,1,0)** que `.galerie-filters-bar { position: sticky; z-index: 290 }` mais est **définie plus bas** → elle gagne et rétrograde la barre en `position: relative; z-index: 1`. Du coup (a) la barre n'était plus sticky, (b) son `top: 72px` (offset sticky) **décalait la barre relative de 72px vers le bas dans la 1re rangée d'images**, et (c) à z-index égal, la grille (plus loin dans le DOM) peignait par-dessus. Un seul sélecteur générique causait tout. Voir memory `feedback_fx_grid_clobbers_sticky`.
+
+**Fichiers touchés** : `src/components/GalerieContent.tsx`, `src/app/globals.css` (bloc galerie), `messages/{fr,en}/galerie.json` (3 clés vidéos).
+
+**Corrections + refonte** (David a choisi : masonry ratios naturels + placeholder vidéos soigné) :
+1. **Fix racine** : retrait de `fx-grid` sur `.galerie-section` (la texture diagonale était invisible derrière les images plein cadre) → plus aucun `.fx-grid > *` pour clobber. Barre = `position: sticky; top: var(--nav-h); z-index: 20` (sous le header fixe z-300, au-dessus de la grille). Cartes : suppression des hacks `z-index: 0` / `isolation` devenus inutiles.
+2. **État « stuck »** : remplacement du `ScrollTrigger` (qui lisait `self.scroll() > 8`, imprécis) par un **sentinel 1px + IntersectionObserver** (`rootMargin: -(nav-h+1)px`) → l'ombre de la barre s'active exactement quand elle colle sous la nav.
+3. **Masonry ratios naturels** : chaque `<img>` reçoit ses **vraies dimensions px** (mesurées au build via `sips`, bakées dans `const DIMS` de GalerieContent.tsx) → ratio d'origine réservé (zéro CLS), aucun recadrage. Retrait du faux `aspectRatio` 3/4/4/3 par parité d'index + du `content-visibility` (lazy-load suffit pour 55 imgs, évite les sauts de scroll dus au mauvais `contain-intrinsic-size`). Colonnes CSS : 4 (≥1600) / 3 / 2 (≤980) / 1 (≤430).
+4. **Reveal GSAP** allégé : retrait du `filter: blur()` (coûteux + créait des stacking contexts par carte), on garde opacity + y + scale. `matchMedia` isReduced/isMotion conservé.
+5. **Hover carte** : scrim dégradé bas (`.gal-card::after`) + label catégorie révélé (`.gal-card-cat`, ex. « MMA ») + icône loupe (`.gal-card-zoom`, z-index 2 au-dessus du scrim).
+6. **Section vidéos** : les 2 cadres vides « cassés » → panneau « bientôt » soigné (`.galerie-videos-soon`) : motif pellicule + bouton play orange + badge BIENTÔT à gauche, description + CTA ghost « VOIR SUR INSTAGRAM » (`SOCIALS.instagram`) à droite. Clés i18n `videos.badge/description/cta` (FR+EN). Stack 1 col ≤720px.
+
+**Lightbox inchangée** (déjà bonne : clavier, préload, compteur, catégorie, alt).
+
+**Vérifs (Playwright headless, isolé — le profil MCP était verrouillé par une session parallèle)** : sur 1440/820/390, barre `position: sticky` z-index 20 top 72px, `data-stuck` bascule correctement, **elementFromPoint au centre de la barre = la barre (jamais une image) sur 5 points** → overlap éliminé, **0 overflow horizontal**. Filtre MMA (état actif + re-render), lightbox (compteur « 1 / 20 »), panneau vidéos desktop+mobile OK. `tsc` clean (GalerieContent), `i18n-check` 2817 clés FR=EN.
+
+**Pour re-mesurer les dimensions si on ajoute/retire des photos** : `for p in $(grep -oE "img: '/[^']+'" src/components/GalerieContent.tsx | sed "s/img: '//;s/'//"); do sips -g pixelWidth -g pixelHeight "public$p"; done` puis mettre à jour la map `DIMS`. **Ne JAMAIS remettre `fx-grid` sur `.galerie-section`** (re-casse la barre sticky).
 
 ## 🆕 2026-07-08 (email relance : avertissement « place libérée » + bouton d'abandon de place self-service)
 

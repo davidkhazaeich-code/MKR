@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { useTranslations } from 'next-intl'
 import Icon from './Icon'
+import { SOCIALS } from '@/data/site'
 
 const FILTERS = ['Tout', 'Lutte', 'MMA', 'Coachs', 'Culture', 'Montagnes'] as const
 type FilterValue = typeof FILTERS[number]
@@ -75,12 +76,74 @@ const PHOTOS: Photo[] = [
   { key: 'montagnes_mountain_mist_trail', category: 'Montagnes', img: '/images/galerie/mountain-mist-trail.webp' },
 ]
 
+// Real intrinsic pixel dimensions (measured at build). Feeds width/height on
+// each <img> so the browser reserves the exact aspect ratio → true natural-ratio
+// masonry with zero layout shift, and lets content-visibility size offscreen cards.
+const DIMS: Record<string, [number, number]> = {
+  '/images/ruslan/lutte/singleleg-cercle.webp': [1920, 1280],
+  '/images/ruslan/lutte/singleleg-rus.webp': [1920, 1280],
+  '/images/ruslan/lutte/suplex-cercle.webp': [1920, 1280],
+  '/images/ruslan/lutte/dagestan-drill.webp': [1920, 1280],
+  '/images/ruslan/lutte/clinch-ados.webp': [1920, 1280],
+  '/images/ruslan/lutte/clinch-tete.webp': [1920, 1280],
+  '/images/ruslan/lutte/drill-standup.webp': [1920, 1280],
+  '/images/ruslan/lutte/projection-kid.webp': [1920, 1280],
+  '/images/ruslan/lutte/cardio-sprawl.webp': [1920, 1280],
+  '/images/ruslan/lutte/cardio-course.webp': [1920, 1280],
+  '/images/ruslan/lutte/coach-echauffement.webp': [1920, 1280],
+  '/images/ruslan/lutte/flexion-debout.webp': [1920, 1280],
+  '/images/ruslan/lutte/stretch-sol.webp': [1920, 1280],
+  '/images/ruslan/lutte/recup-collective.webp': [1920, 1280],
+  '/images/ruslan/lutte/kids-briefing.webp': [1920, 1280],
+  '/images/ruslan/lutte/salle-banniere.webp': [1920, 1280],
+  '/images/mma-tchechenie/chimaev-ceinture-ufc.webp': [2400, 1600],
+  '/images/mma-tchechenie/portrait-cage-rouge.webp': [2400, 1600],
+  '/images/mma-tchechenie/portrait-cage-gants-verts.webp': [2400, 1600],
+  '/images/mma-tchechenie/sparring-face-a-face.webp': [2400, 1600],
+  '/images/mma-tchechenie/portrait-smilodox.webp': [1600, 2400],
+  '/images/mma-tchechenie/crochet-rca-coach.webp': [2400, 1600],
+  '/images/mma-tchechenie/duo-akhmat-power.webp': [2400, 1600],
+  '/images/mma-tchechenie/bandage-mains-sourire.webp': [1600, 2400],
+  '/images/mma-tchechenie/briefing-coach-4-combattants.webp': [2400, 1600],
+  '/images/mma-tchechenie/kick-haut-kadyrov.webp': [1600, 2400],
+  '/images/mma-tchechenie/pads-direct-kadyrov.webp': [1600, 2400],
+  '/images/mma-tchechenie/pads-jab-kadyrov.webp': [1600, 2400],
+  '/images/mma-tchechenie/pads-akhmat-sila.webp': [1600, 2400],
+  '/images/mma-tchechenie/sparring-cage-turquoise.webp': [1600, 2400],
+  '/images/mma-tchechenie/sparring-cage-coach-noir.webp': [2400, 1600],
+  '/images/mma-tchechenie/team-5-cage.webp': [2400, 1347],
+  '/images/mma-tchechenie/coach-cage-portrait.webp': [2400, 1600],
+  '/images/mma-tchechenie/low-kick-cage.webp': [1600, 2400],
+  '/images/mma-tchechenie/duo-post-sparring.webp': [2400, 1600],
+  '/images/mma-tchechenie/coach-care-blesse.webp': [2400, 1600],
+  '/images/ruslan/ruslan-portrait-chemise-noire.webp': [702, 840],
+  '/images/ruslan/ruslan-championnat-france-takedown.webp': [1600, 1066],
+  '/images/ruslan/ruslan-championnat-france-ffl.webp': [1600, 1066],
+  '/images/ruslan/ruslan-lutte-clinch-nb.webp': [716, 1074],
+  '/images/ruslan/coaches/coachs-salle-espalier-mkr.webp': [1378, 768],
+  '/images/ruslan/heritage/priere-collective-mkr.webp': [1200, 896],
+  '/images/galerie-real/mma-team-cluster.webp': [1195, 896],
+  '/images/galerie-real/antoine-petit-jean.webp': [848, 1272],
+  '/images/ruslan/action/mma-adultes-cercle.webp': [1920, 1440],
+  '/images/galerie-real/quad-golden-hour.webp': [1584, 672],
+  '/images/galerie-real/canyon-sulak-overlook.webp': [896, 1195],
+  '/images/environment/dagestan-panorama.webp': [1920, 814],
+  '/images/environment/gamsutl-village.webp': [1920, 1071],
+  '/images/galerie/mountain-lake.webp': [1440, 967],
+  '/images/environment/lake-kezenoy.webp': [1920, 1071],
+  '/images/environment/vainakh-towers.webp': [1920, 1071],
+  '/images/galerie/sunrise-towers.webp': [1440, 967],
+  '/images/galerie/caucasus-panorama.webp': [1440, 804],
+  '/images/galerie/mountain-mist-trail.webp': [1376, 768],
+}
+
 export default function GalerieContent() {
   const t = useTranslations('galerie')
   const [filter, setFilter] = useState<FilterValue>('Tout')
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
   const gridRef = useRef<HTMLDivElement>(null)
   const barRef = useRef<HTMLDivElement>(null)
+  const sentinelRef = useRef<HTMLDivElement>(null)
   const filtered = filter === 'Tout' ? PHOTOS : PHOTOS.filter(p => p.category === filter)
 
   const openLightbox = useCallback((i: number) => setLightboxIndex(i), [])
@@ -115,14 +178,14 @@ export default function GalerieContent() {
             const cards = gsap.utils.toArray<HTMLElement>('.gal-card')
 
             if (conditions.isReduced) {
-              gsap.set(cards, { opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' })
+              gsap.set(cards, { opacity: 1, y: 0, scale: 1 })
               return
             }
 
             if (!conditions.isMotion) return
 
-            // Pre-state
-            gsap.set(cards, { opacity: 0, y: 48, scale: 0.94, filter: 'blur(8px)' })
+            // Pre-state (no blur: cheaper, and avoids per-card stacking contexts)
+            gsap.set(cards, { opacity: 0, y: 40, scale: 0.965 })
 
             // Stagger reveal as cards enter viewport (batch handles long lists)
             ScrollTrigger.batch('.gal-card', {
@@ -132,22 +195,17 @@ export default function GalerieContent() {
                   opacity: 1,
                   y: 0,
                   scale: 1,
-                  filter: 'blur(0px)',
-                  duration: 0.9,
+                  duration: 0.85,
                   ease: 'expo.out',
-                  stagger: {
-                    each: 0.06,
-                    from: 'start',
-                  },
+                  stagger: { each: 0.055, from: 'start' },
                   overwrite: true,
                 })
               },
               onLeaveBack: batch => {
                 gsap.to(batch, {
                   opacity: 0,
-                  y: 32,
-                  scale: 0.96,
-                  filter: 'blur(6px)',
+                  y: 28,
+                  scale: 0.97,
                   duration: 0.4,
                   ease: 'power2.in',
                   overwrite: true,
@@ -158,18 +216,6 @@ export default function GalerieContent() {
             ScrollTrigger.refresh()
           },
         )
-
-        // Sticky bar shadow on scroll
-        const bar = barRef.current
-        if (bar) {
-          ScrollTrigger.create({
-            start: 'top -8',
-            end: 99999,
-            onUpdate: self => {
-              bar.dataset.stuck = self.scroll() > 8 ? 'true' : 'false'
-            },
-          })
-        }
       }, gridRef)
     }
 
@@ -178,6 +224,21 @@ export default function GalerieContent() {
       ctx?.revert()
     }
   }, [filter])
+
+  // Sticky filter bar "stuck" state via a sentinel (precise: flips exactly when
+  // the bar reaches its sticky line under the fixed nav, not on any scroll).
+  useEffect(() => {
+    const sentinel = sentinelRef.current
+    const bar = barRef.current
+    if (!sentinel || !bar) return
+    const navH = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h'), 10) || 72
+    const io = new IntersectionObserver(
+      ([entry]) => { bar.dataset.stuck = entry.isIntersecting ? 'false' : 'true' },
+      { rootMargin: `-${navH + 1}px 0px 0px 0px`, threshold: 0 },
+    )
+    io.observe(sentinel)
+    return () => io.disconnect()
+  }, [])
 
   // Keyboard nav for lightbox + body scroll lock + adjacent preload
   useEffect(() => {
@@ -214,7 +275,10 @@ export default function GalerieContent() {
 
   return (
     <>
-      <section className="galerie-section fx-grid">
+      <section className="galerie-section">
+        {/* Sentinel just above the sticky bar → drives the "stuck" shadow state */}
+        <div ref={sentinelRef} className="galerie-sticky-sentinel" aria-hidden="true" />
+
         <div ref={barRef} className="galerie-filters-bar" data-stuck="false">
           <div className="inner">
             <div className="filter-tabs galerie-filter-tabs" role="tablist" aria-label={t('filters.aria_label')}>
@@ -240,10 +304,9 @@ export default function GalerieContent() {
         <div className="inner">
           <div ref={gridRef} className="galerie-grid">
             {filtered.map((photo, i) => {
-              const portrait = i % 3 === 0
-              const w = portrait ? 900 : 1200
-              const h = portrait ? 1200 : 900
+              const [w, h] = DIMS[photo.img] ?? [1200, 800]
               const alt = t(`photos.${photo.key}`)
+              const catLabel = t(`filters.labels.${photo.category}`)
               return (
                 <button
                   type="button"
@@ -251,7 +314,6 @@ export default function GalerieContent() {
                   className="photo-card gal-card"
                   onClick={() => openLightbox(i)}
                   aria-label={t('lightbox.open_image', { alt })}
-                  style={{ containIntrinsicSize: `${w}px ${h}px` }}
                 >
                   <img
                     src={photo.img}
@@ -262,10 +324,10 @@ export default function GalerieContent() {
                     width={w}
                     height={h}
                     className="galerie-photo-img"
-                    style={{ aspectRatio: portrait ? '3/4' : '4/3' }}
                   />
+                  <span className="gal-card-cat" aria-hidden="true">{catLabel}</span>
                   <span className="gal-card-zoom" aria-hidden="true">
-                    <Icon name="search" size={20} />
+                    <Icon name="search" size={18} />
                   </span>
                 </button>
               )
@@ -331,23 +393,30 @@ export default function GalerieContent() {
         </div>
       )}
 
-      {/* Videos */}
+      {/* Videos — coming soon */}
       <section className="logi-section logi-alt fx-texture-concrete fx-mask-a fx-stack-2">
         <div className="inner">
           <div className="logi-header reveal">
             <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>{t('videos.label')}</span>
             <h2>{t('videos.title')}</h2>
           </div>
-          <div className="grid-2">
-            {[1, 2].map(i => (
-              <div key={i} className="content-card reveal" style={{ transitionDelay: `${i * 0.1}s` }}>
-                <div style={{ aspectRatio: '16/9', background: 'var(--surface-lowest)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <div style={{ opacity: 0.3 }}>
-                    <Icon name="play" size={40} />
-                  </div>
-                </div>
-              </div>
-            ))}
+          <div className="galerie-videos-soon reveal">
+            <div className="galerie-videos-soon-media" aria-hidden="true">
+              <span className="galerie-videos-play"><Icon name="play" size={46} /></span>
+              <span className="galerie-videos-badge">{t('videos.badge')}</span>
+            </div>
+            <div className="galerie-videos-soon-body">
+              <p>{t('videos.description')}</p>
+              <a
+                className="btn-ghost galerie-videos-cta"
+                href={SOCIALS.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Icon name="instagram" size={18} />
+                <span>{t('videos.cta')}</span>
+              </a>
+            </div>
           </div>
         </div>
       </section>
