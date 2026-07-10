@@ -15,7 +15,9 @@
   "stars_aria": "5 étoiles sur 5",
   "video_section": {
     "label": "AUTRES TÉMOIGNAGES",
-    "title": "INTERVIEWS FACE CAMÉRA"
+    "title": "INTERVIEWS FACE CAMÉRA",
+    "video_alt": "Témoignage vidéo de {name}",
+    "play_aria": "Lire le témoignage vidéo de {name}"
   },
   "text_section": {
     "label": "ÉCRITS",

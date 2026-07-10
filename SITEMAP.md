@@ -1,7 +1,20 @@
 # SITEMAP MKR Caucasian Camp — Cartographie complète
 
-> **Fichier de référence pour Claude Code.** Mise à jour : 2026-07-09 (galerie : fix overlap filtres + refonte UX/UI).
+> **Fichier de référence pour Claude Code.** Mise à jour : 2026-07-10 (témoignages : refonte UX/UI des cartes vidéo « Interviews face caméra »).
 > Lis ce fichier en priorité avant toute intervention sur le site MKR. Il évite de re-explorer.
+
+## 🆕 2026-07-10 (témoignages : refonte des cartes vidéo « Interviews face caméra » — cadre portrait serré, centré, responsive)
+
+> **Demande David** : sur `/temoignages`, l'affichage des vidéos était mauvais (« encadrement trop large et non responsif »). **Cause racine** : `VideoTestimonialsGrid` rendait les vidéos **portrait 9/16** dans une `.grid-2` (2 colonnes ~50% de `.inner`, ~560px) via des `.content-card` paddées, avec `aspectRatio: 9/16` + `maxHeight: 70vh` inline. Le `max-height` rétrécissait la **largeur** du média (~403px) sous celle de sa colonne (~525px) tout en le laissant **aligné à gauche** (la grille ne centrait pas) → grand **vide sombre à droite** de chaque carte = le « cadre trop large ». En prime, le poster portait `.section-photo-img` (règle globale **paysage 16/10** + `width: calc(100% + 4rem)` + marges négatives, pensée pour des images qui débordent le padding d'une content-card) qui parasitait le rendu.
+
+**Fix (composant + CSS + i18n, aucune donnée, aucune migration)** :
+- **`src/components/VideoTestimonialsGrid.tsx`** réécrit : plus de `.grid-2`/`.content-card`/`.section-photo-img`/styles inline. Structure `<figure class="vtg-card">` → `.vtg-media` (9/16) contenant `.vtg-poster` + `.vtg-badge` + bouton `.video-card-play` avec `.vtg-play-circle`, puis `<figcaption class="vtg-meta">` (nom + discipline).
+- **`src/app/globals.css`** : bloc « Video Testimonials grid » (remplace l'ancien `.video-card-play`). `.vtg-grid` = `display:flex; flex-wrap:wrap; justify-content:center` (2 cartes **centrées** desktop, 1 colonne centrée mobile). `.vtg-card { flex: 0 1 300px; max-width:100% }` (jamais `width:100%` en flex sinon 1 carte/rangée). `.vtg-media` aspect-ratio 9/16 **sans** max-height (le ratio tient tout seul), bord + ombre + radius 16px, scrims haut/bas uniquement (centre libre pour le play). Bouton play circulaire 64px (hover → orange + scale, `prefers-reduced-motion` respecté).
+- **i18n** : `alt`/`aria-label` étaient **hardcodés FR** (interdit AGENTS.md, fuyaient sur `/en/testimonials`) → clés `temoignages.video_section.video_alt` + `play_aria` (param ICU `{name}`, FR+EN), construites côté page serveur dans `VIDEO_ITEMS` et passées au composant.
+
+**Le featured `VerticalVideoSplit` (Antoine) est resté inchangé** (déjà correct : `.vvs-media` centre son `.vvs-frame`, pas de vide latéral).
+
+**Vérifs (Playwright headless isolé, profil MCP verrouillé par session parallèle)** : `/temoignages` à 1440/1180/390/320 → média **9/16 exact (ratio 0.563)**, **deadspace = 0**, **0 overflow horizontal**, cartes centrées. `/en/testimonials` 200 + alt/aria bien en anglais. `tsc` sans nouvelle erreur, `i18n-check` 2819 clés OK, `next build --experimental-build-mode compile` vert.
 
 ## 🆕 2026-07-09 (galerie : bug « images par-dessus les filtres » corrigé + refonte UX/UI responsive)
 

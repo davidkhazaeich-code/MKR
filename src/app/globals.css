@@ -8745,30 +8745,115 @@ html.is-loading body {
   outline: none;
 }
 
-/* Page /temoignages — bigger play button on grid-2 video cards */
+/* ============================================================
+   Video Testimonials grid (/temoignages — "Interviews face camera")
+   Portrait 9/16 cards, tightly framed and centered (no dead space).
+   Replaces the old grid-2 + content-card layout that left the
+   portrait media left-aligned inside an over-wide padded card.
+   ============================================================ */
+.vtg-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+}
+.vtg-card {
+  flex: 0 1 300px;
+  max-width: 100%;
+  margin: 0;
+}
+.vtg-media {
+  position: relative;
+  aspect-ratio: 9 / 16;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  background: var(--surface-lowest);
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.28),
+    0 26px 52px -16px rgba(0, 0, 0, 0.6);
+}
+.vtg-poster {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+/* Top + bottom scrims only — center stays clear for the play button */
+.vtg-media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.34), transparent 26%, transparent 66%, rgba(0, 0, 0, 0.52));
+  pointer-events: none;
+  z-index: 1;
+}
+.vtg-badge {
+  position: absolute;
+  top: 0.7rem;
+  left: 0.7rem;
+  z-index: 3;
+  background: var(--primary);
+  color: #fff;
+  font-family: var(--font-barlow-condensed), sans-serif;
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.28em 0.72em;
+}
+.vtg-meta {
+  margin-top: 0.9rem;
+  padding-inline: 0.15rem;
+}
+
+/* Full-cover click target + centered circular play button */
 .video-card-play {
   position: absolute;
   inset: 0;
+  z-index: 2;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.3);
+  background: transparent;
   border: 0;
   cursor: pointer;
-  transition: background 0.2s;
   padding: 0;
 }
-.video-card-play:hover,
+.vtg-play-circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(14, 14, 14, 0.5);
+  border: 1px solid rgba(248, 248, 248, 0.55);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  padding-left: 4px; /* optically center the play triangle */
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  transition: transform 0.25s var(--ease-out-expo, ease-out), background 0.2s, border-color 0.2s;
+}
+.video-card-play:hover .vtg-play-circle,
+.video-card-play:focus-visible .vtg-play-circle {
+  background: var(--primary);
+  border-color: var(--primary);
+  transform: scale(1.08);
+}
 .video-card-play:focus-visible {
-  background: rgba(200, 75, 49, 0.18);
   outline: none;
 }
-.video-card-play svg {
-  transition: transform 0.2s;
+.video-card-play:focus-visible .vtg-play-circle {
+  box-shadow: 0 0 0 3px rgba(248, 248, 248, 0.4);
 }
-.video-card-play:hover svg,
-.video-card-play:focus-visible svg {
-  transform: scale(1.08);
+@media (prefers-reduced-motion: reduce) {
+  .vtg-play-circle { transition: background 0.2s, border-color 0.2s; }
+  .video-card-play:hover .vtg-play-circle,
+  .video-card-play:focus-visible .vtg-play-circle { transform: none; }
 }
 
 /* ============================================================================

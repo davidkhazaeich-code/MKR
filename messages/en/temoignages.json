@@ -15,7 +15,9 @@
   "stars_aria": "5 stars out of 5",
   "video_section": {
     "label": "OTHER TESTIMONIALS",
-    "title": "ON-CAMERA INTERVIEWS"
+    "title": "ON-CAMERA INTERVIEWS",
+    "video_alt": "Video testimonial from {name}",
+    "play_aria": "Play video testimonial from {name}"
   },
   "text_section": {
     "label": "WRITTEN",

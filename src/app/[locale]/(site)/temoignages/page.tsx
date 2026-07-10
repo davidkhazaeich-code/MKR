@@ -55,7 +55,11 @@ export default async function TemoignagesPage({ params }: { params: Promise<{ lo
   const tTesti = await getTranslations('data.testimonials')
   const tAntoine = await getTranslations('data.antoine-parcours')
   const hydrated = hydrateTestimonials(tTesti as never)
-  const VIDEO_ITEMS = buildVideoItems(hydrated)
+  const VIDEO_ITEMS = buildVideoItems(hydrated).map(v => ({
+    ...v,
+    alt: t('video_section.video_alt', { name: v.name }),
+    playAria: t('video_section.play_aria', { name: v.name }),
+  }))
   const TEXT_TESTIMONIALS = buildTextTestimonials(hydrated)
   const antoineProps = getAntoineParcoursProps('temoignages', tAntoine as never)
 
