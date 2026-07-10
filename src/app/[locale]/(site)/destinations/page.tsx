@@ -5,6 +5,7 @@ import type { Locale } from '@/i18n/routing'
 import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
+import DestinationShowcase from '@/components/DestinationShowcase'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
@@ -84,6 +85,9 @@ export default async function DestinationsPage({ params }: { params: Promise<{ l
           </div>
         </div>
       </section>
+
+      {/* Galerie des paysages des deux terres (deplacee depuis la home le 2026-07-10) */}
+      <DestinationShowcase />
 
       {/* Comparatif Daghestan vs Tchétchénie */}
       <section className="logi-section fx-texture-basalt fx-mask-b fx-stack-3">

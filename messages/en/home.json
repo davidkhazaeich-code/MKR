@@ -72,45 +72,6 @@
       "body_after_strong": " you will not find in any European gym."
     }
   },
-  "destination_showcase": {
-    "label": "TWO LANDS OF THE CAUCASUS",
-    "title_line1": "DAGESTAN ·",
-    "title_line2": "CHECHNYA",
-    "subtitle": "Wrestling in Dagestan, MMA in Chechnya. Two neighboring destinations in the Russian Caucasus, one discipline per camp. The combo is available on custom camps only.",
-    "landscapes": {
-      "sulak": {
-        "alt": "Sulak Canyon, Dagestan",
-        "label": "DAGESTAN · WRESTLING",
-        "caption": "Sulak Canyon",
-        "text": "Deeper than the Grand Canyon. Rest-day excursion from Makhachkala."
-      },
-      "grozny": {
-        "alt": "Grozny mosque, Chechnya",
-        "label": "CHECHNYA · MMA",
-        "caption": "Grozny",
-        "text": "Capital of Chechnya, modern city and dense MMA ecosystem."
-      },
-      "gamsutl": {
-        "alt": "Mountain village of Gamsutl, Dagestan",
-        "label": "DAGESTAN · WRESTLING",
-        "caption": "Gamsutl",
-        "text": "Ghost village perched at 1,500 m. Ancestral Dagestan."
-      },
-      "vainakh": {
-        "alt": "Medieval Vainakh towers in the mountains of Chechnya",
-        "label": "CHECHNYA · MMA",
-        "caption": "Vainakh towers",
-        "text": "Stone fortresses built 800 years ago in the Chechen valleys."
-      },
-      "kezenoy": {
-        "alt": "Lake Kezenoy-Am, on the border between Dagestan and Chechnya",
-        "label": "NORTH CAUCASUS",
-        "caption": "Lake Kezenoy-Am",
-        "text": "Largest high-altitude lake in the North Caucasus, between Dagestan and Chechnya."
-      }
-    },
-    "explore_cta": "EXPLORE BOTH DESTINATIONS"
-  },
   "testimonials": {
     "label": "TESTIMONIALS",
     "title_line1": "THEY CAME",

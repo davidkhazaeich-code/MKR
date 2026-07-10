@@ -72,45 +72,6 @@
       "body_after_strong": " que tu ne croiseras dans aucune salle européenne."
     }
   },
-  "destination_showcase": {
-    "label": "DEUX TERRES DU CAUCASE",
-    "title_line1": "DAGHESTAN ·",
-    "title_line2": "TCHÉTCHÉNIE",
-    "subtitle": "Lutte au Daghestan, MMA en Tchétchénie. Deux destinations frontalières du Caucase russe, une discipline par camp. Le combo se vit uniquement en sur-mesure.",
-    "landscapes": {
-      "sulak": {
-        "alt": "Canyon de Sulak, Daghestan",
-        "label": "DAGHESTAN · LUTTE",
-        "caption": "Canyon de Sulak",
-        "text": "Plus profond que le Grand Canyon. Excursion jour de repos depuis Makhachkala."
-      },
-      "grozny": {
-        "alt": "Mosquée de Grozny, Tchétchénie",
-        "label": "TCHÉTCHÉNIE · MMA",
-        "caption": "Grozny",
-        "text": "Capitale de la Tchétchénie, ville moderne et écosystème MMA dense."
-      },
-      "gamsutl": {
-        "alt": "Village perché de Gamsutl, Daghestan",
-        "label": "DAGHESTAN · LUTTE",
-        "caption": "Gamsutl",
-        "text": "Village fantôme perché à 1 500 m. Daghestan ancestral."
-      },
-      "vainakh": {
-        "alt": "Tours médiévales vaïnakh dans les montagnes de Tchétchénie",
-        "label": "TCHÉTCHÉNIE · MMA",
-        "caption": "Tours vaïnakh",
-        "text": "Forteresses de pierre dressées il y a 800 ans dans les vallées tchétchènes."
-      },
-      "kezenoy": {
-        "alt": "Lac Kezenoy-Am, frontière entre Daghestan et Tchétchénie",
-        "label": "CAUCASE NORD",
-        "caption": "Lac Kezenoy-Am",
-        "text": "Plus grand lac de haute altitude du Caucase Nord, entre Daghestan et Tchétchénie."
-      }
-    },
-    "explore_cta": "EXPLORER LES DEUX DESTINATIONS"
-  },
   "testimonials": {
     "label": "TÉMOIGNAGES",
     "title_line1": "ILS EN",

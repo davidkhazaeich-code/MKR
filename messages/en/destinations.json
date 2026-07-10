@@ -50,6 +50,41 @@
       "body": "Want to combine Wrestling in Dagestan and MMA in Chechnya? Splitting your camp between both destinations is only possible on Custom applications. Tell us about your project.",
       "cta": "DISCOVER THE CUSTOM FORMAT"
     },
+    "showcase": {
+      "label": "THE CAUCASUS IN PICTURES",
+      "landscapes": {
+        "sulak": {
+          "alt": "Sulak Canyon, Dagestan",
+          "label": "DAGESTAN · WRESTLING",
+          "caption": "Sulak Canyon",
+          "text": "Deeper than the Grand Canyon. Rest-day excursion from Makhachkala."
+        },
+        "grozny": {
+          "alt": "Grozny mosque, Chechnya",
+          "label": "CHECHNYA · MMA",
+          "caption": "Grozny",
+          "text": "Capital of Chechnya, modern city and dense MMA ecosystem."
+        },
+        "gamsutl": {
+          "alt": "Mountain village of Gamsutl, Dagestan",
+          "label": "DAGESTAN · WRESTLING",
+          "caption": "Gamsutl",
+          "text": "Ghost village perched at 1,500 m. Ancestral Dagestan."
+        },
+        "vainakh": {
+          "alt": "Medieval Vainakh towers in the mountains of Chechnya",
+          "label": "CHECHNYA · MMA",
+          "caption": "Vainakh towers",
+          "text": "Stone fortresses built 800 years ago in the Chechen valleys."
+        },
+        "kezenoy": {
+          "alt": "Lake Kezenoy-Am, on the border between Dagestan and Chechnya",
+          "label": "NORTH CAUCASUS",
+          "caption": "Lake Kezenoy-Am",
+          "text": "Largest high-altitude lake in the North Caucasus, between Dagestan and Chechnya."
+        }
+      }
+    },
     "comparatif": {
       "label": "HOW TO CHOOSE",
       "title": "DAGESTAN OR CHECHNYA?",

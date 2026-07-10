@@ -3,6 +3,21 @@
 > **Fichier de référence pour Claude Code.** Mise à jour : 2026-07-10 (témoignages : refonte UX/UI des cartes vidéo « Interviews face caméra »).
 > Lis ce fichier en priorité avant toute intervention sur le site MKR. Il évite de re-explorer.
 
+## 🆕 2026-07-10 (home allégée : grille des paysages « DEUX TERRES DU CAUCASE » déplacée vers /destinations)
+
+> **Demande David** : la section `DestinationShowcase` (eyebrow « DEUX TERRES DU CAUCASE » + titre « DAGHESTAN · TCHÉTCHÉNIE » + grille de 5 paysages) prenait trop de place sur la home → déplacée sur le hub `/destinations`, **version épurée** (sans le titre en double, le hero du hub affiche déjà « DEUX TERRES DU CAUCASE »).
+
+**Fichiers touchés** :
+- `src/app/[locale]/(site)/page.tsx` : retrait de l'import dynamique + du rendu `<DestinationShowcase />` (et de son `data-scroll-section` « Les destinations »). Ordre home devient Philosophie → Témoignages.
+- `src/app/[locale]/(site)/destinations/page.tsx` : import + `<DestinationShowcase />` inséré **entre la section `dest-hub`** (2 cartes + combo note) **et le comparatif**.
+- `src/components/DestinationShowcase.tsx` : namespace `home.destination_showcase` → `destinations.root.showcase` ; header réduit au seul eyebrow (`<h2>` titre + subtitle + footer CTA `explore_cta` retirés) ; `aria-labelledby` → `aria-label` ; carte `kezenoy` (lac frontalier) pointe désormais vers `/sur-mesure` (le combo) au lieu de `/destinations` (page courante).
+- `messages/{fr,en}/home.json` : bloc `destination_showcase` **retiré**.
+- `messages/{fr,en}/destinations.json` : bloc `root.showcase` **ajouté** = nouvel eyebrow `label` (« LE CAUCASE EN IMAGES » / « THE CAUCASUS IN PICTURES ») + les 5 `landscapes` déplacés **verbatim**.
+
+**CSS inchangé** : les classes `.dest-showcase-*` et `#destination-showcase` (globals.css) sont réutilisées telles quelles. ⚠️ `#destination-showcase` masque encore les cartes 3-5 en ≤480px (`nth-child(n+3){display:none}`, optimisation héritée de la home) — à relâcher si on veut les 5 paysages en mobile sur la page destinations.
+
+**QA** : `tsc --noEmit` 0 erreur · `i18n-check` 2815 clés FR=EN · `next build --experimental-build-mode compile` OK.
+
 ## 🆕 2026-07-10 (témoignages : refonte des cartes vidéo « Interviews face caméra » — cadre portrait serré, centré, responsive)
 
 > **Demande David** : sur `/temoignages`, l'affichage des vidéos était mauvais (« encadrement trop large et non responsif »). **Cause racine** : `VideoTestimonialsGrid` rendait les vidéos **portrait 9/16** dans une `.grid-2` (2 colonnes ~50% de `.inner`, ~560px) via des `.content-card` paddées, avec `aspectRatio: 9/16` + `maxHeight: 70vh` inline. Le `max-height` rétrécissait la **largeur** du média (~403px) sous celle de sa colonne (~525px) tout en le laissant **aligné à gauche** (la grille ne centrait pas) → grand **vide sombre à droite** de chaque carte = le « cadre trop large ». En prime, le poster portait `.section-photo-img` (règle globale **paysage 16/10** + `width: calc(100% + 4rem)` + marges négatives, pensée pour des images qui débordent le padding d'une content-card) qui parasitait le rendu.
