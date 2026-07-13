@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import { getSupabaseAdmin } from '@/lib/supabase-admin'
-import { escapeHtml, sendMail } from '@/lib/email'
+import { sendMail } from '@/lib/email'
 import { buildVisioEmail, type VisioCampDiscipline } from '@/lib/visio-email'
 import { buildPaymentEmail } from '@/lib/payment-email'
 import { buildPredepartureEmail } from '@/lib/predeparture-email'
@@ -277,23 +277,15 @@ export async function GET(request: Request) {
     sentPredeparture,
     wouldSendPredeparture,
   })
+  // Digest interne : Slack UNIQUEMENT. L'ancien fallback email quotidien vers
+  // contact@mkrcamp.com a ete retire (demande David 2026-07-13 : trop de bruit
+  // dans l'inbox Gmail). Sans SLACK_WEBHOOK_URL, le digest n'est notifie nulle
+  // part ; le pipeline reste tracable via les logs Vercel (summary JSON plus bas).
   let digestPosted = false
-  let digestChannel: 'slack' | 'email' | 'none' = 'none'
+  let digestChannel: 'slack' | 'none' = 'none'
   if (isProd) {
     digestPosted = await postSlack(digestText)
-    if (digestPosted) {
-      digestChannel = 'slack'
-    } else {
-      const today = now.toLocaleDateString('fr-CH', { timeZone: 'Europe/Zurich' })
-      digestPosted = await sendMail({
-        to: COPY_TO,
-        subject: `[MKR digest] Pipeline candidatures · ${today}`,
-        html: `<pre style="font-family:ui-monospace,Menlo,monospace;font-size:13px;line-height:1.6;white-space:pre-wrap">${escapeHtml(digestText)}</pre>`,
-        text: digestText,
-        tag: 'digest-interne',
-      })
-      if (digestPosted) digestChannel = 'email'
-    }
+    if (digestPosted) digestChannel = 'slack'
   }
 
   const summary = {
