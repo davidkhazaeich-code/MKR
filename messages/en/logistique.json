@@ -68,7 +68,7 @@
       "step4": {
         "num": "04",
         "title": "Documents to bring",
-        "desc": "Passport, Russian visa, MKR booking confirmation, insurance certificate, international round-trip ticket you booked to Istanbul. MKR issues the Istanbul-Caucasus domestic flight."
+        "desc": "Passport, printed e-visa documents (sent by MKR, print them before you leave), MKR booking confirmation, insurance certificate, international round-trip ticket you booked to Istanbul. MKR issues the Istanbul-Caucasus domestic flight."
       }
     },
     "updated": "Updated: April 2026"
@@ -144,11 +144,15 @@
       },
       "monnaie": {
         "title": "Currency",
-        "desc": "Russian ruble (RUB). 1 EUR ~ 100 RUB. Cash recommended, international cards often unusable."
+        "desc": "Russian ruble (RUB). 1 EUR ~ 100 RUB. Foreign bank cards do not work in Russia: bring cash in euros to exchange on site as soon as you arrive."
       },
       "internet": {
-        "title": "Internet",
-        "desc": "Wi-Fi at accommodation. Local Russian SIM card recommended (~5 EUR)."
+        "title": "Internet and SIM",
+        "desc": "Wi-Fi at accommodation. MKR provides you with a Russian SIM card and a VPN the morning after you arrive."
+      },
+      "arrivee": {
+        "title": "On arrival",
+        "desc": "Phones may be checked at the airport. Keep your printed e-visa documents (sent by MKR) within reach."
       },
       "climat": {
         "title": "Climate",

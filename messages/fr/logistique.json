@@ -68,7 +68,7 @@
       "step4": {
         "num": "04",
         "title": "Documents à emporter",
-        "desc": "Passeport, visa russe, confirmation de réservation MKR, attestation d'assurance, billet aller-retour international que tu as réservé jusqu'à Istanbul. MKR édite le vol intérieur Istanbul-Caucase."
+        "desc": "Passeport, documents E-Visa imprimés (transmis par MKR, à imprimer avant le départ), confirmation de réservation MKR, attestation d'assurance, billet aller-retour international que tu as réservé jusqu'à Istanbul. MKR édite le vol intérieur Istanbul-Caucase."
       }
     },
     "updated": "Mis à jour : avril 2026"
@@ -144,11 +144,15 @@
       },
       "monnaie": {
         "title": "Monnaie",
-        "desc": "Rouble russe (RUB). 1 EUR ≈ 100 RUB. Espèces recommandées, CB internationales souvent inutilisables."
+        "desc": "Rouble russe (RUB). 1 EUR ≈ 100 RUB. Les cartes bancaires étrangères ne fonctionnent pas en Russie : prévois du cash en euros à changer sur place dès ton arrivée."
       },
       "internet": {
-        "title": "Internet",
-        "desc": "Wi-Fi au logement. Carte SIM locale Russie recommandée (~5 EUR)."
+        "title": "Internet et SIM",
+        "desc": "Wi-Fi au logement. MKR te fournit une carte SIM russe et un VPN le lendemain matin de ton arrivée."
+      },
+      "arrivee": {
+        "title": "À l'arrivée",
+        "desc": "Les téléphones peuvent être contrôlés à l'aéroport. Garde tes documents E-Visa imprimés (transmis par MKR) à portée de main."
       },
       "climat": {
         "title": "Climat",

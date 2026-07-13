@@ -81,25 +81,27 @@
     "title": "WHAT TO BRING",
     "categories": {
       "vetements": {
-        "title": "Clothing and Protection",
+        "title": "Combat and protection",
         "items": [
-          "16 oz boxing gloves",
+          "Wrestling shoes (bring your own, strongly advised against buying them on site)",
+          "MMA gloves",
+          "Boxing gloves",
           "Shin guards",
-          "Mouthguard (molded)",
+          "Knee and elbow pads",
           "Groin guard",
-          "Rash guard (3 minimum)",
-          "Fight shorts (x3)",
-          "Wrestling shoes (optional)"
+          "Molded mouthguard"
         ]
       },
       "hygiene": {
-        "title": "Hygiene and Admin",
+        "title": "Clothing, hygiene and documents",
         "items": [
-          "Passport (valid 6+ months)",
-          "Copy of MKR confirmation",
+          "Training t-shirts and shorts",
+          "Tracksuit and sweatshirt",
+          "Slides",
+          "Shower towel",
+          "Passport (valid 6+ months) and printed e-visa documents (sent by MKR)",
           "Insurance certificate",
-          "Mosquito repellent",
-          "Suitcase padlock"
+          "Cash in euros to exchange on site (bank cards do not work)"
         ]
       }
     }

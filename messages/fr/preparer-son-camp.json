@@ -81,25 +81,27 @@
     "title": "QUOI EMPORTER",
     "categories": {
       "vetements": {
-        "title": "Vêtements et Protection",
+        "title": "Combat et protection",
         "items": [
-          "Gants de boxe 16 oz",
+          "Chaussures de lutte (à emporter, fortement déconseillé d'en acheter sur place)",
+          "Gants de MMA",
+          "Gants de boxe",
           "Protège-tibias",
-          "Protège-dents (moulé)",
+          "Genouillères et coudières",
           "Coquille",
-          "Rash guard (x3 minimum)",
-          "Short de combat (x3)",
-          "Chaussures de lutte (optionnel)"
+          "Protège-dents moulé"
         ]
       },
       "hygiene": {
-        "title": "Hygiène et Admin",
+        "title": "Vêtements, hygiène et documents",
         "items": [
-          "Passeport (valide 6+ mois)",
-          "Copie confirmation MKR",
-          "Attestation assurance",
-          "Anti-moustique",
-          "Cadenas valise"
+          "T-shirts et shorts d'entraînement",
+          "Jogging et sweat",
+          "Claquettes",
+          "Serviette de douche",
+          "Passeport (valide 6+ mois) et documents E-Visa imprimés (envoyés par MKR)",
+          "Attestation d'assurance",
+          "Cash en euros à changer sur place (les cartes bancaires ne fonctionnent pas)"
         ]
       }
     }
