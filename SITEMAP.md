@@ -1,7 +1,38 @@
 # SITEMAP MKR Caucasian Camp — Cartographie complète
 
-> **Fichier de référence pour Claude Code.** Mise à jour : 2026-07-10 (témoignages : refonte UX/UI des cartes vidéo « Interviews face caméra »).
+> **Fichier de référence pour Claude Code.** Mise à jour : 2026-07-13 (admin : audit UX/UI complet du back office + fixes).
 > Lis ce fichier en priorité avant toute intervention sur le site MKR. Il évite de re-explorer.
+
+## 🆕 2026-07-13 (admin : audit UX/UI complet du back office + fixes fonctionnels, commit 2c3deb7)
+
+> **Demande David** : audit complet du back office pour le meilleur UX/UI possible, fluide, rapide, parfaitement fonctionnel, en autonomie. Audit livré via le skill impeccable (5 dimensions), corrections poussées en prod, QA Playwright avant/après sur mkrcamp.com/admin.
+
+**Bugs corrigés** :
+1. **Badge cassé partout** (`ui/Badge.tsx`) : `${color}1a` invalide quand color est un `var(--x)` → fond transparent + bordure 100% saturée (vérifié computed style en prod). Fix `color-mix(in srgb, color 10%/25%, transparent)`. Tout badge doit passer par ce composant.
+2. **404 dossier avalée** (`inscriptions/[id]/page.tsx`) : `notFound()` était DANS le try/catch → « Configuration manquante : NEXT_HTTP_ERROR_FALLBACK;404 ». Déplacé hors try + nouveau **`src/app/admin/not-found.tsx`** (404 admin stylée). Ne jamais appeler notFound() dans un try qui catch tout.
+3. **FAB « Actions » visible en desktop** : `.adm-fab` défini APRÈS `.adm-hide-desktop` gagnait à spécificité égale (même pattern que `feedback_fx_grid_clobbers_sticky`). Règle explicite `@media (min-width:1024px){.adm-fab{display:none}}`.
+4. **Perte de notes admin/visio** : autosave débounce 900ms annulé si départ de page immédiat (Esc, retour liste) → flush `fetch keepalive` à l'unmount + `pagehide` (`AdminActions.tsx`).
+5. **Overflow horizontal 2px mobile** : `.adm-filter-row` margin -1rem vs gutter 0.85rem → gouttière unifiée `--adm-gutter` sur `.adm-container` (0.85/1/2rem selon breakpoint).
+6. **Messages multi-lignes des modales écrasés** : `.adm-modal-message` passe en `white-space: pre-line` (récaps contrat/relance construits avec \n).
+7. **Stagger de liste mort** : `animationDelay` était sur le `<li>`, pas sur `.adm-list-item` animé → passé au `<Link>` via prop.
+
+**UX / vitesse** :
+- Filtres liste en `<Link>` (soft nav RSC) au lieu de `<a>` full reload + **skeletons `loading.tsx`** sur les 4 écrans (`inscriptions`, `[id]`, `referrals`, `guide-leads`) : la navigation admin est instantanée avec feedback (`.adm-skeleton` shimmer dans admin.css).
+- **Nav sections dans la Topbar** (`ui/Topbar.tsx`, prop `nav: 'inscriptions'|'referrals'|'guide-leads'`) : onglets Candidatures / Referral / Leads guide avec état actif (`aria-current`). Le breadcrumb (prop `crumbs`) reste pour la fiche détail. Les anciens liens texte du h-meta sont retirés.
+- `ReferralPanel` : `router.refresh()` + toast au lieu de `window.location.reload()` ; commission percent affiche une **projection** quand le CA est connu (« ~321 € estimée, figée à la soldée ») au lieu du faux « CA à saisir ».
+- Fiche : date de naissance formatée + **âge calculé** (`formatBirthDate`), « Montant à définir » au lieu de « — € (montant à définir) ».
+
+**Design system** :
+- **`/admin/guide-leads` rebâti sur le DS admin** : il utilisait des tokens inexistants (`--adm-accent` #E11D2A rouge hors charte, `--adm-surface-2` slate), une classe fantôme `.adm-filter-chip` (zéro CSS, padding 0) et Roboto Condensed jamais chargée. Désormais : Topbar nav, `.adm-pill` pour les sources, export CSV en pill discrète, table `.adm-table`, badge EN par lead, empty state standard.
+- **Styles table partagés** `.adm-table` / `.adm-table-wrap` / `.adm-table-num` / `.adm-table-mono` dans admin.css — referrals ET guide-leads convergent dessus. Toute future table admin doit les utiliser.
+- Palette type partenaire harmonisée liste ↔ referrals (gym vert #4ade80, influenceur violet #a78bfa, coach orange #f59e0b).
+- Copy : « **Club et Groupe** » partout (aligné sur `messages/fr/data.registration-types.json`, règle sans esperluette), em dashes → « · », emoji ⚠️ retiré des modales, « cookie 90 jours » (valeur réelle de proxy.ts, disait 60).
+- A11y : `role=progressbar` sur la barre paiement, styles `:disabled` inputs/textarea/select, cibles tactiles 44px étendues à `.adm-btn`/`.adm-action-btn`, `aria-busy` sur les skeletons.
+- **PRODUCT.md** ajouté à la racine (contexte design du repo : registre brand pour le site public, product pour /admin).
+
+**Vérifs** : `tsc` 0 erreur · i18n-check 2815 clés (admin FR inline, aucun `messages/**`) · `next build` compile vert · QA Playwright prod avant/après (badges teintés OK, 404 « Dossier introuvable » OK, nav topbar OK, export CSV 200 text/csv, 0 overflow 390px, FAB masqué desktop / visible mobile, modale pre-line OK). Aucun endpoint API modifié.
+
+**Dette notée (non bloquante)** : recherche liste limitée aux 200 dossiers chargés (OK au volume actuel) ; barres latérales de statut conservées volontairement (signature visuelle assumée) ; `SUPABASE_SERVICE_ROLE_KEY` reste vide en `.env.local` local → l'admin ne tourne qu'en prod (clé à coller depuis Supabase Studio pour du dev local).
 
 ## 🆕 2026-07-10 (home allégée : grille des paysages « DEUX TERRES DU CAUCASE » déplacée vers /destinations)
 

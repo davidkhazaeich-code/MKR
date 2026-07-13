@@ -44,7 +44,7 @@ function referrerHost(url: string): string {
 export default async function AdminGuideLeadsPage({
   searchParams,
 }: {
-  searchParams: Promise<{ source?: string; format?: string }>
+  searchParams: Promise<{ source?: string }>
 }) {
   const params = await searchParams
   const supabase = getSupabaseAdmin()
@@ -69,28 +69,9 @@ export default async function AdminGuideLeadsPage({
     .limit(2000)
   const sources = Array.from(new Set((sourceData ?? []).map((r: { source: string }) => r.source))).sort()
 
-  // Export CSV
-  if (params.format === 'csv') {
-    const header = 'email,source,utm_source,utm_medium,utm_campaign,referrer,ip,created_at\n'
-    const rows = leads.map(l => [
-      l.email,
-      l.source,
-      l.utm_source ?? '',
-      l.utm_medium ?? '',
-      l.utm_campaign ?? '',
-      l.referrer ?? '',
-      l.ip ?? '',
-      l.created_at,
-    ].map(v => `"${String(v).replace(/"/g, '""')}"`).join(',')).join('\n')
-    return new Response(header + rows, {
-      headers: {
-        'Content-Type': 'text/csv; charset=utf-8',
-        'Content-Disposition': `attachment; filename="guide-leads-${new Date().toISOString().slice(0,10)}.csv"`,
-      },
-    }) as never
-  }
-
-  const csvHref = `/admin/guide-leads?format=csv${params.source ? `&source=${encodeURIComponent(params.source)}` : ''}`
+  // Export CSV : route handler dediee (retourner une Response depuis un server
+  // component ne marche pas, Next servait le HTML de la page a la place du CSV).
+  const csvHref = `/api/admin/guide-leads/export${params.source ? `?source=${encodeURIComponent(params.source)}` : ''}`
 
   return (
     <>
