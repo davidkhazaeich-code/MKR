@@ -163,6 +163,36 @@ export default function AdminActions(props: Props) {
   const [visioState, setVisioState] = useState<SaveState>('idle')
   const visioTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
+  // Filet anti-perte : l'auto-save est debounce a 900ms, donc taper une note puis
+  // quitter la page (Esc, lien retour, fermeture d'onglet) dans la foulee annulait
+  // le timer et perdait la saisie. On flush toute note en attente a l'unmount et
+  // au pagehide via un fetch keepalive (survit a la navigation).
+  const pendingNotes = useRef({ adminDraft: props.notesAdmin, adminSaved: props.notesAdmin, visioDraft: props.notesVisio, visioSaved: props.notesVisio })
+  useEffect(() => {
+    pendingNotes.current = { adminDraft, adminSaved, visioDraft, visioSaved }
+  }, [adminDraft, adminSaved, visioDraft, visioSaved])
+  useEffect(() => {
+    const flush = () => {
+      const n = pendingNotes.current
+      const body: Record<string, string> = {}
+      if (n.adminDraft !== n.adminSaved) body.notes_admin = n.adminDraft
+      if (n.visioDraft !== n.visioSaved) body.notes_visio = n.visioDraft
+      if (Object.keys(body).length === 0) return
+      void fetch(`/api/admin/candidature/${props.candidatureId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+        keepalive: true,
+      }).catch(() => {})
+    }
+    window.addEventListener('pagehide', flush)
+    return () => {
+      window.removeEventListener('pagehide', flush)
+      flush()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.candidatureId])
+
   const [packageEur, setPackageEur] = useState(
     props.packageAmountCents ? String(props.packageAmountCents / 100) : '',
   )
@@ -624,7 +654,7 @@ function NotesStatusIndicator({ state }: { state: SaveState }) {
     <div className={cls}>
       {state === 'dirty' && (
         <span style={iconStyle}>
-          <Icon name="edit" size={13} /> Modifié — enregistrement automatique…
+          <Icon name="edit" size={13} /> Modifié · enregistrement automatique…
         </span>
       )}
       {state === 'saving' && (
@@ -639,7 +669,7 @@ function NotesStatusIndicator({ state }: { state: SaveState }) {
       )}
       {state === 'error' && (
         <span style={iconStyle}>
-          <Icon name="alert-triangle" size={13} /> Erreur — réessaye
+          <Icon name="alert-triangle" size={13} /> Erreur · réessaye
         </span>
       )}
     </div>

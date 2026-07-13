@@ -1,17 +1,32 @@
-// Topbar partagée admin : logo MKR + breadcrumb + déconnexion.
+// Topbar partagée admin : logo MKR + nav sections (ou breadcrumb) + déconnexion.
 // Sticky avec backdrop blur. Server component.
+//
+// Deux modes exclusifs pour la zone centrale :
+// - `nav` (pages de niveau 1) : onglets Candidatures / Referral / Leads guide,
+//   etat actif souligne. C'est LA navigation entre les 3 ecrans admin.
+// - `crumbs` (pages de detail) : fil d'Ariane, le retour liste est a un tap.
 
 import Link from 'next/link'
 import Image from 'next/image'
 import Icon from './Icon'
 
+export type AdminSection = 'inscriptions' | 'referrals' | 'guide-leads'
+
+const NAV_ITEMS: Array<{ key: AdminSection; label: string; href: string }> = [
+  { key: 'inscriptions', label: 'Candidatures', href: '/admin/inscriptions' },
+  { key: 'referrals', label: 'Referral', href: '/admin/referrals' },
+  { key: 'guide-leads', label: 'Leads guide', href: '/admin/guide-leads' },
+]
+
 interface TopbarProps {
   subtitle?: string
+  /** Section active : affiche les onglets de navigation (pages de niveau 1). */
+  nav?: AdminSection
   /** Breadcrumb crumbs : ex [{ label: 'Candidatures', href: '/admin/inscriptions' }, { label: 'Karim D.' }]. Le dernier est non-cliquable. */
   crumbs?: Array<{ label: string; href?: string }>
 }
 
-export default function Topbar({ subtitle, crumbs }: TopbarProps) {
+export default function Topbar({ subtitle, nav, crumbs }: TopbarProps) {
   return (
     <header className="adm-topbar">
       <div className="adm-topbar-inner">
@@ -27,6 +42,21 @@ export default function Topbar({ subtitle, crumbs }: TopbarProps) {
           <span className="adm-brand-mark-tagline" aria-hidden="true">Admin</span>
           {subtitle && !crumbs && <span className="adm-brand-mark-sub">· {subtitle}</span>}
         </Link>
+
+        {nav && !crumbs && (
+          <nav className="adm-topbar-nav" aria-label="Sections admin">
+            {NAV_ITEMS.map((item) => (
+              <Link
+                key={item.key}
+                href={item.href}
+                className={item.key === nav ? 'adm-topbar-nav-link adm-topbar-nav-link--active' : 'adm-topbar-nav-link'}
+                aria-current={item.key === nav ? 'page' : undefined}
+              >
+                {item.label}
+              </Link>
+            ))}
+          </nav>
+        )}
 
         {crumbs && crumbs.length > 0 && (
           <nav className="adm-breadcrumb" aria-label="Fil d'Ariane">

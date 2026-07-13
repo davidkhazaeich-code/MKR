@@ -31,7 +31,7 @@ export default function ReferralLinks({ items }: { items: ReferralLinkItem[] }) 
         Liens d&apos;affiliation à partager
       </h2>
       <p style={{ fontSize: '0.8rem', color: 'var(--adm-text-muted)', margin: '0 0 0.9rem' }}>
-        Chaque partenaire actif partage son lien. Le code est attribué automatiquement (cookie 60 jours).
+        Chaque partenaire actif partage son lien. Le code est attribué automatiquement (cookie 90 jours).
       </p>
       <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'grid', gap: '0.5rem' }}>
         {items.map((it) => (

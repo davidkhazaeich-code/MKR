@@ -29,11 +29,12 @@ export const metadata: Metadata = {
 
 type TunnelType = 'session' | 'custom' | 'famille' | 'groupe'
 
+// Libelles alignes sur le site public : « Club et Groupe », pas d'esperluette.
 const TUNNEL_LABEL: Record<TunnelType, string> = {
   session: 'MKR Camp 2026',
   custom: 'Sur Mesure',
   famille: 'Famille',
-  groupe: 'Club & Groupe',
+  groupe: 'Club et Groupe',
 }
 
 const TUNNEL_COLOR: Record<TunnelType, string> = {
@@ -253,6 +254,19 @@ function formatDateOnly(iso: string): string {
   return `${d}/${m}/${y}`
 }
 
+// Date de naissance lisible + age calcule (verification majorite en un coup d'oeil).
+function formatBirthDate(iso: string): string {
+  const birth = new Date(`${iso}T00:00:00Z`)
+  if (Number.isNaN(birth.getTime())) return iso
+  const now = new Date()
+  let age = now.getUTCFullYear() - birth.getUTCFullYear()
+  const anniversaryPassed =
+    now.getUTCMonth() > birth.getUTCMonth() ||
+    (now.getUTCMonth() === birth.getUTCMonth() && now.getUTCDate() >= birth.getUTCDate())
+  if (!anniversaryPassed) age -= 1
+  return `${formatDateOnly(iso)} · ${age} ans`
+}
+
 function formatDateTime(iso: string): string {
   return new Date(iso).toLocaleString('fr-FR', {
     day: '2-digit',
@@ -284,6 +298,9 @@ export default async function CandidatureDetailPage({
   let auditEntries: AuditRow[] = []
   let configError: string | null = null
 
+  // notFound() lance une erreur interceptee par Next : elle ne doit JAMAIS etre
+  // appelee dans le try/catch ci-dessous, sinon le catch l'avale et affiche
+  // « Configuration manquante : NEXT_HTTP_ERROR_FALLBACK;404 » au lieu de la 404.
   try {
     const supabase = getSupabaseAdmin()
     const [candRes, auditRes] = await Promise.all([
@@ -315,10 +332,7 @@ export default async function CandidatureDetailPage({
         .limit(50),
     ])
 
-    if (!candRes.data) {
-      notFound()
-    }
-    candidature = candRes.data as unknown as CandidatureRow
+    candidature = (candRes.data as unknown as CandidatureRow | null) ?? null
     auditEntries = (auditRes.data ?? []) as AuditRow[]
   } catch (err) {
     configError = (err as Error).message
@@ -335,6 +349,7 @@ export default async function CandidatureDetailPage({
     )
   }
 
+  // Id inconnu ou non-uuid -> vraie 404 admin (src/app/admin/not-found.tsx).
   if (!candidature) notFound()
 
   const c = candidature.candidate
@@ -435,7 +450,7 @@ export default async function CandidatureDetailPage({
             style={{
               marginBottom: '1.25rem',
               padding: '1rem 1.25rem',
-              borderLeft: '4px solid #a78bfa',
+              borderColor: 'rgba(167, 139, 250, 0.35)',
               background: 'rgba(167, 139, 250, 0.07)',
             }}
           >
@@ -445,7 +460,7 @@ export default async function CandidatureDetailPage({
               </span>
               <div>
                 <strong style={{ color: '#a78bfa', display: 'block', fontSize: '0.95rem', marginBottom: '0.2rem' }}>
-                  Demande de devis Club & Groupe
+                  Demande de devis Club et Groupe
                 </strong>
                 <p style={{ fontSize: '0.85rem', color: 'var(--adm-text-secondary)', lineHeight: 1.5, margin: 0 }}>
                   Aucun paiement à ce stade. <strong>À contacter sous 48h</strong> pour cadrer en visio (objectifs, dates, niveau, budget)
@@ -486,7 +501,7 @@ export default async function CandidatureDetailPage({
                         '—'
                       ),
                     ],
-                    ['Date de naissance', c.date_naissance ?? '—'],
+                    ['Date de naissance', c.date_naissance ? formatBirthDate(c.date_naissance) : '—'],
                     ['Pays', c.pays ?? '—'],
                     ['Ville de départ', c.ville_depart ?? '—'],
                   ]}
@@ -575,7 +590,7 @@ export default async function CandidatureDetailPage({
                   ) : remainingEur !== null ? (
                     `${remainingEur} €`
                   ) : (
-                    '— € (montant à définir)'
+                    <span style={{ fontSize: '1.6rem' }}>Montant à définir</span>
                   )}
                 </div>
                 {totalCents && totalCents > 0 && (
@@ -587,6 +602,10 @@ export default async function CandidatureDetailPage({
                       overflow: 'hidden',
                       border: '1px solid var(--adm-border-subtle)',
                     }}
+                    role="progressbar"
+                    aria-valuenow={progressPct}
+                    aria-valuemin={0}
+                    aria-valuemax={100}
                     aria-label={`${progressPct}% encaissé`}
                   >
                     <div

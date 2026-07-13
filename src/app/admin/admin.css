@@ -133,6 +133,13 @@ body {
   opacity: 0.5;
 }
 
+.adm-root input:disabled,
+.adm-root textarea:disabled,
+.adm-root select:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
 .adm-root input,
 .adm-root textarea,
 .adm-root select {
@@ -161,15 +168,20 @@ body {
    ======================================================================== */
 
 .adm-container {
+  /* Gouttiere horizontale unique : les full-bleed (filter rows) s'y alignent
+     via calc(-1 * var(--adm-gutter)) — un margin fixe desynchronise et cree
+     un overflow horizontal (2px constates a 390px). */
+  --adm-gutter: 1rem;
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 1.5rem 1rem 4rem;
+  padding: 1.5rem var(--adm-gutter) 4rem;
 }
 
 @media (min-width: 768px) {
   .adm-container {
-    padding: 2rem 2rem 5rem;
+    --adm-gutter: 2rem;
+    padding: 2rem var(--adm-gutter) 5rem;
   }
 }
 
@@ -327,6 +339,50 @@ body {
   }
   .adm-breadcrumb-item:not(:last-child) .adm-breadcrumb-sep {
     display: none;
+  }
+}
+
+/* Nav sections (pages niveau 1) : Candidatures / Referral / Leads guide */
+.adm-topbar-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  min-width: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.adm-topbar-nav::-webkit-scrollbar {
+  display: none;
+}
+
+.adm-topbar-nav-link {
+  flex-shrink: 0;
+  padding: 0.45rem 0.75rem;
+  border-radius: var(--adm-r-sm);
+  font-family: var(--adm-font-condensed);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--adm-text-secondary);
+  transition: color var(--adm-tr-fast), background var(--adm-tr-fast);
+}
+
+.adm-topbar-nav-link:hover {
+  color: var(--adm-text-primary);
+  background: var(--adm-bg-hover);
+}
+
+.adm-topbar-nav-link--active {
+  color: var(--adm-brand);
+  background: var(--adm-brand-soft);
+}
+
+@media (max-width: 480px) {
+  .adm-topbar-nav-link {
+    padding: 0.4rem 0.55rem;
+    font-size: 0.72rem;
   }
 }
 
@@ -793,9 +849,9 @@ body {
   gap: 0.5rem;
   overflow-x: auto;
   padding-bottom: 0.4rem;
-  margin: 0 -1rem;
-  padding-left: 1rem;
-  padding-right: 1rem;
+  margin: 0 calc(-1 * var(--adm-gutter, 1rem));
+  padding-left: var(--adm-gutter, 1rem);
+  padding-right: var(--adm-gutter, 1rem);
   scrollbar-width: none;
 }
 
@@ -1980,6 +2036,9 @@ body {
   color: var(--adm-text-secondary);
   margin: 0 0 1.25rem;
   line-height: 1.5;
+  /* Les recaps de confirmation (contrat, relance visio) sont construits avec
+     des \n : sans pre-line ils s'ecrasent en un seul bloc illisible. */
+  white-space: pre-line;
 }
 
 .adm-modal-actions {
@@ -2381,6 +2440,15 @@ body {
     0 0 0 1px rgba(255, 255, 255, 0.18) inset;
 }
 
+/* Regle explicite (ne PAS compter sur .adm-hide-desktop : .adm-fab est defini
+   apres et gagne a specificite egale, le FAB restait visible en desktop).
+   Cache des que la colonne actions est visible a l'ecran (grid 2 col >= 1024px). */
+@media (min-width: 1024px) {
+  .adm-fab {
+    display: none;
+  }
+}
+
 /* Scroll behavior smooth pour le scroll vers les ancres */
 html {
   scroll-behavior: smooth;
@@ -2398,7 +2466,8 @@ html {
 
 @media (max-width: 768px) {
   .adm-container {
-    padding: 1rem 0.85rem 5rem;
+    --adm-gutter: 0.85rem;
+    padding: 1rem var(--adm-gutter) 5rem;
   }
 
   /* Pile les cards plus serrées sur mobile */
@@ -2418,7 +2487,120 @@ html {
   .adm-quick-btn,
   .adm-logout-btn,
   .adm-icon-btn,
+  .adm-action-btn,
+  .adm-btn,
   .adm-fab {
     min-height: 44px;
   }
+}
+
+/* ========================================================================
+   Tables data (referrals, guide-leads) — style partagé du design system.
+   Toujours envelopper dans .adm-table-wrap (scroll horizontal contenu,
+   jamais d'overflow de page).
+   ======================================================================== */
+
+.adm-table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--adm-border-subtle);
+  border-radius: var(--adm-r-lg);
+  background: var(--adm-bg-surface);
+}
+
+.adm-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.adm-table th {
+  padding: 0.75rem 0.85rem;
+  text-align: left;
+  font-family: var(--adm-font-condensed);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--adm-text-muted);
+  background: var(--adm-bg-elevated);
+  border-bottom: 1px solid var(--adm-border-default);
+  white-space: nowrap;
+}
+
+.adm-table td {
+  padding: 0.8rem 0.85rem;
+  border-bottom: 1px solid var(--adm-border-subtle);
+  color: var(--adm-text-primary);
+  vertical-align: top;
+}
+
+.adm-table tbody tr:hover td {
+  background: var(--adm-bg-elevated);
+}
+
+.adm-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.adm-table tfoot td {
+  border-top: 2px solid var(--adm-border-default);
+  border-bottom: none;
+  font-weight: 700;
+  background: var(--adm-bg-elevated);
+}
+
+.adm-table .adm-table-num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.adm-table .adm-table-mono {
+  font-family: var(--adm-font-mono);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+/* ========================================================================
+   Skeletons de chargement (loading.tsx) — perception de vitesse pendant
+   les fetchs Supabase server-side (pages force-dynamic).
+   ======================================================================== */
+
+.adm-skeleton {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--adm-r-md);
+  background: var(--adm-bg-surface);
+  border: 1px solid var(--adm-border-subtle);
+}
+
+.adm-skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    100deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.045) 50%,
+    transparent 70%
+  );
+  animation: adm-skeleton-sweep 1.4s ease-in-out infinite;
+}
+
+@keyframes adm-skeleton-sweep {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(100%); }
+}
+
+.adm-skeleton--text {
+  height: 14px;
+  border: none;
+  border-radius: 4px;
+  background: var(--adm-bg-elevated);
+}
+
+.adm-skeleton-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
 }

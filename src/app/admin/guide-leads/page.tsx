@@ -2,6 +2,8 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { getSupabaseAdmin } from '@/lib/supabase-admin'
 import Topbar from '@/components/admin/ui/Topbar'
+import Badge from '@/components/admin/ui/Badge'
+import Icon from '@/components/admin/ui/Icon'
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
@@ -28,6 +30,15 @@ interface LeadRow {
 function formatDate(iso: string) {
   const d = new Date(iso)
   return d.toLocaleString('fr-FR', { dateStyle: 'short', timeStyle: 'short' })
+}
+
+// Domaine lisible du referrer (l'URL complete est dans le title au survol).
+function referrerHost(url: string): string {
+  try {
+    return new URL(url).hostname.replace(/^www\./, '')
+  } catch {
+    return url
+  }
 }
 
 export default async function AdminGuideLeadsPage({
@@ -79,112 +90,125 @@ export default async function AdminGuideLeadsPage({
     }) as never
   }
 
+  const csvHref = `/admin/guide-leads?format=csv${params.source ? `&source=${encodeURIComponent(params.source)}` : ''}`
+
   return (
     <>
-      <Topbar
-        crumbs={[
-          { label: 'Candidatures', href: '/admin/inscriptions' },
-          { label: 'Leads Guide' },
-        ]}
-      />
+      <Topbar nav="guide-leads" />
+      <main className="adm-container">
+        <h1 className="adm-h1">Leads Guide Caucase</h1>
+        <p className="adm-h-meta">
+          {leads.length} lead{leads.length > 1 ? 's' : ''}
+          {params.source ? ` sur la source « ${params.source} »` : ' au total (500 max affichés)'}
+          {sources.length > 1 && ` · ${sources.length} sources`}
+        </p>
 
-      <div className="adm-container">
-        <div className="adm-h-meta">
-          <h1 className="adm-h1">Leads Guide Caucase</h1>
-          <p style={{ color: 'var(--adm-text-muted, #94a3b8)', margin: '0.25rem 0 0' }}>
-            {leads.length} {leads.length > 1 ? 'leads captés' : 'lead capté'}
-            {params.source ? ` sur la source « ${params.source} »` : ' au total (500 max affichés)'}
-            {sources.length > 1 && ` · ${sources.length} sources distinctes`}
-          </p>
-        </div>
+        {error && (
+          <div
+            style={{
+              margin: '1.25rem 0',
+              padding: '0.85rem 1rem',
+              borderRadius: '10px',
+              border: '1px solid rgba(239, 68, 68, 0.3)',
+              background: 'rgba(239, 68, 68, 0.06)',
+              color: 'var(--adm-status-refusee)',
+              fontSize: '0.85rem',
+            }}
+          >
+            Erreur Supabase : {error.message}
+          </div>
+        )}
 
-        <div className="adm-toolbar" style={{ flexWrap: 'wrap', gap: '0.75rem' }}>
+        <div className="adm-toolbar" style={{ marginTop: '1.25rem' }}>
           <div className="adm-filter-row">
-            <span className="adm-filter-row-label">Source :</span>
+            <span className="adm-filter-row-label">Source</span>
             <Link
               href="/admin/guide-leads"
-              className="adm-filter-chip"
-              data-active={!params.source}
-              style={{ background: !params.source ? 'var(--adm-accent, #E11D2A)' : 'var(--adm-surface-2, #1e293b)', color: !params.source ? '#fff' : 'var(--adm-text, #cbd5e1)' }}
+              className={!params.source ? 'adm-pill adm-pill--active' : 'adm-pill'}
             >
               Toutes
             </Link>
-            {sources.map(s => (
+            {sources.map((s) => (
               <Link
                 key={s}
                 href={`/admin/guide-leads?source=${encodeURIComponent(s)}`}
-                className="adm-filter-chip"
-                data-active={params.source === s}
-                style={{ background: params.source === s ? 'var(--adm-accent, #E11D2A)' : 'var(--adm-surface-2, #1e293b)', color: params.source === s ? '#fff' : 'var(--adm-text, #cbd5e1)' }}
+                className={params.source === s ? 'adm-pill adm-pill--active' : 'adm-pill'}
               >
                 {s}
               </Link>
             ))}
+            <a
+              href={csvHref}
+              download
+              className="adm-pill"
+              style={{ marginLeft: 'auto', gap: '0.4rem' }}
+              title="Télécharge les leads affichés en CSV"
+            >
+              <Icon name="file-text" size={13} strokeWidth={2.2} />
+              Export CSV
+            </a>
           </div>
-          <a
-            href={`/admin/guide-leads?format=csv${params.source ? `&source=${encodeURIComponent(params.source)}` : ''}`}
-            style={{
-              padding: '0.5rem 0.9rem',
-              borderRadius: '6px',
-              background: 'var(--adm-accent, #E11D2A)',
-              color: '#fff',
-              textDecoration: 'none',
-              fontFamily: "'Roboto Condensed', sans-serif",
-              fontWeight: 700,
-              fontSize: '0.85rem',
-              letterSpacing: '0.05em',
-              textTransform: 'uppercase',
-            }}
-            download
-          >
-            Export CSV
-          </a>
         </div>
 
-        {error && (
-          <p style={{ color: 'crimson', padding: '1rem 0' }}>Erreur DB : {error.message}</p>
-        )}
-
         {leads.length === 0 ? (
-          <div style={{ padding: '3rem 0', textAlign: 'center', color: 'var(--adm-text-muted, #94a3b8)' }}>
-            <p>Aucun lead pour ce filtre.</p>
+          <div className="adm-list-empty" style={{ marginTop: '1rem' }}>
+            <div className="adm-list-empty-icon" aria-hidden="true" style={{ color: 'var(--adm-text-muted)', fontSize: 'inherit' }}>
+              <Icon name="inbox" size={40} strokeWidth={1.6} />
+            </div>
+            <p className="adm-list-empty-title">Aucun lead pour ce filtre</p>
+            <p style={{ margin: 0, fontSize: '0.85rem' }}>
+              Les emails capturés par le formulaire du guide apparaîtront ici.
+            </p>
           </div>
         ) : (
-          <div style={{ overflowX: 'auto', background: 'var(--adm-surface, #0f172a)', borderRadius: '8px' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem' }}>
+          <div className="adm-table-wrap">
+            <table className="adm-table">
               <thead>
-                <tr style={{ background: 'var(--adm-surface-2, #1e293b)', textAlign: 'left' }}>
-                  <th style={{ padding: '0.75rem 1rem', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--adm-text-muted, #94a3b8)' }}>Date</th>
-                  <th style={{ padding: '0.75rem 1rem', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--adm-text-muted, #94a3b8)' }}>Email</th>
-                  <th style={{ padding: '0.75rem 1rem', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--adm-text-muted, #94a3b8)' }}>Source</th>
-                  <th style={{ padding: '0.75rem 1rem', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--adm-text-muted, #94a3b8)' }}>UTM</th>
-                  <th style={{ padding: '0.75rem 1rem', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--adm-text-muted, #94a3b8)' }}>Referrer</th>
-                  <th style={{ padding: '0.75rem 1rem', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--adm-text-muted, #94a3b8)' }}>IP</th>
+                <tr>
+                  <th>Date</th>
+                  <th>Email</th>
+                  <th>Source</th>
+                  <th>UTM</th>
+                  <th>Referrer</th>
+                  <th>IP</th>
                 </tr>
               </thead>
               <tbody>
-                {leads.map((lead, i) => (
-                  <tr key={lead.id} style={{ borderTop: i > 0 ? '1px solid var(--adm-surface-2, #1e293b)' : 'none' }}>
-                    <td style={{ padding: '0.75rem 1rem', whiteSpace: 'nowrap', color: 'var(--adm-text-muted, #94a3b8)', fontSize: '0.85rem' }}>{formatDate(lead.created_at)}</td>
-                    <td style={{ padding: '0.75rem 1rem' }}><a href={`mailto:${lead.email}`} style={{ color: 'var(--adm-text, #cbd5e1)', textDecoration: 'none' }}>{lead.email}</a></td>
-                    <td style={{ padding: '0.75rem 1rem', fontSize: '0.85rem' }}>{lead.source}</td>
-                    <td style={{ padding: '0.75rem 1rem', fontSize: '0.8rem', color: 'var(--adm-text-muted, #94a3b8)' }}>
+                {leads.map((lead) => (
+                  <tr key={lead.id}>
+                    <td style={{ whiteSpace: 'nowrap', color: 'var(--adm-text-muted)', fontSize: '0.82rem', fontVariantNumeric: 'tabular-nums' }}>
+                      {formatDate(lead.created_at)}
+                    </td>
+                    <td>
+                      <a href={`mailto:${lead.email}`} style={{ color: 'var(--adm-text-primary)' }}>
+                        {lead.email}
+                      </a>
+                      {lead.locale === 'en' && (
+                        <span style={{ marginLeft: '0.45rem', display: 'inline-flex', verticalAlign: 'middle' }} title="Lead capté sur le site EN">
+                          <Badge color="#3b82f6">EN</Badge>
+                        </span>
+                      )}
+                    </td>
+                    <td style={{ fontSize: '0.82rem' }}>{lead.source}</td>
+                    <td style={{ fontSize: '0.78rem', color: 'var(--adm-text-muted)' }}>
                       {lead.utm_source && <div>src : {lead.utm_source}</div>}
                       {lead.utm_medium && <div>med : {lead.utm_medium}</div>}
                       {lead.utm_campaign && <div>cmp : {lead.utm_campaign}</div>}
                       {!lead.utm_source && !lead.utm_medium && !lead.utm_campaign && <span>·</span>}
                     </td>
-                    <td style={{ padding: '0.75rem 1rem', fontSize: '0.75rem', color: 'var(--adm-text-muted, #94a3b8)', maxWidth: '200px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                      {lead.referrer || '·'}
+                    <td style={{ fontSize: '0.78rem', color: 'var(--adm-text-muted)' }} title={lead.referrer ?? undefined}>
+                      {lead.referrer ? referrerHost(lead.referrer) : '·'}
                     </td>
-                    <td style={{ padding: '0.75rem 1rem', fontSize: '0.75rem', color: 'var(--adm-text-muted, #94a3b8)' }}>{lead.ip || '·'}</td>
+                    <td style={{ fontSize: '0.78rem', color: 'var(--adm-text-muted)', fontVariantNumeric: 'tabular-nums', whiteSpace: 'nowrap' }}>
+                      {lead.ip || '·'}
+                    </td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
         )}
-      </div>
+      </main>
     </>
   )
 }

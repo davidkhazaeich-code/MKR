@@ -84,11 +84,13 @@ function formatEuro(cents: number): string {
   return `${euros.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €`
 }
 
+// Libelles alignes sur le site public (messages/fr/data.registration-types.json) :
+// « Club et Groupe », jamais d'esperluette.
 const TUNNEL_LABEL: Record<TunnelType, string> = {
   session: 'MKR Camp 2026',
   custom: 'Sur Mesure',
   famille: 'Famille',
-  groupe: 'Club & Groupe',
+  groupe: 'Club et Groupe',
 }
 
 const TUNNEL_COLOR: Record<TunnelType, string> = {
@@ -444,11 +446,14 @@ export default function InscriptionsList({ rows }: { rows: Row[] }) {
       ) : (
         <ul className="adm-list" style={{ listStyle: 'none', padding: 0, margin: '1rem 0 0' }}>
           {filtered.map((row, i) => (
-            <li key={row.id} style={{ animationDelay: `${Math.min(i, 8) * 30}ms` }}>
+            <li key={row.id}>
               <CandidatureRow
                 row={row}
                 focused={focusedIdx === i}
                 mounted={mounted}
+                // Stagger d'apparition : le delay doit etre sur .adm-list-item
+                // (l'element anime), pas sur le <li> parent ou il est sans effet.
+                animationDelay={`${Math.min(i, 8) * 30}ms`}
                 rowRef={(el) => {
                   itemRefs.current[i] = el
                 }}
@@ -493,12 +498,14 @@ function CandidatureRow({
   row,
   focused,
   mounted,
+  animationDelay,
   rowRef,
   onMouseEnter,
 }: {
   row: Row
   focused: boolean
   mounted: boolean
+  animationDelay: string
   rowRef: (el: HTMLAnchorElement | null) => void
   onMouseEnter: () => void
 }) {
@@ -518,7 +525,7 @@ function CandidatureRow({
       href={`/admin/inscriptions/${row.id}`}
       className={focused ? 'adm-list-item adm-list-item--focused' : 'adm-list-item'}
       onMouseEnter={onMouseEnter}
-      style={{ ['--adm-list-status-color' as string]: STATUS_COLOR[row.status] }}
+      style={{ ['--adm-list-status-color' as string]: STATUS_COLOR[row.status], animationDelay }}
     >
       <div className="adm-list-row">
         <Avatar prenom={c?.prenom ?? '?'} nom={c?.nom ?? ''} seed={row.id} />

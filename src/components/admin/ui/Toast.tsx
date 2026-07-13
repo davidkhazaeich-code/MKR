@@ -24,10 +24,10 @@ export function useToast(): ToastContextValue {
   return ctx
 }
 
-const VARIANT_CONFIG: Record<ToastVariant, { color: string; icon: 'check' | 'x' | 'alert-triangle' }> = {
+const VARIANT_CONFIG: Record<ToastVariant, { color: string; icon: 'check' | 'alert-triangle' | 'check-circle' }> = {
   success: { color: 'var(--adm-status-validee)', icon: 'check' },
   error: { color: 'var(--adm-status-refusee)', icon: 'alert-triangle' },
-  info: { color: 'var(--adm-brand)', icon: 'check-circle' as 'check' },
+  info: { color: 'var(--adm-brand)', icon: 'check-circle' },
 }
 
 export function ToastProvider({ children }: { children: React.ReactNode }) {

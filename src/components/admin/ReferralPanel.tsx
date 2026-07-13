@@ -1,8 +1,10 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useTransition } from 'react'
+import { useRouter } from 'next/navigation'
 import Badge from './ui/Badge'
 import Icon from './ui/Icon'
+import { useToast } from './ui/Toast'
 
 type ReferralPayoutStatus = 'not_applicable' | 'pending' | 'due' | 'paid' | 'cancelled'
 type ReferralPayoutMethod = 'virement' | 'cash' | 'autre'
@@ -58,6 +60,9 @@ function formatDateFr(iso: string): string {
 }
 
 export default function ReferralPanel(props: Props) {
+  const router = useRouter()
+  const toast = useToast()
+  const [, startTransition] = useTransition()
   const [showPayModal, setShowPayModal] = useState(false)
   const [showRevertConfirm, setShowRevertConfirm] = useState(false)
   const [payDate, setPayDate] = useState(new Date().toISOString().slice(0, 10))
@@ -87,7 +92,7 @@ export default function ReferralPanel(props: Props) {
   const statusLabel = STATUS_LABEL[statusKey] ?? statusKey
   const statusColor = STATUS_COLOR[statusKey] ?? 'var(--adm-text-muted)'
 
-  async function patch(body: Record<string, unknown>) {
+  async function patch(body: Record<string, unknown>, successMessage: string) {
     setSubmitting(true)
     setError(null)
     try {
@@ -100,7 +105,13 @@ export default function ReferralPanel(props: Props) {
       if (!res.ok || !data.ok) {
         throw new Error(data.error || `HTTP ${res.status}`)
       }
-      window.location.reload()
+      // Soft refresh (props server resynchronisees) : pas de location.reload,
+      // qui perdait le scroll et rechargeait tout le dashboard.
+      setShowPayModal(false)
+      setShowRevertConfirm(false)
+      setSubmitting(false)
+      toast.show(successMessage, 'success')
+      startTransition(() => router.refresh())
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Erreur inconnue')
       setSubmitting(false)
@@ -112,7 +123,7 @@ export default function ReferralPanel(props: Props) {
       referral_payout_status: 'paid',
       referral_payout_paid_at: payDate,
       referral_payout_method: payMethod,
-    })
+    }, 'Bonus marqué payé')
   }
 
   async function revertPaid() {
@@ -120,7 +131,7 @@ export default function ReferralPanel(props: Props) {
       referral_payout_status: 'due',
       referral_payout_paid_at: null,
       referral_payout_method: null,
-    })
+    }, 'Paiement du bonus annulé (repasse À payer)')
   }
 
   const partnerTypeLabel = props.referralPartnerType
@@ -186,6 +197,18 @@ export default function ReferralPanel(props: Props) {
           <dd className="adm-def-val">
             {props.referralBonusEur !== null ? (
               <strong>{props.referralBonusEur} €</strong>
+            ) : props.referralCommissionType === 'percent'
+              && props.referralCommissionPct
+              && props.packageAmountCents
+              && props.packageAmountCents > 0 ? (
+              // CA connu mais commission pas encore due : montrer la projection
+              // (elle sera figée automatiquement au passage en Soldée).
+              <span>
+                ~{Math.round((props.referralCommissionPct * props.packageAmountCents) / 10000)} €
+                <span style={{ color: 'var(--adm-text-muted)', marginLeft: '0.35rem', fontSize: '0.82rem' }}>
+                  estimée, figée à la soldée
+                </span>
+              </span>
             ) : props.referralCommissionType === 'percent' ? (
               <span style={{ color: 'var(--adm-status-reportee)', display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}>
                 <Icon name="alert-triangle" size={13} strokeWidth={2.4} />

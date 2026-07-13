@@ -2,6 +2,8 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { getSupabaseAdmin } from '@/lib/supabase-admin'
 import Topbar from '@/components/admin/ui/Topbar'
+import Badge from '@/components/admin/ui/Badge'
+import Icon from '@/components/admin/ui/Icon'
 import { REFERRAL_CODES, affiliateLink } from '@/data/referral-codes'
 import ReferralLinks, { type ReferralLinkItem } from '@/components/admin/ReferralLinks'
 
@@ -155,11 +157,13 @@ const TYPE_LABEL: Record<string, string> = {
   other: 'Autre',
 }
 
+// Meme palette que le badge referral de la liste (InscriptionsList.tsx) :
+// gym vert / influencer violet / coach orange.
 const TYPE_COLOR: Record<string, string> = {
-  gym: 'var(--adm-tunnel-session, #3b82f6)',
-  influencer: 'var(--adm-tunnel-custom, #8b5cf6)',
-  coach: 'var(--adm-status-validee, #10b981)',
-  other: 'var(--adm-text-muted, #6b7280)',
+  gym: '#4ade80',
+  influencer: '#a78bfa',
+  coach: '#f59e0b',
+  other: 'var(--adm-text-muted)',
 }
 
 export default async function AdminReferralsPage() {
@@ -186,7 +190,7 @@ export default async function AdminReferralsPage() {
 
   return (
     <>
-      <Topbar crumbs={[{ label: 'Candidatures', href: '/admin/inscriptions' }, { label: 'Partenaires referral' }]} />
+      <Topbar nav="referrals" />
       <main className="adm-container">
         <h1 className="adm-h1">Partenaires referral</h1>
         <p className="adm-h-meta">
@@ -219,19 +223,19 @@ export default async function AdminReferralsPage() {
             margin: '1.5rem 0 2rem',
           }}
         >
-          <div className="adm-stat-card">
+          <div className="adm-stat-card" style={{ ['--adm-stat-accent' as string]: 'var(--adm-status-recue)' }}>
             <div className="adm-stat-label">À payer</div>
-            <div className="adm-stat-value" style={{ color: '#f59e0b' }}>{formatEur(totalDue)}</div>
+            <div className="adm-stat-value" style={{ color: 'var(--adm-status-recue)' }}>{formatEur(totalDue)}</div>
           </div>
-          <div className="adm-stat-card">
+          <div className="adm-stat-card" style={{ ['--adm-stat-accent' as string]: 'var(--adm-status-validee)' }}>
             <div className="adm-stat-label">Déjà payé</div>
-            <div className="adm-stat-value" style={{ color: '#10b981' }}>{formatEur(totalPaid)}</div>
+            <div className="adm-stat-value" style={{ color: 'var(--adm-status-validee)' }}>{formatEur(totalPaid)}</div>
           </div>
           <div className="adm-stat-card">
             <div className="adm-stat-label">Annulé (info)</div>
-            <div className="adm-stat-value" style={{ color: 'var(--adm-text-muted, #6b7280)' }}>{formatEur(totalCancelled)}</div>
+            <div className="adm-stat-value" style={{ color: 'var(--adm-text-muted)' }}>{formatEur(totalCancelled)}</div>
           </div>
-          <div className="adm-stat-card">
+          <div className="adm-stat-card" style={{ ['--adm-stat-accent' as string]: 'var(--adm-brand)' }}>
             <div className="adm-stat-label">Total acquis (payé + dû)</div>
             <div className="adm-stat-value">{formatEur(totalDue + totalPaid)}</div>
           </div>
@@ -244,48 +248,46 @@ export default async function AdminReferralsPage() {
             Aucune candidature avec code de recommandation pour le moment.
           </div>
         ) : (
-          <div className="adm-table-wrap" style={{ overflowX: 'auto' }}>
-            <table className="adm-table" style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.875rem' }}>
+          <div className="adm-table-wrap">
+            <table className="adm-table">
               <thead>
-                <tr style={{ borderBottom: '2px solid var(--adm-border, #1f2937)', textAlign: 'left' }}>
-                  <th style={{ padding: '0.75rem 0.5rem' }}>Code</th>
-                  <th style={{ padding: '0.75rem 0.5rem' }}>Partenaire</th>
-                  <th style={{ padding: '0.75rem 0.5rem' }}>Type</th>
-                  <th style={{ padding: '0.75rem 0.5rem' }}>Modèle</th>
-                  <th style={{ padding: '0.75rem 0.5rem', textAlign: 'right' }}>Candidatures</th>
-                  <th style={{ padding: '0.75rem 0.5rem', textAlign: 'right' }}>En attente</th>
-                  <th style={{ padding: '0.75rem 0.5rem', textAlign: 'right' }}>À payer</th>
-                  <th style={{ padding: '0.75rem 0.5rem', textAlign: 'right' }}>Payé</th>
-                  <th style={{ padding: '0.75rem 0.5rem', textAlign: 'right' }}>Annulé</th>
-                  <th style={{ padding: '0.75rem 0.5rem' }}></th>
+                <tr>
+                  <th>Code</th>
+                  <th>Partenaire</th>
+                  <th>Type</th>
+                  <th>Modèle</th>
+                  <th className="adm-table-num">Candidatures</th>
+                  <th className="adm-table-num">En attente</th>
+                  <th className="adm-table-num">À payer</th>
+                  <th className="adm-table-num">Payé</th>
+                  <th className="adm-table-num">Annulé</th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody>
                 {summaries.map((s) => (
-                  <tr key={s.code} style={{ borderBottom: '1px solid var(--adm-border-soft, rgba(255,255,255,0.05))' }}>
-                    <td style={{ padding: '0.85rem 0.5rem', fontFamily: 'var(--adm-font-mono, monospace)', fontWeight: 700 }}>
+                  <tr key={s.code}>
+                    <td className="adm-table-mono">
                       {s.code}
-                      {!s.isKnown && <span style={{ marginLeft: 6, color: '#f59e0b', fontSize: '0.7rem' }} title="Code saisi non reconnu dans data/referral-codes.ts">⚠</span>}
-                      {s.isKnown && !s.isActive && <span style={{ marginLeft: 6, color: 'var(--adm-text-muted)', fontSize: '0.7rem' }} title="Code marqué inactif dans data/referral-codes.ts (historique conservé)">○ inactif</span>}
-                    </td>
-                    <td style={{ padding: '0.85rem 0.5rem' }}>{s.partnerName}</td>
-                    <td style={{ padding: '0.85rem 0.5rem' }}>
-                      {s.partnerType && (
+                      {!s.isKnown && (
                         <span
-                          style={{
-                            padding: '2px 8px',
-                            borderRadius: '12px',
-                            background: TYPE_COLOR[s.partnerType] ?? TYPE_COLOR.other,
-                            color: '#fff',
-                            fontSize: '0.7rem',
-                            fontWeight: 600,
-                          }}
+                          style={{ marginLeft: 6, color: 'var(--adm-status-reportee)', display: 'inline-flex', verticalAlign: 'middle' }}
+                          title="Code saisi non reconnu dans data/referral-codes.ts"
                         >
-                          {TYPE_LABEL[s.partnerType] ?? s.partnerType}
+                          <Icon name="alert-triangle" size={12} strokeWidth={2.4} />
                         </span>
                       )}
+                      {s.isKnown && !s.isActive && <span style={{ marginLeft: 6, color: 'var(--adm-text-muted)', fontSize: '0.7rem', fontWeight: 400 }} title="Code marqué inactif dans data/referral-codes.ts (historique conservé)">inactif</span>}
                     </td>
-                    <td style={{ padding: '0.85rem 0.5rem', fontSize: '0.8rem' }}>
+                    <td>{s.partnerName}</td>
+                    <td>
+                      {s.partnerType && (
+                        <Badge color={TYPE_COLOR[s.partnerType] ?? TYPE_COLOR.other} dot>
+                          {TYPE_LABEL[s.partnerType] ?? s.partnerType}
+                        </Badge>
+                      )}
+                    </td>
+                    <td style={{ fontSize: '0.8rem' }}>
                       {s.commissionType === 'percent'
                         ? `${s.commissionPct ?? '?'} % du CA`
                         : s.commissionType === 'flat'
@@ -294,24 +296,25 @@ export default async function AdminReferralsPage() {
                       {s.missingAmount > 0 && (
                         <span
                           title={`${s.missingAmount} candidature(s) soldée(s) sans CA saisi : commission non calculée`}
-                          style={{ display: 'block', marginTop: 2, color: 'var(--adm-status-reportee, #f59e0b)', fontSize: '0.72rem', fontWeight: 600 }}
+                          style={{ display: 'flex', alignItems: 'center', gap: '0.3rem', marginTop: 2, color: 'var(--adm-status-reportee)', fontSize: '0.72rem', fontWeight: 600 }}
                         >
-                          ⚠ {s.missingAmount} CA à saisir
+                          <Icon name="alert-triangle" size={11} strokeWidth={2.4} />
+                          {s.missingAmount} CA à saisir
                         </span>
                       )}
                     </td>
-                    <td style={{ padding: '0.85rem 0.5rem', textAlign: 'right', fontWeight: 600 }}>{s.total}</td>
-                    <td style={{ padding: '0.85rem 0.5rem', textAlign: 'right', color: 'var(--adm-text-muted)' }}>{s.pending || '-'}</td>
-                    <td style={{ padding: '0.85rem 0.5rem', textAlign: 'right', color: s.due > 0 ? '#f59e0b' : 'var(--adm-text-muted)', fontWeight: s.due > 0 ? 700 : 400 }}>
+                    <td className="adm-table-num" style={{ fontWeight: 600 }}>{s.total}</td>
+                    <td className="adm-table-num" style={{ color: 'var(--adm-text-muted)' }}>{s.pending || '-'}</td>
+                    <td className="adm-table-num" style={{ color: s.due > 0 ? 'var(--adm-status-recue)' : 'var(--adm-text-muted)', fontWeight: s.due > 0 ? 700 : 400 }}>
                       {s.due > 0 ? `${s.due} · ${formatEur(s.amountDue)}` : '-'}
                     </td>
-                    <td style={{ padding: '0.85rem 0.5rem', textAlign: 'right', color: s.paid > 0 ? '#10b981' : 'var(--adm-text-muted)' }}>
+                    <td className="adm-table-num" style={{ color: s.paid > 0 ? 'var(--adm-status-validee)' : 'var(--adm-text-muted)' }}>
                       {s.paid > 0 ? `${s.paid} · ${formatEur(s.amountPaid)}` : '-'}
                     </td>
-                    <td style={{ padding: '0.85rem 0.5rem', textAlign: 'right', color: 'var(--adm-text-muted)' }}>
+                    <td className="adm-table-num" style={{ color: 'var(--adm-text-muted)' }}>
                       {s.cancelled > 0 ? `${s.cancelled} · ${formatEur(s.amountCancelled)}` : '-'}
                     </td>
-                    <td style={{ padding: '0.85rem 0.5rem', textAlign: 'right' }}>
+                    <td className="adm-table-num">
                       <Link
                         href={`/admin/inscriptions?referralCode=${encodeURIComponent(s.code)}`}
                         className="adm-btn adm-btn--ghost"
@@ -324,13 +327,13 @@ export default async function AdminReferralsPage() {
                 ))}
               </tbody>
               <tfoot>
-                <tr style={{ borderTop: '2px solid var(--adm-border, #1f2937)', fontWeight: 700 }}>
-                  <td style={{ padding: '0.85rem 0.5rem' }} colSpan={4}>Total</td>
-                  <td style={{ padding: '0.85rem 0.5rem', textAlign: 'right' }}>{totalCandidatures}</td>
-                  <td style={{ padding: '0.85rem 0.5rem', textAlign: 'right' }}>-</td>
-                  <td style={{ padding: '0.85rem 0.5rem', textAlign: 'right', color: '#f59e0b' }}>{formatEur(totalDue)}</td>
-                  <td style={{ padding: '0.85rem 0.5rem', textAlign: 'right', color: '#10b981' }}>{formatEur(totalPaid)}</td>
-                  <td style={{ padding: '0.85rem 0.5rem', textAlign: 'right', color: 'var(--adm-text-muted)' }}>{formatEur(totalCancelled)}</td>
+                <tr>
+                  <td colSpan={4}>Total</td>
+                  <td className="adm-table-num">{totalCandidatures}</td>
+                  <td className="adm-table-num">-</td>
+                  <td className="adm-table-num" style={{ color: 'var(--adm-status-recue)' }}>{formatEur(totalDue)}</td>
+                  <td className="adm-table-num" style={{ color: 'var(--adm-status-validee)' }}>{formatEur(totalPaid)}</td>
+                  <td className="adm-table-num" style={{ color: 'var(--adm-text-muted)' }}>{formatEur(totalCancelled)}</td>
                   <td></td>
                 </tr>
               </tfoot>

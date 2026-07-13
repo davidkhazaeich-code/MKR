@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
 import { getSupabaseAdmin } from '@/lib/supabase-admin'
 import InscriptionsList from '@/components/admin/InscriptionsList'
 import StatsBand from '@/components/admin/StatsBand'
@@ -25,11 +26,12 @@ export const metadata: Metadata = {
 
 type TunnelType = 'session' | 'custom' | 'famille' | 'groupe'
 
+// Libelles alignes sur le site public : « Club et Groupe », pas d'esperluette.
 const TUNNEL_LABEL: Record<TunnelType, string> = {
   session: 'MKR Camp 2026',
   custom: 'Sur Mesure',
   famille: 'Famille',
-  groupe: 'Club & Groupe',
+  groupe: 'Club et Groupe',
 }
 
 const TUNNEL_COLOR: Record<TunnelType, string> = {
@@ -171,7 +173,7 @@ export default async function AdminInscriptionsPage({
   if (configError) {
     return (
       <>
-        <Topbar />
+        <Topbar nav="inscriptions" />
         <div className="adm-container">
           <h1 className="adm-h1">Candidatures MKR</h1>
           <p style={{ color: 'var(--adm-status-refusee)' }}>Configuration manquante : {configError}</p>
@@ -255,16 +257,13 @@ export default async function AdminInscriptionsPage({
 
   return (
     <>
-      <Topbar crumbs={[{ label: 'Candidatures' }]} />
+      <Topbar nav="inscriptions" />
       <main className="adm-container">
         <h1 className="adm-h1">Candidatures</h1>
         <p className="adm-h-meta">
           {total} dossier{total > 1 ? 's' : ''} au total · Mis à jour à {generatedAt}{' '}
+          {/* Vrai <a> : rechargement complet voulu (les <Link> soft-nav suffisent partout ailleurs) */}
           <a href="/admin/inscriptions">↻ Rafraîchir</a>
-          {' · '}
-          <a href="/admin/referrals">Partenaires referral</a>
-          {' · '}
-          <a href="/admin/guide-leads">Voir les leads Guide Caucase</a>
         </p>
 
         <StatsBand countsByStatus={statusCounts} staleVisioCount={staleVisioCount} total={total} />
@@ -291,15 +290,15 @@ export default async function AdminInscriptionsPage({
           {/* === Session filter (en premier — c'est le plus impactant business) === */}
           <div className="adm-filter-row">
             <span className="adm-filter-row-label">Session</span>
-            <a
+            <Link
               href={buildHref({ session: undefined })}
               className={!params.session ? 'adm-pill adm-pill--active' : 'adm-pill'}
             >
               Toutes
               <span style={{ color: 'var(--adm-text-faint)', fontWeight: 500 }}>{total}</span>
-            </a>
+            </Link>
             {upcomingIds.length > 0 && (
-              <a
+              <Link
                 href={buildHref({ session: SESSION_UPCOMING })}
                 data-accent
                 className={params.session === SESSION_UPCOMING ? 'adm-pill adm-pill--active' : 'adm-pill'}
@@ -307,7 +306,7 @@ export default async function AdminInscriptionsPage({
               >
                 À venir
                 <span style={{ color: 'var(--adm-text-faint)', fontWeight: 500 }}>{upcomingCount}</span>
-              </a>
+              </Link>
             )}
             {sortedSessions.map((s) => {
               const isUpcoming = upcomingIds.includes(s.id)
@@ -325,7 +324,7 @@ export default async function AdminInscriptionsPage({
               const lutteFull = byDisc.lutte >= s.maxCapacity.lutte
               const mmaFull = byDisc.mma >= s.maxCapacity.mma
               return (
-                <a
+                <Link
                   key={s.id}
                   href={buildHref({ session: s.id })}
                   data-accent
@@ -356,11 +355,11 @@ export default async function AdminInscriptionsPage({
                   >
                     L {byDisc.lutte}/{s.maxCapacity.lutte} · M {byDisc.mma}/{s.maxCapacity.mma}
                   </span>
-                </a>
+                </Link>
               )
             })}
             {orphanSessionIds.map((id) => (
-              <a
+              <Link
                 key={id}
                 href={buildHref({ session: id })}
                 className={params.session === id ? 'adm-pill adm-pill--active' : 'adm-pill'}
@@ -370,30 +369,30 @@ export default async function AdminInscriptionsPage({
                 <span style={{ color: 'var(--adm-text-faint)', fontWeight: 500 }}>
                   {sessionCounts[id]}
                 </span>
-              </a>
+              </Link>
             ))}
             {nullSessionCount > 0 && (
-              <a
+              <Link
                 href={buildHref({ session: SESSION_NONE })}
                 className={params.session === SESSION_NONE ? 'adm-pill adm-pill--active' : 'adm-pill'}
                 title="Tunnels custom / famille (sur mesure) / groupe sans session officielle"
               >
                 Sur mesure
                 <span style={{ color: 'var(--adm-text-faint)', fontWeight: 500 }}>{nullSessionCount}</span>
-              </a>
+              </Link>
             )}
           </div>
 
           <div className="adm-filter-row">
             <span className="adm-filter-row-label">Tunnel</span>
-            <a
+            <Link
               href={buildHref({ tunnel: undefined })}
               className={!params.tunnel ? 'adm-pill adm-pill--active' : 'adm-pill'}
             >
               Tous
-            </a>
+            </Link>
             {TUNNELS.map((t) => (
-              <a
+              <Link
                 key={t}
                 href={buildHref({ tunnel: t })}
                 data-accent
@@ -404,19 +403,19 @@ export default async function AdminInscriptionsPage({
                 <span style={{ color: 'var(--adm-text-faint)', fontWeight: 500 }}>
                   {tunnelCounts[t] || 0}
                 </span>
-              </a>
+              </Link>
             ))}
           </div>
 
           <div className="adm-filter-row">
             <span className="adm-filter-row-label">Discipline</span>
-            <a
+            <Link
               href={buildHref({ discipline: undefined })}
               className={!params.discipline ? 'adm-pill adm-pill--active' : 'adm-pill'}
             >
               Toutes
-            </a>
-            <a
+            </Link>
+            <Link
               href={buildHref({ discipline: 'lutte' })}
               className={params.discipline === 'lutte' ? 'adm-pill adm-pill--active' : 'adm-pill'}
               data-accent
@@ -425,8 +424,8 @@ export default async function AdminInscriptionsPage({
             >
               Lutte
               <span style={{ color: 'var(--adm-text-faint)', fontWeight: 500 }}>{disciplineCounts.lutte}</span>
-            </a>
-            <a
+            </Link>
+            <Link
               href={buildHref({ discipline: 'mma' })}
               className={params.discipline === 'mma' ? 'adm-pill adm-pill--active' : 'adm-pill'}
               data-accent
@@ -435,8 +434,8 @@ export default async function AdminInscriptionsPage({
             >
               MMA
               <span style={{ color: 'var(--adm-text-faint)', fontWeight: 500 }}>{disciplineCounts.mma}</span>
-            </a>
-            <a
+            </Link>
+            <Link
               href={buildHref({ discipline: 'combo_quote' })}
               className={params.discipline === 'combo_quote' ? 'adm-pill adm-pill--active' : 'adm-pill'}
               data-accent
@@ -445,22 +444,22 @@ export default async function AdminInscriptionsPage({
             >
               Combo
               <span style={{ color: 'var(--adm-text-faint)', fontWeight: 500 }}>{disciplineCounts.combo_quote}</span>
-            </a>
+            </Link>
           </div>
 
           {sourcesWithData.length > 0 && (
             <div className="adm-filter-row">
               <span className="adm-filter-row-label">Source</span>
-              <a
+              <Link
                 href={buildHref({ source: undefined })}
                 className={!params.source ? 'adm-pill adm-pill--active' : 'adm-pill'}
               >
                 Toutes
-              </a>
+              </Link>
               {sourcesWithData.map((s) => {
                 const src = s as AttributionSource
                 return (
-                  <a
+                  <Link
                     key={s}
                     href={buildHref({ source: s })}
                     data-accent
@@ -470,7 +469,7 @@ export default async function AdminInscriptionsPage({
                   >
                     {ATTRIBUTION_SOURCE_LABEL[src]}
                     <span style={{ color: 'var(--adm-text-faint)', fontWeight: 500 }}>{sourceCounts[s]}</span>
-                  </a>
+                  </Link>
                 )
               })}
             </div>
@@ -478,20 +477,20 @@ export default async function AdminInscriptionsPage({
 
           <div className="adm-filter-row">
             <span className="adm-filter-row-label">Statut</span>
-            <a
+            <Link
               href={buildHref({ status: undefined })}
               className={!params.status ? 'adm-pill adm-pill--active' : 'adm-pill'}
             >
               Tous
-            </a>
+            </Link>
             {STATUS_VALUES.map((s) => (
-              <a
+              <Link
                 key={s}
                 href={buildHref({ status: s })}
                 className={params.status === s ? 'adm-pill adm-pill--active' : 'adm-pill'}
               >
                 {STATUS_LABEL[s]}
-              </a>
+              </Link>
             ))}
           </div>
         </div>

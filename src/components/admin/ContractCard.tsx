@@ -677,7 +677,7 @@ export default function ContractCard(props: ContractCardProps) {
           `Séjour : ${start ? formatDateFr(start) : '—'} → ${end ? formatDateFr(end) : '—'}`,
           `Montant : ${amountLabel ?? '—'} · à régler avant le ${deadline ? formatDateFr(deadline) : '—'}`,
           '',
-          `Copie exacte en bcc à contact@mkrcamp.com + PDF archivé.${isResend ? `\n\n⚠️ Renvoi : le candidat recevra une nouvelle version (v${sentCount + 1}).` : ''}`,
+          `Copie exacte en bcc à contact@mkrcamp.com + PDF archivé.${isResend ? `\n\nRenvoi : le candidat recevra une nouvelle version (v${sentCount + 1}).` : ''}`,
         ].join('\n')}
         confirmLabel={isResend ? 'Renvoyer' : 'Envoyer'}
         cancelLabel="Annuler"
