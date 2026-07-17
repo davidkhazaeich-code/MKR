@@ -567,9 +567,41 @@ h1, h2, h3, h4, h5 {
 }
 .hero-ctas {
   display: flex;
+  align-items: center;
   gap: 1rem;
   flex-wrap: wrap;
   margin-bottom: 2.5rem;
+}
+
+/* CTA tertiaire : lancer le film de présentation (scroll + lecture) */
+.hero-video-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.8rem 0.4rem;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  font-family: var(--font-barlow-condensed), sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  transition: color 0.2s linear;
+}
+.hero-video-btn svg { transition: transform 0.25s var(--ease-out-expo); }
+.hero-video-btn span {
+  border-bottom: 1px solid var(--ghost-border);
+  padding-bottom: 2px;
+  transition: border-color 0.2s linear;
+}
+.hero-video-btn:hover { color: var(--primary); }
+.hero-video-btn:hover svg { transform: scale(1.15); }
+.hero-video-btn:hover span { border-bottom-color: var(--primary); }
+.hero-video-btn:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
 }
 
 /* Buttons */
@@ -945,6 +977,64 @@ h1, h2, h3, h4, h5 {
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--text-muted);
+}
+
+/* Real video player (film du camp) */
+.video-section-sub {
+  max-width: 560px;
+  margin-top: 1.2rem;
+  color: var(--text-secondary);
+  font-size: 1rem;
+  line-height: 1.65;
+}
+.video-real {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  transition: transform 0.5s var(--ease-out-expo);
+}
+.video-main--player:not(.is-started):hover .video-real { transform: scale(1.02); }
+.video-main--player.is-started { cursor: default; }
+.video-start-btn {
+  border: 0;
+  font: inherit;
+  cursor: pointer;
+  /* Scrim léger par-dessus le poster (remplace le motif crosshatch du placeholder) */
+  background: linear-gradient(rgba(14,14,14,0.08) 45%, rgba(14,14,14,0.55));
+  /* Play + légende ancrés en bas pour laisser la title card du film lisible */
+  justify-content: flex-end;
+  padding-bottom: 2.4rem;
+}
+@media (max-width: 600px) {
+  .video-start-btn { padding-bottom: 1.2rem; gap: 0.8rem; }
+  .video-start-btn .play-btn { width: 54px; height: 54px; }
+  /* La vignette 16:9 est petite en mobile : play + durée suffisent */
+  .video-start-btn .video-caption { display: none; }
+}
+.video-start-btn:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: -2px;
+}
+.video-start-btn .play-btn {
+  background: rgba(14,14,14,0.4);
+  backdrop-filter: blur(4px);
+}
+.video-start-btn .video-caption { color: var(--text-primary); }
+.video-duration {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-family: var(--font-barlow-condensed), sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  background: rgba(14,14,14,0.55);
+  border: 1px solid var(--ghost-border);
+  padding: 0.35rem 0.6rem;
 }
 
 /* Video highlights strip */
@@ -4596,11 +4686,14 @@ h1, h2, h3, h4, h5 {
   #cta-final { padding-top: calc(11rem + 6vw); }
 }
 
-/* ── Hero → Video : transition plus profonde pour couvrir la base des montagnes SVG ── */
+/* ── Hero → Video : pas d'overlap négatif (le hero actuel finit sur stats + carte
+   session, un margin-top négatif les recouvrirait). La crête clip-path dessine
+   seule la transition, padding-top compense sa profondeur (9vw). ── */
 #video-section {
   z-index: 2;
-  margin-top: -10vw;
-  padding-top: calc(9rem + 11vw);
+  margin-top: 0;
+  padding-top: calc(4rem + 9vw);
+  padding-bottom: 7rem;
   clip-path: polygon(
     0 9vw, 5% 5vw, 11% 8vw, 17% 3vw, 23% 7.5vw, 29% 1.5vw,
     35% 6vw, 41% 2.5vw, 47% 7vw, 53% 1vw, 59% 6.5vw,

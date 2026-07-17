@@ -9,6 +9,7 @@
     "subtitle": "Camp d'entraînement au cœur du Caucase. Lutte au Daghestan, MMA en Tchétchénie. Tu n'as qu'à préparer ton sac, MKR organise tout.",
     "cta_primary": "POSTULER AU CAMP",
     "cta_secondary": "DÉCOUVRIR LE CAMP",
+    "cta_video": "VOIR LA VIDÉO DE PRÉSENTATION",
     "stats": {
       "destinations_value": "2",
       "destinations_label_desktop": "Destinations · Daghestan, Tchétchénie",
@@ -21,6 +22,17 @@
     "carousel_aria": "Prochaines sessions",
     "carousel_dot_aria": "Session {n}",
     "carousel_cta": "S'inscrire →"
+  },
+  "video_section": {
+    "label": "LE FILM DU CAMP",
+    "title_line1": "CE QUI T'ATTEND",
+    "title_line2_prefix": "",
+    "title_line2_highlight": "LÀ-BAS",
+    "subtitle": "Le film du camp, tourné sur place : les salles, les coachs, le cadre. Rien n'est mis en scène.",
+    "play_caption": "Découvre l'immersion en vidéo",
+    "duration": "1:38",
+    "play_aria": "Lancer le film de présentation du camp",
+    "video_aria": "Film de présentation du MKR Caucasian Camp"
   },
   "audience_switcher": {
     "label": "QUATRE FAÇONS DE VENIR",

@@ -9,6 +9,7 @@
     "subtitle": "Training camp at the heart of the Caucasus. Wrestling in Dagestan, MMA in Chechnya. Just pack your bag, MKR handles everything.",
     "cta_primary": "APPLY TO THE CAMP",
     "cta_secondary": "DISCOVER THE CAMP",
+    "cta_video": "WATCH THE PRESENTATION VIDEO",
     "stats": {
       "destinations_value": "2",
       "destinations_label_desktop": "Destinations · Dagestan, Chechnya",
@@ -21,6 +22,17 @@
     "carousel_aria": "Next sessions",
     "carousel_dot_aria": "Session {n}",
     "carousel_cta": "Apply now →"
+  },
+  "video_section": {
+    "label": "THE CAMP FILM",
+    "title_line1": "WHAT AWAITS YOU",
+    "title_line2_prefix": "",
+    "title_line2_highlight": "OVER THERE",
+    "subtitle": "The camp film, shot on location: the gyms, the coaches, the setting. Nothing is staged.",
+    "play_caption": "Watch the immersion film",
+    "duration": "1:38",
+    "play_aria": "Play the camp presentation film",
+    "video_aria": "MKR Caucasian Camp presentation film"
   },
   "audience_switcher": {
     "label": "FOUR WAYS TO COME",

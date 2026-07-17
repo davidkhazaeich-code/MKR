@@ -1,7 +1,29 @@
 # SITEMAP MKR Caucasian Camp — Cartographie complète
 
-> **Fichier de référence pour Claude Code.** Mise à jour : 2026-07-13 (admin : audit UX/UI complet du back office + fixes).
+> **Fichier de référence pour Claude Code.** Mise à jour : 2026-07-17 (homepage : film de présentation en section 2 + CTA hero).
 > Lis ce fichier en priorité avant toute intervention sur le site MKR. Il évite de re-explorer.
+
+## 🆕 2026-07-17 (homepage : film de présentation officiel en section 2 + CTA hero « voir la vidéo », FR only)
+
+> **Demande David** : intégrer le film de présentation du camp (montage pro 1 min 38, sous-titres FR incrustés, voix off FR) en 2e section de la home, + un bouton dans le hero « voir la vidéo de présentation » qui scrolle vers la section et lance la lecture. Vidéo FR uniquement pour l'instant : **section et bouton masqués sur /en** (`locale === 'fr'` dans `page.tsx` et `Hero.tsx`) en attendant la version EN.
+
+**Assets** (source 4K 905 Mo compressée ffmpeg CRF 25 1080p `+faststart`) :
+- `public/videos/presentation-camp.mp4` (36 Mo, H.264 1080p, ~3 Mbps, chargé uniquement au clic via `preload="none"`)
+- `public/videos/presentation-camp-poster.jpg` (129 Ko, title card MKR « L'immersion au milieu des champions » extraite à ~91s)
+
+**`VideoSection.tsx` ravivé** (était orphelin depuis 2026-05-12, désormais LIVE et i18n `home.video_section`) : header (label « LE FILM DU CAMP » + titre « CE QUI T'ATTEND LÀ-BAS » + 1 phrase) + player 16:9 réel. Poster + bouton play ancré en bas (la title card reste lisible ; légende masquée ≤600px), badge durée 1:38. Clic → lecture **avec son** + contrôles natifs. Pause auto quand la section sort du viewport (IO threshold 0.2, pas de reprise auto), `onEnded` → `video.load()` restaure le poster. Pas de stats row (l'ancienne « 9 coachs » violerait la règle n°4).
+
+**CTA hero** : `.hero-video-btn` (tertiaire : icône play `var(--primary)` + label souligné) après btn-primary/btn-ghost dans `.hero-ctas`. Clic → `document.dispatchEvent(new Event('mkr:play-film'))` ; `VideoSection` écoute, scrolle (`scrollIntoView` smooth, `block:'center'`, reduced-motion respecté) et lance la lecture dans la foulée (le play() reste dans la fenêtre d'activation utilisateur → son autorisé pendant le scroll). **Période de grâce 2s** dans l'observer de pause, sinon il coupe la vidéo pendant le smooth scroll (la section n'est pas encore visible à l'attache de l'IO).
+
+**⚠️ CSS `#video-section` (bloc « Hero → Video » ~l.4650)** : `margin-top: -10vw` d'origine (mai) **supprimé** → `margin-top: 0` + `padding-top: calc(4rem + 9vw)` + `padding-bottom: 7rem`. L'overlap profond était calibré pour l'ancien hero à base SVG ; le hero actuel finit sur les stats + carte session carousel, que le -10vw recouvrait. Ne pas remettre d'overlap négatif ici sans vérifier le bas du hero.
+
+**Ordre home** : Hero → **VideoSection (FR only, scroll-label « Le film »)** → AudienceSwitcher → Philosophie → …
+
+**Décision contenu (David 2026-07-17)** : le film ouvre sur Khabib Nurmagomedov (+ Makhachev, Ankalaev, Sadulaev, noms incrustés). Contradiction avec la règle « pas de Khabib » de mai signalée → **David publie telle quelle** (exception assumée pour ce film ; la règle reste valable pour les contenus produits par nous : posts IG, copy site, blog).
+
+**Quand la version EN arrive** : remplacer/ajouter le mp4 + retirer les 2 gardes `locale === 'fr'` (`page.tsx` + `Hero.tsx`) ; les clés i18n EN (`home.video_section.*`, `home.hero.cta_video`) existent déjà. Si la vidéo change : ré-encoder `ffmpeg -vf scale=1920:-2 -c:v libx264 -crf 25 -preset slow -pix_fmt yuv420p -c:a aac -b:a 128k -movflags +faststart`, re-extraire le poster, mettre à jour `duration` dans les 2 locales.
+
+**QA** : i18n-check 2825 clés FR=EN · tsc 0 erreur · build compile vert · Playwright headless isolé (profil MCP verrouillé) : 1440/768/390 = 0 overflow, clic overlay → lecture unmuted + controls, clic hero → scroll centré + lecture (centerDelta 23px), pause au scroll-away, section + bouton absents sur /en.
 
 ## 🆕 2026-07-13 (admin : audit UX/UI complet du back office + fixes fonctionnels, commit 2c3deb7)
 

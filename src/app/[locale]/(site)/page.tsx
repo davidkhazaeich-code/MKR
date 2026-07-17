@@ -6,6 +6,7 @@ import type { Locale } from '@/i18n/routing'
 import { getAntoineParcoursProps } from '@/data/antoine-parcours'
 
 const AudienceSwitcher = dynamic(() => import('@/components/AudienceSwitcher'), { ssr: true })
+const VideoSection = dynamic(() => import('@/components/VideoSection'), { ssr: true })
 const FacilitatorBand = dynamic(() => import('@/components/FacilitatorBand'), { ssr: true })
 const Philosophie = dynamic(() => import('@/components/Philosophie'), { ssr: true })
 const Sessions = dynamic(() => import('@/components/Sessions'), { ssr: true })
@@ -46,6 +47,10 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
     <>
       <link rel="preload" as="video" href="/videos/hero-mountains.mp4" type="video/mp4" />
       <div data-scroll-section data-scroll-label="Accueil" className="hs-anchor"><Hero /></div>
+      {/* Film de présentation FR only pour l'instant (masqué sur /en en attendant la version EN) */}
+      {locale === 'fr' && (
+        <div data-scroll-section data-scroll-label="Le film" className="hs-anchor"><VideoSection /></div>
+      )}
       <div data-scroll-section data-scroll-label="Pour qui" className="hs-anchor"><AudienceSwitcher /></div>
       <div data-scroll-section data-scroll-label="Pourquoi le Caucase" className="hs-anchor"><Philosophie /></div>
       <div data-scroll-section data-scroll-label="Témoignages" className="hs-anchor"><Testimonials /></div>

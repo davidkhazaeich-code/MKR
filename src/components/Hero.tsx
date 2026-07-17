@@ -1,8 +1,9 @@
 'use client'
 
 import { Link } from '@/i18n/navigation'
-import { useTranslations } from 'next-intl'
+import { useLocale, useTranslations } from 'next-intl'
 import { useEffect, useRef, useState, useCallback } from 'react'
+import Icon from '@/components/Icon'
 import { SESSIONS } from '@/data/sessions'
 import { hydrateSessions } from '@/lib/session-display'
 import { MIN_PRICE_PER_ADULT_LABEL } from '@/lib/pricing-copy'
@@ -30,6 +31,7 @@ const MOBILE_BREAKPOINT_QUERY = '(max-width: 700px)'
 
 export default function Hero() {
   const t = useTranslations('home.hero')
+  const locale = useLocale()
   const heroSectionRef = useRef<HTMLElement>(null)
   const [activeIndex, setActiveIndex] = useState(0)
   const [isMobile, setIsMobile] = useState(false)
@@ -242,6 +244,17 @@ export default function Hero() {
         <div className="hero-ctas">
           <Link href="/inscription" className="btn-primary">{t('cta_primary')}</Link>
           <a href="#facilitator" className="btn-ghost">{t('cta_secondary')}</a>
+          {/* Film de présentation : section FR only pour l'instant */}
+          {locale === 'fr' && (
+            <button
+              type="button"
+              className="hero-video-btn"
+              onClick={() => document.dispatchEvent(new Event('mkr:play-film'))}
+            >
+              <Icon name="play" size={22} color="var(--primary)" />
+              <span>{t('cta_video')}</span>
+            </button>
+          )}
         </div>
 
         <div className="hero-stats">
