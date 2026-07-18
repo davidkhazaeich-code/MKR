@@ -5,8 +5,9 @@ import { useTranslations } from 'next-intl'
 import Icon from './Icon'
 
 // idle : poster + overlay play · loading : play() lancé, 1res frames pas encore là
-// playing : lecture en cours · ended : film fini, poster + overlay « revoir »
-type Phase = 'idle' | 'loading' | 'playing' | 'ended'
+// playing : lecture · paused : pause (salle rallumée + gros play de reprise)
+// ended : film fini, poster + overlay « revoir »
+type Phase = 'idle' | 'loading' | 'playing' | 'paused' | 'ended'
 
 export default function VideoSection() {
   const t = useTranslations('home.video_section')
@@ -14,7 +15,10 @@ export default function VideoSection() {
   const frameRef = useRef<HTMLDivElement>(null)
   const startedAtRef = useRef(0)
   const [phase, setPhase] = useState<Phase>('idle')
-  const started = phase === 'loading' || phase === 'playing'
+  // started : lecture engagée (poster/overlay masqués, contrôles natifs affichés)
+  const started = phase === 'loading' || phase === 'playing' || phase === 'paused'
+  // lumières éteintes uniquement pendant la projection (pause = salle rallumée)
+  const lightsOff = phase === 'loading' || phase === 'playing'
 
   const startPlayback = useCallback(() => {
     const video = videoRef.current
@@ -100,9 +104,19 @@ export default function VideoSection() {
     setPhase('ended')
   }
 
+  const handlePause = () => {
+    // 'pause' est aussi émis juste avant 'ended' : on laisse handleEnded conclure
+    const video = videoRef.current
+    if (video && !video.ended) setPhase('paused')
+  }
+
+  const resumePlayback = () => {
+    videoRef.current?.play().catch(() => {})
+  }
+
   return (
     // is-playing éteint les lumières de la salle (header + générique en retrait)
-    <section id="video-section" className={started ? 'is-playing' : undefined} aria-labelledby="video-heading">
+    <section id="video-section" className={lightsOff ? 'is-playing' : undefined} aria-labelledby="video-heading">
       <div className="video-glow" aria-hidden="true"></div>
       <div className="inner">
         <div className="video-section-header reveal">
@@ -134,7 +148,9 @@ export default function VideoSection() {
               preload="none"
               playsInline
               controls={started}
+              onPlay={() => setPhase((prev) => (prev === 'paused' ? 'playing' : prev))}
               onPlaying={() => setPhase('playing')}
+              onPause={handlePause}
               onEnded={handleEnded}
               aria-label={t('video_aria')}
             >
@@ -145,6 +161,21 @@ export default function VideoSection() {
               <span className="video-loading" aria-hidden="true">
                 <span className="video-loading-spinner" />
               </span>
+            )}
+
+            {/* Pause : gros play central pour reprendre (la zone des contrôles
+                natifs en bas reste libre, cf. inset CSS) */}
+            {phase === 'paused' && (
+              <button
+                type="button"
+                className="video-resume"
+                onClick={resumePlayback}
+                aria-label={t('resume_aria')}
+              >
+                <span className="video-resume-btn" aria-hidden="true">
+                  <Icon name="play" size={36} color="#F8F8F8" />
+                </span>
+              </button>
             )}
 
             {/* Overlay toujours monté : fondu d'ouverture / fermeture au lieu d'un

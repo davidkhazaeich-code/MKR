@@ -1134,7 +1134,48 @@ h1, h2, h3, h4, h5 {
 .vs-corner--b::after  { bottom: 0; left: 0; border-right: 0; border-top: 0; }
 .video-main--player:not(.is-started):hover .vs-corner::before,
 .video-main--player:not(.is-started):hover .vs-corner::after { border-color: var(--primary); }
-.video-main--player.is-started .vs-corner { opacity: 0; }
+/* Coins éteints uniquement pendant la projection (pause = cadre visible) */
+#video-section.is-playing .vs-corner { opacity: 0; }
+
+/* Pause : gros play central de reprise. La zone basse reste libre pour les
+   contrôles natifs (inset bottom), le scrim radial est doux et cliquable. */
+.video-resume {
+  position: absolute;
+  inset: 0 0 84px 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  cursor: pointer;
+  background: radial-gradient(ellipse at 50% 55%, rgba(10, 10, 10, 0.42) 0%, rgba(10, 10, 10, 0.16) 55%, transparent 100%);
+  animation: videoResumeIn 0.35s var(--ease-out-expo);
+}
+.video-resume-btn {
+  width: 92px;
+  height: 92px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid rgba(248, 248, 248, 0.5);
+  background: rgba(14, 14, 14, 0.55);
+  backdrop-filter: blur(6px);
+  transition: border-color 0.2s linear, background 0.2s linear, transform 0.25s var(--ease-out-expo);
+}
+.video-resume:hover .video-resume-btn {
+  border-color: var(--primary);
+  background: rgba(200, 75, 49, 0.28);
+  transform: scale(1.06);
+}
+.video-resume:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: -2px;
+}
+@keyframes videoResumeIn { from { opacity: 0; } to { opacity: 1; } }
+@media (max-width: 600px) {
+  .video-resume { inset: 0 0 56px 0; }
+  .video-resume-btn { width: 64px; height: 64px; }
+}
 
 /* Lumières éteintes pendant la projection : la salle se met en retrait */
 #video-section.is-playing .video-section-header,

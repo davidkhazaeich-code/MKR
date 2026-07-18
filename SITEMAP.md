@@ -52,6 +52,16 @@ La section passe d'un « player dans une section » à un moment cinéma :
 
 **QA** : scale 0.9494 à l'entrée → 1.0 centré · lights-off header 0.3 + coins 0 en lecture · régression bug reveal OK (opacité 1) · 0 overflow 390/768 · mobile bord à bord · /en vierge · i18n 2829 · tsc + build compile verts.
 
+### ⏸️ Même jour : état pause complet (demande David)
+
+Phase `paused` ajoutée à la machine (`idle | loading | playing | paused | ended`) :
+- **Pause = salle rallumée** : `lightsOff` ne couvre que loading/playing → header, génériques et coins caméra reviennent à pleine opacité dès la pause (peu importe la source : contrôles natifs, gros play, ou pause auto au scroll-out).
+- **Gros play de reprise** `.video-resume` (92px desktop / 64px mobile, scrim radial doux cliquable, `inset: 0 0 84px 0` pour laisser les contrôles natifs accessibles) → `video.play()`.
+- Events vidéo : `onPause` ignore la pause pré-`ended` (`video.ended` guard) ; `onPlay` sort de `paused` instantanément ; `onPlaying` couvre la fin du buffering initial.
+- i18n `resume_aria` FR+EN (parité 2830).
+
+**QA** : playing → lights 0.3/coins 0/pas de bouton · pause API (= contrôles natifs) → lights 1/coins 1/gros play · clic gros play → reprise + lights 0.3 · scroll-away → pause auto, retour = même état pause · tsc + build verts.
+
 ## 🆕 2026-07-13 (admin : audit UX/UI complet du back office + fixes fonctionnels, commit 2c3deb7)
 
 > **Demande David** : audit complet du back office pour le meilleur UX/UI possible, fluide, rapide, parfaitement fonctionnel, en autonomie. Audit livré via le skill impeccable (5 dimensions), corrections poussées en prod, QA Playwright avant/après sur mkrcamp.com/admin.

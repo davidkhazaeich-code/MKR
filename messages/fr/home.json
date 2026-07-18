@@ -36,6 +36,7 @@
     "duration": "1:38",
     "play_aria": "Lancer le film de présentation du camp",
     "replay_aria": "Revoir le film de présentation du camp",
+    "resume_aria": "Reprendre la lecture du film",
     "video_aria": "Film de présentation du MKR Caucasian Camp"
   },
   "audience_switcher": {
