@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
+import { createPortal } from 'react-dom'
 import { useTranslations } from 'next-intl'
 import Icon from './Icon'
 
@@ -69,7 +70,11 @@ export default function VideoModal({ src, poster, title, subtitle, onClose }: Vi
 
   if (!src) return null
 
-  return (
+  // Portal vers <body> obligatoire : rendue dans une section, la modal fixed
+  // reste piégée dans le stacking context de son ancêtre (ex. .vvs-section a
+  // isolation: isolate) et les sections voisines z-indexées + la nav peignent
+  // par-dessus (plein écran « coupé »). Au niveau body, z-10000 gagne partout.
+  return createPortal(
     <div
       className="video-modal-overlay"
       role="dialog"
@@ -104,6 +109,7 @@ export default function VideoModal({ src, poster, title, subtitle, onClose }: Vi
           </div>
         )}
       </div>
-    </div>
+    </div>,
+    document.body
   )
 }

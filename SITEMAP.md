@@ -62,6 +62,16 @@ Phase `paused` ajoutée à la machine (`idle | loading | playing | paused | ende
 
 **QA** : playing → lights 0.3/coins 0/pas de bouton · pause API (= contrôles natifs) → lights 1/coins 1/gros play · clic gros play → reprise + lights 0.3 · scroll-away → pause auto, retour = même état pause · tsc + build verts.
 
+## 🆕 2026-07-18 (VideoModal : plein écran coupé en mobile corrigé par portal vers body)
+
+> **Bug rapporté David** : sur la home mobile, le plein écran de la vidéo verticale d'Antoine (bouton expand de `VerticalVideoSplit` → `VideoModal`) était « coupé par la section dessus ». **Cause racine (prouvée par elementFromPoint)** : la modal `position: fixed; z-index: 10000` était rendue DANS `<section class="vvs-section">` qui porte `isolation: isolate` → stacking context. La modal ne compétitionnait qu'à l'intérieur ; la section elle-même (z-index auto) passait SOUS `#testimonials` (z-index 7 du système montagne, non réinitialisé en mobile) et sous la nav (z-300), qui peignaient par-dessus la modal.
+
+**Fix** : `VideoModal.tsx` rend désormais via `createPortal(…, document.body)` (commentaire explicatif dans le composant). Au niveau body, z-10000 gagne sur tout. SSR-safe (la modal ne rend que si `src` non-null, donc après un clic client). Corrige d'un coup TOUS les usages : home (VerticalVideoSplit), `/temoignages` (featured + VideoTestimonialsGrid), `/programme/mma`.
+
+**Règle générale** : toute modal/overlay `position: fixed` doit être portalée vers `document.body`. Rendue dans une section du site, elle finit piégée par un stacking context ancêtre (`isolation`, z-index des sections montagne, opacity de transition, transform du parallax GSAP...).
+
+**QA (Playwright)** : home mobile 390 = 6 points d'échantillonnage viewport tous dans la modal (avant : nav + testi-quote par-dessus), parent = body, ESC ferme · /temoignages mobile OK · desktop 1440 OK · tsc + build compile verts · aucun i18n touché.
+
 ## 🆕 2026-07-13 (admin : audit UX/UI complet du back office + fixes fonctionnels, commit 2c3deb7)
 
 > **Demande David** : audit complet du back office pour le meilleur UX/UI possible, fluide, rapide, parfaitement fonctionnel, en autonomie. Audit livré via le skill impeccable (5 dimensions), corrections poussées en prod, QA Playwright avant/après sur mkrcamp.com/admin.
