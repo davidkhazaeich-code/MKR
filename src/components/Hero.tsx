@@ -243,17 +243,19 @@ export default function Hero() {
 
         <div className="hero-ctas">
           <Link href="/inscription" className="btn-primary">{t('cta_primary')}</Link>
-          <a href="#facilitator" className="btn-ghost">{t('cta_secondary')}</a>
-          {/* Film de présentation : section FR only pour l'instant */}
-          {locale === 'fr' && (
+          {/* FR : le film remplace « Découvrir le camp » en CTA secondaire.
+              EN garde l'ancien lien tant que la vidéo EN n'existe pas. */}
+          {locale === 'fr' ? (
             <button
               type="button"
-              className="hero-video-btn"
+              className="btn-ghost hero-video-btn"
               onClick={() => document.dispatchEvent(new Event('mkr:play-film'))}
             >
-              <Icon name="play" size={22} color="var(--primary)" />
+              <Icon name="play" size={20} color="var(--primary)" />
               <span>{t('cta_video')}</span>
             </button>
+          ) : (
+            <a href="#facilitator" className="btn-ghost">{t('cta_secondary')}</a>
           )}
         </div>
 

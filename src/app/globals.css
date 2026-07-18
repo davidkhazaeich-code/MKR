@@ -573,36 +573,15 @@ h1, h2, h3, h4, h5 {
   margin-bottom: 2.5rem;
 }
 
-/* CTA tertiaire : lancer le film de présentation (scroll + lecture) */
+/* CTA secondaire du hero FR : lancer le film (btn-ghost + icône play) */
 .hero-video-btn {
   display: inline-flex;
   align-items: center;
-  gap: 0.55rem;
-  padding: 0.8rem 0.4rem;
-  border: 0;
-  background: none;
-  cursor: pointer;
-  font-family: var(--font-barlow-condensed), sans-serif;
-  font-size: 0.85rem;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--text-primary);
-  transition: color 0.2s linear;
+  justify-content: center;
+  gap: 0.6rem;
 }
 .hero-video-btn svg { transition: transform 0.25s var(--ease-out-expo); }
-.hero-video-btn span {
-  border-bottom: 1px solid var(--ghost-border);
-  padding-bottom: 2px;
-  transition: border-color 0.2s linear;
-}
-.hero-video-btn:hover { color: var(--primary); }
 .hero-video-btn:hover svg { transform: scale(1.15); }
-.hero-video-btn:hover span { border-bottom-color: var(--primary); }
-.hero-video-btn:focus-visible {
-  outline: 2px solid var(--primary);
-  outline-offset: 3px;
-}
 
 /* Buttons */
 .btn-primary {
