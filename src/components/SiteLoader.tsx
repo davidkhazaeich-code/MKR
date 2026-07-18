@@ -1,7 +1,11 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { usePathname } from 'next/navigation'
+// usePathname de next-intl, PAS next/navigation : cote serveur ce dernier voit
+// le chemin reecrit par le middleware (/fr) -> skip=true -> le loader etait
+// absent du HTML SSR et n'apparaissait qu'apres hydratation (site visible avant
+// le loader). La version next-intl renvoie '/' des le SSR, loader au 1er paint.
+import { usePathname } from '@/i18n/navigation'
 import { useTranslations } from 'next-intl'
 
 const MIN_DURATION = 600
@@ -130,6 +134,10 @@ export default function SiteLoader() {
       aria-live="polite"
       aria-label={t('loading_aria')}
     >
+      {/* Sans JS, le loader SSR couvrirait la page pour toujours */}
+      <noscript>
+        <style>{'.site-loader{display:none}'}</style>
+      </noscript>
       <div
         className="site-loader-panel site-loader-panel--top"
         aria-hidden="true"

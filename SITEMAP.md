@@ -62,6 +62,14 @@ Phase `paused` ajoutée à la machine (`idle | loading | playing | paused | ende
 
 **QA** : playing → lights 0.3/coins 0/pas de bouton · pause API (= contrôles natifs) → lights 1/coins 1/gros play · clic gros play → reprise + lights 0.3 · scroll-away → pause auto, retour = même état pause · tsc + build verts.
 
+## 🆕 2026-07-18 (loader visible dès le 1er paint + alignement icône play du CTA hero)
+
+> **2 bugs rapportés David** : (1) au chargement, le site apparaissait AVANT le loader ; (2) l'icône play du CTA hero « Voir la vidéo de présentation » était désalignée du texte.
+
+**Loader (cause racine)** : `SiteLoader` utilisait `usePathname` de `next/navigation`, qui côté serveur renvoie le chemin réécrit par le middleware next-intl (`/fr`) → `skip = pathname !== '/'` était vrai en SSR → le loader était ABSENT du HTML servi (0 occurrence au curl) et n'apparaissait qu'après hydratation. **Fix** : `usePathname` de `@/i18n/navigation` (sans préfixe locale, identique serveur/client) → le loader est dans le HTML SSR (avant `{children}` dans le stream), premier paint couvert. Effets de bord assumés : le loader apparaît maintenant AUSSI sur `/en` (home EN, label brand-neutre) ; `<noscript><style>` ajouté pour ne pas bloquer les visiteurs sans JS. Non-régression scroll-lock vérifiée (chaîne de la memory `feedback_root_layout_loader_state_persistence` : / → /sessions → retour / = pas de `html.is-loading` collé, scroll OK). Toujours absent des autres pages (`/sessions` = 0).
+
+**Icône play (cause racine)** : `.hero-video-btn { display: inline-flex }` était écrasé par `.btn-ghost { display: inline-block }` défini PLUS BAS à spécificité égale → le centrage flex ne s'appliquait jamais, le svg restait inline sur la baseline (~5px trop haut). **Fix** : sélecteur double `.btn-ghost.hero-video-btn` (spécificité 0,2,0) + `svg { display: block }` + `span { line-height: 1 }` → delta mesuré : **0 px**. Même piège de source-order que `feedback_fx_grid_clobbers_sticky`.
+
 ## 🆕 2026-07-18 (VideoModal : plein écran coupé en mobile corrigé par portal vers body)
 
 > **Bug rapporté David** : sur la home mobile, le plein écran de la vidéo verticale d'Antoine (bouton expand de `VerticalVideoSplit` → `VideoModal`) était « coupé par la section dessus ». **Cause racine (prouvée par elementFromPoint)** : la modal `position: fixed; z-index: 10000` était rendue DANS `<section class="vvs-section">` qui porte `isolation: isolate` → stacking context. La modal ne compétitionnait qu'à l'intérieur ; la section elle-même (z-index auto) passait SOUS `#testimonials` (z-index 7 du système montagne, non réinitialisé en mobile) et sous la nav (z-300), qui peignaient par-dessus la modal.

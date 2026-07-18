@@ -573,15 +573,20 @@ h1, h2, h3, h4, h5 {
   margin-bottom: 2.5rem;
 }
 
-/* CTA secondaire du hero FR : lancer le film (btn-ghost + icône play) */
-.hero-video-btn {
+/* CTA secondaire du hero FR : lancer le film (btn-ghost + icône play).
+   Double classe obligatoire : .btn-ghost (défini plus bas) gagnerait sinon
+   avec son display inline-block et le centrage flex ne s'appliquerait jamais. */
+.btn-ghost.hero-video-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.6rem;
 }
-.hero-video-btn svg { transition: transform 0.25s var(--ease-out-expo); }
-.hero-video-btn:hover svg { transform: scale(1.15); }
+/* line-height 1 : la boîte du texte uppercase colle aux glyphes, centrage exact */
+.btn-ghost.hero-video-btn span { line-height: 1; }
+/* display block : supprime l'espace de baseline sous le svg */
+.btn-ghost.hero-video-btn svg { display: block; transition: transform 0.25s var(--ease-out-expo); }
+.btn-ghost.hero-video-btn:hover svg { transform: scale(1.15); }
 
 /* Buttons */
 .btn-primary {
