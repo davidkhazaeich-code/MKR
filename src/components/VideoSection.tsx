@@ -11,6 +11,7 @@ type Phase = 'idle' | 'loading' | 'playing' | 'ended'
 export default function VideoSection() {
   const t = useTranslations('home.video_section')
   const videoRef = useRef<HTMLVideoElement>(null)
+  const frameRef = useRef<HTMLDivElement>(null)
   const startedAtRef = useRef(0)
   const [phase, setPhase] = useState<Phase>('idle')
   const started = phase === 'loading' || phase === 'playing'
@@ -35,6 +36,44 @@ export default function VideoSection() {
     document.addEventListener('mkr:play-film', onPlayRequest)
     return () => document.removeEventListener('mkr:play-film', onPlayRequest)
   }, [startPlayback])
+
+  // Zoom cinématique : l'écran grandit légèrement en entrant dans le viewport
+  useEffect(() => {
+    let cancelled = false
+    let ctx: { revert: () => void } | undefined
+    ;(async () => {
+      const { gsap } = await import('gsap')
+      const { ScrollTrigger } = await import('gsap/ScrollTrigger')
+      if (cancelled || !frameRef.current) return
+      gsap.registerPlugin(ScrollTrigger)
+      ctx = gsap.context(() => {
+        const mm = gsap.matchMedia()
+        mm.add('(prefers-reduced-motion: no-preference)', () => {
+          gsap.fromTo(
+            frameRef.current,
+            { scale: 0.94 },
+            {
+              scale: 1,
+              ease: 'none',
+              scrollTrigger: {
+                trigger: frameRef.current,
+                start: 'top 95%',
+                end: 'top 42%',
+                scrub: 0.4,
+              },
+            }
+          )
+        })
+        mm.add('(prefers-reduced-motion: reduce)', () => {
+          gsap.set(frameRef.current, { scale: 1 })
+        })
+      })
+    })()
+    return () => {
+      cancelled = true
+      ctx?.revert()
+    }
+  }, [])
 
   // Pause la lecture quand la section sort du viewport (pas de reprise auto).
   // Période de grâce : pendant le smooth scroll déclenché depuis le hero, la
@@ -62,7 +101,8 @@ export default function VideoSection() {
   }
 
   return (
-    <section id="video-section" aria-labelledby="video-heading">
+    // is-playing éteint les lumières de la salle (header + générique en retrait)
+    <section id="video-section" className={started ? 'is-playing' : undefined} aria-labelledby="video-heading">
       <div className="video-glow" aria-hidden="true"></div>
       <div className="inner">
         <div className="video-section-header reveal">
@@ -74,12 +114,18 @@ export default function VideoSection() {
           </h2>
           <p className="video-section-sub">{t('subtitle')}</p>
         </div>
+      </div>
 
-        {/* Wrapper .reveal à className STATIQUE, obligatoire : RevealObserver pose
-            la classe `visible` hors React puis cesse d'observer. Si `reveal` vivait
-            sur .video-main (className dynamique au play), React effacerait `visible`
-            au re-render et le bloc refondrait à opacity 0 (bug « vidéo disparaît »). */}
-        <div className="reveal">
+      {/* Salle de cinéma : bande breakout hors .inner (échappe aussi au parallax
+          de ScrollParallax qui ne cible que le .inner → l'écran reste stable).
+          Wrapper .reveal à className STATIQUE, obligatoire : RevealObserver pose
+          la classe `visible` hors React puis cesse d'observer. Si `reveal` vivait
+          sur un élément à className dynamique, React effacerait `visible` au
+          re-render et le bloc refondrait à opacity 0 (bug « vidéo disparaît »). */}
+      <div className="vs-cinema reveal">
+        <p className="vs-presents" aria-hidden="true"><span>{t('presents')}</span></p>
+
+        <div className="vs-frame" ref={frameRef}>
           <div className={`video-main video-main--player${started ? ' is-started' : ''}`}>
             <video
               ref={videoRef}
@@ -118,9 +164,17 @@ export default function VideoSection() {
               <span className="video-caption">
                 {phase === 'ended' ? t('replay_caption') : t('play_caption')}
               </span>
-              <span className="video-duration">{t('duration')}</span>
             </button>
+
+            {/* Coins caméra (repères de cadre), éteints pendant la lecture */}
+            <span className="vs-corner vs-corner--a" aria-hidden="true" />
+            <span className="vs-corner vs-corner--b" aria-hidden="true" />
           </div>
+        </div>
+
+        <div className="vs-billing" aria-hidden="true">
+          <span>{t('shot_in')}</span>
+          <span className="vs-billing-time">{t('duration')}</span>
         </div>
       </div>
     </section>

@@ -39,6 +39,19 @@
 
 **QA post-fix** : scénario du bug (scroll → reveal → play) = opacité reste 1 et wrapper garde `reveal visible` · overlay hidden (opacity 0/visibility hidden) pendant la lecture · ended → caption « Revoir le film » + controls retirés + replay fonctionnel · pause au scroll-away conservée (grâce 2s) · flow hero OK · 0 overflow mobile · /en toujours vierge.
 
+### 🎬 Même jour : mise en page « salle de cinéma » (demande David, autonomie)
+
+La section passe d'un « player dans une section » à un moment cinéma :
+- **Header centré** (seule section centrée de la home = importance) + titre plus massif (`clamp(3rem, 7vw, 6.6rem)`).
+- **Écran breakout** `.vs-cinema` **hors `.inner`** : bande `min(1600px, 100%)` (≈1340px utile à 1440), **bord à bord en mobile ≤700px**. Sortir du `.inner` évite AUSSI le parallax de ScrollParallax (qui ne cible que le `.inner` → seul le header bouge, l'écran reste stable).
+- **Générique** : ligne « MKR CAUCASIAN CAMP PRÉSENTE » avec filets latéraux au-dessus (`.vs-presents`), billing bar dessous (`.vs-billing`) « Tourné au Daghestan et en Tchétchénie · Film officiel » + durée encadrée (l'ancien badge flottant 1:38 du poster est retiré). Clés i18n `presents`/`shot_in` FR+EN (parité 2829).
+- **Coins caméra** `.vs-corner` (4 repères de cadre, hover → primary, éteints pendant la lecture).
+- **Lumières éteintes** : `#video-section.is-playing` (className React sur la section, AUCUNE classe observer dessus donc sans risque) → header + génériques à opacity 0.3, halo rust de l'écran renforcé. Retour à la fin/pause… (la classe suit `started`).
+- **Zoom cinématique au scroll** : GSAP scrub scale 0.94 → 1 sur `.vs-frame` (dynamic import, `gsap.matchMedia` avec les DEUX branches no-preference/reduce, cf. memory `feedback_gsap_matchmedia_both_conditions`), `ctx.revert()` au unmount.
+- **Vignette cinéma** ajoutée au scrim du poster (radial edges) + ombre profonde et halo rust sous l'écran.
+
+**QA** : scale 0.9494 à l'entrée → 1.0 centré · lights-off header 0.3 + coins 0 en lecture · régression bug reveal OK (opacité 1) · 0 overflow 390/768 · mobile bord à bord · /en vierge · i18n 2829 · tsc + build compile verts.
+
 ## 🆕 2026-07-13 (admin : audit UX/UI complet du back office + fixes fonctionnels, commit 2c3deb7)
 
 > **Demande David** : audit complet du back office pour le meilleur UX/UI possible, fluide, rapide, parfaitement fonctionnel, en autonomie. Audit livré via le skill impeccable (5 dimensions), corrections poussées en prod, QA Playwright avant/après sur mkrcamp.com/admin.
