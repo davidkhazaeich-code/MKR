@@ -30,8 +30,10 @@
     "title_line2_highlight": "OVER THERE",
     "subtitle": "The camp film, shot on location: the gyms, the coaches, the setting. Nothing is staged.",
     "play_caption": "Watch the immersion film",
+    "replay_caption": "Watch the film again",
     "duration": "1:38",
     "play_aria": "Play the camp presentation film",
+    "replay_aria": "Watch the camp presentation film again",
     "video_aria": "MKR Caucasian Camp presentation film"
   },
   "audience_switcher": {

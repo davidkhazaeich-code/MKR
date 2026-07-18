@@ -25,6 +25,20 @@
 
 **QA** : i18n-check 2825 clés FR=EN · tsc 0 erreur · build compile vert · Playwright headless isolé (profil MCP verrouillé) : 1440/768/390 = 0 overflow, clic overlay → lecture unmuted + controls, clic hero → scroll centré + lecture (centerDelta 23px), pause au scroll-away, section + bouton absents sur /en.
 
+### 🐛 Correctif même jour (« la vidéo disparaît quand on la lance après un scroll ») + fluidification des états
+
+**Cause racine (reproduite au computed style)** : `.video-main` portait à la fois la classe `reveal` ET une className React **dynamique** (`is-started` ajouté au play). `RevealObserver` pose la classe `visible` directement dans le DOM (`classList.add`) puis **cesse d'observer** (one-shot). Au clic play, React réécrit l'attribut `class` (sa className a changé) → `visible` effacé → `.reveal` sans `.visible` = `opacity: 0` (transition 0.7s) → **le bloc fondait au noir pendant que l'audio continuait**, sans jamais revenir. Le flow hero depuis le haut de page semblait OK car l'élément n'était pas encore révélé au moment du clic (reveal se faisait pendant le scroll). **Règle générale** : ne JAMAIS mettre `reveal`/`reveal-clip` sur un élément dont la className React change au runtime — utiliser un wrapper à className statique (audit fait : AudienceSwitcher et comment-ca-marche ont des ternaires sur données statiques, sans risque).
+
+**Fix** : `reveal` déplacé sur un `<div className="reveal">` wrapper statique autour de `.video-main` (commentaire explicatif dans le composant).
+
+**Fluidification (état machine `phase: idle | loading | playing | ended`)** :
+- Overlay **toujours monté** avec fondu d'ouverture/fermeture (`.video-start-btn.is-hidden` : opacity + visibility + pointer-events, 0.3s out / 0.45s in) au lieu du mount/unmount abrupt.
+- **Spinner de buffering** `.video-loading` (46px, anneau primary) en fondu retardé 0.3s : visible seulement si le chargement se sent (preload none = 1er clic réseau). Disparaît sur l'event `playing`.
+- **Fin de film** : `video.load()` restaure le poster + l'overlay revient en mode « revoir » (icône `rotate-ccw` + clés i18n `replay_caption`/`replay_aria` FR+EN, parité 2827).
+- A11y overlay masqué : `disabled` + `tabIndex -1` + `aria-hidden`.
+
+**QA post-fix** : scénario du bug (scroll → reveal → play) = opacité reste 1 et wrapper garde `reveal visible` · overlay hidden (opacity 0/visibility hidden) pendant la lecture · ended → caption « Revoir le film » + controls retirés + replay fonctionnel · pause au scroll-away conservée (grâce 2s) · flow hero OK · 0 overflow mobile · /en toujours vierge.
+
 ## 🆕 2026-07-13 (admin : audit UX/UI complet du back office + fixes fonctionnels, commit 2c3deb7)
 
 > **Demande David** : audit complet du back office pour le meilleur UX/UI possible, fluide, rapide, parfaitement fonctionnel, en autonomie. Audit livré via le skill impeccable (5 dimensions), corrections poussées en prod, QA Playwright avant/après sur mkrcamp.com/admin.

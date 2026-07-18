@@ -30,8 +30,10 @@
     "title_line2_highlight": "LÀ-BAS",
     "subtitle": "Le film du camp, tourné sur place : les salles, les coachs, le cadre. Rien n'est mis en scène.",
     "play_caption": "Découvre l'immersion en vidéo",
+    "replay_caption": "Revoir le film",
     "duration": "1:38",
     "play_aria": "Lancer le film de présentation du camp",
+    "replay_aria": "Revoir le film de présentation du camp",
     "video_aria": "Film de présentation du MKR Caucasian Camp"
   },
   "audience_switcher": {

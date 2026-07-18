@@ -4,19 +4,24 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { useTranslations } from 'next-intl'
 import Icon from './Icon'
 
+// idle : poster + overlay play · loading : play() lancé, 1res frames pas encore là
+// playing : lecture en cours · ended : film fini, poster + overlay « revoir »
+type Phase = 'idle' | 'loading' | 'playing' | 'ended'
+
 export default function VideoSection() {
   const t = useTranslations('home.video_section')
   const videoRef = useRef<HTMLVideoElement>(null)
   const startedAtRef = useRef(0)
-  const [hasStarted, setHasStarted] = useState(false)
+  const [phase, setPhase] = useState<Phase>('idle')
+  const started = phase === 'loading' || phase === 'playing'
 
   const startPlayback = useCallback(() => {
     const video = videoRef.current
     if (!video) return
     startedAtRef.current = performance.now()
-    setHasStarted(true)
+    setPhase('loading')
     video.muted = false
-    video.play().catch(() => setHasStarted(false))
+    video.play().catch(() => setPhase('idle'))
   }, [])
 
   // Bouton « voir la vidéo » du hero : scroll vers la section + lecture immédiate
@@ -36,7 +41,7 @@ export default function VideoSection() {
   // section n'est pas encore visible et l'observer pauserait immédiatement.
   useEffect(() => {
     const video = videoRef.current
-    if (!video || !hasStarted) return
+    if (!video || !started) return
     const observer = new IntersectionObserver(
       (entries) => {
         const entry = entries[0]
@@ -48,12 +53,12 @@ export default function VideoSection() {
     )
     observer.observe(video)
     return () => observer.disconnect()
-  }, [hasStarted])
+  }, [started])
 
   const handleEnded = () => {
-    // load() restaure le poster (title card) une fois le film terminé
+    // load() restaure le poster (title card), l'overlay revient en mode « revoir »
     videoRef.current?.load()
-    setHasStarted(false)
+    setPhase('ended')
   }
 
   return (
@@ -70,34 +75,52 @@ export default function VideoSection() {
           <p className="video-section-sub">{t('subtitle')}</p>
         </div>
 
-        <div className={`video-main video-main--player reveal${hasStarted ? ' is-started' : ''}`}>
-          <video
-            ref={videoRef}
-            className="video-real"
-            poster="/videos/presentation-camp-poster.jpg"
-            preload="none"
-            playsInline
-            controls={hasStarted}
-            onEnded={handleEnded}
-            aria-label={t('video_aria')}
-          >
-            <source src="/videos/presentation-camp.mp4" type="video/mp4" />
-          </video>
+        {/* Wrapper .reveal à className STATIQUE, obligatoire : RevealObserver pose
+            la classe `visible` hors React puis cesse d'observer. Si `reveal` vivait
+            sur .video-main (className dynamique au play), React effacerait `visible`
+            au re-render et le bloc refondrait à opacity 0 (bug « vidéo disparaît »). */}
+        <div className="reveal">
+          <div className={`video-main video-main--player${started ? ' is-started' : ''}`}>
+            <video
+              ref={videoRef}
+              className="video-real"
+              poster="/videos/presentation-camp-poster.jpg"
+              preload="none"
+              playsInline
+              controls={started}
+              onPlaying={() => setPhase('playing')}
+              onEnded={handleEnded}
+              aria-label={t('video_aria')}
+            >
+              <source src="/videos/presentation-camp.mp4" type="video/mp4" />
+            </video>
 
-          {!hasStarted && (
+            {phase === 'loading' && (
+              <span className="video-loading" aria-hidden="true">
+                <span className="video-loading-spinner" />
+              </span>
+            )}
+
+            {/* Overlay toujours monté : fondu d'ouverture / fermeture au lieu d'un
+                mount/unmount abrupt. Masqué (visibility) pendant la lecture. */}
             <button
               type="button"
-              className="video-main-inner video-start-btn"
+              className={`video-main-inner video-start-btn${started ? ' is-hidden' : ''}`}
               onClick={startPlayback}
-              aria-label={t('play_aria')}
+              disabled={started}
+              tabIndex={started ? -1 : 0}
+              aria-hidden={started}
+              aria-label={phase === 'ended' ? t('replay_aria') : t('play_aria')}
             >
               <span className="play-btn" aria-hidden="true">
-                <Icon name="play" size={28} color="#F8F8F8" />
+                <Icon name={phase === 'ended' ? 'rotate-ccw' : 'play'} size={28} color="#F8F8F8" />
               </span>
-              <span className="video-caption">{t('play_caption')}</span>
+              <span className="video-caption">
+                {phase === 'ended' ? t('replay_caption') : t('play_caption')}
+              </span>
               <span className="video-duration">{t('duration')}</span>
             </button>
-          )}
+          </div>
         </div>
       </div>
     </section>
