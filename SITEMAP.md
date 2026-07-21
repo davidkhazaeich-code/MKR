@@ -1,7 +1,28 @@
 # SITEMAP MKR Caucasian Camp — Cartographie complète
 
-> **Fichier de référence pour Claude Code.** Mise à jour : 2026-07-17 (homepage : film de présentation en section 2 + CTA hero).
+> **Fichier de référence pour Claude Code.** Mise à jour : 2026-07-21 (homepage : film FR remplacé + version verticale 9:16 mobile).
 > Lis ce fichier en priorité avant toute intervention sur le site MKR. Il évite de re-explorer.
+
+## 🆕 2026-07-21 (homepage : film FR remplacé par le nouvel export + version verticale 9:16 pour le mobile)
+
+> **Demande David** : remplacer la vidéo horizontale FR du film de présentation par son nouvel export (Bureau), et ajouter une version verticale 9:16 adaptée au responsive mobile. Versions EN fournies plus tard.
+
+**Assets** (sources ~231 Mo, ré-encodées `ffmpeg -crf 25 -preset slow -pix_fmt yuv420p -c:a aac -b:a 128k -movflags +faststart`) :
+- `public/videos/presentation-camp.mp4` (1920×1080, 43 Mo) — **REMPLACE** l'ancien export (37 Mo)
+- `public/videos/presentation-camp-vertical.mp4` (1080×1920, 43 Mo) — **NOUVEAU** (mobile)
+- posters title card régénérés à ~91s : `presentation-camp-poster.jpg` (H) + `presentation-camp-vertical-poster.jpg` (V, nouveau)
+
+**Bascule responsive** (`VideoSection.tsx`) : `matchMedia('(max-width: 700px)')` pilote un state `isVertical` qui choisit `src` + `poster` (9:16 mobile, 16:9 sinon). Le choix est **gelé dès que la lecture démarre** (`startedRef`) pour ne pas recharger le film à un resize. La classe `vs-frame--vertical` est posée sur `.vs-frame` (**PAS** sur `.vs-cinema.reveal`, sinon le re-render effacerait la classe `visible` du RevealObserver → bug « vidéo disparaît », cf. memory `feedback_react_classname_wipes_reveal`) → cadre `aspect-ratio: 9/16`, colonne centrée `max-width: min(440px, 90vw)`. CSS dans `globals.css` juste après `.vs-frame`. Même breakpoint 700px que le bloc mobile cinéma existant → source et ratio restent synchro sans media query CSS dédiée.
+
+**Cache-bust** : le fichier horizontal garde le même nom → const `FILM_VERSION` dans `VideoSection.tsx` ajoute `?v=20260721` aux 4 URLs (Vercel + navigateur indexent la query string). **Bumper `FILM_VERSION` à chaque remplacement de vidéo** (cf. règle globale purge cache).
+
+**Durée inchangée** (97.9s = 1:38) → aucune clé i18n touchée (parité 2830 intacte). Section toujours **FR only** (`locale==='fr'` conservé dans `page.tsx` + `Hero.tsx`).
+
+**⚠️ Coquille dans le film (baked-in)** : le titre incrusté affiche « L'IMMERSION AU MILLIEU DES CHAMPIONS » (double L, devrait être « MILIEU »). C'est dans l'export vidéo de David (H + V), donc aussi dans le poster. Signalé le 2026-07-21 → **déployé tel quel** (décision David). Pour corriger : David ré-exporte, on ré-encode + on bumpe `FILM_VERSION`.
+
+**QA** : tsc clean · i18n 2830 · `next build --experimental-build-mode compile` vert · Playwright dev 1440 (16:9, src horizontal, 0 overflow) + 390 (9:16 centré, src vertical, lecture avec son OK, 0 overflow). Commit `5dc80e3`, push `main` → Vercel auto-deploy.
+
+**Quand les exports EN arrivent** : ré-encoder les 2 versions EN (mêmes recettes) sous noms EN, câbler par locale, retirer les 2 gardes `locale==='fr'` (`page.tsx` + `Hero.tsx`), bumper `FILM_VERSION`.
 
 ## 🆕 2026-07-17 (homepage : film de présentation officiel en section 2 + CTA hero « voir la vidéo », FR only)
 
