@@ -9,10 +9,12 @@ import Icon from './Icon'
 // ended : film fini, poster + overlay « revoir »
 type Phase = 'idle' | 'loading' | 'playing' | 'paused' | 'ended'
 
-// Version des assets du film : bumper quand on remplace la vidéo (le fichier
-// horizontal garde le même nom) pour forcer le rafraîchissement, le cache
-// navigateur et le CDN Vercel indexant la query string.
-const FILM_VERSION = '20260721'
+// Base des assets du film, versionnée par langue (-fr, -en à venir). Un nouveau
+// nom de fichier à chaque remplacement garantit le rafraîchissement du cache
+// (le CDN Vercel ignore la query string sur les assets statiques, seul le nom
+// compte). Encodé léger (CRF 31/33) : en CRF 25 les 2 vidéos débordaient le
+// disque de build Vercel (ENOSPC). Détails : SITEMAP 2026-07-21.
+const FILM_BASE = '/videos/presentation-camp-fr'
 
 export default function VideoSection() {
   const t = useTranslations('home.video_section')
@@ -167,8 +169,8 @@ export default function VideoSection() {
             <video
               ref={videoRef}
               className="video-real"
-              poster={`/videos/presentation-camp${isVertical ? '-vertical' : ''}-poster.jpg?v=${FILM_VERSION}`}
-              src={`/videos/presentation-camp${isVertical ? '-vertical' : ''}.mp4?v=${FILM_VERSION}`}
+              poster={`${FILM_BASE}${isVertical ? '-vertical' : ''}-poster.jpg`}
+              src={`${FILM_BASE}${isVertical ? '-vertical' : ''}.mp4`}
               preload="none"
               playsInline
               controls={started}
