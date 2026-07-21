@@ -1072,6 +1072,17 @@ h1, h2, h3, h4, h5 {
     0 0 140px rgba(200, 75, 49, 0.08);
 }
 
+/* Version verticale 9:16 (mobile) : l'écran devient une colonne centrée.
+   Classe posée par React (isVertical via matchMedia 700px), jamais une media
+   query, pour rester synchro avec le choix de source vidéo du composant. */
+.vs-frame--vertical {
+  max-width: min(440px, 90vw);
+  margin-inline: auto;
+}
+.vs-frame--vertical .video-main {
+  aspect-ratio: 9 / 16;
+}
+
 /* Générique de pied : lieu de tournage + durée */
 .vs-billing {
   display: flex;

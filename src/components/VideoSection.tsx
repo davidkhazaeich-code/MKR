@@ -9,14 +9,25 @@ import Icon from './Icon'
 // ended : film fini, poster + overlay « revoir »
 type Phase = 'idle' | 'loading' | 'playing' | 'paused' | 'ended'
 
+// Version des assets du film : bumper quand on remplace la vidéo (le fichier
+// horizontal garde le même nom) pour forcer le rafraîchissement, le cache
+// navigateur et le CDN Vercel indexant la query string.
+const FILM_VERSION = '20260721'
+
 export default function VideoSection() {
   const t = useTranslations('home.video_section')
   const videoRef = useRef<HTMLVideoElement>(null)
   const frameRef = useRef<HTMLDivElement>(null)
   const startedAtRef = useRef(0)
   const [phase, setPhase] = useState<Phase>('idle')
+  // Orientation de la source : 9:16 vertical sur mobile (<=700px), 16:9 sinon.
+  // Le film FR existe en 2 exports ; le bon est servi selon le viewport, et le
+  // choix est gele des que la lecture demarre (pas de swap de source en plein film).
+  const [isVertical, setIsVertical] = useState(false)
+  const startedRef = useRef(false)
   // started : lecture engagée (poster/overlay masqués, contrôles natifs affichés)
   const started = phase === 'loading' || phase === 'playing' || phase === 'paused'
+  startedRef.current = started
   // lumières éteintes uniquement pendant la projection (pause = salle rallumée)
   const lightsOff = phase === 'loading' || phase === 'playing'
 
@@ -27,6 +38,18 @@ export default function VideoSection() {
     setPhase('loading')
     video.muted = false
     video.play().catch(() => setPhase('idle'))
+  }, [])
+
+  // Source adaptée au viewport : 9:16 vertical sur mobile, 16:9 sinon. Gelée
+  // pendant la lecture pour ne pas recharger le film si on redimensionne.
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 700px)')
+    const apply = () => {
+      if (!startedRef.current) setIsVertical(mq.matches)
+    }
+    apply()
+    mq.addEventListener('change', apply)
+    return () => mq.removeEventListener('change', apply)
   }, [])
 
   // Bouton « voir la vidéo » du hero : scroll vers la section + lecture immédiate
@@ -139,12 +162,13 @@ export default function VideoSection() {
       <div className="vs-cinema reveal">
         <p className="vs-presents" aria-hidden="true"><span>{t('presents')}</span></p>
 
-        <div className="vs-frame" ref={frameRef}>
+        <div className={`vs-frame${isVertical ? ' vs-frame--vertical' : ''}`} ref={frameRef}>
           <div className={`video-main video-main--player${started ? ' is-started' : ''}`}>
             <video
               ref={videoRef}
               className="video-real"
-              poster="/videos/presentation-camp-poster.jpg"
+              poster={`/videos/presentation-camp${isVertical ? '-vertical' : ''}-poster.jpg?v=${FILM_VERSION}`}
+              src={`/videos/presentation-camp${isVertical ? '-vertical' : ''}.mp4?v=${FILM_VERSION}`}
               preload="none"
               playsInline
               controls={started}
@@ -153,9 +177,7 @@ export default function VideoSection() {
               onPause={handlePause}
               onEnded={handleEnded}
               aria-label={t('video_aria')}
-            >
-              <source src="/videos/presentation-camp.mp4" type="video/mp4" />
-            </video>
+            />
 
             {phase === 'loading' && (
               <span className="video-loading" aria-hidden="true">
