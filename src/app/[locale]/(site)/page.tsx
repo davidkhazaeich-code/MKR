@@ -47,10 +47,8 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
     <>
       <link rel="preload" as="video" href="/videos/hero-mountains.mp4" type="video/mp4" />
       <div data-scroll-section data-scroll-label="Accueil" className="hs-anchor"><Hero /></div>
-      {/* Film de présentation FR only pour l'instant (masqué sur /en en attendant la version EN) */}
-      {locale === 'fr' && (
-        <div data-scroll-section data-scroll-label="Le film" className="hs-anchor"><VideoSection /></div>
-      )}
+      {/* Film de présentation (FR + EN depuis 2026-07-22, les 2 exports existent) */}
+      <div data-scroll-section data-scroll-label="Le film" className="hs-anchor"><VideoSection /></div>
       <div data-scroll-section data-scroll-label="Pour qui" className="hs-anchor"><AudienceSwitcher /></div>
       <div data-scroll-section data-scroll-label="Pourquoi le Caucase" className="hs-anchor"><Philosophie /></div>
       <div data-scroll-section data-scroll-label="Témoignages" className="hs-anchor"><Testimonials /></div>

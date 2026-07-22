@@ -1,7 +1,22 @@
 # SITEMAP MKR Caucasian Camp — Cartographie complète
 
-> **Fichier de référence pour Claude Code.** Mise à jour : 2026-07-21 (homepage : film FR remplacé + version verticale 9:16 mobile).
+> **Fichier de référence pour Claude Code.** Mise à jour : 2026-07-22 (film EN branché + UX mobile du player son/plein écran + budget build vidéo).
 > Lis ce fichier en priorité avant toute intervention sur le site MKR. Il évite de re-explorer.
+
+## 🆕 2026-07-22 (homepage : film EN branché sur /en + UX mobile du player, encodage léger pour le budget build)
+
+> **Demande David** : brancher les 2 exports EN du film (Bureau) sur le site anglais, et améliorer l'UX mobile du player (regarder facilement en plein écran, boutons son on/off + plein écran bien en évidence, fenêtre plus compacte). Autonomie totale.
+
+**EN branché** : `VideoSection.tsx` choisit la source par langue via `useLocale()` (`filmBase = /videos/presentation-camp-${locale}`, poster + mp4). Les 2 gardes `locale === 'fr'` retirées (`page.tsx` section + `Hero.tsx` CTA « voir la vidéo », désormais visibles FR **et** EN). Les clés i18n EN existaient déjà. Assets EN : `presentation-camp-en.mp4` + `presentation-camp-en-vertical.mp4` + les 2 posters (title card EN « AN IMMERSION INTO THE WORLD OF CHAMPIONS », propre ; pas la coquille « MILLIEU » du FR). `home.hero.cta_secondary` devient orpheline (inoffensif).
+
+**UX mobile (vertical uniquement, desktop inchangé)** :
+- **Fenêtre réduite** : `.vs-frame--vertical` → `max-width: min(360px, 82vw, 34vh)` (le `34vh` borne la hauteur à ~60vh en 9:16) → colonne compacte (~270×480 sur un 390px). Le plein écran prend le relais pour regarder en grand.
+- **Cluster de contrôles en évidence** (`.vs-controls`, haut-droite, rendu `started && isVertical`) : bouton **son on/off** (`toggleMute` bascule `video.muted` ; icône `volume-on/off` + label suivent via `onVolumeChange`) + bouton **plein écran** (`enterFullscreen` : `requestFullscreen()` Android/desktop, fallback `webkitEnterFullscreen()` iPhone). Boutons 46px rust (`.vs-ctrl-btn`). **Contrôles natifs conservés** (`controls={started}`) en bas pour lecture/scrub. Coins caméra éteints dès `.is-started` (`.video-main--player.is-started .vs-corner{opacity:0}`) pour dégager le coin.
+- 3 clés i18n ajoutées : `home.video_section.{mute_aria,unmute_aria,fullscreen_aria}` (FR+EN, parité **2833**).
+
+**⚠️ Budget build Vercel (ENOSPC) — RÈGLE** : avec 4 films (fr+en × h/v) l'empreinte `public/videos` frôlait le seuil qui a fait échouer le build (~157 Mo). Solution retenue : **encoder léger** (horizontaux **CRF 34** ~17 Mo, verticaux **CRF 37** ~13 Mo) + **retrait du `.webm` VP9 d'Antoine** (`data/antoine-parcours.ts` : `webmSrc` supprimé, le mp4 H.264 est lu partout ; `public/videos/testimonials/antoine-parcours.webm` supprimé, −20 Mo). Total `public/videos` ≈ **108 Mo** (= le dernier build vert, donc OK). **Stockage externe (Supabase Storage) tenté puis ABANDONNÉ** : upload anon bloqué par la RLS de `storage.objects` sans service key (vide en `.env.local`), et `storage.protect_delete()` empêche le ménage SQL ; bucket `site-media` créé puis remis **privé/inerte** (à supprimer via le dashboard si besoin). **Garder `public/videos` ≤ ~108 Mo** ; au-delà → stockage externe AVEC la service key.
+
+**QA** : tsc clean · i18n 2833 FR=EN · `next build --experimental-build-mode compile` vert · Playwright dev FR+EN × desktop+mobile : sources par langue OK, 9:16 mobile compact 270×480 sans overflow, cluster mute (toggle + label OK) + fullscreen (le `<video>` passe en plein écran) OK, desktop 16:9 sans cluster, vidéo Antoine mp4-only intacte.
 
 ## 🆕 2026-07-21 (homepage : film FR remplacé par le nouvel export + version verticale 9:16 pour le mobile)
 

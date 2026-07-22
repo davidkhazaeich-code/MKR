@@ -1,7 +1,7 @@
 'use client'
 
 import { Link } from '@/i18n/navigation'
-import { useLocale, useTranslations } from 'next-intl'
+import { useTranslations } from 'next-intl'
 import { useEffect, useRef, useState, useCallback } from 'react'
 import Icon from '@/components/Icon'
 import { SESSIONS } from '@/data/sessions'
@@ -31,7 +31,6 @@ const MOBILE_BREAKPOINT_QUERY = '(max-width: 700px)'
 
 export default function Hero() {
   const t = useTranslations('home.hero')
-  const locale = useLocale()
   const heroSectionRef = useRef<HTMLElement>(null)
   const [activeIndex, setActiveIndex] = useState(0)
   const [isMobile, setIsMobile] = useState(false)
@@ -243,20 +242,16 @@ export default function Hero() {
 
         <div className="hero-ctas">
           <Link href="/inscription" className="btn-primary">{t('cta_primary')}</Link>
-          {/* FR : le film remplace « Découvrir le camp » en CTA secondaire.
-              EN garde l'ancien lien tant que la vidéo EN n'existe pas. */}
-          {locale === 'fr' ? (
-            <button
-              type="button"
-              className="btn-ghost hero-video-btn"
-              onClick={() => document.dispatchEvent(new Event('mkr:play-film'))}
-            >
-              <Icon name="play" size={20} color="var(--primary)" />
-              <span>{t('cta_video')}</span>
-            </button>
-          ) : (
-            <a href="#facilitator" className="btn-ghost">{t('cta_secondary')}</a>
-          )}
+          {/* Le film de présentation (FR + EN depuis 2026-07-22) remplace
+              « Découvrir le camp » en CTA secondaire sur les 2 langues. */}
+          <button
+            type="button"
+            className="btn-ghost hero-video-btn"
+            onClick={() => document.dispatchEvent(new Event('mkr:play-film'))}
+          >
+            <Icon name="play" size={20} color="var(--primary)" />
+            <span>{t('cta_video')}</span>
+          </button>
         </div>
 
         <div className="hero-stats">

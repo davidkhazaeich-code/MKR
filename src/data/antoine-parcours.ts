@@ -12,9 +12,10 @@ import type { TFn } from '@/lib/session-display'
 
 export type AntoineParcoursVariantId = 'mma' | 'temoignages' | 'home'
 
+// webm (VP9) retiré 2026-07-22 : le mp4 H.264 est lu par tous les navigateurs,
+// la source webm était un doublon (allège le build, cf. SITEMAP budget vidéo).
 export const ANTOINE_PARCOURS_ASSETS = {
   src: '/videos/testimonials/antoine-parcours.mp4',
-  webmSrc: '/videos/testimonials/antoine-parcours.webm',
   poster: '/videos/testimonials/antoine-parcours-poster.jpg',
 } as const
 

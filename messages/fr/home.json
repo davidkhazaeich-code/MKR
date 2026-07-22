@@ -37,7 +37,10 @@
     "play_aria": "Lancer le film de présentation du camp",
     "replay_aria": "Revoir le film de présentation du camp",
     "resume_aria": "Reprendre la lecture du film",
-    "video_aria": "Film de présentation du MKR Caucasian Camp"
+    "video_aria": "Film de présentation du MKR Caucasian Camp",
+    "mute_aria": "Couper le son",
+    "unmute_aria": "Activer le son",
+    "fullscreen_aria": "Passer en plein écran"
   },
   "audience_switcher": {
     "label": "QUATRE FAÇONS DE VENIR",

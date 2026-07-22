@@ -37,7 +37,10 @@
     "play_aria": "Play the camp presentation film",
     "replay_aria": "Watch the camp presentation film again",
     "resume_aria": "Resume the film",
-    "video_aria": "MKR Caucasian Camp presentation film"
+    "video_aria": "MKR Caucasian Camp presentation film",
+    "mute_aria": "Mute",
+    "unmute_aria": "Unmute",
+    "fullscreen_aria": "Enter fullscreen"
   },
   "audience_switcher": {
     "label": "FOUR WAYS TO COME",

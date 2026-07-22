@@ -1,7 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { useTranslations } from 'next-intl'
+import { useTranslations, useLocale } from 'next-intl'
 import Icon from './Icon'
 
 // idle : poster + overlay play · loading : play() lancé, 1res frames pas encore là
@@ -9,22 +9,27 @@ import Icon from './Icon'
 // ended : film fini, poster + overlay « revoir »
 type Phase = 'idle' | 'loading' | 'playing' | 'paused' | 'ended'
 
-// Base des assets du film, versionnée par langue (-fr, -en à venir). Un nouveau
-// nom de fichier à chaque remplacement garantit le rafraîchissement du cache
-// (le CDN Vercel ignore la query string sur les assets statiques, seul le nom
-// compte). Encodé léger (CRF 31/33) : en CRF 25 les 2 vidéos débordaient le
-// disque de build Vercel (ENOSPC). Détails : SITEMAP 2026-07-21.
-const FILM_BASE = '/videos/presentation-camp-fr'
+// Vidéo Safari iOS : fullscreen natif via webkitEnterFullscreen (l'API standard
+// requestFullscreen sur un élément n'existe pas sur iPhone).
+type FullscreenVideo = HTMLVideoElement & { webkitEnterFullscreen?: () => void }
 
 export default function VideoSection() {
   const t = useTranslations('home.video_section')
+  const locale = useLocale()
+  // Assets du film versionnés par langue (-fr, -en). Un nom de fichier par langue
+  // garantit aussi le rafraîchissement du cache (le CDN Vercel ignore la query
+  // string sur les assets statiques). Encodé léger (CRF 31/33) : en CRF 25 les
+  // vidéos débordaient le disque de build Vercel (ENOSPC). Cf. SITEMAP 2026-07-21.
+  const filmBase = `/videos/presentation-camp-${locale}`
+
   const videoRef = useRef<HTMLVideoElement>(null)
   const frameRef = useRef<HTMLDivElement>(null)
   const startedAtRef = useRef(0)
   const [phase, setPhase] = useState<Phase>('idle')
+  const [muted, setMuted] = useState(false)
   // Orientation de la source : 9:16 vertical sur mobile (<=700px), 16:9 sinon.
-  // Le film FR existe en 2 exports ; le bon est servi selon le viewport, et le
-  // choix est gele des que la lecture demarre (pas de swap de source en plein film).
+  // Les 2 exports par langue existent ; le bon est servi selon le viewport, et le
+  // choix est gelé dès que la lecture démarre (pas de swap de source en plein film).
   const [isVertical, setIsVertical] = useState(false)
   const startedRef = useRef(false)
   // started : lecture engagée (poster/overlay masqués, contrôles natifs affichés)
@@ -139,6 +144,25 @@ export default function VideoSection() {
     videoRef.current?.play().catch(() => {})
   }
 
+  // Son on/off : on bascule muted, l'état de l'icône suit via onVolumeChange
+  // (couvre aussi une coupure faite depuis les contrôles natifs).
+  const toggleMute = () => {
+    const video = videoRef.current
+    if (video) video.muted = !video.muted
+  }
+
+  // Plein écran natif : requestFullscreen (Android/desktop) sinon
+  // webkitEnterFullscreen (iPhone). Les contrôles natifs s'affichent alors.
+  const enterFullscreen = () => {
+    const video = videoRef.current as FullscreenVideo | null
+    if (!video) return
+    if (typeof video.requestFullscreen === 'function') {
+      void video.requestFullscreen().catch(() => {})
+    } else if (typeof video.webkitEnterFullscreen === 'function') {
+      video.webkitEnterFullscreen()
+    }
+  }
+
   return (
     // is-playing éteint les lumières de la salle (header + générique en retrait)
     <section id="video-section" className={lightsOff ? 'is-playing' : undefined} aria-labelledby="video-heading">
@@ -169,8 +193,8 @@ export default function VideoSection() {
             <video
               ref={videoRef}
               className="video-real"
-              poster={`${FILM_BASE}${isVertical ? '-vertical' : ''}-poster.jpg`}
-              src={`${FILM_BASE}${isVertical ? '-vertical' : ''}.mp4`}
+              poster={`${filmBase}${isVertical ? '-vertical' : ''}-poster.jpg`}
+              src={`${filmBase}${isVertical ? '-vertical' : ''}.mp4`}
               preload="none"
               playsInline
               controls={started}
@@ -178,8 +202,37 @@ export default function VideoSection() {
               onPlaying={() => setPhase('playing')}
               onPause={handlePause}
               onEnded={handleEnded}
+              onVolumeChange={() => {
+                const v = videoRef.current
+                if (v) setMuted(v.muted)
+              }}
               aria-label={t('video_aria')}
             />
+
+            {/* Contrôles rapides mobile : son on/off + plein écran, bien en
+                évidence en haut à droite (les contrôles natifs restent en bas
+                pour la lecture / la barre de progression). */}
+            {started && isVertical && (
+              <div className="vs-controls">
+                <button
+                  type="button"
+                  className="vs-ctrl-btn"
+                  onClick={toggleMute}
+                  aria-label={muted ? t('unmute_aria') : t('mute_aria')}
+                  aria-pressed={muted}
+                >
+                  <Icon name={muted ? 'volume-off' : 'volume-on'} size={22} />
+                </button>
+                <button
+                  type="button"
+                  className="vs-ctrl-btn"
+                  onClick={enterFullscreen}
+                  aria-label={t('fullscreen_aria')}
+                >
+                  <Icon name="fullscreen" size={22} />
+                </button>
+              </div>
+            )}
 
             {phase === 'loading' && (
               <span className="video-loading" aria-hidden="true">

@@ -1072,16 +1072,57 @@ h1, h2, h3, h4, h5 {
     0 0 140px rgba(200, 75, 49, 0.08);
 }
 
-/* Version verticale 9:16 (mobile) : l'écran devient une colonne centrée.
-   Classe posée par React (isVertical via matchMedia 700px), jamais une media
-   query, pour rester synchro avec le choix de source vidéo du composant. */
+/* Version verticale 9:16 (mobile) : colonne compacte centrée (fenêtre réduite,
+   le plein écran prend le relais pour regarder en grand). Classe posée par React
+   (isVertical via matchMedia 700px), jamais une media query, pour rester synchro
+   avec le choix de source vidéo du composant. */
 .vs-frame--vertical {
-  max-width: min(440px, 90vw);
+  /* borné aussi par la hauteur : 34vh de large => ~60vh de haut en 9:16 */
+  max-width: min(360px, 82vw, 34vh);
   margin-inline: auto;
 }
 .vs-frame--vertical .video-main {
   aspect-ratio: 9 / 16;
 }
+
+/* Cadre épuré dès qu'on démarre (coins caméra éteints, pas seulement pendant la
+   projection) : dégage le coin haut-droit pour les contrôles rapides. */
+.video-main--player.is-started .vs-corner { opacity: 0; }
+
+/* Contrôles rapides mobile : son on/off + plein écran, bien en évidence en haut
+   à droite (les contrôles natifs restent en bas pour lecture / progression). */
+.vs-controls {
+  position: absolute;
+  top: 0.7rem;
+  right: 0.7rem;
+  z-index: 4;
+  display: flex;
+  gap: 0.5rem;
+}
+.vs-ctrl-btn {
+  width: 46px;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid rgba(248, 248, 248, 0.55);
+  background: rgba(12, 12, 12, 0.6);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  color: #f8f8f8;
+  cursor: pointer;
+  transition: border-color 0.2s linear, background 0.2s linear, transform 0.15s var(--ease-out-expo);
+}
+.vs-ctrl-btn:hover,
+.vs-ctrl-btn:focus-visible {
+  border-color: var(--primary);
+  background: rgba(200, 75, 49, 0.4);
+}
+.vs-ctrl-btn:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+.vs-ctrl-btn:active { transform: scale(0.92); }
 
 /* Générique de pied : lieu de tournage + durée */
 .vs-billing {
