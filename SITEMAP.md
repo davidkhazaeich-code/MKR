@@ -1,7 +1,59 @@
 # SITEMAP MKR Caucasian Camp — Cartographie complète
 
-> **Fichier de référence pour Claude Code.** Mise à jour : 2026-07-25 (passe 2 : cadrage des photos, alignement, contraste mesuré, derniers visuels IA remplacés).
+> **Fichier de référence pour Claude Code.** Mise à jour : 2026-07-25 (passe 3 : dette des pages destination, preuve sociale + next/image + TouristDestination + maillage).
 > Lis ce fichier en priorité avant toute intervention sur le site MKR. Il évite de re-explorer.
+
+## 🆕 2026-07-25 — PASSE 3 (dette des 2 pages destination)
+
+> **Demande David** : optimiser au maximum `/destinations/dagestan` puis `/destinations/tchetchenie`, FR et EN. Les deux passes précédentes venaient de refondre ces pages le jour même : plutôt qu'une 3e passe visuelle, cette passe traite **la dette que leur propre audit avait laissée ouverte**. Périmètre arbitré avec David.
+
+### 1. Preuve sociale (point n°1 de l'audit des passes 1 et 2)
+
+Nouveau composant **`src/components/DestinationProof.tsx`** (server, CSS `.dproof-*`). Trois témoignages sur la page où la décision se prend : ils ne sortaient jamais de la home et de `/temoignages`. Placé **avant `PriceAnchor`**, même ordre que `/familles` (on justifie avant d'annoncer le prix).
+
+- Props : `ids[]` (de `data/testimonials.ts`), `label`, `title`, `intro`, `ctaLabel`, `scrollAriaLabel`.
+- Même grammaire que `PhotoStrip` : scroll-snap bord à bord en mobile, grille 3 colonnes au-dessus de 761px, piste focusable au clavier.
+- **Sélection par destination, et elle n'est pas interchangeable** : Daghestan reçoit les 2 lutteurs + le grappler (`mehdi-r`, `yassine-k`, `adam-s`), dont celui qui parle explicitement des Daghestanais. Tchétchénie reçoit les profils frappe et MMA (`lucas-m`, `karim-d`, `pierre-l`), **choisis parce qu'aucune de leurs citations ne nomme le Daghestan** : y mettre `antoine-petit-jean` ou `lamp` ferait dire à la page tchétchène que l'athlète s'est entraîné au Daghestan.
+- Le lien vers `/temoignages` lui donne son **premier lien contextuel entrant**.
+
+### 2. `next/image` sur les 2 pages, et 10 dimensions fausses corrigées
+
+Il n'y avait **aucun `next/image` dans tout `(site)/`**. Les 10 photos des 2 pages y passent (srcset, taille adaptée à l'écran).
+
+⚠️ **Les dimensions déclarées étaient fausses sur les 10** : un `800x600` uniforme pour des sources `1600x1066`, `1920x1071`, `2400x1600, et même un **portrait `1440x1920`** pour le canyon du Sulak. Mesurées une par une (`sips`) et corrigées. `EXCURSION_IMAGES` n'est plus `Record<key, string>` mais `Record<key, {src, width, height}>` sur les 2 pages.
+
+> Reste en `<img>` brut : **le fond de `PageHero`** (`.page-hero-bg`), c'est-à-dire le LCP de ~10 pages. Non touché ici volontairement : `PageHero.tsx` venait d'être modifié par la passe 2 (`imageFocusY`). C'est le prochain gain de perf le plus élevé du site.
+
+### 3. `TouristDestination` (schémas)
+
+Nouveau composant **`src/components/DestinationJsonLd.tsx`**. Ces pages décrivent un lieu et n'émettaient qu'un `BreadcrumbList` et une `FAQPage` : rien ne disait à Google ni aux moteurs IA de quel endroit on parle. Émet `TouristDestination` avec `geo`, `address`, `inLanguage`, et **les excursions déjà présentes dans le corps de la page** en `includesAttraction` (aucune donnée inventée). Nom, URL et attractions localisés (vérifié : `/en/destinations/chechnya` déclare « Chechnya » et une URL EN).
+
+### 4. Maillage : le blog n'est plus un silo fermé
+
+Nouveau composant **`src/components/RelatedReading.tsx`** (CSS `.related-reading-*`). Trois liens vers le blog par page, **ancres éditoriales et non les titres bruts**. Placé après la FAQ et avant le CTA final pour ne pas détourner la conversion. Slugs localisés via `getBlogSlug` (vérifié : les liens EN sortent bien en `/en/blog/<slug-en>`).
+
+⚠️ Piège CSS rencontré : dans `.related-reading-list`, **le `li` est l'élément de grille, pas le lien**. Sans `.related-reading-list > li { display: flex }` + `.related-reading-link { flex: 1 }`, le lien ne remplit pas la cellule étirée et les cartes d'une rangée sont inégales dès qu'une accroche passe sur 2 lignes.
+
+### 5. Correction de contenu
+
+Un témoignage (`karim-d`) **nommait encore « Magomed »**, coach généré par IA officiellement retiré du site. Retiré en FR et en EN.
+
+### Garde-fou respecté
+
+**Le title FR de `/destinations/dagestan` n'a pas été touché** (7,5 % de CTR, le meilleur du site).
+
+### QA passe 3
+
+`tsc` clean · `i18n-check` **2 882 clés** FR=EN + metas + liens EN localisés · build compile vert · **sweep Playwright 4 pages (FR+EN × 2 destinations) × 3 viewports = 12 combinaisons, 0 problème** : zéro débordement horizontal, 1 seul h1, aucune image cassée, cartes de même hauteur sur les 2 rangées aux 2 breakpoints desktop.
+
+> ⚠️ Le profil du MCP Playwright était verrouillé par une session parallèle : QA faite en **Playwright headless isolé** depuis `.tmp/` (le script doit vivre DANS le projet pour résoudre `@playwright/test`). Même contrainte que les QA de juillet.
+
+### Reste ouvert après la passe 3, par valeur décroissante
+
+1. **`PageHero` en `<img>` brut** : le LCP de ~10 pages, sans `srcset` (cf. §2).
+2. **`localeDetection` est actif** : une URL FR renvoie un **307 vers /en** pour un navigateur en anglais. Les liens FR partagés à l'étranger sont détournés. Correctif = `localeDetection: false` dans `defineRouting` (`src/i18n/routing.ts`), **arbitrage produit, non fait**.
+3. **Dictionnaire i18n complet sérialisé** dans chaque page (269 Ko sur 634 Ko de HTML).
+4. Prix à 4,5-7,5 écrans de scroll en mobile sur les pages programme · `/programme` et `/sessions` trop maigres · vidéo 24 Mo en autoplay mobile sur `/programme/mma` · schémas `Course`/`CourseInstance` et `Product`/`Offer` toujours absents · title de la home tronqué · `llms.txt` en retard de 18 URL · méga menu qui émet 6 titres avant le h1.
 
 ## 🆕 2026-07-25 — PASSE 2 (cadrage, alignement, contraste, derniers visuels IA)
 
