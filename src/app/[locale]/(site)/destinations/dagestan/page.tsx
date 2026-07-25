@@ -42,9 +42,9 @@ const EXCURSION_KEYS = ['sulak', 'sarykum', 'gamsutl'] as const
    canyon est un portrait), et le 800x600 uniforme precedent etait faux pour
    les trois. */
 const EXCURSION_IMAGES: Record<typeof EXCURSION_KEYS[number], { src: string; width: number; height: number }> = {
-  // Vraie photo du canyon (repo) au lieu du visuel IA : c'est l'argument
-  // d'excursion n°1 de la page qui capte le plus de trafic SEO.
-  sulak: { src: '/images/ruslan/environment/canyon-sulak-falaises.webp', width: 1440, height: 1920 },
+  // Vraie photo, recadree depuis l'original 3024x4032 : la version precedente
+  // portait un garde-corps en travers du coin bas droit.
+  sulak: { src: '/images/ruslan/environment/canyon-sulak-passerelle-hd.webp', width: 1800, height: 1125 },
   sarykum: { src: '/images/environment/sarykum-dune.webp', width: 1920, height: 1071 },
   gamsutl: { src: '/images/environment/gamsutl-village.webp', width: 1920, height: 1071 },
 }
@@ -69,7 +69,7 @@ export default async function DagestanPage({ params }: { params: Promise<{ local
         name={t('breadcrumb.current')}
         description={t('meta.description')}
         url={`https://mkrcamp.com${getPathname({ href: '/destinations/dagestan', locale: locale as Locale })}`}
-        image="https://mkrcamp.com/images/galerie-real/canyon-sulak-overlook.webp"
+        image="https://mkrcamp.com/images/ruslan/environment/canyon-sulak-hero.webp"
         addressRegion="Dagestan"
         addressCountry="RU"
         latitude={42.9849}
@@ -84,9 +84,11 @@ export default async function DagestanPage({ params }: { params: Promise<{ local
         label={t('hero.label')}
         title={t('hero.title')}
         subtitle={t('hero.subtitle')}
-        image="/images/galerie-real/canyon-sulak-overlook.webp"
-        /* focus 65% : a 35% on ne voyait que du ciel : la passerelle du canyon est a 65% */
-        imageFocusY="65%"
+        /* Recadre depuis l'original 4284x5712 : l'ancien fichier faisait 896px
+           de large, donc upscale et flou sur un hero pleine largeur. Le
+           garde-corps et le cable du premier plan sont sortis du cadre. */
+        image="/images/ruslan/environment/canyon-sulak-hero.webp"
+        imageFocusY="50%"
         imageAlt={t('hero.image_alt')}
         breadcrumb={[
           { href: '/destinations', label: t('breadcrumb.destinations') },
@@ -103,9 +105,11 @@ export default async function DagestanPage({ params }: { params: Promise<{ local
       </div>
 
       <DestinationReveal
-        image="/images/ruslan/hero/quad-coucher-soleil.webp"
-        /* focus 68% : les cavaliers n'apparaissent qu'a 68%, avant c'est du ciel delave */
-        focusY="45%"
+        /* La bande s'appelle « LES MONTAGNES DU DAGHESTAN » : l'ancienne photo
+           etait dominee par un quad bleu au premier plan. Meme original, recadre
+           au-dessus du quad, il ne reste que les cretes et la silhouette. */
+        image="/images/ruslan/environment/montagnes-daghestan-cretes.webp"
+        focusY="50%"
         alt={t('reveal.image_alt')}
         label={t('reveal.label')}
         title={t('reveal.title')}
@@ -219,7 +223,11 @@ export default async function DagestanPage({ params }: { params: Promise<{ local
 
       {/* Cinematic reveal */}
       <SceneBand
-        image="/images/ruslan/environment/canyon-sulak-passerelle.webp"
+        /* Le titre dit « LE PAYS QUI FORGE LES CORPS » et l'image montrait un
+           canyon, soit le 3e canyon de la page. Vue plongeante sur une salle de
+           lutte entiere : la salle et le collectif sont le sujet, aucun visage
+           n'est lisible a cette echelle. */
+        image="/images/ruslan/lutte/salle-vue-plongeante-daghestan.webp"
         focusY="50%"
         alt={t('cinematic.alt')}
         label={t('cinematic.label')}

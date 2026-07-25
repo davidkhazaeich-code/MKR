@@ -155,7 +155,7 @@
       "label": "DAGHESTAN · CAMP LUTTE",
       "title": "LA TERRE QUI FORGE LES CHAMPIONS",
       "subtitle": "Plus de médailles olympiques de lutte par habitant que n'importe où sur Terre. C'est ici que MKR t'emmène t'entraîner.",
-      "image_alt": "Point de vue sur le canyon de Sulak au Daghestan"
+      "image_alt": "Passerelle suspendue au-dessus du canyon de Sulak au Daghestan, entre deux falaises"
     },
     "tldr": {
       "title": "En bref · Daghestan",
@@ -168,7 +168,7 @@
       ]
     },
     "reveal": {
-      "image_alt": "Silhouette au sommet d'un col du Daghestan au coucher du soleil, vallée en contrebas",
+      "image_alt": "Montagnes du Daghestan dans la brume au coucher du soleil, silhouette d'un homme face à la vallée",
       "label": "CAUCASE · RUSSIE",
       "title": "LES MONTAGNES<br/>DU DAGHESTAN",
       "facts": {
@@ -230,10 +230,10 @@
       }
     },
     "cinematic": {
-      "alt": "Canyon de Sulak au Daghestan : passerelle au bord de la falaise au-dessus de la rivière turquoise",
+      "alt": "Salle de lutte au Daghestan vue en plongée : trois tapis de compétition occupés par des dizaines de lutteurs à l'entraînement",
       "label": "DAGHESTAN",
       "title": "LE PAYS QUI FORGE LES CORPS",
-      "tagline": "Canyons, cols et villages perchés. Le Daghestan ne rend rien facile, et c'est précisément ce qui produit ses champions."
+      "tagline": "Trois tapis, des dizaines de lutteurs sur chacun. Au Daghestan, une salle comme celle-ci n'a rien d'exceptionnel. C'est le niveau de base."
     },
     "faq": {
       "label": "QUESTIONS",
@@ -319,7 +319,7 @@
       ]
     },
     "reveal": {
-      "image_alt": "Mosquée du Cœur de la Tchétchénie et tours de Grozny City au crépuscule",
+      "image_alt": "Coach de l'Akhmat Fight Club briefant quatre combattants dans la salle, à Grozny",
       "label": "CAUCASE · RUSSIE",
       "title": "LE PAYS<br/>VAÏNAKH",
       "facts": {

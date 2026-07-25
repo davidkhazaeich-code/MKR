@@ -98,9 +98,12 @@ export default async function TchetcheniePage({ params }: { params: Promise<{ lo
       </div>
 
       <DestinationReveal
-        image="/images/environment/mosque-grozny.webp"
-        /* focus 60% : mosquee complete avec sa base a 60% */
-        focusY="60%"
+        /* La mosquee servait 4 fois sur cette page (hero, cette bande, la carte
+           excursion, le JSON-LD). Ici, une vraie photo de l'Akhmat Fight Club a
+           Grozny remplace le doublon et fait entrer une image reelle et adulte
+           en haut de page. focus 45% : garde les 5 visages dans la bande. */
+        image="/images/mma-tchechenie/briefing-coach-4-combattants.webp"
+        focusY="45%"
         alt={t('reveal.image_alt')}
         label={t('reveal.label')}
         title={t('reveal.title')}
