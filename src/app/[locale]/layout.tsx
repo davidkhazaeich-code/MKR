@@ -9,11 +9,12 @@ import { setRequestLocale, getMessages, getTranslations } from 'next-intl/server
 import { Analytics } from '@vercel/analytics/next'
 import { SITE_URL, SITE_NAME, SITE_EMAIL, SITE_DESCRIPTION, SOCIALS, GEO } from '@/data/site'
 import { SESSIONS } from '@/data/sessions'
+import { getPathname } from '@/i18n/navigation'
 import { PRICING_TIERS } from '@/data/pricing'
 import SiteLoader from '@/components/SiteLoader'
 import CookieConsent from '@/components/CookieConsent'
 import AttributionCapture from '@/components/AttributionCapture'
-import { routing } from '@/i18n/routing'
+import { routing, type Locale } from '@/i18n/routing'
 import { GADS_ID } from '@/lib/gtag'
 import '../globals.css'
 
@@ -110,6 +111,13 @@ export const viewport: Viewport = {
 async function buildJsonLd(locale: 'fr' | 'en') {
   const inLanguage = locale === 'fr' ? 'fr' : 'en'
   const t = await getTranslations({ locale, namespace: 'meta' })
+  // `s.season` de data/sessions.ts est une chaine FR en dur ('Ete', 'Automne'...).
+  // Utilisee telle quelle, elle mettait « Session Ete 2026 » dans les Event
+  // JSON-LD des pages ANGLAISES. On passe par le libelle deja localise.
+  const tSessions = await getTranslations({ locale, namespace: 'data.sessions' })
+  // URL localisee pour le @graph : `getPathname` renvoie deja le prefixe /en
+  // pour la locale anglaise (localePrefix as-needed avec prefixes.en='/en').
+  const lUrl = (path: string) => `${SITE_URL}${getPathname({ locale: locale as Locale, href: path as never })}`
 
   // ---------------------------------------------------------------------------
   // 1. WebSite
@@ -141,7 +149,7 @@ async function buildJsonLd(locale: 'fr' | 'en') {
         jobTitle: t('person_ruslan.job_title'),
         description: t('organization.founder_description'),
         image: `${SITE_URL}/images/coaches/ruslan.webp`,
-        url: `${SITE_URL}/a-propos`,
+        url: lUrl('/a-propos'),
         sameAs: [SOCIALS.instagram],
         alumniOf: {
           '@type': 'SportsOrganization',
@@ -182,7 +190,7 @@ async function buildJsonLd(locale: 'fr' | 'en') {
         '@type': 'SportsActivityLocation',
         '@id': `${SITE_URL}/#location-dagestan`,
         name: t('sports_activity_location.dagestan.name'),
-        url: `${SITE_URL}/destinations/dagestan`,
+        url: lUrl('/destinations/dagestan'),
         description: t('sports_activity_location.dagestan.description'),
         image: `${SITE_URL}/images/environment/gym-interior.webp`,
         address: { '@type': 'PostalAddress', addressCountry: 'RU', addressRegion: 'Daghestan', addressLocality: 'Makhachkala' },
@@ -203,7 +211,7 @@ async function buildJsonLd(locale: 'fr' | 'en') {
         '@type': 'SportsActivityLocation',
         '@id': `${SITE_URL}/#location-tchetchenie`,
         name: t('sports_activity_location.tchetchenie.name'),
-        url: `${SITE_URL}/destinations/tchetchenie`,
+        url: lUrl('/destinations/tchetchenie'),
         description: t('sports_activity_location.tchetchenie.description'),
         image: `${SITE_URL}/images/environment/gym-interior.webp`,
         address: { '@type': 'PostalAddress', addressCountry: 'RU', addressRegion: 'Tchétchénie', addressLocality: 'Grozny' },
@@ -231,7 +239,7 @@ async function buildJsonLd(locale: 'fr' | 'en') {
         return {
           '@type': 'Event',
           '@id': `${SITE_URL}/#event-${s.id}`,
-          name: `${t('site.name')} - Session ${s.season} ${sessionYear}`,
+          name: `${t('site.name')} - ${tSessions(`${s.id}.season_label`)}`,
           description: t('events.session_description_template'),
           startDate: s.startDate,
           endDate: s.endDate,
@@ -242,17 +250,17 @@ async function buildJsonLd(locale: 'fr' | 'en') {
             { '@id': `${SITE_URL}/#location-tchetchenie` },
           ],
           image: `${SITE_URL}/images/social/og-image.webp`,
-          url: `${SITE_URL}/sessions`,
+          url: lUrl('/sessions'),
           organizer: { '@id': `${SITE_URL}/#organization` },
           offers: {
             '@type': 'AggregateOffer',
-            name: `Session ${s.season} ${sessionYear}`,
+            name: tSessions(`${s.id}.season_label`),
             lowPrice: String(PRICING_TIERS.club.perAdult[1]),
             highPrice: String(PRICING_TIERS.duo.perAdult[3]),
             priceCurrency: s.priceCurrency,
             offerCount: 9,
             availability,
-            url: `${SITE_URL}/inscription`,
+            url: lUrl('/inscription'),
             validFrom: '2025-12-01',
           },
           maximumAttendeeCapacity: s.maxCapacity.lutte + s.maxCapacity.mma,

@@ -5,6 +5,8 @@ export interface PhotoStripItem {
   alt: string
   /** Legende editoriale affichee sous la photo (contenu indexable, pas decoratif). */
   caption?: string
+  /** Position verticale du recadrage (« 50% » par defaut). Cadre 4/5 ou 4/3. */
+  focusY?: string
 }
 
 interface PhotoStripProps {
@@ -81,6 +83,7 @@ export default function PhotoStrip({
                   fill
                   sizes="(max-width: 700px) 78vw, (max-width: 1100px) 45vw, 30vw"
                   className="pstrip-photo-img"
+                  style={item.focusY ? { objectPosition: `center ${item.focusY}` } : undefined}
                 />
               </div>
               {item.caption && <figcaption className="pstrip-photo-caption">{item.caption}</figcaption>}

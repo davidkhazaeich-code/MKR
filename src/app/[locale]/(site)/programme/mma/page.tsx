@@ -20,7 +20,7 @@ import { getAntoineParcoursProps } from '@/data/antoine-parcours'
 import type { IconName } from '@/components/Icon'
 import type { FAQItem } from '@/components/FAQAccordion'
 
-const UPDATED = '2026-07-06'
+const UPDATED = '2026-07-25'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
@@ -91,6 +91,8 @@ export default async function ProgrammeMMAPage({ params }: { params: Promise<{ l
         title={t('hero.title')}
         subtitle={t('hero.subtitle')}
         image="/images/mma-tchechenie/sparring-cage-turquoise.webp"
+        /* focus 18% : a 35% les visages des deux combattants etaient coupes */
+        imageFocusY="18%"
         imageAlt={t('hero.image_alt')}
         breadcrumb={[
           { href: '/programme', label: t('breadcrumb.programme') },
@@ -162,6 +164,8 @@ export default async function ProgrammeMMAPage({ params }: { params: Promise<{ l
           2,1 viewports de scroll sticky pour une seule photo). */}
       <SceneBand
         image="/images/mma-tchechenie/sparring-face-a-face.webp"
+        /* focus 30% : au centre les tetes etaient coupees */
+        focusY="30%"
         alt={t('cinematic.alt')}
         label={t('cinematic.label')}
         title={t('cinematic.title')}

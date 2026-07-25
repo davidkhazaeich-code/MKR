@@ -64,6 +64,8 @@ export default async function AProposPage({ params }: { params: Promise<{ locale
         title={t('hero.title')}
         subtitle={t('hero.subtitle')}
         image="/images/ruslan/heritage/priere-collective-mkr.webp"
+        /* focus 40% : groupe en priere : 40% garde la salle et le collectif */
+        imageFocusY="40%"
         imageAlt={t('hero.image_alt')}
       />
 
@@ -105,6 +107,8 @@ export default async function AProposPage({ params }: { params: Promise<{ locale
       {/* Cinematic reveal */}
       <SceneBand
         image="/images/ruslan/heritage/priere-collective-mkr.webp"
+        /* focus 40% : groupe en priere */
+        focusY="40%"
         alt={t('cinematic.alt')}
         label={t('cinematic.label')}
         title={t('cinematic.title')}

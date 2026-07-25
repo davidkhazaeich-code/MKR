@@ -16,7 +16,7 @@ import PriceAnchor from '@/components/PriceAnchor'
 import Icon, { type IconName } from '@/components/Icon'
 import type { FAQItem } from '@/components/FAQAccordion'
 
-const UPDATED = '2026-07-06'
+const UPDATED = '2026-07-25'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
@@ -68,6 +68,8 @@ export default async function LeCampPage({ params }: { params: Promise<{ locale:
         title={t('hero.title')}
         subtitle={t('hero.subtitle')}
         image="/images/galerie-real/mma-cercle-session.webp"
+        /* focus 25% : groupe assis sur le tapis rouge : visages a 25% */
+        imageFocusY="25%"
         imageAlt={t('hero.image_alt')}
       />
 
@@ -92,6 +94,8 @@ export default async function LeCampPage({ params }: { params: Promise<{ locale:
       <SceneBand
         /* Vraie photo (salle pleine) au lieu du visuel IA de salle vide. */
         image="/images/ruslan/action/mma-adultes-cercle.webp"
+        /* focus 30% : groupe assis : le centre coupait a mi-corps */
+        focusY="30%"
         alt={t('cinematic.alt')}
         label={t('cinematic.label')}
         title={t('cinematic.title')}

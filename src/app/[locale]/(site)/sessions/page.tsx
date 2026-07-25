@@ -50,6 +50,8 @@ export default async function SessionsPage({ params }: { params: Promise<{ local
         title={t('hero.title')}
         subtitle={t('hero.subtitle')}
         image="/images/galerie-real/quad-golden-hour.webp"
+        /* focus 42% : silhouette sur le quad legerement sous le centre */
+        imageFocusY="42%"
         imageAlt={t('hero.image_alt')}
       />
 

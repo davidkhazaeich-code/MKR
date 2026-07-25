@@ -13,7 +13,7 @@ import PageFaq from '@/components/PageFaq'
 import PriceAnchor from '@/components/PriceAnchor'
 import type { FAQItem } from '@/components/FAQAccordion'
 
-const UPDATED = '2026-07-06'
+const UPDATED = '2026-07-25'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
@@ -53,6 +53,8 @@ export default async function TchetcheniePage({ params }: { params: Promise<{ lo
         title={t('hero.title')}
         subtitle={t('hero.subtitle')}
         image="/images/environment/mosque-grozny.webp"
+        /* focus 60% : a 35% la base de la mosquee etait coupee */
+        imageFocusY="60%"
         imageAlt={t('hero.image_alt')}
         breadcrumb={[
           { href: '/destinations', label: t('breadcrumb.destinations') },
@@ -70,6 +72,8 @@ export default async function TchetcheniePage({ params }: { params: Promise<{ lo
 
       <DestinationReveal
         image="/images/environment/mosque-grozny.webp"
+        /* focus 60% : mosquee complete avec sa base a 60% */
+        focusY="60%"
         alt={t('reveal.image_alt')}
         label={t('reveal.label')}
         title={t('reveal.title')}

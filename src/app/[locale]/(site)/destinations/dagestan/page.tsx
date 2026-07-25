@@ -14,7 +14,7 @@ import PageFaq from '@/components/PageFaq'
 import PriceAnchor from '@/components/PriceAnchor'
 import type { FAQItem } from '@/components/FAQAccordion'
 
-const UPDATED = '2026-07-06'
+const UPDATED = '2026-07-25'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
@@ -56,6 +56,8 @@ export default async function DagestanPage({ params }: { params: Promise<{ local
         title={t('hero.title')}
         subtitle={t('hero.subtitle')}
         image="/images/galerie-real/canyon-sulak-overlook.webp"
+        /* focus 65% : a 35% on ne voyait que du ciel : la passerelle du canyon est a 65% */
+        imageFocusY="65%"
         imageAlt={t('hero.image_alt')}
         breadcrumb={[
           { href: '/destinations', label: t('breadcrumb.destinations') },
@@ -72,7 +74,9 @@ export default async function DagestanPage({ params }: { params: Promise<{ local
       </div>
 
       <DestinationReveal
-        image="/images/environment/dagestan-horses.webp"
+        image="/images/ruslan/hero/quad-coucher-soleil.webp"
+        /* focus 68% : les cavaliers n'apparaissent qu'a 68%, avant c'est du ciel delave */
+        focusY="45%"
         alt={t('reveal.image_alt')}
         label={t('reveal.label')}
         title={t('reveal.title')}
@@ -183,7 +187,8 @@ export default async function DagestanPage({ params }: { params: Promise<{ local
 
       {/* Cinematic reveal */}
       <SceneBand
-        image="/images/environment/mountain-road.webp"
+        image="/images/ruslan/environment/canyon-sulak-passerelle.webp"
+        focusY="50%"
         alt={t('cinematic.alt')}
         label={t('cinematic.label')}
         title={t('cinematic.title')}

@@ -38,6 +38,8 @@ export default async function CommentCaMarchePage({ params }: { params: Promise<
         title={t('hero.title')}
         subtitle={t('hero.subtitle')}
         image="/images/ruslan/coaches/Antoine-portrait-makhachkala-mkr.webp"
+        /* focus 60% : portrait vertical : a 35% le visage d'Antoine etait hors cadre */
+        imageFocusY="60%"
         imageAlt={t('hero.image_alt')}
       />
 

@@ -18,7 +18,7 @@ import PriceAnchor from '@/components/PriceAnchor'
 import type { IconName } from '@/components/Icon'
 import type { FAQItem } from '@/components/FAQAccordion'
 
-const UPDATED = '2026-07-06'
+const UPDATED = '2026-07-25'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params

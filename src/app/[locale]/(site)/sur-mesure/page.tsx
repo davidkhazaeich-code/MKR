@@ -73,6 +73,8 @@ export default async function SurMesurePage({ params }: { params: Promise<{ loca
       {/* Cinematic reveal */}
       <SceneBand
         image="/images/ruslan/action/mma-cercle-session-demo-mkr.webp"
+        /* focus 28% : cercle assis : visages a 28% */
+        focusY="28%"
         alt={t('cinematic.alt')}
         label={t('cinematic.label')}
         title={t('cinematic.title')}

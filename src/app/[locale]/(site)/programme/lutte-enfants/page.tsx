@@ -137,7 +137,9 @@ export default async function ProgrammeLutteEnfantsPage({ params }: { params: Pr
 
       {/* Cinematic reveal : jeune lutteur en posture */}
       <SceneBand
-        image="/images/ruslan/kids/kid-lutteur-rouge-rossiya.webp"
+        image="/images/ruslan/kids/kids-coach-cercle-mkr.webp"
+        /* focus 32% : visages du coach et de l'enfant a 32% */
+        focusY="40%"
         alt={t('cinematic.alt')}
         label={t('cinematic.label')}
         title={t('cinematic.title')}

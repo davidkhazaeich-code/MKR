@@ -28,6 +28,7 @@ export default function ScrollNav() {
   const [activeIdx, setActiveIdx] = useState(0)
   const [progress, setProgress] = useState(0)
   const [scrolled, setScrolled] = useState(false)
+  const [firstScreenFull, setFirstScreenFull] = useState(false)
   const ratioMap = useRef<Map<string, number>>(new Map())
   const intersectionRef = useRef<IntersectionObserver | null>(null)
 
@@ -140,6 +141,29 @@ export default function ScrollNav() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [pathname])
 
+  // ─── Le chevron « Decouvrir » n'a de sens que si le premier ecran est PLEIN ───
+  // Il est `position: fixed; bottom: 28px` avec un fond transparent. Quand la
+  // premiere section ne remplit pas le viewport (c'est le cas de toutes les
+  // pages secondaires depuis que les heros sont bornes a ~500px), il se pose
+  // par-dessus le contenu deja visible : mesure du 2026-07-25 sur
+  // /programme/lutte a 390x844, le label blanc tombait sur le texte du
+  // KeyFactsBand. Il devient a la fois redondant (on voit deja qu'il y a du
+  // contenu dessous) et nuisible a la lisibilite.
+  // On ne le rend donc que si la premiere section couvre au moins 85% du viewport.
+  useEffect(() => {
+    const measure = () => {
+      const main = document.getElementById('main') || document.querySelector('main')
+      const first = main?.firstElementChild as HTMLElement | null
+      if (!first) { setFirstScreenFull(false); return }
+      const rect = first.getBoundingClientRect()
+      setFirstScreenFull(rect.height >= window.innerHeight * 0.85)
+    }
+    measure()
+    window.addEventListener('resize', measure)
+    const t = setTimeout(measure, 400) // apres reveal / chargement des images
+    return () => { window.removeEventListener('resize', measure); clearTimeout(t) }
+  }, [pathname, sections])
+
   if (sections.length < HIDE_BELOW) return null
 
   const scrollTo = (id: string) => {
@@ -176,14 +200,21 @@ export default function ScrollNav() {
         ))}
       </nav>
 
-      {/* Chevron animé en bas, visible au top de la page (avant scroll) */}
+      {/* Chevron animé en bas, visible au top de la page (avant scroll) et
+          uniquement quand le premier écran est plein (cf. firstScreenFull). */}
       <button
         type="button"
         onClick={next}
         aria-label={t('discover_next_aria')}
-        className={`hs-chevron${scrolled ? ' is-hidden' : ''}`}
+        className={`hs-chevron${scrolled || !firstScreenFull ? ' is-hidden' : ''}`}
+        aria-hidden={!firstScreenFull || undefined}
+        tabIndex={!firstScreenFull ? -1 : undefined}
       >
-        <span className="hs-chevron-label">{t('discover')}</span>
+        {/* Le libelle texte a ete retire le 2026-07-25 : sur la home desktop il
+            se posait par-dessus « SEMAINES D'IMMERSION » dans la rangee de
+            stats du hero (mesure a 1440x900 : chevron y=798..872, stats en
+            dessous). La fleche seule tient dans l'espace libre, et le sens
+            reste porte par l'aria-label du bouton. */}
         <span className="hs-chevron-arrow" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" width="22" height="22">
             <polyline points="6 9 12 15 18 9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -308,6 +339,15 @@ export default function ScrollNav() {
           will-change: opacity, transform;
         }
         .hs-chevron:hover { opacity: 1; }
+        /* Au-dela de 1024px, la colonne de points (.hs-dots) prend le relais et
+           dit deja qu'il y a des sections en dessous : le chevron y est
+           redondant, et il chevauche la rangee de stats du hero de la home
+           (mesure a 1440x900 : chevron x=684..756 y=816..872, sur le label
+           « Semaines d'immersion »). On le reserve donc au mobile et a la
+           tablette, ou les points sont masques. */
+        @media (min-width: 1025px) {
+          .hs-chevron { display: none; }
+        }
         .hs-chevron.is-hidden {
           opacity: 0;
           pointer-events: none;

@@ -7,6 +7,8 @@ interface DestinationRevealProps {
   title: string
   facts: { label: string; value: string }[]
   badges?: string[]
+  /** Position verticale du recadrage de la bande (« 32% » par defaut). */
+  focusY?: string
 }
 
 /**
@@ -23,7 +25,7 @@ interface DestinationRevealProps {
  * surimpression, et le composant redevient un server component : plus de hook
  * de scroll, donc plus aucun JS client pour ce bloc.
  */
-export default function DestinationReveal({ image, alt, label, title, facts, badges }: DestinationRevealProps) {
+export default function DestinationReveal({ image, alt, label, title, facts, badges, focusY }: DestinationRevealProps) {
   return (
     <section className="dest-head" data-scroll-section data-scroll-label={label}>
       <div className="dest-head-frame reveal">
@@ -33,12 +35,17 @@ export default function DestinationReveal({ image, alt, label, title, facts, bad
           fill
           sizes="100vw"
           className="dest-head-img"
+          style={focusY ? { objectPosition: `center ${focusY}` } : undefined}
           priority
         />
         <div className="dest-head-scrim" aria-hidden="true" />
+        {/* `.inner` : le texte s'aligne sur la colonne du site, le cadre photo
+            reste pleine largeur. */}
         <div className="dest-head-caption">
-          <span className="label-tag dest-head-label">{label}</span>
-          <h2 className="dest-head-title" dangerouslySetInnerHTML={{ __html: title }} />
+          <div className="inner">
+            <span className="label-tag dest-head-label">{label}</span>
+            <h2 className="dest-head-title" dangerouslySetInnerHTML={{ __html: title }} />
+          </div>
         </div>
       </div>
 

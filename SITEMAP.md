@@ -1,7 +1,85 @@
 # SITEMAP MKR Caucasian Camp — Cartographie complète
 
-> **Fichier de référence pour Claude Code.** Mise à jour : 2026-07-25 (refonte UX/UI/SEO des pages secondaires : fin des images plein écran en sticky, densité photo, metas réécrites, site EN réparé).
+> **Fichier de référence pour Claude Code.** Mise à jour : 2026-07-25 (passe 2 : cadrage des photos, alignement, contraste mesuré, derniers visuels IA remplacés).
 > Lis ce fichier en priorité avant toute intervention sur le site MKR. Il évite de re-explorer.
+
+## 🆕 2026-07-25 — PASSE 2 (cadrage, alignement, contraste, derniers visuels IA)
+
+> **Demande David**, en deux temps : d'abord « visuel, UX, UI, responsivité, alignement, vision, visibilité des éléments, éléments accrocheurs, en gardant le SEO et le GEO » ; puis, après avoir vu le résultat, « fais attention au placement des images maintenant qu'elles sont moins hautes » et « choisis les meilleures images possible ».
+
+### Cadrage des photos : nouvelle prop `focusY` (la conséquence directe de la passe 1)
+
+En bornant les images (SceneBand 44vh, dest-head 48vh, hero ~500px), `object-fit: cover` s'est mis à **jeter plus de la moitié de la hauteur** des photos sources. La valeur par défaut (`center`, et `center 35%` pour les hero) coupait des visages et cadrait du ciel vide.
+
+Méthode : pour chaque image, génération des recadrages à 3:1 (pire cas desktop) aux positions 20 / 35 / 50 / 65 %, puis choix à l'œil. Script réutilisable : `.tmp/crops.py` (à relancer si on change une photo).
+
+Trois composants acceptent désormais une position verticale, **à régler PAR IMAGE** :
+| Composant | Prop | Défaut |
+|---|---|---|
+| `PageHero` | `imageFocusY` | `center 35%` (CSS) |
+| `SceneBand` | `focusY` | `50%` |
+| `DestinationReveal` | `focusY` | `50%` |
+| `PhotoStrip` (par item) | `item.focusY` | `50%` |
+
+20 valeurs posées. Les plus parlantes : `/programme/mma` hero **18%** (à 35% les deux combattants étaient décapités), `/comment-ca-marche` **60%** (le visage était hors cadre), `/destinations/dagestan` hero **65%** (on ne voyait que du ciel, la passerelle du canyon est à 65%).
+
+> ⚠️ `PhotoStrip` n'a PAS besoin de `focusY` avec les photos actuelles : ses cadres (4/5 mobile, 4/3 desktop) sont plus étroits que les sources (1,5), donc `cover` ne recadre QUE latéralement et la hauteur est montrée en entier.
+
+### Alignement : deux décalages réels, invisibles au premier regard
+
+1. **Le h1 des hero illustrés était 131px à DROITE de la colonne** à 1440px. Cause : `.page-hero--image` est un conteneur `flex`, donc `.inner` devenait un flex item **dimensionné par son contenu** (979px au lieu de 1240) que son `margin: 0 auto` recentrait. Le décalage variait donc avec la longueur du titre. Fix : `.page-hero--image .inner { width: 100% }`.
+2. **Le texte des bandes était 92px à GAUCHE de la colonne** : il se calait sur le bord du cadre pleine largeur. Fix : `SceneBand` et `DestinationReveal` enveloppent leur texte dans `.inner`, la classe du site, donc l'alignement est garanti par construction.
+
+Vérifié : hero, titre de bande et titre de galerie tombent **exactement** sur la même colonne à 1440 / 1280 / 768 / 390.
+
+### Contraste mesuré sur la photo, pas estimé
+
+Méthode : on masque le texte, on capture la zone qu'il occupait, on lit la luminance **moyenne ET le pixel le plus clair** (c'est lui qui casse la lisibilité), puis ratio WCAG contre la couleur du texte. Script : `.tmp/qa-contraste.mjs`.
+
+Résultats et corrections :
+- Les hero ressortaient à **15-18:1**, très au-delà du 4,5:1 requis : la photo était noyée pour rien. Voile allégé (0,72/0,66 → 0,58/0,42) et `brightness(0.86)` → `0.94`. On voit nettement plus l'image, on reste au-dessus de 5:1 dans le pire cas.
+- Les **accroches des bandes tombaient à 2,2:1** : `--text-secondary` (#A8A8A4) est calibré pour une surface sombre, pas pour une photo. Passées en blanc à 93% + ombre portée, palier ajouté au scrim.
+- Bilan : **14 mesures texte/photo, toutes au-dessus du seuil**, sur des photos plus lumineuses qu'avant.
+
+### Chevron « Découvrir » : il se posait sur le contenu
+
+`.hs-chevron` est `position: fixed; bottom: 28px` avec un fond **transparent**. Depuis que les hero sont bornés (~500px sur 844), il ne recouvrait plus un hero plein écran mais le contenu déjà visible : mesuré sur `/programme/lutte` à 390x844, le label blanc tombait sur le texte du `KeyFactsBand`. Sur la home desktop, il chevauchait « SEMAINES D'IMMERSION » dans la rangée de stats.
+
+Trois correctifs : rendu **seulement si la première section couvre ≥ 85% du viewport** (`firstScreenFull`), **libellé texte retiré** (la flèche seule tient dans l'espace libre, le sens reste dans l'`aria-label`), et **masqué au-dessus de 1024px** où la colonne de points `.hs-dots` prend déjà le relais. `ScrollIndicator.tsx`, devenu orphelin, est supprimé.
+
+### Derniers visuels IA remplacés par de vraies photos
+
+| Page | Avant (IA) | Après (réelle) |
+|---|---|---|
+| `/destinations/dagestan` bandeau chiffres | `environment/dagestan-horses.webp` | `ruslan/hero/quad-coucher-soleil.webp` |
+| `/destinations/dagestan` bande | `environment/mountain-road.webp` | `ruslan/environment/canyon-sulak-passerelle.webp` |
+| `/preparer-son-camp` bande | `action/conditioning-rope.webp` | `mma-tchechenie/pads-boxe-club.webp` |
+| `/programme/lutte-enfants` bande | `ruslan/kids/kid-lutteur-rouge-rossiya.webp` | `ruslan/kids/kids-coach-cercle-mkr.webp` |
+
+⚠️ **L'alt a été réécrit à chaque fois** : un alt qui décrit l'ancienne photo est une régression d'accessibilité et de SEO. La copy de la bande Daghestan a aussi été refaite (« LE PAYS QUI FORGE LES CORPS ») parce que l'ancienne parlait de « chaque virage », ce qui ne correspondait plus à un canyon.
+
+> ⚠️ **`/programme/lutte` garde ses 2 illustrations IA** dans le bloc description, volontairement. Les seules vraies photos de lutte disponibles sont des **gros plans d'adolescents** : les mettre là ferait lire « camp pour enfants » sur la page adulte. **Le vrai manque reste un fonds photo de lutte ADULTE au Daghestan, à demander à Ruslan.**
+
+### Corrections SEO/GEO de la même passe
+
+- **Copy tarifaire française sur tout le site anglais** : `src/lib/pricing-copy.ts` avait un bloc `TEXTS.en` qui était une **copie verbatim du français** derrière un `TODO(i18n)` jamais repris (15 fragments visibles sur `/en/terms`). Traduit.
+- **JSON-LD des pages EN** : les 4 `Event` s'appelaient « Session Ete 2026 » (`s.season` est une chaîne FR en dur dans `data/sessions.ts`) et le `@graph` déclarait 5 URL **françaises** (Person, les 2 SportsActivityLocation, Event, AggregateOffer). Nom pris dans `data.sessions.season_label` (déjà localisé), URL construites via `getPathname`.
+- **`sitemap.ts`** : `lastModified: new Date()` donnait la même date à 72 URL à chaque build, signal de fraîcheur faux et contradictoire avec le datestamp visible. Remplacé par la constante `SITE_LAST_UPDATED` et, pour les articles, leur **vraie date** de `BLOG_POSTS`.
+- **`UpdatedAt`** affichait encore 2026-07-06 sur les 5 pages réécrites : bumpé à 2026-07-25.
+
+### QA passe 2
+
+`tsc` clean · `i18n-check` 2 856 clés + metas + liens EN · build compile vert · **sweep 17 pages × 3 viewports = 51 combinaisons, 0 problème** · **14 mesures de contraste texte/photo toutes conformes** · alignement vérifié sur 4 breakpoints.
+
+### Reste ouvert (audit passe 2, non traité)
+
+- **`localeDetection` est actif** : une URL FR renvoie un **307 vers /en** pour un navigateur en anglais (`curl -H "Accept-Language: en-US" .../le-camp` → `/en/the-camp`). À arbitrer : c'est le défaut next-intl, mais ça détourne les liens FR partagés à l'étranger.
+- Le title de la home est **tronqué** (« ... | MKR Caucasian ») et échappe au garde-fou CI parce qu'il est dans `page.tsx`, pas dans `messages/`.
+- Schémas encore absents : `Course` + `CourseInstance` (pages programme), `Product`/`Offer` (`/sessions`), `VideoObject` (les 2 vidéos). Pour `Review`/`AggregateRating` sur `/temoignages` : **aucune note chiffrée n'existe dans le repo**, donc rien à publier sans en inventer.
+- `llms.txt` et `llms-en.txt` datent du 2026-07-06 et il leur manque 18 URL chacun (les faits chiffrés, eux, sont exacts).
+- Maillage : le blog est un **silo fermé** (aucune page commerciale ne lie un article), `/temoignages` reçoit **0 lien contextuel entrant**, et les pages programme ne se lient plus entre elles.
+- Le méga menu émet 6 titres h2/h3 **avant** le h1 de la page.
+- Reste de la passe 1 : zéro preuve sociale sur les pages de décision, prix à 4,5-7,5 écrans en mobile, vidéo 24 Mo en autoplay mobile, zéro `next/image` dans `(site)/`, dictionnaire i18n complet sérialisé par page.
 
 ## 🆕 BREAKING — 2026-07-25 (pages secondaires : sticky plein écran supprimé, densité photo, metas, site EN réparé)
 
@@ -85,7 +163,9 @@ Quatre bugs distincts, tous vérifiés en prod puis corrigés :
 
 **Nouveau garde-fou CI** : échec si un message de `messages/en/` contient un `href` interne qui ne commence pas par `/en/`.
 
-> ⚠️ **Reste à faire** : `src/components/InscriptionLayout.tsx` importe encore `next/link` (12 liens, dont `/cgv`, `/politique-de-confidentialite` et 4 liens `?type=`). Un candidat anglophone qui clique « Terms » tombe sur les CGV en français. Non corrigé ici parce que c'est le tunnel de conversion et que les liens à query string exigent la **forme objet** du `Link` next-intl (`{pathname, query}`), donc un test complet des 4 tunnels × 2 langues.
+> ✅ **Soldé le 2026-07-25** (5e bug, traité séparément) : `src/components/InscriptionLayout.tsx` importait encore `next/link` → **14 `<Link>` sur 12 lignes** (et non 12 liens), tous en routes FR côté `/en/apply` : 6 retours accueil `/`, **5** liens `?type=` (2 custom, 2 famille, 1 groupe), `/cgv` et `/politique-de-confidentialite` ×2 (les cases à cocher légales de la dernière étape). Passage à `import { Link } from '@/i18n/navigation'`. **Aucun cast `LocalizedHref` nécessaire ici** : tous les href sont des littéraux, donc TypeScript les résout seul (le cast de `SectionCTA` ne sert qu'aux href reçus en prop `string`). Les 5 liens à query string sont passés en **forme objet** `href={{ pathname: '/inscription', query: { type: 'custom' } }}` — la forme string `/inscription?type=custom` n'est pas localisée par next-intl (même pattern que `StickyMobileCTA`).
+>
+> **QA du tunnel (Playwright, 4 tunnels × 2 langues = 8 parcours, tous verts)** : chaque parcours est monté jusqu'à l'écran de succès, formulaire rempli, soumission incluse. EN → `/en`, `/en/apply?type=…`, `/en/terms`, `/en/privacy` ; FR inchangé. Deux pièges d'automatisation à réutiliser : (1) les cards-radio du step 0 sont des `input` visuellement cachés (`.insc-sr`), `check()` échoue « outside of the viewport », il faut un `element.click()` natif en DOM ; (2) la **source de découverte est obligatoire et vit dans un `<details>` replié** — sans l'ouvrir, la soumission est bloquée sans que ce soit visible. Le POST répond `candidatureId:"noop"` en QA rapide : c'est le **time-trap anti-spam** (< 4 s de remplissage), donc aucune ligne créée en base. `tsc` clean · `i18n-check` 2 856 clés · `next build --experimental-build-mode compile` vert.
 
 ### 8. `robots.txt` : la politique de crawl IA n'a jamais été servie
 

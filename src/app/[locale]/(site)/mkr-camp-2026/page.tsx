@@ -77,6 +77,8 @@ export default async function MkrCamp2026Page({ params }: { params: Promise<{ lo
       {/* Cinematic reveal */}
       <SceneBand
         image="/images/ruslan/action/mma-adultes-cercle.webp"
+        /* focus 30% : meme photo que /le-camp */
+        focusY="30%"
         alt={t('cinematic.alt')}
         label={t('cinematic.label')}
         title={t('cinematic.title')}

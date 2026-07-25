@@ -1,5 +1,6 @@
 import type { MetadataRoute } from 'next';
 import { routing, BLOG_SLUG_MAP } from '@/i18n/routing';
+import { BLOG_POSTS } from '@/data/blog';
 import { getPathname } from '@/i18n/navigation';
 
 const SITE_URL = 'https://mkrcamp.com';
@@ -35,8 +36,18 @@ const STATIC_PATHS = [
   { path: '/blog', priority: 0.7, changeFrequency: 'weekly' as const },
 ] as const;
 
+/**
+ * Date de derniere revision editoriale du site.
+ * On n'utilise PAS `new Date()` : recalculee a chaque build, elle donnait la
+ * meme date « aujourd'hui » aux 72 URL, y compris a des articles publies des
+ * mois plus tot. Un signal de fraicheur constant et faux est ignore par Google,
+ * et il contredit le datestamp visible (composant UpdatedAt) des pages.
+ * A bumper lors d'une revision de contenu significative.
+ */
+const SITE_LAST_UPDATED = '2026-07-25';
+
 export default function sitemap(): MetadataRoute.Sitemap {
-  const now = new Date().toISOString();
+  const now = SITE_LAST_UPDATED;
   const entries: MetadataRoute.Sitemap = [];
 
   for (const { path, priority, changeFrequency } of STATIC_PATHS) {
@@ -62,9 +73,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     for (const locale of routing.locales) {
       const slug = BLOG_SLUG_MAP[canonicalSlug][locale];
       const url = `${SITE_URL}${locale === 'fr' ? '' : '/en'}/blog/${slug}`;
+      // Les articles ont de vraies dates : on les utilise plutot que la date du build.
+      const post = BLOG_POSTS.find((p) => p.slug === canonicalSlug);
       entries.push({
         url,
-        lastModified: now,
+        lastModified: post?.dateModifiedISO ?? post?.dateISO ?? now,
         changeFrequency: 'monthly',
         priority: 0.65,
         alternates: {

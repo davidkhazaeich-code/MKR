@@ -43,6 +43,8 @@ export default async function DestinationsPage({ params }: { params: Promise<{ l
         title={t('hero.title')}
         subtitle={t('hero.subtitle')}
         image="/images/environment/dagestan-panorama.webp"
+        /* focus 50% : panorama : la vallee apparait a 50%, 35% ne montrait que la brume */
+        imageFocusY="50%"
         imageAlt={t('hero.image_alt')}
       />
 

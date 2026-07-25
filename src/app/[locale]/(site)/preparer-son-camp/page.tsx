@@ -37,7 +37,9 @@ export default async function PreparerSonCampPage({ params }: { params: Promise<
 
       {/* Cinematic reveal */}
       <SceneBand
-        image="/images/action/conditioning-rope.webp"
+        image="/images/mma-tchechenie/pads-boxe-club.webp"
+        /* focus 30% : grimpeur entier a 30% */
+        focusY="32%"
         alt={t('cinematic.alt')}
         label={t('cinematic.label')}
         title={t('cinematic.title')}

@@ -73,6 +73,8 @@ export default async function ClubsGroupesPage({ params }: { params: Promise<{ l
       {/* Cinematic reveal */}
       <SceneBand
         image="/images/ruslan/heritage/priere-collective-mkr.webp"
+        /* focus 40% : meme photo que /a-propos */
+        focusY="40%"
         alt={t('cinematic.alt')}
         label={t('cinematic.label')}
         title={t('cinematic.title')}

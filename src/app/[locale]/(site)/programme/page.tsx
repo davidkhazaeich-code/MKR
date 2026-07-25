@@ -31,6 +31,8 @@ export default async function ProgrammePage({ params }: { params: Promise<{ loca
         title={t('hero.title')}
         subtitle={t('hero.subtitle')}
         image="/images/galerie-real/mma-team-cluster.webp"
+        /* focus 30% : groupe assis : visages perdus au-dela de 35% */
+        imageFocusY="30%"
         imageAlt={t('hero.image_alt')}
       />
 

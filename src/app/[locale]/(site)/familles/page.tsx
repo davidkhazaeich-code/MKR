@@ -48,6 +48,8 @@ export default async function FamillesPage({ params }: { params: Promise<{ local
       {/* Cinematic reveal — parent-enfant tapis */}
       <SceneBand
         image="/images/ruslan/kids/parent-enfant-tapis-mkr.webp"
+        /* focus 28% : coach et enfant entiers a 28%, coupes au centre */
+        focusY="28%"
         alt={t('cinematic.alt')}
         label={t('cinematic.label')}
         title={t('cinematic.title')}

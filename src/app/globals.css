@@ -8872,6 +8872,13 @@ html.is-loading body {
 .page-hero--image .inner {
   position: relative;
   z-index: 2;
+  /* `.page-hero--image` est un conteneur flex (align-items: flex-end). Sans
+     width: 100%, `.inner` devient un flex item dimensionne par son CONTENU :
+     mesure du 2026-07-25 a 1440px, il faisait 979px au lieu de 1240 et son
+     `margin: 0 auto` le recentrait, si bien que le h1 demarrait 131px a DROITE
+     de la colonne du reste de la page, avec un decalage qui variait selon la
+     longueur du titre. */
+  width: 100%;
 }
 
 .page-hero-bg {
@@ -8882,7 +8889,7 @@ html.is-loading body {
   object-fit: cover;
   object-position: center 35%;
   z-index: 0;
-  filter: contrast(1.05) saturate(0.9) brightness(0.86);
+  filter: contrast(1.04) saturate(0.94) brightness(0.94);
 }
 
 /* Deux voiles superposes. Le vertical assoit le texte en bas, l'horizontal
@@ -8894,15 +8901,21 @@ html.is-loading body {
   position: absolute;
   inset: 0;
   z-index: 1;
+  /* Allege le 2026-07-25 apres mesure : le texte des heros ressortait a 15-18:1
+     de contraste moyen, tres au-dela du 4,5:1 requis, donc la photo etait
+     inutilement noyee. On rend de la lumiere au haut et au milieu de l'image
+     (la ou se trouve le sujet) et on garde une assise sombre en bas, ou le
+     titre et le sous-titre se posent. Verifie apres coup : toujours au-dessus
+     de 4,5:1 dans le pire cas. */
   background:
     linear-gradient(
       180deg,
-      rgba(14,14,14,0.72) 0%,
-      rgba(14,14,14,0.66) 35%,
-      rgba(14,14,14,0.90) 80%,
-      rgba(14,14,14,0.97) 100%
+      rgba(14,14,14,0.58) 0%,
+      rgba(14,14,14,0.42) 32%,
+      rgba(14,14,14,0.80) 76%,
+      rgba(14,14,14,0.94) 100%
     ),
-    linear-gradient(90deg, rgba(14,14,14,0.55) 0%, rgba(14,14,14,0.1) 65%, rgba(14,14,14,0) 100%);
+    linear-gradient(90deg, rgba(14,14,14,0.5) 0%, rgba(14,14,14,0.08) 62%, rgba(14,14,14,0) 100%);
 }
 
 .page-hero--image h1 {
@@ -12681,26 +12694,43 @@ html.is-loading body {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(180deg, rgba(19,19,19,0.35) 0%, rgba(19,19,19,0) 35%, rgba(19,19,19,0.82) 100%),
-    linear-gradient(90deg, rgba(19,19,19,0.7) 0%, rgba(19,19,19,0) 60%);
+    /* Le bas est renforce : le bloc titre + accroche s'y pose, et la mesure du
+       2026-07-25 donnait 2,2:1 dans le pire cas sur /le-camp (accroche sur une
+       zone claire de l'image). Le palier a 62% cree une assise sombre sous le
+       texte sans noyer le haut de la photo. */
+    linear-gradient(180deg, rgba(19,19,19,0.32) 0%, rgba(19,19,19,0) 30%, rgba(19,19,19,0.55) 62%, rgba(19,19,19,0.93) 100%),
+    linear-gradient(90deg, rgba(19,19,19,0.72) 0%, rgba(19,19,19,0.12) 58%, rgba(19,19,19,0) 100%);
 }
+/* Le texte de la bande s'aligne sur la COLONNE de la page, pas sur le bord du
+   cadre pleine largeur : mesure du 2026-07-25 a 1440px, le titre demarrait a
+   40px alors que le contenu des sections demarre a 132px, soit 92px de
+   desalignement visible. L'alignement est garanti par la reutilisation de
+   `.inner` dans le composant (meme max-width et memes gouttieres que le reste
+   du site) ; ici on ne gere que le positionnement et la largeur de ligne. */
 .scene-band-content {
   position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
-  padding: clamp(1.25rem, 3vw, 2.5rem);
-  max-width: 44em;
+  padding-bottom: clamp(1.25rem, 3vw, 2.5rem);
 }
+.scene-band-content .scene-band-text { max-width: 44em; }
 .scene-band-label { color: var(--primary); display: block; margin-bottom: 0.6rem; }
 .scene-band-title {
   font-size: clamp(1.5rem, 4.2vw, 3rem);
   line-height: 0.95;
   margin: 0;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.55);
 }
+/* --text-secondary (#A8A8A4) est calibre pour un fond de surface sombre, pas
+   pour une PHOTO : mesure du 2026-07-25, l'accroche tombait a 2,6:1 dans le
+   pire cas sur /le-camp (texte gris sur une zone claire de l'image). Sur photo
+   on remonte vers le blanc et on ajoute une ombre portee, comme le fait deja
+   le hero illustre. */
 .scene-band-tagline {
   margin-top: 0.7rem;
-  color: var(--text-secondary);
+  color: rgba(248, 248, 248, 0.93);
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.65);
   font-size: clamp(0.85rem, 1.6vw, 0.98rem);
   line-height: 1.55;
   max-width: 40em;
@@ -12731,23 +12761,28 @@ html.is-loading body {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(180deg, rgba(9,9,7,0.3) 0%, rgba(9,9,7,0) 38%, rgba(9,9,7,0.86) 100%),
-    linear-gradient(90deg, rgba(9,9,7,0.6) 0%, rgba(9,9,7,0) 62%);
+    /* Palier a 60% + bas renforce : apres alignement du texte sur la colonne
+       du site, le titre de /destinations/tchetchenie tombait sur la coupole
+       claire de la mosquee et mesurait 2,6:1 (mesure du 2026-07-25). */
+    linear-gradient(180deg, rgba(9,9,7,0.28) 0%, rgba(9,9,7,0) 34%, rgba(9,9,7,0.5) 60%, rgba(9,9,7,0.94) 100%),
+    linear-gradient(90deg, rgba(9,9,7,0.62) 0%, rgba(9,9,7,0.1) 60%, rgba(9,9,7,0) 100%);
 }
+/* Alignement sur la colonne du site via `.inner` (cf. SceneBand). */
 .dest-head-caption {
   position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
-  padding: clamp(1.25rem, 3vw, 2.5rem);
-  max-width: 42em;
+  padding-bottom: clamp(1.25rem, 3vw, 2.5rem);
 }
+.dest-head-caption .dest-head-title { max-width: 42em; }
 .dest-head-label { color: var(--primary); display: block; margin-bottom: 0.6rem; }
 .dest-head-title {
   font-size: clamp(1.9rem, 5vw, 3.6rem);
   line-height: 0.95;
   letter-spacing: 0.03em;
   margin: 0;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.55);
 }
 
 /* Bandeau de chiffres sous la photo : plus lisible qu'en surimpression. */

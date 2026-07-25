@@ -83,30 +83,33 @@ const TEXTS: Record<Locale, PricingCopyTexts> = {
       `Chaque enfant supplémentaire : ${p.extraChild1Label}.`,
     adminSoloDuoSuffix: ' € selon durée',
   },
+  // Traduit le 2026-07-25. Ce bloc etait une COPIE VERBATIM du francais laissee
+  // par un TODO(i18n) jamais repris : le site anglais affichait donc de la copy
+  // tarifaire en francais, dont 15 fragments sur /en/terms. Regles maison
+  // tenues : pas de tiret cadratin, « and » jamais « & ».
   en: {
-    // TODO(i18n): EN pricing copy in T13.
-    perAdultSuffix: '/ adulte',
-    perPersonShort: '/ pers',
+    perAdultSuffix: '/ adult',
+    perPersonShort: '/ person',
     bareSeparator: ' · ',
-    weekShort: (w) => `${w} sem`,
-    parenthesizedWeeks: (w) => `(${w} sem)`,
-    fromPrefix: 'À partir de',
-    onQuote: 'Sur devis',
-    extraChildPerWeekLabel: (amount) => `+${amount} par semaine`,
+    weekShort: (w) => `${w} wk`,
+    parenthesizedWeeks: (w) => `(${w} wk)`,
+    fromPrefix: 'From',
+    onQuote: 'On request',
+    extraChildPerWeekLabel: (amount) => `+${amount} per week`,
     forfaitFamilleTeaser: (price) =>
-      `Forfait Famille (1 parent + 1 enfant inclus) à partir de ${price} la semaine`,
+      `Family package (1 parent and 1 child included) from ${price} per week`,
     pricingGridProse: (p) =>
-      `Solo / Duo (1-2 personnes) : ${p.duoBare} par adulte. ` +
-      `Trio à 5 (3-5 personnes) : ${p.trioBare} par adulte. ` +
-      `Club / Groupe (6-10 personnes) : ${p.clubBare} par adulte. ` +
-      `11 personnes et plus / privatisation : sur devis personnalisé. ` +
-      `Forfait Famille (1 parent + 1 enfant inclus) : ${p.familyBaseProse}. ` +
-      `Chaque enfant supplémentaire : ${p.familyExtraChildFull}. ` +
-      `Famille avec 2 parents participants : tarif Solo/Duo pour les deux parents (${p.duoPerAdult1week} / pers / sem) + chaque enfant à ${p.familyExtraChildPerWeek} / sem.`,
+      `Solo / Duo (1-2 people): ${p.duoBare} per adult. ` +
+      `Trio to 5 (3-5 people): ${p.trioBare} per adult. ` +
+      `Club / Group (6-10 people): ${p.clubBare} per adult. ` +
+      `11 people and more, or full private booking: custom quote. ` +
+      `Family package (1 parent and 1 child included): ${p.familyBaseProse}. ` +
+      `Each additional child: ${p.familyExtraChildFull}. ` +
+      `Family with 2 participating parents: Solo/Duo rate for both parents (${p.duoPerAdult1week} / person / week) plus each child at ${p.familyExtraChildPerWeek} / week.`,
     familyForfaitDetail: (p) =>
-      `Forfait Famille : ${p.family1} pour 1 parent + 1 enfant (1 sem), ${p.family2} (2 sem), ${p.family3} (3 sem). ` +
-      `Chaque enfant supplémentaire : ${p.extraChild1Label}.`,
-    adminSoloDuoSuffix: ' € selon durée',
+      `Family package: ${p.family1} for 1 parent and 1 child (1 wk), ${p.family2} (2 wk), ${p.family3} (3 wk). ` +
+      `Each additional child: ${p.extraChild1Label}.`,
+    adminSoloDuoSuffix: ' € depending on duration',
   },
 }
 
