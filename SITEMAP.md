@@ -123,6 +123,18 @@ Trois correctifs : rendu **seulement si la première section couvre ≥ 85% du v
 
 `tsc` clean · `i18n-check` 2 856 clés + metas + liens EN · build compile vert · **sweep 17 pages × 3 viewports = 51 combinaisons, 0 problème** · **14 mesures de contraste texte/photo toutes conformes** · alignement vérifié sur 4 breakpoints.
 
+### Correctifs d'accessibilité visuelle (commit `7f354d2`)
+
+L'audit visuel a mesuré au pixel (texte masqué, fond photographié, ratio WCAG) ce que la passe 2 avait laissé passer :
+
+- **Les petits textes posés sur photo échouaient tous.** Le h1 et le sous-titre avaient une ombre portée, mais **pas l'eyebrow, pas le fil d'Ariane, pas le label des bandes** : entre **1,4:1 et 4,4:1** pour un seuil de 4,5, et le résultat changeait selon la photo. Deux causes : la couleur de l'eyebrow était en **style inline** dans `PageHero` (donc insurchargeable, passée en classe `.page-hero-eyebrow`), et **le rust #C84B31 ne peut pas passer AA en petit texte sur une image**, quelle que soit l'ombre. D'où le token **`--primary-on-photo` (#F7C3B2)**, réservé au texte sur photo. Le voile horizontal du hero a été renforcé **à gauche seulement**, pour protéger la colonne de texte sans assombrir le sujet. Résultat : 8 mesures, toutes ≥ 4,5:1.
+- **8 légendes de `.photo-card` n'étaient jamais affichées.** La carte étant un item de grille étiré, `img { height: 100% }` prenait toute la boîte et le `figcaption` tombait dans l'`overflow: hidden`. Passage en colonne flex. Ce sont des textes éditoriaux déjà rédigés (« Session réelle dans une salle partenaire. Tapis olympiques, rythme local. ») : du contenu de preuve récupéré à coût nul.
+- **Deux règles de noir et blanc oubliées à la passe 1** : `.prog-disc-bg` (les 3 photos de `/programme`, seul contenu visuel de la page hors hero, en N&B à **25 % de luminosité** avec retour couleur au `:hover` seulement) et `.group-card-img` (N&B définitif, **aucune** règle `:hover` nulle part).
+- **Hero à 320px** : le padding vertical (176px) mangeait 31 % du viewport, le hero occupait jusqu'à **104 %** de l'écran. Réduit sous 360px. Reste 88 % sur `/destinations/tchetchenie` (titre le plus long) contre 104 % avant, avec 68px de la section suivante visible contre 0.
+- **`.inner { width: 100% }`** posé au niveau du système : garde-fou contre le piège du parent flex qui le redimensionnait sur son contenu.
+
+⚠️ **Leçon à retenir** : `--primary` sur une photo ne passe jamais AA en petit texte. Utiliser `--primary-on-photo`. Et une couleur posée en style inline dans un composant ne peut pas être corrigée en CSS : préférer une classe.
+
 ### Reste ouvert (audit passe 2, non traité)
 
 - **`localeDetection` est actif** : une URL FR renvoie un **307 vers /en** pour un navigateur en anglais (`curl -H "Accept-Language: en-US" .../le-camp` → `/en/the-camp`). À arbitrer : c'est le défaut next-intl, mais ça détourne les liens FR partagés à l'étranger.
