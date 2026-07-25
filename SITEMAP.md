@@ -48,6 +48,38 @@ Un témoignage (`karim-d`) **nommait encore « Magomed »**, coach généré par
 
 > ⚠️ Le profil du MCP Playwright était verrouillé par une session parallèle : QA faite en **Playwright headless isolé** depuis `.tmp/` (le script doit vivre DANS le projet pour résoudre `@playwright/test`). Même contrainte que les QA de juillet.
 
+### 6. Choix des images (demande David, même jour)
+
+> « Choisis de meilleures images et en bonne qualité », puis, en cours de route : « pour le hero, LES MONTAGNES DU DAGHESTAN, LE PAYS QUI FORGE LES CORPS ».
+
+**Ce qui n'allait pas** :
+- `/destinations/dagestan` montrait **trois fois le même canyon de Sulak** (hero, bande, carte excursion), et deux de ces fichiers portaient un **garde-corps ou un câble** en travers du premier plan.
+- La bande « LES MONTAGNES DU DAGHESTAN » était dominée par un **quad bleu** au premier plan.
+- La bande « LE PAYS QUI FORGE LES CORPS » montrait un canyon, donc **aucun corps**.
+- `/destinations/tchetchenie` servait la **même mosquée quatre fois** (hero, bande, excursion, JSON-LD) et 5 de ses 8 images étaient des visuels IA.
+- Le hero du Daghestan faisait **896 px de large**, donc upscalé sur tout écran desktop.
+
+**⚠️ Le gisement était sur le disque** : les originaux dorment dans `clients Claude/MKR caucasian camp/Images Ruslan/` en **3024×4032 à 5712×4284**, soit 4 à 6 fois ce qui était publié, plus 165 photos de lutte en 5760×3840 dans `Photos Lutte/`. **Le dossier `MKR-PHOTOS-FINAL-4K` porte mal son nom** : mêmes dimensions que le publié, seulement moins compressé (844 Ko contre 172 Ko pour le canyon). Toujours partir de `Images Ruslan/`, jamais de `MKR-PHOTOS-FINAL-4K`.
+
+**Quatre images produites** (ImageMagick, `-auto-orient` obligatoire car les HEIC portent une rotation EXIF, webp q82) :
+
+| Fichier | Dimensions | Origine et intention |
+|---|---|---|
+| `ruslan/environment/canyon-sulak-hero-v2.webp` | 1920×1120 | `canyon-sulak-falaises-pont.HEIC`, garde-corps et câble sortis du cadre |
+| `ruslan/environment/montagnes-daghestan-cretes.webp` | 2400×857 | **Le même original que le quad**, recadré au-dessus : il ne reste que les crêtes dans la brume et la silhouette |
+| `ruslan/lutte/salle-vue-plongeante-daghestan.webp` | 2400×1034 | `gym-vue-plongeante-training-1.HEIC`, salle de lutte entière, 3 tapis, des dizaines de lutteurs |
+| `ruslan/environment/canyon-sulak-passerelle-hd.webp` | 1800×1125 | Remplace la version au garde-corps sur la carte excursion |
+
+Côté Tchétchénie, la 2ᵉ occurrence de la mosquée laisse place à une **vraie photo de l'Akhmat Fight Club** (`mma-tchechenie/briefing-coach-4-combattants.webp`, adulte, 2400×1600). La mosquée passe de 4 usages à 3.
+
+> ⚠️ **`salle-vue-plongeante-daghestan` vient du fonds JEUNES**, comme tout `ruslan/lutte/`. Elle est retenue parce que c'est le **plan le plus large possible** : la salle et le collectif sont le sujet, aucun visage n'est lisible à cette échelle, et un coach grisonnant est au premier plan. La règle « pas de gros plan d'ado sur une page adulte » reste entière.
+
+**⚠️ Deux pièges de poids et de cache, à retenir** :
+1. **`PageHero` rend son image en `<img>` BRUT**, hors optimiseur : elle part telle quelle sur mobile, sans `srcset`. Le premier jet du hero (2400×1891, 758 Ko) multipliait par 4,4 le poids du LCP de la meilleure page SEO du site. Ramené à 1920×1120 / **348 Ko**. **Garder ce fichier sous ~350 Ko tant que `PageHero` n'est pas passé en `next/image`.**
+2. **Le cache d'images de Next est indexé par nom de fichier** : réécrire un `.webp` sans le renommer ne change rien, ni en dev (`.next/cache/images`) ni sur le CDN Vercel (qui ignore la query string). **Renommer, toujours** (d'où le suffixe `-v2`).
+
+Les **alts ont été réécrits partout** et l'accroche de la bande refaite : elle parlait de « canyons, cols et villages perchés » devant une salle de lutte.
+
 ### Reste ouvert après la passe 3, par valeur décroissante
 
 1. **`PageHero` en `<img>` brut** : le LCP de ~10 pages, sans `srcset` (cf. §2).
