@@ -1,7 +1,7 @@
 {
   "meta": {
-    "title": "Sessions and Pricing 2026-2027 Caucasus | MKR Camp",
-    "description": "Calendar of 4 sessions in the Caucasus: Summer 2026, Autumn 2026, Winter 2027, Spring 2027. Wrestling Dagestan, MMA Chechnya. Prices, dates, spots."
+    "title": "2026-2027 Dates and Prices: 4 Sessions from 1,690 € | MKR",
+    "description": "Summer 2026, Autumn 2026, Winter 2027, Spring 2027. Wrestling or MMA, live spots, all inclusive from 1,690 € per adult, nothing to pay before approval."
   },
   "breadcrumb": {
     "home": "Home",
@@ -10,7 +10,8 @@
   "hero": {
     "label": "SESSIONS AND PRICING",
     "title": "PICK YOUR FORMAT.<br/>WE HANDLE EVERYTHING.",
-    "subtitle": "Four sessions per year, aligned with French-speaking school holidays. Wrestling in Dagestan or MMA in Chechnya depending on the chosen discipline. Fixed public prices."
+    "subtitle": "Four sessions per year, aligned with French-speaking school holidays. Wrestling in Dagestan or MMA in Chechnya depending on the chosen discipline. Fixed public prices.",
+    "image_alt": "Caucasus mountains at golden hour, between two camp sessions"
   },
   "price_from_prefix": "from",
   "sessions": {

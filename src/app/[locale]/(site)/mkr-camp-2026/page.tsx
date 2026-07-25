@@ -5,7 +5,7 @@ import type { Locale } from '@/i18n/routing'
 import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
-import CinematicReveal from '@/components/CinematicReveal'
+import SceneBand from '@/components/SceneBand'
 import PricingTable from '@/components/PricingTable'
 import FacilitatorBand from '@/components/FacilitatorBand'
 import { SOLO_PRICE_1WEEK_LABEL, SOLO_PRICE_1WEEK_EUR } from '@/lib/pricing-copy'
@@ -75,7 +75,7 @@ export default async function MkrCamp2026Page({ params }: { params: Promise<{ lo
       </section>
 
       {/* Cinematic reveal */}
-      <CinematicReveal
+      <SceneBand
         image="/images/ruslan/action/mma-adultes-cercle.webp"
         alt={t('cinematic.alt')}
         label={t('cinematic.label')}

@@ -1,7 +1,7 @@
 {
   "meta": {
-    "title": "Sessions et Tarifs 2026-2027 Caucase | MKR Camp",
-    "description": "Calendrier 4 sessions au Caucase : Été 2026, Toussaint 2026, Hiver 2027, Pâques 2027. Lutte Daghestan, MMA Tchétchénie. Prix, dates, places."
+    "title": "Dates et tarifs 2026-2027 : 4 sessions dès 1 690 € | MKR",
+    "description": "Été 2026, Toussaint 2026, Hiver 2027, Pâques 2027. Lutte ou MMA, places en direct, tout compris dès 1 690 € par adulte, rien à payer avant validation."
   },
   "breadcrumb": {
     "home": "Accueil",
@@ -10,7 +10,8 @@
   "hero": {
     "label": "SESSIONS ET TARIFS",
     "title": "CHOISIS TON FORMAT.<br/>NOUS ORGANISONS TOUT.",
-    "subtitle": "Quatre sessions par an, calées sur les vacances scolaires francophones. Lutte au Daghestan ou MMA en Tchétchénie selon la discipline choisie. Tarifs publics fixes."
+    "subtitle": "Quatre sessions par an, calées sur les vacances scolaires francophones. Lutte au Daghestan ou MMA en Tchétchénie selon la discipline choisie. Tarifs publics fixes.",
+    "image_alt": "Montagnes du Caucase à l'heure dorée, entre deux sessions du camp"
   },
   "price_from_prefix": "à partir de",
   "sessions": {

@@ -5,7 +5,7 @@ import type { Locale } from '@/i18n/routing'
 import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
-import CinematicReveal from '@/components/CinematicReveal'
+import SceneBand from '@/components/SceneBand'
 import DisciplineTechniques from '@/components/DisciplineTechniques'
 import DisciplineSessionFlow from '@/components/DisciplineSessionFlow'
 import { FAMILY_BASE_1WEEK_LABEL } from '@/lib/pricing-copy'
@@ -136,7 +136,7 @@ export default async function ProgrammeLutteEnfantsPage({ params }: { params: Pr
       </section>
 
       {/* Cinematic reveal : jeune lutteur en posture */}
-      <CinematicReveal
+      <SceneBand
         image="/images/ruslan/kids/kid-lutteur-rouge-rossiya.webp"
         alt={t('cinematic.alt')}
         label={t('cinematic.label')}

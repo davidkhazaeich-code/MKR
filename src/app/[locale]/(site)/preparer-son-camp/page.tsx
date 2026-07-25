@@ -5,7 +5,7 @@ import type { Locale } from '@/i18n/routing'
 import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
-import CinematicReveal from '@/components/CinematicReveal'
+import SceneBand from '@/components/SceneBand'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
@@ -36,7 +36,7 @@ export default async function PreparerSonCampPage({ params }: { params: Promise<
       />
 
       {/* Cinematic reveal */}
-      <CinematicReveal
+      <SceneBand
         image="/images/action/conditioning-rope.webp"
         alt={t('cinematic.alt')}
         label={t('cinematic.label')}

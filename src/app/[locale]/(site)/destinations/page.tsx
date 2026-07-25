@@ -42,6 +42,8 @@ export default async function DestinationsPage({ params }: { params: Promise<{ l
         label={t('hero.label')}
         title={t('hero.title')}
         subtitle={t('hero.subtitle')}
+        image="/images/environment/dagestan-panorama.webp"
+        imageAlt={t('hero.image_alt')}
       />
 
       <section className="dest-hub fx-grid fx-glow">

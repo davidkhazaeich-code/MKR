@@ -1,7 +1,126 @@
 # SITEMAP MKR Caucasian Camp — Cartographie complète
 
-> **Fichier de référence pour Claude Code.** Mise à jour : 2026-07-22 (film EN branché + UX mobile du player son/plein écran + budget build vidéo).
+> **Fichier de référence pour Claude Code.** Mise à jour : 2026-07-25 (refonte UX/UI/SEO des pages secondaires : fin des images plein écran en sticky, densité photo, metas réécrites, site EN réparé).
 > Lis ce fichier en priorité avant toute intervention sur le site MKR. Il évite de re-explorer.
+
+## 🆕 BREAKING — 2026-07-25 (pages secondaires : sticky plein écran supprimé, densité photo, metas, site EN réparé)
+
+> **Demande David** : « optimisation totale UX, UI et référencement » des pages qui ne sont PAS la home (lutte, MMA, programme, articles, destinations), pour donner envie de faire le camp. Deux contraintes explicites : **supprimer les grandes images qui prennent tout l'écran au scroll** (« mieux vaut plusieurs images qu'une seule plein écran »), et **la navigation mobile prime**. Autonomie totale. Audit préalable : 7 auditeurs parallèles, 136 findings dont **90 confirmés** par une passe de vérification adversariale (10 réfutés).
+
+### 1. Fin des images plein écran en sticky (contrainte n°1)
+
+**Mesures avant, à 1440x900** : `CinematicReveal` coûtait **1 900 px de scroll** (2,11 viewports) pour UNE photo, sur 12 pages. `DestinationReveal` coûtait `calc(1400px + 100vh)` soit **~2,6 viewports**, sur les 2 pages destination dont `/destinations/dagestan`, la meilleure page SEO du site.
+
+| Avant | Après | Coût |
+|---|---|---|
+| `CinematicReveal` (sticky 100vh + 1000px) | **`SceneBand`** (`src/components/SceneBand.tsx`) | `clamp(260px, 44vh, 440px)`, jamais sticky |
+| `DestinationReveal` (sticky, chiffres en surimpression) | **`DestinationReveal` réécrit** (`.dest-head-*`) | ~0,6 viewport, chiffres en bandeau SOUS la photo |
+
+`SceneBand` est un drop-in : mêmes props que `CinematicReveal` (image, alt, label, title, tagline). Les 12 pages ont été converties. **`src/components/CinematicReveal.tsx` est SUPPRIMÉ.** Son CSS `.cine-reveal-*` reste dans `globals.css` (mort, ~150 lignes, à purger un jour). `DestinationReveal` est repassé **server component** (plus de `useScrollReveal`, donc plus de JS client pour ce bloc).
+
+### 2. Densité photo : nouveau composant `PhotoStrip` (contrainte n°1 bis)
+
+`src/components/PhotoStrip.tsx` + CSS `.pstrip-photos-*`. **Bandeau scroll-snap horizontal en mobile** (geste natif, zéro JS, cartes à 78-80 % de largeur pour que la suivante dépasse et signale le swipe), **grille en desktop**. Server component.
+
+- Props : `items[{src, alt, caption}]`, `label`, `title`, `intro`, `scrollAriaLabel` (obligatoire, la piste est focusable au clavier), `variant: 'grid' | 'mosaic'`.
+- **Le nombre de colonnes desktop est calculé depuis le nombre de photos** (`--pstrip-cols` posé en inline) : `auto-fit` donnait 5 colonnes + 1 photo orpheline à 1440px pour 6 photos. Règle : ≤5 photos → une colonne par photo ; multiple de 3 → 3 colonnes ; sinon 4.
+- Ratio : 4/5 en mobile, **4/3 en grille desktop** (les sources sont en paysage 1920x1280, un cadre portrait à 400px de large recadrait trop dur).
+- Les légendes sont du **contenu indexable**, pas de la décoration.
+
+Déployé sur `/programme/lutte` et `/programme/mma` (6 vraies photos chacune, clés `programme.{lutte,mma}.gallery`).
+
+### 3. ⚠️ Les photos n'étaient JAMAIS en couleur sur mobile
+
+**Cause racine** : `.section-photo-img` était `grayscale(100%) contrast(1.08) brightness(0.85)` **sans aucun retour en couleur**, et `.photo-card img` était `grayscale(100%)` avec couleur **au `:hover` uniquement**. Le `:hover` n'existe pas au doigt → **le trafic mobile, majoritaire sur ce business, ne voyait jamais une seule photo en couleur**, alors que ce sont les seules preuves visuelles du camp (tapis rouge d'Akhmat, tapis bleu du Daghestan, montagnes).
+
+Corrigé en **`grayscale(22%)`** par défaut sur les deux classes (le parti pris minéral survit, la photo redevient une preuve), couleur pleine au survol conservée en desktop. **Ne pas revenir à `grayscale(100%)` par défaut.**
+
+### 4. Vraies photos d'abord : 68 images sur 195 dormaient
+
+Le repo contient **15 vraies photos de lutte** (`ruslan/lutte/`, session au Daghestan) et **30 vraies photos de MMA** (`mma-tchechenie/`, Akhmat Fight Club Grozny) dont 23 n'étaient utilisées nulle part, pendant que des visuels IA occupaient les emplacements les plus visibles.
+
+| Page | Avant | Après |
+|---|---|---|
+| `/le-camp` ouverture | `action/sparring-mma-wall.webp` (IA, salle **vide**) | `ruslan/action/mma-adultes-cercle.webp` (vraie, salle **pleine**) |
+| `/destinations/dagestan` excursion Sulak | `environment/canyon-sulak.webp` (IA) | `ruslan/environment/canyon-sulak-falaises.webp` (vraie) |
+| `/programme/lutte` | 2 images IA | 1 hero + 1 SceneBand + 6 photos réelles |
+| `/programme/mma` | 4 images | 1 hero + 1 SceneBand + 6 photos réelles |
+
+> ⚠️ **Nuance importante sur `ruslan/lutte/`** : ce fonds est une session de **jeunes / adolescents**, pas d'adultes. La galerie de `/programme/lutte` ne retient donc que des **plans larges** où la salle et le collectif sont le sujet (`cardio-course`, `coach-echauffement`, `cardio-sprawl`, `stretch-sol`, `singleleg-cercle`, `dagestan-drill`), pour ne pas faire lire « camp pour enfants » sur la page adulte. Les gros plans de visages d'ados appartiennent à `/programme/lutte-enfants`. **Il manque un vrai fonds photo de lutte ADULTE au Daghestan** : à demander à Ruslan.
+
+### 5. Hero illustrés : les pages à trafic ouvraient sur un mur de texte
+
+`PageHero` supportait **déjà** une prop `image` (+ `page-hero--image`, `.page-hero-bg`, `.page-hero-overlay`) mais elle n'était utilisée que sur des pages à faible trafic. Les pages qui reçoivent le trafic Google (`/programme/lutte`, `/programme/mma`, `/sessions`, `/destinations/*`, `/le-camp`, `/programme`, `/comment-ca-marche`, `/a-propos`) ouvraient sur un titre et rien d'autre.
+
+Image ajoutée sur ces 10 pages, avec une clé `hero.image_alt` par page. **Le voile a été renforcé** (`0.55 → 0.66` au milieu, + voile horizontal gauche, + `brightness(0.86)` sur l'image) : il était calibré pour des photos sombres et laissait le `h1` illisible sur les salles daghestanaises (murs blancs, bois clair, tapis bleu vif). Assombrir un voile derrière du texte blanc ne peut pas dégrader le contraste des pages qui l'utilisaient déjà.
+
+Restent sans hero illustré : `/contact`, `/galerie`, `/faq`, `/blog`, `/temoignages`, `/logistique`, `/guide-caucase` (ce dernier est `compact` par choix).
+
+### 6. Metas réécrites (le vrai sujet du CTR)
+
+**Le trafic existait, il ne cliquait pas** : `/programme/mma` faisait 11 clics pour **833 impressions** (CTR 1,3 %), `/en/program/wrestling` 15 pour 695 (2,2 %), `/en/blog/how-to-train-in-dagestan` 24 pour 1 481 (1,6 %).
+
+14 blocs `meta` réécrits (FR + EN) sur programme, destinations, sessions, le-camp, lutte-enfants. Principes appliqués : suffixe de marque raccourci, un élément de décision dans le title (prix, places, « tout compris »), et le bénéfice à la place de la redondance géographique (« en Tchétchénie, à Grozny » encodait deux fois la même localisation).
+
+⚠️ **Trois garde-fous appris pendant la passe de vérification** :
+1. **Le prix d'ancrage est 1 690 €, pas 1 290 €.** `src/lib/pricing-copy.ts` définit `MIN_PRICE_PER_ADULT_EUR = PRICING_TIERS.duo.perAdult[1]` = 1 690 € (tarif 1 semaine Solo/Duo). Les 1 290 € supposent un groupe de 6 à 10.
+2. **Le title FR de `/destinations/dagestan` n'a PAS été touché** : c'est le meilleur CTR du site (7,5 %, 184 clics). On ne parie pas dessus. Seule sa description, tronquée à 165 caractères, a été raccourcie. Le côté EN (3,0 %) a été réécrit, lui.
+3. **Le suffixe de marque doit rester dans la chaîne** : `localizedMetadata` n'applique aucun `title.template` Next.js.
+
+**Nouveau garde-fou CI** dans `scripts/i18n-check.js` : échec si un `meta.title` dépasse 60 caractères ou une `meta.description` 158, dans l'une des deux langues. 5 dépassements préexistants corrigés au passage (familles, logistique FR+EN, cgv EN, un article de blog). ⚠️ Les clés y sont préfixées par namespace avec `::` (`sessions::meta.title`), pas par un point : tester le segment après `::`, sinon le contrôle passe sans rien voir (piège rencontré).
+
+### 7. Le site anglais renvoyait vers le français
+
+Quatre bugs distincts, tous vérifiés en prod puis corrigés :
+
+| Bug | Fichier | Effet |
+|---|---|---|
+| `Breadcrumb` importait `next/link` brut | `src/components/Breadcrumb.tsx` | Fil d'Ariane **visible** des pages EN → URL FR (une douzaine de pages) |
+| `BreadcrumbJsonLd` émettait les URL FR reçues telles quelles | `src/components/BreadcrumbJsonLd.tsx` | JSON-LD des pages EN déclarait un arbre FR, incohérent avec l'URL de la page |
+| `PricingTable` importait `next/link` brut | `src/components/PricingTable.tsx` | Les 3 CTA de la grille tarifaire EN → pages FR |
+| **43 href FR** dans 6 articles EN | `messages/en/blog/*.json` | Le lecteur anglophone qui cliquait un CTA d'article atterrissait sur le formulaire FR |
+| Libellés du CTA d'article en dur en FR | `blog/[slug]/page.tsx` | Tous les articles EN affichaient « POSTULER AU CAMP » |
+
+`BreadcrumbJsonLd` est désormais **async** et localise lui-même via `getLocale()` + `getPathname()` : les ~20 pages continuent de passer les URL canoniques FR, aucune n'a eu besoin d'être touchée. Le pattern de cast pour le `Link` i18n est celui de `SectionCTA` : `type LocalizedHref = Parameters<typeof Link>[0]['href']`.
+
+**Nouveau garde-fou CI** : échec si un message de `messages/en/` contient un `href` interne qui ne commence pas par `/en/`.
+
+> ⚠️ **Reste à faire** : `src/components/InscriptionLayout.tsx` importe encore `next/link` (12 liens, dont `/cgv`, `/politique-de-confidentialite` et 4 liens `?type=`). Un candidat anglophone qui clique « Terms » tombe sur les CGV en français. Non corrigé ici parce que c'est le tunnel de conversion et que les liens à query string exigent la **forme objet** du `Link` next-intl (`{pathname, query}`), donc un test complet des 4 tunnels × 2 langues.
+
+### 8. `robots.txt` : la politique de crawl IA n'a jamais été servie
+
+Il existait **deux sources**. Dans l'App Router, le Route Handler `src/app/robots.ts` **gagne** sur `public/robots.txt`. Vérifié en prod : `curl https://mkrcamp.com/robots.txt` ne renvoyait que 5 règles. Les 60 lignes de `public/robots.txt` (Allow GPTBot / ClaudeBot / PerplexityBot, **Disallow CCBot / Bytespider / meta-externalagent**) étaient **inopérantes depuis leur écriture**.
+
+`public/robots.txt` supprimé, politique reprise dans `robots.ts` : ouverture aux moteurs de recherche générative (canal d'acquisition réel, axe GEO), fermeture aux collecteurs d'entraînement pur, `Disallow` sur `/merci` et `/en/thank-you`.
+
+### 9. CTA sticky mobile : une étape de friction offerte
+
+`StickyMobileCTA` pointait vers `/inscription` **sans paramètre**, alors que c'est le seul CTA disponible pendant les premiers écrans en mobile : le visiteur retombait sur l'écran de choix du type d'inscription et devait re-sélectionner ce qu'il venait de lire. Il déduit désormais le tunnel de la page courante (`TUNNEL_BY_PATH`, via `usePathname` de `@/i18n/navigation` qui renvoie le chemin sans préfixe de locale). Vérifié sur 12 cas FR + EN (`/programme/lutte` → `/inscription?type=session`, `/en/family` → `/en/apply?type=famille`). **Seuls `type` et `session` sont acceptés** par la page d'inscription : ne pas inventer de paramètre `discipline` sans toucher au formulaire.
+
+### 10. Hub destinations : 3 paysages sur 5 étaient masqués en mobile
+
+`#destination-showcase` portait `nth-child(n+3) { display: none }` sous 480px. Cette optimisation venait de la home (où la section n'était qu'un teaser) et **a suivi le composant** quand il a été déplacé sur `/destinations` le 2026-07-10, page où les 5 paysages sont justement le contenu. Remplacé par une bande scroll-snap horizontale sous 600px : les 5 restent accessibles sans rallonger la page.
+
+### QA
+
+`tsc` clean · `i18n-check` **2 856 clés** FR=EN + metas dans les limites SERP + liens EN localisés · `next build --experimental-build-mode compile` vert · **sweep Playwright 17 pages × 3 viewports (390 / 768 / 1440) = 51 combinaisons, 0 problème** : zéro débordement horizontal, exactement 1 `h1` par page, **zéro bloc sticky restant**, aucune image cassée. Captures dans `.tmp/shots-2026-07-25/`.
+
+Compteurs d'images dans le corps (mobile) : `/programme/lutte` 2 → **10**, `/programme/mma` 4 → **13**, `/destinations/dagestan` 5 → **8**.
+
+### Dette identifiée et NON traitée (audit complet disponible)
+
+Par ordre de valeur décroissante :
+1. **Zéro preuve sociale** sur les pages où la décision se prend (`/programme/lutte`, `/programme/mma`, les destinations). Les 11 témoignages ne sortent jamais de la home et de `/temoignages`, page absente du top 15 analytics.
+2. **Prix trop bas dans la page en mobile** : premier prix à 4,5 écrans de scroll sur `/programme/lutte`, **7,5 écrans** sur `/programme/mma`.
+3. **Pages trop maigres** : `/programme` (hub, ~200 mots, aucun CTA vers `/inscription` dans son contenu), `/programme/lutte-enfants` (~450 mots), `/comment-ca-marche` (~470 mots), `/sessions` (la page qui porte le prix, sans FAQ ni JSON-LD `FAQPage`).
+4. **Vidéo de 24 Mo en autoplay sur mobile** (`/programme/mma`, `VerticalVideoSplit`) : transfert mesuré 28 à 46 Mo.
+5. **Zéro `next/image` dans tout `src/app/[locale]/(site)/`** : ~22 photos servies en `<img>` brut, sans `srcset`, taille d'origine quel que soit l'écran. (`PhotoStrip`, `SceneBand` et `DestinationReveal` utilisent `next/image`.)
+6. **Le dictionnaire i18n complet est sérialisé dans chaque page** : 269 Ko de JSON sur 634 Ko de HTML pour `/programme/lutte`.
+7. **Schémas manquants** : `Course` + `CourseInstance` sur les pages programme, `Product`/`Offer` sur `/sessions`, `VideoObject`, `Review`/`AggregateRating` sur `/temoignages`.
+8. **`sitemap.ts`** met `lastModified: new Date()` sur les 72 URL, y compris les articles qui ont de vraies dates.
+9. **Un témoignage nomme encore « Magomed »**, coach généré par IA officiellement retiré du site.
+10. **Textures décoratives de 590 Ko** chargées sur chaque page, mobile compris ; 5 images du méga-menu desktop téléchargées en mobile où il ne s'ouvre jamais.
+11. **`.cine-reveal-*` mort** dans `globals.css` (~150 lignes) après suppression du composant.
 
 ## 🆕 2026-07-22 (homepage : film EN branché sur /en + UX mobile du player, encodage léger pour le budget build)
 

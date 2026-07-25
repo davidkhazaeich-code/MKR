@@ -4,7 +4,8 @@ import type { Locale } from '@/i18n/routing'
 import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
-import CinematicReveal from '@/components/CinematicReveal'
+import SceneBand from '@/components/SceneBand'
+import PhotoStrip, { type PhotoStripItem } from '@/components/PhotoStrip'
 import DisciplineTechniques from '@/components/DisciplineTechniques'
 import DisciplineSessionFlow from '@/components/DisciplineSessionFlow'
 import TldrBox from '@/components/TldrBox'
@@ -73,6 +74,7 @@ export default async function ProgrammeMMAPage({ params }: { params: Promise<{ l
   const fitNot = t.raw('fit.not_items') as string[]
   const processSteps = t.raw('process.steps') as ProcessStep[]
   const faqItems = t.raw('faq.items') as FAQItem[]
+  const galleryItems = t.raw('gallery.items') as PhotoStripItem[]
 
   return (
     <>
@@ -81,10 +83,15 @@ export default async function ProgrammeMMAPage({ params }: { params: Promise<{ l
         { name: t('breadcrumb.programme'), url: 'https://mkrcamp.com/programme' },
         { name: t('breadcrumb.current'), url: 'https://mkrcamp.com/programme/mma' },
       ]} />
+      {/* Hero illustre : photo reelle de la salle partenaire de Grozny. La page
+          ouvrait sur un mur de texte, sans aucune preuve visuelle pour le
+          visiteur venu de Google. */}
       <PageHero
         label={t('hero.label')}
         title={t('hero.title')}
         subtitle={t('hero.subtitle')}
+        image="/images/mma-tchechenie/sparring-cage-turquoise.webp"
+        imageAlt={t('hero.image_alt')}
         breadcrumb={[
           { href: '/programme', label: t('breadcrumb.programme') },
           { href: '/programme/mma', label: t('breadcrumb.current') },
@@ -151,8 +158,9 @@ export default async function ProgrammeMMAPage({ params }: { params: Promise<{ l
         </div>
       </section>
 
-      {/* Cinematic reveal */}
-      <CinematicReveal
+      {/* Bande d'ambiance bornee a 44vh (remplace CinematicReveal et ses
+          2,1 viewports de scroll sticky pour une seule photo). */}
+      <SceneBand
         image="/images/mma-tchechenie/sparring-face-a-face.webp"
         alt={t('cinematic.alt')}
         label={t('cinematic.label')}
@@ -226,6 +234,16 @@ export default async function ProgrammeMMAPage({ params }: { params: Promise<{ l
       </section>
 
       <DisciplineTechniques items={techniques} />
+
+      {/* Densite photo : 6 vraies photos du club de Grozny, bandeau swipe en mobile. */}
+      <PhotoStrip
+        items={galleryItems}
+        label={t('gallery.label')}
+        title={t('gallery.title')}
+        intro={t('gallery.intro')}
+        scrollAriaLabel={t('gallery.scroll_aria')}
+        variant="grid"
+      />
 
       <DisciplineSessionFlow
         steps={sessionFlow}

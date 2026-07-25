@@ -5,7 +5,7 @@ import type { Locale } from '@/i18n/routing'
 import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
-import CinematicReveal from '@/components/CinematicReveal'
+import SceneBand from '@/components/SceneBand'
 import PricingTable from '@/components/PricingTable'
 import FacilitatorBand from '@/components/FacilitatorBand'
 import { FAMILY_EXTRA_CHILD_1WEEK_LABEL } from '@/lib/pricing-copy'
@@ -46,7 +46,7 @@ export default async function FamillesPage({ params }: { params: Promise<{ local
       />
 
       {/* Cinematic reveal — parent-enfant tapis */}
-      <CinematicReveal
+      <SceneBand
         image="/images/ruslan/kids/parent-enfant-tapis-mkr.webp"
         alt={t('cinematic.alt')}
         label={t('cinematic.label')}

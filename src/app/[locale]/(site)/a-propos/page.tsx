@@ -4,7 +4,7 @@ import type { Locale } from '@/i18n/routing'
 import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
-import CinematicReveal from '@/components/CinematicReveal'
+import SceneBand from '@/components/SceneBand'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
@@ -63,6 +63,8 @@ export default async function AProposPage({ params }: { params: Promise<{ locale
         label={t('hero.label')}
         title={t('hero.title')}
         subtitle={t('hero.subtitle')}
+        image="/images/ruslan/heritage/priere-collective-mkr.webp"
+        imageAlt={t('hero.image_alt')}
       />
 
       {/* L'histoire — editorial 2-col full inner */}
@@ -101,7 +103,7 @@ export default async function AProposPage({ params }: { params: Promise<{ locale
       </section>
 
       {/* Cinematic reveal */}
-      <CinematicReveal
+      <SceneBand
         image="/images/ruslan/heritage/priere-collective-mkr.webp"
         alt={t('cinematic.alt')}
         label={t('cinematic.label')}

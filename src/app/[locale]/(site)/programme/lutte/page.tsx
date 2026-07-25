@@ -4,7 +4,8 @@ import type { Locale } from '@/i18n/routing'
 import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
-import CinematicReveal from '@/components/CinematicReveal'
+import SceneBand from '@/components/SceneBand'
+import PhotoStrip, { type PhotoStripItem } from '@/components/PhotoStrip'
 import DisciplineTechniques from '@/components/DisciplineTechniques'
 import DisciplineSessionFlow from '@/components/DisciplineSessionFlow'
 import TldrBox from '@/components/TldrBox'
@@ -69,6 +70,7 @@ export default async function ProgrammeLuttePage({ params }: { params: Promise<{
   const fitNot = t.raw('fit.not_items') as string[]
   const processSteps = t.raw('process.steps') as ProcessStep[]
   const faqItems = t.raw('faq.items') as FAQItem[]
+  const galleryItems = t.raw('gallery.items') as PhotoStripItem[]
 
   return (
     <>
@@ -77,10 +79,15 @@ export default async function ProgrammeLuttePage({ params }: { params: Promise<{
         { name: t('breadcrumb.programme'), url: 'https://mkrcamp.com/programme' },
         { name: t('breadcrumb.current'), url: 'https://mkrcamp.com/programme/lutte' },
       ]} />
+      {/* Hero illustre : la page ouvrait sur un mur de texte sans aucune preuve
+          visuelle. Photo reelle de la salle partenaire, banniere daghestanaise
+          visible, pour que le visiteur venu de Google voie tout de suite l'endroit. */}
       <PageHero
         label={t('hero.label')}
         title={t('hero.title')}
         subtitle={t('hero.subtitle')}
+        image="/images/ruslan/lutte/salle-banniere.webp"
+        imageAlt={t('hero.image_alt')}
         breadcrumb={[
           { href: '/programme', label: t('breadcrumb.programme') },
           { href: '/programme/lutte', label: t('breadcrumb.current') },
@@ -145,9 +152,11 @@ export default async function ProgrammeLuttePage({ params }: { params: Promise<{
         </div>
       </section>
 
-      {/* Cinematic reveal */}
-      <CinematicReveal
-        image="/images/action/lutte-banner-makhachkala.webp"
+      {/* Bande d'ambiance bornee a 44vh. Remplace CinematicReveal, qui figeait
+          une image en sticky sur 1900px de scroll (2,1 viewports a 1440x900).
+          Photo reelle du groupe en fin de seance, coherente avec la copy. */}
+      <SceneBand
+        image="/images/ruslan/lutte/recup-collective.webp"
         alt={t('cinematic.alt')}
         label={t('cinematic.label')}
         title={t('cinematic.title')}
@@ -155,6 +164,16 @@ export default async function ProgrammeLuttePage({ params }: { params: Promise<{
       />
 
       <DisciplineTechniques items={techniques} />
+
+      {/* Densite photo : 6 vraies photos de la salle, bandeau swipe en mobile. */}
+      <PhotoStrip
+        items={galleryItems}
+        label={t('gallery.label')}
+        title={t('gallery.title')}
+        intro={t('gallery.intro')}
+        scrollAriaLabel={t('gallery.scroll_aria')}
+        variant="grid"
+      />
 
       <DisciplineSessionFlow
         steps={sessionFlow}

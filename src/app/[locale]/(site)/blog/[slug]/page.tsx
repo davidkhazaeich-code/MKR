@@ -143,6 +143,8 @@ export default async function BlogArticlePage({ params }: { params: Promise<{ sl
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdFaq) }}
         />
       )}
+      {/* `url` (3e item) est deja l'URL localisee de l'article ; les deux
+          premiers items passent par la table de routage via BreadcrumbJsonLd. */}
       <BreadcrumbJsonLd items={[
         { name: locale === 'en' ? 'Home' : 'Accueil', url: `${SITE_URL}/` },
         { name: 'Blog', url: `${SITE_URL}/blog` },
@@ -249,11 +251,14 @@ export default async function BlogArticlePage({ params }: { params: Promise<{ sl
         </section>
       )}
 
+      {/* Libelles i18n : ils etaient ecrits en dur en francais et servis tels
+          quels aux lecteurs anglophones, sur le canal qui genere le plus
+          d'impressions du site (1 481 pour le seul article how-to-train). */}
       <SectionCTA
         primaryHref="/inscription"
-        primaryLabel="POSTULER AU CAMP"
+        primaryLabel={tList('cta.apply')}
         ghostHref="/blog"
-        ghostLabel="TOUS LES ARTICLES"
+        ghostLabel={tList('cta.all_articles')}
       />
     </>
   )

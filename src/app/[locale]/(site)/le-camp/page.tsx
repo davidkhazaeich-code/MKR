@@ -5,7 +5,7 @@ import { localizedMetadata } from '@/lib/i18n-helpers'
 import type { Locale } from '@/i18n/routing'
 import SectionCTA from '@/components/SectionCTA'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
-import CinematicReveal from '@/components/CinematicReveal'
+import SceneBand from '@/components/SceneBand'
 import TldrBox from '@/components/TldrBox'
 import UpdatedAt from '@/components/UpdatedAt'
 import KeyFactsBand from '@/components/KeyFactsBand'
@@ -67,6 +67,8 @@ export default async function LeCampPage({ params }: { params: Promise<{ locale:
         label={t('hero.label')}
         title={t('hero.title')}
         subtitle={t('hero.subtitle')}
+        image="/images/galerie-real/mma-cercle-session.webp"
+        imageAlt={t('hero.image_alt')}
       />
 
       {/* Message match avec les composants d'annonces (visa, vol, places, selection) */}
@@ -87,8 +89,9 @@ export default async function LeCampPage({ params }: { params: Promise<{ locale:
       </div>
 
       {/* Cinematic reveal */}
-      <CinematicReveal
-        image="/images/action/sparring-mma-wall.webp"
+      <SceneBand
+        /* Vraie photo (salle pleine) au lieu du visuel IA de salle vide. */
+        image="/images/ruslan/action/mma-adultes-cercle.webp"
         alt={t('cinematic.alt')}
         label={t('cinematic.label')}
         title={t('cinematic.title')}

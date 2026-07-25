@@ -52,6 +52,8 @@ export default async function TchetcheniePage({ params }: { params: Promise<{ lo
         label={t('hero.label')}
         title={t('hero.title')}
         subtitle={t('hero.subtitle')}
+        image="/images/environment/mosque-grozny.webp"
+        imageAlt={t('hero.image_alt')}
         breadcrumb={[
           { href: '/destinations', label: t('breadcrumb.destinations') },
           { href: '/destinations/tchetchenie', label: t('breadcrumb.current') },

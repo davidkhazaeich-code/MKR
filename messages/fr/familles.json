@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "Camp Famille Parent-Enfant au Daghestan | MKR",
-    "description": "Viens t'entraîner en famille au Daghestan. Parent et enfant 8-17 ans côte à côte sur le tapis. Programme adapté, tarifs famille publics, encadrement spécialisé."
+    "description": "Viens t'entraîner en famille au Daghestan. Parent et enfant 8-17 ans sur le même tapis, encadrement dédié, forfait famille tout compris."
   },
   "breadcrumb": {
     "home": "Accueil",
@@ -55,12 +55,30 @@
     "title": "TON ENFANT EST<br/>ENTRE DE BONNES MAINS",
     "intro": "Pas de KO autorisé, sparring strictement contrôlé, supervision permanente. Les techniques sont enseignées progressivement par un coach jeunesse formé. L'objectif : transmettre les fondamentaux du Caucase dans un cadre adapté à l'âge.",
     "checks": [
-      { "strong": "Tapis olympiques homologués", "suffix": ", salle dédiée enfants" },
-      { "strong": "Ratio 1 coach pour 5 enfants", "suffix": " maximum" },
-      { "strong": "Briefing parents", "suffix": " chaque fin de session" },
-      { "strong": "Photos quotidiennes", "suffix": " partagées avec les parents" },
-      { "strong": "Contact d'urgence", "suffix": " permanent (médical + sécurité)" },
-      { "strong": "Plan repas adapté", "suffix": " aux jeunes athlètes (protéines, hydratation)" }
+      {
+        "strong": "Tapis olympiques homologués",
+        "suffix": ", salle dédiée enfants"
+      },
+      {
+        "strong": "Ratio 1 coach pour 5 enfants",
+        "suffix": " maximum"
+      },
+      {
+        "strong": "Briefing parents",
+        "suffix": " chaque fin de session"
+      },
+      {
+        "strong": "Photos quotidiennes",
+        "suffix": " partagées avec les parents"
+      },
+      {
+        "strong": "Contact d'urgence",
+        "suffix": " permanent (médical + sécurité)"
+      },
+      {
+        "strong": "Plan repas adapté",
+        "suffix": " aux jeunes athlètes (protéines, hydratation)"
+      }
     ],
     "quote": "« On hésitait à embarquer les enfants. Le coach jeunesse les a captivés dès la première session. »",
     "quote_attribution": "Sophie L. · Mère · Lyon"

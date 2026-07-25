@@ -5,7 +5,7 @@ import type { Locale } from '@/i18n/routing'
 import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
-import CinematicReveal from '@/components/CinematicReveal'
+import SceneBand from '@/components/SceneBand'
 import PricingTable from '@/components/PricingTable'
 import FacilitatorBand from '@/components/FacilitatorBand'
 import { PRICING_TIERS } from '@/data/pricing'
@@ -71,7 +71,7 @@ export default async function SurMesurePage({ params }: { params: Promise<{ loca
       </section>
 
       {/* Cinematic reveal */}
-      <CinematicReveal
+      <SceneBand
         image="/images/ruslan/action/mma-cercle-session-demo-mkr.webp"
         alt={t('cinematic.alt')}
         label={t('cinematic.label')}

@@ -13,8 +13,8 @@
   },
   "root": {
     "meta": {
-      "title": "Destinations Dagestan and Chechnya | MKR Caucasian Camp",
-      "description": "Two destinations, two disciplines: adult and youth Wrestling in Dagestan, MMA in Chechnya. Compare both camps and pick your training ground."
+      "title": "Dagestan or Chechnya: Which Land for Your Camp? | MKR",
+      "description": "Side by side comparison of both MKR destinations: wrestling in Makhachkala or MMA in Grozny. Required level, gyms, flights, feel. Choose in 2 minutes."
     },
     "breadcrumb": {
       "home": "Home",
@@ -23,7 +23,8 @@
     "hero": {
       "label": "DESTINATIONS",
       "title": "TWO LANDS OF THE CAUCASUS.<br/>ONE DISCIPLINE PER CAMP.",
-      "subtitle": "Wrestling in Dagestan. MMA in Chechnya. Combining Dagestan plus Chechnya is only possible in Custom format."
+      "subtitle": "Wrestling in Dagestan. MMA in Chechnya. Combining Dagestan plus Chechnya is only possible in Custom format.",
+      "image_alt": "Panorama of the Dagestan mountains at daybreak"
     },
     "cards": {
       "daghestan": {
@@ -142,8 +143,8 @@
   },
   "dagestan": {
     "meta": {
-      "title": "Dagestan: the Land of Wrestling in the Caucasus | MKR",
-      "description": "Dagestan from the mat: Makhachkala and Kaspiysk gyms, safety without spin, culture, excursions. The MKR Wrestling camp in the heart of champions country."
+      "title": "Dagestan: Training in the Home of Wrestling (2026 Guide)",
+      "description": "Why Dagestan produces so many champions, where to train in Makhachkala, what the 2026 safety picture really looks like, and how to get there."
     },
     "breadcrumb": {
       "home": "Home",
@@ -153,7 +154,8 @@
     "hero": {
       "label": "DAGESTAN · WRESTLING CAMP",
       "title": "THE LAND THAT FORGES CHAMPIONS",
-      "subtitle": "More Olympic wrestling medals per capita than anywhere on Earth. This is where MKR takes you to train."
+      "subtitle": "More Olympic wrestling medals per capita than anywhere on Earth. This is where MKR takes you to train.",
+      "image_alt": "Viewpoint over the Sulak canyon in Dagestan"
     },
     "tldr": {
       "title": "In short · Dagestan",
@@ -275,8 +277,8 @@
   },
   "tchetchenie": {
     "meta": {
-      "title": "Chechnya: MMA Camp in Grozny | MKR Caucasian Camp",
-      "description": "Chechnya from the cage: Grozny professional gyms, safety without spin, culture, logistics. The MKR MMA camp in the epicentre of modern MMA."
+      "title": "Chechnya: Training MMA in Grozny (2026 Guide) | MKR",
+      "description": "Grozny from the mat: pro gyms, sparring level, the 2026 safety picture without spin, direct flight from Istanbul. The guide before you go."
     },
     "breadcrumb": {
       "home": "Home",
@@ -286,7 +288,8 @@
     "hero": {
       "label": "CHECHNYA · MMA CAMP",
       "title": "THE LAND THAT FORGES THE NEXT GENERATION OF MMA",
-      "subtitle": "Grozny concentrates some of the hardest MMA teams in the world. This is the ecosystem MKR opens for you."
+      "subtitle": "Grozny concentrates some of the hardest MMA teams in the world. This is the ecosystem MKR opens for you.",
+      "image_alt": "Akhmad Kadyrov Mosque in Grozny, Chechnya"
     },
     "tldr": {
       "title": "In short · Chechnya",

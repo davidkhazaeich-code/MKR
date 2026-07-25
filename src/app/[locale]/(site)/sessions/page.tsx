@@ -49,6 +49,8 @@ export default async function SessionsPage({ params }: { params: Promise<{ local
         label={t('hero.label')}
         title={t('hero.title')}
         subtitle={t('hero.subtitle')}
+        image="/images/galerie-real/quad-golden-hour.webp"
+        imageAlt={t('hero.image_alt')}
       />
 
       {/* Audience Switcher : 3 types d'inscription */}

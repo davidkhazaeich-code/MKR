@@ -10,7 +10,8 @@
   "hero": {
     "label": "LE PROCESSUS",
     "title": "DE L'INSCRIPTION<br/>AU PREMIER TAPIS",
-    "subtitle": "Processus clair, transparent, sans surprise. 6 étapes simples."
+    "subtitle": "Processus clair, transparent, sans surprise. 6 étapes simples.",
+    "image_alt": "Arrivée d'un participant à l'aéroport de Makhachkala, au Daghestan"
   },
   "steps": {
     "items": {

@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "The MKR Camp: Wrestling in Dagestan, MMA in Chechnya",
-    "description": "Wrestling or MMA camp in the Caucasus, 1 to 3 weeks all-inclusive: Russian visa, Istanbul domestic flight, housing, 2 meals/day. Selective entry, 15 spots per discipline."
+    "description": "Wrestling or MMA camp in the Caucasus, 1 to 3 weeks all inclusive: Russian visa, domestic flight, housing, 2 meals. Selective entry, 15 spots."
   },
   "breadcrumb": {
     "home": "Home",
@@ -10,14 +10,30 @@
   "hero": {
     "label": "THE CAMP · DAGESTAN AND CHECHNYA",
     "title": "1 TO 3 WEEKS OF IMMERSION THAT CHANGE THE WAY YOU FIGHT.",
-    "subtitle": "Wrestling in Dagestan or MMA in Chechnya. MKR handles the visa, domestic flight, housing, meals and gym access. You train."
+    "subtitle": "Wrestling in Dagestan or MMA in Chechnya. MKR handles the visa, domestic flight, housing, meals and gym access. You train.",
+    "image_alt": "Group session in a circle on the mat, MKR camp in the Caucasus"
   },
   "key_facts": {
-    "visa": { "label": "Russian visa included", "sub": "Application handled end to end by MKR" },
-    "flight": { "label": "Domestic flight included", "sub": "Istanbul to Makhachkala or Grozny" },
-    "housing": { "label": "Housing + 2 meals/day", "sub": "Camp lodging, local cuisine" },
-    "training": { "label": "2 training sessions/day", "sub": "6 days a week, local coaches" },
-    "selection": { "label": "Selective entry", "sub": "15 spots per discipline per session" }
+    "visa": {
+      "label": "Russian visa included",
+      "sub": "Application handled end to end by MKR"
+    },
+    "flight": {
+      "label": "Domestic flight included",
+      "sub": "Istanbul to Makhachkala or Grozny"
+    },
+    "housing": {
+      "label": "Housing + 2 meals/day",
+      "sub": "Camp lodging, local cuisine"
+    },
+    "training": {
+      "label": "2 training sessions/day",
+      "sub": "6 days a week, local coaches"
+    },
+    "selection": {
+      "label": "Selective entry",
+      "sub": "15 spots per discipline per session"
+    }
   },
   "tldr": {
     "title": "In short · The MKR Camp",
@@ -103,14 +119,46 @@
     "label": "24 HOURS",
     "title": "A TYPICAL DAY",
     "slots": [
-      { "time": "07:30", "activity": "Wake up", "desc": "The morning belongs to those who get up early." },
-      { "time": "08:30", "activity": "Breakfast", "desc": "Hearty meal, protein, energy for the morning." },
-      { "time": "10:30 / 11:00", "activity": "Morning session", "desc": "Wrestling (adults or kids) at 10:30. MMA at 11:00. Technique, drills, sparring." },
-      { "time": "13:00", "activity": "Lunch", "desc": "Recovery and nutrition." },
-      { "time": "14:30", "activity": "Recovery", "desc": "Rest, stretching, treatment if needed." },
-      { "time": "17:30 / 18:00", "activity": "Afternoon session", "desc": "Wrestling at 17:30. MMA at 18:00. Competition intensity, directed sparring." },
-      { "time": "20:00", "activity": "Dinner", "desc": "Evening meal, free according to your personal plan." },
-      { "time": "22:00", "activity": "Rest", "desc": "Sleep. The body rebuilds." }
+      {
+        "time": "07:30",
+        "activity": "Wake up",
+        "desc": "The morning belongs to those who get up early."
+      },
+      {
+        "time": "08:30",
+        "activity": "Breakfast",
+        "desc": "Hearty meal, protein, energy for the morning."
+      },
+      {
+        "time": "10:30 / 11:00",
+        "activity": "Morning session",
+        "desc": "Wrestling (adults or kids) at 10:30. MMA at 11:00. Technique, drills, sparring."
+      },
+      {
+        "time": "13:00",
+        "activity": "Lunch",
+        "desc": "Recovery and nutrition."
+      },
+      {
+        "time": "14:30",
+        "activity": "Recovery",
+        "desc": "Rest, stretching, treatment if needed."
+      },
+      {
+        "time": "17:30 / 18:00",
+        "activity": "Afternoon session",
+        "desc": "Wrestling at 17:30. MMA at 18:00. Competition intensity, directed sparring."
+      },
+      {
+        "time": "20:00",
+        "activity": "Dinner",
+        "desc": "Evening meal, free according to your personal plan."
+      },
+      {
+        "time": "22:00",
+        "activity": "Rest",
+        "desc": "Sleep. The body rebuilds."
+      }
     ]
   },
   "venues": {
@@ -148,10 +196,22 @@
     "label": "HOW IT WORKS",
     "title": "FROM APPLICATION TO THE MAT",
     "steps": [
-      { "title": "Online application", "desc": "5 minutes, free and without commitment. Your profile, your level, your dates." },
-      { "title": "Video call with Ruslan", "desc": "Within 48 hours. He validates your level, answers your questions and frames your project." },
-      { "title": "MKR prepares everything", "desc": "Visa, domestic flight, housing, gyms. You: your flight to Istanbul, your insurance and your physical preparation." },
-      { "title": "Departure", "desc": "Airport pickup, transfer to the camp, first training session. All you pack is your bag." }
+      {
+        "title": "Online application",
+        "desc": "5 minutes, free and without commitment. Your profile, your level, your dates."
+      },
+      {
+        "title": "Video call with Ruslan",
+        "desc": "Within 48 hours. He validates your level, answers your questions and frames your project."
+      },
+      {
+        "title": "MKR prepares everything",
+        "desc": "Visa, domestic flight, housing, gyms. You: your flight to Istanbul, your insurance and your physical preparation."
+      },
+      {
+        "title": "Departure",
+        "desc": "Airport pickup, transfer to the camp, first training session. All you pack is your bag."
+      }
     ],
     "note": "No payment at application. You only pay after validation on the video call, by bank transfer."
   },

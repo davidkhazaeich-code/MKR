@@ -10,7 +10,8 @@
   "hero": {
     "label": "THE PROCESS",
     "title": "FROM REGISTRATION<br/>TO THE FIRST MAT",
-    "subtitle": "Clear, transparent process, no surprises. 6 simple steps."
+    "subtitle": "Clear, transparent process, no surprises. 6 simple steps.",
+    "image_alt": "A participant arriving at Makhachkala airport, Dagestan"
   },
   "steps": {
     "items": {

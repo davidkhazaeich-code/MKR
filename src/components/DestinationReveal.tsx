@@ -1,8 +1,4 @@
-'use client'
-
 import Image from 'next/image'
-import { useScrollReveal } from '@/hooks/useScrollReveal'
-import ScrollIndicator from '@/components/ScrollIndicator'
 
 interface DestinationRevealProps {
   image: string
@@ -13,55 +9,57 @@ interface DestinationRevealProps {
   badges?: string[]
 }
 
+/**
+ * En-tete de destination : bande photo a hauteur bornee + bandeau de chiffres.
+ *
+ * Avant le 2026-07-25, ce bloc mesurait `calc(1400px + 100vh)` et immobilisait
+ * l'image en sticky, soit environ 2,6 viewports de scroll a 1440x900 pour UNE
+ * photo, sur /destinations/dagestan qui est la meilleure page SEO du site.
+ * C'est exactement le comportement que David voulait supprimer.
+ *
+ * La version actuelle garde le meme contrat de props (drop-in) et le meme
+ * contenu (label, titre, chiffres, badges) mais tient dans environ 0,6 viewport.
+ * Les chiffres passent SOUS la photo, ou ils sont plus lisibles qu'en
+ * surimpression, et le composant redevient un server component : plus de hook
+ * de scroll, donc plus aucun JS client pour ce bloc.
+ */
 export default function DestinationReveal({ image, alt, label, title, facts, badges }: DestinationRevealProps) {
-  const { containerRef } = useScrollReveal()
-
   return (
-    <div
-      ref={containerRef}
-      className="dest-reveal-outer"
-      style={{ height: 'calc(1400px + 100vh)' }}
-    >
-      <div className="dest-reveal-sticky">
-        <div className="dest-reveal-img-wrap" style={{ transformOrigin: '50% 40%' }}>
-          <Image
-            src={image}
-            alt={alt}
-            fill
-            sizes="100vw"
-            className="dest-reveal-img"
-            priority
-          />
-        </div>
-
-        <div className="dest-reveal-overlay" aria-hidden="true" />
-
-        <ScrollIndicator />
-
-        <div className="dest-reveal-container">
-          <div className="dest-reveal-content">
-            <span className="label-tag">{label}</span>
-            <h2 dangerouslySetInnerHTML={{ __html: title }} />
-
-            <div className="dest-reveal-facts">
-              {facts.map((f, i) => (
-                <div key={i} className="dest-reveal-fact">
-                  <span className="dest-reveal-fact-label">{f.label}</span>
-                  <span className="dest-reveal-fact-value">{f.value}</span>
-                </div>
-              ))}
-            </div>
-
-            {badges && badges.length > 0 && (
-              <div className="dest-reveal-badges">
-                {badges.map((b, i) => (
-                  <span key={i} className="voyage-badge">{b}</span>
-                ))}
-              </div>
-            )}
-          </div>
+    <section className="dest-head" data-scroll-section data-scroll-label={label}>
+      <div className="dest-head-frame reveal">
+        <Image
+          src={image}
+          alt={alt}
+          fill
+          sizes="100vw"
+          className="dest-head-img"
+          priority
+        />
+        <div className="dest-head-scrim" aria-hidden="true" />
+        <div className="dest-head-caption">
+          <span className="label-tag dest-head-label">{label}</span>
+          <h2 className="dest-head-title" dangerouslySetInnerHTML={{ __html: title }} />
         </div>
       </div>
-    </div>
+
+      <div className="inner">
+        <div className="dest-head-facts reveal">
+          {facts.map((f, i) => (
+            <div key={i} className="dest-head-fact">
+              <span className="dest-head-fact-value">{f.value}</span>
+              <span className="dest-head-fact-label">{f.label}</span>
+            </div>
+          ))}
+        </div>
+
+        {badges && badges.length > 0 && (
+          <div className="dest-head-badges reveal">
+            {badges.map((b, i) => (
+              <span key={i} className="voyage-badge">{b}</span>
+            ))}
+          </div>
+        )}
+      </div>
+    </section>
   )
 }

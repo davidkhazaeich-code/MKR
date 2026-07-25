@@ -1,8 +1,8 @@
 {
   "root": {
     "meta": {
-      "title": "MMA Chechnya and Wrestling Dagestan Program | MKR",
-      "description": "Three disciplines, two destinations: adult and youth Wrestling in Dagestan, MMA in Chechnya. Daily sparring, local coaching in the Caucasus."
+      "title": "Programs: Wrestling in Dagestan or MMA in Chechnya | MKR",
+      "description": "Three programs, two lands: adult and youth Wrestling in Dagestan, MMA in Grozny. 2 sessions a day, 6 days a week. Compare and pick your discipline."
     },
     "breadcrumb": {
       "home": "Home",
@@ -11,7 +11,8 @@
     "hero": {
       "label": "PROGRAM",
       "title": "THREE DISCIPLINES.<br/>TWO LANDS OF THE CAUCASUS.",
-      "subtitle": "Adult and youth Wrestling in Dagestan. MMA in Chechnya. Combining both is only possible in Custom format."
+      "subtitle": "Adult and youth Wrestling in Dagestan. MMA in Chechnya. Combining both is only possible in Custom format.",
+      "image_alt": "Group of fighters gathered around the coach after a session in the Caucasus"
     },
     "stats_band": {
       "sessions_per_day": "Sessions per day",
@@ -66,8 +67,8 @@
   },
   "lutte": {
     "meta": {
-      "title": "Freestyle Wrestling Camp in Dagestan | MKR Caucasian Camp",
-      "description": "All-inclusive wrestling camp in Dagestan: visa, domestic flight, housing, 2 sessions/day with Dagestani methods. From 1 year of practice, 15 spots."
+      "title": "Wrestling Camp in Dagestan: 15 Spots, All Inclusive | MKR",
+      "description": "Freestyle wrestling camp in Makhachkala and Kaspiysk: visa, flight, housing, 2 sessions a day. From 1 year of practice, ground base. 15 spots."
     },
     "breadcrumb": {
       "home": "Home",
@@ -77,14 +78,30 @@
     "hero": {
       "label": "WRESTLING CAMP · DAGESTAN",
       "title": "THE DISCIPLINE THAT FORGED THE CAUCASUS",
-      "subtitle": "Freestyle wrestling only, in the gyms of Makhachkala and Kaspiysk. The methods that produce Olympic champions in series, passed on mat-side."
+      "subtitle": "Freestyle wrestling only, in the gyms of Makhachkala and Kaspiysk. The methods that produce Olympic champions in series, passed on mat-side.",
+      "image_alt": "Partner wrestling room in Dagestan, blue mat and the banner reading Wrestlers are not born, they are made"
     },
     "key_facts": {
-      "visa": { "label": "Russian visa included", "sub": "Application handled end to end by MKR" },
-      "flight": { "label": "Domestic flight included", "sub": "Istanbul to Makhachkala (MCX)" },
-      "training": { "label": "2 sessions/day", "sub": "10:30 and 17:30, 6 days a week" },
-      "level": { "label": "From 1 year of practice", "sub": "Ground base required, selection by video call" },
-      "spots": { "label": "15 spots per session", "sub": "4 sessions per year" }
+      "visa": {
+        "label": "Russian visa included",
+        "sub": "Application handled end to end by MKR"
+      },
+      "flight": {
+        "label": "Domestic flight included",
+        "sub": "Istanbul to Makhachkala (MCX)"
+      },
+      "training": {
+        "label": "2 sessions/day",
+        "sub": "10:30 and 17:30, 6 days a week"
+      },
+      "level": {
+        "label": "From 1 year of practice",
+        "sub": "Ground base required, selection by video call"
+      },
+      "spots": {
+        "label": "15 spots per session",
+        "sub": "4 sessions per year"
+      }
     },
     "tldr": {
       "title": "In short · Wrestling Camp",
@@ -109,6 +126,44 @@
       "label": "HERITAGE",
       "title": "WRESTLERS ARE MADE, NOT BORN",
       "tagline": "Борцами не рождаются, борцами становятся. The motto written on the walls of Dagestani gyms."
+    },
+    "gallery": {
+      "label": "THE ROOM",
+      "title": "WHERE YOU WILL TRAIN",
+      "intro": "No stock photography. These are the partner rooms in Makhachkala and Kaspiysk, exactly as they are, at the hours you will be in them.",
+      "scroll_aria": "Photos of the wrestling room in Dagestan",
+      "items": [
+        {
+          "src": "/images/ruslan/lutte/cardio-course.webp",
+          "alt": "Wrestlers running on the mat during the warm-up, wrestling room in Dagestan",
+          "caption": "The warm-up. Twenty minutes running on the mat before you touch an opponent."
+        },
+        {
+          "src": "/images/ruslan/lutte/coach-echauffement.webp",
+          "alt": "Dagestani coach leading the collective warm-up in the middle of the mat",
+          "caption": "The coach runs the warm-up himself. He watches who cuts corners."
+        },
+        {
+          "src": "/images/ruslan/lutte/cardio-sprawl.webp",
+          "alt": "Wrestlers drilling sprawls in a line on the mat of the Dagestani room",
+          "caption": "Sprawls in a line. Conditioning is built inside the position, never beside it."
+        },
+        {
+          "src": "/images/ruslan/lutte/stretch-sol.webp",
+          "alt": "Floor stretching session in the wrestling room in Dagestan",
+          "caption": "Floor stretching. The session does not end when you are tired, it ends when it is over."
+        },
+        {
+          "src": "/images/ruslan/lutte/singleleg-cercle.webp",
+          "alt": "Wrestling throw executed in the middle of the circle while the coach watches",
+          "caption": "The circle. You wrestle in the middle, everyone watches, the coach corrects out loud."
+        },
+        {
+          "src": "/images/ruslan/lutte/dagestan-drill.webp",
+          "alt": "Two wrestlers drilling a clinch position, Dagestan singlet, wrestling room",
+          "caption": "The clinch drill. Repeated until the position comes without thinking."
+        }
+      ]
     },
     "techniques": {
       "items": {
@@ -195,10 +250,22 @@
       "label": "HOW IT WORKS",
       "title": "FROM APPLICATION TO THE MAT",
       "steps": [
-        { "title": "Online application", "desc": "5 minutes, free and without commitment. Your wrestling profile, your level, your dates." },
-        { "title": "Video call with Ruslan", "desc": "Within 48 hours. Level validation, answers to your questions, project framing." },
-        { "title": "MKR prepares everything", "desc": "Russian visa, Istanbul-Makhachkala domestic flight, housing, gyms. You: flight to Istanbul, insurance, physical preparation." },
-        { "title": "Departure", "desc": "Pickup in Makhachkala, 1h30 transfer to camp, first training the next day." }
+        {
+          "title": "Online application",
+          "desc": "5 minutes, free and without commitment. Your wrestling profile, your level, your dates."
+        },
+        {
+          "title": "Video call with Ruslan",
+          "desc": "Within 48 hours. Level validation, answers to your questions, project framing."
+        },
+        {
+          "title": "MKR prepares everything",
+          "desc": "Russian visa, Istanbul-Makhachkala domestic flight, housing, gyms. You: flight to Istanbul, insurance, physical preparation."
+        },
+        {
+          "title": "Departure",
+          "desc": "Pickup in Makhachkala, 1h30 transfer to camp, first training the next day."
+        }
       ],
       "note": "No payment at application. You only pay after validation on the video call."
     },
@@ -239,8 +306,8 @@
   },
   "lutte_enfants": {
     "meta": {
-      "title": "Youth Wrestling Ages 8-17 in Dagestan | MKR Caucasian Camp",
-      "description": "Wrestling program for young athletes ages 8-17 with a parent. Progressive teaching, specialised supervision, Dagestani fundamentals."
+      "title": "Youth Wrestling 8-17 in Dagestan, With a Parent | MKR",
+      "description": "Wrestling program for ages 8-17, always with a parent. Progressive teaching, dedicated supervision, Dagestani fundamentals learned on the mat."
     },
     "breadcrumb": {
       "home": "Home",
@@ -359,8 +426,8 @@
   },
   "mma": {
     "meta": {
-      "title": "MMA Camp in Chechnya, in Grozny | MKR Caucasian Camp",
-      "description": "All-inclusive MMA camp in Grozny: visa, domestic flight, housing, daily sparring with pro teams. Advanced level required, 15 spots per session."
+      "title": "MMA Camp in Grozny: Daily Sparring from 1,690 € | MKR",
+      "description": "All-inclusive MMA camp in Grozny: Russian visa, domestic flight, housing, 2 meals. Daily sparring with pro teams. Advanced level, 15 spots."
     },
     "breadcrumb": {
       "home": "Home",
@@ -370,14 +437,30 @@
     "hero": {
       "label": "MMA CAMP · CHECHNYA",
       "title": "STRIKE. TAKE DOWN. SUBMIT.",
-      "subtitle": "Complete MMA program in Grozny, in the epicentre of modern MMA. The level of sparring you will not reproduce anywhere in Europe."
+      "subtitle": "Complete MMA program in Grozny, in the epicentre of modern MMA. The level of sparring you will not reproduce anywhere in Europe.",
+      "image_alt": "MMA room of the partner club in Grozny, cage and red mat, session in progress"
     },
     "key_facts": {
-      "visa": { "label": "Russian visa included", "sub": "Application handled end to end by MKR" },
-      "flight": { "label": "Domestic flight included", "sub": "Istanbul to Grozny (GRV), direct" },
-      "training": { "label": "2 sessions/day", "sub": "11:00 and 18:00, 6 days a week" },
-      "level": { "label": "Advanced level required", "sub": "5+ years, selection by video call" },
-      "spots": { "label": "15 spots per session", "sub": "4 sessions per year" }
+      "visa": {
+        "label": "Russian visa included",
+        "sub": "Application handled end to end by MKR"
+      },
+      "flight": {
+        "label": "Domestic flight included",
+        "sub": "Istanbul to Grozny (GRV), direct"
+      },
+      "training": {
+        "label": "2 sessions/day",
+        "sub": "11:00 and 18:00, 6 days a week"
+      },
+      "level": {
+        "label": "Advanced level required",
+        "sub": "5+ years, selection by video call"
+      },
+      "spots": {
+        "label": "15 spots per session",
+        "sub": "4 sessions per year"
+      }
     },
     "tldr": {
       "title": "In short · MMA Camp",
@@ -505,10 +588,22 @@
       "label": "HOW IT WORKS",
       "title": "FROM APPLICATION TO THE CAGE",
       "steps": [
-        { "title": "Online application", "desc": "5 minutes, free and without commitment. Your MMA profile, your record, your dates." },
-        { "title": "Video call with Ruslan", "desc": "Within 48 hours. Advanced level validation, answers to your questions, project framing." },
-        { "title": "MKR prepares everything", "desc": "Russian visa, direct Istanbul-Grozny domestic flight, housing, gyms. You: flight to Istanbul, insurance, preparation." },
-        { "title": "Departure", "desc": "Pickup in Grozny, 30-minute transfer to camp, first training the next day." }
+        {
+          "title": "Online application",
+          "desc": "5 minutes, free and without commitment. Your MMA profile, your record, your dates."
+        },
+        {
+          "title": "Video call with Ruslan",
+          "desc": "Within 48 hours. Advanced level validation, answers to your questions, project framing."
+        },
+        {
+          "title": "MKR prepares everything",
+          "desc": "Russian visa, direct Istanbul-Grozny domestic flight, housing, gyms. You: flight to Istanbul, insurance, preparation."
+        },
+        {
+          "title": "Departure",
+          "desc": "Pickup in Grozny, 30-minute transfer to camp, first training the next day."
+        }
       ],
       "note": "No payment at application. You only pay after validation on the video call."
     },
@@ -545,6 +640,44 @@
     "section_cta": {
       "primary_label": "APPLY · CHECHNYA MMA",
       "ghost_label": "DISCOVER THE DESTINATION"
+    },
+    "gallery": {
+      "label": "THE ROOM",
+      "title": "WHERE YOU WILL TRAIN",
+      "intro": "The Grozny club during training hours. These are the real sessions, not a staged shoot.",
+      "scroll_aria": "Photos of the MMA room in Chechnya",
+      "items": [
+        {
+          "src": "/images/mma-tchechenie/pads-cardio-salle-pleine.webp",
+          "alt": "Full MMA room in Grozny during a pad work session",
+          "caption": "The room at peak hours. You never train alone in a corner."
+        },
+        {
+          "src": "/images/mma-tchechenie/pads-coach-orange.webp",
+          "alt": "Fighter working the pads with a Chechen coach",
+          "caption": "Pad work with a coach. He corrects the trajectory, not just the power."
+        },
+        {
+          "src": "/images/mma-tchechenie/low-kick-cage.webp",
+          "alt": "Low kick thrown in training inside the cage of the Grozny club",
+          "caption": "The low kick in the cage. The cage gets used every day, not only for photos."
+        },
+        {
+          "src": "/images/mma-tchechenie/sparring-akhmat-boxing.webp",
+          "alt": "Striking sparring between two fighters of the club",
+          "caption": "Sparring. The intensity is set with your level, it is not something you endure."
+        },
+        {
+          "src": "/images/mma-tchechenie/coach-care-blesse.webp",
+          "alt": "Coach taking care of an injured fighter at the edge of the mat",
+          "caption": "A coach who looks after you when something goes wrong. That is part of a good room too."
+        },
+        {
+          "src": "/images/mma-tchechenie/team-5-cage.webp",
+          "alt": "Group of five fighters gathered in the cage after the session",
+          "caption": "End of session. You leave as a group, never each on your own."
+        }
+      ]
     }
   }
 }

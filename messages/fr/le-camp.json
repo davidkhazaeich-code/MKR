@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "Le Camp MKR : Lutte au Daghestan, MMA en Tchétchénie",
-    "description": "Camp Lutte ou MMA au Caucase, 1 à 3 semaines tout compris : visa russe, vol intérieur Istanbul, hébergement, 2 repas/jour. Entrée sélective, 15 places par discipline."
+    "description": "Camp Lutte ou MMA au Caucase, 1 à 3 semaines tout compris : visa russe, vol intérieur, hébergement, 2 repas. Entrée sélective, 15 places par discipline."
   },
   "breadcrumb": {
     "home": "Accueil",
@@ -10,14 +10,30 @@
   "hero": {
     "label": "LE CAMP · DAGHESTAN ET TCHÉTCHÉNIE",
     "title": "1 À 3 SEMAINES D'IMMERSION QUI CHANGENT TA MANIÈRE DE COMBATTRE.",
-    "subtitle": "Lutte au Daghestan ou MMA en Tchétchénie. MKR gère le visa, le vol intérieur, l'hébergement, les repas et l'accès aux salles. Toi, tu t'entraînes."
+    "subtitle": "Lutte au Daghestan ou MMA en Tchétchénie. MKR gère le visa, le vol intérieur, l'hébergement, les repas et l'accès aux salles. Toi, tu t'entraînes.",
+    "image_alt": "Séance collective en cercle sur le tapis, camp MKR au Caucase"
   },
   "key_facts": {
-    "visa": { "label": "Visa russe inclus", "sub": "Dossier géré de A à Z par MKR" },
-    "flight": { "label": "Vol intérieur inclus", "sub": "Istanbul vers Makhachkala ou Grozny" },
-    "housing": { "label": "Hébergement + 2 repas/jour", "sub": "Logement de camp, cuisine locale" },
-    "training": { "label": "2 entraînements/jour", "sub": "6 jours sur 7, coachs locaux" },
-    "selection": { "label": "Entrée sélective", "sub": "15 places par discipline et par session" }
+    "visa": {
+      "label": "Visa russe inclus",
+      "sub": "Dossier géré de A à Z par MKR"
+    },
+    "flight": {
+      "label": "Vol intérieur inclus",
+      "sub": "Istanbul vers Makhachkala ou Grozny"
+    },
+    "housing": {
+      "label": "Hébergement + 2 repas/jour",
+      "sub": "Logement de camp, cuisine locale"
+    },
+    "training": {
+      "label": "2 entraînements/jour",
+      "sub": "6 jours sur 7, coachs locaux"
+    },
+    "selection": {
+      "label": "Entrée sélective",
+      "sub": "15 places par discipline et par session"
+    }
   },
   "tldr": {
     "title": "En bref · Le Camp MKR",
@@ -103,14 +119,46 @@
     "label": "24 HEURES",
     "title": "UNE JOURNÉE TYPE",
     "slots": [
-      { "time": "07:30", "activity": "Réveil", "desc": "Le matin appartient à ceux qui se lèvent tôt." },
-      { "time": "08:30", "activity": "Petit-déjeuner", "desc": "Repas copieux, protéines, énergie pour la matinée." },
-      { "time": "10:30 / 11:00", "activity": "Session matin", "desc": "Lutte (adultes ou enfants) à 10h30. MMA à 11h00. Technique, drills, sparring." },
-      { "time": "13:00", "activity": "Déjeuner", "desc": "Récupération et nutrition." },
-      { "time": "14:30", "activity": "Récupération", "desc": "Repos, étirements, soins si nécessaire." },
-      { "time": "17:30 / 18:00", "activity": "Session après-midi", "desc": "Lutte à 17h30. MMA à 18h00. Intensité compétition, sparring dirigé." },
-      { "time": "20:00", "activity": "Dîner", "desc": "Repas du soir libre selon ton plan personnel." },
-      { "time": "22:00", "activity": "Repos", "desc": "Sommeil. Le corps se reconstruit." }
+      {
+        "time": "07:30",
+        "activity": "Réveil",
+        "desc": "Le matin appartient à ceux qui se lèvent tôt."
+      },
+      {
+        "time": "08:30",
+        "activity": "Petit-déjeuner",
+        "desc": "Repas copieux, protéines, énergie pour la matinée."
+      },
+      {
+        "time": "10:30 / 11:00",
+        "activity": "Session matin",
+        "desc": "Lutte (adultes ou enfants) à 10h30. MMA à 11h00. Technique, drills, sparring."
+      },
+      {
+        "time": "13:00",
+        "activity": "Déjeuner",
+        "desc": "Récupération et nutrition."
+      },
+      {
+        "time": "14:30",
+        "activity": "Récupération",
+        "desc": "Repos, étirements, soins si nécessaire."
+      },
+      {
+        "time": "17:30 / 18:00",
+        "activity": "Session après-midi",
+        "desc": "Lutte à 17h30. MMA à 18h00. Intensité compétition, sparring dirigé."
+      },
+      {
+        "time": "20:00",
+        "activity": "Dîner",
+        "desc": "Repas du soir libre selon ton plan personnel."
+      },
+      {
+        "time": "22:00",
+        "activity": "Repos",
+        "desc": "Sommeil. Le corps se reconstruit."
+      }
     ]
   },
   "venues": {
@@ -148,10 +196,22 @@
     "label": "COMMENT ÇA MARCHE",
     "title": "DE LA CANDIDATURE AU TAPIS",
     "steps": [
-      { "title": "Candidature en ligne", "desc": "5 minutes, gratuite et sans engagement. Ton profil, ton niveau, tes dates." },
-      { "title": "Visio avec Ruslan", "desc": "Sous 48h. Il valide ton niveau, répond à tes questions et cadre ton projet." },
-      { "title": "MKR prépare tout", "desc": "Visa, vol intérieur, hébergement, salles. Toi : ton vol jusqu'à Istanbul, ton assurance et ta préparation physique." },
-      { "title": "Départ", "desc": "Accueil à l'aéroport, transfert au camp, premier entraînement. Tu n'as qu'à préparer ton sac." }
+      {
+        "title": "Candidature en ligne",
+        "desc": "5 minutes, gratuite et sans engagement. Ton profil, ton niveau, tes dates."
+      },
+      {
+        "title": "Visio avec Ruslan",
+        "desc": "Sous 48h. Il valide ton niveau, répond à tes questions et cadre ton projet."
+      },
+      {
+        "title": "MKR prépare tout",
+        "desc": "Visa, vol intérieur, hébergement, salles. Toi : ton vol jusqu'à Istanbul, ton assurance et ta préparation physique."
+      },
+      {
+        "title": "Départ",
+        "desc": "Accueil à l'aéroport, transfert au camp, premier entraînement. Tu n'as qu'à préparer ton sac."
+      }
     ],
     "note": "Aucun paiement à la candidature. Le règlement intervient uniquement après validation en visio, par virement bancaire."
   },

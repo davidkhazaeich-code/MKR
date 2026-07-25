@@ -5,7 +5,7 @@ import type { Locale } from '@/i18n/routing'
 import PageHero from '@/components/PageHero'
 import SectionCTA from '@/components/SectionCTA'
 import DestinationReveal from '@/components/DestinationReveal'
-import CinematicReveal from '@/components/CinematicReveal'
+import SceneBand from '@/components/SceneBand'
 import DestinationSafetyProtocol from '@/components/DestinationSafetyProtocol'
 import TldrBox from '@/components/TldrBox'
 import UpdatedAt from '@/components/UpdatedAt'
@@ -30,7 +30,9 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 const EXCURSION_KEYS = ['sulak', 'sarykum', 'gamsutl'] as const
 
 const EXCURSION_IMAGES: Record<typeof EXCURSION_KEYS[number], string> = {
-  sulak: '/images/environment/canyon-sulak.webp',
+  // Vraie photo du canyon (repo) au lieu du visuel IA : c'est l'argument
+  // d'excursion n°1 de la page qui capte le plus de trafic SEO.
+  sulak: '/images/ruslan/environment/canyon-sulak-falaises.webp',
   sarykum: '/images/environment/sarykum-dune.webp',
   gamsutl: '/images/environment/gamsutl-village.webp',
 }
@@ -53,6 +55,8 @@ export default async function DagestanPage({ params }: { params: Promise<{ local
         label={t('hero.label')}
         title={t('hero.title')}
         subtitle={t('hero.subtitle')}
+        image="/images/galerie-real/canyon-sulak-overlook.webp"
+        imageAlt={t('hero.image_alt')}
         breadcrumb={[
           { href: '/destinations', label: t('breadcrumb.destinations') },
           { href: '/destinations/dagestan', label: t('breadcrumb.current') },
@@ -178,7 +182,7 @@ export default async function DagestanPage({ params }: { params: Promise<{ local
       </section>
 
       {/* Cinematic reveal */}
-      <CinematicReveal
+      <SceneBand
         image="/images/environment/mountain-road.webp"
         alt={t('cinematic.alt')}
         label={t('cinematic.label')}

@@ -30,6 +30,8 @@ export default async function ProgrammePage({ params }: { params: Promise<{ loca
         label={t('hero.label')}
         title={t('hero.title')}
         subtitle={t('hero.subtitle')}
+        image="/images/galerie-real/mma-team-cluster.webp"
+        imageAlt={t('hero.image_alt')}
       />
 
       {/* Stats band */}

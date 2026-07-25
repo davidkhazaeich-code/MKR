@@ -19,6 +19,7 @@ const MOBILE_CHEVRON = <Icon name="chevron-down" size={18} />
  * Wrapper React.ReactNode pour pouvoir mixer Icon Remix + composants métier
  * (IconLutte / IconMMA) sans casser le mapping existant Record<string, ReactNode>. */
 const ICO: Record<string, React.ReactNode> = {
+  home: <Icon name="home" size={18} />,
   camp: <Icon name="mountain" size={18} />,
   howItWorks: <Icon name="clock" size={18} />,
   prepare: <Icon name="book-open" size={18} />,
@@ -202,6 +203,16 @@ export default function Nav() {
             </Link>
 
             <ul className="nav-list" role="list">
+              <li>
+                <Link
+                  href="/"
+                  className="nav-trigger nav-home"
+                  aria-current={pathname === '/' ? 'page' : undefined}
+                >
+                  {ICO.home}
+                  {t('home')}
+                </Link>
+              </li>
               {(['camp', 'programme', 'destinations', 'infos'] as PanelId[]).map(id => (
                 <li key={id}>
                   <button
@@ -457,6 +468,15 @@ export default function Nav() {
       >
         <div className="mobile-inner">
           <LocaleSwitcher variant="mobile" />
+          <div className="mob-acc">
+            <Link
+              href="/"
+              className="mob-home-link"
+              aria-current={pathname === '/' ? 'page' : undefined}
+            >
+              {t('home')}
+            </Link>
+          </div>
           <MobAccordion title={t('mobile.le_camp_title')} id="mob-camp">
             <span className="mob-sub-label">{t('mobile.sessions_label')}</span>
             <Link href="/mkr-camp-2026" className="mob-sub-link">{ICO.sessions} {t('panels.le_camp.sessions.ete_2026')}</Link>

@@ -1,6 +1,9 @@
 {
   "read_article": "Lire l’article",
-  "related": { "eyebrow": "À lire ensuite", "title": "Sur le même sujet" },
+  "related": {
+    "eyebrow": "À lire ensuite",
+    "title": "Sur le même sujet"
+  },
   "read_time_suffix": "de lecture",
   "tldr_label": "À RETENIR",
   "faq_title": "QUESTIONS FRÉQUENTES",
@@ -67,5 +70,9 @@
     "read_time": "10 min",
     "category": "Culture",
     "img_alt": "Khabib Nurmagomedov en entraînement de lutte au Daghestan, dans la salle Eagle MMA familiale dirigée par son père Abdulmanap."
+  },
+  "cta": {
+    "apply": "POSTULER AU CAMP",
+    "all_articles": "TOUS LES ARTICLES"
   }
 }

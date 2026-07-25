@@ -1,8 +1,8 @@
 {
   "root": {
     "meta": {
-      "title": "Programme MMA Tchétchénie et Lutte Daghestan | MKR",
-      "description": "Trois disciplines, deux destinations : Lutte adultes et enfants au Daghestan, MMA en Tchétchénie. Sparring quotidien, coaching local au Caucase."
+      "title": "Programme : lutte au Daghestan ou MMA en Tchétchénie | MKR",
+      "description": "Trois programmes, deux terres : lutte adultes et jeunes au Daghestan, MMA à Grozny. 2 séances par jour, 6 jours sur 7. Compare et choisis ta discipline."
     },
     "breadcrumb": {
       "home": "Accueil",
@@ -11,7 +11,8 @@
     "hero": {
       "label": "PROGRAMME",
       "title": "TROIS DISCIPLINES.<br/>DEUX TERRES DU CAUCASE.",
-      "subtitle": "Lutte adultes et Lutte enfants au Daghestan. MMA en Tchétchénie. Le combo possible uniquement en sur-mesure."
+      "subtitle": "Lutte adultes et Lutte enfants au Daghestan. MMA en Tchétchénie. Le combo possible uniquement en sur-mesure.",
+      "image_alt": "Groupe de combattants réunis autour du coach après une séance au Caucase"
     },
     "stats_band": {
       "sessions_per_day": "Sessions par jour",
@@ -66,8 +67,8 @@
   },
   "lutte": {
     "meta": {
-      "title": "Camp de Lutte libre au Daghestan | MKR Caucasian Camp",
-      "description": "Camp de lutte libre au Daghestan tout compris : visa, vol intérieur, hébergement, 2 sessions/jour avec les méthodes daghestanaises. Dès 1 an de pratique, 15 places."
+      "title": "Stage de lutte au Daghestan : 15 places, tout compris | MKR",
+      "description": "Camp de lutte libre à Makhachkala et Kaspiysk : visa, vol intérieur, hébergement, 2 séances par jour. Dès 1 an de pratique et une base au sol."
     },
     "breadcrumb": {
       "home": "Accueil",
@@ -77,14 +78,30 @@
     "hero": {
       "label": "CAMP LUTTE · DAGHESTAN",
       "title": "LA DISCIPLINE QUI A FORGÉ LE CAUCASE",
-      "subtitle": "Lutte libre uniquement, dans les salles de Makhachkala et Kaspiysk. Les méthodes qui produisent des champions olympiques en série, transmises sur le tapis."
+      "subtitle": "Lutte libre uniquement, dans les salles de Makhachkala et Kaspiysk. Les méthodes qui produisent des champions olympiques en série, transmises sur le tapis.",
+      "image_alt": "Salle de lutte partenaire au Daghestan, tapis bleu et bannière « On ne naît pas lutteur, on le devient »"
     },
     "key_facts": {
-      "visa": { "label": "Visa russe inclus", "sub": "Dossier géré de A à Z par MKR" },
-      "flight": { "label": "Vol intérieur inclus", "sub": "Istanbul vers Makhachkala (MCX)" },
-      "training": { "label": "2 sessions/jour", "sub": "10h30 et 17h30, 6 jours sur 7" },
-      "level": { "label": "Dès 1 an de pratique", "sub": "Base au sol exigée, sélection en visio" },
-      "spots": { "label": "15 places par session", "sub": "4 sessions par an" }
+      "visa": {
+        "label": "Visa russe inclus",
+        "sub": "Dossier géré de A à Z par MKR"
+      },
+      "flight": {
+        "label": "Vol intérieur inclus",
+        "sub": "Istanbul vers Makhachkala (MCX)"
+      },
+      "training": {
+        "label": "2 sessions/jour",
+        "sub": "10h30 et 17h30, 6 jours sur 7"
+      },
+      "level": {
+        "label": "Dès 1 an de pratique",
+        "sub": "Base au sol exigée, sélection en visio"
+      },
+      "spots": {
+        "label": "15 places par session",
+        "sub": "4 sessions par an"
+      }
     },
     "tldr": {
       "title": "En bref · Camp Lutte",
@@ -109,6 +126,44 @@
       "label": "HÉRITAGE",
       "title": "ON NE NAÎT PAS LUTTEUR, ON LE DEVIENT",
       "tagline": "Борцами не рождаются, борцами становятся. La devise inscrite sur les murs des salles daghestanaises."
+    },
+    "gallery": {
+      "label": "LA SALLE",
+      "title": "OÙ TU VAS T'ENTRAÎNER",
+      "intro": "Pas de photos de catalogue. Voici les salles partenaires de Makhachkala et Kaspiysk, telles qu'elles sont, aux heures où tu y seras.",
+      "scroll_aria": "Photos de la salle de lutte au Daghestan",
+      "items": [
+        {
+          "src": "/images/ruslan/lutte/cardio-course.webp",
+          "alt": "Groupe de lutteurs courant sur le tapis pendant l'échauffement, salle de lutte au Daghestan",
+          "caption": "L'échauffement. Vingt minutes de course sur le tapis avant de toucher un adversaire."
+        },
+        {
+          "src": "/images/ruslan/lutte/coach-echauffement.webp",
+          "alt": "Coach daghestanais menant l'échauffement collectif au centre du tapis",
+          "caption": "Le coach mène l'échauffement lui-même. Il regarde qui triche."
+        },
+        {
+          "src": "/images/ruslan/lutte/cardio-sprawl.webp",
+          "alt": "Lutteurs enchaînant des sprawls en ligne sur le tapis de la salle daghestanaise",
+          "caption": "Les sprawls en ligne. Le cardio se travaille dans la position, jamais à côté."
+        },
+        {
+          "src": "/images/ruslan/lutte/stretch-sol.webp",
+          "alt": "Séance d'étirements au sol dans la salle de lutte au Daghestan",
+          "caption": "Les étirements au sol. La séance ne se termine pas quand tu es fatigué, elle se termine quand elle est finie."
+        },
+        {
+          "src": "/images/ruslan/lutte/singleleg-cercle.webp",
+          "alt": "Projection de lutte exécutée au centre du cercle sous le regard du coach",
+          "caption": "Le cercle. Tu luttes au centre, tout le monde regarde, le coach corrige à voix haute."
+        },
+        {
+          "src": "/images/ruslan/lutte/dagestan-drill.webp",
+          "alt": "Deux lutteurs en drill de clinch, maillot Daghestan, salle de lutte",
+          "caption": "Le drill de clinch. Répété jusqu'à ce que la position vienne sans y penser."
+        }
+      ]
     },
     "techniques": {
       "items": {
@@ -195,10 +250,22 @@
       "label": "COMMENT ÇA MARCHE",
       "title": "DE LA CANDIDATURE AU TAPIS",
       "steps": [
-        { "title": "Candidature en ligne", "desc": "5 minutes, gratuite et sans engagement. Ton profil lutte, ton niveau, tes dates." },
-        { "title": "Visio avec Ruslan", "desc": "Sous 48h. Validation du niveau, réponses à tes questions, cadrage du projet." },
-        { "title": "MKR prépare tout", "desc": "Visa russe, vol intérieur Istanbul-Makhachkala, hébergement, salles. Toi : vol jusqu'à Istanbul, assurance, préparation physique." },
-        { "title": "Départ", "desc": "Accueil à Makhachkala, transfert d'1h30 au camp, premier entraînement le lendemain." }
+        {
+          "title": "Candidature en ligne",
+          "desc": "5 minutes, gratuite et sans engagement. Ton profil lutte, ton niveau, tes dates."
+        },
+        {
+          "title": "Visio avec Ruslan",
+          "desc": "Sous 48h. Validation du niveau, réponses à tes questions, cadrage du projet."
+        },
+        {
+          "title": "MKR prépare tout",
+          "desc": "Visa russe, vol intérieur Istanbul-Makhachkala, hébergement, salles. Toi : vol jusqu'à Istanbul, assurance, préparation physique."
+        },
+        {
+          "title": "Départ",
+          "desc": "Accueil à Makhachkala, transfert d'1h30 au camp, premier entraînement le lendemain."
+        }
       ],
       "note": "Aucun paiement à la candidature. Le règlement intervient uniquement après validation en visio."
     },
@@ -239,8 +306,8 @@
   },
   "lutte_enfants": {
     "meta": {
-      "title": "Lutte Enfants 8-17 ans au Daghestan | MKR Caucasian Camp",
-      "description": "Programme de lutte pour jeunes athlètes 8-17 ans avec parent. Pédagogie progressive, encadrement spécialisé, fondamentaux daghestanais."
+      "title": "Lutte enfants 8-17 ans au Daghestan, avec un parent | MKR",
+      "description": "Programme de lutte pour 8-17 ans, toujours accompagné d'un parent. Pédagogie progressive, encadrement dédié, fondamentaux daghestanais sur le tapis."
     },
     "breadcrumb": {
       "home": "Accueil",
@@ -359,8 +426,8 @@
   },
   "mma": {
     "meta": {
-      "title": "Camp MMA en Tchétchénie, à Grozny | MKR Caucasian Camp",
-      "description": "Camp MMA à Grozny tout compris : visa, vol intérieur, hébergement, sparring quotidien avec les écuries pro. Niveau Avancé exigé, 15 places par session."
+      "title": "Camp MMA à Grozny : sparring quotidien dès 1 690 € | MKR",
+      "description": "Stage MMA à Grozny tout compris : visa, vol intérieur, hébergement, 2 repas. Sparring quotidien avec les écuries pro. Niveau avancé, 15 places."
     },
     "breadcrumb": {
       "home": "Accueil",
@@ -370,14 +437,30 @@
     "hero": {
       "label": "CAMP MMA · TCHÉTCHÉNIE",
       "title": "FRAPPE. PROJETTE. SOUMETS.",
-      "subtitle": "Programme MMA complet à Grozny, dans l'épicentre du MMA moderne. Le niveau de sparring que tu ne reproduiras nulle part en Europe."
+      "subtitle": "Programme MMA complet à Grozny, dans l'épicentre du MMA moderne. Le niveau de sparring que tu ne reproduiras nulle part en Europe.",
+      "image_alt": "Salle de MMA du club partenaire à Grozny, cage et tapis rouge, séance en cours"
     },
     "key_facts": {
-      "visa": { "label": "Visa russe inclus", "sub": "Dossier géré de A à Z par MKR" },
-      "flight": { "label": "Vol intérieur inclus", "sub": "Istanbul vers Grozny (GRV), direct" },
-      "training": { "label": "2 sessions/jour", "sub": "11h00 et 18h00, 6 jours sur 7" },
-      "level": { "label": "Niveau Avancé exigé", "sub": "5 ans et plus, sélection en visio" },
-      "spots": { "label": "15 places par session", "sub": "4 sessions par an" }
+      "visa": {
+        "label": "Visa russe inclus",
+        "sub": "Dossier géré de A à Z par MKR"
+      },
+      "flight": {
+        "label": "Vol intérieur inclus",
+        "sub": "Istanbul vers Grozny (GRV), direct"
+      },
+      "training": {
+        "label": "2 sessions/jour",
+        "sub": "11h00 et 18h00, 6 jours sur 7"
+      },
+      "level": {
+        "label": "Niveau Avancé exigé",
+        "sub": "5 ans et plus, sélection en visio"
+      },
+      "spots": {
+        "label": "15 places par session",
+        "sub": "4 sessions par an"
+      }
     },
     "tldr": {
       "title": "En bref · Camp MMA",
@@ -505,10 +588,22 @@
       "label": "COMMENT ÇA MARCHE",
       "title": "DE LA CANDIDATURE À LA CAGE",
       "steps": [
-        { "title": "Candidature en ligne", "desc": "5 minutes, gratuite et sans engagement. Ton profil MMA, ton palmarès, tes dates." },
-        { "title": "Visio avec Ruslan", "desc": "Sous 48h. Validation du niveau Avancé, réponses à tes questions, cadrage du projet." },
-        { "title": "MKR prépare tout", "desc": "Visa russe, vol intérieur direct Istanbul-Grozny, hébergement, salles. Toi : vol jusqu'à Istanbul, assurance, préparation." },
-        { "title": "Départ", "desc": "Accueil à Grozny, transfert de 30 minutes au camp, premier entraînement le lendemain." }
+        {
+          "title": "Candidature en ligne",
+          "desc": "5 minutes, gratuite et sans engagement. Ton profil MMA, ton palmarès, tes dates."
+        },
+        {
+          "title": "Visio avec Ruslan",
+          "desc": "Sous 48h. Validation du niveau Avancé, réponses à tes questions, cadrage du projet."
+        },
+        {
+          "title": "MKR prépare tout",
+          "desc": "Visa russe, vol intérieur direct Istanbul-Grozny, hébergement, salles. Toi : vol jusqu'à Istanbul, assurance, préparation."
+        },
+        {
+          "title": "Départ",
+          "desc": "Accueil à Grozny, transfert de 30 minutes au camp, premier entraînement le lendemain."
+        }
       ],
       "note": "Aucun paiement à la candidature. Le règlement intervient uniquement après validation en visio."
     },
@@ -545,6 +640,44 @@
     "section_cta": {
       "primary_label": "POSTULER · MMA TCHÉTCHÉNIE",
       "ghost_label": "DÉCOUVRIR LA DESTINATION"
+    },
+    "gallery": {
+      "label": "LA SALLE",
+      "title": "OÙ TU VAS T'ENTRAÎNER",
+      "intro": "Le club de Grozny, aux heures d'entraînement. Ce sont les séances réelles, pas une mise en scène.",
+      "scroll_aria": "Photos de la salle de MMA en Tchétchénie",
+      "items": [
+        {
+          "src": "/images/mma-tchechenie/pads-cardio-salle-pleine.webp",
+          "alt": "Salle de MMA pleine à Grozny pendant une séance de pattes d'ours",
+          "caption": "La salle aux heures pleines. Tu ne t'entraînes jamais seul dans un coin."
+        },
+        {
+          "src": "/images/mma-tchechenie/pads-coach-orange.webp",
+          "alt": "Combattant travaillant les pattes d'ours avec un coach tchétchène",
+          "caption": "Les pattes d'ours avec un coach. Il corrige la trajectoire, pas seulement la puissance."
+        },
+        {
+          "src": "/images/mma-tchechenie/low-kick-cage.webp",
+          "alt": "Low kick porté à l'entraînement dans la cage du club de Grozny",
+          "caption": "Le low kick dans la cage. La cage sert tous les jours, pas seulement pour les photos."
+        },
+        {
+          "src": "/images/mma-tchechenie/sparring-akhmat-boxing.webp",
+          "alt": "Sparring de boxe pieds-poings entre deux combattants du club",
+          "caption": "Le sparring. L'intensité se règle avec ton niveau, elle ne se subit pas."
+        },
+        {
+          "src": "/images/mma-tchechenie/coach-care-blesse.webp",
+          "alt": "Coach s'occupant d'un combattant blessé au bord du tapis",
+          "caption": "Un coach qui s'occupe de toi quand ça coince. C'est aussi ça, une bonne salle."
+        },
+        {
+          "src": "/images/mma-tchechenie/team-5-cage.webp",
+          "alt": "Groupe de cinq combattants réunis dans la cage après la séance",
+          "caption": "La fin de séance. On repart en groupe, jamais chacun de son côté."
+        }
+      ]
     }
   }
 }

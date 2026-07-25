@@ -37,6 +37,8 @@ export default async function CommentCaMarchePage({ params }: { params: Promise<
         label={t('hero.label')}
         title={t('hero.title')}
         subtitle={t('hero.subtitle')}
+        image="/images/ruslan/coaches/Antoine-portrait-makhachkala-mkr.webp"
+        imageAlt={t('hero.image_alt')}
       />
 
       {/* Flow 6 etapes */}

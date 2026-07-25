@@ -110,8 +110,58 @@ function main() {
     exitCode = 1;
   }
 
+  // Longueur des meta (audit 2026-07-25) : 6 descriptions FR etaient tronquees
+  // en SERP, ce qui coupait systematiquement l'argument final. Le title au-dela
+  // de ~60 caracteres et la description au-dela de ~158 sont rognes par Google.
+  // On garde le controle ici plutot que dans une revue manuelle : c'est le seul
+  // endroit deja lance avant chaque push.
+  const TITLE_MAX = 60;
+  const DESC_MAX = 158;
+  const tooLong = [];
+  for (const [locale, bundle] of [['fr', fr], ['en', en]]) {
+    for (const [key, value] of Object.entries(bundle.values)) {
+      if (typeof value !== 'string') continue;
+      // Les cles sont prefixees par leur namespace de fichier avec `::`
+      // (ex. `sessions::meta.title`, `programme::lutte.meta.title`), donc on
+      // teste le segment final, pas un suffixe pointe.
+      const leaf = key.split('::').pop();
+      const isTitle = leaf === 'meta.title' || leaf.endsWith('.meta.title') || leaf === 'meta_title';
+      const isDesc = leaf === 'meta.description' || leaf.endsWith('.meta.description') || leaf === 'meta_description';
+      if (!isTitle && !isDesc) continue;
+      const max = isTitle ? TITLE_MAX : DESC_MAX;
+      if (value.length > max) tooLong.push({ locale, key, len: value.length, max, value });
+    }
+  }
+  if (tooLong.length > 0) {
+    console.error(`Meta trop longues pour la SERP (${tooLong.length}) :`);
+    for (const m of tooLong) {
+      console.error(`  - [${m.locale}] ${m.key} : ${m.len} car. (max ${m.max})`);
+      console.error(`    ${m.value.slice(0, 90)}...`);
+    }
+    exitCode = 1;
+  }
+
+  // Liens internes des contenus EN (audit 2026-07-25) : 43 href des articles
+  // anglais pointaient vers les URL francaises, tunnel de conversion compris.
+  // Un lecteur anglophone qui cliquait « next steps » atterrissait sur le
+  // formulaire en francais. Tout href absolu interne d'un message EN doit
+  // rester sous /en/.
+  const frLinksInEn = [];
+  for (const [key, value] of Object.entries(en.values)) {
+    if (typeof value !== 'string' || !value.includes('href=')) continue;
+    for (const m of value.matchAll(/href="(\/[^"]*)"/g)) {
+      const href = m[1];
+      if (href !== '/en' && !href.startsWith('/en/')) frLinksInEn.push({ key, href });
+    }
+  }
+  if (frLinksInEn.length > 0) {
+    console.error(`Liens internes non localises dans messages/en (${frLinksInEn.length}) :`);
+    for (const l of frLinksInEn.slice(0, 25)) console.error(`  - ${l.key} -> ${l.href}`);
+    exitCode = 1;
+  }
+
   if (exitCode === 0) {
-    console.log(`OK: FR and EN have ${fr.keys.size} matching keys, ICU placeholders all match.`);
+    console.log(`OK: FR and EN have ${fr.keys.size} matching keys, ICU placeholders all match, meta lengths within SERP limits, EN internal links localised.`);
   }
 
   process.exit(exitCode);

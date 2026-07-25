@@ -13,8 +13,8 @@
   },
   "root": {
     "meta": {
-      "title": "Destinations Daghestan et Tchétchénie | MKR Caucasian Camp",
-      "description": "Deux destinations, deux disciplines : Lutte adultes et enfants au Daghestan, MMA en Tchétchénie. Compare les deux camps et choisis ta terre d'entraînement."
+      "title": "Daghestan ou Tchétchénie : quelle terre choisir ? | MKR",
+      "description": "Comparatif des deux destinations MKR : lutte à Makhachkala ou MMA à Grozny. Niveau exigé, salles, vols, ambiance. Choisis en 2 minutes."
     },
     "breadcrumb": {
       "home": "Accueil",
@@ -23,7 +23,8 @@
     "hero": {
       "label": "DESTINATIONS",
       "title": "DEUX TERRES DU CAUCASE.<br/>UNE DISCIPLINE PAR CAMP.",
-      "subtitle": "Lutte au Daghestan. MMA en Tchétchénie. Le combo Daghestan plus Tchétchénie n'est possible qu'en sur-mesure."
+      "subtitle": "Lutte au Daghestan. MMA en Tchétchénie. Le combo Daghestan plus Tchétchénie n'est possible qu'en sur-mesure.",
+      "image_alt": "Panorama des montagnes du Daghestan au lever du jour"
     },
     "cards": {
       "daghestan": {
@@ -143,7 +144,7 @@
   "dagestan": {
     "meta": {
       "title": "Daghestan : la terre de la Lutte au Caucase | MKR Camp",
-      "description": "Le Daghestan côté tapis : salles de Makhachkala et Kaspiysk, sécurité sans langue de bois, culture, excursions. Le camp Lutte MKR au cœur de la région des champions."
+      "description": "Le Daghestan côté tapis : salles de Makhachkala et Kaspiysk, sécurité sans langue de bois, culture, excursions. Le camp Lutte au pays des champions."
     },
     "breadcrumb": {
       "home": "Accueil",
@@ -153,7 +154,8 @@
     "hero": {
       "label": "DAGHESTAN · CAMP LUTTE",
       "title": "LA TERRE QUI FORGE LES CHAMPIONS",
-      "subtitle": "Plus de médailles olympiques de lutte par habitant que n'importe où sur Terre. C'est ici que MKR t'emmène t'entraîner."
+      "subtitle": "Plus de médailles olympiques de lutte par habitant que n'importe où sur Terre. C'est ici que MKR t'emmène t'entraîner.",
+      "image_alt": "Point de vue sur le canyon de Sulak au Daghestan"
     },
     "tldr": {
       "title": "En bref · Daghestan",
@@ -275,8 +277,8 @@
   },
   "tchetchenie": {
     "meta": {
-      "title": "Tchétchénie : Camp MMA à Grozny | MKR Caucasian Camp",
-      "description": "La Tchétchénie côté cage : salles professionnelles de Grozny, sécurité sans langue de bois, culture, logistique. Le camp MMA MKR dans l'épicentre du MMA moderne."
+      "title": "Tchétchénie : s'entraîner au MMA à Grozny, guide 2026",
+      "description": "Grozny vue du tapis : salles pro, niveau de sparring, sécurité en 2026 sans langue de bois, vol direct depuis Istanbul. Le guide avant de partir."
     },
     "breadcrumb": {
       "home": "Accueil",
@@ -286,7 +288,8 @@
     "hero": {
       "label": "TCHÉTCHÉNIE · CAMP MMA",
       "title": "LA TERRE QUI FORGE LA NOUVELLE GÉNÉRATION DU MMA",
-      "subtitle": "Grozny concentre des écuries MMA parmi les plus dures au monde. C'est dans cet écosystème que MKR t'ouvre les portes."
+      "subtitle": "Grozny concentre des écuries MMA parmi les plus dures au monde. C'est dans cet écosystème que MKR t'ouvre les portes.",
+      "image_alt": "Mosquée Akhmad Kadyrov à Grozny, en Tchétchénie"
     },
     "tldr": {
       "title": "En bref · Tchétchénie",

@@ -1,6 +1,9 @@
 {
   "read_article": "Read the article",
-  "related": { "eyebrow": "Read next", "title": "Related articles" },
+  "related": {
+    "eyebrow": "Read next",
+    "title": "Related articles"
+  },
   "read_time_suffix": "read",
   "tldr_label": "KEY TAKEAWAYS",
   "faq_title": "FREQUENTLY ASKED QUESTIONS",
@@ -67,5 +70,9 @@
     "read_time": "10 min",
     "category": "Culture",
     "img_alt": "Khabib Nurmagomedov in a wrestling session in Dagestan, inside the Eagle MMA family gym run by his father Abdulmanap."
+  },
+  "cta": {
+    "apply": "APPLY TO THE CAMP",
+    "all_articles": "ALL ARTICLES"
   }
 }

@@ -5,7 +5,7 @@ import { Suspense } from 'react'
 import PageHero from '@/components/PageHero'
 import GuideForm from '@/components/GuideForm'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
-import CinematicReveal from '@/components/CinematicReveal'
+import SceneBand from '@/components/SceneBand'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
@@ -105,7 +105,7 @@ export default async function GuideCaucasePage({ params }: { params: Promise<{ l
         </div>
       </section>
 
-      <CinematicReveal
+      <SceneBand
         image="/images/environment/dagestan-panorama.webp"
         alt={t('cinematic.alt')}
         label={t('cinematic.label')}
