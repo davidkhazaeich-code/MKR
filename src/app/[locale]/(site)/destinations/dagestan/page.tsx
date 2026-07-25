@@ -69,7 +69,7 @@ export default async function DagestanPage({ params }: { params: Promise<{ local
         name={t('breadcrumb.current')}
         description={t('meta.description')}
         url={`https://mkrcamp.com${getPathname({ href: '/destinations/dagestan', locale: locale as Locale })}`}
-        image="https://mkrcamp.com/images/ruslan/environment/canyon-sulak-hero.webp"
+        image="https://mkrcamp.com/images/ruslan/environment/canyon-sulak-hero-v2.webp"
         addressRegion="Dagestan"
         addressCountry="RU"
         latitude={42.9849}
@@ -86,8 +86,12 @@ export default async function DagestanPage({ params }: { params: Promise<{ local
         subtitle={t('hero.subtitle')}
         /* Recadre depuis l'original 4284x5712 : l'ancien fichier faisait 896px
            de large, donc upscale et flou sur un hero pleine largeur. Le
-           garde-corps et le cable du premier plan sont sortis du cadre. */
-        image="/images/ruslan/environment/canyon-sulak-hero.webp"
+           garde-corps et le cable du premier plan sont sortis du cadre.
+           ⚠️ PageHero sert cette image en <img> BRUT, hors optimiseur : elle
+           part telle quelle sur mobile. D'ou 1920x1120 et non 2400x1891, et un
+           ratio proche du cadre affiche. Tant que PageHero n'est pas passe en
+           next/image, garder ce fichier sous ~350 Ko. */
+        image="/images/ruslan/environment/canyon-sulak-hero-v2.webp"
         imageFocusY="50%"
         imageAlt={t('hero.image_alt')}
         breadcrumb={[
