@@ -40,9 +40,11 @@ export default function PageHero({ label, title, subtitle, breadcrumb, compact, 
       )}
       <div className="inner reveal">
         {breadcrumb && <Breadcrumb items={breadcrumb} />}
-        <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>
-          {label}
-        </span>
+        {/* La couleur etait posee en style INLINE, donc impossible a surcharger
+            en CSS : sur les hero illustres, l'eyebrow rust restait a 1,4-2,8:1
+            sur la photo. Passe en classe pour que `.page-hero--image` puisse
+            lui donner la variante claire et une ombre portee. */}
+        <span className="label-tag page-hero-eyebrow">{label}</span>
         <h1 dangerouslySetInnerHTML={{ __html: title }} />
         {subtitle && <p className="hero-sub">{subtitle}</p>}
       </div>

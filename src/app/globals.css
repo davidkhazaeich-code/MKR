@@ -50,6 +50,10 @@
 
   /* Brand */
   --primary:           #C84B31;
+  /* Variante claire du rust, reservee au texte pose SUR UNE PHOTO. #C84B31
+     plafonne a ~3:1 sur fond sombre et tombe a 1.0-2.6:1 sur une image :
+     aucun petit texte rust ne peut passer AA sur photo. Mesure 2026-07-25. */
+  --primary-on-photo:  #F7C3B2;
   --primary-glow:      rgba(200,75,49,0.12);
   --cta:               #C41E3A;
   --cta-hover:         #a01830;
@@ -161,6 +165,12 @@ h1, h2, h3, h4, h5 {
   max-width: 1240px;
   margin: 0 auto;
   padding: 0 2rem;
+  /* Garde-fou : dans un parent flex ou grid, `.inner` devient un item
+     dimensionne par son CONTENU et son `margin: 0 auto` le recentre, ce qui
+     casse l'alignement sur la colonne du site. C'est arrive sur les hero
+     illustres (jusqu'a 306px de decalage, variable selon la longueur du titre).
+     Sans effet sur les `.inner` en flux normal. */
+  width: 100%;
 }
 @media (max-width: 480px) { .inner { padding: 0 1.25rem; } }
 
@@ -7364,11 +7374,15 @@ a.content-card:hover .card-title::after {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: grayscale(100%) brightness(0.25) contrast(1.1);
+  /* Oubli de la passe 1 : ces 3 photos sont le seul contenu visuel de
+     /programme hors hero, et elles etaient en N&B a 25% de luminosite avec un
+     retour couleur au :hover seulement, donc jamais declenche au doigt. On
+     garde un assombrissement (le texte est en surimpression) mais lisible. */
+  filter: grayscale(22%) brightness(0.62) contrast(1.06);
   transition: filter 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .prog-discipline-card:hover .prog-disc-bg {
-  filter: grayscale(50%) brightness(0.3) contrast(1.1);
+  filter: grayscale(0%) brightness(0.7) contrast(1.06);
   transform: scale(1.03);
 }
 .prog-disc-content {
@@ -7646,7 +7660,10 @@ a.content-card:hover .card-title::after {
   width: 100%;
   aspect-ratio: 2.5/1;
   object-fit: cover;
-  filter: grayscale(100%) contrast(1.08) brightness(0.85);
+  /* Etait en N&B definitif (aucune regle :hover pour cette classe) : la seule
+     photo de convivialite de la page qui porte les tarifs. Aligne sur la carte
+     voisine .audience-card-photo-img. */
+  filter: grayscale(15%) contrast(1.05);
   display: block;
 }
 @media (max-width: 768px) {
@@ -8915,7 +8932,11 @@ html.is-loading body {
       rgba(14,14,14,0.80) 76%,
       rgba(14,14,14,0.94) 100%
     ),
-    linear-gradient(90deg, rgba(14,14,14,0.5) 0%, rgba(14,14,14,0.08) 62%, rgba(14,14,14,0) 100%);
+    /* Voile horizontal renforce : il protege la COLONNE DE TEXTE a gauche sans
+       assombrir le sujet, qui est au centre ou a droite sur ces photos. C'est
+       ce qui permet a l'eyebrow de tenir sur la salle de lutte (murs blancs,
+       bois clair, tapis bleu vif), la photo de hero la plus lumineuse du site. */
+    linear-gradient(90deg, rgba(14,14,14,0.72) 0%, rgba(14,14,14,0.34) 38%, rgba(14,14,14,0.04) 70%, rgba(14,14,14,0) 100%);
 }
 
 .page-hero--image h1 {
@@ -12988,4 +13009,67 @@ html.is-loading body {
 @media (prefers-reduced-motion: reduce) {
   .related-reading-link { transition: border-color 200ms linear; }
   .related-reading-link:hover { transform: none; }
+}
+
+/* ─────────────── Lisibilite des petits textes POSES SUR PHOTO (2026-07-25) ───────────────
+   Les hero illustres et les bandes ont introduit du petit texte sur des images.
+   Le h1 et le sous-titre avaient deja une ombre portee, mais pas l'eyebrow, pas
+   le fil d'Ariane et pas le label des bandes : mesures au pixel sur le fond
+   reel, ils tombaient entre 1,0:1 et 4,4:1 pour un seuil AA de 4,5:1, et le
+   resultat variait selon la photo (donc instable a chaque changement d'image).
+   Le rust #C84B31 ne peut PAS passer AA en petit texte sur une photo : on
+   utilise sa variante claire --primary-on-photo, plus une ombre portee. */
+
+/* Etat par defaut de l'eyebrow, repris du style inline retire de PageHero. */
+.page-hero-eyebrow {
+  color: var(--primary);
+  display: block;
+  margin-bottom: 0.8rem;
+}
+.page-hero--image .page-hero-eyebrow {
+  color: var(--primary-on-photo);
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.7);
+}
+.page-hero--image .breadcrumb,
+.page-hero--image .breadcrumb a,
+.page-hero--image .breadcrumb span {
+  color: var(--text-primary);
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.7);
+}
+.page-hero--image .breadcrumb a:hover,
+.page-hero--image .breadcrumb a:focus-visible {
+  color: var(--primary-on-photo);
+}
+
+.scene-band-label,
+.dest-head-label {
+  color: var(--primary-on-photo);
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.7);
+}
+
+/* .photo-card : la legende etait POUSSEE HORS DU CADRE puis coupee.
+   Quand la carte est un item de grille etire, `img { height: 100% }` prenait
+   toute la boite et le figcaption tombait dans le debordement masque : 8
+   legendes editoriales n'ont jamais ete affichees. La colonne flex donne sa
+   propre piste a la legende. */
+.photo-card {
+  display: flex;
+  flex-direction: column;
+}
+.photo-card img {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+/* Hero a 320px : le padding vertical (7rem + 4rem = 176px) mangeait a lui seul
+   31 % du viewport, si bien que le hero occupait 91 a 104 % de l'ecran et que
+   rien de la section suivante n'etait visible. Le levier est le PADDING, pas
+   min-height (jamais atteinte a cette largeur). */
+@media (max-width: 360px) {
+  .page-hero {
+    padding: 3.5rem 0 1.75rem;
+  }
+  .page-hero--image {
+    min-height: clamp(320px, 46vh, 580px);
+  }
 }
