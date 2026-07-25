@@ -1,5 +1,6 @@
+import Image from 'next/image'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
-import { Link } from '@/i18n/navigation'
+import { Link, getPathname } from '@/i18n/navigation'
 import { localizedMetadata } from '@/lib/i18n-helpers'
 import type { Locale } from '@/i18n/routing'
 import PageHero from '@/components/PageHero'
@@ -11,9 +12,16 @@ import UpdatedAt from '@/components/UpdatedAt'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 import PageFaq from '@/components/PageFaq'
 import PriceAnchor from '@/components/PriceAnchor'
+import DestinationProof from '@/components/DestinationProof'
+import DestinationJsonLd from '@/components/DestinationJsonLd'
+import RelatedReading from '@/components/RelatedReading'
 import type { FAQItem } from '@/components/FAQAccordion'
 
 const UPDATED = '2026-07-25'
+
+/* Temoignages retenus : les profils frappe et MMA, et aucun de ceux dont la
+   citation nomme le Daghestan (ils sont sur l'autre page). */
+const PROOF_IDS = ['lucas-m', 'karim-d', 'pierre-l']
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
@@ -28,10 +36,12 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
 const EXCURSION_KEYS = ['mosquee', 'vainakh', 'kezenoy'] as const
 
-const EXCURSION_IMAGES: Record<typeof EXCURSION_KEYS[number], string> = {
-  mosquee: '/images/environment/mosque-grozny.webp',
-  vainakh: '/images/environment/vainakh-towers.webp',
-  kezenoy: '/images/environment/lake-kezenoy.webp',
+/* Dimensions reelles des sources. Le 800x600 uniforme precedent reservait un
+   cadre 4/3 pour des photos 16/9, donc un saut de mise en page au chargement. */
+const EXCURSION_IMAGES: Record<typeof EXCURSION_KEYS[number], { src: string; width: number; height: number }> = {
+  mosquee: { src: '/images/environment/mosque-grozny.webp', width: 1920, height: 1071 },
+  vainakh: { src: '/images/environment/vainakh-towers.webp', width: 1920, height: 1071 },
+  kezenoy: { src: '/images/environment/lake-kezenoy.webp', width: 1920, height: 1071 },
 }
 
 export default async function TchetcheniePage({ params }: { params: Promise<{ locale: string }> }) {
@@ -48,6 +58,23 @@ export default async function TchetcheniePage({ params }: { params: Promise<{ lo
         { name: t('breadcrumb.destinations'), url: 'https://mkrcamp.com/destinations' },
         { name: t('breadcrumb.current'), url: 'https://mkrcamp.com/destinations/tchetchenie' },
       ]} />
+      {/* La page decrit un lieu et ses attractions, mais n'emettait qu'un fil
+          d'Ariane et une FAQ : rien ne disait de quel endroit on parle. */}
+      <DestinationJsonLd
+        name={t('breadcrumb.current')}
+        description={t('meta.description')}
+        url={`https://mkrcamp.com${getPathname({ href: '/destinations/tchetchenie', locale: locale as Locale })}`}
+        image="https://mkrcamp.com/images/environment/mosque-grozny.webp"
+        addressRegion="Chechnya"
+        addressCountry="RU"
+        latitude={43.3168}
+        longitude={45.6981}
+        inLanguage={locale}
+        attractions={EXCURSION_KEYS.map(key => ({
+          name: t(`excursions.items.${key}.title`),
+          description: t(`excursions.items.${key}.desc`),
+        }))}
+      />
       <PageHero
         label={t('hero.label')}
         title={t('hero.title')}
@@ -130,24 +157,25 @@ export default async function TchetcheniePage({ params }: { params: Promise<{ lo
             <h2>{t('salles.title')}</h2>
           </div>
           <div className="grid-2">
+            {/* Dimensions reelles des sources (2400x1600). */}
             <figure className="photo-card reveal">
-              <img
+              <Image
                 src="/images/mma-tchechenie/portrait-cage-rouge.webp"
                 alt={t('salles.photo1_alt')}
-                width={800}
-                height={600}
-                loading="lazy"
+                width={2400}
+                height={1600}
+                sizes="(max-width: 760px) 100vw, 50vw"
                 className="section-photo-img"
               />
               <figcaption>{t('salles.photo1_caption')}</figcaption>
             </figure>
             <figure className="photo-card reveal" style={{ transitionDelay: '0.1s' }}>
-              <img
+              <Image
                 src="/images/mma-tchechenie/sparring-cage-coach-noir.webp"
                 alt={t('salles.photo2_alt')}
-                width={800}
-                height={600}
-                loading="lazy"
+                width={2400}
+                height={1600}
+                sizes="(max-width: 760px) 100vw, 50vw"
                 className="section-photo-img"
               />
               <figcaption>{t('salles.photo2_caption')}</figcaption>
@@ -167,12 +195,12 @@ export default async function TchetcheniePage({ params }: { params: Promise<{ lo
           <div className="grid-3">
             {EXCURSION_KEYS.map((key, i) => (
               <div key={key} className="content-card fx-grain fx-corner-glow reveal" style={{ transitionDelay: `${i * 0.08}s` }}>
-                <img
-                  src={EXCURSION_IMAGES[key]}
+                <Image
+                  src={EXCURSION_IMAGES[key].src}
                   alt={t(`excursions.items.${key}.title`)}
-                  width={800}
-                  height={600}
-                  loading="lazy"
+                  width={EXCURSION_IMAGES[key].width}
+                  height={EXCURSION_IMAGES[key].height}
+                  sizes="(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 33vw"
                   className="section-photo-img"
                 />
                 <h3 className="card-title">{t(`excursions.items.${key}.title`)}</h3>
@@ -183,6 +211,17 @@ export default async function TchetcheniePage({ params }: { params: Promise<{ lo
         </div>
       </section>
 
+      {/* Preuve sociale AVANT le prix (meme ordre que /familles : on justifie
+          avant d'annoncer). Cette page n'en avait aucune. */}
+      <DestinationProof
+        ids={PROOF_IDS}
+        label={t('proof.label')}
+        title={t('proof.title')}
+        intro={t('proof.intro')}
+        ctaLabel={t('proof.cta')}
+        scrollAriaLabel={t('proof.scroll_aria')}
+      />
+
       {/* Prix transparent + prochaine session + places live */}
       <PriceAnchor discipline="mma" href="/inscription?type=session" />
 
@@ -192,6 +231,30 @@ export default async function TchetcheniePage({ params }: { params: Promise<{ lo
         title={t('faq.title')}
         items={faqItems}
         id="faq-tchetchenie"
+      />
+
+      {/* Maillage vers le blog, qui etait un silo ferme : aucune page
+          commerciale ne liait un article. */}
+      <RelatedReading
+        label={t('related.label')}
+        title={t('related.title')}
+        items={[
+          {
+            slug: 'combien-coute-s-entrainer-au-dagestan',
+            label: t('related.cout_label'),
+            hint: t('related.cout_hint'),
+          },
+          {
+            slug: 'preparer-son-premier-camp',
+            label: t('related.preparer_label'),
+            hint: t('related.preparer_hint'),
+          },
+          {
+            slug: 'comment-s-entrainer-au-dagestan',
+            label: t('related.entrainer_label'),
+            hint: t('related.entrainer_hint'),
+          },
+        ]}
       />
 
       {/* Logistique resume */}

@@ -270,6 +270,23 @@
       "body": "Aéroport : Makhachkala (MCX). Vol intérieur depuis Istanbul et transfert MKR (1h30) inclus. Hébergement en logement de camp. Visa russe géré par MKR.",
       "cta": "DÉTAIL COMPLET"
     },
+    "proof": {
+      "label": "ILS Y SONT ALLÉS",
+      "title": "CE QU'ILS EN ONT RAPPORTÉ",
+      "intro": "Trois retours d'athlètes passés par le camp. Aucun n'a été sollicité contre une remise.",
+      "cta": "LIRE TOUS LES TÉMOIGNAGES",
+      "scroll_aria": "Témoignages d'athlètes passés par le camp"
+    },
+    "related": {
+      "label": "POUR ALLER PLUS LOIN",
+      "title": "AVANT DE TE DÉCIDER",
+      "cout_label": "CE QUE COÛTE VRAIMENT UN CAMP AU DAGHESTAN",
+      "cout_hint": "Le budget ligne par ligne, en solo comme avec MKR.",
+      "securite_label": "LA SÉCURITÉ AU DAGHESTAN EN 2026",
+      "securite_hint": "Les avis officiels, et ce qu'ils recouvrent vraiment sur place.",
+      "lutte_label": "LA LUTTE DAGHESTANAISE, GUIDE COMPLET",
+      "lutte_hint": "Pourquoi cette école produit autant de champions."
+    },
     "section_cta": {
       "primary_label": "POSTULER · CAMP LUTTE DAGHESTAN",
       "ghost_label": "VOIR LE PROGRAMME LUTTE"
@@ -393,6 +410,23 @@
       "title": "LOGISTIQUE TCHÉTCHÉNIE",
       "body": "Aéroport : Grozny (GRV). Vol intérieur direct depuis Istanbul et transfert MKR (30 min) inclus. Hébergement en logement de camp à Grozny. Visa russe géré par MKR.",
       "cta": "DÉTAIL COMPLET"
+    },
+    "proof": {
+      "label": "ILS SONT PASSÉS PAR LE CAMP",
+      "title": "CE QU'ILS EN ONT RAPPORTÉ",
+      "intro": "Trois retours d'athlètes MKR. Aucun n'a été sollicité contre une remise.",
+      "cta": "LIRE TOUS LES TÉMOIGNAGES",
+      "scroll_aria": "Témoignages d'athlètes passés par le camp"
+    },
+    "related": {
+      "label": "POUR ALLER PLUS LOIN",
+      "title": "AVANT DE TE DÉCIDER",
+      "cout_label": "CE QUE COÛTE VRAIMENT UN CAMP DANS LE CAUCASE",
+      "cout_hint": "Le budget ligne par ligne, en solo comme avec MKR.",
+      "preparer_label": "PRÉPARER SON PREMIER CAMP",
+      "preparer_hint": "Les six semaines qui décident de ce que tu rapportes.",
+      "entrainer_label": "COMMENT S'ENTRAÎNER DANS LE CAUCASE",
+      "entrainer_hint": "Le rythme réel : deux sessions par jour, six jours sur sept."
     },
     "section_cta": {
       "primary_label": "POSTULER · CAMP MMA TCHÉTCHÉNIE",

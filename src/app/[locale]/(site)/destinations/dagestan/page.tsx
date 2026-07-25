@@ -1,5 +1,6 @@
+import Image from 'next/image'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
-import { Link } from '@/i18n/navigation'
+import { Link, getPathname } from '@/i18n/navigation'
 import { localizedMetadata } from '@/lib/i18n-helpers'
 import type { Locale } from '@/i18n/routing'
 import PageHero from '@/components/PageHero'
@@ -12,9 +13,17 @@ import UpdatedAt from '@/components/UpdatedAt'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 import PageFaq from '@/components/PageFaq'
 import PriceAnchor from '@/components/PriceAnchor'
+import DestinationProof from '@/components/DestinationProof'
+import DestinationJsonLd from '@/components/DestinationJsonLd'
+import RelatedReading from '@/components/RelatedReading'
 import type { FAQItem } from '@/components/FAQAccordion'
 
 const UPDATED = '2026-07-25'
+
+/* Temoignages retenus pour cette page : les deux lutteurs et le grappler, dont
+   celui qui parle explicitement des Daghestanais. Les profils MMA sont gardes
+   pour la page Tchetchenie. */
+const PROOF_IDS = ['mehdi-r', 'yassine-k', 'adam-s']
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
@@ -29,12 +38,15 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
 const EXCURSION_KEYS = ['sulak', 'sarykum', 'gamsutl'] as const
 
-const EXCURSION_IMAGES: Record<typeof EXCURSION_KEYS[number], string> = {
+/* Dimensions reelles des sources : elles different d'une photo a l'autre (le
+   canyon est un portrait), et le 800x600 uniforme precedent etait faux pour
+   les trois. */
+const EXCURSION_IMAGES: Record<typeof EXCURSION_KEYS[number], { src: string; width: number; height: number }> = {
   // Vraie photo du canyon (repo) au lieu du visuel IA : c'est l'argument
   // d'excursion n°1 de la page qui capte le plus de trafic SEO.
-  sulak: '/images/ruslan/environment/canyon-sulak-falaises.webp',
-  sarykum: '/images/environment/sarykum-dune.webp',
-  gamsutl: '/images/environment/gamsutl-village.webp',
+  sulak: { src: '/images/ruslan/environment/canyon-sulak-falaises.webp', width: 1440, height: 1920 },
+  sarykum: { src: '/images/environment/sarykum-dune.webp', width: 1920, height: 1071 },
+  gamsutl: { src: '/images/environment/gamsutl-village.webp', width: 1920, height: 1071 },
 }
 
 export default async function DagestanPage({ params }: { params: Promise<{ locale: string }> }) {
@@ -51,6 +63,23 @@ export default async function DagestanPage({ params }: { params: Promise<{ local
         { name: t('breadcrumb.destinations'), url: 'https://mkrcamp.com/destinations' },
         { name: t('breadcrumb.current'), url: 'https://mkrcamp.com/destinations/dagestan' },
       ]} />
+      {/* La page decrit un lieu et ses attractions, mais n'emettait qu'un fil
+          d'Ariane et une FAQ : rien ne disait de quel endroit on parle. */}
+      <DestinationJsonLd
+        name={t('breadcrumb.current')}
+        description={t('meta.description')}
+        url={`https://mkrcamp.com${getPathname({ href: '/destinations/dagestan', locale: locale as Locale })}`}
+        image="https://mkrcamp.com/images/galerie-real/canyon-sulak-overlook.webp"
+        addressRegion="Dagestan"
+        addressCountry="RU"
+        latitude={42.9849}
+        longitude={47.5047}
+        inLanguage={locale}
+        attractions={EXCURSION_KEYS.map(key => ({
+          name: t(`excursions.items.${key}.title`),
+          description: t(`excursions.items.${key}.desc`),
+        }))}
+      />
       <PageHero
         label={t('hero.label')}
         title={t('hero.title')}
@@ -132,24 +161,27 @@ export default async function DagestanPage({ params }: { params: Promise<{ local
             <h2>{t('salles.title')}</h2>
           </div>
           <div className="grid-2">
+            {/* Dimensions reelles des sources (1600x1066). Le 800x600 precedent
+                reservait un cadre 4/3 pour une photo 3/2, donc un saut de mise
+                en page a chaque chargement. */}
             <figure className="photo-card reveal">
-              <img
+              <Image
                 src="/images/action/lutte-banner-makhachkala.webp"
                 alt={t('salles.photo1_alt')}
-                width={800}
-                height={600}
-                loading="lazy"
+                width={1600}
+                height={1066}
+                sizes="(max-width: 760px) 100vw, 50vw"
                 className="section-photo-img"
               />
               <figcaption>{t('salles.photo1_caption')}</figcaption>
             </figure>
             <figure className="photo-card reveal" style={{ transitionDelay: '0.1s' }}>
-              <img
+              <Image
                 src="/images/action/lutte-coach-gereev.webp"
                 alt={t('salles.photo2_alt')}
-                width={800}
-                height={600}
-                loading="lazy"
+                width={1600}
+                height={1066}
+                sizes="(max-width: 760px) 100vw, 50vw"
                 className="section-photo-img"
               />
               <figcaption>{t('salles.photo2_caption')}</figcaption>
@@ -169,12 +201,12 @@ export default async function DagestanPage({ params }: { params: Promise<{ local
           <div className="grid-3">
             {EXCURSION_KEYS.map((key, i) => (
               <div key={key} className="content-card fx-grain fx-corner-glow reveal" style={{ transitionDelay: `${i * 0.08}s` }}>
-                <img
-                  src={EXCURSION_IMAGES[key]}
+                <Image
+                  src={EXCURSION_IMAGES[key].src}
                   alt={t(`excursions.items.${key}.title`)}
-                  width={800}
-                  height={600}
-                  loading="lazy"
+                  width={EXCURSION_IMAGES[key].width}
+                  height={EXCURSION_IMAGES[key].height}
+                  sizes="(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 33vw"
                   className="section-photo-img"
                 />
                 <h3 className="card-title">{t(`excursions.items.${key}.title`)}</h3>
@@ -195,6 +227,17 @@ export default async function DagestanPage({ params }: { params: Promise<{ local
         tagline={t('cinematic.tagline')}
       />
 
+      {/* Preuve sociale AVANT le prix (meme ordre que /familles : on justifie
+          avant d'annoncer). Cette page n'en avait aucune. */}
+      <DestinationProof
+        ids={PROOF_IDS}
+        label={t('proof.label')}
+        title={t('proof.title')}
+        intro={t('proof.intro')}
+        ctaLabel={t('proof.cta')}
+        scrollAriaLabel={t('proof.scroll_aria')}
+      />
+
       {/* Prix transparent + prochaine session + places live */}
       <PriceAnchor discipline="lutte" href="/inscription?type=session" />
 
@@ -204,6 +247,31 @@ export default async function DagestanPage({ params }: { params: Promise<{ local
         title={t('faq.title')}
         items={faqItems}
         id="faq-dagestan"
+      />
+
+      {/* Maillage vers le blog, qui etait un silo ferme : aucune page
+          commerciale ne liait un article. Place apres la FAQ et avant le CTA
+          final pour ne pas detourner la conversion. */}
+      <RelatedReading
+        label={t('related.label')}
+        title={t('related.title')}
+        items={[
+          {
+            slug: 'combien-coute-s-entrainer-au-dagestan',
+            label: t('related.cout_label'),
+            hint: t('related.cout_hint'),
+          },
+          {
+            slug: 'securite-dagestan-2026',
+            label: t('related.securite_label'),
+            hint: t('related.securite_hint'),
+          },
+          {
+            slug: 'lutte-daghestanaise-guide-complet',
+            label: t('related.lutte_label'),
+            hint: t('related.lutte_hint'),
+          },
+        ]}
       />
 
       {/* Logistique resume */}

@@ -270,6 +270,23 @@
       "body": "Airport: Makhachkala (MCX). Domestic flight from Istanbul and MKR transfer (1h30) included. Camp lodging. Russian visa handled by MKR.",
       "cta": "FULL DETAILS"
     },
+    "proof": {
+      "label": "THEY WENT",
+      "title": "WHAT THEY BROUGHT BACK",
+      "intro": "Three accounts from athletes who went through the camp. None was asked for in exchange for a discount.",
+      "cta": "READ EVERY TESTIMONIAL",
+      "scroll_aria": "Testimonials from athletes who went through the camp"
+    },
+    "related": {
+      "label": "GOING FURTHER",
+      "title": "BEFORE YOU DECIDE",
+      "cout_label": "WHAT A CAMP IN DAGESTAN ACTUALLY COSTS",
+      "cout_hint": "The budget line by line, solo and with MKR.",
+      "securite_label": "SAFETY IN DAGESTAN IN 2026",
+      "securite_hint": "The official advisories, and what they really cover on the ground.",
+      "lutte_label": "DAGESTANI WRESTLING, THE FULL GUIDE",
+      "lutte_hint": "Why this school produces so many champions."
+    },
     "section_cta": {
       "primary_label": "APPLY · DAGESTAN WRESTLING CAMP",
       "ghost_label": "SEE THE WRESTLING PROGRAM"
@@ -393,6 +410,23 @@
       "title": "CHECHNYA LOGISTICS",
       "body": "Airport: Grozny (GRV). Direct domestic flight from Istanbul and MKR transfer (30 min) included. Camp lodging in Grozny. Russian visa handled by MKR.",
       "cta": "FULL DETAILS"
+    },
+    "proof": {
+      "label": "THEY WENT THROUGH THE CAMP",
+      "title": "WHAT THEY BROUGHT BACK",
+      "intro": "Three accounts from MKR athletes. None was asked for in exchange for a discount.",
+      "cta": "READ EVERY TESTIMONIAL",
+      "scroll_aria": "Testimonials from athletes who went through the camp"
+    },
+    "related": {
+      "label": "GOING FURTHER",
+      "title": "BEFORE YOU DECIDE",
+      "cout_label": "WHAT A CAMP IN THE CAUCASUS ACTUALLY COSTS",
+      "cout_hint": "The budget line by line, solo and with MKR.",
+      "preparer_label": "PREPARING YOUR FIRST CAMP",
+      "preparer_hint": "The six weeks that decide what you bring back.",
+      "entrainer_label": "HOW TO TRAIN IN THE CAUCASUS",
+      "entrainer_hint": "The real rhythm: two sessions a day, six days a week."
     },
     "section_cta": {
       "primary_label": "APPLY · CHECHNYA MMA CAMP",

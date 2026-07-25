@@ -12821,3 +12821,171 @@ html.is-loading body {
 @media (max-width: 380px) {
   .dest-head-facts { grid-template-columns: 1fr; }
 }
+
+/* ════════════════════════════════════════════════════════════════
+   PREUVE SOCIALE DE PAGE (.dproof-*) ET LIENS DE LECTURE (.related-reading-*)
+   Ajoutes le 2026-07-25 (dette de la refonte des pages secondaires).
+
+   - .dproof-*  : trois temoignages sur la page ou la decision se prend. Ils ne
+     sortaient jamais de la home et de /temoignages. Meme grammaire que
+     PhotoStrip : scroll-snap bord a bord en mobile, grille en desktop.
+   - .related-reading-* : liens contextuels vers le blog, qui etait un silo
+     ferme (aucune page commerciale ne liait un article).
+   Gouttiere alignee sur .inner : 2rem, 1.25rem sous 480px.
+   ════════════════════════════════════════════════════════════════ */
+
+.dproof { padding: 4.5rem 0; position: relative; }
+.dproof-header { max-width: 58em; margin-bottom: 2rem; }
+.dproof-header h2 { font-size: clamp(1.6rem, 3.4vw, 2.4rem); }
+.dproof-intro {
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-top: 0.9rem;
+  max-width: 46em;
+}
+
+.dproof-track {
+  display: flex;
+  gap: 0.85rem;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: 2rem;
+  margin-inline: -2rem;
+  padding-inline: 2rem;
+  padding-bottom: 0.5rem;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.dproof-track::-webkit-scrollbar { display: none; }
+.dproof-track:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+.dproof-card {
+  flex: 0 0 82%;
+  scroll-snap-align: center;
+  margin: 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.5rem;
+  border: 1px solid var(--ghost-border);
+  border-radius: 12px;
+  background: var(--surface-lowest);
+}
+.dproof-card-head { display: flex; align-items: center; gap: 0.9rem; }
+.dproof-avatar {
+  width: 56px;
+  height: 56px;
+  flex: 0 0 56px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center top;
+  /* Meme desaturation douce que les autres photos du site : la photo reste une
+     preuve, le parti pris mineral survit. Ne pas repasser en grayscale(100%). */
+  filter: grayscale(22%) contrast(1.06);
+}
+.dproof-id { display: flex; flex-direction: column; gap: 0.15rem; min-width: 0; }
+.dproof-name {
+  font-family: var(--font-barlow-condensed), sans-serif;
+  font-size: 1rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+.dproof-discipline {
+  font-family: var(--font-barlow-condensed), sans-serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--primary);
+  line-height: 1.3;
+}
+.dproof-quote {
+  margin: 0;
+  color: var(--text-secondary);
+  line-height: 1.65;
+  font-size: 0.95rem;
+}
+.dproof-cta { margin-top: 1.8rem; }
+
+@media (max-width: 480px) {
+  .dproof-track { scroll-padding-inline: 1.25rem; margin-inline: -1.25rem; padding-inline: 1.25rem; }
+  .dproof-card { flex-basis: 86%; padding: 1.25rem; }
+}
+
+@media (min-width: 761px) {
+  .dproof-track {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.1rem;
+    overflow: visible;
+    margin-inline: 0;
+    padding-inline: 0;
+    scroll-snap-type: none;
+  }
+}
+
+/* ─── Liens de lecture (maillage vers le blog) ─── */
+.related-reading { padding: 3.5rem 0; }
+.related-reading-header { max-width: 58em; margin-bottom: 1.6rem; }
+.related-reading-header h2 { font-size: clamp(1.4rem, 3vw, 2rem); }
+.related-reading-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.6rem;
+}
+/* Le li est l'element de grille, pas le lien : sans ca le lien ne remplit pas
+   la cellule etiree et les cartes d'une meme rangee finissent inegales des
+   qu'une accroche passe sur deux lignes. */
+.related-reading-list > li { display: flex; }
+.related-reading-link {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 1rem 1.2rem;
+  border: 1px solid var(--ghost-border);
+  border-radius: 10px;
+  background: var(--surface-lowest);
+  text-decoration: none;
+  transition: border-color 200ms linear, transform 200ms var(--ease-out-expo);
+}
+.related-reading-link:hover {
+  border-color: var(--primary);
+  transform: translateX(4px);
+}
+.related-reading-link:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+}
+.related-reading-label {
+  font-family: var(--font-barlow-condensed), sans-serif;
+  font-size: 1.02rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  line-height: 1.3;
+}
+.related-reading-hint {
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+
+@media (min-width: 761px) {
+  .related-reading-list { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.9rem; }
+  .related-reading-link:hover { transform: translateY(-3px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .related-reading-link { transition: border-color 200ms linear; }
+  .related-reading-link:hover { transform: none; }
+}
