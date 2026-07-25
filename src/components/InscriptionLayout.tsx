@@ -1,6 +1,9 @@
 'use client'
 
-import Link from 'next/link'
+// Le Link i18n localise le pathname (ex: /inscription -> /en/apply cote EN).
+// L'ancien next/link brut envoyait les candidats EN vers les routes FR.
+// Les liens a query string exigent la forme objet { pathname, query }.
+import { Link } from '@/i18n/navigation'
 import { useState, useRef, useEffect, useMemo, FormEvent } from 'react'
 import dynamic from 'next/dynamic'
 import { useLocale, useTranslations } from 'next-intl'
@@ -1785,7 +1788,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                       <span className="insc-camp-section-num">2</span>
                       <h2 className="insc-camp-section-label">{t('step0_camp.session.section2_label')}</h2>
                       <p className="insc-camp-section-help">
-                        {t('step0_camp.session.section2_help_prefix')}<strong>{t('step0_camp.session.section2_help_or')}</strong>{t('step0_camp.session.section2_help_suffix')}<Link href="/inscription?type=custom" style={{ color: 'var(--primary)', textDecoration: 'underline' }}>{t('step0_camp.session.section2_help_link')}</Link>{t('step0_camp.session.section2_help_end')}
+                        {t('step0_camp.session.section2_help_prefix')}<strong>{t('step0_camp.session.section2_help_or')}</strong>{t('step0_camp.session.section2_help_suffix')}<Link href={{ pathname: '/inscription', query: { type: 'custom' } }} style={{ color: 'var(--primary)', textDecoration: 'underline' }}>{t('step0_camp.session.section2_help_link')}</Link>{t('step0_camp.session.section2_help_end')}
                       </p>
                       <div className="insc-discipline-grid">
                         <label className={`insc-discipline-card insc-discipline-card--lutte${form.campDiscipline === 'lutte' ? ' is-active' : ''}`}>
@@ -1925,7 +1928,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                       <span className="insc-camp-section-num">2</span>
                       <h2 className="insc-camp-section-label">{t('step0_camp.custom.section2_label')}</h2>
                       <p className="insc-camp-section-help">
-                        {t('step0_camp.custom.section2_help_prefix')}<Link href="/inscription?type=groupe" className="insc-inline-link">{t('step0_camp.custom.section2_help_link_groupe')}</Link>{t('step0_camp.custom.section2_help_middle')}<Link href="/inscription?type=famille" className="insc-inline-link">{t('step0_camp.custom.section2_help_link_famille')}</Link>{t('step0_camp.custom.section2_help_end')}
+                        {t('step0_camp.custom.section2_help_prefix')}<Link href={{ pathname: '/inscription', query: { type: 'groupe' } }} className="insc-inline-link">{t('step0_camp.custom.section2_help_link_groupe')}</Link>{t('step0_camp.custom.section2_help_middle')}<Link href={{ pathname: '/inscription', query: { type: 'famille' } }} className="insc-inline-link">{t('step0_camp.custom.section2_help_link_famille')}</Link>{t('step0_camp.custom.section2_help_end')}
                       </p>
                       <div className="insc-compo-grid">
                         {(['1', '2', '3', '4'] as const).map(val => (
@@ -2138,7 +2141,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                         <span className="insc-famille-hero-label">{t('step0_camp.famille.hero_label')}</span>
                         <strong className="insc-famille-hero-title">{t('step0_camp.famille.hero_title')}</strong>
                         <span className="insc-famille-hero-help">
-                          {t('step0_camp.famille.hero_help_prefix')}<Link href="/inscription?type=custom" className="insc-inline-link">{t('step0_camp.famille.hero_help_link')}</Link>{t('step0_camp.famille.hero_help_end')}
+                          {t('step0_camp.famille.hero_help_prefix')}<Link href={{ pathname: '/inscription', query: { type: 'custom' } }} className="insc-inline-link">{t('step0_camp.famille.hero_help_link')}</Link>{t('step0_camp.famille.hero_help_end')}
                         </span>
                       </div>
                     </div>
@@ -2312,7 +2315,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                 {audience === 'session' && (
                   <div className="insc-banner insc-banner--info">
                     <span>
-                      {t('step0_camp.session_redirect_family.prefix')}<Link href="/inscription?type=famille" className="insc-inline-link">{t('step0_camp.session_redirect_family.link')}</Link>{t('step0_camp.session_redirect_family.suffix', { price: formatEUR(FAMILY_PRICING.base[1]) })}
+                      {t('step0_camp.session_redirect_family.prefix')}<Link href={{ pathname: '/inscription', query: { type: 'famille' } }} className="insc-inline-link">{t('step0_camp.session_redirect_family.link')}</Link>{t('step0_camp.session_redirect_family.suffix', { price: formatEUR(FAMILY_PRICING.base[1]) })}
                     </span>
                   </div>
                 )}
