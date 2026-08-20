@@ -9,7 +9,8 @@ const DELAY_STEP = 0.05
 export default function FAQ() {
   const t = useTranslations('home.faq')
   const tData = useTranslations('data.faq')
-  const items = getFaqHomepage(tData as never)
+  const tSessions = useTranslations('data.sessions')
+  const items = getFaqHomepage(tData as never, tSessions as never)
   const [openSet, setOpenSet] = useState<Set<number>>(new Set())
 
   const toggle = (i: number) => {

@@ -24,7 +24,7 @@ import {
   isRibConfigured,
   type ContractLocale,
 } from '@/data/contract'
-import { SESSIONS } from '@/data/sessions'
+import { sessionFromId } from '@/data/sessions'
 import type { Status } from '@/lib/admin-transitions'
 import ConfirmModal from './ui/ConfirmModal'
 import Icon from './ui/Icon'
@@ -85,7 +85,7 @@ function formatDateFr(iso: string): string {
 /** Fin suggérée : fin de session officielle si durée pleine, sinon début + N semaines. */
 function suggestEnd(start: string, weeks: number | null, sessionId: string | null): string {
   if (!start || !weeks) return ''
-  const session = sessionId ? SESSIONS.find((s) => s.id === sessionId) : null
+  const session = sessionFromId(sessionId)
   if (session && session.startDate === start) {
     const sessionDays = Math.round(
       (new Date(`${session.endDate}T00:00:00Z`).getTime() - new Date(`${session.startDate}T00:00:00Z`).getTime()) /
@@ -112,7 +112,7 @@ export default function ContractCard(props: ContractCardProps) {
 
   // Pré-remplissage : valeur DB sinon dérivée de la demande.
   const initialLocale: ContractLocale = props.contractLocale ?? props.submissionLanguage
-  const session = props.sessionId ? SESSIONS.find((s) => s.id === props.sessionId) : null
+  const session = sessionFromId(props.sessionId)
   const initialStart = props.contractStartDate ?? session?.startDate ?? props.dateDebutSouhaitee ?? ''
   const initialWeeks = props.contractDurationWeeks ?? props.dureeSemaines ?? null
   const initialEnd =

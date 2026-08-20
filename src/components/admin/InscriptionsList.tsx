@@ -7,22 +7,21 @@ import Avatar from './ui/Avatar'
 import Badge from './ui/Badge'
 import Icon from './ui/Icon'
 import { STATUS_LABEL, type Status } from '@/lib/admin-transitions'
-import { SESSIONS } from '@/data/sessions'
 import { getActiveCodes } from '@/data/referral-codes'
 import { ATTRIBUTION_SOURCE_LABEL, ATTRIBUTION_SOURCE_COLOR, type AttributionSource } from '@/lib/attribution'
-import sessionsDisplayFr from '../../../messages/fr/data.sessions.json'
+import { frSessionDisplayFromId } from '@/lib/session-display-fr'
 
-type AdminSessionDisplay = { label?: string; dates?: string }
-const FR_SESSION_DISPLAY = sessionsDisplayFr as unknown as Record<string, AdminSessionDisplay>
-
-const SESSION_LOOKUP: Record<string, { label: string; dates: string }> = SESSIONS.reduce(
-  (acc, s) => {
-    const display = FR_SESSION_DISPLAY[s.id] ?? {}
-    acc[s.id] = { label: display.label ?? s.id, dates: display.dates ?? '' }
-    return acc
-  },
-  {} as Record<string, { label: string; dates: string }>,
-)
+// Reconstruit a la demande depuis l'id : un dossier sur une session passee
+// garde son libelle, sans table figee a maintenir.
+const sessionLookupCache = new Map<string, { label: string; dates: string }>()
+function sessionLookup(id: string): { label: string; dates: string } {
+  const cached = sessionLookupCache.get(id)
+  if (cached) return cached
+  const display = frSessionDisplayFromId(id)
+  const entry = { label: display?.label ?? id, dates: display?.dates ?? '' }
+  sessionLookupCache.set(id, entry)
+  return entry
+}
 
 function formatDateShort(iso: string): string {
   const d = new Date(iso)
@@ -542,13 +541,13 @@ function CandidatureRow({
           )}
           {/* Session info — visible et scannable */}
           <div className="adm-list-meta" style={{ marginTop: '0.25rem', alignItems: 'center' }}>
-            {row.session_id && SESSION_LOOKUP[row.session_id] ? (
+            {row.session_id && frSessionDisplayFromId(row.session_id) ? (
               <span style={{ color: 'var(--adm-tunnel-session)', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}>
                 <Icon name="calendar" size={13} strokeWidth={2.2} />
-                {SESSION_LOOKUP[row.session_id].label}
+                {sessionLookup(row.session_id).label}
                 <span style={{ color: 'var(--adm-text-muted)', fontWeight: 400 }}>
                   {' · '}
-                  {SESSION_LOOKUP[row.session_id].dates}
+                  {sessionLookup(row.session_id).dates}
                 </span>
               </span>
             ) : row.session_id ? (

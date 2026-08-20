@@ -4,7 +4,7 @@ import { Link } from '@/i18n/navigation'
 import { useTranslations } from 'next-intl'
 import { useEffect, useRef, useState, useCallback } from 'react'
 import Icon from '@/components/Icon'
-import { SESSIONS } from '@/data/sessions'
+import { getSessions } from '@/data/sessions'
 import { hydrateSessions } from '@/lib/session-display'
 import { MIN_PRICE_PER_ADULT_LABEL } from '@/lib/pricing-copy'
 import PlacesRestantes from '@/components/PlacesRestantes'
@@ -283,13 +283,16 @@ function HeroCampCarousel() {
   const tData = useTranslations('data.sessions')
   const [active, setActive] = useState(0)
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  // Fenetre glissante des sessions ouvertes (cf. data/sessions.ts).
+  const sessions = hydrateSessions(getSessions(), tData as never)
+  const count = sessions.length
 
   const startTimer = useCallback(() => {
     if (timerRef.current) clearInterval(timerRef.current)
     timerRef.current = setInterval(() => {
-      setActive(prev => (prev + 1) % SESSIONS.length)
+      setActive(prev => (prev + 1) % count)
     }, 4500)
-  }, [])
+  }, [count])
 
   useEffect(() => {
     startTimer()
@@ -301,8 +304,7 @@ function HeroCampCarousel() {
     startTimer()
   }
 
-  const sessions = hydrateSessions(SESSIONS, tData as never)
-  const session = sessions[active]
+  const session = sessions[Math.min(active, count - 1)]
   const priceFrom = `${tData('price_from_prefix')} ${MIN_PRICE_PER_ADULT_LABEL}`
 
   return (
@@ -323,9 +325,9 @@ function HeroCampCarousel() {
           <Link href={`/inscription?type=session&session=${session.id}` as Parameters<typeof Link>[0]['href']} className="hero-camps-cta">{t('carousel_cta')}</Link>
         </div>
       </div>
-      {SESSIONS.length > 1 && (
+      {count > 1 && (
         <div className="hero-camps-dots">
-          {SESSIONS.map((_, i) => (
+          {sessions.map((_, i) => (
             <button
               key={i}
               className={`hero-camps-dot${i === active ? ' active' : ''}`}

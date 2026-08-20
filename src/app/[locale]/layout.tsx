@@ -8,7 +8,8 @@ import { NextIntlClientProvider, hasLocale } from 'next-intl'
 import { setRequestLocale, getMessages, getTranslations } from 'next-intl/server'
 import { Analytics } from '@vercel/analytics/next'
 import { SITE_URL, SITE_NAME, SITE_EMAIL, SITE_DESCRIPTION, SOCIALS, GEO } from '@/data/site'
-import { SESSIONS } from '@/data/sessions'
+import { getSessions } from '@/data/sessions'
+import { hydrateSessions } from '@/lib/session-display'
 import { getPathname } from '@/i18n/navigation'
 import { PRICING_TIERS } from '@/data/pricing'
 import SiteLoader from '@/components/SiteLoader'
@@ -111,9 +112,9 @@ export const viewport: Viewport = {
 async function buildJsonLd(locale: 'fr' | 'en') {
   const inLanguage = locale === 'fr' ? 'fr' : 'en'
   const t = await getTranslations({ locale, namespace: 'meta' })
-  // `s.season` de data/sessions.ts est une chaine FR en dur ('Ete', 'Automne'...).
-  // Utilisee telle quelle, elle mettait « Session Ete 2026 » dans les Event
-  // JSON-LD des pages ANGLAISES. On passe par le libelle deja localise.
+  // Les Event sont generes depuis la fenetre glissante des sessions ouvertes
+  // (data/sessions.ts) : un camp passe disparait du @graph tout seul. Le libelle
+  // de saison est construit par lib/session-display dans la locale courante.
   const tSessions = await getTranslations({ locale, namespace: 'data.sessions' })
   // URL localisee pour le @graph : `getPathname` renvoie deja le prefixe /en
   // pour la locale anglaise (localePrefix as-needed avec prefixes.en='/en').
@@ -228,8 +229,7 @@ async function buildJsonLd(locale: 'fr' | 'en') {
           { '@type': 'LocationFeatureSpecification', name: t('sports_activity_location.tchetchenie.amenity_coaching'), value: true },
         ],
       },
-      ...SESSIONS.map((s) => {
-        const sessionYear = new Date(s.startDate).getFullYear()
+      ...hydrateSessions(getSessions(), tSessions as never).map((s) => {
         const availability =
           s.status === 'closed'
             ? 'https://schema.org/SoldOut'
@@ -239,7 +239,7 @@ async function buildJsonLd(locale: 'fr' | 'en') {
         return {
           '@type': 'Event',
           '@id': `${SITE_URL}/#event-${s.id}`,
-          name: `${t('site.name')} - ${tSessions(`${s.id}.season_label`)}`,
+          name: `${t('site.name')} - ${s.season_label}`,
           description: t('events.session_description_template'),
           startDate: s.startDate,
           endDate: s.endDate,
@@ -254,14 +254,16 @@ async function buildJsonLd(locale: 'fr' | 'en') {
           organizer: { '@id': `${SITE_URL}/#organization` },
           offers: {
             '@type': 'AggregateOffer',
-            name: tSessions(`${s.id}.season_label`),
+            name: s.season_label,
             lowPrice: String(PRICING_TIERS.club.perAdult[1]),
             highPrice: String(PRICING_TIERS.duo.perAdult[3]),
             priceCurrency: s.priceCurrency,
             offerCount: 9,
             availability,
             url: lUrl('/inscription'),
-            validFrom: '2025-12-01',
+            // L'offre expire quand le camp demarre : exactement la regle qui
+            // fait sortir la session de la fenetre d'inscription.
+            validThrough: s.startDate,
           },
           maximumAttendeeCapacity: s.maxCapacity.lutte + s.maxCapacity.mma,
           inLanguage,

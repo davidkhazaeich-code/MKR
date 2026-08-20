@@ -1,7 +1,72 @@
 # SITEMAP MKR Caucasian Camp — Cartographie complète
 
-> **Fichier de référence pour Claude Code.** Mise à jour : 2026-07-25 (passe 3 : dette des pages destination, preuve sociale + next/image + TouristDestination + maillage).
+> **Fichier de référence pour Claude Code.** Mise à jour : 2026-08-21 (roulement automatique des saisons).
 > Lis ce fichier en priorité avant toute intervention sur le site MKR. Il évite de re-explorer.
+
+## 🆕 BREAKING — 2026-08-21 (les 4 sessions tournent toutes seules)
+
+> **Demande David** : « fais le roulement entre les différentes saisons. On vient de passer le camp d'été, il faut l'enlever des inscriptions et ajouter la session d'été 2027, et ainsi de suite pour les autres saisons. » Autonomie totale.
+
+**Ce qui change** : `SESSIONS` (tableau statique de 4 sessions écrites à la main) n'existe plus. Le camp tourne sur **quatre gabarits de saison** et la liste des sessions ouvertes est **calculée à l'exécution**. Une session sort des inscriptions le jour où le camp démarre, et la même saison de l'année suivante entre à la fin de la liste. Aucune intervention, aucune clé de traduction à ajouter, aucun redéploiement.
+
+### 1. Le moteur (`src/data/sessions.ts`)
+
+| Saison | Slug d'id | Ancrage de la date de début | Durée |
+|---|---|---|---|
+| Hiver | `fevrier` | 2ᵉ samedi de février | 21 j |
+| Printemps | `paques` | 1ᵉʳ samedi d'avril | 21 j |
+| Été | `aout` | 3ᵉ lundi d'août | 19 j |
+| Automne | `toussaint` | 3ᵉ samedi d'octobre | 21 j |
+
+Ces ancrages **reproduisent exactement** les 4 dates arrêtées avec Ruslan (17/08/26, 17/10/26, 13/02/27, 03/04/27), ce qui est la preuve que la règle est la bonne.
+
+- `getSessions(now?)` → les 4 prochaines sessions, triées, mémoïsées à la journée.
+- `getNextSession(now?)`, `isSessionOpen(id, now?)`, `sessionYearRange(sessions)`.
+- `getUnfinishedSessions(now?)` → fenêtre + **le camp en cours** (parti mais pas fini). C'est ce que l'admin doit voir.
+- **`sessionFromId(id)`** → reconstruit n'importe quelle session depuis son id, y compris `paques-2024`. Indispensable : les dossiers en base référencent des sessions sorties de la fenêtre depuis longtemps.
+- `SESSION_OVERRIDES` → pour **figer** les dates réelles d'une session quand le calendrier scolaire tombe autrement : `'aout-2027': { startDate: '2027-08-14', endDate: '2027-09-04' }`. Vide aujourd'hui. Accepte aussi `price`, `status`, `maxCapacity`.
+- `REGISTRATION_CLOSES_DAYS_BEFORE_START = 0` → la session disparaît le jour du départ. À passer à 7 ou 14 si Ruslan veut fermer avant.
+
+⚠️ **Ne jamais renommer un `slug` de saison** : il compose l'id stocké en base (`aout-2027`).
+
+### 2. La copie n'est plus écrite par année
+
+`messages/{fr,en}/data.sessions.json` ne contient plus de bloc par session. Il contient **4 blocs de saison** (mot de saison, période, nom sur 2 lignes, intensité), les **noms de mois** (3 formes : complète, courte, abrégée) et des **gabarits** de formatage. `src/lib/session-display.ts` écrit `label`, `dates`, `dates_full`, `dates_short`, `season_label`, `short_label` **à partir des vraies dates**.
+
+Conséquence : une session 2030 s'affiche correctement sans qu'une seule clé soit ajoutée. Les blocs `sessions.items.*` de `messages/*/sessions.json` et `nav.panels.le_camp.sessions.*` de `common.json` ont été **supprimés** (les labels y sont désormais générés). `sessions_label`, `home.sessions.label` et `sessions.meta.title` prennent un `{years}` alimenté par `sessionYearRange()`.
+
+`src/lib/session-display-fr.ts` (`frSessionDisplay`, `frSessionDisplayFromId`) sert les contextes sans `t` : admin FR, API places, image souvenir, contrat.
+
+### 3. Régénération en prod (indispensable)
+
+`export const revalidate = 3600` sur `src/app/[locale]/(site)/layout.tsx` et sur `src/app/[locale]/inscription/page.tsx`. **Sans ça la bascule ne se produit pas** : les pages SSG figées au build continueraient d'annoncer un camp déjà parti jusqu'au prochain déploiement.
+
+### 4. Garde-fous ajoutés
+
+- `POST /api/inscription` refuse un `session_id` **fermé aux inscriptions** (formulaire laissé ouvert pendant la bascule).
+- `/inscription?session=aout-2026` (vieux lien d'annonce ou d'email) est **ignoré** et retombe sur la prochaine session ouverte au lieu de pré-sélectionner un camp parti.
+- L'`AggregateOffer` des Event JSON-LD porte `validThrough: startDate` (l'ancien `validFrom: '2025-12-01'` en dur est retiré).
+- Admin : le filtre de sessions liste les camps non terminés **plus** toutes les sessions passées qui portent au moins un dossier. Un « orphelin » est désormais un id qui ne correspond à aucune session officielle, pas simplement une session passée.
+
+### 5. Prose : plus une seule date écrite à la main
+
+Les réponses FAQ qui énuméraient les 4 sessions utilisent `{sessionsList}`, interpolé à l'exécution (`getFaqHomepage(t, tSessions)`). Les textes de `familles`, `clubs-groupes`, `sur-mesure` et `data.registration-types` parlent désormais de saisons (« Été, Toussaint, Hiver, Pâques ») sans année.
+
+### 6. Test de non-régression
+
+```
+node --experimental-strip-types scripts/sessions-rotation-check.mts
+```
+7 dates simulées (dont les 4 jours de bascule) + 11 garde-fous. **À relancer après toute modification de `data/sessions.ts`.**
+
+### QA
+
+`tsc` clean · `i18n-check` **2 849 clés** FR=EN · `next build` complet vert (toutes les pages en ISR 1 h) · rendu vérifié en `next start` : `/sessions` FR et EN, mega menu et drawer FR + EN, hero + cartes home, JSON-LD Event, `/faq` (0 placeholder résiduel), formulaire `/inscription`. Au 21 août 2026 le site affiche **Toussaint 2026, Hiver 2027, Printemps 2027 et Été 2027 (16 août - 4 septembre)**, l'été 2026 a disparu de lui-même.
+
+### Reste ouvert
+
+**`/mkr-camp-2026` n'a pas été touchée** (hors périmètre, décision de contenu qui appartient à David) : la page vend encore le camp d'août 2026 et dit « les inscriptions sont ouvertes ». Elle n'est plus liée depuis le mega menu ni le drawer (remplacés par les 4 sessions générées) et son CTA pointe désormais vers `/inscription?type=session` sans session figée, donc plus aucun visiteur n'est envoyé sur un camp parti. Trois options à trancher : créer une `/mkr-camp-2027`, basculer le slug vers une URL sans année avec 301, ou rediriger vers `/sessions`. Le lien « MKR Camp 2026 » du footer est resté, à traiter avec la page.
+
 
 ## 🆕 2026-07-25 — PASSE 3 (dette des 2 pages destination)
 

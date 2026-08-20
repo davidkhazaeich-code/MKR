@@ -24,13 +24,7 @@
         "feature_title_part2": "YOUR SESSION.",
         "feature_body": "Four sessions per year aligned with French-speaking school holidays. MKR handles everything: visa, domestic flight, transfers, accommodation, meals, coaching. You only book your international flight.",
         "feature_link": "See the 4 sessions",
-        "sessions_label": "Official sessions 2026 / 2027",
-        "sessions": {
-          "ete_2026": "Summer · August 17 - September 5, 2026",
-          "toussaint_2026": "Fall · October 17 - November 7, 2026",
-          "hiver_2027": "Winter · February 13 - March 6, 2027",
-          "paques_2027": "Spring · April 3 - 24, 2027"
-        },
+        "sessions_label": "Official sessions {years}",
         "formats_label": "Other formats",
         "formats": {
           "sur_mesure": "Custom · your dates",
@@ -98,7 +92,7 @@
       "programme_title": "Program",
       "destinations_title": "Destinations",
       "infos_title": "Discover",
-      "sessions_label": "Official sessions 2026 / 2027",
+      "sessions_label": "Official sessions {years}",
       "formats_label": "Other formats",
       "see_all_prices": "See all prices",
       "prepare_label": "Prepare your stay",

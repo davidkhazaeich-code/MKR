@@ -15,24 +15,29 @@ import {
   SOLO_PRICE_1WEEK_LABEL,
 } from '@/lib/pricing-copy'
 import { PRICING_TIERS, formatEUR } from '@/data/pricing'
+import { getSessions, sessionYearRange } from '@/data/sessions'
+import { hydrateSessions } from '@/lib/session-display'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: 'sessions' })
-  return localizedMetadata('/sessions', locale as Locale, t('meta.title'), t('meta.description'))
+  const years = sessionYearRange()
+  return localizedMetadata(
+    '/sessions',
+    locale as Locale,
+    t('meta.title', { years }),
+    t('meta.description'),
+  )
 }
-
-const SESSION_KEYS = [
-  { id: 'aout-2026', tKey: 'aout_2026', maxCapacity: 15, delay: '0s' },
-  { id: 'toussaint-2026', tKey: 'toussaint_2026', maxCapacity: 15, delay: '0.08s' },
-  { id: 'fevrier-2027', tKey: 'fevrier_2027', maxCapacity: 15, delay: '0.16s' },
-  { id: 'paques-2027', tKey: 'paques_2027', maxCapacity: 15, delay: '0.24s' },
-] as const
 
 export default async function SessionsPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   setRequestLocale(locale)
   const t = await getTranslations('sessions')
+  const tSessions = await getTranslations('data.sessions')
+  // Les cartes sont generees depuis la fenetre glissante : une saison qui a
+  // demarre disparait d'elle-meme, la meme saison de l'annee suivante arrive.
+  const sessions = hydrateSessions(getSessions(), tSessions as never)
 
   const PRICE_FROM_LABEL = `${t('price_from_prefix')} ${MIN_PRICE_PER_ADULT_LABEL}`
   const clubPrice = formatEUR(PRICING_TIERS.club.perAdult[1])
@@ -64,7 +69,7 @@ export default async function SessionsPage({ params }: { params: Promise<{ local
         <div className="inner">
           <div className="logi-header reveal">
             <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>
-              {t('sessions.label')}
+              {t('sessions.label', { years: sessionYearRange(sessions) })}
             </span>
             <h2 id="sessions-list-heading" style={{ scrollMarginTop: '120px' }}>{t('sessions.title')}</h2>
             <p style={{ color: 'var(--text-secondary)', marginTop: '0.8rem', maxWidth: '720px' }}>
@@ -72,24 +77,24 @@ export default async function SessionsPage({ params }: { params: Promise<{ local
             </p>
           </div>
           <div className="sessions-grid">
-            {SESSION_KEYS.map((s) => (
-              <article key={s.id} id={s.id} className="session-card fx-grain fx-corner-glow reveal" style={{ transitionDelay: s.delay, scrollMarginTop: '120px' }}>
-                <div className="session-month-bg" aria-hidden="true">{t(`sessions.items.${s.tKey}.month`)}</div>
+            {sessions.map((s, i) => (
+              <article key={s.id} id={s.id} className="session-card fx-grain fx-corner-glow reveal" style={{ transitionDelay: `${i * 0.08}s`, scrollMarginTop: '120px' }}>
+                <div className="session-month-bg" aria-hidden="true">{s.month_abbr}</div>
                 <div className="session-card-body">
-                  <span className="session-season">{t(`sessions.items.${s.tKey}.season`)}</span>
+                  <span className="session-season">{s.season_label}</span>
                   <h3 className="session-name">
-                    {t(`sessions.items.${s.tKey}.name_line1`)}<br />{t(`sessions.items.${s.tKey}.name_line2`)}
+                    {s.name_line1}<br />{s.name_line2}
                   </h3>
-                  <p className="session-dates">{t(`sessions.items.${s.tKey}.dates`)}</p>
+                  <p className="session-dates">{s.dates_full}</p>
                 </div>
                 <div className="session-meta">
                   <div className="session-meta-item">
                     <span className="session-meta-label">{t('sessions.meta_intensity')}</span>
-                    <span className="session-meta-value">{t(`sessions.items.${s.tKey}.intensity`)}</span>
+                    <span className="session-meta-value">{s.intensity}</span>
                   </div>
                   <div className="session-meta-item">
                     <span className="session-meta-label">{t('sessions.meta_duration')}</span>
-                    <span className="session-meta-value">{t(`sessions.items.${s.tKey}.duration`)}</span>
+                    <span className="session-meta-value">{s.duration}</span>
                   </div>
                 </div>
                 <div className="session-divider" />
@@ -109,13 +114,13 @@ export default async function SessionsPage({ params }: { params: Promise<{ local
                     <PlacesRestantes
                       sessionId={s.id}
                       discipline="lutte"
-                      fallbackMax={s.maxCapacity}
+                      fallbackMax={s.maxCapacity.lutte}
                       variant="badge"
                     />
                     <PlacesRestantes
                       sessionId={s.id}
                       discipline="mma"
-                      fallbackMax={s.maxCapacity}
+                      fallbackMax={s.maxCapacity.mma}
                       variant="badge"
                     />
                   </div>

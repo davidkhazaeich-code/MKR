@@ -26,8 +26,8 @@ import {
   FAMILY_PRICING,
   PRICING_TIERS,
 } from '@/data/pricing'
-import { SESSIONS } from '@/data/sessions'
-import { hydrateSession, hydrateSessions } from '@/lib/session-display'
+import { getSessions } from '@/data/sessions'
+import { hydrateSessions } from '@/lib/session-display'
 import {
   FAMILY_BASE_1WEEK_LABEL,
   FAMILY_EXTRA_CHILD_1WEEK_LABEL,
@@ -38,9 +38,6 @@ import IconLutte from '@/components/icons/IconLutte'
 import IconMMA from '@/components/icons/IconMMA'
 import IconCombo from '@/components/icons/IconCombo'
 import IconFamille from '@/components/icons/IconFamille'
-
-const DEFAULT_SESSION_ID = SESSIONS[0]?.id ?? 'aout-2026'
-const SESSION_IDS = SESSIONS.map(s => s.id)
 
 const VisioBooking = dynamic(() => import('./VisioBooking'))
 
@@ -240,10 +237,14 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
   )
 
   // Hydrated arrays with translated display copy.
+  // La liste suit la fenetre glissante : une session qui a demarre n'est plus
+  // proposee, la meme saison de l'annee suivante prend sa place.
   const hydratedSessions = useMemo(
-    () => hydrateSessions(SESSIONS, tSessionsData as never),
+    () => hydrateSessions(getSessions(), tSessionsData as never),
     [tSessionsData],
   )
+  const sessionIds = useMemo(() => hydratedSessions.map(s => s.id), [hydratedSessions])
+  const defaultSessionId = hydratedSessions[0]?.id ?? ''
   const regTypePlaceholders = useMemo(
     () => ({
       familyBase1weekLabel: FAMILY_BASE_1WEEK_LABEL,
@@ -275,9 +276,9 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
   const [dir, setDir] = useState<'next' | 'prev'>('next')
   const [form, setForm] = useState<FormData>(() => {
     const init = { ...INITIAL }
-    const requestedSession = initialSessionId && SESSION_IDS.includes(initialSessionId)
+    const requestedSession = initialSessionId && sessionIds.includes(initialSessionId)
       ? initialSessionId
-      : DEFAULT_SESSION_ID
+      : defaultSessionId
     if (initialAudience === 'session') {
       init.session = requestedSession
       init.duree = '3-semaines'
@@ -430,7 +431,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
     setAudience(id)
     setForm(prev => {
       const next = { ...prev }
-      const sessionToKeep = SESSION_IDS.includes(prev.session) ? prev.session : DEFAULT_SESSION_ID
+      const sessionToKeep = sessionIds.includes(prev.session) ? prev.session : defaultSessionId
       if (id === 'session') {
         next.session = sessionToKeep
         next.duree = '3-semaines'
@@ -688,8 +689,8 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
         pays: form.pays,
         ville_depart: form.villeDepart,
       },
-      session_id: (audience === 'session' && SESSION_IDS.includes(form.session))
-        || (audience === 'famille' && SESSION_IDS.includes(form.session))
+      session_id: (audience === 'session' && sessionIds.includes(form.session))
+        || (audience === 'famille' && sessionIds.includes(form.session))
         ? form.session
         : null,
       duree_semaines: form.duree === '1-semaine' ? 1 : form.duree === '2-semaines' ? 2 : form.duree === '3-semaines' ? 3 : null,
@@ -1007,7 +1008,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                 </div>
               )}
               {audience === 'session' && form.session && (() => {
-                const sel = SESSIONS.find(s => s.id === form.session)
+                const sel = hydratedSessions.find(s => s.id === form.session)
                 return sel ? (
                   <div className="insc-sidebar-recap-row">
                     <span>{t('sidebar.recap_rows.session')}</span>
@@ -1021,8 +1022,8 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                   <strong>{t('sidebar.recap_rows.format_custom')}</strong>
                 </div>
               )}
-              {audience === 'famille' && SESSION_IDS.includes(form.session) && (() => {
-                const sel = SESSIONS.find(s => s.id === form.session)
+              {audience === 'famille' && sessionIds.includes(form.session) && (() => {
+                const sel = hydratedSessions.find(s => s.id === form.session)
                 return sel ? (
                   <div className="insc-sidebar-recap-row">
                     <span>{t('sidebar.recap_rows.format')}</span>
@@ -2403,7 +2404,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                         const sel = hydratedSessions.find(s => s.id === form.session)
                         return sel ? <div><dt>{t('summary.rows.session')}</dt><dd>{sel.season} · {sel.dates}</dd></div> : null
                       })()}
-                      {audience === 'famille' && SESSION_IDS.includes(form.session) && (() => {
+                      {audience === 'famille' && sessionIds.includes(form.session) && (() => {
                         const sel = hydratedSessions.find(s => s.id === form.session)
                         return sel ? <div><dt>{t('summary.rows.format')}</dt><dd>{t('summary.rows.format_session', { season: sel.season })}</dd></div> : null
                       })()}

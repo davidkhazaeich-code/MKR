@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import { getSupabaseAdmin } from '@/lib/supabase-admin'
-import { SESSIONS } from '@/data/sessions'
+import { isSessionOpen } from '@/data/sessions'
 import { getSessionPlaces } from '@/lib/places'
 import { sendMail, wrapEmail, row } from '@/lib/email'
 import { buildVisioEmail } from '@/lib/visio-email'
@@ -250,9 +250,10 @@ export async function POST(request: Request) {
   // 4. Verif capacite pour tunnel=session : refuser si la discipline choisie est pleine.
   // (combo_quote = pas applicable cote session, deja filtre plus haut)
   if (tunnel === 'session' && body.session_id && (campDiscipline === 'lutte' || campDiscipline === 'mma')) {
-    const sessionExists = SESSIONS.some((s) => s.id === body.session_id)
-    if (!sessionExists) {
-      return badRequest('session_id inconnue')
+    // La session doit etre encore ouverte : un formulaire laisse ouvert pendant
+    // la bascule de saison ne doit pas creer un dossier sur un camp deja parti.
+    if (!isSessionOpen(body.session_id)) {
+      return badRequest('session_id inconnue ou fermee aux inscriptions')
     }
     const places = await getSessionPlaces(body.session_id)
     if (places) {

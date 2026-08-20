@@ -1,19 +1,23 @@
 import { Link } from '@/i18n/navigation'
 import { useTranslations } from 'next-intl'
-import { SESSIONS } from '@/data/sessions'
-import { hydrateSession } from '@/lib/session-display'
+import { getSessions, sessionYearRange } from '@/data/sessions'
+import { hydrateSessions } from '@/lib/session-display'
 import PlacesRestantes from '@/components/PlacesRestantes'
 import { DUO_ONE_LINE_BARE, FAMILY_BASE_1WEEK_LABEL, MIN_PRICE_PER_ADULT_LABEL } from '@/lib/pricing-copy'
 
 export default function Sessions() {
   const t = useTranslations('home.sessions')
   const tData = useTranslations('data.sessions')
+  // Fenetre glissante : la saison qui vient de demarrer sort d'elle-meme,
+  // celle de l'annee suivante entre a sa place.
+  const sessions = hydrateSessions(getSessions(), tData as never)
+  const priceFrom = `${tData('price_from_prefix')} ${MIN_PRICE_PER_ADULT_LABEL}`
   return (
     <section id="sessions" aria-labelledby="sessions-heading">
       <div className="inner">
         <div className="sessions-header reveal">
           <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>
-            {t('label')}
+            {t('label', { years: sessionYearRange(sessions) })}
           </span>
           <h2 id="sessions-heading" className="sessions-title">
             {t('title_line1')}<br />{t('title_line2')}
@@ -24,18 +28,14 @@ export default function Sessions() {
         </div>
 
         <div className="sessions-grid">
-          {SESSIONS.map((s, i) => {
-            const session = hydrateSession(s, tData as never)
-            const priceFrom = `${tData('price_from_prefix')} ${MIN_PRICE_PER_ADULT_LABEL}`
+          {sessions.map((session, i) => {
             return (
               <article key={session.id} className="session-card reveal" style={i > 0 ? { transitionDelay: `${i * 0.12}s` } : undefined}>
                 <div className="session-month-bg" aria-hidden="true">{session.month_abbr}</div>
                 <div className="session-card-body">
                   <span className="session-season">{session.season_label}</span>
                   <h3 className="session-name">
-                    {session.name.includes(' ')
-                      ? <>{session.name.split(' ')[0]}<br />{session.name.split(' ').slice(1).join(' ')}</>
-                      : session.name}
+                    {session.name_line1}{session.name_line2 && <><br />{session.name_line2}</>}
                   </h3>
                   <p className="session-dates">{session.dates_full}</p>
                 </div>

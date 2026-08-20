@@ -7,13 +7,15 @@ import Pipeline from '@/components/admin/ui/Pipeline'
 import Topbar from '@/components/admin/ui/Topbar'
 import { STATUS_LABEL, STATUS_VALUES, type Status } from '@/lib/admin-transitions'
 import { ATTRIBUTION_SOURCE_LABEL, ATTRIBUTION_SOURCE_COLOR, type AttributionSource } from '@/lib/attribution'
-import { SESSIONS } from '@/data/sessions'
-import sessionsDisplayFr from '../../../../messages/fr/data.sessions.json'
+import { getUnfinishedSessions, sessionFromId, type Session } from '@/data/sessions'
+import { frSessionDisplay } from '@/lib/session-display-fr'
 
-type AdminSessionDisplay = { label?: string; dates?: string; season_label?: string }
-const ADMIN_SESSION_DISPLAY = sessionsDisplayFr as unknown as Record<string, AdminSessionDisplay>
-function adminSessionDisplay(id: string): AdminSessionDisplay {
-  return ADMIN_SESSION_DISPLAY[id] ?? {}
+// L'admin doit lire des dossiers dont la session est sortie des inscriptions
+// depuis longtemps : la copie est reconstruite depuis l'id, jamais cherchee
+// dans une table figee.
+function adminSessionDisplay(id: string) {
+  const session = sessionFromId(id)
+  return session ? frSessionDisplay(session) : null
 }
 
 export const dynamic = 'force-dynamic'
@@ -108,11 +110,9 @@ export default async function AdminInscriptionsPage({
   let configError: string | null = null
   let queryError: string | null = null
 
-  // Sessions officielles connues, triees par startDate desc (futures en haut)
-  const knownSessionIds = SESSIONS.map((s) => s.id)
-  const todayIso = new Date().toISOString().slice(0, 10)
-  const upcomingIds = SESSIONS.filter((s) => s.endDate >= todayIso).map((s) => s.id)
-  const sortedSessions = [...SESSIONS].sort((a, b) => b.startDate.localeCompare(a.startDate))
+  // « A venir » cote admin = camps pas encore termines, donc la fenetre
+  // d'inscription PLUS le camp actuellement en cours (parti mais pas fini).
+  const upcomingIds = getUnfinishedSessions().map((s) => s.id)
 
   try {
     const supabase = getSupabaseAdmin()
@@ -159,7 +159,7 @@ export default async function AdminInscriptionsPage({
       if (upcomingIds.length > 0) {
         q = q.in('session_id', upcomingIds)
       }
-    } else if (params.session && knownSessionIds.includes(params.session)) {
+    } else if (params.session && sessionFromId(params.session)) {
       q = q.eq('session_id', params.session)
     }
 
@@ -223,7 +223,18 @@ export default async function AdminInscriptionsPage({
       disciplineCounts[r.camp_discipline] = (disciplineCounts[r.camp_discipline] ?? 0) + 1
     }
   }
-  const orphanSessionIds = Object.keys(sessionCounts).filter((id) => !knownSessionIds.includes(id))
+  // Liste des pastilles de filtre : les camps encore en cours ou a venir, plus
+  // toutes les sessions passees qui portent au moins un dossier. Recentes en tete.
+  const sessionsById = new Map<string, Session>()
+  for (const s of getUnfinishedSessions()) sessionsById.set(s.id, s)
+  for (const id of Object.keys(sessionCounts)) {
+    const past = sessionFromId(id)
+    if (past && !sessionsById.has(id)) sessionsById.set(id, past)
+  }
+  const sortedSessions = [...sessionsById.values()].sort((a, b) => b.startDate.localeCompare(a.startDate))
+  // Orphelin = un session_id qui ne correspond a aucune session officielle
+  // (saisie manuelle, ancien slug), pas simplement une session passee.
+  const orphanSessionIds = Object.keys(sessionCounts).filter((id) => !sessionFromId(id))
 
   // Counts par source d'acquisition (toute la base, pour les pills de filtre).
   const sourceCounts: Record<string, number> = {}
@@ -334,11 +345,11 @@ export default async function AdminInscriptionsPage({
                       ? 'var(--adm-tunnel-session)'
                       : 'var(--adm-text-muted)',
                   }}
-                  title={`${adminSessionDisplay(s.id).season_label ?? s.id} (${adminSessionDisplay(s.id).dates ?? ''}) · Lutte ${byDisc.lutte}/${s.maxCapacity.lutte}${lutteFull ? ' (COMPLET)' : ''} · MMA ${byDisc.mma}/${s.maxCapacity.mma}${mmaFull ? ' (COMPLET)' : ''} · ${restantes} places totales restantes`}
+                  title={`${adminSessionDisplay(s.id)?.season_label ?? s.id} (${adminSessionDisplay(s.id)?.dates ?? ''}) · Lutte ${byDisc.lutte}/${s.maxCapacity.lutte}${lutteFull ? ' (COMPLET)' : ''} · MMA ${byDisc.mma}/${s.maxCapacity.mma}${mmaFull ? ' (COMPLET)' : ''} · ${restantes} places totales restantes`}
                 >
-                  {adminSessionDisplay(s.id).label ?? s.id}
+                  {adminSessionDisplay(s.id)?.label ?? s.id}
                   <span style={{ fontSize: '0.7rem', opacity: 0.7, marginLeft: '0.1rem' }}>
-                    · {(adminSessionDisplay(s.id).dates ?? '').split(' - ')[0]}
+                    · {(adminSessionDisplay(s.id)?.dates ?? '').split(' - ')[0]}
                   </span>
                   <span
                     style={{

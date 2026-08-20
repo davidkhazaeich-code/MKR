@@ -1,7 +1,7 @@
 {
   "meta": {
-    "title": "Dates et tarifs 2026-2027 : 4 sessions dès 1 690 € | MKR",
-    "description": "Été 2026, Toussaint 2026, Hiver 2027, Pâques 2027. Lutte ou MMA, places en direct, tout compris dès 1 690 € par adulte, rien à payer avant validation."
+    "title": "Dates et tarifs {years} : 4 sessions dès 1 690 € | MKR",
+    "description": "Quatre sessions par an, une par saison. Lutte ou MMA, places en direct, tout compris dès 1 690 € par adulte, rien à payer avant validation."
   },
   "breadcrumb": {
     "home": "Accueil",
@@ -15,7 +15,7 @@
   },
   "price_from_prefix": "à partir de",
   "sessions": {
-    "label": "SESSIONS OFFICIELLES 2026 / 2027",
+    "label": "SESSIONS OFFICIELLES {years}",
     "title": "QUATRE SESSIONS, UN OBJECTIF",
     "subtitle": "Une session par saison, calées sur les vacances scolaires des trois zones françaises, suisses romandes et belges. Choisis celle qui colle à ton calendrier.",
     "meta_intensity": "Intensité",
@@ -24,49 +24,7 @@
     "cta_apply": "POSTULER",
     "custom_prompt": "Tes dates ne correspondent pas ?",
     "custom_link": "Découvre le camp sur mesure",
-    "custom_suffix": " (délai 90 jours minimum).",
-    "items": {
-      "aout_2026": {
-        "month": "AOÛ",
-        "season": "Session Été · Août 2026",
-        "name_line1": "CAMP",
-        "name_line2": "CAUCASIEN",
-        "dates": "17 AOÛT · 5 SEPTEMBRE 2026",
-        "intensity": "Maximale",
-        "duration": "1 à 3 semaines",
-        "status_label": "Places disponibles"
-      },
-      "toussaint_2026": {
-        "month": "OCT",
-        "season": "Session Automne · Toussaint 2026",
-        "name_line1": "CAMP",
-        "name_line2": "TOUSSAINT",
-        "dates": "17 OCTOBRE · 7 NOVEMBRE 2026",
-        "intensity": "Élevée",
-        "duration": "1 à 3 semaines",
-        "status_label": "Places disponibles"
-      },
-      "fevrier_2027": {
-        "month": "FÉV",
-        "season": "Session Hiver · Février 2027",
-        "name_line1": "CAMP",
-        "name_line2": "HIVER",
-        "dates": "13 FÉVRIER · 6 MARS 2027",
-        "intensity": "Maximale",
-        "duration": "1 à 3 semaines",
-        "status_label": "Places disponibles"
-      },
-      "paques_2027": {
-        "month": "AVR",
-        "season": "Session Printemps · Pâques 2027",
-        "name_line1": "CAMP",
-        "name_line2": "PRINTEMPS",
-        "dates": "3 · 24 AVRIL 2027",
-        "intensity": "Élevée",
-        "duration": "1 à 3 semaines",
-        "status_label": "Places disponibles"
-      }
-    }
+    "custom_suffix": " (délai 90 jours minimum)."
   },
   "tout_compris": {
     "label": "TOUT COMPRIS",

@@ -1,7 +1,7 @@
 import { getSupabaseAdmin } from '@/lib/supabase-admin'
 import { sendMail, escapeHtml } from '@/lib/email'
 import { renderSouvenirPng, type SouvenirDiscipline } from '@/lib/souvenir-image'
-import { SESSIONS } from '@/data/sessions'
+import { frSessionDisplayFromId } from '@/lib/session-display-fr'
 
 // Envoi automatique de l'image souvenir au candidat quand son dossier passe en
 // `validee`. Declenche en fire-and-forget depuis la route admin PATCH : ne bloque
@@ -23,13 +23,9 @@ const DISCIPLINE_EN: Record<SouvenirDiscipline, string> = {
 }
 
 function sessionLabel(sessionId: string | null): string | null {
-  if (!sessionId) return null
-  const s = SESSIONS.find((x) => x.id === sessionId)
-  if (!s) return null
-  // Les libelles d'affichage (dates/label/name) ont migre vers l'i18n
-  // (messages/*/data.sessions.json). Le type Session structurel n'expose plus
-  // que season + startDate : on compose un libelle simple "Saison AAAA".
-  return `${s.season} ${s.startDate.slice(0, 4)}`.trim() || null
+  // `frSessionDisplayFromId` reconstruit la session depuis son id, y compris
+  // une session deja passee : l'image souvenir d'un dossier ancien reste juste.
+  return frSessionDisplayFromId(sessionId)?.season_label ?? null
 }
 
 interface CandidatureRow {

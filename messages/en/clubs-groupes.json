@@ -60,12 +60,36 @@
     "label": "GROUP QUOTE PROCESS",
     "title": "6 STEPS, 90 DAYS",
     "steps": [
-      { "num": "01", "title": "Quote request", "desc": "You fill out the form: club name, number of participants (5 to 20), collective level, preferred dates, duration." },
-      { "num": "02", "title": "Kickoff call", "desc": "We set up a call with the group lead to frame the program, expectations, and logistics." },
-      { "num": "03", "title": "Detailed quote", "desc": "You receive a firm quote: rate per head times number of members, plus a breakdown of services." },
-      { "num": "04", "title": "Approval and transfer", "desc": "On quote signature, full group bank transfer to the MKR account. Visa invitation letters for each member." },
-      { "num": "05", "title": "Preparation", "desc": "6-week physical prep program sent to each member. Everything is settled ahead of departure." },
-      { "num": "06", "title": "Dedicated camp", "desc": "Your group arrives together, lives together, trains together. Dedicated coach, adapted program." }
+      {
+        "num": "01",
+        "title": "Quote request",
+        "desc": "You fill out the form: club name, number of participants (5 to 20), collective level, preferred dates, duration."
+      },
+      {
+        "num": "02",
+        "title": "Kickoff call",
+        "desc": "We set up a call with the group lead to frame the program, expectations, and logistics."
+      },
+      {
+        "num": "03",
+        "title": "Detailed quote",
+        "desc": "You receive a firm quote: rate per head times number of members, plus a breakdown of services."
+      },
+      {
+        "num": "04",
+        "title": "Approval and transfer",
+        "desc": "On quote signature, full group bank transfer to the MKR account. Visa invitation letters for each member."
+      },
+      {
+        "num": "05",
+        "title": "Preparation",
+        "desc": "6-week physical prep program sent to each member. Everything is settled ahead of departure."
+      },
+      {
+        "num": "06",
+        "title": "Dedicated camp",
+        "desc": "Your group arrives together, lives together, trains together. Dedicated coach, adapted program."
+      }
     ]
   },
   "cross_sell": {
@@ -80,7 +104,7 @@
       "sessions": {
         "label": "OFFICIAL SESSIONS",
         "title": "4 sessions per year",
-        "desc": "Want to join a group put together by MKR? Four sessions timed with school holidays: Summer 2026, Toussaint 2026, Winter 2027, Easter 2027."
+        "desc": "Want to join a group put together by MKR? Four sessions a year timed with school holidays: Summer, Autumn, Winter and Spring."
       },
       "famille": {
         "label": "FAMILY",

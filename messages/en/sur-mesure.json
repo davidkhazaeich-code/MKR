@@ -56,11 +56,31 @@
     "label": "PROCESS",
     "title": "5 STEPS, 90 DAYS",
     "steps": [
-      { "num": "01", "title": "You fill out the form", "desc": "Composition (1 to 4 adults), preferred dates (90 days min in advance), duration (1, 2 or 3 weeks), level, goals." },
-      { "num": "02", "title": "MKR approval within 48h", "desc": "We confirm coach and accommodation availability on your dates. Qualification video call." },
-      { "num": "03", "title": "Approval and visa letter", "desc": "You receive the official invitation letter for your Russian visa application and the bank details for full package payment by bank transfer." },
-      { "num": "04", "title": "6-week preparation", "desc": "Remote physical prep program. Everything is settled, you just focus on training." },
-      { "num": "05", "title": "Departure and camp", "desc": "Domestic flight from Istanbul included (Makhachkala for Dagestan, Grozny for Chechnya). MKR vehicle at the airport. All you have to do is train." }
+      {
+        "num": "01",
+        "title": "You fill out the form",
+        "desc": "Composition (1 to 4 adults), preferred dates (90 days min in advance), duration (1, 2 or 3 weeks), level, goals."
+      },
+      {
+        "num": "02",
+        "title": "MKR approval within 48h",
+        "desc": "We confirm coach and accommodation availability on your dates. Qualification video call."
+      },
+      {
+        "num": "03",
+        "title": "Approval and visa letter",
+        "desc": "You receive the official invitation letter for your Russian visa application and the bank details for full package payment by bank transfer."
+      },
+      {
+        "num": "04",
+        "title": "6-week preparation",
+        "desc": "Remote physical prep program. Everything is settled, you just focus on training."
+      },
+      {
+        "num": "05",
+        "title": "Departure and camp",
+        "desc": "Domestic flight from Istanbul included (Makhachkala for Dagestan, Grozny for Chechnya). MKR vehicle at the airport. All you have to do is train."
+      }
     ]
   },
   "cross_sell": {
@@ -70,7 +90,7 @@
       "sessions": {
         "label": "OFFICIAL SESSIONS",
         "title": "4 sessions per year",
-        "desc": "Want to join a group put together by MKR? Four sessions timed with school holidays: Summer 2026, Toussaint 2026, Winter 2027, Easter 2027."
+        "desc": "Want to join a group put together by MKR? Four sessions a year timed with school holidays: Summer, Autumn, Winter and Spring."
       },
       "famille": {
         "label": "FAMILY",

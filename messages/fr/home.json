@@ -169,7 +169,7 @@
     }
   },
   "sessions": {
-    "label": "CALENDRIER 2026 / 2027",
+    "label": "CALENDRIER {years}",
     "title_line1": "LES 4",
     "title_line2": "SESSIONS",
     "subtitle": "Une session par saison, calée sur les vacances scolaires francophones (France, Suisse romande, Belgique). Lutte au Daghestan ou MMA en Tchétchénie selon la discipline choisie à l'inscription.",

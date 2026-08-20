@@ -55,12 +55,30 @@
     "title": "YOUR CHILD IS<br/>IN GOOD HANDS",
     "intro": "No KO allowed, strictly controlled sparring, permanent supervision. Techniques are taught progressively by a trained youth coach. The goal: pass on the Caucasus fundamentals in an age-appropriate framework.",
     "checks": [
-      { "strong": "Olympic-grade mats", "suffix": ", dedicated children's room" },
-      { "strong": "Ratio 1 coach per 5 children", "suffix": " maximum" },
-      { "strong": "Parent briefing", "suffix": " at the end of every session" },
-      { "strong": "Daily photos", "suffix": " shared with parents" },
-      { "strong": "Emergency contact", "suffix": " available 24/7 (medical and safety)" },
-      { "strong": "Meal plan adapted", "suffix": " to young athletes (protein, hydration)" }
+      {
+        "strong": "Olympic-grade mats",
+        "suffix": ", dedicated children's room"
+      },
+      {
+        "strong": "Ratio 1 coach per 5 children",
+        "suffix": " maximum"
+      },
+      {
+        "strong": "Parent briefing",
+        "suffix": " at the end of every session"
+      },
+      {
+        "strong": "Daily photos",
+        "suffix": " shared with parents"
+      },
+      {
+        "strong": "Emergency contact",
+        "suffix": " available 24/7 (medical and safety)"
+      },
+      {
+        "strong": "Meal plan adapted",
+        "suffix": " to young athletes (protein, hydration)"
+      }
     ],
     "quote": "\"We were hesitant about bringing the kids. The youth coach hooked them from the very first session.\"",
     "quote_attribution": "Sophie L. · Mother · Lyon"
@@ -90,7 +108,7 @@
       "step1": {
         "num": "STEP 01",
         "title": "Choose your format",
-        "desc": "Join one of our four official sessions (Summer 2026, Toussaint 2026, Winter 2027, Easter 2027) timed with school holidays, or a custom camp (your dates, 90 days minimum). In the form, check \"Coming with your family?\"."
+        "desc": "Join one of our four official sessions (Summer, Autumn, Winter, Spring) timed with school holidays, or a custom camp (your dates, 90 days minimum). In the form, check \"Coming with your family?\"."
       },
       "step2": {
         "num": "STEP 02",

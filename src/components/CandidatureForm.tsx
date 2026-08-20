@@ -4,8 +4,8 @@ import { useState, FormEvent } from 'react'
 import dynamic from 'next/dynamic'
 import { DISCIPLINES } from '@/data/disciplines'
 import { useTranslations } from 'next-intl'
-import { SESSIONS } from '@/data/sessions'
-import { sessionFormLabel } from '@/lib/session-display'
+import { getSessions } from '@/data/sessions'
+import { hydrateSessions, sessionFormLabel } from '@/lib/session-display'
 import Icon from './Icon'
 
 const StoryCard = dynamic(() => import('./StoryCard'))
@@ -176,10 +176,8 @@ export default function CandidatureForm() {
   }
 
   if (submitted) {
-    const selectedSession = SESSIONS.find(s => s.id === form.session)
-    const sessionLabel = selectedSession
-      ? (tData.raw(selectedSession.id) as { name?: string } | undefined)?.name ?? form.session
-      : form.session
+    const selectedSession = hydrateSessions(getSessions(), tData as never).find(s => s.id === form.session)
+    const sessionLabel = selectedSession?.name ?? form.session
 
     return (
       <div className="cand-success">
@@ -414,7 +412,7 @@ export default function CandidatureForm() {
                 <select className="cand-select" value={form.session}
                   onChange={e => set('session', e.target.value)}>
                   <option value="" disabled>Sélectionner</option>
-                  {SESSIONS.map(s => (
+                  {getSessions().map(s => (
                     <option key={s.id} value={s.id}>{sessionFormLabel(s, tData as never)}</option>
                   ))}
                 </select>

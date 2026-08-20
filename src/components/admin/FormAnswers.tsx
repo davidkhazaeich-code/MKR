@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import { frSessionDisplayFromId } from '@/lib/session-display-fr'
 
 /**
  * FormAnswers — rendu lisible des reponses du formulaire d'inscription sur la
@@ -35,6 +36,9 @@ interface FieldDef {
   type: FieldType
   /** Map valeur-stockee -> libelle affiche au candidat. */
   options?: Record<string, string>
+  /** Resolveur dynamique, quand les valeurs possibles ne sont pas connues d'avance
+   *  (ex. un id de session, qui depend de l'annee du dossier). */
+  resolve?: (value: string) => string | undefined
   /** Champ facultatif : masque si vide (ne pas polluer la fiche). */
   optional?: boolean
   /** Champ conditionnel (depend d'une reponse precedente) : masque si vide. */
@@ -147,13 +151,13 @@ const COMPOSITION: Record<string, string> = {
   '4': 'Quatuor · 4 personnes',
 }
 
-// Les ids de session peuvent evoluer (cf. data/sessions.ts). Fallback = id brut.
-const FORMAT_FAMILLE: Record<string, string> = {
-  'aout-2026': 'Session officielle · Été 2026',
-  'toussaint-2026': 'Session officielle · Toussaint 2026',
-  'fevrier-2027': 'Session officielle · Hiver 2027',
-  'paques-2027': 'Session officielle · Pâques 2027',
-  'sur-mesure': 'Camp famille sur mesure (dates libres)',
+// Le format famille est soit une session officielle (libelle reconstruit depuis
+// l'id, meme pour une session passee), soit le camp sur mesure.
+const FORMAT_FAMILLE_CUSTOM = 'Camp famille sur mesure (dates libres)'
+function formatFamilleLabel(value: string): string | undefined {
+  if (value === 'sur-mesure') return FORMAT_FAMILLE_CUSTOM
+  const display = frSessionDisplayFromId(value)
+  return display ? `Session officielle · ${display.season_label}` : undefined
 }
 
 const NOMBRE_PARENTS: Record<string, string> = {
@@ -293,7 +297,7 @@ function buildCatalog(tunnel: string): SectionDef[] {
       key: 'famille',
       label: 'Famille',
       fields: [
-        { key: 'format', question: 'Format choisi', type: 'select', options: FORMAT_FAMILLE },
+        { key: 'format', question: 'Format choisi', type: 'select', resolve: formatFamilleLabel },
         { key: 'nombre_parents', question: 'Combien de parents participent ?', type: 'select', options: NOMBRE_PARENTS },
       ],
       arrays: [
@@ -379,7 +383,7 @@ function renderAnswer(field: FieldDef, value: unknown): ReactNode {
       <div className="adm-qa-chips">
         {value.map((v, i) => (
           <span key={i} className="adm-qa-chip">
-            {field.options?.[String(v)] ?? String(v)}
+            {field.resolve?.(String(v)) ?? field.options?.[String(v)] ?? String(v)}
           </span>
         ))}
       </div>
@@ -397,7 +401,7 @@ function renderAnswer(field: FieldDef, value: unknown): ReactNode {
     )
   }
 
-  const display = field.options ? field.options[String(value)] ?? String(value) : String(value)
+  const display = field.resolve?.(String(value)) ?? field.options?.[String(value)] ?? String(value)
   return <p className="adm-qa-a">{display}</p>
 }
 

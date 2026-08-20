@@ -1,58 +1,97 @@
 {
-  "aout-2026": {
-    "name": "CAUCASUS CAMP",
-    "season_label": "Summer Session · August 2026",
-    "label": "AUGUST 2026",
-    "month_abbr": "AUG",
-    "dates": "August 17 to September 5",
-    "dates_full": "AUGUST 17 to SEPTEMBER 5, 2026",
-    "spots_label": "Spots remaining",
-    "intensity": "Maximum",
-    "duration": "1 to 3 weeks",
-    "destination": "Dagestan or Chechnya"
+  "seasons": {
+    "hiver": {
+      "season": "Winter",
+      "period": "February",
+      "name_line1": "WINTER",
+      "name_line2": "CAMP",
+      "intensity": "Maximum"
+    },
+    "printemps": {
+      "season": "Spring",
+      "period": "April",
+      "name_line1": "SPRING",
+      "name_line2": "CAMP",
+      "intensity": "High"
+    },
+    "ete": {
+      "season": "Summer",
+      "period": "August",
+      "name_line1": "CAUCASIAN",
+      "name_line2": "CAMP",
+      "intensity": "Maximum"
+    },
+    "automne": {
+      "season": "Autumn",
+      "period": "October",
+      "name_line1": "AUTUMN",
+      "name_line2": "CAMP",
+      "intensity": "High"
+    }
   },
-  "toussaint-2026": {
-    "name": "FALL CAMP",
-    "season_label": "Fall Session · October 2026",
-    "label": "OCTOBER 2026",
-    "month_abbr": "OCT",
-    "dates": "October 17 to November 7",
-    "dates_full": "OCTOBER 17 to NOVEMBER 7, 2026",
-    "spots_label": "Spots remaining",
-    "intensity": "High",
-    "duration": "1 to 3 weeks",
-    "destination": "Dagestan or Chechnya"
+  "months": [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+  ],
+  "months_short": [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec"
+  ],
+  "months_abbr": [
+    "JAN",
+    "FEB",
+    "MAR",
+    "APR",
+    "MAY",
+    "JUN",
+    "JUL",
+    "AUG",
+    "SEP",
+    "OCT",
+    "NOV",
+    "DEC"
+  ],
+  "templates": {
+    "label": "{month} {year}",
+    "season_label": "{season} Session · {period} {year}",
+    "form_label": "{season} {year} ({dates})",
+    "short_label": "{season} · {dates_short}",
+    "dates": {
+      "same_month": "{month} {d1} to {d2}",
+      "cross_month": "{month1} {d1} to {month2} {d2}"
+    },
+    "dates_full": {
+      "same_month": "{month} {d1} to {d2}, {year}",
+      "cross_month": "{month1} {d1} to {month2} {d2}, {year}"
+    },
+    "dates_short": {
+      "same_month": "{month} {d1} - {d2}, {year}",
+      "cross_month": "{month1} {d1} - {month2} {d2}, {year}"
+    },
+    "list_item": "{season} {year}: {dates}"
   },
-  "fevrier-2027": {
-    "name": "WINTER CAMP",
-    "season_label": "Winter Session · February 2027",
-    "label": "FEBRUARY 2027",
-    "month_abbr": "FEB",
-    "dates": "February 13 to March 6",
-    "dates_full": "FEBRUARY 13 to MARCH 6, 2027",
-    "spots_label": "Spots remaining",
-    "intensity": "Maximum",
-    "duration": "1 to 3 weeks",
-    "destination": "Dagestan or Chechnya"
-  },
-  "paques-2027": {
-    "name": "SPRING CAMP",
-    "season_label": "Spring Session · April 2027",
-    "label": "APRIL 2027",
-    "month_abbr": "APR",
-    "dates": "April 3 to 24",
-    "dates_full": "APRIL 3 to 24, 2027",
-    "spots_label": "Spots remaining",
-    "intensity": "High",
-    "duration": "1 to 3 weeks",
-    "destination": "Dagestan or Chechnya"
-  },
-  "season_names": {
-    "ete": "Summer",
-    "automne": "Fall",
-    "hiver": "Winter",
-    "printemps": "Spring"
-  },
-  "form_label_template": "{season} {year} ({dates})",
+  "spots_label": "Spots remaining",
+  "duration": "1 to 3 weeks",
+  "destination": "Dagestan or Chechnya",
   "price_from_prefix": "From"
 }

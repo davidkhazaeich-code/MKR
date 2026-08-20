@@ -24,13 +24,7 @@
         "feature_title_part2": "TA SESSION.",
         "feature_body": "Quatre sessions par an calées sur les vacances scolaires francophones. MKR organise tout : visa, vol intérieur, transferts, hébergement, repas, encadrement. Vol international à organiser.",
         "feature_link": "Voir les 4 sessions",
-        "sessions_label": "Sessions officielles 2026 / 2027",
-        "sessions": {
-          "ete_2026": "Été · 17 août - 5 sept 2026",
-          "toussaint_2026": "Toussaint · 17 oct - 7 nov 2026",
-          "hiver_2027": "Hiver · 13 fév - 6 mars 2027",
-          "paques_2027": "Pâques · 3 - 24 avril 2027"
-        },
+        "sessions_label": "Sessions officielles {years}",
         "formats_label": "Autres formats",
         "formats": {
           "sur_mesure": "Sur Mesure · tes dates",
@@ -98,7 +92,7 @@
       "programme_title": "Programme",
       "destinations_title": "Destinations",
       "infos_title": "Découvrir",
-      "sessions_label": "Sessions officielles 2026 / 2027",
+      "sessions_label": "Sessions officielles {years}",
       "formats_label": "Autres formats",
       "see_all_prices": "Voir tous les tarifs",
       "prepare_label": "Préparer sa venue",

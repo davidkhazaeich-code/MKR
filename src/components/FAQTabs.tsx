@@ -7,7 +7,8 @@ import { getFaqCategories } from '@/data/faq'
 
 export default function FAQTabs() {
   const tData = useTranslations('data.faq')
-  const categories = getFaqCategories(tData as never)
+  const tSessions = useTranslations('data.sessions')
+  const categories = getFaqCategories(tData as never, tSessions as never)
   const [activeTab, setActiveTab] = useState(categories[0]?.id ?? '')
   const activeCategory = categories.find(c => c.id === activeTab) ?? categories[0]
 

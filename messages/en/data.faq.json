@@ -38,7 +38,7 @@
     },
     {
       "question": "What are the dates of the next camps?",
-      "answer": "Four official sessions per year, aligned with French-speaking school holidays. Summer 2026: August 17 to September 5. Fall 2026: October 17 to November 7. Winter 2027: February 13 to March 6. Spring 2027: April 3 to 24. Each session takes place in Dagestan (Wrestling) or Chechnya (MMA), your choice. 3-week window inside which you pick 1, 2 or 3 weeks, 15 spots max per destination. Solo / Duo rate: {duoPerAdult1week} per adult (1 week) to {duoPerAdult3week} per adult (3 weeks), all included. Tiered pricing from 3 people."
+      "answer": "Four official sessions per year, aligned with French-speaking school holidays. The next ones: {sessionsList}. Each session takes place in Dagestan (Wrestling) or Chechnya (MMA), your choice. 3-week window inside which you pick 1, 2 or 3 weeks, 15 spots max per destination. Solo / Duo rate: {duoPerAdult1week} per adult (1 week) to {duoPerAdult3week} per adult (3 weeks), all included. Tiered pricing from 3 people."
     }
   ],
   "categories": [
@@ -134,11 +134,11 @@
         },
         {
           "question": "What are the 4 types of registration?",
-          "answer": "1. Official Sessions (four per year: Summer August 17 to September 5, 2026, Fall October 17 to November 7, 2026, Winter February 13 to March 6, 2027, Spring April 3 to 24, 2027; adults only, group formed by MKR, 3-week window inside which you pick 1, 2 or 3 weeks, dates aligned with French-speaking school holidays). 2. Custom Camp (your dates, 1 to 4 adults, 1/2/3 weeks, minimum 90-day lead time). 3. Family (parent + child aged 8 to 17, choice between joining an official session or going custom). 4. Clubs and Groups (5 to 20 people, club or organized group, dates of your choice, custom quote). Public fixed pricing is identical across all 4 channels."
+          "answer": "1. Official Sessions (four per year, one per season, aligned with French-speaking school holidays: {sessionsList}; adults only, group formed by MKR, 3-week window inside which you pick 1, 2 or 3 weeks). 2. Custom Camp (your dates, 1 to 4 adults, 1/2/3 weeks, minimum 90-day lead time). 3. Family (parent + child aged 8 to 17, choice between joining an official session or going custom). 4. Clubs and Groups (5 to 20 people, club or organized group, dates of your choice, custom quote). Public fixed pricing is identical across all 4 channels."
         },
         {
-          "question": "What are the 4 official sessions for 2026 / 2027?",
-          "answer": "Four sessions per year, aligned with school holidays across the three French zones, French-speaking Switzerland and Belgium, so French-speaking practitioners (and families) can travel without taking days off. Summer 2026: August 17 to September 5, 2026 (3-week window, summer holidays). Fall 2026: October 17 to November 7, 2026 (3-week window, French Toussaint, Swiss October break, Belgian Toussaint). Winter 2027: February 13 to March 6, 2027 (3-week window, French winter holidays zones A/B/C, Swiss relâche, Belgian carnival). Spring 2027: April 3 to 24, 2027 (3-week window, French spring holidays, Swiss and Belgian Easter). Within each window, you pick 1, 2 or 3 weeks. Each session takes place in Dagestan (Adult wrestling and Youth wrestling) or in Chechnya (MMA), 15 spots max per destination. Solo / Duo rate: {duoPerAdult1week} per adult (1 week) to {duoPerAdult3week} per adult (3 weeks), all included. Tiered pricing from 3 people."
+          "question": "What are the 4 official sessions?",
+          "answer": "Four sessions per year, aligned with school holidays across the three French zones, French-speaking Switzerland and Belgium, so French-speaking practitioners (and families) can travel without taking days off. One per season: summer (summer holidays), autumn (French Toussaint, Swiss October break, Belgian Toussaint), winter (French winter holidays zones A/B/C, Swiss relâche, Belgian carnival) and spring (French spring holidays, Swiss and Belgian Easter). The next ones: {sessionsList}. Within each 3-week window, you pick 1, 2 or 3 weeks. Each session takes place in Dagestan (Adult wrestling and Youth wrestling) or in Chechnya (MMA), 15 spots max per destination. Solo / Duo rate: {duoPerAdult1week} per adult (1 week) to {duoPerAdult3week} per adult (3 weeks), all included. Tiered pricing from 3 people."
         },
         {
           "question": "What is the minimum lead time to book a Custom Camp?",

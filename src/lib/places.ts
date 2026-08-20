@@ -7,13 +7,10 @@
 // pour tunnel_type = 'session', agrégées par (session_id, camp_discipline).
 
 import { getSupabaseAdmin } from '@/lib/supabase-admin'
-import { SESSIONS, type Session, type CampDiscipline } from '@/data/sessions'
-// Static FR session display copy for non-React contexts (admin API, server logs).
-// Locale-aware consumers should use `lib/session-display.ts` with a t() instance.
-import sessionsDisplayFr from '../../messages/fr/data.sessions.json'
-
-type SessionDisplayMap = Record<string, { label?: string; dates?: string }>
-const FR_SESSION_DISPLAY = sessionsDisplayFr as unknown as SessionDisplayMap
+import { getSessions, sessionFromId, type Session, type CampDiscipline } from '@/data/sessions'
+// Copie FR pour les contextes non-React (API places, logs serveur).
+// Les consommateurs localises passent par `lib/session-display.ts` avec un t().
+import { frSessionDisplay } from '@/lib/session-display-fr'
 
 const CONSUMING_STATUSES = ['recue', 'validee', 'soldee'] as const
 
@@ -67,11 +64,13 @@ export async function getAllSessionPlaces(): Promise<SessionPlaces[]> {
     counts.set(r.session_id, current)
   }
 
-  return SESSIONS.map((s: Session) => deriveSessionPlaces(s, counts.get(s.id) ?? { lutte: 0, mma: 0 }))
+  // Seules les sessions ouvertes aux inscriptions ont des places a afficher.
+  return getSessions().map((s: Session) => deriveSessionPlaces(s, counts.get(s.id) ?? { lutte: 0, mma: 0 }))
 }
 
 export async function getSessionPlaces(sessionId: string): Promise<SessionPlaces | null> {
-  const session = SESSIONS.find((s) => s.id === sessionId)
+  // Reconstruite depuis l'id : compte aussi les places d'une session passee.
+  const session = sessionFromId(sessionId)
   if (!session) return null
 
   const supabase = getSupabaseAdmin()
@@ -126,11 +125,11 @@ function deriveSessionPlaces(s: Session, prises: { lutte: number; mma: number })
     : (lutte.is_full || mma.is_full || totalRestantes <= 6)
       ? 'limited'
       : s.status
-  const display = FR_SESSION_DISPLAY[s.id] ?? {}
+  const display = frSessionDisplay(s)
   return {
     session_id: s.id,
-    label: display.label ?? s.id.toUpperCase(),
-    dates: display.dates ?? '',
+    label: display.label,
+    dates: display.dates,
     lutte,
     mma,
     status,

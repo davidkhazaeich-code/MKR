@@ -15,7 +15,8 @@ import {
   FAMILY_EXTRA_CHILD_1WEEK_LABEL,
   DUO_ONE_LINE_BARE,
 } from '@/lib/pricing-copy'
-import type { TFn } from '@/lib/session-display'
+import { sessionListSentence, type TFn } from '@/lib/session-display'
+import { getSessions } from './sessions'
 
 export interface FAQItem {
   question: string
@@ -28,9 +29,14 @@ export interface FAQCategory {
   items: FAQItem[]
 }
 
-/** Pricing placeholders injected into FAQ answers via ICU-style replacement. */
-function faqPricingPlaceholders(): Record<string, string> {
+/**
+ * Placeholders injectes dans les reponses FAQ.
+ * `tSessions` (namespace `data.sessions`) alimente `{sessionsList}` : les dates
+ * des sessions ouvertes, ecrites a l'execution plutot que figees dans la copie.
+ */
+function faqPlaceholders(tSessions?: TFn): Record<string, string> {
   return {
+    ...(tSessions ? { sessionsList: sessionListSentence(getSessions(), tSessions) } : {}),
     duoPerAdult1week: formatEUR(PRICING_TIERS.duo.perAdult[1]),
     duoPerAdult3week: formatEUR(PRICING_TIERS.duo.perAdult[3]),
     trioPerAdult1week: formatEUR(PRICING_TIERS.trio.perAdult[1]),
@@ -52,9 +58,9 @@ function interpolate(s: string, placeholders: Record<string, string>): string {
 }
 
 /** Hydrate FAQ_HOMEPAGE for client/server render. `t` scoped to `data.faq`. */
-export function getFaqHomepage(t: TFn): FAQItem[] {
+export function getFaqHomepage(t: TFn, tSessions?: TFn): FAQItem[] {
   const items = t.raw('homepage') as FAQItem[]
-  const ph = faqPricingPlaceholders()
+  const ph = faqPlaceholders(tSessions)
   return items.map(item => ({
     question: item.question,
     answer: interpolate(item.answer, ph),
@@ -62,9 +68,9 @@ export function getFaqHomepage(t: TFn): FAQItem[] {
 }
 
 /** Hydrate FAQ_CATEGORIES for client/server render. `t` scoped to `data.faq`. */
-export function getFaqCategories(t: TFn): FAQCategory[] {
+export function getFaqCategories(t: TFn, tSessions?: TFn): FAQCategory[] {
   const cats = t.raw('categories') as FAQCategory[]
-  const ph = faqPricingPlaceholders()
+  const ph = faqPlaceholders(tSessions)
   return cats.map(c => ({
     id: c.id,
     label: c.label,
@@ -76,9 +82,9 @@ export function getFaqCategories(t: TFn): FAQCategory[] {
 }
 
 /** All FAQ items flattened - used for JSON-LD FAQPage schema. */
-export function getAllFaqItems(t: TFn): FAQItem[] {
-  const home = getFaqHomepage(t)
-  const cats = getFaqCategories(t)
+export function getAllFaqItems(t: TFn, tSessions?: TFn): FAQItem[] {
+  const home = getFaqHomepage(t, tSessions)
+  const cats = getFaqCategories(t, tSessions)
   return [
     ...home,
     ...cats.flatMap(c => c.items).filter(

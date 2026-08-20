@@ -1,7 +1,7 @@
 {
   "meta": {
-    "title": "2026-2027 Dates and Prices: 4 Sessions from 1,690 € | MKR",
-    "description": "Summer 2026, Autumn 2026, Winter 2027, Spring 2027. Wrestling or MMA, live spots, all inclusive from 1,690 € per adult, nothing to pay before approval."
+    "title": "{years} Dates and Prices: 4 Sessions from 1,690 € | MKR",
+    "description": "Four sessions a year, one per season. Wrestling or MMA, live spots, all inclusive from 1,690 € per adult, nothing to pay before approval."
   },
   "breadcrumb": {
     "home": "Home",
@@ -15,7 +15,7 @@
   },
   "price_from_prefix": "from",
   "sessions": {
-    "label": "OFFICIAL SESSIONS 2026 / 2027",
+    "label": "OFFICIAL SESSIONS {years}",
     "title": "FOUR SESSIONS, ONE OBJECTIVE",
     "subtitle": "One session per season, aligned with the school holidays of the three French zones, French-speaking Switzerland and Belgium. Choose the one that fits your calendar.",
     "meta_intensity": "Intensity",
@@ -24,49 +24,7 @@
     "cta_apply": "APPLY",
     "custom_prompt": "Your dates do not match?",
     "custom_link": "Discover the custom camp",
-    "custom_suffix": " (90-day minimum lead time).",
-    "items": {
-      "aout_2026": {
-        "month": "AUG",
-        "season": "Summer Session · August 2026",
-        "name_line1": "CAUCASIAN",
-        "name_line2": "CAMP",
-        "dates": "17 AUGUST · 5 SEPTEMBER 2026",
-        "intensity": "Maximum",
-        "duration": "1 to 3 weeks",
-        "status_label": "Spots available"
-      },
-      "toussaint_2026": {
-        "month": "OCT",
-        "season": "Autumn Session · October 2026",
-        "name_line1": "AUTUMN",
-        "name_line2": "CAMP",
-        "dates": "17 OCTOBER · 7 NOVEMBER 2026",
-        "intensity": "High",
-        "duration": "1 to 3 weeks",
-        "status_label": "Spots available"
-      },
-      "fevrier_2027": {
-        "month": "FEB",
-        "season": "Winter Session · February 2027",
-        "name_line1": "WINTER",
-        "name_line2": "CAMP",
-        "dates": "13 FEBRUARY · 6 MARCH 2027",
-        "intensity": "Maximum",
-        "duration": "1 to 3 weeks",
-        "status_label": "Spots available"
-      },
-      "paques_2027": {
-        "month": "APR",
-        "season": "Spring Session · April 2027",
-        "name_line1": "SPRING",
-        "name_line2": "CAMP",
-        "dates": "3 · 24 APRIL 2027",
-        "intensity": "High",
-        "duration": "1 to 3 weeks",
-        "status_label": "Spots available"
-      }
-    }
+    "custom_suffix": " (90-day minimum lead time)."
   },
   "tout_compris": {
     "label": "ALL INCLUSIVE",

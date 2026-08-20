@@ -169,7 +169,7 @@
     }
   },
   "sessions": {
-    "label": "CALENDAR 2026 / 2027",
+    "label": "CALENDAR {years}",
     "title_line1": "THE 4",
     "title_line2": "SESSIONS",
     "subtitle": "One session per season, aligned with French-speaking school holidays (France, French-speaking Switzerland, Belgium). Wrestling in Dagestan or MMA in Chechnya based on the discipline chosen at registration.",

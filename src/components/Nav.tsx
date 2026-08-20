@@ -9,6 +9,8 @@ import IconMMA from '@/components/icons/IconMMA'
 import Icon from './Icon'
 import LocaleSwitcher from './LocaleSwitcher'
 import { SOCIALS } from '@/data/site'
+import { getSessions, sessionYearRange } from '@/data/sessions'
+import { hydrateSessions } from '@/lib/session-display'
 
 const CHEVRON = <Icon name="chevron-down" size={10} className="nav-trigger-arrow" />
 const ARROW_RIGHT = <Icon name="arrow-right" size={13} />
@@ -77,6 +79,11 @@ function MobAccordion({ title, id, children }: { title: string; id: string; chil
 export default function Nav() {
   const pathname = usePathname()
   const t = useTranslations('common.nav')
+  const tSessions = useTranslations('data.sessions')
+  // Les 4 entrees « sessions officielles » du menu suivent la fenetre glissante
+  // (cf. data/sessions.ts) : aucune date en dur a maintenir dans les traductions.
+  const navSessions = hydrateSessions(getSessions(), tSessions as never)
+  const navSessionYears = sessionYearRange(navSessions)
   const [scrolled, setScrolled] = useState(false)
   const [scrollProgress, setScrollProgress] = useState(0)
   const [menuOpen, setMenuOpen] = useState(false)
@@ -290,12 +297,13 @@ export default function Nav() {
                 <Link href="/sessions" className="mega-arrow-link">{t('panels.le_camp.feature_link')} {ARROW_RIGHT}</Link>
               </div>
               <div>
-                <span className="mega-camp-links-label">{t('panels.le_camp.sessions_label')}</span>
+                <span className="mega-camp-links-label">{t('panels.le_camp.sessions_label', { years: navSessionYears })}</span>
                 <ul className="mega-link-list" role="list">
-                  <li><Link href="/mkr-camp-2026">{ICO.sessions} {t('panels.le_camp.sessions.ete_2026')} {ARROW_SM}</Link></li>
-                  <li><Link href={{ pathname: '/sessions', hash: 'toussaint-2026' }}>{ICO.sessions} {t('panels.le_camp.sessions.toussaint_2026')} {ARROW_SM}</Link></li>
-                  <li><Link href={{ pathname: '/sessions', hash: 'fevrier-2027' }}>{ICO.sessions} {t('panels.le_camp.sessions.hiver_2027')} {ARROW_SM}</Link></li>
-                  <li><Link href={{ pathname: '/sessions', hash: 'paques-2027' }}>{ICO.sessions} {t('panels.le_camp.sessions.paques_2027')} {ARROW_SM}</Link></li>
+                  {navSessions.map(s => (
+                    <li key={s.id}>
+                      <Link href={{ pathname: '/sessions', hash: s.id }}>{ICO.sessions} {s.short_label} {ARROW_SM}</Link>
+                    </li>
+                  ))}
                 </ul>
               </div>
               <div>
@@ -478,11 +486,10 @@ export default function Nav() {
             </Link>
           </div>
           <MobAccordion title={t('mobile.le_camp_title')} id="mob-camp">
-            <span className="mob-sub-label">{t('mobile.sessions_label')}</span>
-            <Link href="/mkr-camp-2026" className="mob-sub-link">{ICO.sessions} {t('panels.le_camp.sessions.ete_2026')}</Link>
-            <Link href={{ pathname: '/sessions', hash: 'toussaint-2026' }} className="mob-sub-link">{ICO.sessions} {t('panels.le_camp.sessions.toussaint_2026')}</Link>
-            <Link href={{ pathname: '/sessions', hash: 'fevrier-2027' }} className="mob-sub-link">{ICO.sessions} {t('panels.le_camp.sessions.hiver_2027')}</Link>
-            <Link href={{ pathname: '/sessions', hash: 'paques-2027' }} className="mob-sub-link">{ICO.sessions} {t('panels.le_camp.sessions.paques_2027')}</Link>
+            <span className="mob-sub-label">{t('mobile.sessions_label', { years: navSessionYears })}</span>
+            {navSessions.map(s => (
+              <Link key={s.id} href={{ pathname: '/sessions', hash: s.id }} className="mob-sub-link">{ICO.sessions} {s.short_label}</Link>
+            ))}
             <span className="mob-sub-label">{t('mobile.formats_label')}</span>
             <Link href="/sur-mesure" className="mob-sub-link">{ICO.calendar} {t('panels.le_camp.formats.sur_mesure')}</Link>
             <Link href="/familles" className="mob-sub-link">{ICO.coaches} {t('panels.le_camp.formats.famille')}</Link>

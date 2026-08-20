@@ -158,7 +158,7 @@ export default async function MkrCamp2026Page({ params }: { params: Promise<{ lo
       </section>
 
       <SectionCTA
-        primaryHref="/inscription?type=session&session=aout-2026"
+        primaryHref="/inscription?type=session"
         primaryLabel={t('section_cta.primary_label')}
         ghostHref="/contact"
         ghostLabel={t('section_cta.ghost_label')}

@@ -18,8 +18,9 @@ export default async function FAQPage({ params }: { params: Promise<{ locale: st
   setRequestLocale(locale)
   const t = await getTranslations('faq')
   const tData = await getTranslations('data.faq')
+  const tSessions = await getTranslations('data.sessions')
 
-  const allFaqItems = getAllFaqItems(tData as never)
+  const allFaqItems = getAllFaqItems(tData as never, tSessions as never)
   const jsonLdFaq = {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
