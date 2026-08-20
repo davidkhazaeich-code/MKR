@@ -7,9 +7,12 @@ import {
   renderBullets,
   renderButton,
   renderSignature,
+  renderWhatsAppBlock,
+  whatsAppTextLine,
   SITE_URL,
   type EmailLocale,
 } from '@/lib/email-layout'
+import { whatsappUrl } from '@/data/site'
 
 // Email transactionnel « Ton guide du Caucase » envoyé au lead juste après le
 // download — cf. PLAN_EMAIL_AUTOMATION.md §4 C0. Shell partagé : email-layout.ts.
@@ -30,6 +33,8 @@ interface GuideEmailCopy {
   candidatureLine: string
   ctaCandidature: string
   signoff: string
+  waIntro: string
+  waPrefill: string
   footer: string
   pdfPath: string
   tunnelPath: string
@@ -54,6 +59,8 @@ const COPY: Record<GuideEmailLocale, GuideEmailCopy> = {
     candidatureLine: 'Si tu te projettes déjà, la candidature prend 3 minutes :',
     ctaCandidature: 'Poser ma candidature',
     signoff: 'À bientôt,',
+    waIntro: 'Une question que le guide ne couvre pas ? Écris directement à Ruslan sur WhatsApp, c\'est lui qui répond.',
+    waPrefill: 'Bonjour Ruslan, j\'ai lu le guide du Caucase et j\'ai une question.',
     footer:
       'Tu reçois cet email parce que tu as demandé le guide sur mkrcamp.com. Une question ? Réponds directement à ce message.',
     pdfPath: '/guide-caucase.pdf',
@@ -77,6 +84,8 @@ const COPY: Record<GuideEmailLocale, GuideEmailCopy> = {
     candidatureLine: 'Already picturing yourself there? Applying takes 3 minutes:',
     ctaCandidature: 'Apply now',
     signoff: 'See you soon,',
+    waIntro: 'A question the guide does not cover? Write to Ruslan directly on WhatsApp, he answers himself.',
+    waPrefill: 'Hi Ruslan, I read the Caucasus guide and I have a question.',
     footer:
       'You are receiving this email because you requested the guide on mkrcamp.com. Questions? Just reply to this message.',
     pdfPath: '/caucasus-guide.pdf',
@@ -107,6 +116,7 @@ export function buildGuideEmail(locale: GuideEmailLocale): BuiltGuideEmail {
     renderHeroImage('guide-action.jpg', c.actionAlt),
     renderParagraph(escapeHtml(c.candidatureLine), { padTop: true }),
     renderButton(tunnelUrl, c.ctaCandidature, { primary: false }),
+    renderWhatsAppBlock(locale, whatsappUrl(c.waPrefill), { intro: c.waIntro }),
     renderSignature(locale, c.signoff),
   ].join('')
 
@@ -129,6 +139,8 @@ export function buildGuideEmail(locale: GuideEmailLocale): BuiltGuideEmail {
     ...c.tips.map((t) => `- ${t}`),
     '',
     `${c.candidatureLine} ${tunnelUrl}`,
+    '',
+    whatsAppTextLine(locale, whatsappUrl(c.waPrefill), c.waIntro),
     '',
     c.signoff,
     'Ruslan Mukhtarov · MKR Caucasian Camp',

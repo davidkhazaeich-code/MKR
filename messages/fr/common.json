@@ -7,6 +7,7 @@
     "menu_close": "Fermer le menu",
     "mobile_menu_aria": "Menu principal",
     "home": "Accueil",
+    "contact": "Contact",
     "triggers": {
       "le_camp": "Le Camp",
       "programme": "Programme",
@@ -185,6 +186,18 @@
   "sticky_mobile_cta": {
     "apply": "POSTULER AU CAMP",
     "apply_aria": "Postuler au camp MKR Caucasian Camp"
+  },
+  "whatsapp_float": {
+    "open_aria": "Discuter avec Ruslan sur WhatsApp",
+    "close_aria": "Fermer la fenêtre WhatsApp",
+    "eyebrow": "WHATSAPP DIRECT",
+    "name": "Ruslan Mukhtarov",
+    "role": "Fondateur du camp, répond en personne",
+    "status": "Réponse personnelle sous 48h",
+    "message": "Salut. Une question sur le camp, les dates, ton niveau ou la logistique ? Écris-moi directement, c'est moi qui réponds.",
+    "cta": "Ouvrir WhatsApp",
+    "number_prefix": "ou enregistre le numéro",
+    "prefill": "Bonjour Ruslan, j'ai une question sur le camp MKR."
   },
   "scroll_nav": {
     "sections_aria": "Navigation entre les sections",

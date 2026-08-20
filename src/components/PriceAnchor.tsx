@@ -3,6 +3,7 @@ import { Link } from '@/i18n/navigation'
 import { pricePerAdult, formatEUR } from '@/data/pricing'
 import { getNextSession } from '@/data/sessions'
 import PlacesRestantes from './PlacesRestantes'
+import { WHATSAPP } from '@/data/site'
 
 interface PriceAnchorProps {
   /** Filtre l'affichage des places live sur une discipline. Omis = les 2 (dual). */
@@ -56,7 +57,7 @@ export default async function PriceAnchor({ discipline, href }: PriceAnchorProps
             </Link>
             <p className="panchor-cta-sub">{t('lp.price_anchor.cta_sub')}</p>
             <a
-              href="https://wa.me/33666177691"
+              href={WHATSAPP.url}
               target="_blank"
               rel="noopener noreferrer"
               className="panchor-whatsapp"

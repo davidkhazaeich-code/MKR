@@ -2,6 +2,7 @@ import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { Link } from '@/i18n/navigation'
 import { localizedMetadata } from '@/lib/i18n-helpers'
 import type { Locale } from '@/i18n/routing'
+import { WHATSAPP } from '@/data/site'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
@@ -31,7 +32,7 @@ export default async function MentionsLegalesPage({ params }: { params: Promise<
             {t('sections.editor.siret_prefix')}<em>{t('sections.editor.siret_em')}</em><br/>
             {t('sections.editor.address_prefix')}<em>{t('sections.editor.address_em')}</em><br/>
             {t('sections.editor.contact_prefix')}<Link href="/contact">{t('sections.editor.contact_link')}</Link><br/>
-            {t('sections.editor.phone_prefix')}<a href="https://wa.me/33666177691" target="_blank" rel="noopener noreferrer">{t('sections.editor.phone_value')}</a>
+            {t('sections.editor.phone_prefix')}<a href={WHATSAPP.url} target="_blank" rel="noopener noreferrer">{t('sections.editor.phone_value')}</a>
           </p>
 
           <h2>{t('sections.publisher.title')}</h2>

@@ -1,4 +1,6 @@
 import { escapeHtml } from '@/lib/email'
+import { renderWhatsAppButtonHtml } from '@/lib/email-layout'
+import { whatsappUrl } from '@/data/site'
 
 // Source UNIQUE de l'email « visio de selection » envoye au candidat.
 //
@@ -66,6 +68,11 @@ interface Copy {
   cta: string
   urgency: string
   footer: string
+  /** Bloc « une question ? WhatsApp » (les 2 variantes). */
+  waIntro: string
+  waLabel: string
+  /** Message pre-rempli dans WhatsApp. */
+  waPrefill: string
   /** Bloc « abandon de place » (reminder only). */
   giveUpPrefix?: string
   giveUpLink?: string
@@ -89,6 +96,9 @@ function buildCopy(variant: VisioEmailVariant, locale: 'fr' | 'en', prenom: stri
           cta: 'Book my call now',
           urgency: 'Heads up: without a reply from you in the coming days, we will unfortunately have to release the place we reserved for you. Pick your slot now, you will receive the calendar invite automatically.',
           footer: 'MKR Caucasian Camp. Immersion among champions.',
+          waIntro: 'A doubt, a question, a scheduling issue? Write to Ruslan directly on WhatsApp, he answers himself.',
+          waLabel: 'Message Ruslan on WhatsApp',
+          waPrefill: 'Hi Ruslan, about my MKR application and the selection call.',
           giveUpPrefix: 'Can\'t join the camp anymore?',
           giveUpLink: 'I give up my place',
         }
@@ -104,6 +114,9 @@ function buildCopy(variant: VisioEmailVariant, locale: 'fr' | 'en', prenom: stri
           cta: 'Réserver ma visio maintenant',
           urgency: 'Important : sans réponse de ta part dans les prochains jours, on devra malheureusement libérer la place qu\'on t\'a réservée. Choisis ton créneau maintenant, tu recevras l\'invitation dans ton calendrier.',
           footer: 'MKR Caucasian Camp. L\'immersion au milieu des champions.',
+          waIntro: 'Un doute, une question, un empêchement ? Écris directement à Ruslan sur WhatsApp, c\'est lui qui répond.',
+          waLabel: 'Écrire à Ruslan sur WhatsApp',
+          waPrefill: 'Bonjour Ruslan, c\'est au sujet de ma candidature MKR et de la visio de sélection.',
           giveUpPrefix: 'Tu ne peux plus venir au camp ?',
           giveUpLink: 'J\'abandonne ma place',
         }
@@ -123,6 +136,9 @@ function buildCopy(variant: VisioEmailVariant, locale: 'fr' | 'en', prenom: stri
         cta: 'Book my selection call',
         urgency: 'Without this call, your file cannot be validated. Pick your slot now, you will receive the calendar invite automatically.',
         footer: 'MKR Caucasian Camp. Immersion among champions.',
+        waIntro: 'A question before booking, or need to plan the call at a specific time? Write to Ruslan directly on WhatsApp.',
+        waLabel: 'Message Ruslan on WhatsApp',
+        waPrefill: 'Hi Ruslan, I just applied to the MKR camp and I have a question.',
       }
     : {
         subject: 'Il te reste une étape, réserve ta visio avec Ruslan',
@@ -136,6 +152,9 @@ function buildCopy(variant: VisioEmailVariant, locale: 'fr' | 'en', prenom: stri
         cta: 'Réserver ma visio de sélection',
         urgency: 'Sans cet échange, ton dossier ne peut pas être validé. Choisis ton créneau maintenant, tu recevras l\'invitation dans ton calendrier.',
         footer: 'MKR Caucasian Camp. L\'immersion au milieu des champions.',
+        waIntro: 'Une question avant de réserver, ou besoin de caler l\'appel à une heure précise ? Écris directement à Ruslan sur WhatsApp.',
+        waLabel: 'Écrire à Ruslan sur WhatsApp',
+        waPrefill: 'Bonjour Ruslan, je viens de postuler au camp MKR et j\'ai une question.',
       }
 }
 
@@ -166,6 +185,14 @@ export function buildVisioEmail(input: VisioEmailInput): BuiltVisioEmail {
         <a href="${escapeHtml(input.cancelUrl || '')}" style="display:inline-block;margin-top:8px;padding:9px 18px;color:#9a9a95;font-size:13px;font-weight:600;text-decoration:none;border:1px solid #2e2e2e;border-radius:7px">${escapeHtml(c.giveUpLink || '')}</a>
       </div>`
     : ''
+
+  // Porte de sortie humaine : le candidat qui a une question n'a pas a chercher
+  // un canal. Secondaire, sous l'encart d'urgence, jamais au-dessus du CTA Cal.
+  const waUrl = whatsappUrl(c.waPrefill)
+  const whatsAppHtml = `<div style="margin:20px 0 4px;padding-top:18px;border-top:1px solid #1c1c1c">
+        <p style="margin:0 0 12px;color:#8A8A84;font-size:13px;line-height:1.65">${escapeHtml(c.waIntro)}</p>
+        ${renderWhatsAppButtonHtml(waUrl, c.waLabel)}
+      </div>`
 
   const html = `<!DOCTYPE html>
 <html lang="${en ? 'en' : 'fr'}"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="dark"></head>
@@ -198,6 +225,7 @@ export function buildVisioEmail(input: VisioEmailInput): BuiltVisioEmail {
       </tr></table>
       <p style="margin:0 0 20px;text-align:center;color:#6f6f6a;font-size:12px;word-break:break-all">${escapeHtml(CAL_BOOKING_URL)}</p>
       <p style="margin:0 0 8px;padding:14px 16px;background:rgba(200,75,49,0.08);border-left:3px solid #C84B31;border-radius:6px;color:#C9C9C4;font-size:13px;line-height:1.6">${escapeHtml(c.urgency)}</p>
+      ${whatsAppHtml}
       ${giveUpHtml}
     </td></tr>
     <tr><td style="padding:20px 26px;background:#050505;border-top:1px solid #1c1c1c;color:#6f6f6a;font-size:12px;line-height:1.6">${escapeHtml(c.footer)}</td></tr>
@@ -206,7 +234,7 @@ export function buildVisioEmail(input: VisioEmailInput): BuiltVisioEmail {
 </body></html>`
 
   const giveUpText = showGiveUp ? `\n\n${c.giveUpPrefix} ${c.giveUpLink}: ${input.cancelUrl}` : ''
-  const text = `${c.intro}\n\n${c.cta}: ${CAL_BOOKING_URL}\n\n${c.urgency}${giveUpText}\n\n${c.footer}`
+  const text = `${c.intro}\n\n${c.cta}: ${CAL_BOOKING_URL}\n\n${c.urgency}\n\n${c.waIntro}\n${c.waLabel}: ${waUrl}${giveUpText}\n\n${c.footer}`
 
   return { subject: c.subject, html, text }
 }

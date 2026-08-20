@@ -5,6 +5,7 @@ import PageHero from '@/components/PageHero'
 import ContactForm from '@/components/ContactForm'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 import Icon from '@/components/Icon'
+import { WHATSAPP } from '@/data/site'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
@@ -53,7 +54,7 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
                     <Icon name="whatsapp" size={24} />
                   </div>
                   <h3 className="card-title" style={{ fontSize: '0.9rem' }}>{t('cards.whatsapp.title')}</h3>
-                  <a href="https://wa.me/33666177691" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
+                  <a href={WHATSAPP.url} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
                     {t('cards.whatsapp.value')}
                   </a>
                 </div>

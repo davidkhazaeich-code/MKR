@@ -2,6 +2,7 @@ import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 import { Link } from '@/i18n/navigation'
 import Icon from './Icon'
+import { WHATSAPP } from '@/data/site'
 
 export default function Footer() {
   const t = useTranslations('common.footer')
@@ -23,10 +24,10 @@ export default function Footer() {
               <h2 className="footer-contact-heading">{t('contact_heading')}</h2>
             </div>
             <div className="footer-contact-right">
-              <a href="https://wa.me/33666177691" target="_blank" rel="noopener noreferrer"
+              <a href={WHATSAPP.url} target="_blank" rel="noopener noreferrer"
                 className="footer-contact-link" aria-label={t('contact_whatsapp_aria')}>
                 <Icon name="whatsapp" size={18} />
-                +33 6 66 17 76 91
+                {WHATSAPP.display}
               </a>
               <Link href="/contact" className="footer-contact-link" aria-label={t('contact_form_aria')}>
                 <Icon name="mail" size={18} />

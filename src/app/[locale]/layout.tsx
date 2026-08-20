@@ -7,7 +7,7 @@ import { Teko, Barlow, Barlow_Condensed } from 'next/font/google'
 import { NextIntlClientProvider, hasLocale } from 'next-intl'
 import { setRequestLocale, getMessages, getTranslations } from 'next-intl/server'
 import { Analytics } from '@vercel/analytics/next'
-import { SITE_URL, SITE_NAME, SITE_EMAIL, SITE_DESCRIPTION, SOCIALS, GEO } from '@/data/site'
+import { SITE_URL, SITE_NAME, SITE_EMAIL, SITE_DESCRIPTION, SOCIALS, GEO, WHATSAPP } from '@/data/site'
 import { getSessions } from '@/data/sessions'
 import { hydrateSessions } from '@/lib/session-display'
 import { getPathname } from '@/i18n/navigation'
@@ -176,8 +176,8 @@ async function buildJsonLd(locale: 'fr' | 'en') {
         image: `${SITE_URL}/images/social/og-image.webp`,
         description: t('organization.description'),
         email: SITE_EMAIL,
-        telephone: '+33666177691',
-        contactPoint: { '@type': 'ContactPoint', contactType: 'customer service', telephone: '+33666177691', email: SITE_EMAIL, availableLanguage: ['French', 'English'] },
+        telephone: WHATSAPP.e164,
+        contactPoint: { '@type': 'ContactPoint', contactType: 'customer service', telephone: WHATSAPP.e164, email: SITE_EMAIL, availableLanguage: ['French', 'English'] },
         sameAs: Object.values(SOCIALS),
         foundingDate: '2018',
         founder: { '@id': `${SITE_URL}/#person-ruslan` },

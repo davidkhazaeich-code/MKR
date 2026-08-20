@@ -8,7 +8,7 @@ import IconLutte from '@/components/icons/IconLutte'
 import IconMMA from '@/components/icons/IconMMA'
 import Icon from './Icon'
 import LocaleSwitcher from './LocaleSwitcher'
-import { SOCIALS } from '@/data/site'
+import { SOCIALS, WHATSAPP } from '@/data/site'
 import { getSessions, sessionYearRange } from '@/data/sessions'
 import { hydrateSessions } from '@/lib/session-display'
 
@@ -241,6 +241,19 @@ export default function Nav() {
                   </button>
                 </li>
               ))}
+              {/* Contact en acces direct : il n'existait que dans le mega panel
+                  « Decouvrir » et dans le drawer mobile, donc a deux clics d'un
+                  visiteur qui veut juste poser une question. */}
+              <li>
+                <Link
+                  href="/contact"
+                  className="nav-trigger nav-home"
+                  aria-current={pathname === '/contact' ? 'page' : undefined}
+                >
+                  {ICO.contact}
+                  {t('contact')}
+                </Link>
+              </li>
             </ul>
 
             <div className="nav-right">
@@ -535,7 +548,7 @@ export default function Nav() {
               {t('mobile.cta_instagram')}
             </a>
             <a
-              href="https://wa.me/33666177691"
+              href={WHATSAPP.url}
               target="_blank"
               rel="noopener noreferrer"
               className="mob-whatsapp"

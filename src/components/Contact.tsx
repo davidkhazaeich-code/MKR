@@ -1,6 +1,7 @@
 import { Link } from '@/i18n/navigation'
 import { useTranslations } from 'next-intl'
 import Icon from './Icon'
+import { WHATSAPP } from '@/data/site'
 
 export default function Contact() {
   const t = useTranslations('home.contact')
@@ -43,8 +44,8 @@ export default function Contact() {
                 <Icon name="whatsapp" />
                 <div>
                   <span className="contact-info-label">{t('info_whatsapp_label')}</span>
-                  <a href="https://wa.me/33666177691" target="_blank" rel="noopener noreferrer" className="contact-info-value">
-                    +33 6 66 17 76 91
+                  <a href={WHATSAPP.url} target="_blank" rel="noopener noreferrer" className="contact-info-value">
+                    {WHATSAPP.display}
                   </a>
                 </div>
               </div>

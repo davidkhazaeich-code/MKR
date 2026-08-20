@@ -12228,7 +12228,15 @@ html.is-loading body {
 @media (max-width: 768px) {
   .cookie-consent {
     left: 0.75rem;
-    width: min(21rem, calc(100vw - 1.5rem));
+    /* Bornee A DROITE (et non plus en largeur fixe) pour laisser libre la
+       colonne de la bulle WhatsApp flottante, qui partage exactement le meme
+       `bottom` : 0.85rem de marge + 52px de bulle + 0.6rem de respiration.
+       Sans ca, sur un ecran de 390px, la carte cookies (336px) recouvrait la
+       bulle, et elle est au-dessus (z 200 contre 210 seulement une fois le
+       panneau ouvert). */
+    right: calc(0.85rem + 52px + 0.6rem);
+    width: auto;
+    max-width: 21rem;
     /* Au-dessus de la zone du sticky CTA mobile (56px + safe area, z 180) :
        le bandeau ne doit jamais masquer le bouton POSTULER. */
     bottom: calc(56px + env(safe-area-inset-bottom, 0px) + 0.6rem);
@@ -13072,4 +13080,299 @@ html.is-loading body {
   .page-hero--image {
     min-height: clamp(320px, 46vh, 580px);
   }
+}
+
+/* ==========================================================================
+   Bulle WhatsApp flottante — contact direct Ruslan (2026-08-20)
+   ==========================================================================
+   Composant : src/components/WhatsAppFloat.tsx, monte dans (site)/layout.tsx.
+   Absente du tunnel /inscription (hors group `(site)`), volontairement.
+
+   Empilement des elements fixes du bas d'ecran, du plus bas au plus haut :
+     .sticky-cta-mobile  z 180  (barre POSTULER, mobile <= 768px)
+     .cookie-consent     z 200  (carte bas-GAUCHE)
+     .wa-float-root      z 210  (bulle bas-DROITE + son panneau)
+     #nav-backdrop       z 298 / #mobile-menu z 295 / #site-header z 300
+   La bulle passe au-dessus de la carte cookies parce que son panneau ouvert
+   monte sur toute la hauteur du bas d'ecran ; a l'etat FERME les deux ne se
+   croisent jamais, la carte cookies etant bornee a droite en mobile (voir la
+   regle `.cookie-consent` du bloc consentement). */
+.wa-float-root {
+  position: fixed;
+  right: 1rem;
+  bottom: 1.5rem;
+  z-index: 210;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.75rem;
+  /* Le conteneur garde la hauteur du panneau meme ferme : sans ca il
+     intercepterait les clics sur le contenu derriere. Seuls le bouton et le
+     panneau ouvert sont cliquables. */
+  pointer-events: none;
+}
+
+/* ── Bouton ── */
+.wa-float {
+  pointer-events: auto;
+  position: relative;
+  width: 56px;
+  height: 56px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: #25D366;
+  color: #fff;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 20px rgba(37, 211, 102, 0.34), 0 2px 8px rgba(0, 0, 0, 0.45);
+  /* UN SEUL transform sur cet element (le scale de survol). Ne jamais y ajouter
+     un decalage de position en transform : le survol ecraserait la propriete
+     entiere et le bouton clignoterait hors du curseur. Les decalages passent
+     par `bottom`. */
+  transition: transform 200ms var(--ease-out-expo), box-shadow 200ms linear, background 200ms linear;
+  -webkit-tap-highlight-color: transparent;
+  animation: wa-float-pulse 2.6s ease-in-out 1.4s 2;
+}
+.wa-float:hover {
+  background: #1ebe5b;
+  transform: scale(1.07);
+  box-shadow: 0 8px 26px rgba(37, 211, 102, 0.5), 0 2px 8px rgba(0, 0, 0, 0.45);
+}
+.wa-float:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+.wa-float.is-open {
+  background: var(--surface-high);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+  animation: none;
+}
+.wa-float.is-open:hover { background: #3a3a3a; }
+
+/* Les 2 glyphes sont superposes et permutent en fondu : pas de reflow, pas de
+   saut de taille du bouton entre l'etat ferme et l'etat ouvert. */
+.wa-float-icon {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 180ms linear;
+}
+.wa-float-icon svg { display: block; }
+.wa-float .wa-float-icon--close { opacity: 0; }
+.wa-float.is-open .wa-float-icon--wa { opacity: 0; }
+.wa-float.is-open .wa-float-icon--close { opacity: 1; }
+
+@keyframes wa-float-pulse {
+  0%, 100% { box-shadow: 0 6px 20px rgba(37, 211, 102, 0.34), 0 2px 8px rgba(0, 0, 0, 0.45); }
+  50%      { box-shadow: 0 6px 30px rgba(37, 211, 102, 0.72), 0 2px 8px rgba(0, 0, 0, 0.45); }
+}
+
+/* ── Panneau ── */
+.wa-panel {
+  pointer-events: none;
+  position: relative;
+  width: min(21rem, calc(100vw - 2rem));
+  background: var(--surface-lowest);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 20px 52px rgba(0, 0, 0, 0.6);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px) scale(0.98);
+  transform-origin: bottom right;
+  transition: opacity 200ms linear, transform 280ms var(--ease-out-expo), visibility 0s 280ms;
+}
+.wa-panel.is-open {
+  pointer-events: auto;
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+  transition: opacity 200ms linear, transform 280ms var(--ease-out-expo), visibility 0s 0s;
+}
+
+.wa-panel-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-secondary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 180ms linear, color 180ms linear;
+}
+.wa-panel-close:hover { background: rgba(255, 255, 255, 0.16); color: var(--text-primary); }
+.wa-panel-close:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+
+.wa-panel-head {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 1.1rem 1.15rem 0.95rem;
+  background: linear-gradient(135deg, rgba(37, 211, 102, 0.12), rgba(200, 75, 49, 0.08));
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+.wa-panel-avatar {
+  position: relative;
+  flex-shrink: 0;
+  width: 46px;
+  height: 46px;
+}
+.wa-panel-avatar img {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  object-fit: cover;
+  /* Source portrait 702x840 : le visage est dans le tiers haut, `center` seul
+     recadrerait sur le torse. */
+  object-position: center 18%;
+  border: 2px solid var(--primary);
+}
+.wa-panel-dot {
+  position: absolute;
+  right: -1px;
+  bottom: -1px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #25D366;
+  border: 2px solid var(--surface-lowest);
+}
+.wa-panel-ident { display: flex; flex-direction: column; min-width: 0; }
+.wa-panel-eyebrow {
+  font-family: var(--font-barlow-condensed), sans-serif;
+  font-weight: 700;
+  font-size: 0.56rem;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: #25D366;
+}
+.wa-panel-name {
+  font-family: var(--font-teko), sans-serif;
+  font-weight: 600;
+  font-size: 1.2rem;
+  line-height: 1.15;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+}
+.wa-panel-role {
+  font-size: 0.7rem;
+  line-height: 1.35;
+  color: var(--text-muted);
+}
+
+.wa-panel-body { padding: 1rem 1.15rem 0.2rem; }
+/* Bulle de conversation : le petit ergot a gauche rattache le message a
+   l'avatar au-dessus, c'est ce qui fait lire « il m'ecrit » et pas « encart ». */
+.wa-panel-message {
+  position: relative;
+  margin: 0;
+  padding: 0.75rem 0.9rem;
+  background: var(--surface);
+  border-radius: 4px 12px 12px 12px;
+  font-size: 0.82rem;
+  line-height: 1.65;
+  color: var(--text-secondary);
+}
+.wa-panel-status {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0.6rem 0 0;
+  font-family: var(--font-barlow-condensed), sans-serif;
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.wa-panel-status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #25D366;
+  flex-shrink: 0;
+}
+
+.wa-panel-foot { padding: 0.9rem 1.15rem 1.1rem; }
+.wa-panel-cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  min-height: 48px;
+  padding: 0.75rem 1.2rem;
+  border-radius: 10px;
+  background: #25D366;
+  color: #fff;
+  font-family: var(--font-barlow-condensed), sans-serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background 200ms linear;
+}
+.wa-panel-cta:hover { background: #1ebe5b; }
+.wa-panel-cta:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+.wa-panel-cta svg { flex-shrink: 0; }
+.wa-panel-number {
+  margin: 0.65rem 0 0;
+  text-align: center;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+.wa-panel-number span { color: var(--text-secondary); white-space: nowrap; }
+
+/* ── Mobile : la barre POSTULER (56px + safe-area) occupe deja le bas ── */
+@media (max-width: 768px) {
+  .wa-float-root {
+    right: 0.85rem;
+    bottom: calc(56px + env(safe-area-inset-bottom, 0px) + 0.7rem);
+  }
+  .wa-float { width: 52px; height: 52px; }
+  .wa-float .wa-float-icon--wa svg { width: 26px; height: 26px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wa-float { animation: none; transition: background 200ms linear; }
+  .wa-float:hover { transform: none; }
+  .wa-panel { transition: opacity 120ms linear, visibility 0s 120ms; transform: none; }
+  .wa-panel.is-open { transform: none; transition: opacity 120ms linear, visibility 0s 0s; }
+}
+
+/* ── Barre de nav : compactage 1101-1599px (ajout de l'onglet Contact) ──
+   La rangee compte 6 entrees depuis l'ajout de Contact. Entre 1101 et 1599px
+   sa largeur naturelle depasse la place disponible : les items se retrecissent
+   jusqu'a leur min-content et « Le Camp » passe sur 2 lignes dans une barre de
+   hauteur FIXE (72px). On compacte la rangee plutot que d'elargir la barre
+   (toucher au padding de .nav-inner deplacerait le logo et le CTA).
+   Mesures de reference (FR, le pire cas) : rangee naturelle 724px, place
+   disponible 717px a 1280-1440px et ~613px a 1101px. */
+@media (max-width: 1599px) {
+  .nav-list { gap: 0; }
+  .nav-trigger { padding: 0.55rem 0.6rem; letter-spacing: 0.1em; }
+  .nav-trigger::after { left: 0.6rem; right: 0.6rem; }
+}
+@media (max-width: 1439px) {
+  /* Second palier : on resserre encore l'interlettrage et le corps plutot que
+     de retirer les glyphes, qui sont le seul reperage visuel de la rangee. */
+  .nav-trigger { font-size: 0.74rem; letter-spacing: 0.06em; padding: 0.55rem 0.45rem; }
+  .nav-trigger::after { left: 0.45rem; right: 0.45rem; }
+}
+@media (max-width: 1259px) {
+  /* Bande la plus contrainte : le glyphe de tete est decoratif (le libelle
+     porte tout le sens) et coute ~20px par onglet. */
+  .nav-trigger > svg:first-child { display: none; }
 }

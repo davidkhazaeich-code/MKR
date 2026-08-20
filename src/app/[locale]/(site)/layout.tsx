@@ -9,6 +9,9 @@ const RevealObserver = dynamic(() => import('@/components/RevealObserver'))
 const ScrollParallax = dynamic(() => import('@/components/ScrollParallax'))
 const StickyMobileCTA = dynamic(() => import('@/components/StickyMobileCTA'))
 const ScrollNav = dynamic(() => import('@/components/ScrollNav'))
+/* Bulle WhatsApp : montee ICI et pas dans le layout racine, pour rester
+   volontairement absente du tunnel /inscription (hors group `(site)`). */
+const WhatsAppFloat = dynamic(() => import('@/components/WhatsAppFloat'))
 
 /* RouteScrollReset est monte dans le root layout (src/app/layout.tsx) pour couvrir
    aussi /inscription et /admin/* (hors group `(site)`). Ne pas le remonter ici. */
@@ -40,6 +43,7 @@ export default async function SiteLayout({
       <InstagramFeed />
       <Footer />
       <StickyMobileCTA />
+      <WhatsAppFloat />
       <RevealObserver />
       <ScrollParallax />
       <ScrollNav />

@@ -1,6 +1,8 @@
 import { getSupabaseAdmin } from '@/lib/supabase-admin'
 import { sendMail, escapeHtml } from '@/lib/email'
 import { renderSouvenirPng, type SouvenirDiscipline } from '@/lib/souvenir-image'
+import { renderWhatsAppButtonHtml } from '@/lib/email-layout'
+import { whatsappUrl } from '@/data/site'
 import { frSessionDisplayFromId } from '@/lib/session-display-fr'
 
 // Envoi automatique de l'image souvenir au candidat quand son dossier passe en
@@ -93,6 +95,9 @@ export async function sendSouvenirIfNeeded(candidatureId: string): Promise<void>
             'You receive the detailed program before departure.',
           ],
           footer: 'MKR Caucasian Camp. Immersion among champions.',
+          waIntro: 'A question about what comes next? Write to Ruslan directly on WhatsApp, he answers himself.',
+          waLabel: 'Message Ruslan on WhatsApp',
+          waPrefill: 'Hi Ruslan, my MKR file is validated, I have a question about the next steps.',
           attachName: `mkr-${prenom.toLowerCase()}-souvenir.png`,
         }
       : {
@@ -108,6 +113,9 @@ export async function sendSouvenirIfNeeded(candidatureId: string): Promise<void>
             'Tu reçois le programme détaillé avant le départ.',
           ],
           footer: 'MKR Caucasian Camp. L\'immersion au milieu des champions.',
+          waIntro: 'Une question sur la suite ? Écris directement à Ruslan sur WhatsApp, c\'est lui qui répond.',
+          waLabel: 'Écrire à Ruslan sur WhatsApp',
+          waPrefill: 'Bonjour Ruslan, mon dossier MKR est validé, j\'ai une question sur la suite.',
           attachName: `mkr-${prenom.toLowerCase()}-souvenir.png`,
         }
 
@@ -117,6 +125,10 @@ export async function sendSouvenirIfNeeded(candidatureId: string): Promise<void>
           `<tr><td valign="top" style="padding:6px 10px 6px 0;color:#C84B31;font-weight:700;font-size:14px">${i + 1}.</td><td style="padding:6px 0;color:#C9C9C4;font-size:14px;line-height:1.55">${escapeHtml(s)}</td></tr>`,
       )
       .join('')
+
+    // Porte de sortie humaine, sous les prochaines etapes : le dossier vient
+    // d'etre valide, c'est le moment ou les questions arrivent.
+    const waUrl = whatsappUrl(c.waPrefill)
 
     const html = `<!DOCTYPE html>
 <html lang="${en ? 'en' : 'fr'}"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="dark"></head>
@@ -136,13 +148,17 @@ export async function sendSouvenirIfNeeded(candidatureId: string): Promise<void>
       <div style="margin:0 0 6px;color:#8A8A84;font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase">${escapeHtml(c.stepsTitle)}</div>
       <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 20px">${stepsHtml}</table>
       <p style="margin:0 0 6px;padding:12px 16px;background:rgba(200,75,49,0.08);border-left:3px solid #C84B31;border-radius:6px;color:#C9C9C4;font-size:13px;line-height:1.6">${escapeHtml(disciplineLabel)}${session ? ` · ${escapeHtml(session)}` : ''}</p>
+      <div style="margin:20px 0 4px;padding-top:18px;border-top:1px solid #1c1c1c">
+        <p style="margin:0 0 12px;color:#8A8A84;font-size:13px;line-height:1.65">${escapeHtml(c.waIntro)}</p>
+        ${renderWhatsAppButtonHtml(waUrl, c.waLabel)}
+      </div>
     </td></tr>
     <tr><td style="padding:20px 26px;background:#050505;border-top:1px solid #1c1c1c;color:#6f6f6a;font-size:12px;line-height:1.6">${escapeHtml(c.footer)}</td></tr>
   </table>
 </td></tr></table>
 </body></html>`
 
-    const text = `${c.intro}\n\n${c.stepsTitle}:\n${c.steps.map((s, i) => `${i + 1}. ${s}`).join('\n')}\n\n${c.footer}`
+    const text = `${c.intro}\n\n${c.stepsTitle}:\n${c.steps.map((s, i) => `${i + 1}. ${s}`).join('\n')}\n\n${c.waIntro}\n${c.waLabel}: ${waUrl}\n\n${c.footer}`
 
     const sent = await sendMail({
       to: email,

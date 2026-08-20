@@ -1,7 +1,89 @@
 # SITEMAP MKR Caucasian Camp — Cartographie complète
 
-> **Fichier de référence pour Claude Code.** Mise à jour : 2026-08-21 (roulement automatique des saisons).
+> **Fichier de référence pour Claude Code.** Mise à jour : 2026-08-21 (WhatsApp direct de Ruslan, puis roulement automatique des saisons).
 > Lis ce fichier en priorité avant toute intervention sur le site MKR. Il évite de re-explorer.
+
+## 🆕 BREAKING — 2026-08-21 (WhatsApp direct de Ruslan : numéro, bulle flottante, onglet Contact, emails)
+
+> **Demande David** : basculer le WhatsApp du site sur le **numéro direct de Ruslan**, ajouter une **bulle flottante** (modèle cours-informatique.ch), mettre **Contact** dans la barre de header, et poser des **boutons WhatsApp dans les emails** post-candidature et de rappel.
+
+### 1. Nouveau numéro, et une SOURCE UNIQUE cette fois
+
+**`+33 7 83 10 96 81`** (`wa.me/33783109681`) remplace l'ancien `+33 6 66 17 76 91` partout.
+
+Le numéro n'est plus recopié à la main : `src/data/site.ts` exporte
+```ts
+export const WHATSAPP = { display: '+33 7 83 10 96 81', e164: '+33783109681', digits: '33783109681', url: 'https://wa.me/33783109681' }
+export function whatsappUrl(text?: string): string   // ajoute ?text= pré-rempli
+```
+**Ne jamais réécrire un `wa.me/...` en dur.** Les 8 points d'usage du site importent `WHATSAPP` : `Contact.tsx`, `Footer.tsx`, `PriceAnchor.tsx`, `Nav.tsx` (drawer mobile), `contact/page.tsx`, `sessions/page.tsx`, `mentions-legales/page.tsx`, `[locale]/layout.tsx` (JSON-LD `telephone` + `contactPoint`).
+
+Restent en texte, mis à jour au même moment (pas de source unique possible) : `messages/{fr,en}/contact.json` + `mentions-legales.json`, **8 articles de blog × 2 langues** (16 fichiers, liens `wa.me` dans le `content_html`), `public/llms.txt` + `llms-en.txt`, `docs/guide-caucase/guide{,.en}.html` → **les 2 PDF ont été reconstruits** (`bash docs/guide-caucase/build.sh all`, 20 pages chacun, numéro vérifié au `pdftotext`), `src/i18n/glossary.md`.
+
+### 2. Bulle WhatsApp flottante — `src/components/WhatsAppFloat.tsx`
+
+Bulle verte fixe en bas à droite qui ouvre un **panneau de marque** : photo de Ruslan, « Fondateur du camp, répond en personne », un message à la première personne, puis un CTA vert vers `wa.me` avec message pré-rempli localisé. Pourquoi un panneau et pas un lien nu : le camp se vend sur le fait que Ruslan valide et répond lui-même, le panneau dit QUI décroche.
+
+- Montée dans **`(site)/layout.tsx` uniquement** : volontairement **absente de `/inscription`** (hors du group `(site)`), où toute sortie est une friction.
+- **Ce n'est pas une modale** : pas de scroll-lock, pas de piège de focus. Fermeture Échap + `pointerdown` extérieur, focus rendu au bouton. Le panneau fermé est en `visibility: hidden`, ce qui le sort naturellement de l'ordre de tabulation.
+- i18n `common.whatsapp_float.*` (FR + EN), CSS `.wa-float*` / `.wa-panel*` en fin de `globals.css`.
+
+**⚠️ Empilement des flottants du bas d'écran** (le piège de ce composant) :
+| Élément | z-index | Position |
+|---|---|---|
+| `.sticky-cta-mobile` | 180 | pleine largeur, ≤768px |
+| `.cookie-consent` | 200 | bas-**gauche** |
+| `.wa-float-root` | **210** | bas-**droite** |
+| `#mobile-menu` / `#nav-backdrop` / `#site-header` | 295 / 298 / 300 | — |
+
+- `.wa-float-root` est en **`pointer-events: none`** (seuls le bouton et le panneau ouvert sont cliquables) : sans ça, le conteneur, qui garde la hauteur du panneau même fermé, volait les clics du contenu derrière.
+- En mobile la bulle se pose **au-dessus de la barre POSTULER** (`bottom: calc(56px + safe-area + 0.7rem)`), et **la carte cookies a été bornée à droite** (`right: calc(0.85rem + 52px + 0.6rem)`, `width: auto`) : sur un écran de 390px elle faisait 336px de large et recouvrait la bulle.
+- **Un seul `transform` sur `.wa-float`** (le `scale` de survol). Ne jamais y ajouter un décalage de position en transform : le survol écraserait la propriété entière et le bouton clignoterait hors du curseur (bug vécu sur cours-informatique.ch).
+
+### 3. Onglet Contact dans le header, et la rangée qui débordait
+
+`Nav.tsx` : 6ᵉ entrée `/contact` en fin de `.nav-list` (Contact n'existait que dans le méga panel « Découvrir » et le drawer mobile, donc à deux clics).
+
+**⚠️ La rangée ne tenait plus.** `.nav-inner` a une hauteur FIXE de 72px ; les items sont des flex-items qui se rétrécissent jusqu'à leur min-content, donc le débordement ne se voit pas en scroll horizontal, il se voit en **libellé sur 2 lignes**. Mesuré à 1280-1440px : largeur naturelle de la rangée **724px** pour **717px** disponibles, et « Le Camp » passait sur 2 lignes (46px de haut au lieu de 38). À 1101px, le problème **existait déjà avant** l'ajout de Contact.
+
+Correctif : compactage progressif de la rangée (pas d'élargissement de la barre, qui déplacerait le logo et le CTA) :
+| Bande | Traitement |
+|---|---|
+| ≤1599px | `gap: 0`, padding `.55rem .6rem`, `letter-spacing: .1em` |
+| ≤1439px | + `font-size: .74rem`, `letter-spacing: .06em`, padding `.55rem .45rem` |
+| ≤1259px | + glyphe de tête masqué (décoratif, ~20px par onglet) |
+
+Vérifié sur **18 largeurs × 2 langues (1101 → 2560px)** : marge minimale **53px**, hauteur de barre 72px partout, zéro débordement. Script de mesure réutilisable : `.tmp/diag-nav3.mjs` (compare largeur naturelle en `nowrap` et place réellement disponible).
+
+**Règle** : toute entrée ajoutée à `.nav-list` doit être re-mesurée à 1101 / 1280 / 1440px. Une entrée de plus ne tiendra pas sans passer au menu burger plus tôt.
+
+### 4. Boutons WhatsApp dans les emails candidat
+
+Helpers partagés dans `src/lib/email-layout.ts` :
+- `renderWhatsAppButtonHtml(url, label)` — bouton seul, utilisable dans les templates qui n'utilisent pas le shell.
+- `renderWhatsAppBlock(locale, url, { intro })` — ligne complète (séparateur + phrase + bouton) pour les templates montés sur le shell.
+- `whatsAppTextLine(locale, url, intro)` — la même chose pour la partie `text`.
+
+Posé dans **6 emails**, toujours en position **secondaire** (jamais au-dessus du CTA principal), avec un message pré-rempli propre à chaque contexte :
+
+| Email | Fichier | Intro |
+|---|---|---|
+| Confirmation post-candidature | `visio-email.ts` (`confirmation`) | question avant de réserver / caler l'appel à une heure précise |
+| Relance visio | `visio-email.ts` (`reminder`) | un doute, une question, un empêchement |
+| Dossier validé (+ image souvenir) | `souvenir-notify.tsx` | une question sur la suite |
+| Rappel de paiement (paliers 1 et 2) | `payment-email.ts` | **remplace le CTA `mailto:`** |
+| Pré-départ | `predeparture-email.ts` | question de dernière minute |
+| Guide du Caucase (lead) | `guide-email.ts` | une question que le guide ne couvre pas |
+
+**⚠️ Le glyphe est un PNG à fond VERT PLEIN** (`public/images/email/whatsapp-glyph.png`, 120×120, 2 Ko), pas un PNG transparent et surtout pas un SVG : Gmail et Outlook ne rendent pas les SVG en email, et Outlook/Word gère mal l'alpha. Posé sur un bouton de la même couleur, le fond plein est invisible.
+
+**Vérif** : rendu hors-ligne des 12 combinaisons (6 emails × 2 langues) via `.tmp/render-emails.mjs` (transpile les modules avec le TypeScript du repo, sans build Next) → bouton présent en HTML **et** en texte brut, glyphe présent, **zéro occurrence de l'ancien numéro**. Captures dans `.tmp/emails/`.
+
+### QA de la passe
+
+`tsc` **0 erreur** · `i18n-check` parité FR=EN · `next build` **complet vert** · sweep Playwright **43 contrôles / 0 échec** (bulle : ouverture, lien pré-rempli, focus, Échap, photo chargée, panneau dans le viewport à 320/360/390px, aucun chevauchement avec la barre POSTULER ni la carte cookies) + **36 mesures de barre de nav** (18 largeurs × 2 langues) + 12 emails rendus.
+
+> ⚠️ **QA faite dans un git worktree isolé** (`git worktree add --detach <path> HEAD` + `cp -al node_modules`) : une session parallèle refactorait `data/sessions.ts` et l'arbre de travail principal ne compilait plus. Turbopack **refuse un `node_modules` en lien symbolique hors de la racine du projet** (« points out of the filesystem root ») : le worktree doit être sur le même volume et `node_modules` copié en liens durs.
 
 ## 🆕 BREAKING — 2026-08-21 (les 4 sessions tournent toutes seules)
 
@@ -66,7 +148,6 @@ node --experimental-strip-types scripts/sessions-rotation-check.mts
 ### Reste ouvert
 
 **`/mkr-camp-2026` n'a pas été touchée** (hors périmètre, décision de contenu qui appartient à David) : la page vend encore le camp d'août 2026 et dit « les inscriptions sont ouvertes ». Elle n'est plus liée depuis le mega menu ni le drawer (remplacés par les 4 sessions générées) et son CTA pointe désormais vers `/inscription?type=session` sans session figée, donc plus aucun visiteur n'est envoyé sur un camp parti. Trois options à trancher : créer une `/mkr-camp-2027`, basculer le slug vers une URL sans année avec 301, ou rediriger vers `/sessions`. Le lien « MKR Camp 2026 » du footer est resté, à traiter avec la page.
-
 
 ## 🆕 2026-07-25 — PASSE 3 (dette des 2 pages destination)
 
@@ -1929,17 +2010,24 @@ GEO = { latitude: 42.9849, longitude: 47.5047, country: 'RU', region: 'Daghestan
 
 > **Le tableau le plus important du fichier.** Pour chaque info CEO, voici TOUS les endroits où elle vit. À chaque modification de l'une de ces infos, **toucher tous les fichiers de la même ligne**, sinon une page restera incohérente.
 
-### Téléphone WhatsApp `+33 6 66 17 76 91` (wa.me/33666177691)
-| Fichier | Ligne | Forme |
-|---|---|---|
-| `components/Contact.tsx` | 49-50 | bloc Contact homepage (href + label) |
-| `components/Footer.tsx` | ~22 | footer-contact-link (ajouté 2026-04-30) |
-| `components/Nav.tsx` | ~445 | mob-direct (menu mobile, ajouté 2026-04-30) |
-| `app/(site)/contact/page.tsx` | 49-50 | page Contact (carte WhatsApp) |
-| `app/(site)/sessions/page.tsx` | ~195 | bouton "CONTACTER PAR WHATSAPP" tarif groupe |
-| `components/InscriptionLayout.tsx` | 287-290 | placeholder champ téléphone form (`+33 6 XX XX XX XX`) |
-| `components/CandidatureForm.tsx` | 259-262 | idem (composant alternatif) |
-**⚠️** Si on change le numéro, modifier **les 7 endroits**.
+### Téléphone WhatsApp `+33 7 83 10 96 81` (wa.me/33783109681) — SOURCE UNIQUE depuis 2026-08-21
+**Le numéro vit dans `src/data/site.ts` (`WHATSAPP` + `whatsappUrl()`).** Le code ne le recopie plus.
+
+| Fichier | Forme |
+|---|---|
+| `data/site.ts` | **source unique** : `WHATSAPP.{display,e164,digits,url}` + `whatsappUrl(text?)` |
+| `components/Contact.tsx` · `Footer.tsx` · `PriceAnchor.tsx` · `Nav.tsx` (drawer mobile) | importent `WHATSAPP` |
+| `app/[locale]/(site)/{contact,sessions,mentions-legales}/page.tsx` | importent `WHATSAPP` |
+| `app/[locale]/layout.tsx` | JSON-LD `telephone` + `contactPoint.telephone` = `WHATSAPP.e164` |
+| `components/WhatsAppFloat.tsx` | bulle flottante, `whatsappUrl(prefill localisé)` |
+| `lib/email-layout.ts` + les 6 emails candidat | `whatsappUrl(prefill par contexte)` |
+| `messages/{fr,en}/contact.json` · `mentions-legales.json` | libellé affiché (texte) |
+| `messages/{fr,en}/blog/*.json` (8 articles × 2) | liens `wa.me` dans `content_html` (texte) |
+| `public/llms.txt` · `public/llms-en.txt` | texte |
+| `docs/guide-caucase/guide{,.en}.html` | texte → **rebuild PDF obligatoire** : `bash docs/guide-caucase/build.sh all` |
+| `src/i18n/glossary.md` | note de format |
+| `components/InscriptionLayout.tsx` · `CandidatureForm.tsx` | placeholder `+33 6 XX XX XX XX` du champ téléphone, **sans rapport**, ne pas toucher |
+**⚠️** Changer le numéro = éditer `data/site.ts`, puis les fichiers **texte** ci-dessus, puis rebuilder les 2 PDF. Contrôle : `grep -rn "wa\.me/" src/ messages/ public/ docs/` ne doit renvoyer que le nouveau numéro.
 
 ### Session unique `aout-2026` — Camp Daghestanais 17 août → 5 septembre 2026
 | Fichier | Ligne | Forme |
@@ -2284,7 +2372,7 @@ Le `partnerName` + le modèle de commission sont snapshotés à l'inscription, d
 8. **Transfert 1h30** Makhachkala → camp (pas 2-3h).
 9. **Horaires** : Lutte 10h30/17h30, MMA 11h00/18h00 — par discipline, pas de chevauchement.
 10. **Visa UE** : questionnaire MKR + passeport 6 mois min.
-11. **WhatsApp** : `+33 6 66 17 76 91` → `wa.me/33666177691`. Jamais de placeholder XXX, jamais +41.
+11. **WhatsApp** : `+33 7 83 10 96 81` → `wa.me/33783109681` (numéro direct de Ruslan, depuis 2026-08-21). **Toujours via `WHATSAPP` / `whatsappUrl()` de `data/site.ts`**, jamais en dur. Jamais de placeholder XXX, jamais +41.
 12. **Programme lutte = libre uniquement**, pas de gréco-romaine.
 13. **Sessions 2026** : actuellement **UNE SEULE** session (`aout-2026`, 17 août → 5 septembre).
 14. **Pas d'em dash** ("—") dans le contenu (préférence DKDP globale, à appliquer ici aussi le cas échéant).

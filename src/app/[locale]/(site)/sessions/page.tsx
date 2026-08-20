@@ -15,6 +15,7 @@ import {
   SOLO_PRICE_1WEEK_LABEL,
 } from '@/lib/pricing-copy'
 import { PRICING_TIERS, formatEUR } from '@/data/pricing'
+import { WHATSAPP } from '@/data/site'
 import { getSessions, sessionYearRange } from '@/data/sessions'
 import { hydrateSessions } from '@/lib/session-display'
 
@@ -174,7 +175,7 @@ export default async function SessionsPage({ params }: { params: Promise<{ local
               className="group-card-img"
             />
             <div className="group-card-cta">
-              <a href="https://wa.me/33666177691" target="_blank" rel="noopener noreferrer" className="btn-primary">
+              <a href={WHATSAPP.url} target="_blank" rel="noopener noreferrer" className="btn-primary">
                 {t('group.cta_whatsapp')}
               </a>
               <Link href={'/contact?type=clubs' as Parameters<typeof Link>[0]['href']} className="btn-ghost">

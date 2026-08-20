@@ -8,8 +8,11 @@ import {
   renderSignature,
   formatEuros,
   formatDateLocale,
+  renderWhatsAppBlock,
+  whatsAppTextLine,
   type EmailLocale,
 } from '@/lib/email-layout'
+import { whatsappUrl } from '@/data/site'
 
 // A2 — rappel de paiement (PLAN_EMAIL_AUTOMATION.md §2).
 // Deux paliers candidat : 1 = courtois (deadline sous 7 jours), 2 = ferme
@@ -57,7 +60,8 @@ export function buildPaymentEmail(input: PaymentEmailInput): BuiltPaymentEmail {
     where:
       'Les coordonnées de paiement sont dans ton contrat (le PDF que tu as reçu par email). Vérifie tes spams si tu ne le retrouves pas.',
     alreadyPaid: 'Tu as déjà payé ou tu as une question ? Réponds simplement à cet email, on vérifie tout de suite.',
-    cta: 'Une question ? Réponds-nous',
+    waIntro: 'Une question sur le règlement, ou tu as déjà payé ? Écris directement à Ruslan sur WhatsApp, c\'est lui qui répond.',
+    waPrefill: 'Bonjour Ruslan, c\'est au sujet du règlement de mon camp MKR.',
     footer:
       'Email automatique lié à ta candidature MKR Caucasian Camp. Réponds directement à ce message pour parler à un humain.',
     signoff: stage === 1 ? 'À très vite,' : 'On t’attend,',
@@ -80,7 +84,8 @@ export function buildPaymentEmail(input: PaymentEmailInput): BuiltPaymentEmail {
     where:
       'The payment details are in your agreement (the PDF you received by email). Check your spam folder if you cannot find it.',
     alreadyPaid: 'Already paid, or have a question? Just reply to this email and we will check right away.',
-    cta: 'Questions? Reply to us',
+    waIntro: 'A question about the payment, or already paid? Write to Ruslan directly on WhatsApp, he answers himself.',
+    waPrefill: 'Hi Ruslan, about the payment for my MKR camp.',
     footer:
       'Automated email related to your MKR Caucasian Camp application. Reply directly to this message to talk to a human.',
     signoff: stage === 1 ? 'Talk soon,' : 'We are waiting for you,',
@@ -101,7 +106,7 @@ export function buildPaymentEmail(input: PaymentEmailInput): BuiltPaymentEmail {
     renderInfoPanel(panelRows),
     renderParagraph(escapeHtml(c.where)),
     renderParagraph(escapeHtml(c.alreadyPaid)),
-    renderButton(`mailto:contact@mkrcamp.com`, c.cta, { primary: stage === 2 }),
+    renderWhatsAppBlock(locale, whatsappUrl(c.waPrefill), { intro: c.waIntro }),
     renderSignature(locale, c.signoff),
   ].join('')
 
@@ -125,6 +130,8 @@ export function buildPaymentEmail(input: PaymentEmailInput): BuiltPaymentEmail {
     c.where,
     '',
     c.alreadyPaid,
+    '',
+    whatsAppTextLine(locale, whatsappUrl(c.waPrefill), c.waIntro),
     '',
     c.signoff,
     'Ruslan Mukhtarov · MKR Caucasian Camp',

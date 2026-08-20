@@ -8,9 +8,12 @@ import {
   renderButton,
   renderSignature,
   formatDateLocale,
+  renderWhatsAppBlock,
+  whatsAppTextLine,
   SITE_URL,
   type EmailLocale,
 } from '@/lib/email-layout'
+import { whatsappUrl } from '@/data/site'
 
 // A3 — infos pratiques pré-départ (PLAN_EMAIL_AUTOMATION.md §2).
 // Envoyé une seule fois, environ 2 semaines avant contract_start_date, aux
@@ -51,7 +54,8 @@ export function buildPredepartureEmail(input: PredepartureEmailInput): BuiltPred
     ],
     onSite: 'Une fois sur place, tu n’as plus à penser à rien : transferts, hébergement, repas et salles sont pris en charge. Ton seul travail, c’est de t’entraîner.',
     cta: 'Consulter le guide de préparation',
-    reply: 'Une question sur le voyage ou l’équipement ? Réponds directement à cet email.',
+    reply: 'Une question de dernière minute sur le voyage ou l’équipement ? Écris directement à Ruslan sur WhatsApp, c’est le plus rapide.',
+    waPrefill: 'Bonjour Ruslan, une question avant mon départ pour le camp.',
     footer: 'Email automatique lié à ton inscription MKR Caucasian Camp. Réponds directement à ce message pour parler à un humain.',
     signoff: 'On se voit très bientôt,',
     heroAlt: 'Fin de journée en quad dans les montagnes du Caucase',
@@ -74,7 +78,8 @@ export function buildPredepartureEmail(input: PredepartureEmailInput): BuiltPred
     ],
     onSite: 'Once you are there, you have nothing left to think about: transfers, accommodation, meals and gyms are all handled. Your only job is to train.',
     cta: 'Read the preparation guide',
-    reply: 'Any question about the trip or the gear? Just reply to this email.',
+    reply: 'A last-minute question about the trip or the gear? Write to Ruslan directly on WhatsApp, it is the fastest way.',
+    waPrefill: 'Hi Ruslan, a question before I leave for the camp.',
     footer: 'Automated email related to your MKR Caucasian Camp registration. Reply directly to this message to talk to a human.',
     signoff: 'See you very soon,',
     heroAlt: 'Golden hour quad ride in the Caucasus mountains',
@@ -93,7 +98,7 @@ export function buildPredepartureEmail(input: PredepartureEmailInput): BuiltPred
     renderButton(`${SITE_URL}${c.guidePath}`, c.cta),
     renderHeroImage('predeparture-team.jpg', c.mealAlt),
     renderParagraph(escapeHtml(c.onSite), { padTop: true }),
-    renderParagraph(escapeHtml(c.reply)),
+    renderWhatsAppBlock(locale, whatsappUrl(c.waPrefill), { intro: c.reply }),
     renderSignature(locale, c.signoff),
   ].join('')
 
@@ -117,7 +122,7 @@ export function buildPredepartureEmail(input: PredepartureEmailInput): BuiltPred
     '',
     c.onSite,
     '',
-    c.reply,
+    whatsAppTextLine(locale, whatsappUrl(c.waPrefill), c.reply),
     '',
     c.signoff,
     'Ruslan Mukhtarov · MKR Caucasian Camp',

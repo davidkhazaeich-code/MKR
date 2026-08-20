@@ -93,7 +93,7 @@
 - **Numbers** : chiffres ("15 places", pas "fifteen").
 - **Currency** : EUR (€) — audience internationale lit les euros.
 - **Dates** : format US international ("August 17, 2026" pour "17 août 2026"). Le formatage est géré côté code via `Intl.DateTimeFormat`, le master prompt ne traduit pas les dates en dur.
-- **Phone** : format international (`+33 6 66 17 76 91`) inchangé.
+- **Phone** : format international (`+33 7 83 10 96 81`) inchangé.
 - **Register** : US/UK international neutral. Pas de slang local.
 
 ## 6. Slogans & taglines (carefully crafted, locked)
