@@ -141,10 +141,32 @@
       }
     }
   },
-  "visio": {
-    "text": "Tu préfères en parler de vive voix ?",
-    "link": "Réserve quinze minutes avec Ruslan",
-    "note": "La visio sert aussi d'entretien de sélection si tu candidates ensuite."
+  "steps": {
+    "label": "COMMENT ÇA SE PASSE",
+    "title": "CE QUI SE PASSE APRÈS LE FORMULAIRE",
+    "items": {
+      "one": {
+        "title": "Tu remplis le formulaire",
+        "desc": "Cinq minutes. C'est gratuit, tu ne laisses aucun moyen de paiement et tu n'es engagé à rien."
+      },
+      "two": {
+        "title": "Ruslan te rappelle",
+        "desc": "Sous 48 heures, un appel en visio de quinze minutes. Il sait déjà qui tu es, tu poses toutes tes questions."
+      },
+      "three": {
+        "title": "Ton dossier est validé",
+        "desc": "Ou il ne l'est pas, et ça s'arrête là sans un centime. La sélection va dans les deux sens."
+      },
+      "four": {
+        "title": "Là seulement, on parle d'argent",
+        "desc": "Contrat, virement, place bloquée. Jamais avant l'appel, jamais sans que tu aies dit oui."
+      }
+    },
+    "pledge": {
+      "title": "Zéro engagement tant que l'appel n'a pas eu lieu",
+      "body": "Ni acompte, ni frais de dossier, ni carte bancaire. Le formulaire ne réserve pas ta place et ne t'inscrit à rien : il ouvre la conversation, c'est tout."
+    },
+    "note": "Pourquoi passer par le formulaire d'abord ? Parce qu'il y a quinze places par discipline, dans des salles qui nous ouvrent leurs portes parce qu'elles nous font confiance. Ruslan veut savoir qui il emmène avant de décrocher. Ces cinq minutes, c'est ce qui lui permet d'arriver à l'appel en te connaissant déjà, et à toi d'avoir un vrai échange plutôt qu'un questionnaire."
   },
   "form": {
     "fields": {

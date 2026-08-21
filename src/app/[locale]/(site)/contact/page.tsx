@@ -8,13 +8,9 @@ import ContactForm from '@/components/ContactForm'
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 import PageFaq from '@/components/PageFaq'
 import PhotoStrip from '@/components/PhotoStrip'
+import ProcessStrip, { type ProcessStep } from '@/components/ProcessStrip'
 import Icon from '@/components/Icon'
 import { WHATSAPP, whatsappUrl } from '@/data/site'
-
-// Meme source que visio-email.ts et cancel-page.ts : l'event Cal peut changer
-// sans toucher au code. Ici on ne pose qu'un LIEN (decision David 2026-08-21) :
-// pas de calendrier embarque, la visio reste l'etape des candidats.
-const CAL_BOOKING_URL = `https://cal.com/${process.env.NEXT_PUBLIC_CAL_LINK || 'ruslan-mukhtarov-mkr/15min'}`
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
@@ -37,6 +33,11 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
   const faqItems = (['delay', 'language', 'who', 'followup', 'call', 'cancel'] as const).map((key) => ({
     question: t(`faq.items.${key}.question`),
     answer: t(`faq.items.${key}.answer`),
+  }))
+
+  const processSteps: ProcessStep[] = (['one', 'two', 'three', 'four'] as const).map((key) => ({
+    title: t(`steps.items.${key}.title`),
+    desc: t(`steps.items.${key}.desc`),
   }))
 
   return (
@@ -86,6 +87,18 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
           </aside>
         </div>
       </section>
+
+      {/* Ligne directrice AVANT le formulaire (demande David 2026-08-21) : des
+          prospects renoncent a candidater par peur de s'engager. La peur doit
+          tomber avant qu'on demande de remplir quoi que ce soit, pas apres. */}
+      <ProcessStrip
+        variant="line"
+        label={t('steps.label')}
+        title={t('steps.title')}
+        steps={processSteps}
+        pledge={{ title: t('steps.pledge.title'), body: t('steps.pledge.body') }}
+        note={t('steps.note')}
+      />
 
       {/* Le formulaire arrive juste apres Ruslan (demande David 2026-08-21) :
           c'est l'action principale de la page, et AUCUNE adresse email n'est
@@ -169,19 +182,6 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
                 <span className="ctp-whatsapp-num">{WHATSAPP.display}</span>
               </div>
             </aside>
-          </div>
-
-          {/* Sortie visio, posee juste sous le formulaire (demande David) :
-              un lien, jamais un calendrier embarque. */}
-          <div className="ctp-visio reveal">
-            <p className="ctp-visio-line">
-              <span>{t('visio.text')}</span>{' '}
-              <a href={CAL_BOOKING_URL} target="_blank" rel="noopener noreferrer" className="ctp-visio-link">
-                {t('visio.link')}
-                <Icon name="external-link" size={14} />
-              </a>
-            </p>
-            <p className="ctp-visio-note">{t('visio.note')}</p>
           </div>
         </div>
       </section>

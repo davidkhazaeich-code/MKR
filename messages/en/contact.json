@@ -141,10 +141,32 @@
       }
     }
   },
-  "visio": {
-    "text": "Would you rather talk it through?",
-    "link": "Book fifteen minutes with Ruslan",
-    "note": "The call doubles as the selection interview if you apply afterwards."
+  "steps": {
+    "label": "HOW IT WORKS",
+    "title": "WHAT HAPPENS AFTER THE FORM",
+    "items": {
+      "one": {
+        "title": "You fill in the form",
+        "desc": "Five minutes. It is free, you leave no payment details and you commit to nothing."
+      },
+      "two": {
+        "title": "Ruslan calls you back",
+        "desc": "Within 48 hours, a fifteen minute video call. He already knows who you are, you ask every question you have."
+      },
+      "three": {
+        "title": "Your file is validated",
+        "desc": "Or it is not, and it stops there without a cent. Selection works both ways."
+      },
+      "four": {
+        "title": "Only then do we talk money",
+        "desc": "Contract, bank transfer, place held. Never before the call, never without you saying yes."
+      }
+    },
+    "pledge": {
+      "title": "No commitment until the call has happened",
+      "body": "No deposit, no application fee, no card details. The form does not hold your place and does not sign you up for anything: it opens the conversation, nothing more."
+    },
+    "note": "Why the form first? Because there are fifteen places per discipline, in gyms that open their doors to us because they trust us. Ruslan wants to know who he is taking before he picks up the phone. Those five minutes are what let him arrive at the call already knowing you, and let you have a real conversation rather than a questionnaire."
   },
   "form": {
     "fields": {

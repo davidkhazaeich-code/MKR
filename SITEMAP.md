@@ -25,13 +25,30 @@ Le footer et le bloc `Contact.tsx` de la home pointaient **déjà** vers `/conta
 |---|---|---|
 | Hero illustré | `.page-hero--image` | La page ouvrait sur un mur de texte. Photo du briefing coach à l'Akhmat Fight Club, `imageFocusY="40%"` |
 | Carte « qui répond » | `.ctp-who` | Photo de Ruslan, son parcours, le fait qu'il lit et répond lui-même |
-| **Formulaire** + « bon à savoir » | `.ctp-form-grid` | Remonté **juste après Ruslan** (demande David) : c'est l'action principale. Champ **téléphone optionnel**, encart délai / langues / qui répond / données, et le **seul** bouton hors formulaire est WhatsApp |
-| Sortie visio | `.ctp-visio` | Lien texte vers Cal, **juste sous le formulaire** : c'est là qu'on hésite encore entre écrire et parler. Jamais de widget |
+| **Ligne directrice 4 étapes** | `.pstrip--line` | Voir la section dédiée ci-dessous. Placée **avant** le formulaire : la peur de s'engager doit tomber avant qu'on demande de remplir |
+| **Formulaire** + « bon à savoir » | `.ctp-form-grid` | **Juste après** la ligne directrice : c'est l'action principale. Champ **téléphone optionnel**, encart délai / langues / qui répond / données, et le **seul** bouton hors formulaire est WhatsApp |
 | Aiguillage 5 profils | `.ctp-route` | 4 demandes sur 5 ont déjà leur page (inscription, famille, club, logistique). La 5ᵉ (presse) **remonte** au formulaire, sujet pré-rempli |
 | Bande de 4 vraies photos | `PhotoStrip` | La partie « imagée ». Les 4 fichiers sont ceux déjà validés par les passes de juillet |
 | FAQ de contact (6 Q/R) + image | `PageFaq` | Questions **propres à la page**, pas un copier-coller de `/faq`. Émet un `FAQPage` |
 
 **Section « PAR OÙ PASSER » (les 4 canaux) supprimée** le jour même, avec son CSS et ses 22 clés i18n par langue : elle exposait l'email, et une fois celui-ci retiré il ne restait que WhatsApp et Instagram, déjà présents ailleurs (bouton WhatsApp de l'encart, bulle flottante, pastille Instagram du header).
+
+### La ligne directrice, et pourquoi le lien de réservation directe a sauté
+
+> **Demande David** : « une section explicative avec une petite ligne directrice visuelle pour que les personnes comprennent les étapes, et qu'on peut prendre un appel avec Ruslan une fois qu'on a rempli le formulaire, et qu'il n'y a aucun engagement ni paiement tant que le dossier et l'appel n'ont pas été faits. Pas mal de prospects ont peur de se lancer, mais c'est une étape nécessaire pour qu'on comprenne à qui on a affaire avant de prendre les appels. »
+
+**Le lien « Réserve quinze minutes avec Ruslan » a été retiré** (arbitré avec David). Il permettait de prendre un créneau **sans avoir rien rempli**, ce qui contredisait frontalement le processus décrit : le formulaire existe précisément pour que Ruslan sache à qui il parle avant de décrocher. Un seul chemin désormais : formulaire, puis appel. La seule porte de sortie restante est le bouton WhatsApp de l'encart, pour les questions d'avant-vente.
+
+**Pas de nouveau composant** : `ProcessStrip` (déjà utilisé sur `/le-camp`, `/programme/lutte`, `/programme/mma`) gagne deux props optionnelles.
+
+| Prop | Effet |
+|---|---|
+| `variant="line"` | Remplace la grille de cartes par une **pastille numérotée reliée à la suivante par un fil**. Desktop : fil horizontal qui traverse la gouttière (`::after` de chaque étape, `right: -1.25rem`). Mobile ≤540px : fil vertical, pastille à gauche du texte. Le fil est coupé sur la dernière étape, et sur la 2ᵉ en grille à 2 colonnes (sinon il pointerait dans le vide) |
+| `pledge={{title, body}}` | Bandeau de promesse **mis en avant** sous les étapes (filet rust, fond teinté). `note` reste le complément discret en dessous |
+
+La variante `cards` par défaut n'est pas touchée : les 3 pages qui utilisaient déjà le composant rendent exactement comme avant.
+
+**Le contenu porte la levée d'objection**, pas seulement la mise en page : les 4 étapes disent à chaque fois ce qui n'est PAS engagé, la promesse (« zéro engagement tant que l'appel n'a pas eu lieu ») nomme les trois peurs concrètes (acompte, frais de dossier, carte bancaire), et la note explique **honnêtement pourquoi** le formulaire est un passage obligé (quinze places par discipline, des salles qui font confiance, Ruslan veut savoir qui il emmène). C'est l'argument que David a donné en interne, retourné vers le prospect.
 
 **`PageFaq` accepte désormais une prop `image` optionnelle.** `.pfaq-list` est bornée à 820px : sur une colonne de 1240px il restait ~420px de vide à droite. L'illustration comble ce vide **en desktop seulement** (`display: none` sous 1024px). Comme `next/image` est lazy par défaut et que l'élément n'est jamais dans le viewport en mobile, **elle n'est même pas téléchargée** (vérifié : 0 requête à 390px, 1 à 1440px). Sans la prop, le rendu du composant est identique à avant sur les autres pages qui l'utilisent.
 
@@ -43,13 +60,13 @@ CSS : bloc `.ctp-*` en fin de `globals.css`, plus `.pfaq-grid` / `.pfaq-aside`. 
 2. **Une navigation cliente vers la MÊME route ne rejoue pas l'initialiseur de `useState`.** La carte « Presse ou partenariat » pousse `/contact?sujet=presse` : `useSearchParams` se met à jour, mais le `useState(() => ...)` du sujet non, donc le select restait vide. Il faut un `useEffect` sur la valeur du paramètre. Vrai pour tout formulaire pré-rempli par une query de la même page.
 3. **`useSearchParams` sans `<Suspense>` fait basculer la page en rendu dynamique.** `/contact` doit rester en SSG (vérifié `● /[locale]/contact` au build). Même montage que `GuideForm`.
 
-### Fichiers touchés (9)
+### Fichiers touchés (10)
 
-`contact/page.tsx` (réécrite) · `ContactForm.tsx` (téléphone + `?sujet=` + ancre `#formulaire`) · `api/contact/route.ts` (accepte `phone`, **optionnel et jamais bloquant**, ajouté à l'email HTML et texte via `row()` qui échappe déjà) · `PageFaq.tsx` (prop `image`) · `[locale]/layout.tsx` (email retiré du JSON-LD) · `data/site.ts` (garde sur `SITE_EMAIL`) · `messages/{fr,en}/contact.json` · `globals.css` · `public/llms{,-en}.txt`.
+`contact/page.tsx` (réécrite) · `ContactForm.tsx` (téléphone + `?sujet=` + ancre `#formulaire`) · `api/contact/route.ts` (accepte `phone`, **optionnel et jamais bloquant**, ajouté à l'email HTML et texte via `row()` qui échappe déjà) · `ProcessStrip.tsx` (props `variant` + `pledge`) · `PageFaq.tsx` (prop `image`) · `[locale]/layout.tsx` (email retiré du JSON-LD) · `data/site.ts` (garde sur `SITE_EMAIL`) · `messages/{fr,en}/contact.json` · `globals.css` · `public/llms{,-en}.txt`.
 
 ### QA
 
-`tsc` 0 erreur · `i18n-check` **2 919 clés** FR=EN, métas dans les limites SERP, liens EN localisés · `next build` vert, `/contact` toujours en **SSG** · sweep Playwright **75 contrôles / 0 échec** sur 6 combinaisons (FR+EN × 390/768/1440) : zéro débordement, 1 seul h1, aucune image cassée, fil d'Ariane, liens WhatsApp tous sur le bon numéro, **aucune adresse email ni `mailto:` dans le HTML**, ordre Ruslan → formulaire → visio → raccourcis, image de FAQ affichée en desktop et masquée en dessous, **soumission réelle du formulaire (200 `ok:true`)**, pré-remplissage du sujet et remontée vers le formulaire · **16 mesures de contraste texte sur photo, toutes ≥ 4,5:1 dans le pire cas** (pixel de fond le plus clair, ombre portée non comptée donc valeurs pessimistes ; la plus serrée est le sous-titre à 4,73:1 en 390px).
+`tsc` 0 erreur · `i18n-check` **2 929 clés** FR=EN, métas dans les limites SERP, liens EN localisés · `next build` vert, `/contact` toujours en **SSG** · sweep Playwright **93 contrôles / 0 échec** sur 6 combinaisons (FR+EN × 390/768/1440) : zéro débordement, 1 seul h1, aucune image cassée, fil d'Ariane, liens WhatsApp tous sur le bon numéro, **aucune adresse email ni `mailto:` dans le HTML**, **aucun lien de réservation directe**, ordre Ruslan → étapes → formulaire → raccourcis, ligne directrice complète (4 étapes, promesse, note, fil coupé après la dernière étape), image de FAQ affichée en desktop et masquée en dessous, **soumission réelle du formulaire (200 `ok:true`)**, pré-remplissage du sujet et remontée vers le formulaire · **16 mesures de contraste texte sur photo, toutes ≥ 4,5:1 dans le pire cas** (pixel de fond le plus clair, ombre portée non comptée donc valeurs pessimistes ; la plus serrée est le sous-titre à 4,73:1 en 390px).
 
 Scripts réutilisables : `.tmp/qa-contact.mjs`, `.tmp/qa-contact-contraste.mjs`, `.tmp/qa-faq-image-net.mjs`.
 
@@ -1807,9 +1824,9 @@ mkrcamp.com/
 ### 📞 `/contact` — Contact
 **Fichier** : `src/app/[locale]/(site)/contact/page.tsx` (refondue le 2026-08-21, voir la section en tête de ce fichier)
 **Composants** : `PageHero` (illustré) · `ContactForm` (sous `<Suspense>`) · `PhotoStrip` · `PageFaq` (avec prop `image`)
-**Sections, dans l'ordre** : hero photo · carte « qui répond » (Ruslan) · **formulaire + encart pratique** · lien visio · 5 raccourcis d'aiguillage · 4 vraies photos · FAQ 6 Q/R avec illustration latérale desktop
+**Sections, dans l'ordre** : hero photo · carte « qui répond » (Ruslan) · **ligne directrice 4 étapes + promesse zéro engagement** · **formulaire + encart pratique** · 5 raccourcis d'aiguillage · 4 vraies photos · FAQ 6 Q/R avec illustration latérale desktop
 **Formulaire** : Nom, Email, **Téléphone (optionnel)**, Sujet [select], Message. Sujets : general, partenariat, clubs, presse, autre. Accepte `?sujet=<valeur>` pour pré-remplir et remonter au formulaire (ancre `#formulaire`).
-**Coordonnées affichées** : WhatsApp via `WHATSAPP` de `data/site.ts`. **Aucune adresse email**, jamais de `mailto:`.
+**Coordonnées affichées** : WhatsApp via `WHATSAPP` de `data/site.ts`. **Aucune adresse email**, jamais de `mailto:`, et **aucun lien de réservation Cal** (le formulaire précède l'appel).
 **Copy** : `messages/{fr,en}/contact.json`. **CSS** : bloc `.ctp-*` en fin de `globals.css`.
 
 ---

@@ -12401,6 +12401,101 @@ html.is-loading body {
   .pstrip-list { grid-template-columns: 1fr; gap: 0.9rem; }
 }
 
+/* ── ProcessStrip, variante « ligne directrice » (prop variant="line") ──
+   Ajoutee pour /contact le 2026-08-21 : la section doit se lire comme UN
+   parcours, pas comme quatre encarts independants. Les cartes disparaissent
+   au profit d'une pastille numerotee reliee a la suivante par un fil.
+   La variante `cards` par defaut n'est pas touchee (3 pages en dependent). */
+.pstrip--line .pstrip-step {
+  position: relative;
+  border: 0;
+  background: none;
+  border-radius: 0;
+  padding: 0 1.1rem 0 0;
+}
+.pstrip--line .pstrip-num {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 2px solid var(--primary);
+  background: var(--surface-lowest);
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  position: relative;
+  z-index: 1;
+}
+/* Le fil : part de la pastille, traverse la gouttiere de la grille et rejoint
+   la pastille suivante. Degrade pour que la ligne « avance » vers l'etape
+   d'apres au lieu d'etre un simple trait. */
+.pstrip--line .pstrip-step::after {
+  content: '';
+  position: absolute;
+  top: 20px;
+  left: 50px;
+  right: -1.25rem;
+  height: 2px;
+  background: linear-gradient(90deg, var(--primary), var(--ghost-border));
+  opacity: 0.55;
+}
+.pstrip--line .pstrip-step:last-child::after { display: none; }
+
+/* Promesse mise en avant : c'est elle qui leve la peur de s'engager, donc
+   elle ne peut pas etre traitee comme la note discrete du dessous. */
+.pstrip-pledge {
+  margin-top: 2.2rem;
+  padding: 1.25rem 1.4rem;
+  border-left: 3px solid var(--primary);
+  background: rgba(200, 75, 49, 0.08);
+  border-radius: 0 12px 12px 0;
+}
+.pstrip-pledge-title {
+  margin: 0 0 0.45rem;
+  font-family: var(--font-barlow-condensed), sans-serif;
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+}
+.pstrip-pledge-body {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.92rem;
+  line-height: 1.6;
+  max-width: 62em;
+}
+
+@media (max-width: 960px) and (min-width: 541px) {
+  /* Grille a 2 colonnes : le fil de la 2e carte pointerait dans le vide a
+     droite de la rangee. */
+  .pstrip--line .pstrip-step:nth-child(2n)::after { display: none; }
+}
+@media (max-width: 540px) {
+  /* Une seule colonne : le fil devient vertical et la pastille passe a gauche
+     du texte, sinon chaque etape coute une hauteur d'ecran. */
+  .pstrip--line .pstrip-step {
+    display: grid;
+    grid-template-columns: 42px minmax(0, 1fr);
+    gap: 0 1rem;
+    padding: 0;
+  }
+  .pstrip--line .pstrip-num { grid-row: 1 / span 2; align-self: start; margin-bottom: 0; }
+  .pstrip--line .pstrip-title { grid-column: 2; align-self: center; margin-bottom: 0.3rem; }
+  .pstrip--line .pstrip-desc { grid-column: 2; }
+  .pstrip--line .pstrip-step::after {
+    top: 48px;
+    bottom: -0.9rem;
+    left: 20px;
+    width: 2px;
+    height: auto;
+    right: auto;
+    background: linear-gradient(180deg, var(--primary), var(--ghost-border));
+  }
+  .pstrip-pledge { margin-top: 1.6rem; padding: 1.05rem 1.15rem; }
+}
+
 /* PriceAnchor : prix transparent + prochaine session + places live */
 .panchor { padding: 4.5rem 0; position: relative; }
 .panchor-card {
@@ -13659,29 +13754,6 @@ html.is-loading body {
 /* ── FAQ de page ── */
 #contact-faq { scroll-margin-top: calc(var(--nav-h) + 1.5rem); }
 
-/* ── Sortie visio : un LIEN, pas un calendrier embarque (decision David).
-   Deplacee juste SOUS le formulaire le 2026-08-21 : c'est la, une fois le
-   formulaire lu, qu'on hesite encore entre ecrire et parler. ── */
-.ctp-visio {
-  margin-top: 2.2rem;
-  padding-top: 1.6rem;
-  border-top: 1px solid var(--ghost-border);
-  text-align: center;
-}
-.ctp-visio-line { margin: 0 0 0.5rem; color: var(--text-secondary); font-size: 1rem; line-height: 1.6; }
-.ctp-visio-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  color: var(--primary);
-  font-weight: 600;
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-.ctp-visio-link:hover { color: var(--text-primary); }
-.ctp-visio-link svg { flex-shrink: 0; }
-.ctp-visio-note { margin: 0; color: var(--text-muted); font-size: 0.82rem; line-height: 1.5; }
-
 /* ── Responsive ── */
 @media (max-width: 1024px) {
   .ctp-form-grid { grid-template-columns: 1fr; }
@@ -13703,7 +13775,6 @@ html.is-loading body {
   .ctp-route-link { padding: 1rem; gap: 0.8rem; }
   .ctp-practical { padding: 1.2rem; }
   .ctp-form-skeleton { min-height: 560px; }
-  .ctp-visio { margin-top: 1.8rem; padding-top: 1.3rem; }
 }
 @media (prefers-reduced-motion: reduce) {
   .ctp-route-link:hover .ctp-route-chevron { transform: none; }
