@@ -1,7 +1,7 @@
 {
   "meta": {
-    "title": "Contact | MKR Caucasian Camp",
-    "description": "Contacte MKR Caucasian Camp. Question générale, partenariat, clubs, presse. Réponse sous 48h."
+    "title": "Contact MKR Caucasian Camp · Réponse sous 48 heures",
+    "description": "Une question sur le camp au Daghestan ou en Tchétchénie ? WhatsApp direct avec Ruslan, formulaire ou email. Réponse sous 48 heures."
   },
   "breadcrumb": {
     "home": "Accueil",
@@ -9,31 +9,184 @@
   },
   "hero": {
     "label": "CONTACT",
-    "title": "PARLE-NOUS"
+    "title": "PARLE-NOUS",
+    "subtitle": "Ruslan lit et répond lui-même. WhatsApp pour une question rapide, le formulaire pour un dossier. Réponse sous 48 heures.",
+    "image_alt": "Un coach explique la consigne à quatre combattants dans la salle de l'Akhmat Fight Club à Grozny"
   },
-  "cards": {
-    "form": {
-      "title": "Formulaire",
-      "body": "Utilise le formulaire ci-contre. Réponse sous 48h."
-    },
-    "whatsapp": {
-      "title": "WhatsApp",
-      "value": "+33 7 83 10 96 81"
-    },
-    "instagram": {
-      "title": "Instagram",
-      "value": "@mkrcamp"
+  "who": {
+    "label": "QUI RÉPOND",
+    "title": "RUSLAN, EN PERSONNE",
+    "body": "Il n'y a pas de service client chez MKR. C'est Ruslan Mukhtarov, le fondateur, qui lit les messages et qui répond. C'est aussi lui qui valide chaque candidature en visio avant de bloquer une place.",
+    "photo_alt": "Ruslan Mukhtarov, fondateur de MKR Caucasian Camp",
+    "credentials": {
+      "one": "Ancien équipe de France de lutte, INSEP 2012-2016",
+      "two": "Sur place à chaque session, au Daghestan comme en Tchétchénie",
+      "three": "Il répond en français et en anglais"
     }
   },
-  "note": "On répond sous 48h. Fuseau horaire : GMT+3 (Caucase).",
-  "photo_alt": "Route de montagne vers le camp au Caucase",
+  "channels": {
+    "label": "PAR OÙ PASSER",
+    "title": "QUATRE CANAUX, UN SEUL BON À CHAQUE FOIS",
+    "intro": "Choisis en fonction de ce que tu as à dire. Le mauvais canal, c'est surtout du temps perdu pour toi.",
+    "delay_label": "Délai",
+    "items": {
+      "whatsapp": {
+        "title": "WhatsApp",
+        "purpose": "Une question courte, un doute avant de candidater, une urgence pendant ton séjour.",
+        "value": "+33 7 83 10 96 81",
+        "delay": "Le canal le plus rapide",
+        "cta": "Écrire sur WhatsApp",
+        "prefill": "Bonjour Ruslan, j'ai une question sur le camp MKR."
+      },
+      "form": {
+        "title": "Formulaire",
+        "purpose": "Une demande détaillée, un projet de groupe, tout ce qui demande une vraie réponse écrite.",
+        "value": "Le formulaire en bas de page",
+        "delay": "Sous 48 heures",
+        "cta": "Aller au formulaire"
+      },
+      "email": {
+        "title": "Email",
+        "purpose": "Presse, partenariat, facturation, ou tout message avec une pièce jointe.",
+        "value": "contact@mkrcamp.com",
+        "delay": "Sous 48 heures",
+        "cta": "Envoyer un email"
+      },
+      "instagram": {
+        "title": "Instagram",
+        "purpose": "Voir les coulisses des sessions et les photos qui ne sont pas sur le site.",
+        "value": "@mkrcamp",
+        "delay": "Au fil de l'eau",
+        "cta": "Voir le compte"
+      }
+    }
+  },
+  "routes": {
+    "label": "RACCOURCIS",
+    "title": "TA RÉPONSE EST PEUT-ÊTRE DÉJÀ EN LIGNE",
+    "intro": "Cinq demandes reviennent tout le temps, et pour quatre d'entre elles la page existe déjà. Ça t'évite d'attendre 48 heures.",
+    "items": {
+      "inscription": {
+        "title": "Je veux m'inscrire",
+        "body": "La candidature prend cinq minutes. Tu choisis ta session, ta discipline et ta durée. Aucun paiement à ce stade.",
+        "cta": "Candidater au camp"
+      },
+      "famille": {
+        "title": "Je viens en famille",
+        "body": "Un parent avec un enfant de 8 à 17 ans, programme adapté et forfait dédié. C'est un tunnel à part.",
+        "cta": "Voir le camp famille"
+      },
+      "groupe": {
+        "title": "Je viens avec mon club",
+        "body": "À partir de cinq personnes, c'est un devis sur mesure et non une inscription classique. Ruslan rappelle pour cadrer.",
+        "cta": "Voir clubs et groupes"
+      },
+      "logistique": {
+        "title": "Visa, vols, budget",
+        "body": "Le visa russe et le vol intérieur depuis Istanbul sont inclus. Le reste est détaillé, chiffres à l'appui.",
+        "cta": "Voir la logistique"
+      },
+      "presse": {
+        "title": "Presse ou partenariat",
+        "body": "Interview, reportage, collaboration de marque, code de recommandation pour ta salle. Écris-nous avec le bon sujet.",
+        "cta": "Ouvrir le formulaire"
+      }
+    }
+  },
+  "form_section": {
+    "label": "FORMULAIRE",
+    "title": "ÉCRIS-NOUS",
+    "notice": "Ce formulaire n'est pas une candidature.",
+    "notice_link": "Pour t'inscrire au camp, passe par le formulaire de candidature.",
+    "practical": {
+      "title": "Bon à savoir",
+      "delay": {
+        "label": "Délai de réponse",
+        "value": "Sous 48 heures, par email."
+      },
+      "languages": {
+        "label": "Langues",
+        "value": "Français et anglais."
+      },
+      "who": {
+        "label": "Qui te répond",
+        "value": "Ruslan, le fondateur du camp."
+      },
+      "privacy": {
+        "label": "Tes données",
+        "value": "Ton message arrive directement dans sa boîte mail. Il n'est stocké dans aucune base de données.",
+        "link": "Politique de confidentialité"
+      }
+    }
+  },
+  "gallery": {
+    "label": "CE DONT ON PARLE",
+    "title": "LE CAMP, EN VRAI",
+    "intro": "Des photos prises pendant les sessions, pas des images de catalogue.",
+    "scroll_aria": "Photos du camp, faire défiler horizontalement",
+    "photos": {
+      "one": {
+        "alt": "Groupe de combattants assis sur les tapis rouges pendant le briefing d'une session MMA",
+        "caption": "Une session réelle. Ce n'est pas une salle privatisée pour la photo."
+      },
+      "two": {
+        "alt": "Coach tenant les pattes d'ours face à un combattant dans un club de boxe du Caucase",
+        "caption": "Les coachs sont locaux et en poste à l'année. Ils ne sont pas là pour la semaine."
+      },
+      "three": {
+        "alt": "Vue plongeante d'une salle de lutte au Daghestan avec trois tapis occupés",
+        "caption": "Une salle de lutte daghestanaise un jour ordinaire. Le niveau vient de là."
+      },
+      "four": {
+        "alt": "Passerelle au-dessus du canyon du Sulak au Daghestan",
+        "caption": "Le canyon du Sulak. Les excursions sont proposées en option, entre deux sessions."
+      }
+    }
+  },
+  "faq": {
+    "label": "QUESTIONS SUR LE CONTACT",
+    "title": "AVANT DE NOUS ÉCRIRE",
+    "items": {
+      "delay": {
+        "question": "En combien de temps vous répondez ?",
+        "answer": "Sous 48 heures sur le formulaire et sur l'email. WhatsApp reste le canal le plus rapide, parce que le message arrive directement sur le téléphone de Ruslan. Si tu n'as rien reçu au bout de 48 heures, vérifie tes indésirables avant de relancer : la réponse part de contact@mkrcamp.com."
+      },
+      "language": {
+        "question": "Je peux écrire en anglais ?",
+        "answer": "Oui. Ruslan répond en français et en anglais, sur tous les canaux. Le site existe aussi entièrement en anglais, y compris le formulaire de candidature et le guide du Caucase en PDF."
+      },
+      "who": {
+        "question": "Qui lit mes messages ?",
+        "answer": "Ruslan Mukhtarov, le fondateur du camp. Il n'y a pas de standard ni de service client intermédiaire. C'est aussi lui qui mène la visio de sélection et qui valide les dossiers, donc la personne à qui tu écris est celle que tu auras en face."
+      },
+      "followup": {
+        "question": "J'ai déjà envoyé ma candidature, comment je relance ?",
+        "answer": "Le plus simple est de répondre directement à l'email de confirmation que tu as reçu, pour que ton dossier reste dans le même fil. Sinon écris sur WhatsApp en précisant ton prénom, ton nom et la session visée : Ruslan retrouve le dossier tout de suite."
+      },
+      "call": {
+        "question": "Je peux vous appeler directement ?",
+        "answer": "On préfère l'écrit sur WhatsApp : Ruslan est souvent en salle ou en déplacement, et un message ne se perd pas. Pour parler de vive voix, la visio de quinze minutes se réserve une fois ta candidature envoyée. C'est cette visio qui valide ton dossier."
+      },
+      "cancel": {
+        "question": "Comment j'annule ou je modifie mon dossier ?",
+        "answer": "Un lien d'abandon de place figure dans l'email de relance : un clic et la place se libère. Pour un changement de session, de discipline ou de durée, écris-nous, ça se fait à la main et sans frais tant que le dossier n'est pas soldé."
+      }
+    }
+  },
+  "visio": {
+    "text": "Tu préfères en parler de vive voix ?",
+    "link": "Réserve quinze minutes avec Ruslan",
+    "note": "La visio sert aussi d'entretien de sélection si tu candidates ensuite."
+  },
   "form": {
     "fields": {
       "name": { "label": "Nom complet", "placeholder": "Ton nom" },
       "email": { "label": "Email", "placeholder": "ton@email.com" },
+      "phone": { "label": "Téléphone (optionnel)", "placeholder": "+33 6 12 34 56 78" },
       "subject": { "label": "Sujet", "placeholder": "Choisis un sujet" },
       "message": { "label": "Message", "placeholder": "Ton message..." }
     },
+    "optional_hint": "Renseigne-le si tu préfères qu'on te rappelle plutôt que de t'écrire.",
     "subjects": {
       "general": "Question générale",
       "partenariat": "Partenariat",

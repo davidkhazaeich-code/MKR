@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { useLocale, useTranslations } from 'next-intl'
 import Icon from './Icon'
 import { trackConversion } from '@/lib/gtag'
@@ -8,17 +9,44 @@ import { trackConversion } from '@/lib/gtag'
 type Status = 'idle' | 'submitting' | 'success' | 'error'
 
 const SUBJECT_VALUES = ['general', 'partenariat', 'clubs', 'presse', 'autre'] as const
+type SubjectValue = (typeof SUBJECT_VALUES)[number]
+
+function isSubjectValue(value: string | null): value is SubjectValue {
+  return value !== null && (SUBJECT_VALUES as readonly string[]).includes(value)
+}
 
 export default function ContactForm() {
   const locale = useLocale()
   const t = useTranslations('contact.form')
+  // Les cartes d'aiguillage de la page renvoient vers `?sujet=presse` : le sujet
+  // est pre-selectionne et le formulaire remonte sous les yeux du visiteur.
+  // Lecture cote client (et non via le `searchParams` de la page) pour que
+  // /contact reste une page statique. Impose un <Suspense> chez l'appelant,
+  // meme contrainte que GuideForm.
+  const searchParams = useSearchParams()
+  const prefilledSubject = searchParams.get('sujet')
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
-  const [subject, setSubject] = useState('')
+  const [phone, setPhone] = useState('')
+  const [subject, setSubject] = useState(() => (isSubjectValue(prefilledSubject) ? prefilledSubject : ''))
   const [message, setMessage] = useState('')
   const [hp, setHp] = useState('')
   const [status, setStatus] = useState<Status>('idle')
   const [error, setError] = useState<string | null>(null)
+  const formRef = useRef<HTMLFormElement>(null)
+
+  // Une navigation CLIENTE vers /contact?sujet=... (la carte « Presse ou
+  // partenariat » de la page) reutilise l'instance du composant : React ne
+  // rejoue pas l'initialiseur de useState. Sans cette synchronisation, l'URL
+  // changeait mais le select restait vide. Bug attrape en QA, ne pas retirer.
+  // L'effet ne se declenche qu'au CHANGEMENT du parametre, donc un choix
+  // manuel du visiteur n'est jamais ecrase.
+  useEffect(() => {
+    if (!isSubjectValue(prefilledSubject)) return
+    setSubject(prefilledSubject)
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    formRef.current?.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' })
+  }, [prefilledSubject])
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -28,7 +56,7 @@ export default function ContactForm() {
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, subject, message, _hp: hp, submission_language: locale }),
+        body: JSON.stringify({ name, email, phone, subject, message, _hp: hp, submission_language: locale }),
       })
       const data = (await res.json().catch(() => ({}))) as { ok?: boolean; error?: string }
       if (!res.ok || !data.ok) {
@@ -37,9 +65,10 @@ export default function ContactForm() {
         return
       }
       setStatus('success')
-      // Enhanced conversions : email transmis a la balise (hache SHA-256 par
-      // gtag.js, envoye seulement si ad_user_data granted).
-      trackConversion('contact', { subject: subject || undefined }, { email })
+      // Enhanced conversions : email et telephone transmis a la balise (haches
+      // SHA-256 par gtag.js, envoyes seulement si ad_user_data granted). Le
+      // telephone n'est retenu que s'il est convertible en E.164.
+      trackConversion('contact', { subject: subject || undefined }, { email, phone })
     } catch {
       setError(t('error_network'))
       setStatus('error')
@@ -65,7 +94,7 @@ export default function ContactForm() {
   const submitting = status === 'submitting'
 
   return (
-    <form className="contact-form" onSubmit={handleSubmit} noValidate>
+    <form ref={formRef} id="formulaire" className="contact-form" onSubmit={handleSubmit} noValidate>
       <div className="cand-field">
         <label className="cand-label" htmlFor="contact-name">{t('fields.name.label')}</label>
         <input
@@ -96,6 +125,23 @@ export default function ContactForm() {
           onChange={(e) => setEmail(e.target.value)}
           disabled={submitting}
         />
+      </div>
+      <div className="cand-field">
+        <label className="cand-label" htmlFor="contact-phone">{t('fields.phone.label')}</label>
+        <input
+          id="contact-phone"
+          type="tel"
+          inputMode="tel"
+          className="cand-input"
+          placeholder={t('fields.phone.placeholder')}
+          autoComplete="tel"
+          maxLength={30}
+          value={phone}
+          onChange={(e) => setPhone(e.target.value)}
+          disabled={submitting}
+          aria-describedby="contact-phone-hint"
+        />
+        <p id="contact-phone-hint" className="contact-field-hint">{t('optional_hint')}</p>
       </div>
       <div className="cand-field">
         <label className="cand-label" htmlFor="contact-subject">{t('fields.subject.label')}</label>

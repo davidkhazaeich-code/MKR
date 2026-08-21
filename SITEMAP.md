@@ -1,7 +1,48 @@
 # SITEMAP MKR Caucasian Camp — Cartographie complète
 
-> **Fichier de référence pour Claude Code.** Mise à jour : 2026-08-21 (WhatsApp direct de Ruslan, puis roulement automatique des saisons).
+> **Fichier de référence pour Claude Code.** Mise à jour : 2026-08-21 (WhatsApp direct de Ruslan, roulement automatique des saisons, puis refonte de la page contact).
 > Lis ce fichier en priorité avant toute intervention sur le site MKR. Il évite de re-explorer.
+
+## 🆕 2026-08-21 (page contact refondue : elle trie les demandes au lieu de tout verser dans la boîte mail)
+
+> **Demande David** : « revois complètement la page de contact pour qu'elle soit la plus pratique avec toutes les bonnes informations qui pourraient être utiles, et également un petit peu imagée. » Quatre décisions arbitrées avec lui avant d'écrire : **lien discret** vers la visio Cal (pas de calendrier embarqué), **WhatsApp seul** (aucun lien `tel:`), réponses en **français et anglais**, et tous les blocs proposés retenus.
+
+**Le problème** : la page était un formulaire, trois cartes (formulaire / WhatsApp / Instagram), une note « 48h » et une photo de route de montagne. Aucun hero illustré, aucun aiguillage, et surtout **rien ne disait que c'est Ruslan qui répond en personne**, alors que c'est l'argument central du camp et que la bulle WhatsApp flottante le dit, elle, depuis le matin même.
+
+### Ce que la page contient maintenant
+
+| Bloc | Classe CSS | Ce qu'il règle |
+|---|---|---|
+| Hero illustré | `.page-hero--image` | La page ouvrait sur un mur de texte. Photo du briefing coach à l'Akhmat Fight Club, `imageFocusY="40%"` |
+| Carte « qui répond » | `.ctp-who` | Photo de Ruslan, son parcours, le fait qu'il lit et répond lui-même |
+| Grille de 4 canaux | `.ctp-channel` | Chaque canal porte **sa raison d'être ET son délai** : c'est ce qui évite une question urgente postée dans un formulaire à 48 h |
+| Aiguillage 5 profils | `.ctp-route` | 4 demandes sur 5 ont déjà leur page (inscription, famille, club, logistique). La 5ᵉ (presse) ouvre le formulaire **sujet pré-rempli** |
+| Formulaire + « bon à savoir » | `.ctp-form-grid` | Champ **téléphone optionnel** ajouté, encart délai / langues / qui répond / données |
+| Bande de 4 vraies photos | `PhotoStrip` | La partie « imagée ». Les 4 fichiers sont ceux déjà validés par les passes de juillet |
+| FAQ de contact (6 Q/R) | `PageFaq` | Questions **propres à la page** (délai, langue, relancer un dossier, annuler), pas un copier-coller de `/faq`. Émet un `FAQPage` |
+| Sortie visio | `.ctp-visio` | Lien texte vers Cal, jamais de widget |
+
+CSS : bloc `.ctp-*` en fin de `globals.css`. **Ne pas confondre avec les `.contact-*`**, qui appartiennent au bloc `Contact.tsx` de la home et n'ont pas bougé.
+
+### Trois pièges rencontrés, à ne pas re-marcher dedans
+
+1. **`Breadcrumb` rend « Accueil » tout seul.** Lui passer `[{ href: '/', label: 'Accueil' }]` affiche **« Accueil / Accueil »**. On ne lui passe QUE la page courante. Vérifié au HTML, pas à l'œil : à la taille réelle du fil d'Ariane, le doublon est invisible sur une capture.
+2. **Une navigation cliente vers la MÊME route ne rejoue pas l'initialiseur de `useState`.** La carte « Presse ou partenariat » pousse `/contact?sujet=presse` : `useSearchParams` se met à jour, mais le `useState(() => ...)` du sujet non, donc le select restait vide. Il faut un `useEffect` sur la valeur du paramètre. Vrai pour tout formulaire pré-rempli par une query de la même page.
+3. **`useSearchParams` sans `<Suspense>` fait basculer la page en rendu dynamique.** `/contact` doit rester en SSG (vérifié `● /[locale]/contact` au build). Même montage que `GuideForm`.
+
+### Fichiers touchés (6)
+
+`contact/page.tsx` (réécrite) · `ContactForm.tsx` (téléphone + `?sujet=` + ancre `#formulaire`) · `api/contact/route.ts` (accepte `phone`, **optionnel et jamais bloquant**, ajouté à l'email HTML et texte via `row()` qui échappe déjà) · `messages/{fr,en}/contact.json` · `globals.css`.
+
+### QA
+
+`tsc` 0 erreur · `i18n-check` **2 941 clés** FR=EN, métas dans les limites SERP, liens EN localisés · `next build` vert, `/contact` toujours en **SSG** · sweep Playwright **57 contrôles / 0 échec** sur 6 combinaisons (FR+EN × 390/768/1440) : zéro débordement, 1 seul h1, aucune image cassée, fil d'Ariane, liens WhatsApp tous sur le bon numéro, **soumission réelle du formulaire (200 `ok:true`)**, pré-remplissage du sujet et remontée vers le formulaire · **16 mesures de contraste texte sur photo, toutes ≥ 4,5:1 dans le pire cas** (pixel de fond le plus clair, ombre portée non comptée donc valeurs pessimistes ; la plus serrée est le sous-titre à 4,73:1 en 390px).
+
+Scripts réutilisables : `.tmp/qa-contact.mjs` et `.tmp/qa-contact-contraste.mjs`.
+
+### Reste ouvert
+
+La note « Fuseau horaire : GMT+3 (Caucase) » de l'ancienne page **a été retirée** : `/a-propos` dit que Ruslan pilote depuis la France, donc annoncer GMT+3 sur la page contact laissait croire à un décalage qui n'existe pas. Remplacée par « français et anglais » et le délai de 48 h. À rétablir seulement si Ruslan bascule sur place à l'année.
 
 ## 🆕 BREAKING — 2026-08-21 (WhatsApp direct de Ruslan : numéro, bulle flottante, onglet Contact, emails)
 
@@ -1751,10 +1792,12 @@ mkrcamp.com/
 ---
 
 ### 📞 `/contact` — Contact
-**Fichier** : `src/app/(site)/contact/page.tsx`
-**Composant** : `<ContactForm />` (formulaire simple : Nom, Email, Sujet [select], Message)
-**Sujets disponibles** (ContactForm.tsx) : general, partenariat, clubs, presse, autre
-**Coordonnées affichées** : email contact@mkrcamp.com · WhatsApp **+33 6 66 17 76 91** (wa.me/33666177691) · Instagram @mkrcamp
+**Fichier** : `src/app/[locale]/(site)/contact/page.tsx` (refondue le 2026-08-21, voir la section en tête de ce fichier)
+**Composants** : `PageHero` (illustré) · `ContactForm` (sous `<Suspense>`) · `PhotoStrip` · `PageFaq`
+**Sections** : hero photo · carte « qui répond » (Ruslan) · 4 canaux avec délai · 5 raccourcis d'aiguillage · formulaire + encart pratique · 4 vraies photos · FAQ 6 Q/R · lien visio
+**Formulaire** : Nom, Email, **Téléphone (optionnel)**, Sujet [select], Message. Sujets : general, partenariat, clubs, presse, autre. Accepte `?sujet=<valeur>` pour pré-remplir et remonter au formulaire (ancre `#formulaire`).
+**Coordonnées affichées** : email contact@mkrcamp.com · WhatsApp via `WHATSAPP` de `data/site.ts` · Instagram @mkrcamp
+**Copy** : `messages/{fr,en}/contact.json`. **CSS** : bloc `.ctp-*` en fin de `globals.css`.
 
 ---
 

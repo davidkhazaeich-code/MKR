@@ -13420,3 +13420,363 @@ html.is-loading body {
      porte tout le sens) et coute ~20px par onglet. */
   .nav-trigger > svg:first-child { display: none; }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   PAGE CONTACT (refonte 2026-08-21)
+   Prefixe `.ctp-` (contact page). La page etait un formulaire + 3 cartes ;
+   elle trie desormais les demandes AVANT de les envoyer dans la boite mail.
+   Les anciennes classes `.contact-*` de la HOME (bloc Contact.tsx) sont
+   intactes : ne pas les confondre.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* ── En-tetes de section partages ── */
+.ctp-head { max-width: 46em; margin-bottom: 2.2rem; }
+.ctp-head h2 { margin: 0 0 0.9rem; }
+.ctp-head-intro {
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin: 0;
+  font-size: 1rem;
+  max-width: 44em;
+}
+
+/* ── Qui repond : carte horizontale ──
+   Le camp se vend sur le fait que Ruslan valide et repond lui-meme. La page
+   contact ne le disait nulle part : le visiteur croyait ecrire a un service. */
+.ctp-reach { padding: 4.5rem 0 3.5rem; position: relative; }
+.ctp-who {
+  display: grid;
+  grid-template-columns: 200px minmax(0, 1fr);
+  gap: 1.6rem;
+  align-items: center;
+  background: var(--surface);
+  border: 1px solid var(--ghost-border);
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin-bottom: 3.2rem;
+}
+.ctp-who-photo {
+  aspect-ratio: 3 / 4;
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--surface-lowest);
+}
+.ctp-who-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 18%;
+  display: block;
+  /* Meme traitement que le reste du site : 22 % de desaturation, JAMAIS 100 %
+     (sinon la photo n'est jamais en couleur au doigt, cf. passe 2026-07-25). */
+  filter: grayscale(22%) contrast(1.04);
+}
+.ctp-who-label {
+  display: block;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--primary);
+  margin-bottom: 0.55rem;
+}
+.ctp-who-title { margin: 0 0 0.8rem; font-size: clamp(1.6rem, 3vw, 2.4rem); line-height: 1.05; }
+.ctp-who-text { color: var(--text-secondary); line-height: 1.65; margin: 0 0 1.1rem; max-width: 52em; }
+.ctp-who-creds { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.5rem 1.4rem; }
+.ctp-who-creds li {
+  position: relative;
+  padding-left: 1rem;
+  color: var(--text-muted);
+  font-size: 0.86rem;
+  line-height: 1.45;
+}
+.ctp-who-creds li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--primary);
+}
+
+/* ── Canaux : chacun porte SA raison d'etre et SON delai ── */
+.ctp-channels {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+.ctp-channel {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 1rem;
+  padding: 1.3rem;
+  background: var(--surface-lowest);
+  border: 1px solid var(--ghost-border);
+  border-radius: 14px;
+  transition: border-color 0.3s var(--ease-out-expo), background 0.3s var(--ease-out-expo);
+}
+.ctp-channel:hover { border-color: rgba(200, 75, 49, 0.4); background: var(--surface); }
+.ctp-channel-icon {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  background: var(--surface-high);
+  color: var(--primary);
+  flex-shrink: 0;
+}
+.ctp-channel-body { min-width: 0; }
+.ctp-channel-title {
+  margin: 0 0 0.4rem;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1.05rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+}
+.ctp-channel-purpose { margin: 0 0 0.9rem; color: var(--text-secondary); font-size: 0.9rem; line-height: 1.55; }
+.ctp-channel-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.4rem 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--ghost-border);
+}
+.ctp-channel-link {
+  color: var(--primary);
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  /* Un email ou une URL longue ne doit jamais pousser la carte hors de la
+     grille : c'est la cause classique de debordement horizontal en mobile. */
+  overflow-wrap: anywhere;
+  transition: color 0.25s var(--ease-out-expo);
+}
+.ctp-channel-link:hover { color: var(--text-primary); text-decoration: underline; }
+.ctp-channel-delay { font-size: 0.78rem; color: var(--text-muted); white-space: nowrap; }
+.ctp-channel-delay-label {
+  display: block;
+  font-size: 0.66rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  opacity: 0.75;
+}
+
+/* ── Aiguillage : 4 demandes sur 5 ont deja leur page ── */
+.ctp-routes { padding: 3.5rem 0 4.5rem; }
+.ctp-routes-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.9rem;
+}
+/* La 5e entree (presse et partenariat) est la seule sans page dediee : elle
+   ferme la liste sur toute la largeur au lieu de laisser une cellule vide. */
+.ctp-route--wide { grid-column: 1 / -1; }
+.ctp-route-link {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 1rem;
+  align-items: center;
+  height: 100%;
+  padding: 1.15rem 1.25rem;
+  background: var(--surface);
+  border: 1px solid var(--ghost-border);
+  border-radius: 14px;
+  text-decoration: none;
+  transition: border-color 0.3s var(--ease-out-expo), background 0.3s var(--ease-out-expo);
+}
+.ctp-route-link:hover { border-color: rgba(200, 75, 49, 0.45); background: var(--surface-high); }
+.ctp-route-icon {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 9px;
+  background: var(--surface-high);
+  color: var(--primary);
+  flex-shrink: 0;
+}
+.ctp-route-link:hover .ctp-route-icon { background: var(--primary); color: #fff; }
+.ctp-route-text { display: flex; flex-direction: column; gap: 0.3rem; min-width: 0; }
+.ctp-route-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1.05rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+}
+.ctp-route-body { color: var(--text-secondary); font-size: 0.88rem; line-height: 1.5; }
+.ctp-route-cta {
+  margin-top: 0.15rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--primary);
+}
+.ctp-route-chevron {
+  display: grid;
+  place-items: center;
+  color: var(--text-muted);
+  /* Seul transform de l'element : le survol ne peut pas ecraser un decalage
+     de position (piege vecu sur cours-informatique.ch). */
+  transition: transform 0.3s var(--ease-out-expo), color 0.3s var(--ease-out-expo);
+}
+.ctp-route-link:hover .ctp-route-chevron { transform: translateX(4px); color: var(--primary); }
+
+/* ── Formulaire + bon a savoir ── */
+.ctp-form-section { padding: 4.5rem 0; position: relative; }
+.ctp-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  margin: 0;
+  padding: 0.85rem 1rem;
+  border-left: 3px solid var(--primary);
+  background: rgba(200, 75, 49, 0.07);
+  border-radius: 0 8px 8px 0;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+.ctp-notice svg { color: var(--primary); flex-shrink: 0; margin-top: 0.15rem; }
+.ctp-notice strong { color: var(--text-primary); font-weight: 600; }
+.ctp-notice a { color: var(--primary); }
+.ctp-form-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  gap: 1.6rem;
+  align-items: start;
+}
+/* Ancrage : les cartes d'aiguillage et le canal « Formulaire » pointent ici.
+   Sans cette marge, le header fixe de 72px recouvre le premier champ. */
+#formulaire { scroll-margin-top: calc(var(--nav-h) + 1.5rem); }
+.ctp-form-skeleton { min-height: 620px; border-radius: 14px; }
+.contact-field-hint {
+  margin: 0.4rem 0 0;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  line-height: 1.45;
+}
+.ctp-practical {
+  background: var(--surface);
+  border: 1px solid var(--ghost-border);
+  border-radius: 16px;
+  padding: 1.5rem;
+}
+.ctp-practical-title {
+  margin: 0 0 1.2rem;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1.1rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+}
+.ctp-practical-list { margin: 0; display: flex; flex-direction: column; gap: 1.05rem; }
+.ctp-practical-row { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0.85rem; align-items: start; }
+.ctp-practical-icon { color: var(--primary); display: grid; place-items: center; margin-top: 0.1rem; }
+.ctp-practical-row dt {
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 0.25rem;
+}
+.ctp-practical-row dd { margin: 0; color: var(--text-secondary); font-size: 0.9rem; line-height: 1.55; }
+.ctp-practical-link { color: var(--primary); white-space: nowrap; }
+.ctp-whatsapp-aside {
+  margin-top: 1.5rem;
+  padding-top: 1.3rem;
+  border-top: 1px solid var(--ghost-border);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+.ctp-whatsapp-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.7rem 1.15rem;
+  border-radius: 10px;
+  background: #25D366;
+  color: #06210f;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.9rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 600;
+  text-decoration: none;
+  transition: filter 0.25s var(--ease-out-expo);
+}
+.ctp-whatsapp-btn:hover { filter: brightness(1.08); }
+.ctp-whatsapp-btn svg { flex-shrink: 0; }
+.ctp-whatsapp-num { font-size: 0.82rem; color: var(--text-muted); }
+
+/* ── Bande photo : la partie imagee ── */
+.ctp-gallery { padding-top: 1rem; }
+
+/* ── FAQ de page ── */
+#contact-faq { scroll-margin-top: calc(var(--nav-h) + 1.5rem); }
+
+/* ── Sortie visio : un LIEN, pas un calendrier embarque (decision David) ── */
+.ctp-visio { padding: 0 0 5rem; }
+.ctp-visio .inner { text-align: center; }
+.ctp-visio-line { margin: 0 0 0.5rem; color: var(--text-secondary); font-size: 1rem; line-height: 1.6; }
+.ctp-visio-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--primary);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.ctp-visio-link:hover { color: var(--text-primary); }
+.ctp-visio-link svg { flex-shrink: 0; }
+.ctp-visio-note { margin: 0; color: var(--text-muted); font-size: 0.82rem; line-height: 1.5; }
+
+/* ── Responsive ── */
+@media (max-width: 1024px) {
+  .ctp-form-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 900px) {
+  .ctp-routes-list { grid-template-columns: 1fr; }
+  .ctp-route--wide { grid-column: auto; }
+}
+@media (max-width: 760px) {
+  .ctp-channels { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  .ctp-reach { padding: 3rem 0 2.5rem; }
+  .ctp-routes { padding: 2.5rem 0 3rem; }
+  .ctp-form-section { padding: 3rem 0; }
+  /* La carte fondateur passe en pile : un cadre 3/4 pleine largeur mangerait
+     tout l'ecran, on le bride en bandeau. */
+  .ctp-who { grid-template-columns: 1fr; gap: 1.1rem; padding: 1.15rem; margin-bottom: 2.4rem; }
+  .ctp-who-photo { aspect-ratio: 16 / 9; }
+  .ctp-who-photo img { object-position: center 20%; }
+  .ctp-who-creds { flex-direction: column; gap: 0.45rem; }
+  .ctp-channel { padding: 1.05rem; gap: 0.85rem; }
+  .ctp-channel-icon { width: 36px; height: 36px; }
+  .ctp-channel-foot { flex-direction: column; align-items: flex-start; }
+  .ctp-channel-delay { white-space: normal; }
+  .ctp-route-link { padding: 1rem; gap: 0.8rem; }
+  .ctp-practical { padding: 1.2rem; }
+  .ctp-form-skeleton { min-height: 560px; }
+  .ctp-visio { padding-bottom: 3.5rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ctp-route-link:hover .ctp-route-chevron { transform: none; }
+}

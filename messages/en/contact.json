@@ -1,7 +1,7 @@
 {
   "meta": {
-    "title": "Contact | MKR Caucasian Camp",
-    "description": "Contact MKR Caucasian Camp. General inquiry, partnership, clubs, press. Reply within 48h."
+    "title": "Contact MKR Caucasian Camp · Reply within 48 hours",
+    "description": "A question about the camp in Dagestan or Chechnya? WhatsApp straight to Ruslan, contact form or email. Reply within 48 hours."
   },
   "breadcrumb": {
     "home": "Home",
@@ -9,33 +9,186 @@
   },
   "hero": {
     "label": "CONTACT",
-    "title": "TALK TO US"
+    "title": "TALK TO US",
+    "subtitle": "Ruslan reads and answers himself. WhatsApp for a quick question, the form for a full request. Reply within 48 hours.",
+    "image_alt": "A coach briefing four fighters in the Akhmat Fight Club gym in Grozny"
   },
-  "cards": {
-    "form": {
-      "title": "Form",
-      "body": "Use the form on the side. Reply within 48h."
-    },
-    "whatsapp": {
-      "title": "WhatsApp",
-      "value": "+33 7 83 10 96 81"
-    },
-    "instagram": {
-      "title": "Instagram",
-      "value": "@mkrcamp"
+  "who": {
+    "label": "WHO ANSWERS",
+    "title": "RUSLAN, IN PERSON",
+    "body": "There is no customer service desk at MKR. Ruslan Mukhtarov, the founder, reads the messages and writes back. He is also the one who validates every application over video before a place is held.",
+    "photo_alt": "Ruslan Mukhtarov, founder of MKR Caucasian Camp",
+    "credentials": {
+      "one": "Former French national wrestling team, INSEP 2012-2016",
+      "two": "On site for every session, in Dagestan and in Chechnya",
+      "three": "He answers in English and in French"
     }
   },
-  "note": "We reply within 48h. Time zone: GMT+3 (Caucasus).",
-  "photo_alt": "Mountain road to the camp in the Caucasus",
+  "channels": {
+    "label": "WHICH CHANNEL",
+    "title": "FOUR CHANNELS, ONE RIGHT ANSWER EACH TIME",
+    "intro": "Pick the one that matches what you have to say. The wrong channel mostly costs you time.",
+    "delay_label": "Response time",
+    "items": {
+      "whatsapp": {
+        "title": "WhatsApp",
+        "purpose": "A short question, a doubt before applying, an emergency during your stay.",
+        "value": "+33 7 83 10 96 81",
+        "delay": "The fastest channel",
+        "cta": "Message on WhatsApp",
+        "prefill": "Hi Ruslan, I have a question about the MKR camp."
+      },
+      "form": {
+        "title": "Contact form",
+        "purpose": "A detailed request, a group project, anything that needs a proper written answer.",
+        "value": "The form at the bottom of this page",
+        "delay": "Within 48 hours",
+        "cta": "Go to the form"
+      },
+      "email": {
+        "title": "Email",
+        "purpose": "Press, partnerships, invoicing, or any message with an attachment.",
+        "value": "contact@mkrcamp.com",
+        "delay": "Within 48 hours",
+        "cta": "Send an email"
+      },
+      "instagram": {
+        "title": "Instagram",
+        "purpose": "Behind the scenes of the sessions and photos that never make it to the site.",
+        "value": "@mkrcamp",
+        "delay": "As it comes",
+        "cta": "See the account"
+      }
+    }
+  },
+  "routes": {
+    "label": "SHORTCUTS",
+    "title": "YOUR ANSWER MAY ALREADY BE ONLINE",
+    "intro": "Five requests come up again and again, and for four of them the page already exists. It saves you the 48 hour wait.",
+    "items": {
+      "inscription": {
+        "title": "I want to apply",
+        "body": "The application takes five minutes. You pick your session, your discipline and your length of stay. No payment at this stage.",
+        "cta": "Apply to the camp"
+      },
+      "famille": {
+        "title": "I am coming with my family",
+        "body": "One parent with a child aged 8 to 17, adapted programme and dedicated package. It is a separate track.",
+        "cta": "See the family camp"
+      },
+      "groupe": {
+        "title": "I am coming with my club",
+        "body": "From five people up it is a tailored quote, not a standard application. Ruslan calls back to scope it.",
+        "cta": "See clubs and groups"
+      },
+      "logistique": {
+        "title": "Visa, flights, budget",
+        "body": "The Russian visa and the domestic flight from Istanbul are included. Everything else is spelled out, with figures.",
+        "cta": "See the logistics"
+      },
+      "presse": {
+        "title": "Press or partnership",
+        "body": "Interview, feature, brand collaboration, referral code for your gym. Write to us with the right subject.",
+        "cta": "Open the form"
+      }
+    }
+  },
+  "form_section": {
+    "label": "CONTACT FORM",
+    "title": "WRITE TO US",
+    "notice": "This form is not an application.",
+    "notice_link": "To join the camp, use the application form.",
+    "practical": {
+      "title": "Good to know",
+      "delay": {
+        "label": "Response time",
+        "value": "Within 48 hours, by email."
+      },
+      "languages": {
+        "label": "Languages",
+        "value": "English and French."
+      },
+      "who": {
+        "label": "Who answers",
+        "value": "Ruslan, the founder of the camp."
+      },
+      "privacy": {
+        "label": "Your data",
+        "value": "Your message lands straight in his inbox. It is not stored in any database.",
+        "link": "Privacy policy"
+      }
+    }
+  },
+  "gallery": {
+    "label": "WHAT THIS IS ABOUT",
+    "title": "THE CAMP, FOR REAL",
+    "intro": "Photos taken during the sessions, not catalogue images.",
+    "scroll_aria": "Camp photos, scroll horizontally",
+    "photos": {
+      "one": {
+        "alt": "Group of fighters sitting on the red mats during the briefing of an MMA session",
+        "caption": "A real session. This is not a gym booked for the photo."
+      },
+      "two": {
+        "alt": "Coach holding the pads for a fighter in a boxing club in the Caucasus",
+        "caption": "The coaches are local and in post all year. They are not flown in for the week."
+      },
+      "three": {
+        "alt": "Overhead view of a wrestling gym in Dagestan with three mats in use",
+        "caption": "A Dagestani wrestling gym on an ordinary day. That is where the level comes from."
+      },
+      "four": {
+        "alt": "Footbridge over the Sulak canyon in Dagestan",
+        "caption": "The Sulak canyon. Excursions are offered as an option, between two sessions."
+      }
+    }
+  },
+  "faq": {
+    "label": "QUESTIONS ABOUT GETTING IN TOUCH",
+    "title": "BEFORE YOU WRITE",
+    "items": {
+      "delay": {
+        "question": "How fast do you reply?",
+        "answer": "Within 48 hours on the form and on email. WhatsApp stays the fastest channel, because the message lands straight on Ruslan's phone. If nothing has arrived after 48 hours, check your spam folder before chasing: the reply is sent from contact@mkrcamp.com."
+      },
+      "language": {
+        "question": "Can I write in English?",
+        "answer": "Yes. Ruslan answers in English and in French, on every channel. The whole site exists in English too, including the application form and the Caucasus guide in PDF."
+      },
+      "who": {
+        "question": "Who reads my messages?",
+        "answer": "Ruslan Mukhtarov, the founder of the camp. There is no switchboard and no customer service layer in between. He also runs the selection call and validates the files, so the person you write to is the person you will face."
+      },
+      "followup": {
+        "question": "I have already applied, how do I follow up?",
+        "answer": "The simplest way is to reply directly to the confirmation email you received, so your file stays in the same thread. Otherwise write on WhatsApp with your first name, last name and the session you are aiming for: Ruslan will find the file straight away."
+      },
+      "call": {
+        "question": "Can I call you directly?",
+        "answer": "We prefer writing on WhatsApp: Ruslan is often on the mats or travelling, and a message does not get lost. To speak face to face, the fifteen minute video call can be booked once your application is in. That call is what validates your file."
+      },
+      "cancel": {
+        "question": "How do I cancel or change my file?",
+        "answer": "A link to release your place sits in the reminder email: one click and the place frees up. To change session, discipline or length of stay, write to us. It is done by hand and at no cost as long as the file is not settled."
+      }
+    }
+  },
+  "visio": {
+    "text": "Would you rather talk it through?",
+    "link": "Book fifteen minutes with Ruslan",
+    "note": "The call doubles as the selection interview if you apply afterwards."
+  },
   "form": {
     "fields": {
       "name": { "label": "Full name", "placeholder": "Your name" },
-      "email": { "label": "Email", "placeholder": "your@email.com" },
+      "email": { "label": "Email", "placeholder": "you@email.com" },
+      "phone": { "label": "Phone (optional)", "placeholder": "+33 6 12 34 56 78" },
       "subject": { "label": "Subject", "placeholder": "Choose a subject" },
       "message": { "label": "Message", "placeholder": "Your message..." }
     },
+    "optional_hint": "Fill it in if you would rather be called back than written to.",
     "subjects": {
-      "general": "General inquiry",
+      "general": "General question",
       "partenariat": "Partnership",
       "clubs": "Clubs and groups",
       "presse": "Press and media",
@@ -43,11 +196,11 @@
     },
     "submit": "SEND",
     "submit_sending": "SENDING...",
-    "error_generic": "Something went wrong. Try again in a moment.",
+    "error_generic": "Something went wrong. Please try again in a moment.",
     "error_network": "Connection failed. Check your network and try again.",
     "success": {
       "title": "MESSAGE RECEIVED",
-      "body": "We will get back to you within 48h at the email you provided. You can also write to us on WhatsApp if your question is urgent."
+      "body": "We will get back to you within 48h at the email you provided. You can also reach us on WhatsApp if your question is urgent."
     }
   }
 }

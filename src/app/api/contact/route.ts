@@ -21,6 +21,10 @@ const MAX_NAME = 80
 const MAX_EMAIL = 254
 const MAX_SUBJECT = 60
 const MAX_MESSAGE = 5000
+// Champ OPTIONNEL (2026-08-21) : le visiteur le remplit s'il prefere etre
+// rappele. Jamais bloquant, donc on ne valide QUE la longueur : un numero mal
+// forme n'a aucune raison de faire echouer l'envoi du message.
+const MAX_PHONE = 30
 
 const VALID_SUBJECTS = ['general', 'partenariat', 'clubs', 'presse', 'autre'] as const
 type Subject = (typeof VALID_SUBJECTS)[number]
@@ -36,6 +40,7 @@ const SUBJECT_LABELS: Record<Subject, string> = {
 interface Payload {
   name?: string
   email?: string
+  phone?: string
   subject?: string
   message?: string
   _hp?: string
@@ -67,6 +72,7 @@ export async function POST(request: Request) {
 
   const name = body.name?.trim()
   const email = body.email?.trim().toLowerCase()
+  const phone = body.phone?.trim()
   const subjectRaw = body.subject?.trim().toLowerCase()
   const message = body.message?.trim()
 
@@ -75,6 +81,7 @@ export async function POST(request: Request) {
   }
   if (name.length > MAX_NAME) return bad('Nom trop long')
   if (email.length > MAX_EMAIL || !EMAIL_RE.test(email)) return bad('Email invalide')
+  if (phone && phone.length > MAX_PHONE) return bad('Telephone trop long')
   if (subjectRaw.length > MAX_SUBJECT) return bad('Sujet invalide')
   if (!VALID_SUBJECTS.includes(subjectRaw as Subject)) return bad('Sujet inconnu')
   if (message.length > MAX_MESSAGE) return bad('Message trop long (5000 caracteres max)')
@@ -88,12 +95,14 @@ export async function POST(request: Request) {
       ${row('Sujet', subjectLabel)}
       ${row('Nom', name)}
       ${row('Email', email)}
+      ${row('Telephone', phone)}
       ${row('IP', ip)}
     </table>
     <div style="background:#0b1220;border:1px solid #1e293b;border-radius:6px;padding:16px;color:#e2e8f0;font-size:14px;line-height:1.6;white-space:pre-wrap">${escapeHtml(message)}</div>
   `
   const html = wrapEmail(`Contact MKR · ${subjectLabel}`, bodyHtml, "Email envoye via le formulaire mkrcamp.com/contact · Reply-To = email du visiteur.")
-  const text = `Sujet : ${subjectLabel}\nNom : ${name}\nEmail : ${email}\nIP : ${ip}\n\n${message}`
+  const phoneLine = phone ? `Telephone : ${phone}\n` : ''
+  const text = `Sujet : ${subjectLabel}\nNom : ${name}\nEmail : ${email}\n${phoneLine}IP : ${ip}\n\n${message}`
 
   const ok = await sendMail({
     subject: `[MKR contact] ${subjectLabel} · ${name}`,
