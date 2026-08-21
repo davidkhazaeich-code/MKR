@@ -181,7 +181,8 @@
       "mentions": "Mentions légales",
       "cgv": "CGV",
       "confidentialite": "Confidentialité"
-    }
+    },
+    "contact_whatsapp_label": "WhatsApp"
   },
   "sticky_mobile_cta": {
     "apply": "POSTULER AU CAMP",
@@ -198,7 +199,6 @@
     "cta": "Ouvrir WhatsApp",
     "qr_intro": "Pas de WhatsApp sur cet ordinateur ? Scanne ce code avec ton téléphone, la conversation s'ouvre directement.",
     "qr_alt": "QR code pour ouvrir la conversation WhatsApp avec Ruslan",
-    "number_prefix": "ou enregistre le numéro",
     "prefill": "Bonjour Ruslan, j'ai une question sur le camp MKR."
   },
   "scroll_nav": {
@@ -250,5 +250,32 @@
       "whatsapp": "Une question précise ? WhatsApp direct"
     }
   },
-  "skip_link": "Aller au contenu principal"
+  "skip_link": "Aller au contenu principal",
+  "process": {
+    "label": "COMMENT ÇA SE PASSE",
+    "title": "CE QUI SE PASSE APRÈS TA CANDIDATURE",
+    "items": {
+      "one": {
+        "title": "Tu envoies ta candidature",
+        "desc": "Cinq minutes. C'est gratuit, tu ne laisses aucun moyen de paiement et tu n'es engagé à rien."
+      },
+      "two": {
+        "title": "Tu choisis ton créneau",
+        "desc": "Dans le calendrier, tu prends la date et l'heure qui t'arrangent. Quinze minutes en visio avec Ruslan, qui sait déjà qui tu es."
+      },
+      "three": {
+        "title": "Ton dossier est validé",
+        "desc": "Ou il ne l'est pas, et ça s'arrête là sans un centime. La sélection va dans les deux sens."
+      },
+      "four": {
+        "title": "Là seulement, on parle d'argent",
+        "desc": "Contrat, virement, place bloquée. Jamais avant l'appel, jamais sans que tu aies dit oui."
+      }
+    },
+    "pledge": {
+      "title": "Zéro engagement tant que l'appel n'a pas eu lieu",
+      "body": "Ni acompte, ni frais de dossier, ni carte bancaire. La candidature ne réserve pas ta place et ne t'inscrit à rien : elle ouvre la conversation, c'est tout."
+    },
+    "note": "Pourquoi passer par la candidature d'abord ? Parce qu'il y a quinze places par discipline, dans des salles qui nous ouvrent leurs portes parce qu'elles nous font confiance. Ruslan veut savoir qui il emmène avant de décrocher. Ces cinq minutes, c'est ce qui lui permet d'arriver à l'appel en te connaissant déjà, et à toi d'avoir un vrai échange plutôt qu'un questionnaire."
+  }
 }

@@ -10,7 +10,7 @@ import PageFaq from '@/components/PageFaq'
 import PhotoStrip from '@/components/PhotoStrip'
 import ProcessStrip, { type ProcessStep } from '@/components/ProcessStrip'
 import Icon from '@/components/Icon'
-import { WHATSAPP, whatsappUrl } from '@/data/site'
+import { whatsappUrl } from '@/data/site'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
@@ -22,6 +22,9 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
   const { locale } = await params
   setRequestLocale(locale)
   const t = await getTranslations('contact')
+  // Parcours canonique partage : /contact et /sessions le rendent tel quel, les
+  // pages camp n'en reprennent que la promesse. Une seule copie a maintenir.
+  const tp = await getTranslations('common.process')
 
   const galleryPhotos = [
     { src: '/images/ruslan/action/mma-adultes-cercle.webp', key: 'one' },
@@ -36,8 +39,8 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
   }))
 
   const processSteps: ProcessStep[] = (['one', 'two', 'three', 'four'] as const).map((key) => ({
-    title: t(`steps.items.${key}.title`),
-    desc: t(`steps.items.${key}.desc`),
+    title: tp(`items.${key}.title`),
+    desc: tp(`items.${key}.desc`),
   }))
 
   return (
@@ -59,45 +62,18 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
         imageFocusY="40%"
       />
 
-      {/* Qui repond. Le camp se vend sur le fait que Ruslan valide et repond
-          lui-meme : la page contact doit le dire avant de demander d'ecrire. */}
-      <section className="ctp-reach fx-grid">
-        <div className="inner">
-          <aside className="ctp-who reveal">
-            <div className="ctp-who-photo">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/images/ruslan/ruslan-portrait-chemise-noire.webp"
-                alt={t('who.photo_alt')}
-                width={702}
-                height={840}
-                loading="lazy"
-              />
-            </div>
-            <div className="ctp-who-body">
-              <span className="ctp-who-label">{t('who.label')}</span>
-              <h2 className="ctp-who-title">{t('who.title')}</h2>
-              <p className="ctp-who-text">{t('who.body')}</p>
-              <ul className="ctp-who-creds">
-                {(['one', 'two', 'three'] as const).map((key) => (
-                  <li key={key}>{t(`who.credentials.${key}`)}</li>
-                ))}
-              </ul>
-            </div>
-          </aside>
-        </div>
-      </section>
-
       {/* Ligne directrice AVANT le formulaire (demande David 2026-08-21) : des
           prospects renoncent a candidater par peur de s'engager. La peur doit
-          tomber avant qu'on demande de remplir quoi que ce soit, pas apres. */}
+          tomber avant qu'on demande de remplir quoi que ce soit, pas apres.
+          Ruslan n'a plus sa grosse carte ici : il est passe en encart compact
+          a cote du formulaire, la ou on decide d'ecrire. */}
       <ProcessStrip
         variant="line"
-        label={t('steps.label')}
-        title={t('steps.title')}
+        label={tp('label')}
+        title={tp('title')}
         steps={processSteps}
-        pledge={{ title: t('steps.pledge.title'), body: t('steps.pledge.body') }}
-        note={t('steps.note')}
+        pledge={{ title: tp('pledge.title'), body: tp('pledge.body') }}
+        note={tp('note')}
       />
 
       {/* Le formulaire arrive juste apres Ruslan (demande David 2026-08-21) :
@@ -130,6 +106,43 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
             </div>
 
             <aside className="ctp-practical reveal" style={{ transitionDelay: '0.1s' }}>
+              {/* Ruslan en encart compact plutot qu'en grosse carte pleine
+                  largeur (demande David) : il est ici parce que c'est le moment
+                  ou l'on decide d'ecrire, et il faut savoir a qui. */}
+              <div className="ctp-who">
+                <div className="ctp-who-photo">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/images/ruslan/ruslan-portrait-chemise-noire.webp"
+                    alt={t('who.photo_alt')}
+                    width={702}
+                    height={840}
+                    loading="lazy"
+                  />
+                </div>
+                <div className="ctp-who-body">
+                  <p className="ctp-who-name">{t('who.name')}</p>
+                  <p className="ctp-who-role">{t('who.role')}</p>
+                  <p className="ctp-who-langs">
+                    <span className="ctp-who-langs-label">{t('who.languages_label')}</span>
+                    {t('who.languages_value')}
+                  </p>
+                </div>
+              </div>
+
+              {/* Seule porte de sortie hors formulaire : WhatsApp. Le NUMERO
+                  n'est jamais ecrit (decision David 2026-08-21, anti-scraping),
+                  il ne vit que dans le href. */}
+              <a
+                className="ctp-whatsapp-btn"
+                href={whatsappUrl(t('whatsapp.prefill'))}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Icon name="whatsapp" size={20} />
+                <span>{t('whatsapp.cta')}</span>
+              </a>
+
               <h3 className="ctp-practical-title">{t('form_section.practical.title')}</h3>
               <dl className="ctp-practical-list">
                 <div className="ctp-practical-row">
@@ -137,20 +150,6 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
                   <div>
                     <dt>{t('form_section.practical.delay.label')}</dt>
                     <dd>{t('form_section.practical.delay.value')}</dd>
-                  </div>
-                </div>
-                <div className="ctp-practical-row">
-                  <span className="ctp-practical-icon" aria-hidden="true"><Icon name="translate" size={18} /></span>
-                  <div>
-                    <dt>{t('form_section.practical.languages.label')}</dt>
-                    <dd>{t('form_section.practical.languages.value')}</dd>
-                  </div>
-                </div>
-                <div className="ctp-practical-row">
-                  <span className="ctp-practical-icon" aria-hidden="true"><Icon name="user-star" size={18} /></span>
-                  <div>
-                    <dt>{t('form_section.practical.who.label')}</dt>
-                    <dd>{t('form_section.practical.who.value')}</dd>
                   </div>
                 </div>
                 <div className="ctp-practical-row">
@@ -166,21 +165,6 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
                   </div>
                 </div>
               </dl>
-
-              {/* Seule porte de sortie hors formulaire : WhatsApp. Pas d'email
-                  affiche, jamais de lien mailto. */}
-              <div className="ctp-whatsapp-aside">
-                <a
-                  className="ctp-whatsapp-btn"
-                  href={whatsappUrl(t('whatsapp.prefill'))}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <Icon name="whatsapp" size={20} />
-                  <span>{t('whatsapp.cta')}</span>
-                </a>
-                <span className="ctp-whatsapp-num">{WHATSAPP.display}</span>
-              </div>
             </aside>
           </div>
         </div>
@@ -278,7 +262,7 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
         label={t('faq.label')}
         title={t('faq.title')}
         items={faqItems}
-        image={{ src: '/images/mma-tchechenie/bandage-mains-sourire.webp', alt: t('faq.image_alt') }}
+        image={{ src: '/images/mma-tchechenie/pads-coach-orange.webp', alt: t('faq.image_alt') }}
       />
     </>
   )

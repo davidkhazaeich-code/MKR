@@ -258,7 +258,8 @@
       "capacity": "15 places max par session",
       "response": "Réponse sous 72h",
       "transfers": "Transferts inclus"
-    }
+    },
+    "info_whatsapp_value": "Écrire à Ruslan"
   },
   "faq": {
     "label": "QUESTIONS FRÉQUENTES",

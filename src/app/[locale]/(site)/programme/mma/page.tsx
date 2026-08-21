@@ -57,6 +57,9 @@ export default async function ProgrammeMMAPage({ params }: { params: Promise<{ l
   const { locale } = await params
   setRequestLocale(locale)
   const t = await getTranslations('programme.mma')
+  // Promesse « zero engagement » partagee : meme texte sur /contact,
+  // /sessions et les pages camp. Une seule copie a maintenir.
+  const tProcess = await getTranslations('common.process')
   const tAntoine = await getTranslations('data.antoine-parcours')
   const antoineProps = getAntoineParcoursProps('mma', tAntoine as never)
 
@@ -274,10 +277,11 @@ export default async function ProgrammeMMAPage({ params }: { params: Promise<{ l
 
       {/* Parcours candidature -> depart */}
       <ProcessStrip
+        variant="line"
         label={t('process.label')}
         title={t('process.title')}
         steps={processSteps}
-        note={t('process.note')}
+        pledge={{ title: tProcess('pledge.title'), body: tProcess('pledge.body') }}
       />
 
       {/* Objections + JSON-LD FAQPage */}

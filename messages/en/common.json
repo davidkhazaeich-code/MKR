@@ -181,7 +181,8 @@
       "mentions": "Legal notice",
       "cgv": "Terms of Sale",
       "confidentialite": "Privacy"
-    }
+    },
+    "contact_whatsapp_label": "WhatsApp"
   },
   "sticky_mobile_cta": {
     "apply": "APPLY TO THE CAMP",
@@ -198,7 +199,6 @@
     "cta": "Open WhatsApp",
     "qr_intro": "No WhatsApp on this computer? Scan this code with your phone, the conversation opens directly.",
     "qr_alt": "QR code to open the WhatsApp conversation with Ruslan",
-    "number_prefix": "or save the number",
     "prefill": "Hi Ruslan, I have a question about the MKR camp."
   },
   "scroll_nav": {
@@ -250,5 +250,32 @@
       "whatsapp": "A specific question? Direct WhatsApp"
     }
   },
-  "skip_link": "Skip to main content"
+  "skip_link": "Skip to main content",
+  "process": {
+    "label": "HOW IT WORKS",
+    "title": "WHAT HAPPENS AFTER YOU APPLY",
+    "items": {
+      "one": {
+        "title": "You send your application",
+        "desc": "Five minutes. It is free, you leave no payment details and you commit to nothing."
+      },
+      "two": {
+        "title": "You pick your slot",
+        "desc": "In the calendar, you take the date and time that suit you. Fifteen minutes on video with Ruslan, who already knows who you are."
+      },
+      "three": {
+        "title": "Your file is validated",
+        "desc": "Or it is not, and it stops there without a cent. Selection works both ways."
+      },
+      "four": {
+        "title": "Only then do we talk money",
+        "desc": "Contract, bank transfer, place held. Never before the call, never without you saying yes."
+      }
+    },
+    "pledge": {
+      "title": "No commitment until the call has happened",
+      "body": "No deposit, no application fee, no card details. Applying does not hold your place and does not sign you up for anything: it opens the conversation, nothing more."
+    },
+    "note": "Why apply first? Because there are fifteen places per discipline, in gyms that open their doors to us because they trust us. Ruslan wants to know who he is taking before he picks up the phone. Those five minutes are what let him arrive at the call already knowing you, and let you have a real conversation rather than a questionnaire."
+  }
 }

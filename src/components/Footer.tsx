@@ -27,7 +27,7 @@ export default function Footer() {
               <a href={WHATSAPP.url} target="_blank" rel="noopener noreferrer"
                 className="footer-contact-link" aria-label={t('contact_whatsapp_aria')}>
                 <Icon name="whatsapp" size={18} />
-                {WHATSAPP.display}
+                {t('contact_whatsapp_label')}
               </a>
               <Link href="/contact" className="footer-contact-link" aria-label={t('contact_form_aria')}>
                 <Icon name="mail" size={18} />

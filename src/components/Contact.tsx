@@ -45,7 +45,7 @@ export default function Contact() {
                 <div>
                   <span className="contact-info-label">{t('info_whatsapp_label')}</span>
                   <a href={WHATSAPP.url} target="_blank" rel="noopener noreferrer" className="contact-info-value">
-                    {WHATSAPP.display}
+                    {t('info_whatsapp_value')}
                   </a>
                 </div>
               </div>

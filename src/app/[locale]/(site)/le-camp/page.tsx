@@ -47,6 +47,9 @@ export default async function LeCampPage({ params }: { params: Promise<{ locale:
   const { locale } = await params
   setRequestLocale(locale)
   const t = await getTranslations('le-camp')
+  // Promesse « zero engagement » partagee : meme texte sur /contact,
+  // /sessions et les pages camp. Une seule copie a maintenir.
+  const tProcess = await getTranslations('common.process')
 
   const facts = t.raw('tldr.facts') as string[]
   const notIncluded = t.raw('not_included.items') as string[]
@@ -269,10 +272,11 @@ export default async function LeCampPage({ params }: { params: Promise<{ locale:
 
       {/* Parcours candidature -> depart */}
       <ProcessStrip
+        variant="line"
         label={t('process.label')}
         title={t('process.title')}
         steps={processSteps}
-        note={t('process.note')}
+        pledge={{ title: tProcess('pledge.title'), body: tProcess('pledge.body') }}
       />
 
       {/* Objections locales + JSON-LD FAQPage */}

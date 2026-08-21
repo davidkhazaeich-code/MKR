@@ -13466,13 +13466,6 @@ html.is-loading body {
 .wa-panel-cta:hover { background: #1ebe5b; }
 .wa-panel-cta:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
 .wa-panel-cta svg { flex-shrink: 0; }
-.wa-panel-number {
-  margin: 0.65rem 0 0;
-  text-align: center;
-  font-size: 0.7rem;
-  color: var(--text-muted);
-}
-.wa-panel-number span { color: var(--text-secondary); white-space: nowrap; }
 
 /* ── Mobile : la barre POSTULER (56px + safe-area) occupe deja le bas ── */
 @media (max-width: 768px) {
@@ -13535,23 +13528,23 @@ html.is-loading body {
   max-width: 44em;
 }
 
-/* ── Qui repond : carte horizontale ──
-   Le camp se vend sur le fait que Ruslan valide et repond lui-meme. La page
-   contact ne le disait nulle part : le visiteur croyait ecrire a un service. */
-.ctp-reach { padding: 4.5rem 0 0; position: relative; }
+/* ── Ruslan, en encart compact en tete de l'aside du formulaire ──
+   Il avait une carte pleine largeur dans sa propre section : trop de place
+   pour trois informations, et loin du moment ou l'on decide d'ecrire.
+   Il est desormais la ou la decision se prend, juste au-dessus du bouton. */
 .ctp-who {
   display: grid;
-  grid-template-columns: 200px minmax(0, 1fr);
-  gap: 1.6rem;
+  grid-template-columns: 72px minmax(0, 1fr);
+  gap: 0.95rem;
   align-items: center;
-  background: var(--surface);
-  border: 1px solid var(--ghost-border);
-  border-radius: 16px;
-  padding: 1.5rem;
+  padding-bottom: 1.2rem;
+  margin-bottom: 1.2rem;
+  border-bottom: 1px solid var(--ghost-border);
 }
 .ctp-who-photo {
-  aspect-ratio: 3 / 4;
-  border-radius: 12px;
+  width: 72px;
+  height: 72px;
+  border-radius: 14px;
   overflow: hidden;
   background: var(--surface-lowest);
 }
@@ -13559,40 +13552,29 @@ html.is-loading body {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 18%;
+  object-position: center 16%;
   display: block;
-  /* Meme traitement que le reste du site : 22 % de desaturation, JAMAIS 100 %
-     (sinon la photo n'est jamais en couleur au doigt, cf. passe 2026-07-25). */
+  /* Meme desaturation que le reste du site, jamais 100 %. */
   filter: grayscale(22%) contrast(1.04);
 }
-.ctp-who-label {
+.ctp-who-body { min-width: 0; }
+.ctp-who-name {
+  margin: 0;
+  font-family: var(--font-teko), sans-serif;
+  font-weight: 600;
+  font-size: 1.6rem;
+  line-height: 1;
+  color: var(--text-primary);
+}
+.ctp-who-role { margin: 0.2rem 0 0.5rem; font-size: 0.85rem; line-height: 1.3; color: var(--primary); }
+.ctp-who-langs { margin: 0; font-size: 0.84rem; line-height: 1.4; color: var(--text-secondary); }
+.ctp-who-langs-label {
   display: block;
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 0.75rem;
-  letter-spacing: 0.18em;
+  font-size: 0.66rem;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--primary);
-  margin-bottom: 0.55rem;
-}
-.ctp-who-title { margin: 0 0 0.8rem; font-size: clamp(1.6rem, 3vw, 2.4rem); line-height: 1.05; }
-.ctp-who-text { color: var(--text-secondary); line-height: 1.65; margin: 0 0 1.1rem; max-width: 52em; }
-.ctp-who-creds { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.5rem 1.4rem; }
-.ctp-who-creds li {
-  position: relative;
-  padding-left: 1rem;
   color: var(--text-muted);
-  font-size: 0.86rem;
-  line-height: 1.45;
-}
-.ctp-who-creds li::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0.55em;
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: var(--primary);
+  margin-bottom: 0.1rem;
 }
 
 /* ── Aiguillage : 4 demandes sur 5 ont deja leur page ── */
@@ -13719,25 +13701,19 @@ html.is-loading body {
 }
 .ctp-practical-row dd { margin: 0; color: var(--text-secondary); font-size: 0.9rem; line-height: 1.55; }
 .ctp-practical-link { color: var(--primary); white-space: nowrap; }
-.ctp-whatsapp-aside {
-  margin-top: 1.5rem;
-  padding-top: 1.3rem;
-  border-top: 1px solid var(--ghost-border);
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.5rem;
-}
 .ctp-whatsapp-btn {
-  display: inline-flex;
+  display: flex;
   align-items: center;
+  justify-content: center;
   gap: 0.6rem;
-  padding: 0.7rem 1.15rem;
+  width: 100%;
+  margin-bottom: 1.5rem;
+  padding: 0.78rem 1.15rem;
   border-radius: 10px;
   background: #25D366;
   color: #06210f;
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 0.9rem;
+  font-family: var(--font-barlow-condensed), sans-serif;
+  font-size: 0.92rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   font-weight: 600;
@@ -13746,7 +13722,6 @@ html.is-loading body {
 }
 .ctp-whatsapp-btn:hover { filter: brightness(1.08); }
 .ctp-whatsapp-btn svg { flex-shrink: 0; }
-.ctp-whatsapp-num { font-size: 0.82rem; color: var(--text-muted); }
 
 /* ── Bande photo : la partie imagee ── */
 .ctp-gallery { padding-top: 1rem; }
@@ -13763,15 +13738,10 @@ html.is-loading body {
   .ctp-route--wide { grid-column: auto; }
 }
 @media (max-width: 640px) {
-  .ctp-reach { padding: 3rem 0 2.5rem; }
   .ctp-routes { padding: 2.5rem 0 3rem; }
   .ctp-form-section { padding: 3rem 0; }
   /* La carte fondateur passe en pile : un cadre 3/4 pleine largeur mangerait
      tout l'ecran, on le bride en bandeau. */
-  .ctp-who { grid-template-columns: 1fr; gap: 1.1rem; padding: 1.15rem; margin-bottom: 2.4rem; }
-  .ctp-who-photo { aspect-ratio: 16 / 9; }
-  .ctp-who-photo img { object-position: center 20%; }
-  .ctp-who-creds { flex-direction: column; gap: 0.45rem; }
   .ctp-route-link { padding: 1rem; gap: 0.8rem; }
   .ctp-practical { padding: 1.2rem; }
   .ctp-form-skeleton { min-height: 560px; }
@@ -13808,7 +13778,7 @@ html.is-loading body {
   }
   .pfaq-aside-img {
     object-fit: cover;
-    object-position: center 30%;
+    object-position: center 50%;
     /* Meme desaturation que le reste du site, jamais 100 %. */
     filter: grayscale(22%) contrast(1.04);
   }

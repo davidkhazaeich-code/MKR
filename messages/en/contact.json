@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "Contact MKR Caucasian Camp · Reply within 48 hours",
-    "description": "A question about the camp in Dagestan or Chechnya? WhatsApp straight to Ruslan, contact form or email. Reply within 48 hours."
+    "description": "A question about the camp in Dagestan or Chechnya? WhatsApp straight to Ruslan or the contact form. Reply within 48 hours."
   },
   "breadcrumb": {
     "home": "Home",
@@ -14,15 +14,11 @@
     "image_alt": "A coach briefing four fighters in the Akhmat Fight Club gym in Grozny"
   },
   "who": {
-    "label": "WHO ANSWERS",
-    "title": "RUSLAN, IN PERSON",
-    "body": "There is no customer service desk at MKR. Ruslan Mukhtarov, the founder, reads the messages and writes back. He is also the one who validates every application over video before a place is held.",
-    "photo_alt": "Ruslan Mukhtarov, founder of MKR Caucasian Camp",
-    "credentials": {
-      "one": "Former French national wrestling team, INSEP 2012-2016",
-      "two": "On site for every session, in Dagestan and in Chechnya",
-      "three": "He answers in English and in French"
-    }
+    "name": "Ruslan",
+    "role": "Founder of the camp",
+    "languages_label": "Languages",
+    "languages_value": "English and French",
+    "photo_alt": "Ruslan Mukhtarov, founder of MKR Caucasian Camp"
   },
   "whatsapp": {
     "cta": "Message on WhatsApp",
@@ -71,14 +67,6 @@
         "label": "Response time",
         "value": "Within 48 hours, by email."
       },
-      "languages": {
-        "label": "Languages",
-        "value": "English and French."
-      },
-      "who": {
-        "label": "Who answers",
-        "value": "Ruslan, the founder of the camp."
-      },
       "privacy": {
         "label": "Your data",
         "value": "Your message lands straight in his inbox. It is not stored in any database.",
@@ -113,7 +101,7 @@
   "faq": {
     "label": "QUESTIONS ABOUT GETTING IN TOUCH",
     "title": "BEFORE YOU WRITE",
-    "image_alt": "A coach wrapping the hands of a smiling fighter before training",
+    "image_alt": "A coach holding the pads while a fighter works on his kick",
     "items": {
       "delay": {
         "question": "How fast do you reply?",
@@ -141,40 +129,28 @@
       }
     }
   },
-  "steps": {
-    "label": "HOW IT WORKS",
-    "title": "WHAT HAPPENS AFTER THE FORM",
-    "items": {
-      "one": {
-        "title": "You fill in the form",
-        "desc": "Five minutes. It is free, you leave no payment details and you commit to nothing."
-      },
-      "two": {
-        "title": "Ruslan calls you back",
-        "desc": "Within 48 hours, a fifteen minute video call. He already knows who you are, you ask every question you have."
-      },
-      "three": {
-        "title": "Your file is validated",
-        "desc": "Or it is not, and it stops there without a cent. Selection works both ways."
-      },
-      "four": {
-        "title": "Only then do we talk money",
-        "desc": "Contract, bank transfer, place held. Never before the call, never without you saying yes."
-      }
-    },
-    "pledge": {
-      "title": "No commitment until the call has happened",
-      "body": "No deposit, no application fee, no card details. The form does not hold your place and does not sign you up for anything: it opens the conversation, nothing more."
-    },
-    "note": "Why the form first? Because there are fifteen places per discipline, in gyms that open their doors to us because they trust us. Ruslan wants to know who he is taking before he picks up the phone. Those five minutes are what let him arrive at the call already knowing you, and let you have a real conversation rather than a questionnaire."
-  },
   "form": {
     "fields": {
-      "name": { "label": "Full name", "placeholder": "Your name" },
-      "email": { "label": "Email", "placeholder": "you@email.com" },
-      "phone": { "label": "Phone (optional)", "placeholder": "+33 6 12 34 56 78" },
-      "subject": { "label": "Subject", "placeholder": "Choose a subject" },
-      "message": { "label": "Message", "placeholder": "Your message..." }
+      "name": {
+        "label": "Full name",
+        "placeholder": "Your name"
+      },
+      "email": {
+        "label": "Email",
+        "placeholder": "you@email.com"
+      },
+      "phone": {
+        "label": "Phone (optional)",
+        "placeholder": "+33 6 12 34 56 78"
+      },
+      "subject": {
+        "label": "Subject",
+        "placeholder": "Choose a subject"
+      },
+      "message": {
+        "label": "Message",
+        "placeholder": "Your message..."
+      }
     },
     "optional_hint": "Fill it in if you would rather be called back than written to.",
     "subjects": {

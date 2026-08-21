@@ -55,6 +55,9 @@ export default async function ProgrammeLuttePage({ params }: { params: Promise<{
   const { locale } = await params
   setRequestLocale(locale)
   const t = await getTranslations('programme.lutte')
+  // Promesse « zero engagement » partagee : meme texte sur /contact,
+  // /sessions et les pages camp. Une seule copie a maintenir.
+  const tProcess = await getTranslations('common.process')
 
   const facts = t.raw('tldr.facts') as string[]
   const techniques = TECHNIQUE_KEYS.map((key) => ({
@@ -200,10 +203,11 @@ export default async function ProgrammeLuttePage({ params }: { params: Promise<{
 
       {/* Parcours candidature -> depart */}
       <ProcessStrip
+        variant="line"
         label={t('process.label')}
         title={t('process.title')}
         steps={processSteps}
-        note={t('process.note')}
+        pledge={{ title: tProcess('pledge.title'), body: tProcess('pledge.body') }}
       />
 
       {/* Objections + JSON-LD FAQPage */}

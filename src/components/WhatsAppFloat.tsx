@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import { useLocale, useTranslations } from 'next-intl'
-import { WHATSAPP, whatsappUrl } from '@/data/site'
+import { whatsappUrl } from '@/data/site'
 
 /**
  * Bulle WhatsApp flottante, contact direct avec Ruslan.
@@ -153,9 +153,6 @@ export default function WhatsAppFloat() {
             <WhatsAppGlyph size={20} />
             {t('cta')}
           </a>
-          <p className="wa-panel-number">
-            {t('number_prefix')} <span dir="ltr">{WHATSAPP.display}</span>
-          </p>
         </div>
       </div>
 

@@ -9,6 +9,7 @@ import AudienceSwitcher from '@/components/AudienceSwitcher'
 import PricingTable from '@/components/PricingTable'
 import PlacesRestantes from '@/components/PlacesRestantes'
 import RefundPolicyTable from '@/components/RefundPolicyTable'
+import ProcessStrip, { type ProcessStep } from '@/components/ProcessStrip'
 import {
   MIN_PRICE_PER_ADULT_LABEL,
   FAMILY_BASE_1WEEK_LABEL,
@@ -36,6 +37,9 @@ export default async function SessionsPage({ params }: { params: Promise<{ local
   setRequestLocale(locale)
   const t = await getTranslations('sessions')
   const tSessions = await getTranslations('data.sessions')
+  // Parcours canonique partage avec /contact : c'est ici, juste apres la
+  // grille tarifaire, que l'objection « je m'engage a quoi ? » est la plus vive.
+  const tProcess = await getTranslations('common.process')
   // Les cartes sont generees depuis la fenetre glissante : une saison qui a
   // demarre disparait d'elle-meme, la meme saison de l'annee suivante arrive.
   const sessions = hydrateSessions(getSessions(), tSessions as never)
@@ -43,6 +47,11 @@ export default async function SessionsPage({ params }: { params: Promise<{ local
   const PRICE_FROM_LABEL = `${t('price_from_prefix')} ${MIN_PRICE_PER_ADULT_LABEL}`
   const clubPrice = formatEUR(PRICING_TIERS.club.perAdult[1])
   const trioPrice = formatEUR(PRICING_TIERS.trio.perAdult[1])
+
+  const processSteps: ProcessStep[] = (['one', 'two', 'three', 'four'] as const).map((key) => ({
+    title: tProcess(`items.${key}.title`),
+    desc: tProcess(`items.${key}.desc`),
+  }))
 
   return (
     <>
@@ -141,6 +150,17 @@ export default async function SessionsPage({ params }: { params: Promise<{ local
 
       {/* Pricing Table : grille tarifaire publique */}
       <PricingTable />
+
+      {/* Le prix vient d'etre annonce : c'est le moment ou le visiteur se
+          demande a quoi il s'engage. La reponse doit suivre immediatement. */}
+      <ProcessStrip
+        variant="line"
+        label={tProcess('label')}
+        title={tProcess('title')}
+        steps={processSteps}
+        pledge={{ title: tProcess('pledge.title'), body: tProcess('pledge.body') }}
+        note={tProcess('note')}
+      />
 
       {/* Renvoi /le-camp pour le détail "Inclus / Non inclus" */}
       <section className="logi-section fx-grid fx-stack-3b">

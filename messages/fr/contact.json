@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "Contact MKR Caucasian Camp · Réponse sous 48 heures",
-    "description": "Une question sur le camp au Daghestan ou en Tchétchénie ? WhatsApp direct avec Ruslan, formulaire ou email. Réponse sous 48 heures."
+    "description": "Une question sur le camp au Daghestan ou en Tchétchénie ? WhatsApp direct avec Ruslan ou formulaire de contact. Réponse sous 48 heures."
   },
   "breadcrumb": {
     "home": "Accueil",
@@ -14,15 +14,11 @@
     "image_alt": "Un coach explique la consigne à quatre combattants dans la salle de l'Akhmat Fight Club à Grozny"
   },
   "who": {
-    "label": "QUI RÉPOND",
-    "title": "RUSLAN, EN PERSONNE",
-    "body": "Il n'y a pas de service client chez MKR. C'est Ruslan Mukhtarov, le fondateur, qui lit les messages et qui répond. C'est aussi lui qui valide chaque candidature en visio avant de bloquer une place.",
-    "photo_alt": "Ruslan Mukhtarov, fondateur de MKR Caucasian Camp",
-    "credentials": {
-      "one": "Ancien équipe de France de lutte, INSEP 2012-2016",
-      "two": "Sur place à chaque session, au Daghestan comme en Tchétchénie",
-      "three": "Il répond en français et en anglais"
-    }
+    "name": "Ruslan",
+    "role": "Fondateur du camp",
+    "languages_label": "Langues",
+    "languages_value": "Français et anglais",
+    "photo_alt": "Ruslan Mukhtarov, fondateur de MKR Caucasian Camp"
   },
   "whatsapp": {
     "cta": "Écrire sur WhatsApp",
@@ -71,14 +67,6 @@
         "label": "Délai de réponse",
         "value": "Sous 48 heures, par email."
       },
-      "languages": {
-        "label": "Langues",
-        "value": "Français et anglais."
-      },
-      "who": {
-        "label": "Qui te répond",
-        "value": "Ruslan, le fondateur du camp."
-      },
       "privacy": {
         "label": "Tes données",
         "value": "Ton message arrive directement dans sa boîte mail. Il n'est stocké dans aucune base de données.",
@@ -113,7 +101,7 @@
   "faq": {
     "label": "QUESTIONS SUR LE CONTACT",
     "title": "AVANT DE NOUS ÉCRIRE",
-    "image_alt": "Un coach bande les mains d'un combattant qui sourit, avant l'entraînement",
+    "image_alt": "Un coach tient les pattes d'ours pendant qu'un combattant travaille son coup de pied",
     "items": {
       "delay": {
         "question": "En combien de temps vous répondez ?",
@@ -141,40 +129,28 @@
       }
     }
   },
-  "steps": {
-    "label": "COMMENT ÇA SE PASSE",
-    "title": "CE QUI SE PASSE APRÈS LE FORMULAIRE",
-    "items": {
-      "one": {
-        "title": "Tu remplis le formulaire",
-        "desc": "Cinq minutes. C'est gratuit, tu ne laisses aucun moyen de paiement et tu n'es engagé à rien."
-      },
-      "two": {
-        "title": "Ruslan te rappelle",
-        "desc": "Sous 48 heures, un appel en visio de quinze minutes. Il sait déjà qui tu es, tu poses toutes tes questions."
-      },
-      "three": {
-        "title": "Ton dossier est validé",
-        "desc": "Ou il ne l'est pas, et ça s'arrête là sans un centime. La sélection va dans les deux sens."
-      },
-      "four": {
-        "title": "Là seulement, on parle d'argent",
-        "desc": "Contrat, virement, place bloquée. Jamais avant l'appel, jamais sans que tu aies dit oui."
-      }
-    },
-    "pledge": {
-      "title": "Zéro engagement tant que l'appel n'a pas eu lieu",
-      "body": "Ni acompte, ni frais de dossier, ni carte bancaire. Le formulaire ne réserve pas ta place et ne t'inscrit à rien : il ouvre la conversation, c'est tout."
-    },
-    "note": "Pourquoi passer par le formulaire d'abord ? Parce qu'il y a quinze places par discipline, dans des salles qui nous ouvrent leurs portes parce qu'elles nous font confiance. Ruslan veut savoir qui il emmène avant de décrocher. Ces cinq minutes, c'est ce qui lui permet d'arriver à l'appel en te connaissant déjà, et à toi d'avoir un vrai échange plutôt qu'un questionnaire."
-  },
   "form": {
     "fields": {
-      "name": { "label": "Nom complet", "placeholder": "Ton nom" },
-      "email": { "label": "Email", "placeholder": "ton@email.com" },
-      "phone": { "label": "Téléphone (optionnel)", "placeholder": "+33 6 12 34 56 78" },
-      "subject": { "label": "Sujet", "placeholder": "Choisis un sujet" },
-      "message": { "label": "Message", "placeholder": "Ton message..." }
+      "name": {
+        "label": "Nom complet",
+        "placeholder": "Ton nom"
+      },
+      "email": {
+        "label": "Email",
+        "placeholder": "ton@email.com"
+      },
+      "phone": {
+        "label": "Téléphone (optionnel)",
+        "placeholder": "+33 6 12 34 56 78"
+      },
+      "subject": {
+        "label": "Sujet",
+        "placeholder": "Choisis un sujet"
+      },
+      "message": {
+        "label": "Message",
+        "placeholder": "Ton message..."
+      }
     },
     "optional_hint": "Renseigne-le si tu préfères qu'on te rappelle plutôt que de t'écrire.",
     "subjects": {

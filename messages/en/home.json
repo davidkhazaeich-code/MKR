@@ -258,7 +258,8 @@
       "capacity": "15 spots max per session",
       "response": "Reply within 72h",
       "transfers": "Transfers included"
-    }
+    },
+    "info_whatsapp_value": "Message Ruslan"
   },
   "faq": {
     "label": "FREQUENTLY ASKED QUESTIONS",
