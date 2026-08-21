@@ -9,20 +9,33 @@
 
 **Le problème** : la page était un formulaire, trois cartes (formulaire / WhatsApp / Instagram), une note « 48h » et une photo de route de montagne. Aucun hero illustré, aucun aiguillage, et surtout **rien ne disait que c'est Ruslan qui répond en personne**, alors que c'est l'argument central du camp et que la bulle WhatsApp flottante le dit, elle, depuis le matin même.
 
-### Ce que la page contient maintenant
+### ⛔ Règle qui dépasse la page : AUCUNE adresse email publiée sur le site
+
+> **Décision David 2026-08-21** : « n'affiche pas l'email directement sur le site, je veux pas recevoir de spam. Tout doit passer par formulaire. »
+
+`contact@mkrcamp.com` **n'apparaît plus nulle part côté public** : ni en texte, ni en `mailto:`, ni dans le **JSON-LD** (`Organization.email` et `contactPoint.email` retirés de `[locale]/layout.tsx`, remplacés par `contactPoint.url` vers `/contact`), ni dans **`llms.txt` / `llms-en.txt`**. Le JSON-LD comptait : il n'est pas « affiché » mais il est dans le source de **chaque page**, donc trivialement moissonné.
+
+`SITE_EMAIL` de `data/site.ts` reste, mais **usage serveur uniquement** (expéditeur, `replyTo`, bcc des mails sortants). Un commentaire de garde est posé dessus. Contrôle : `curl` sur 5 pages FR et EN renvoie **0 occurrence**, et la QA Playwright échoue si un `mailto:` ou une adresse réapparaît dans le HTML.
+
+Le footer et le bloc `Contact.tsx` de la home pointaient **déjà** vers `/contact` et non vers un `mailto` : rien à y changer (la ligne « Email contact » du §6bis était périmée sur ce point).
+
+### Ce que la page contient maintenant, dans l'ordre
 
 | Bloc | Classe CSS | Ce qu'il règle |
 |---|---|---|
 | Hero illustré | `.page-hero--image` | La page ouvrait sur un mur de texte. Photo du briefing coach à l'Akhmat Fight Club, `imageFocusY="40%"` |
 | Carte « qui répond » | `.ctp-who` | Photo de Ruslan, son parcours, le fait qu'il lit et répond lui-même |
-| Grille de 4 canaux | `.ctp-channel` | Chaque canal porte **sa raison d'être ET son délai** : c'est ce qui évite une question urgente postée dans un formulaire à 48 h |
-| Aiguillage 5 profils | `.ctp-route` | 4 demandes sur 5 ont déjà leur page (inscription, famille, club, logistique). La 5ᵉ (presse) ouvre le formulaire **sujet pré-rempli** |
-| Formulaire + « bon à savoir » | `.ctp-form-grid` | Champ **téléphone optionnel** ajouté, encart délai / langues / qui répond / données |
+| **Formulaire** + « bon à savoir » | `.ctp-form-grid` | Remonté **juste après Ruslan** (demande David) : c'est l'action principale. Champ **téléphone optionnel**, encart délai / langues / qui répond / données, et le **seul** bouton hors formulaire est WhatsApp |
+| Sortie visio | `.ctp-visio` | Lien texte vers Cal, **juste sous le formulaire** : c'est là qu'on hésite encore entre écrire et parler. Jamais de widget |
+| Aiguillage 5 profils | `.ctp-route` | 4 demandes sur 5 ont déjà leur page (inscription, famille, club, logistique). La 5ᵉ (presse) **remonte** au formulaire, sujet pré-rempli |
 | Bande de 4 vraies photos | `PhotoStrip` | La partie « imagée ». Les 4 fichiers sont ceux déjà validés par les passes de juillet |
-| FAQ de contact (6 Q/R) | `PageFaq` | Questions **propres à la page** (délai, langue, relancer un dossier, annuler), pas un copier-coller de `/faq`. Émet un `FAQPage` |
-| Sortie visio | `.ctp-visio` | Lien texte vers Cal, jamais de widget |
+| FAQ de contact (6 Q/R) + image | `PageFaq` | Questions **propres à la page**, pas un copier-coller de `/faq`. Émet un `FAQPage` |
 
-CSS : bloc `.ctp-*` en fin de `globals.css`. **Ne pas confondre avec les `.contact-*`**, qui appartiennent au bloc `Contact.tsx` de la home et n'ont pas bougé.
+**Section « PAR OÙ PASSER » (les 4 canaux) supprimée** le jour même, avec son CSS et ses 22 clés i18n par langue : elle exposait l'email, et une fois celui-ci retiré il ne restait que WhatsApp et Instagram, déjà présents ailleurs (bouton WhatsApp de l'encart, bulle flottante, pastille Instagram du header).
+
+**`PageFaq` accepte désormais une prop `image` optionnelle.** `.pfaq-list` est bornée à 820px : sur une colonne de 1240px il restait ~420px de vide à droite. L'illustration comble ce vide **en desktop seulement** (`display: none` sous 1024px). Comme `next/image` est lazy par défaut et que l'élément n'est jamais dans le viewport en mobile, **elle n'est même pas téléchargée** (vérifié : 0 requête à 390px, 1 à 1440px). Sans la prop, le rendu du composant est identique à avant sur les autres pages qui l'utilisent.
+
+CSS : bloc `.ctp-*` en fin de `globals.css`, plus `.pfaq-grid` / `.pfaq-aside`. **Ne pas confondre les `.ctp-*` avec les `.contact-*`**, qui appartiennent au bloc `Contact.tsx` de la home et n'ont pas bougé.
 
 ### Trois pièges rencontrés, à ne pas re-marcher dedans
 
@@ -30,15 +43,15 @@ CSS : bloc `.ctp-*` en fin de `globals.css`. **Ne pas confondre avec les `.conta
 2. **Une navigation cliente vers la MÊME route ne rejoue pas l'initialiseur de `useState`.** La carte « Presse ou partenariat » pousse `/contact?sujet=presse` : `useSearchParams` se met à jour, mais le `useState(() => ...)` du sujet non, donc le select restait vide. Il faut un `useEffect` sur la valeur du paramètre. Vrai pour tout formulaire pré-rempli par une query de la même page.
 3. **`useSearchParams` sans `<Suspense>` fait basculer la page en rendu dynamique.** `/contact` doit rester en SSG (vérifié `● /[locale]/contact` au build). Même montage que `GuideForm`.
 
-### Fichiers touchés (6)
+### Fichiers touchés (9)
 
-`contact/page.tsx` (réécrite) · `ContactForm.tsx` (téléphone + `?sujet=` + ancre `#formulaire`) · `api/contact/route.ts` (accepte `phone`, **optionnel et jamais bloquant**, ajouté à l'email HTML et texte via `row()` qui échappe déjà) · `messages/{fr,en}/contact.json` · `globals.css`.
+`contact/page.tsx` (réécrite) · `ContactForm.tsx` (téléphone + `?sujet=` + ancre `#formulaire`) · `api/contact/route.ts` (accepte `phone`, **optionnel et jamais bloquant**, ajouté à l'email HTML et texte via `row()` qui échappe déjà) · `PageFaq.tsx` (prop `image`) · `[locale]/layout.tsx` (email retiré du JSON-LD) · `data/site.ts` (garde sur `SITE_EMAIL`) · `messages/{fr,en}/contact.json` · `globals.css` · `public/llms{,-en}.txt`.
 
 ### QA
 
-`tsc` 0 erreur · `i18n-check` **2 941 clés** FR=EN, métas dans les limites SERP, liens EN localisés · `next build` vert, `/contact` toujours en **SSG** · sweep Playwright **57 contrôles / 0 échec** sur 6 combinaisons (FR+EN × 390/768/1440) : zéro débordement, 1 seul h1, aucune image cassée, fil d'Ariane, liens WhatsApp tous sur le bon numéro, **soumission réelle du formulaire (200 `ok:true`)**, pré-remplissage du sujet et remontée vers le formulaire · **16 mesures de contraste texte sur photo, toutes ≥ 4,5:1 dans le pire cas** (pixel de fond le plus clair, ombre portée non comptée donc valeurs pessimistes ; la plus serrée est le sous-titre à 4,73:1 en 390px).
+`tsc` 0 erreur · `i18n-check` **2 919 clés** FR=EN, métas dans les limites SERP, liens EN localisés · `next build` vert, `/contact` toujours en **SSG** · sweep Playwright **75 contrôles / 0 échec** sur 6 combinaisons (FR+EN × 390/768/1440) : zéro débordement, 1 seul h1, aucune image cassée, fil d'Ariane, liens WhatsApp tous sur le bon numéro, **aucune adresse email ni `mailto:` dans le HTML**, ordre Ruslan → formulaire → visio → raccourcis, image de FAQ affichée en desktop et masquée en dessous, **soumission réelle du formulaire (200 `ok:true`)**, pré-remplissage du sujet et remontée vers le formulaire · **16 mesures de contraste texte sur photo, toutes ≥ 4,5:1 dans le pire cas** (pixel de fond le plus clair, ombre portée non comptée donc valeurs pessimistes ; la plus serrée est le sous-titre à 4,73:1 en 390px).
 
-Scripts réutilisables : `.tmp/qa-contact.mjs` et `.tmp/qa-contact-contraste.mjs`.
+Scripts réutilisables : `.tmp/qa-contact.mjs`, `.tmp/qa-contact-contraste.mjs`, `.tmp/qa-faq-image-net.mjs`.
 
 ### Reste ouvert
 
@@ -1793,10 +1806,10 @@ mkrcamp.com/
 
 ### 📞 `/contact` — Contact
 **Fichier** : `src/app/[locale]/(site)/contact/page.tsx` (refondue le 2026-08-21, voir la section en tête de ce fichier)
-**Composants** : `PageHero` (illustré) · `ContactForm` (sous `<Suspense>`) · `PhotoStrip` · `PageFaq`
-**Sections** : hero photo · carte « qui répond » (Ruslan) · 4 canaux avec délai · 5 raccourcis d'aiguillage · formulaire + encart pratique · 4 vraies photos · FAQ 6 Q/R · lien visio
+**Composants** : `PageHero` (illustré) · `ContactForm` (sous `<Suspense>`) · `PhotoStrip` · `PageFaq` (avec prop `image`)
+**Sections, dans l'ordre** : hero photo · carte « qui répond » (Ruslan) · **formulaire + encart pratique** · lien visio · 5 raccourcis d'aiguillage · 4 vraies photos · FAQ 6 Q/R avec illustration latérale desktop
 **Formulaire** : Nom, Email, **Téléphone (optionnel)**, Sujet [select], Message. Sujets : general, partenariat, clubs, presse, autre. Accepte `?sujet=<valeur>` pour pré-remplir et remonter au formulaire (ancre `#formulaire`).
-**Coordonnées affichées** : email contact@mkrcamp.com · WhatsApp via `WHATSAPP` de `data/site.ts` · Instagram @mkrcamp
+**Coordonnées affichées** : WhatsApp via `WHATSAPP` de `data/site.ts`. **Aucune adresse email**, jamais de `mailto:`.
 **Copy** : `messages/{fr,en}/contact.json`. **CSS** : bloc `.ctp-*` en fin de `globals.css`.
 
 ---
@@ -2217,14 +2230,14 @@ GEO = { latitude: 42.9849, longitude: 47.5047, country: 'RU', region: 'Daghestan
 | `data/faq.ts` | 3 réponses (processus, annulation, moyens) — FAQ_CATEGORIES Inscription |
 | `components/Timeline.tsx` | étape 03 homepage « Visio validée, package réglé par virement » |
 
-### Email contact
+### Email contact — ⛔ JAMAIS PUBLIÉ CÔTÉ PUBLIC (décision David 2026-08-21)
 | Fichier | Forme |
 |---|---|
-| `data/site.ts` | SITE_EMAIL = 'contact@mkrcamp.com' |
-| `components/Footer.tsx` | footer-contact-link mailto |
-| `components/Contact.tsx` | bloc info homepage |
-| `app/(site)/contact/page.tsx` | carte Email |
-| `app/(site)/sessions/page.tsx` | bouton "ENVOYER UN EMAIL" tarif groupe |
+| `data/site.ts` | `SITE_EMAIL` — **usage serveur uniquement** (expéditeur, replyTo, bcc). Commentaire de garde posé dessus |
+| `api/*/route.ts`, `lib/*-email.ts` | seuls consommateurs légitimes (emails sortants) |
+| **Partout ailleurs** | **rien**. Ni texte, ni `mailto:`, ni JSON-LD, ni `llms.txt`. Tout contact entrant passe par `/contact` |
+
+Le footer, le bloc `Contact.tsx` de la home et `/sessions` renvoient vers `/contact` ou WhatsApp, **jamais vers un mailto** (les lignes qui l'affirmaient ici étaient périmées). Contrôle : `grep -rn "mailto:" src/ | grep -v /admin/` doit être vide, et `curl` sur une page publique ne doit renvoyer **0 occurrence** de l'adresse. La QA Playwright de `/contact` échoue si l'une des deux réapparaît.
 
 ### Réseaux sociaux (Instagram, Facebook, YouTube)
 | Fichier | Forme |

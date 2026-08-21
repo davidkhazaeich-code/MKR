@@ -24,42 +24,9 @@
       "three": "Il répond en français et en anglais"
     }
   },
-  "channels": {
-    "label": "PAR OÙ PASSER",
-    "title": "QUATRE CANAUX, UN SEUL BON À CHAQUE FOIS",
-    "intro": "Choisis en fonction de ce que tu as à dire. Le mauvais canal, c'est surtout du temps perdu pour toi.",
-    "delay_label": "Délai",
-    "items": {
-      "whatsapp": {
-        "title": "WhatsApp",
-        "purpose": "Une question courte, un doute avant de candidater, une urgence pendant ton séjour.",
-        "value": "+33 7 83 10 96 81",
-        "delay": "Le canal le plus rapide",
-        "cta": "Écrire sur WhatsApp",
-        "prefill": "Bonjour Ruslan, j'ai une question sur le camp MKR."
-      },
-      "form": {
-        "title": "Formulaire",
-        "purpose": "Une demande détaillée, un projet de groupe, tout ce qui demande une vraie réponse écrite.",
-        "value": "Le formulaire en bas de page",
-        "delay": "Sous 48 heures",
-        "cta": "Aller au formulaire"
-      },
-      "email": {
-        "title": "Email",
-        "purpose": "Presse, partenariat, facturation, ou tout message avec une pièce jointe.",
-        "value": "contact@mkrcamp.com",
-        "delay": "Sous 48 heures",
-        "cta": "Envoyer un email"
-      },
-      "instagram": {
-        "title": "Instagram",
-        "purpose": "Voir les coulisses des sessions et les photos qui ne sont pas sur le site.",
-        "value": "@mkrcamp",
-        "delay": "Au fil de l'eau",
-        "cta": "Voir le compte"
-      }
-    }
+  "whatsapp": {
+    "cta": "Écrire sur WhatsApp",
+    "prefill": "Bonjour Ruslan, j'ai une question sur le camp MKR."
   },
   "routes": {
     "label": "RACCOURCIS",
@@ -146,10 +113,11 @@
   "faq": {
     "label": "QUESTIONS SUR LE CONTACT",
     "title": "AVANT DE NOUS ÉCRIRE",
+    "image_alt": "Un coach bande les mains d'un combattant qui sourit, avant l'entraînement",
     "items": {
       "delay": {
         "question": "En combien de temps vous répondez ?",
-        "answer": "Sous 48 heures sur le formulaire et sur l'email. WhatsApp reste le canal le plus rapide, parce que le message arrive directement sur le téléphone de Ruslan. Si tu n'as rien reçu au bout de 48 heures, vérifie tes indésirables avant de relancer : la réponse part de contact@mkrcamp.com."
+        "answer": "Sous 48 heures sur le formulaire. WhatsApp reste le canal le plus rapide, parce que le message arrive directement sur le téléphone de Ruslan. Si tu n'as rien reçu au bout de 48 heures, vérifie tes indésirables avant de relancer : la réponse arrive depuis le domaine mkrcamp.com."
       },
       "language": {
         "question": "Je peux écrire en anglais ?",

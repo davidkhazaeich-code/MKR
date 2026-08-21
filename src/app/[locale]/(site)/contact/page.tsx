@@ -9,7 +9,7 @@ import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd'
 import PageFaq from '@/components/PageFaq'
 import PhotoStrip from '@/components/PhotoStrip'
 import Icon from '@/components/Icon'
-import { SITE_EMAIL, SOCIALS, WHATSAPP, whatsappUrl } from '@/data/site'
+import { WHATSAPP, whatsappUrl } from '@/data/site'
 
 // Meme source que visio-email.ts et cancel-page.ts : l'event Cal peut changer
 // sans toucher au code. Ici on ne pose qu'un LIEN (decision David 2026-08-21) :
@@ -26,20 +26,6 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
   const { locale } = await params
   setRequestLocale(locale)
   const t = await getTranslations('contact')
-
-  // Chaque canal porte SA raison d'etre et SON delai : c'est ce qui evite au
-  // visiteur de poser une question urgente dans un formulaire a 48 h.
-  const channels = [
-    {
-      key: 'whatsapp',
-      icon: 'whatsapp' as const,
-      href: whatsappUrl(t('channels.items.whatsapp.prefill')),
-      external: true,
-    },
-    { key: 'form', icon: 'message' as const, href: '#formulaire', external: false },
-    { key: 'email', icon: 'mail' as const, href: `mailto:${SITE_EMAIL}`, external: false },
-    { key: 'instagram', icon: 'instagram' as const, href: SOCIALS.instagram, external: true },
-  ]
 
   const galleryPhotos = [
     { src: '/images/ruslan/action/mma-adultes-cercle.webp', key: 'one' },
@@ -72,8 +58,8 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
         imageFocusY="40%"
       />
 
-      {/* Qui repond + par ou passer. Les deux vont ensemble : savoir que c'est
-          Ruslan au bout ne sert a rien si on ne sait pas par quel canal. */}
+      {/* Qui repond. Le camp se vend sur le fait que Ruslan valide et repond
+          lui-meme : la page contact doit le dire avant de demander d'ecrire. */}
       <section className="ctp-reach fx-grid">
         <div className="inner">
           <aside className="ctp-who reveal">
@@ -98,120 +84,12 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
               </ul>
             </div>
           </aside>
-
-          <header className="ctp-head ctp-head--channels reveal">
-            <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>
-              {t('channels.label')}
-            </span>
-            <h2>{t('channels.title')}</h2>
-            <p className="ctp-head-intro">{t('channels.intro')}</p>
-          </header>
-
-          <ul className="ctp-channels reveal">
-              {channels.map((channel) => (
-                <li key={channel.key} className="ctp-channel">
-                  <span className="ctp-channel-icon" aria-hidden="true">
-                    <Icon name={channel.icon} size={22} />
-                  </span>
-                  <div className="ctp-channel-body">
-                    <h3 className="ctp-channel-title">{t(`channels.items.${channel.key}.title`)}</h3>
-                    <p className="ctp-channel-purpose">{t(`channels.items.${channel.key}.purpose`)}</p>
-                    <div className="ctp-channel-foot">
-                      <a
-                        className="ctp-channel-link"
-                        href={channel.href}
-                        aria-label={t(`channels.items.${channel.key}.cta`)}
-                        {...(channel.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                      >
-                        {t(`channels.items.${channel.key}.value`)}
-                      </a>
-                      <span className="ctp-channel-delay">
-                        <span className="ctp-channel-delay-label">{t('channels.delay_label')}</span>
-                        {t(`channels.items.${channel.key}.delay`)}
-                      </span>
-                    </div>
-                  </div>
-                </li>
-              ))}
-          </ul>
         </div>
       </section>
 
-      {/* Aiguillage : quatre demandes sur cinq ont deja leur page. Les envoyer
-          la plutot que dans la boite mail leur fait gagner 48 h. */}
-      <section className="ctp-routes">
-        <div className="inner">
-          <header className="ctp-head reveal">
-            <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>
-              {t('routes.label')}
-            </span>
-            <h2>{t('routes.title')}</h2>
-            <p className="ctp-head-intro">{t('routes.intro')}</p>
-          </header>
-
-          <ul className="ctp-routes-list reveal">
-            <li className="ctp-route">
-              <Link href="/inscription" className="ctp-route-link">
-                <span className="ctp-route-icon" aria-hidden="true"><Icon name="send" size={20} /></span>
-                <span className="ctp-route-text">
-                  <span className="ctp-route-title">{t('routes.items.inscription.title')}</span>
-                  <span className="ctp-route-body">{t('routes.items.inscription.body')}</span>
-                  <span className="ctp-route-cta">{t('routes.items.inscription.cta')}</span>
-                </span>
-                <span className="ctp-route-chevron" aria-hidden="true"><Icon name="chevron-right" size={18} /></span>
-              </Link>
-            </li>
-            <li className="ctp-route">
-              <Link href="/familles" className="ctp-route-link">
-                <span className="ctp-route-icon" aria-hidden="true"><Icon name="parent" size={20} /></span>
-                <span className="ctp-route-text">
-                  <span className="ctp-route-title">{t('routes.items.famille.title')}</span>
-                  <span className="ctp-route-body">{t('routes.items.famille.body')}</span>
-                  <span className="ctp-route-cta">{t('routes.items.famille.cta')}</span>
-                </span>
-                <span className="ctp-route-chevron" aria-hidden="true"><Icon name="chevron-right" size={18} /></span>
-              </Link>
-            </li>
-            <li className="ctp-route">
-              <Link href="/clubs-groupes" className="ctp-route-link">
-                <span className="ctp-route-icon" aria-hidden="true"><Icon name="team" size={20} /></span>
-                <span className="ctp-route-text">
-                  <span className="ctp-route-title">{t('routes.items.groupe.title')}</span>
-                  <span className="ctp-route-body">{t('routes.items.groupe.body')}</span>
-                  <span className="ctp-route-cta">{t('routes.items.groupe.cta')}</span>
-                </span>
-                <span className="ctp-route-chevron" aria-hidden="true"><Icon name="chevron-right" size={18} /></span>
-              </Link>
-            </li>
-            <li className="ctp-route">
-              <Link href="/logistique" className="ctp-route-link">
-                <span className="ctp-route-icon" aria-hidden="true"><Icon name="passport" size={20} /></span>
-                <span className="ctp-route-text">
-                  <span className="ctp-route-title">{t('routes.items.logistique.title')}</span>
-                  <span className="ctp-route-body">{t('routes.items.logistique.body')}</span>
-                  <span className="ctp-route-cta">{t('routes.items.logistique.cta')}</span>
-                </span>
-                <span className="ctp-route-chevron" aria-hidden="true"><Icon name="chevron-right" size={18} /></span>
-              </Link>
-            </li>
-            {/* La 5e demande n'a pas de page dediee : elle renvoie au formulaire
-                avec le sujet deja choisi (ContactForm lit `?sujet=`). */}
-            <li className="ctp-route ctp-route--wide">
-              <Link href={{ pathname: '/contact', query: { sujet: 'presse' } }} className="ctp-route-link">
-                <span className="ctp-route-icon" aria-hidden="true"><Icon name="briefcase" size={20} /></span>
-                <span className="ctp-route-text">
-                  <span className="ctp-route-title">{t('routes.items.presse.title')}</span>
-                  <span className="ctp-route-body">{t('routes.items.presse.body')}</span>
-                  <span className="ctp-route-cta">{t('routes.items.presse.cta')}</span>
-                </span>
-                <span className="ctp-route-chevron" aria-hidden="true"><Icon name="chevron-right" size={18} /></span>
-              </Link>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      {/* Formulaire + ce qu'il faut savoir avant d'ecrire. */}
+      {/* Le formulaire arrive juste apres Ruslan (demande David 2026-08-21) :
+          c'est l'action principale de la page, et AUCUNE adresse email n'est
+          publiee sur le site pour ne pas nourrir les moissonneurs de spam. */}
       <section className="ctp-form-section fx-grid fx-glow fx-glow-breathe fx-stack-1">
         <div className="fx-glow-orb fx-glow-orb--left" />
         <div className="inner">
@@ -276,20 +154,109 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
                 </div>
               </dl>
 
+              {/* Seule porte de sortie hors formulaire : WhatsApp. Pas d'email
+                  affiche, jamais de lien mailto. */}
               <div className="ctp-whatsapp-aside">
                 <a
                   className="ctp-whatsapp-btn"
-                  href={whatsappUrl(t('channels.items.whatsapp.prefill'))}
+                  href={whatsappUrl(t('whatsapp.prefill'))}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
                   <Icon name="whatsapp" size={20} />
-                  <span>{t('channels.items.whatsapp.cta')}</span>
+                  <span>{t('whatsapp.cta')}</span>
                 </a>
                 <span className="ctp-whatsapp-num">{WHATSAPP.display}</span>
               </div>
             </aside>
           </div>
+
+          {/* Sortie visio, posee juste sous le formulaire (demande David) :
+              un lien, jamais un calendrier embarque. */}
+          <div className="ctp-visio reveal">
+            <p className="ctp-visio-line">
+              <span>{t('visio.text')}</span>{' '}
+              <a href={CAL_BOOKING_URL} target="_blank" rel="noopener noreferrer" className="ctp-visio-link">
+                {t('visio.link')}
+                <Icon name="external-link" size={14} />
+              </a>
+            </p>
+            <p className="ctp-visio-note">{t('visio.note')}</p>
+          </div>
+        </div>
+      </section>
+
+      {/* Aiguillage : quatre demandes sur cinq ont deja leur page. Les envoyer
+          la plutot que dans la boite mail leur fait gagner 48 h. */}
+      <section className="ctp-routes">
+        <div className="inner">
+          <header className="ctp-head reveal">
+            <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>
+              {t('routes.label')}
+            </span>
+            <h2>{t('routes.title')}</h2>
+            <p className="ctp-head-intro">{t('routes.intro')}</p>
+          </header>
+
+          <ul className="ctp-routes-list reveal">
+            <li className="ctp-route">
+              <Link href="/inscription" className="ctp-route-link">
+                <span className="ctp-route-icon" aria-hidden="true"><Icon name="send" size={20} /></span>
+                <span className="ctp-route-text">
+                  <span className="ctp-route-title">{t('routes.items.inscription.title')}</span>
+                  <span className="ctp-route-body">{t('routes.items.inscription.body')}</span>
+                  <span className="ctp-route-cta">{t('routes.items.inscription.cta')}</span>
+                </span>
+                <span className="ctp-route-chevron" aria-hidden="true"><Icon name="chevron-right" size={18} /></span>
+              </Link>
+            </li>
+            <li className="ctp-route">
+              <Link href="/familles" className="ctp-route-link">
+                <span className="ctp-route-icon" aria-hidden="true"><Icon name="parent" size={20} /></span>
+                <span className="ctp-route-text">
+                  <span className="ctp-route-title">{t('routes.items.famille.title')}</span>
+                  <span className="ctp-route-body">{t('routes.items.famille.body')}</span>
+                  <span className="ctp-route-cta">{t('routes.items.famille.cta')}</span>
+                </span>
+                <span className="ctp-route-chevron" aria-hidden="true"><Icon name="chevron-right" size={18} /></span>
+              </Link>
+            </li>
+            <li className="ctp-route">
+              <Link href="/clubs-groupes" className="ctp-route-link">
+                <span className="ctp-route-icon" aria-hidden="true"><Icon name="team" size={20} /></span>
+                <span className="ctp-route-text">
+                  <span className="ctp-route-title">{t('routes.items.groupe.title')}</span>
+                  <span className="ctp-route-body">{t('routes.items.groupe.body')}</span>
+                  <span className="ctp-route-cta">{t('routes.items.groupe.cta')}</span>
+                </span>
+                <span className="ctp-route-chevron" aria-hidden="true"><Icon name="chevron-right" size={18} /></span>
+              </Link>
+            </li>
+            <li className="ctp-route">
+              <Link href="/logistique" className="ctp-route-link">
+                <span className="ctp-route-icon" aria-hidden="true"><Icon name="passport" size={20} /></span>
+                <span className="ctp-route-text">
+                  <span className="ctp-route-title">{t('routes.items.logistique.title')}</span>
+                  <span className="ctp-route-body">{t('routes.items.logistique.body')}</span>
+                  <span className="ctp-route-cta">{t('routes.items.logistique.cta')}</span>
+                </span>
+                <span className="ctp-route-chevron" aria-hidden="true"><Icon name="chevron-right" size={18} /></span>
+              </Link>
+            </li>
+            {/* La 5e demande n'a pas de page dediee : elle remonte au formulaire
+                avec le sujet deja choisi (ContactForm lit `?sujet=`). */}
+            <li className="ctp-route ctp-route--wide">
+              <Link href={{ pathname: '/contact', query: { sujet: 'presse' } }} className="ctp-route-link">
+                <span className="ctp-route-icon" aria-hidden="true"><Icon name="briefcase" size={20} /></span>
+                <span className="ctp-route-text">
+                  <span className="ctp-route-title">{t('routes.items.presse.title')}</span>
+                  <span className="ctp-route-body">{t('routes.items.presse.body')}</span>
+                  <span className="ctp-route-cta">{t('routes.items.presse.cta')}</span>
+                </span>
+                <span className="ctp-route-chevron" aria-hidden="true"><Icon name="chevron-right" size={18} /></span>
+              </Link>
+            </li>
+          </ul>
         </div>
       </section>
 
@@ -311,21 +278,8 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
         label={t('faq.label')}
         title={t('faq.title')}
         items={faqItems}
+        image={{ src: '/images/mma-tchechenie/bandage-mains-sourire.webp', alt: t('faq.image_alt') }}
       />
-
-      {/* Sortie discrete vers la visio (decision David : lien, pas de widget). */}
-      <section className="ctp-visio">
-        <div className="inner">
-          <p className="ctp-visio-line reveal">
-            <span>{t('visio.text')}</span>{' '}
-            <a href={CAL_BOOKING_URL} target="_blank" rel="noopener noreferrer" className="ctp-visio-link">
-              {t('visio.link')}
-              <Icon name="external-link" size={14} />
-            </a>
-          </p>
-          <p className="ctp-visio-note reveal">{t('visio.note')}</p>
-        </div>
-      </section>
     </>
   )
 }

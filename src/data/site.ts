@@ -1,5 +1,12 @@
 export const SITE_URL = 'https://mkrcamp.com'
 export const SITE_NAME = 'MKR Caucasian Camp'
+/**
+ * Boite de reception de MKR. USAGE SERVEUR UNIQUEMENT (expediteur, replyTo,
+ * bcc des emails sortants).
+ * ⚠️ Ne JAMAIS la rendre dans une page, un JSON-LD ou un llms.txt : decision
+ * David du 2026-08-21, aucune adresse email publiee sur le site pour ne pas
+ * nourrir les moissonneurs de spam. Tout contact entrant passe par /contact.
+ */
 export const SITE_EMAIL = 'contact@mkrcamp.com'
 
 // FR fallback ; les traductions vivent dans messages/fr/meta.json (meta.site.description)

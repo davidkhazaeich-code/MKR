@@ -7,7 +7,7 @@ import { Teko, Barlow, Barlow_Condensed } from 'next/font/google'
 import { NextIntlClientProvider, hasLocale } from 'next-intl'
 import { setRequestLocale, getMessages, getTranslations } from 'next-intl/server'
 import { Analytics } from '@vercel/analytics/next'
-import { SITE_URL, SITE_NAME, SITE_EMAIL, SITE_DESCRIPTION, SOCIALS, GEO, WHATSAPP } from '@/data/site'
+import { SITE_URL, SITE_NAME, SITE_DESCRIPTION, SOCIALS, GEO, WHATSAPP } from '@/data/site'
 import { getSessions } from '@/data/sessions'
 import { hydrateSessions } from '@/lib/session-display'
 import { getPathname } from '@/i18n/navigation'
@@ -175,9 +175,12 @@ async function buildJsonLd(locale: 'fr' | 'en') {
         logo: { '@type': 'ImageObject', url: `${SITE_URL}/images/logo-mkr.png`, width: 512, height: 512 },
         image: `${SITE_URL}/images/social/og-image.webp`,
         description: t('organization.description'),
-        email: SITE_EMAIL,
+        // Decision David 2026-08-21 : AUCUNE adresse email publiee, ici comme
+        // ailleurs. Le JSON-LD n'est pas « affiche » mais il est dans le source
+        // de chaque page, donc trivialement moissonne par les robots a spam.
+        // On expose le WhatsApp et l'URL du formulaire a la place.
         telephone: WHATSAPP.e164,
-        contactPoint: { '@type': 'ContactPoint', contactType: 'customer service', telephone: WHATSAPP.e164, email: SITE_EMAIL, availableLanguage: ['French', 'English'] },
+        contactPoint: { '@type': 'ContactPoint', contactType: 'customer service', telephone: WHATSAPP.e164, url: `${SITE_URL}/contact`, availableLanguage: ['French', 'English'] },
         sameAs: Object.values(SOCIALS),
         foundingDate: '2018',
         founder: { '@id': `${SITE_URL}/#person-ruslan` },

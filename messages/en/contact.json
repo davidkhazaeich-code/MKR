@@ -24,42 +24,9 @@
       "three": "He answers in English and in French"
     }
   },
-  "channels": {
-    "label": "WHICH CHANNEL",
-    "title": "FOUR CHANNELS, ONE RIGHT ANSWER EACH TIME",
-    "intro": "Pick the one that matches what you have to say. The wrong channel mostly costs you time.",
-    "delay_label": "Response time",
-    "items": {
-      "whatsapp": {
-        "title": "WhatsApp",
-        "purpose": "A short question, a doubt before applying, an emergency during your stay.",
-        "value": "+33 7 83 10 96 81",
-        "delay": "The fastest channel",
-        "cta": "Message on WhatsApp",
-        "prefill": "Hi Ruslan, I have a question about the MKR camp."
-      },
-      "form": {
-        "title": "Contact form",
-        "purpose": "A detailed request, a group project, anything that needs a proper written answer.",
-        "value": "The form at the bottom of this page",
-        "delay": "Within 48 hours",
-        "cta": "Go to the form"
-      },
-      "email": {
-        "title": "Email",
-        "purpose": "Press, partnerships, invoicing, or any message with an attachment.",
-        "value": "contact@mkrcamp.com",
-        "delay": "Within 48 hours",
-        "cta": "Send an email"
-      },
-      "instagram": {
-        "title": "Instagram",
-        "purpose": "Behind the scenes of the sessions and photos that never make it to the site.",
-        "value": "@mkrcamp",
-        "delay": "As it comes",
-        "cta": "See the account"
-      }
-    }
+  "whatsapp": {
+    "cta": "Message on WhatsApp",
+    "prefill": "Hi Ruslan, I have a question about the MKR camp."
   },
   "routes": {
     "label": "SHORTCUTS",
@@ -146,10 +113,11 @@
   "faq": {
     "label": "QUESTIONS ABOUT GETTING IN TOUCH",
     "title": "BEFORE YOU WRITE",
+    "image_alt": "A coach wrapping the hands of a smiling fighter before training",
     "items": {
       "delay": {
         "question": "How fast do you reply?",
-        "answer": "Within 48 hours on the form and on email. WhatsApp stays the fastest channel, because the message lands straight on Ruslan's phone. If nothing has arrived after 48 hours, check your spam folder before chasing: the reply is sent from contact@mkrcamp.com."
+        "answer": "Within 48 hours on the form. WhatsApp stays the fastest channel, because the message lands straight on Ruslan's phone. If nothing has arrived after 48 hours, check your spam folder before chasing: the reply comes from the mkrcamp.com domain."
       },
       "language": {
         "question": "Can I write in English?",
