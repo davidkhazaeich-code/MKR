@@ -13305,6 +13305,50 @@ html.is-loading body {
   flex-shrink: 0;
 }
 
+/* ── QR : DESKTOP UNIQUEMENT ──
+   Sur ordinateur, beaucoup de visiteurs n'ont ni WhatsApp Web ni l'application :
+   le bouton vert les envoie sur un ecran de connexion, pas sur la conversation.
+   Le QR, lui, ouvre la conversation sur leur telephone. Il devient donc le
+   chemin principal en desktop, et le bouton reste pour ceux qui ont deja
+   WhatsApp sur cette machine.
+   En mobile il n'a aucun sens (on ne scanne pas son propre ecran) : masque. */
+.wa-panel-qr { display: none; }
+@media (min-width: 769px) {
+  .wa-panel-qr {
+    display: block;
+    padding: 0.9rem 1.15rem 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+    margin-top: 0.9rem;
+    text-align: center;
+  }
+}
+.wa-panel-qr-intro {
+  margin: 0 0 0.75rem;
+  font-size: 0.74rem;
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+/* Cadre BLANC obligatoire : un QR sur fond sombre, ou sans marge blanche,
+   devient illisible pour une bonne partie des lecteurs. */
+.wa-panel-qr-frame {
+  display: inline-block;
+  padding: 10px;
+  background: #ffffff;
+  border-radius: 10px;
+  line-height: 0;
+}
+.wa-panel-qr-frame img {
+  display: block;
+  width: 160px;
+  height: 160px;
+}
+/* Ecrans courts (13 pouces, fenetre reduite) : le panneau doit rester entier
+   au-dessus de la bulle. Verifie lisible jusqu'a 112px au decodeur. */
+@media (min-width: 769px) and (max-height: 820px) {
+  .wa-panel-qr-frame img { width: 132px; height: 132px; }
+  .wa-panel-qr-intro { font-size: 0.7rem; margin-bottom: 0.6rem; }
+}
+
 .wa-panel-foot { padding: 0.9rem 1.15rem 1.1rem; }
 .wa-panel-cta {
   display: flex;

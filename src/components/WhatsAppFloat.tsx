@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
-import { useTranslations } from 'next-intl'
+import { useLocale, useTranslations } from 'next-intl'
 import { WHATSAPP, whatsappUrl } from '@/data/site'
 
 /**
@@ -32,6 +32,7 @@ function WhatsAppGlyph({ size }: { size: number }) {
 
 export default function WhatsAppFloat() {
   const t = useTranslations('common.whatsapp_float')
+  const locale = useLocale()
   const [open, setOpen] = useState(false)
   const rootRef = useRef<HTMLDivElement>(null)
   const btnRef = useRef<HTMLButtonElement>(null)
@@ -114,6 +115,29 @@ export default function WhatsAppFloat() {
             <span className="wa-panel-status-dot" aria-hidden="true" />
             {t('status')}
           </p>
+        </div>
+
+        {/* QR : DESKTOP UNIQUEMENT (masque par CSS sous 769px). Sur ordinateur,
+            beaucoup de visiteurs n'ont ni WhatsApp Web ni l'app : le bouton vert
+            les mene a une page de connexion, le QR les mene a la conversation.
+            Le QR encode EXACTEMENT la meme URL que le bouton, message pre-rempli
+            compris (fichiers generes par locale, cf. public/images/whatsapp-qr-*.svg).
+            Regenerer les 2 SVG si le numero ou le message pre-rempli change. */}
+        <div className="wa-panel-qr">
+          <p className="wa-panel-qr-intro">{t('qr_intro')}</p>
+          <span className="wa-panel-qr-frame">
+            {/* <img> brut et non next/image : SVG statique deja optimise, aucun
+                besoin de srcset, et l'optimiseur ne transforme pas les SVG. */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={`/images/whatsapp-qr-${locale === 'en' ? 'en' : 'fr'}.svg`}
+              alt={t('qr_alt')}
+              width={160}
+              height={160}
+              loading="lazy"
+              decoding="async"
+            />
+          </span>
         </div>
 
         <div className="wa-panel-foot">

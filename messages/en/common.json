@@ -196,6 +196,8 @@
     "status": "Personal reply within 48h",
     "message": "Hey. A question about the camp, the dates, your level or the logistics? Write to me directly, I answer myself.",
     "cta": "Open WhatsApp",
+    "qr_intro": "No WhatsApp on this computer? Scan this code with your phone, the conversation opens directly.",
+    "qr_alt": "QR code to open the WhatsApp conversation with Ruslan",
     "number_prefix": "or save the number",
     "prefill": "Hi Ruslan, I have a question about the MKR camp."
   },

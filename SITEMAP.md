@@ -28,6 +28,14 @@ Bulle verte fixe en bas à droite qui ouvre un **panneau de marque** : photo de 
 - **Ce n'est pas une modale** : pas de scroll-lock, pas de piège de focus. Fermeture Échap + `pointerdown` extérieur, focus rendu au bouton. Le panneau fermé est en `visibility: hidden`, ce qui le sort naturellement de l'ordre de tabulation.
 - i18n `common.whatsapp_float.*` (FR + EN), CSS `.wa-float*` / `.wa-panel*` en fin de `globals.css`.
 
+**QR code, DESKTOP UNIQUEMENT** (ajout du même jour, demande David) : sur ordinateur, beaucoup de visiteurs n'ont ni WhatsApp Web ni l'application, et le bouton vert les envoie sur un écran de connexion au lieu de la conversation. Le panneau desktop affiche donc un **QR qui ouvre la conversation sur leur téléphone**, le bouton restant pour ceux qui ont déjà WhatsApp sur la machine. Masqué en mobile (on ne scanne pas son propre écran).
+
+- Assets : `public/images/whatsapp-qr-fr.svg` et `-en.svg`, **un par langue** parce que le QR encode le message pré-rempli. Générés avec `npx -y qrcode -o <fichier> -t svg -e M -m 2 -w 320 -d "#0E0E0E" -l "#ffffff" "<url>"`. ⚠️ Dans cette CLI, `-d` est la couleur SOMBRE et `-l` la claire : les inverser produit un QR en négatif, que la plupart des lecteurs refusent.
+- **Le QR encode EXACTEMENT l'URL du bouton**, message pré-rempli compris. Le construire avec `encodeURIComponent` (comme `whatsappUrl()`), sinon les deux chemins n'ouvrent pas la même conversation. **Regénérer les 2 SVG à tout changement de numéro ou de `prefill`.**
+- Cadre **blanc obligatoire** (`.wa-panel-qr-frame`) : un QR sans marge claire, sur le fond sombre du panneau, devient illisible.
+- Taille 160px, ramenée à **132px sous 820px de hauteur** de viewport pour que le panneau tienne entier sur un 13 pouces. Lisibilité vérifiée au décodeur jusqu'à 112px.
+- **Vérification qui compte** : capturer le QR *tel qu'il est rendu dans la page* et le décoder (`zbarimg --quiet --raw`). Fait sur 4 combinaisons (1440 FR, 1440 EN, 1280, 1366) : les 4 renvoient l'URL attendue. Un QR « qui a l'air bien » sur une capture ne prouve rien.
+
 **⚠️ Empilement des flottants du bas d'écran** (le piège de ce composant) :
 | Élément | z-index | Position |
 |---|---|---|
