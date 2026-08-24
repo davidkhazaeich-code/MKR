@@ -30,7 +30,8 @@ type TunnelType = 'session' | 'custom' | 'famille' | 'groupe'
 
 // Libelles alignes sur le site public : « Club et Groupe », pas d'esperluette.
 const TUNNEL_LABEL: Record<TunnelType, string> = {
-  session: 'MKR Camp 2026',
+  // Le tunnel ne porte plus d'annee : les sessions tournent (cf. data/sessions.ts).
+  session: 'Session officielle',
   custom: 'Sur Mesure',
   famille: 'Famille',
   groupe: 'Club et Groupe',

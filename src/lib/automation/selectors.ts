@@ -1,3 +1,6 @@
+import { sessionFromId, getSessions } from '@/data/sessions'
+import { frSessionDisplay } from '@/lib/session-display-fr'
+
 // Selecteurs PURS du cron d'automatisation email — cf. PLAN_EMAIL_AUTOMATION.md.
 //
 // Zero I/O ici : input = rows Supabase + horloge, output = cibles/digest.
@@ -39,6 +42,9 @@ export interface AutomationRow {
 // pas de visio_booked_at fiable (stock historique) -> JAMAIS relancees en auto.
 // Le stock se traite a la main avec Ruslan (sa liste Cal fait foi), cf. plan §2.
 export const AUTOMATION_CUTOFF_ISO = '2026-07-10T00:00:00Z'
+
+/** Statuts encore « vivants » : un dossier dans cet etat attend une action. */
+const ACTIVE_STATUSES = ['recue', 'validee', 'soldee']
 
 const HOUR_MS = 3_600_000
 export const VISIO_FIRST_DELAY_MS = 72 * HOUR_MS // 1re relance : J+3 apres candidature
@@ -225,7 +231,11 @@ export function selectPredeparture(rows: AutomationRow[], now: Date): Predepartu
   for (const row of rows) {
     if (row.status !== 'soldee') continue
     if (row.predeparture_sent_at) continue
-    const start = row.contract_start_date
+    // `contract_start_date` fait foi quand elle existe (le candidat peut ne prendre
+    // qu'une semaine dans la fenetre de 3). A defaut, la session officielle donne
+    // la date de depart : sans ce repli, un dossier solde dont le contrat n'a pas
+    // ete enregistre ne recevait JAMAIS ses infos pratiques.
+    const start = row.contract_start_date ?? sessionFromId(row.session_id)?.startDate ?? null
     if (!start) continue
 
     const daysToStart = daysBetween(start, today)
@@ -264,6 +274,12 @@ export interface DigestData {
   contratSansDeadline: string[]
   impayes: string[]
   actifs: { recue: number; validee: number; soldee: number }
+  /** Etat des sessions ouvertes : combien de dossiers, a combien de jours du depart. */
+  sessionsOuvertes: string[]
+  /** Dossiers encore actifs sur un camp DEJA PARTI : ils ne partiront jamais. */
+  dossiersSessionPartie: string[]
+  /** Dossiers soldes sur un camp TERMINE : a passer en « camp fait ». */
+  campTermineSansCloture: string[]
 }
 
 /** Aujourd'hui (YYYY-MM-DD) en Europe/Zurich — les colonnes date n'ont pas d'heure. */
@@ -297,14 +313,40 @@ export function buildDigestData(rows: AutomationRow[], now: Date): DigestData {
     contratSansDeadline: [],
     impayes: [],
     actifs: { recue: 0, validee: 0, soldee: 0 },
+    sessionsOuvertes: [],
+    dossiersSessionPartie: [],
+    campTermineSansCloture: [],
   }
 
   const impayesTmp: { line: string; deadline: string }[] = []
+  // Comptage par session ouverte, pour le bloc « sessions » du digest.
+  const parSession = new Map<string, { recue: number; validee: number; soldee: number }>()
 
   for (const row of rows) {
     if (row.status === 'recue') d.actifs.recue += 1
     if (row.status === 'validee') d.actifs.validee += 1
     if (row.status === 'soldee') d.actifs.soldee += 1
+
+    // --- Rotation des saisons ---------------------------------------------
+    // Le camp tourne tout seul cote site (cf. data/sessions.ts). Cote CRM, il
+    // reste des dossiers accroches a une session qui, elle, est partie : sans
+    // ce controle ils vieillissent en silence dans les compteurs « actifs ».
+    const session = sessionFromId(row.session_id)
+    if (session && ACTIVE_STATUSES.includes(row.status)) {
+      const slice = parSession.get(session.id) ?? { recue: 0, validee: 0, soldee: 0 }
+      if (row.status === 'recue') slice.recue += 1
+      else if (row.status === 'validee') slice.validee += 1
+      else if (row.status === 'soldee') slice.soldee += 1
+      parSession.set(session.id, slice)
+
+      const label = frSessionDisplay(session).season_label
+      if (session.endDate < today && row.status === 'soldee') {
+        d.campTermineSansCloture.push(`${who(row)} · ${label} · camp termine le ${session.endDate}, passer en « camp fait »`)
+      } else if (session.startDate <= today && row.status !== 'soldee') {
+        const quoi = row.status === 'recue' ? 'jamais validee' : 'validee mais non soldee'
+        d.dossiersSessionPartie.push(`${who(row)} · ${label} · parti le ${session.startDate}, ${quoi} : annuler ou reporter`)
+      }
+    }
 
     if (row.status === 'recue' && !row.visio_booked_at) {
       const age = ageDays(row.created_at, nowMs)
@@ -340,6 +382,17 @@ export function buildDigestData(rows: AutomationRow[], now: Date): DigestData {
 
   impayesTmp.sort((a, b) => a.deadline.localeCompare(b.deadline))
   d.impayes = impayesTmp.map((x) => x.line)
+
+  // Une ligne par session ENCORE OUVERTE aux inscriptions, meme a zero dossier :
+  // une session vide a 30 jours du depart est exactement ce qu'il faut voir.
+  for (const s of getSessions(now)) {
+    const c = parSession.get(s.id) ?? { recue: 0, validee: 0, soldee: 0 }
+    const total = c.recue + c.validee + c.soldee
+    const jours = daysBetween(s.startDate, today)
+    const detail = total === 0 ? 'aucun dossier' : `${total} dossier(s) : ${c.recue} recue / ${c.validee} validee / ${c.soldee} soldee`
+    d.sessionsOuvertes.push(`${frSessionDisplay(s).season_label} · depart dans ${jours} j · ${detail}`)
+  }
+
   return d
 }
 
@@ -358,7 +411,13 @@ export interface DigestRunInfo {
 export function formatDigestSlack(d: DigestData, run: DigestRunInfo): string {
   const parts: string[] = []
   const nothingToReport =
-    d.recueSansVisio.length + d.valideeSansContrat.length + d.contratSansDeadline.length + d.impayes.length === 0
+    d.recueSansVisio.length +
+      d.valideeSansContrat.length +
+      d.contratSansDeadline.length +
+      d.impayes.length +
+      d.dossiersSessionPartie.length +
+      d.campTermineSansCloture.length ===
+    0
 
   parts.push('*Digest MKR · pipeline candidatures*')
 
@@ -366,6 +425,13 @@ export function formatDigestSlack(d: DigestData, run: DigestRunInfo): string {
     // Heartbeat : on envoie TOUJOURS quelque chose. Silence total = cron mort.
     parts.push(`[OK] RAS · ${d.actifs.recue + d.actifs.validee + d.actifs.soldee} dossiers actifs (reçue ${d.actifs.recue} / validée ${d.actifs.validee} / soldée ${d.actifs.soldee})`)
   } else {
+    // Les alertes de rotation passent en tete : un camp parti ne se rattrape pas.
+    if (d.dossiersSessionPartie.length) {
+      parts.push(`*Dossiers actifs sur un camp DEJA PARTI (${d.dossiersSessionPartie.length})* :\n- ${d.dossiersSessionPartie.join('\n- ')}`)
+    }
+    if (d.campTermineSansCloture.length) {
+      parts.push(`*Camps termines, dossiers a cloturer (${d.campTermineSansCloture.length})* :\n- ${d.campTermineSansCloture.join('\n- ')}`)
+    }
     if (d.valideeSansContrat.length) {
       parts.push(`*Validées SANS contrat envoyé (${d.valideeSansContrat.length})* :\n- ${d.valideeSansContrat.join('\n- ')}`)
     }
@@ -379,6 +445,12 @@ export function formatDigestSlack(d: DigestData, run: DigestRunInfo): string {
       parts.push(`*Reçues sans visio réservée > 3 j (${d.recueSansVisio.length})* :\n- ${d.recueSansVisio.join('\n- ')}`)
     }
     parts.push(`Actifs : reçue ${d.actifs.recue} / validée ${d.actifs.validee} / soldée ${d.actifs.soldee}`)
+  }
+
+  // Toujours affiche, meme quand tout va bien : c'est la vue « remplissage »
+  // des sessions ouvertes, et elle suit la rotation automatique des saisons.
+  if (d.sessionsOuvertes.length) {
+    parts.push(`*Sessions ouvertes* :\n- ${d.sessionsOuvertes.join('\n- ')}`)
   }
 
   const sentAll = [

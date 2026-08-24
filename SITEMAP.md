@@ -251,7 +251,25 @@ node --experimental-strip-types scripts/sessions-rotation-check.mts
 
 `tsc` clean · `i18n-check` **2 849 clés** FR=EN · `next build` complet vert (toutes les pages en ISR 1 h) · rendu vérifié en `next start` : `/sessions` FR et EN, mega menu et drawer FR + EN, hero + cartes home, JSON-LD Event, `/faq` (0 placeholder résiduel), formulaire `/inscription`. Au 21 août 2026 le site affiche **Toussaint 2026, Hiver 2027, Printemps 2027 et Été 2027 (16 août - 4 septembre)**, l'été 2026 a disparu de lui-même.
 
+### 7. Le CRM suit la rotation (2026-08-21, 2ᵉ passe)
+
+Le site retirait bien le camp parti, mais **le back-office ne le savait pas**. Constat sur la vraie base au 21 août : **14 dossiers actifs accrochés à `aout-2026`** (9 « reçue », 5 « validée », **zéro payé**) sur un camp démarré le 17. Rien ne les signalait nulle part : ils vieillissaient en silence dans les compteurs « actifs » du digest.
+
+| Surface | Avant | Après |
+|---|---|---|
+| Digest quotidien | aucune notion de session | bloc **« Sessions ouvertes »** (départ dans N j + dossiers par statut, une ligne par session même vide) + alertes **« Dossiers actifs sur un camp DÉJÀ PARTI »** et **« Camps terminés, dossiers à clôturer »**, placées en tête |
+| Liste `/admin/inscriptions` | rien | badges **« Camp déjà parti »** (reçue/validée après le départ) et **« Camp terminé, à clôturer »** (soldée après la fin) |
+| Fiche dossier | `Session : aout-2026` brut | `Session Été · Août 2026 · 17 Août - 5 Septembre · camp terminé` |
+| Email pré-départ (A3) | ne partait QUE si `contract_start_date` était rempli | repli sur la date de la session officielle. Sans ça, un dossier soldé dont le contrat n'a jamais été enregistré ne recevait **jamais** ses infos pratiques. `contract_start_date` reste prioritaire (le candidat peut ne prendre qu'une semaine dans la fenêtre de 3) |
+| Libellé du tunnel | « MKR Camp 2026 » dans les 3 écrans admin | « Session officielle » |
+
+`buildDigestData` compte désormais les dossiers actifs par session et `nothingToReport` inclut les alertes de rotation : un camp parti ne peut plus être avalé par un « RAS ».
+
+**Test** : `node --experimental-strip-types --import ./scripts/_alias-hook.mjs scripts/crm-rotation-check.mts` (12 assertions, fixtures calquées sur la vraie base). Le hook `scripts/_alias-hook.mjs` apprend à Node à résoudre les `@/…` et les imports JSON du projet, qui sont écrits pour le bundler Next.
+
 ### Reste ouvert
+
+**Les 14 dossiers `aout-2026` doivent être traités à la main par Ruslan** : le CRM les signale maintenant, mais personne ne peut décider à sa place entre annuler et reporter. Aucune bascule automatique de statut n'a été mise en place, c'est volontaire (`recue → annulee` est irréversible).
 
 **`/mkr-camp-2026` n'a pas été touchée** (hors périmètre, décision de contenu qui appartient à David) : la page vend encore le camp d'août 2026 et dit « les inscriptions sont ouvertes ». Elle n'est plus liée depuis le mega menu ni le drawer (remplacés par les 4 sessions générées) et son CTA pointe désormais vers `/inscription?type=session` sans session figée, donc plus aucun visiteur n'est envoyé sur un camp parti. Trois options à trancher : créer une `/mkr-camp-2027`, basculer le slug vers une URL sans année avec 301, ou rediriger vers `/sessions`. Le lien « MKR Camp 2026 » du footer est resté, à traiter avec la page.
 

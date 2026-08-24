@@ -10,6 +10,7 @@ import { STATUS_LABEL, type Status } from '@/lib/admin-transitions'
 import { getActiveCodes } from '@/data/referral-codes'
 import { ATTRIBUTION_SOURCE_LABEL, ATTRIBUTION_SOURCE_COLOR, type AttributionSource } from '@/lib/attribution'
 import { frSessionDisplayFromId } from '@/lib/session-display-fr'
+import { sessionFromId } from '@/data/sessions'
 
 // Reconstruit a la demande depuis l'id : un dossier sur une session passee
 // garde son libelle, sans table figee a maintenir.
@@ -86,7 +87,8 @@ function formatEuro(cents: number): string {
 // Libelles alignes sur le site public (messages/fr/data.registration-types.json) :
 // « Club et Groupe », jamais d'esperluette.
 const TUNNEL_LABEL: Record<TunnelType, string> = {
-  session: 'MKR Camp 2026',
+  // Le tunnel ne porte plus d'annee : les sessions tournent (cf. data/sessions.ts).
+  session: 'Session officielle',
   custom: 'Sur Mesure',
   famille: 'Famille',
   groupe: 'Club et Groupe',
@@ -517,6 +519,17 @@ function CandidatureRow({
   const isNew = mounted && ageMs < ONE_DAY
   const sinceStatusMs = mounted ? Date.now() - new Date(row.status_changed_at).getTime() : 0
   const isStaleVisio = mounted && row.status === 'recue' && sinceStatusMs > SEVEN_DAYS
+  // Rotation des saisons : le site retire la session des inscriptions le jour du
+  // depart, mais le dossier, lui, reste la. Un dossier encore actif sur un camp
+  // parti ne partira jamais : il faut le voir dans la liste, pas seulement dans
+  // le digest du matin.
+  const rowSession = sessionFromId(row.session_id)
+  const todayIso = mounted ? new Date().toISOString().slice(0, 10) : null
+  const campParti = !!(rowSession && todayIso && rowSession.startDate <= todayIso)
+  const campTermine = !!(rowSession && todayIso && rowSession.endDate < todayIso)
+  const sessionPasseeActive =
+    campParti && (row.status === 'recue' || row.status === 'validee')
+  const aCloturer = campTermine && row.status === 'soldee'
 
   return (
     <Link
@@ -589,6 +602,18 @@ function CandidatureRow({
             >
               {STATUS_LABEL[row.status]}
             </Badge>
+            {sessionPasseeActive && (
+              <Badge color="var(--adm-status-refusee)">
+                <Icon name="alert-triangle" size={11} strokeWidth={2.5} />
+                Camp déjà parti
+              </Badge>
+            )}
+            {aCloturer && (
+              <Badge color="var(--adm-status-reportee)">
+                <Icon name="history" size={11} strokeWidth={2.5} />
+                Camp terminé, à clôturer
+              </Badge>
+            )}
             {row.camp_discipline === 'mma' && row.status === 'recue' && row.tunnel_type !== 'groupe' && (
               <Badge color="#f59e0b">
                 <Icon name="alert-triangle" size={11} strokeWidth={2.5} />

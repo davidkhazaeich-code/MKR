@@ -2,6 +2,8 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { getSupabaseAdmin } from '@/lib/supabase-admin'
+import { sessionFromId } from '@/data/sessions'
+import { frSessionDisplay } from '@/lib/session-display-fr'
 import { STATUS_LABEL, type Status } from '@/lib/admin-transitions'
 import {
   ATTRIBUTION_SOURCE_LABEL,
@@ -19,6 +21,25 @@ import Icon from '@/components/admin/ui/Icon'
 import Progress from '@/components/admin/ui/Progress'
 import Topbar from '@/components/admin/ui/Topbar'
 
+/**
+ * Libelle lisible d'une session, y compris une session sortie des inscriptions.
+ * Les saisons tournent toutes seules (cf. data/sessions.ts) : la fiche d'un
+ * dossier de 2026 doit rester lisible des annees apres, et dire franchement
+ * que le camp est parti ou termine.
+ */
+function describeSession(sessionId: string | null): string {
+  if (!sessionId) return '\u2014'
+  const session = sessionFromId(sessionId)
+  if (!session) return sessionId
+  const display = frSessionDisplay(session)
+  const today = new Date().toISOString().slice(0, 10)
+  const etat =
+    session.endDate < today ? ' \u00b7 camp termin\u00e9'
+      : session.startDate <= today ? ' \u00b7 camp en cours ou d\u00e9j\u00e0 parti'
+        : ''
+  return `${display.season_label} \u00b7 ${display.dates}${etat}`
+}
+
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
 
@@ -31,7 +52,8 @@ type TunnelType = 'session' | 'custom' | 'famille' | 'groupe'
 
 // Libelles alignes sur le site public : « Club et Groupe », pas d'esperluette.
 const TUNNEL_LABEL: Record<TunnelType, string> = {
-  session: 'MKR Camp 2026',
+  // Le tunnel ne porte plus d'annee : les sessions tournent (cf. data/sessions.ts).
+  session: 'Session officielle',
   custom: 'Sur Mesure',
   famille: 'Famille',
   groupe: 'Club et Groupe',
@@ -515,7 +537,7 @@ export default async function CandidatureDetailPage({
                 items={[
                   ['Tunnel', TUNNEL_LABEL[candidature.tunnel_type]],
                   ['Camp choisi', candidature.camp_discipline ? DISCIPLINE_LABEL_FULL[candidature.camp_discipline] : '—'],
-                  ['Session', candidature.session_id ?? '—'],
+                  ['Session', describeSession(candidature.session_id)],
                   [
                     'Durée souhaitée',
                     candidature.duree_semaines ? `${candidature.duree_semaines} semaine(s)` : '—',
