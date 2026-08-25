@@ -281,7 +281,12 @@ export interface RebookingReminderTarget {
   expectedCount: number
 }
 
-const REBOOKING_REMINDER_DELAY_MS = 72 * HOUR_MS
+/**
+ * Trois jours CALENDAIRES, pas 72 h. Le cron passe une fois par jour a 07h : un
+ * seuil en heures ferait glisser le rappel au 4e jour des que l'envoi a eu lieu
+ * apres 07h, ce qui est le cas general. On compare donc des dates.
+ */
+const REBOOKING_REMINDER_DELAY_DAYS = 3
 /** Un seul rappel. Passe ce cap, on arrete : ce n'est plus une relance, c'est du harcelement. */
 export const MAX_REBOOKING_REMINDERS = 1
 
@@ -318,7 +323,7 @@ export function selectRebookingReminders(rows: AutomationRow[], now: Date): Rebo
 
     const sentMs = Date.parse(row.rebooking_sent_at)
     if (!Number.isFinite(sentMs)) continue
-    if (nowMs - sentMs < REBOOKING_REMINDER_DELAY_MS) continue
+    if (daysBetween(todayZurich(now), row.rebooking_sent_at.slice(0, 10)) < REBOOKING_REMINDER_DELAY_DAYS) continue
 
     // Action 1 : il a pris rendez-vous depuis l'envoi.
     if (row.visio_booked_at && Date.parse(row.visio_booked_at) >= sentMs) continue

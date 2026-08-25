@@ -292,6 +292,8 @@ Deux pièges de langue traités : l'**élision française** dépend de la saison
 
 `selectRebookingReminders` dans `automation/selectors.ts`, exécuté par le cron quotidien. Un seul rappel, jamais deux (`MAX_REBOOKING_REMINDERS = 1`).
 
+⚠️ Le seuil est en **jours calendaires, pas en heures**. Le cron ne passe qu'une fois par jour à 07h : un seuil de 72 h ferait glisser le rappel au 4ᵉ jour dès que l'envoi a eu lieu après 07h, ce qui est le cas général.
+
 « Pas de réponse ni d'action » se mesure sur ce qui est **observable**, pas sur une lecture d'email :
 
 | Signal | Effet |
@@ -299,7 +301,7 @@ Deux pièges de langue traités : l'**élision française** dépend de la saison
 | `visio_booked_at` postérieur à l'envoi | il a pris rendez-vous, on ne relance pas |
 | Une candidature du **même email** créée après l'envoi | il a repostulé, on ne relance pas |
 | Statut passé à annulée / reportée | sorti du filtre, on ne relance pas |
-| Rien de tout ça, 72 h après | rappel envoyé |
+| Rien de tout ça, **3 jours calendaires** après | rappel envoyé |
 
 Le rappel est une **variante courte** du même template (`stage: 'reminder'`) : pas de photo pleine largeur, pas de bloc « ce qui t'attend », tout ça a été lu trois jours plus tôt. On remet les liens et on laisse une porte de sortie explicite (« si le moment n'est pas le bon, dis-le moi d'un mot »). Verrou optimiste sur `rebooking_sent_count` : deux runs concurrents ne peuvent pas doubler l'envoi.
 

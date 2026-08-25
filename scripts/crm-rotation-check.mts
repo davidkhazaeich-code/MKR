@@ -54,12 +54,12 @@ const preContrat = selectPredeparture([row({ id: 'pre2', session_id: 'toussaint-
 check('contract_start_date reste prioritaire', preContrat.length === 1 && preContrat[0].startDate === '2026-10-24', JSON.stringify(preContrat.map(p => p.startDate)))
 
 console.log('\n--- A4 : rappel 3 jours apres le repositionnement ---')
-const D3 = '2026-08-18T06:00:00Z'   // 73 h avant NOW : au-dela du seuil de 72 h
-const D2 = '2026-08-18T09:00:00Z'   // 70 h avant NOW : encore en deca du seuil
+const D3 = '2026-08-18T22:00:00Z'   // 3 jours calendaires avant NOW (21/08)
+const D2 = '2026-08-19T06:00:00Z'   // 2 jours calendaires : trop tot
 const base = { session_id: 'aout-2026', status: 'recue' as const, rebooking_sent_count: 1 }
 const cases: [string, AutomationRow, boolean][] = [
-  ['relance apres 3 jours sans reaction', row({ id: 'r-3j', ...base, rebooking_sent_at: D3 }), true],
-  ['pas de relance avant 72 h pile', row({ id: 'r-2j', ...base, rebooking_sent_at: D2 }), false],
+  ['relance au 3e jour, quelle que soit l heure d envoi', row({ id: 'r-3j', ...base, rebooking_sent_at: D3 }), true],
+  ['pas de relance au 2e jour', row({ id: 'r-2j', ...base, rebooking_sent_at: D2 }), false],
   ['pas de 2e relance', row({ id: 'r-deja', ...base, rebooking_sent_at: D3, rebooking_sent_count: 2 }), false],
   ['appel reserve depuis l envoi = pas de relance', row({ id: 'r-visio', ...base, rebooking_sent_at: D3, visio_booked_at: '2026-08-19T10:00:00Z' }), false],
   ['jamais repositionne = pas concerne', row({ id: 'r-jamais', session_id: 'aout-2026', status: 'recue' }), false],
