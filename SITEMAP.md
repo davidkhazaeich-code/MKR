@@ -288,6 +288,23 @@ Deux pièges de langue traités : l'**élision française** dépend de la saison
 
 **`src/lib/session-display-static.ts`** : la copie de session dans les deux langues hors React, pour les emails. `session-display-fr.ts` n'est plus qu'un raccourci FR par-dessus.
 
+#### A4 : rappel automatique 3 jours après
+
+`selectRebookingReminders` dans `automation/selectors.ts`, exécuté par le cron quotidien. Un seul rappel, jamais deux (`MAX_REBOOKING_REMINDERS = 1`).
+
+« Pas de réponse ni d'action » se mesure sur ce qui est **observable**, pas sur une lecture d'email :
+
+| Signal | Effet |
+|---|---|
+| `visio_booked_at` postérieur à l'envoi | il a pris rendez-vous, on ne relance pas |
+| Une candidature du **même email** créée après l'envoi | il a repostulé, on ne relance pas |
+| Statut passé à annulée / reportée | sorti du filtre, on ne relance pas |
+| Rien de tout ça, 72 h après | rappel envoyé |
+
+Le rappel est une **variante courte** du même template (`stage: 'reminder'`) : pas de photo pleine largeur, pas de bloc « ce qui t'attend », tout ça a été lu trois jours plus tôt. On remet les liens et on laisse une porte de sortie explicite (« si le moment n'est pas le bon, dis-le moi d'un mot »). Verrou optimiste sur `rebooking_sent_count` : deux runs concurrents ne peuvent pas doubler l'envoi.
+
+⚠️ **A4 a sa PROPRE porte, `REBOOKING_REMINDER_ENABLED`, en opt-out (actif par défaut en prod).** Les relances visio et paiement sont volontairement parquées en dry-run depuis juillet via `EMAIL_AUTOMATION_ENABLED=false` ; brancher A4 sur ce flag global aurait relâché les deux autres du même coup. Pour couper A4 : `REBOOKING_REMINDER_ENABLED=false` sur Vercel.
+
 ### Reste ouvert
 
 **Les 14 dossiers `aout-2026` doivent être traités à la main par Ruslan** : le CRM les signale maintenant, mais personne ne peut décider à sa place entre annuler et reporter. Aucune bascule automatique de statut n'a été mise en place, c'est volontaire (`recue → annulee` est irréversible).

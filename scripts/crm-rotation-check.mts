@@ -1,7 +1,8 @@
 // Verifie que le CRM reagit correctement a la rotation des saisons :
 // dossiers restes sur un camp parti, camps termines a cloturer, bloc sessions.
 // Lancement : node --experimental-strip-types --import ./scripts/_alias-hook.mjs scripts/crm-rotation-check.mts
-import { buildDigestData, formatDigestSlack, selectPredeparture, type AutomationRow } from '../src/lib/automation/selectors.ts'
+import { buildDigestData, formatDigestSlack, selectPredeparture, selectRebookingReminders, type AutomationRow } from '../src/lib/automation/selectors.ts'
+import { buildRebookingEmail } from '../src/lib/rebooking-email.ts'
 
 const NOW = new Date('2026-08-21T07:00:00Z')
 
@@ -17,6 +18,9 @@ function row(over: Partial<AutomationRow>): AutomationRow {
     payment_reminder_count: null,
     candidate: { prenom: over.id ?? 'X', email: `${over.id ?? 'x'}@test.ch` },
     predeparture_sent_at: null,
+    tunnel_type: 'session',
+    rebooking_sent_at: null,
+    rebooking_sent_count: 0,
     ...over,
   } as AutomationRow
 }
@@ -49,8 +53,40 @@ check('cible un solde sans contract_start_date, via la session', pre.length === 
 const preContrat = selectPredeparture([row({ id: 'pre2', session_id: 'toussaint-2026', status: 'soldee', contract_start_date: '2026-10-24', package_paid_at: '2026-08-01T10:00:00Z' })], new Date('2026-10-17T07:00:00Z'))
 check('contract_start_date reste prioritaire', preContrat.length === 1 && preContrat[0].startDate === '2026-10-24', JSON.stringify(preContrat.map(p => p.startDate)))
 
+console.log('\n--- A4 : rappel 3 jours apres le repositionnement ---')
+const D3 = '2026-08-18T06:00:00Z'   // 73 h avant NOW : au-dela du seuil de 72 h
+const D2 = '2026-08-18T09:00:00Z'   // 70 h avant NOW : encore en deca du seuil
+const base = { session_id: 'aout-2026', status: 'recue' as const, rebooking_sent_count: 1 }
+const cases: [string, AutomationRow, boolean][] = [
+  ['relance apres 3 jours sans reaction', row({ id: 'r-3j', ...base, rebooking_sent_at: D3 }), true],
+  ['pas de relance avant 72 h pile', row({ id: 'r-2j', ...base, rebooking_sent_at: D2 }), false],
+  ['pas de 2e relance', row({ id: 'r-deja', ...base, rebooking_sent_at: D3, rebooking_sent_count: 2 }), false],
+  ['appel reserve depuis l envoi = pas de relance', row({ id: 'r-visio', ...base, rebooking_sent_at: D3, visio_booked_at: '2026-08-19T10:00:00Z' }), false],
+  ['jamais repositionne = pas concerne', row({ id: 'r-jamais', session_id: 'aout-2026', status: 'recue' }), false],
+  ['dossier annule = pas de relance', row({ id: 'r-annule', ...base, status: 'annulee' as never, rebooking_sent_at: D3 }), false],
+]
+for (const [nom, r, attendu] of cases) {
+  const got = selectRebookingReminders([r], NOW).length === 1
+  check(nom, got === attendu)
+}
+// Redepot de candidature : une 2e ligne pour le MEME email, creee apres l'envoi.
+const relance = row({ id: 'r-redepot', ...base, rebooking_sent_at: D3 })
+const redepot = row({ id: 'r-redepot', session_id: 'toussaint-2026', status: 'recue', created_at: '2026-08-20T10:00:00Z' })
+check('candidature redeposee depuis l envoi = pas de relance', selectRebookingReminders([relance, redepot], NOW).length === 0)
+
+console.log('\n--- copie de la relance (FR) ---')
+const rel = buildRebookingEmail({ locale: 'fr', prenom: 'Yazid', variant: 'recue', missedSessionId: 'aout-2026', campDiscipline: 'lutte', dureeSemaines: 1, tunnel: 'session', stage: 'reminder', now: NOW })
+const premier = buildRebookingEmail({ locale: 'fr', prenom: 'Yazid', variant: 'recue', missedSessionId: 'aout-2026', campDiscipline: 'lutte', dureeSemaines: 1, tunnel: 'session', now: NOW })
+check('la relance a un objet different du 1er envoi', rel.subject !== premier.subject)
+// Ce qui compte n'est pas un nombre de caracteres absolu, mais que la relance
+// soit nettement plus legere que le premier envoi.
+check('la relance est nettement plus courte', rel.text.length < premier.text.length * 0.8, `(${rel.text.length} vs ${premier.text.length} car.)`)
+check('aucun reproche dans la relance', !/pas répondu|sans réponse|relanc|dernier rappel/i.test(rel.text))
+console.log(`\nObjet : ${rel.subject}\n`)
+console.log(rel.text)
+
 console.log('\n--- rendu du digest ---')
-const txt = formatDigestSlack(d, { dryRun: true, automationEnabled: false, sentVisio: [], wouldSendVisio: [], sentPayment: [], wouldSendPayment: [], sentPredeparture: [], wouldSendPredeparture: [] })
+const txt = formatDigestSlack(d, { dryRun: true, automationEnabled: false, sentVisio: [], wouldSendVisio: [], sentPayment: [], wouldSendPayment: [], sentPredeparture: [], wouldSendPredeparture: [], sentRebooking: [], wouldSendRebooking: [] })
 check('le digest ne dit pas RAS', !txt.includes('[OK] RAS'))
 check('bloc camp deja parti present', txt.includes('DEJA PARTI'))
 check('bloc sessions ouvertes present', txt.includes('Sessions ouvertes'))

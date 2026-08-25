@@ -9,9 +9,11 @@ import {
   formatDigestSlack,
   selectPaymentReminders,
   selectPredeparture,
+  selectRebookingReminders,
   selectVisioReminders,
 } from '@/lib/automation/selectors'
 import type { AutomationRow } from '@/lib/automation/selectors'
+import { buildRebookingEmail, type RebookingDiscipline } from '@/lib/rebooking-email'
 
 // Cron quotidien d'automatisation email — cf. PLAN_EMAIL_AUTOMATION.md.
 // Sequences candidat : A2 rappels paiement, A1 relances visio, A3 pre-depart
@@ -40,6 +42,7 @@ const SELECT_FIELDS = `id, status, created_at, status_changed_at, submission_lan
   contract_sent_at, contract_payment_deadline, package_paid_at, payment_method,
   package_amount_cents, contract_number, contract_start_date,
   payment_reminder_sent_at, payment_reminder_count, predeparture_sent_at,
+  tunnel_type, rebooking_sent_at, rebooking_sent_count,
   candidate:candidates ( prenom, email )`
 
 export async function GET(request: Request) {
@@ -53,6 +56,13 @@ export async function GET(request: Request) {
   const isProd = process.env.VERCEL_ENV === 'production'
   const automationEnabled = process.env.EMAIL_AUTOMATION_ENABLED === 'true'
   const dryRun = !isProd || !automationEnabled
+
+  // A4 a sa PROPRE porte, en opt-out. Les relances visio et paiement ont ete
+  // volontairement parquees en dry-run en juillet ; le rappel de report, lui, a
+  // ete demande explicitement. Le brancher sur le flag global aurait relache les
+  // deux autres du meme coup. Pour le couper : REBOOKING_REMINDER_ENABLED=false.
+  const rebookingEnabled = process.env.REBOOKING_REMINDER_ENABLED !== 'false'
+  const rebookingDryRun = !isProd || !rebookingEnabled
 
   const supabase = getSupabaseAdmin()
   const { data, error } = await supabase
@@ -76,7 +86,9 @@ export async function GET(request: Request) {
   const sentVisio: string[] = []
   const wouldSendVisio: string[] = []
   const sentPredeparture: string[] = []
+  const sentRebooking: string[] = []
   const wouldSendPredeparture: string[] = []
+  const wouldSendRebooking: string[] = []
   const failures: string[] = []
 
   // --- A2 : rappels de paiement (le levier cash, en premier) ---------------
@@ -263,6 +275,70 @@ export async function GET(request: Request) {
     })
   }
 
+  // --- A4 : rappel du repositionnement (3 j apres, si rien n'a bouge) -------
+  for (const t of selectRebookingReminders(rows, now)) {
+    const label = `${t.prenom ?? '?'} (${t.email}) · relance report`
+    if (servedEmails.has(t.email)) continue
+    if (rebookingDryRun) {
+      servedEmails.add(t.email)
+      wouldSendRebooking.push(label)
+      continue
+    }
+
+    const nowIso = new Date().toISOString()
+    // Verrou optimiste sur le compteur : deux runs concurrents ne peuvent pas
+    // envoyer deux fois le meme rappel.
+    const { data: claimed, error: claimError } = await supabase
+      .from('candidatures')
+      .update({ rebooking_sent_at: nowIso, rebooking_sent_count: t.expectedCount + 1 })
+      .eq('id', t.id)
+      .eq('rebooking_sent_count', t.expectedCount)
+      .select('id')
+      .maybeSingle()
+    if (claimError) {
+      console.error('[cron/daily-emails] claim relance report échoué', t.id, claimError)
+      failures.push(`${label} [claim]`)
+      continue
+    }
+    if (!claimed) continue
+
+    const { subject, html, text } = buildRebookingEmail({
+      locale: t.locale,
+      prenom: t.prenom,
+      variant: t.variant,
+      missedSessionId: t.missedSessionId,
+      campDiscipline: (t.campDiscipline as RebookingDiscipline | null) ?? null,
+      dureeSemaines: t.dureeSemaines,
+      tunnel: t.tunnel,
+      stage: 'reminder',
+    })
+    const sent = await sendMail({
+      to: t.email,
+      bcc: COPY_TO,
+      replyTo: COPY_TO,
+      subject,
+      html,
+      text,
+      tag: 'rebooking',
+    })
+    if (!sent) {
+      failures.push(label)
+      // On rend le compteur, le rappel repartira au prochain run.
+      await supabase
+        .from('candidatures')
+        .update({ rebooking_sent_count: t.expectedCount })
+        .eq('id', t.id)
+      continue
+    }
+
+    servedEmails.add(t.email)
+    sentRebooking.push(label)
+    await insertAudit(supabase, t.id, 'rebooking_reminder_sent', {
+      rebooking_sent_at: nowIso,
+      rebooking_sent_count: t.expectedCount + 1,
+    }, { to: t.email, locale: t.locale, auto: true })
+  }
+
   // --- B1 : digest interne (toujours en prod — heartbeat) --------------------
   // Canal : Slack si SLACK_WEBHOOK_URL est configuree, sinon FALLBACK EMAIL a
   // contact@mkrcamp.com (constat 2026-07-09 : la var Slack n'a jamais ete posee).
@@ -276,6 +352,8 @@ export async function GET(request: Request) {
     wouldSendPayment,
     sentPredeparture,
     wouldSendPredeparture,
+    sentRebooking,
+    wouldSendRebooking,
   })
   // Digest interne : Slack UNIQUEMENT. L'ancien fallback email quotidien vers
   // contact@mkrcamp.com a ete retire (demande David 2026-07-13 : trop de bruit

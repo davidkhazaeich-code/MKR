@@ -35,6 +35,9 @@ export interface AutomationRow {
   payment_reminder_sent_at: string | null
   payment_reminder_count: number | null
   predeparture_sent_at: string | null
+  tunnel_type: 'session' | 'custom' | 'famille' | 'groupe' | null
+  rebooking_sent_at: string | null
+  rebooking_sent_count: number | null
   candidate: AutomationCandidate | AutomationCandidate[] | null
 }
 
@@ -261,6 +264,93 @@ export function selectPredeparture(rows: AutomationRow[], now: Date): Predepartu
 }
 
 // ---------------------------------------------------------------------------
+// A4 — rappel du repositionnement (3 j apres, si rien n'a bouge).
+// ---------------------------------------------------------------------------
+
+export interface RebookingReminderTarget {
+  id: string
+  email: string
+  prenom: string | null
+  locale: 'fr' | 'en'
+  variant: 'recue' | 'validee'
+  missedSessionId: string | null
+  campDiscipline: string | null
+  dureeSemaines: number | null
+  tunnel: 'session' | 'custom' | 'famille' | 'groupe' | null
+  /** Compteur attendu AVANT envoi (verrou optimiste). */
+  expectedCount: number
+}
+
+const REBOOKING_REMINDER_DELAY_MS = 72 * HOUR_MS
+/** Un seul rappel. Passe ce cap, on arrete : ce n'est plus une relance, c'est du harcelement. */
+export const MAX_REBOOKING_REMINDERS = 1
+
+/**
+ * « Pas de reponse ni d'action » se mesure sur ce qu'on peut reellement
+ * observer, pas sur une lecture d'email :
+ *  - le candidat a reserve un appel apres l'envoi (`visio_booked_at`), ou
+ *  - il a redepose une candidature apres l'envoi (nouvelle ligne pour le meme
+ *    email), ou
+ *  - son dossier a change d'etat (annule, reporte) : le filtre de statut suffit.
+ * Dans les trois cas, on ne relance pas.
+ */
+export function selectRebookingReminders(rows: AutomationRow[], now: Date): RebookingReminderTarget[] {
+  const nowMs = now.getTime()
+  const seenEmails = new Set<string>()
+  const targets: RebookingReminderTarget[] = []
+
+  // Date de la candidature la plus recente par email : sert a detecter un redepot.
+  const latestApplicationMs = new Map<string, number>()
+  for (const row of rows) {
+    const mail = normalizeCandidate(row.candidate)?.email?.trim().toLowerCase()
+    if (!mail) continue
+    const created = Date.parse(row.created_at)
+    if (!Number.isFinite(created)) continue
+    latestApplicationMs.set(mail, Math.max(latestApplicationMs.get(mail) ?? 0, created))
+  }
+
+  for (const row of rows) {
+    if (row.status !== 'recue' && row.status !== 'validee') continue
+    if (!row.rebooking_sent_at) continue
+
+    const count = row.rebooking_sent_count ?? 0
+    if (count < 1 || count > MAX_REBOOKING_REMINDERS) continue
+
+    const sentMs = Date.parse(row.rebooking_sent_at)
+    if (!Number.isFinite(sentMs)) continue
+    if (nowMs - sentMs < REBOOKING_REMINDER_DELAY_MS) continue
+
+    // Action 1 : il a pris rendez-vous depuis l'envoi.
+    if (row.visio_booked_at && Date.parse(row.visio_booked_at) >= sentMs) continue
+
+    const candidate = normalizeCandidate(row.candidate)
+    const email = candidate?.email?.trim().toLowerCase()
+    if (!email) continue
+
+    // Action 2 : il a redepose une candidature depuis l'envoi.
+    if ((latestApplicationMs.get(email) ?? 0) > sentMs) continue
+
+    if (seenEmails.has(email)) continue
+    seenEmails.add(email)
+
+    targets.push({
+      id: row.id,
+      email,
+      prenom: candidate?.prenom ?? null,
+      locale: row.submission_language === 'en' ? 'en' : 'fr',
+      variant: row.status === 'validee' ? 'validee' : 'recue',
+      missedSessionId: row.session_id,
+      campDiscipline: row.camp_discipline,
+      dureeSemaines: row.duree_semaines,
+      tunnel: row.tunnel_type,
+      expectedCount: count,
+    })
+  }
+
+  return targets.slice(0, SEND_CAP_PER_RUN)
+}
+
+// ---------------------------------------------------------------------------
 // B1 — digest quotidien interne (Slack).
 // ---------------------------------------------------------------------------
 
@@ -405,6 +495,8 @@ export interface DigestRunInfo {
   wouldSendPayment: string[]
   sentPredeparture: string[]
   wouldSendPredeparture: string[]
+  sentRebooking: string[]
+  wouldSendRebooking: string[]
 }
 
 // ASCII only (pas d'emoji, cf. memory feedback_no_emoji_use_svg).
@@ -457,6 +549,7 @@ export function formatDigestSlack(d: DigestData, run: DigestRunInfo): string {
     ...run.sentPayment.map((l) => `[paiement] ${l}`),
     ...run.sentVisio.map((l) => `[visio] ${l}`),
     ...run.sentPredeparture.map((l) => `[pré-départ] ${l}`),
+    ...run.sentRebooking.map((l) => `[report] ${l}`),
   ]
   if (sentAll.length) {
     parts.push(`*Emails automatiques envoyés ce matin (${sentAll.length})* :\n- ${sentAll.join('\n- ')}`)
@@ -466,6 +559,7 @@ export function formatDigestSlack(d: DigestData, run: DigestRunInfo): string {
     ...run.wouldSendPayment.map((l) => `[paiement] ${l}`),
     ...run.wouldSendVisio.map((l) => `[visio] ${l}`),
     ...run.wouldSendPredeparture.map((l) => `[pré-départ] ${l}`),
+    ...run.wouldSendRebooking.map((l) => `[report] ${l}`),
   ]
   if (wouldAll.length) {
     const motif = run.automationEnabled ? 'hors prod' : 'EMAIL_AUTOMATION_ENABLED=false'

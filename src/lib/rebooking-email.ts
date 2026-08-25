@@ -34,6 +34,8 @@ import { sessionDisplayStatic } from '@/lib/session-display-static'
  */
 
 export type RebookingVariant = 'validee' | 'recue'
+/** Premier envoi, ou rappel 3 jours plus tard si rien n'a bouge. */
+export type RebookingStage = 'first' | 'reminder'
 export type RebookingDiscipline = 'lutte' | 'mma' | 'combo_quote'
 
 const CAL_BOOKING_URL = `https://cal.com/${process.env.NEXT_PUBLIC_CAL_LINK || 'ruslan-mukhtarov-mkr/15min'}`
@@ -49,6 +51,8 @@ export interface RebookingEmailInput {
   dureeSemaines: number | null
   /** Tunnel d'origine : le lien de candidature doit y ramener. */
   tunnel?: 'session' | 'custom' | 'famille' | 'groupe' | null
+  /** `reminder` = relance courte, 3 jours apres, sans rien reprocher. */
+  stage?: RebookingStage
   /** Injectable pour les tests et les apercus. */
   now?: Date
 }
@@ -94,6 +98,7 @@ export function buildRebookingEmail(input: RebookingEmailInput): BuiltRebookingE
   const open = getSessions(now)
   const next = open[0]
   const nextView = sessionDisplayStatic(next, locale)
+  const nextYear = next.startDate.slice(0, 4)
   const missedSession = sessionFromId(input.missedSessionId)
   const missedYear = missedSession?.startDate.slice(0, 4) ?? ''
   const missedFr = missedSession ? `Le camp ${MISSED_CAMP_FR[missedSession.seasonKey]} ${missedYear}` : 'Le camp d\u2019ao\u00fbt'
@@ -102,6 +107,7 @@ export function buildRebookingEmail(input: RebookingEmailInput): BuiltRebookingE
     : 'The August camp'
   const discipline = input.campDiscipline ? DESTINATION[input.campDiscipline][locale] : null
   const weeks = input.dureeSemaines
+  const isReminder = input.stage === 'reminder'
 
   // Une ligne par session ouverte : dates reelles, ecrites depuis la fenetre
   // glissante, donc jamais perimees (cf. data/sessions.ts).
@@ -112,7 +118,7 @@ export function buildRebookingEmail(input: RebookingEmailInput): BuiltRebookingE
 
   const fr = {
     subject: `${prenom ? `${prenom}, ` : ''}on te trouve une autre date pour le Caucase`,
-    preheader: `Quatre sessions ouvertes, la prochaine part le ${nextView.dates}. Ta place t’attend.`,
+    preheader: `Quatre sessions ouvertes. La prochaine : ${nextView.dates}. Ta place t’attend.`,
     hello: prenom ? `Salut ${prenom},` : 'Salut,',
     // Constat neutre : c'est le camp qui est parti, pas le candidat qui a failli.
     intro: `${missedFr} est parti, et tu n\u2019en étais pas. Les dates ne se sont pas alignées cette fois. \u00c7a arrive plus souvent qu\u2019on ne le croit : un visa qui traîne, un imprévu, une saison de compétition qui déborde.`,
@@ -138,11 +144,18 @@ export function buildRebookingEmail(input: RebookingEmailInput): BuiltRebookingE
     footer: 'Tu reçois ce message parce que tu avais candidaté au MKR Caucasian Camp. Réponds directement, c’est Ruslan qui lit.',
     signoff: 'On se rattrape,',
     heroAlt: 'Session d’entraînement sur les tapis au Caucase',
+    // Relance : courte, sans reproche, sans pression. On remet juste le lien.
+    reminderSubject: `${prenom ? `${prenom}, ` : ''}je te remets le lien pour le Caucase`,
+    reminderPreheader: `Prochaine session : ${nextView.dates}. Deux clics et tu es dessus.`,
+    reminderIntro: `Je reviens vers toi une dernière fois, au cas où mon message se serait perdu dans ta boîte.`,
+    reminderBody: `Les sessions sont toujours ouvertes et il reste des places. La prochaine, c’est ${nextView.season} ${nextYear} : ${nextView.dates}.`,
+    reminderClose: `Si le moment n’est pas le bon, aucun souci : dis-le moi d’un mot et je te recontacterai quand ça le sera.`,
+    reminderSignoff: 'À très vite,',
   }
 
   const en = {
     subject: `${prenom ? `${prenom}, ` : ''}let\u2019s find you another date in the Caucasus`,
-    preheader: `Four sessions are open, the next one leaves on ${nextView.dates}. Your spot is waiting.`,
+    preheader: `Four sessions are open. Next one: ${nextView.dates}. Your spot is waiting.`,
     hello: prenom ? `Hey ${prenom},` : 'Hey,',
     intro: `${missedEn} has left, and you were not on it. The dates did not line up this time. It happens more often than you would think: a visa that drags, something unexpected, a competition season that runs long.`,
     reassure:
@@ -167,61 +180,113 @@ export function buildRebookingEmail(input: RebookingEmailInput): BuiltRebookingE
     footer: 'You are receiving this because you applied to MKR Caucasian Camp. Reply directly, Ruslan reads it.',
     signoff: 'Let’s make it happen,',
     heroAlt: 'Training session on the mats in the Caucasus',
+    reminderSubject: `${prenom ? `${prenom}, ` : ''}here is that Caucasus link again`,
+    reminderPreheader: `Next session: ${nextView.dates}. Two clicks and you are on it.`,
+    reminderIntro: `I am coming back to you one last time, in case my message got buried in your inbox.`,
+    reminderBody: `The sessions are still open and spots are left. The next one is ${nextView.season} ${nextYear}: ${nextView.dates}.`,
+    reminderClose: `If the timing is not right, no problem at all: just say the word and I will come back to you when it is.`,
+    reminderSignoff: 'Talk soon,',
   }
 
   const c = locale === 'en' ? en : fr
 
-  const contentRows = [
-    renderHeroImage('predeparture-team.jpg', c.heroAlt),
-    renderParagraph(escapeHtml(c.hello), { main: true, padTop: true }),
-    renderParagraph(escapeHtml(c.intro)),
-    renderParagraph(escapeHtml(c.reassure)),
-    renderSectionTitle(c.sessionsTitle),
-    renderBullets(sessionLines),
-    renderParagraph(escapeHtml(c.sessionsIntro)),
-    renderButton(`${SITE_URL}${applyPath(locale, input.tunnel)}`, c.ctaApply),
-    renderSectionTitle(c.wantTitle),
-    renderParagraph(escapeHtml(c.want)),
-    renderParagraph(escapeHtml(c.callIntro), { padTop: true }),
-    renderButton(CAL_BOOKING_URL, c.ctaCall, { primary: false }),
-    renderWhatsAppBlock(locale, whatsappUrl(c.waPrefill)),
-    renderSignature(locale, c.signoff),
-  ].join('')
+  const applyHref = `${SITE_URL}${applyPath(locale, input.tunnel)}`
 
+  // Le rappel est volontairement court : pas de photo pleine largeur, pas de
+  // bloc « ce qui t'attend ». Tout ca a deja ete lu il y a trois jours. On
+  // remet le lien, on laisse une porte de sortie, on s'arrete.
+  const contentRows = (
+    isReminder
+      ? [
+          renderParagraph(escapeHtml(c.hello), { main: true, padTop: true }),
+          renderParagraph(escapeHtml(c.reminderIntro)),
+          renderParagraph(escapeHtml(c.reminderBody)),
+          renderBullets(sessionLines),
+          renderButton(applyHref, c.ctaApply),
+          renderParagraph(escapeHtml(c.callIntro)),
+          renderButton(CAL_BOOKING_URL, c.ctaCall, { primary: false }),
+          renderParagraph(escapeHtml(c.reminderClose)),
+          renderWhatsAppBlock(locale, whatsappUrl(c.waPrefill)),
+          renderSignature(locale, c.reminderSignoff),
+        ]
+      : [
+          renderHeroImage('predeparture-team.jpg', c.heroAlt),
+          renderParagraph(escapeHtml(c.hello), { main: true, padTop: true }),
+          renderParagraph(escapeHtml(c.intro)),
+          renderParagraph(escapeHtml(c.reassure)),
+          renderSectionTitle(c.sessionsTitle),
+          renderBullets(sessionLines),
+          renderParagraph(escapeHtml(c.sessionsIntro)),
+          renderButton(applyHref, c.ctaApply),
+          renderSectionTitle(c.wantTitle),
+          renderParagraph(escapeHtml(c.want)),
+          renderParagraph(escapeHtml(c.callIntro), { padTop: true }),
+          renderButton(CAL_BOOKING_URL, c.ctaCall, { primary: false }),
+          renderWhatsAppBlock(locale, whatsappUrl(c.waPrefill)),
+          renderSignature(locale, c.signoff),
+        ]
+  ).join('')
+
+  const subject = isReminder ? c.reminderSubject : c.subject
   const html = renderEmailShell({
     locale,
-    title: c.subject,
-    preheader: c.preheader,
+    title: subject,
+    preheader: isReminder ? c.reminderPreheader : c.preheader,
     contentRows,
     footer: c.footer,
   })
 
-  const text = [
-    c.hello,
-    '',
-    c.intro,
-    '',
-    c.reassure,
-    '',
-    `${c.sessionsTitle} :`,
-    ...sessionLines.map((l) => `- ${l}`),
-    '',
-    c.sessionsIntro,
-    `${c.ctaApply} : ${SITE_URL}${applyPath(locale, input.tunnel)}`,
-    '',
-    c.wantTitle,
-    c.want,
-    '',
-    c.callIntro,
-    `${c.ctaCall} : ${CAL_BOOKING_URL}`,
-    '',
-    whatsAppTextLine(locale, whatsappUrl(c.waPrefill)),
-    '',
-    c.signoff,
-    'Ruslan Mukhtarov',
-    '',
-    c.footer,
-  ].join('\n')
+  const text = (
+    isReminder
+      ? [
+          c.hello,
+          '',
+          c.reminderIntro,
+          '',
+          c.reminderBody,
+          ...sessionLines.map((l) => `- ${l}`),
+          '',
+          `${c.ctaApply} : ${applyHref}`,
+          '',
+          c.callIntro,
+          `${c.ctaCall} : ${CAL_BOOKING_URL}`,
+          '',
+          c.reminderClose,
+          '',
+          whatsAppTextLine(locale, whatsappUrl(c.waPrefill)),
+          '',
+          c.reminderSignoff,
+          'Ruslan Mukhtarov',
+          '',
+          c.footer,
+        ]
+      : [
+          c.hello,
+          '',
+          c.intro,
+          '',
+          c.reassure,
+          '',
+          `${c.sessionsTitle} :`,
+          ...sessionLines.map((l) => `- ${l}`),
+          '',
+          c.sessionsIntro,
+          `${c.ctaApply} : ${applyHref}`,
+          '',
+          c.wantTitle,
+          c.want,
+          '',
+          c.callIntro,
+          `${c.ctaCall} : ${CAL_BOOKING_URL}`,
+          '',
+          whatsAppTextLine(locale, whatsappUrl(c.waPrefill)),
+          '',
+          c.signoff,
+          'Ruslan Mukhtarov',
+          '',
+          c.footer,
+        ]
+  ).join('\n')
 
-  return { subject: c.subject, html, text }
+  return { subject, html, text }
 }
