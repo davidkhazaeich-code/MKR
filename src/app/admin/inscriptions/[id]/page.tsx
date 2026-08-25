@@ -125,6 +125,8 @@ interface CandidatureRow {
   submission_language: 'fr' | 'en'
   visio_reminder_sent_at: string | null
   visio_reminder_count: number
+  rebooking_sent_at: string | null
+  rebooking_sent_count: number
   contract_start_date: string | null
   contract_end_date: string | null
   contract_duration_weeks: number | null
@@ -265,6 +267,18 @@ function describeEvent(e: AuditRow): { label: string; detail: string | null; acc
         accent: 'var(--adm-status-reportee)',
       }
     }
+    case 'rebooking_sent': {
+      const to = e.data?.to ? String(e.data.to) : null
+      const cnt = e.to_value?.rebooking_sent_count as number | undefined
+      return {
+        label:
+          cnt && cnt > 1
+            ? `Proposition d'une autre session renvoyée (envoi n°${cnt})`
+            : 'Proposition d\u2019une autre session envoyée au candidat',
+        detail: to,
+        accent: 'var(--adm-status-reportee)',
+      }
+    }
     default:
       return { label: e.event, detail: null }
   }
@@ -337,6 +351,7 @@ export default async function CandidatureDetailPage({
           referral_bonus_eur, referral_commission_type, referral_commission_pct,
           referral_payout_status, referral_payout_paid_at, referral_payout_method,
           submission_language, visio_reminder_sent_at, visio_reminder_count,
+          rebooking_sent_at, rebooking_sent_count,
           contract_start_date, contract_end_date, contract_duration_weeks,
           contract_inclusions, contract_exclusions, contract_note,
           contract_payment_deadline, contract_locale, contract_number,
@@ -375,6 +390,11 @@ export default async function CandidatureDetailPage({
   if (!candidature) notFound()
 
   const c = candidature.candidate
+  // Rotation des saisons : si le camp de ce dossier est deja parti, on ouvre la
+  // carte qui propose une autre session au candidat.
+  const dossierSession = sessionFromId(candidature.session_id)
+  const campDeparted = !!dossierSession && dossierSession.startDate <= new Date().toISOString().slice(0, 10)
+  const missedSessionLabel = dossierSession ? frSessionDisplay(dossierSession).season_label : null
   const fullName = c ? `${c.prenom} ${c.nom}` : '(candidat manquant)'
   const tunnelColor = TUNNEL_COLOR[candidature.tunnel_type]
   const statusColor = STATUS_COLOR[candidature.status]
@@ -758,6 +778,10 @@ export default async function CandidatureDetailPage({
               submissionLanguage={candidature.submission_language ?? 'fr'}
               visioReminderSentAt={candidature.visio_reminder_sent_at}
               visioReminderCount={candidature.visio_reminder_count ?? 0}
+              campDeparted={campDeparted}
+              missedSessionLabel={missedSessionLabel}
+              rebookingSentAt={candidature.rebooking_sent_at}
+              rebookingSentCount={candidature.rebooking_sent_count ?? 0}
               sessionId={candidature.session_id}
               dureeSemaines={candidature.duree_semaines}
               dateDebutSouhaitee={candidature.date_debut_souhaitee}

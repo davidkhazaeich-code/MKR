@@ -267,6 +267,27 @@ Le site retirait bien le camp parti, mais **le back-office ne le savait pas**. C
 
 **Test** : `node --experimental-strip-types --import ./scripts/_alias-hook.mjs scripts/crm-rotation-check.mts` (12 assertions, fixtures calquées sur la vraie base). Le hook `scripts/_alias-hook.mjs` apprend à Node à résoudre les `@/…` et les imports JSON du projet, qui sont écrits pour le bundler Next.
 
+### 8. Email de repositionnement : proposer une autre session (2026-08-21, 3ᵉ passe)
+
+> **Demande David** : « Toutes les personnes qui étaient censées partir cet été ne sont pas parties. Fais un email personnalisé à chacun pour leur proposer une autre session, avec un lien pour réserver un appel et un lien pour repostuler. Très clair, qui donne envie de partir, **sans dire que c'est leur faute**. »
+
+**`src/lib/rebooking-email.ts`** (bilingue, charte MKR via `email-layout.ts`). Personnalisé sur cinq axes : prénom, langue, discipline (Daghestan ou Tchétchénie), durée visée, et **statut du dossier**, qui change le discours :
+
+| Variante | Situation réelle | Angle |
+|---|---|---|
+| `validee` | Ruslan avait fait la visio et validé le dossier | « Ton dossier était validé de notre côté, tu n'as rien à refaire pour être pris. » CTA principal = choisir sa session |
+| `recue` | La visio n'a jamais eu lieu | « On n'a simplement pas eu l'occasion de se parler avant le départ. C'est la seule étape qu'il reste. » L'appel remonte en action principale |
+
+⚠️ **Règle de ton, à ne jamais casser** : on ne dit pas qu'il n'a pas répondu, pas donné suite, ou laissé passer sa place. On constate que **le camp est parti** et on avance. La seule cause évoquée est extérieure et plausible (visa qui traîne, imprévu, saison de compétition).
+
+Contenu : les 4 sessions ouvertes avec **leurs vraies dates** (donc jamais périmées, elles viennent de la fenêtre glissante), un bouton « Choisir ma session » vers le tunnel d'origine (`famille` reste `famille`), un bouton vers l'agenda Cal de Ruslan, le bloc WhatsApp et sa signature.
+
+Deux pièges de langue traités : l'**élision française** dépend de la saison (`MISSED_CAMP_FR` : « le camp d'été », « le camp **de** printemps ») et les prénoms sont capitalisés à l'affichage (la base contient « louis »).
+
+**Envoi depuis le back-office**, jamais en masse : carte `RebookingCard` (prévisualiser puis envoyer, modale de confirmation), visible **uniquement** sur un dossier actif dont le camp est parti. Routes `POST /api/admin/candidature/[id]/rebooking` et `GET …/rebooking/preview`, mêmes garde-fous que la relance visio (échec d'envoi = aucun état modifié). Migration `add_rebooking_tracking` : `rebooking_sent_at` + `rebooking_sent_count`, plus l'évènement `rebooking_sent` dans la timeline.
+
+**`src/lib/session-display-static.ts`** : la copie de session dans les deux langues hors React, pour les emails. `session-display-fr.ts` n'est plus qu'un raccourci FR par-dessus.
+
 ### Reste ouvert
 
 **Les 14 dossiers `aout-2026` doivent être traités à la main par Ruslan** : le CRM les signale maintenant, mais personne ne peut décider à sa place entre annuler et reporter. Aucune bascule automatique de statut n'a été mise en place, c'est volontaire (`recue → annulee` est irréversible).

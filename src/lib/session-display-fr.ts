@@ -8,16 +8,16 @@
  * Point important : ces surfaces doivent afficher des sessions PASSEES, sorties
  * depuis longtemps de la fenetre d'inscription. On repasse donc par
  * `sessionFromId`, qui reconstruit n'importe quelle session depuis son id.
+ *
+ * Pour les emails candidat, bilingues, utiliser `session-display-static.ts`.
  */
 
-import frCopy from '../../messages/fr/data.sessions.json'
-import { sessionFromId, type Session } from '@/data/sessions'
-import { buildSessionDisplay, type SessionCopy, type SessionDisplay } from '@/lib/session-display'
-
-const FR_COPY = frCopy as unknown as SessionCopy
+import type { Session } from '@/data/sessions'
+import type { SessionDisplay } from '@/lib/session-display'
+import { sessionDisplayStatic, sessionDisplayFromIdStatic } from '@/lib/session-display-static'
 
 export function frSessionDisplay(session: Session): SessionDisplay {
-  return buildSessionDisplay(session, FR_COPY)
+  return sessionDisplayStatic(session, 'fr')
 }
 
 /**
@@ -25,6 +25,5 @@ export function frSessionDisplay(session: Session): SessionDisplay {
  * Renvoie `null` si l'id n'est pas une session officielle (sur-mesure, groupe...).
  */
 export function frSessionDisplayFromId(id: string | null | undefined): SessionDisplay | null {
-  const session = sessionFromId(id)
-  return session ? frSessionDisplay(session) : null
+  return sessionDisplayFromIdStatic(id, 'fr')
 }

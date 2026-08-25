@@ -15,6 +15,7 @@ import { useToast } from './ui/Toast'
 import { ADMIN_SOLO_DUO_HINT } from '@/lib/pricing-copy'
 import ContractCard from './ContractCard'
 import VisioReminderCard from './VisioReminderCard'
+import RebookingCard from './RebookingCard'
 import type { ContractLocale } from '@/data/contract'
 
 type PaymentMethod = 'virement' | 'cash' | 'autre'
@@ -40,6 +41,11 @@ interface Props {
   // Carte Relance visio
   visioReminderSentAt: string | null
   visioReminderCount: number
+  /** Camp de ce dossier deja parti : ouvre la carte « Proposer une autre session ». */
+  campDeparted: boolean
+  missedSessionLabel: string | null
+  rebookingSentAt: string | null
+  rebookingSentCount: number
   sessionId: string | null
   dureeSemaines: number | null
   dateDebutSouhaitee: string | null
@@ -458,6 +464,19 @@ export default function AdminActions(props: Props) {
           submissionLanguage={props.submissionLanguage}
           visioReminderSentAt={props.visioReminderSentAt}
           visioReminderCount={props.visioReminderCount}
+          busyExternal={busy}
+        />
+
+        {/* === Repositionnement (camp parti sans le candidat) === */}
+        <RebookingCard
+          candidatureId={props.candidatureId}
+          status={status}
+          candidateEmail={props.candidateEmail}
+          submissionLanguage={props.submissionLanguage}
+          missedSessionLabel={props.missedSessionLabel}
+          campDeparted={props.campDeparted}
+          rebookingSentAt={props.rebookingSentAt}
+          rebookingSentCount={props.rebookingSentCount}
           busyExternal={busy}
         />
 
