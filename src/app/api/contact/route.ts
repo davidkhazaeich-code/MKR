@@ -1,5 +1,6 @@
-import { NextResponse } from 'next/server'
+import { NextResponse, after } from 'next/server'
 import { sendMail, wrapEmail, row, escapeHtml, INTERNAL_BCC } from '@/lib/email'
+import { buildContactEmail } from '@/lib/contact-email'
 import { rateLimit, clientIp } from '@/lib/rate-limit'
 
 // POST /api/contact
@@ -43,6 +44,8 @@ interface Payload {
   phone?: string
   subject?: string
   message?: string
+  /** Langue de la page d'ou part le formulaire ('fr' par defaut, 'en' sur /en). */
+  submission_language?: string
   _hp?: string
 }
 
@@ -122,6 +125,29 @@ export async function POST(request: Request) {
       { status: 503 },
     )
   }
+
+  // 4. Accuse de reception au visiteur. Envoye APRES la reponse (`after`) : il ne
+  // doit ni ralentir ni faire echouer la soumission, mais un fire-and-forget nu
+  // ne partirait jamais en serverless (bug historique de /api/guide-caucase).
+  // La demande est deja arrivee chez nous a ce stade : si cet email echoue, le
+  // visiteur a quand meme son ecran de confirmation et Ruslan a son message.
+  const locale = body.submission_language === 'en' ? 'en' : 'fr'
+  after(async () => {
+    try {
+      const confirmation = buildContactEmail({ name, subject, locale })
+      await sendMail({
+        to: email,
+        subject: confirmation.subject,
+        html: confirmation.html,
+        text: confirmation.text,
+        // Repondre a cet accuse doit tomber dans la boite de la societe.
+        replyTo: process.env.MKR_EMAIL_TO || 'contact@mkrcamp.com',
+        tag: 'contact-confirmation',
+      })
+    } catch (err) {
+      console.error('[api/contact] confirmation email failed (non-fatal)', err)
+    }
+  })
 
   return NextResponse.json({ ok: true })
 }

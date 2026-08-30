@@ -48,7 +48,7 @@ export interface SendMailParams {
   /** Pièces jointes (ex : contrat PDF). */
   attachments?: SendMailAttachment[]
   // Tag Resend pour filtrage analytics dashboard.
-  tag?: 'contact' | 'inscription' | 'inscription-candidate' | 'guide-caucase' | 'guide-lead' | 'contract' | 'visio-reminder' | 'visio-reminder-auto' | 'payment-reminder' | 'predeparture' | 'rebooking' | 'digest-interne'
+  tag?: 'contact' | 'contact-confirmation' | 'inscription' | 'inscription-candidate' | 'guide-caucase' | 'guide-lead' | 'contract' | 'visio-reminder' | 'visio-reminder-auto' | 'payment-reminder' | 'predeparture' | 'rebooking' | 'digest-interne'
 }
 
 // Envoie un email via Resend. Retourne true si OK, false si KO ou no-op.
