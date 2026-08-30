@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import { getSupabaseAdmin } from '@/lib/supabase-admin'
 import { isSessionOpen } from '@/data/sessions'
 import { getSessionPlaces } from '@/lib/places'
-import { sendMail, wrapEmail, row } from '@/lib/email'
+import { sendMail, wrapEmail, row, INTERNAL_BCC } from '@/lib/email'
 import { buildVisioEmail } from '@/lib/visio-email'
 import { rateLimit, clientIp as rlClientIp } from '@/lib/rate-limit'
 import { isDisposableEmail } from '@/lib/disposable-email'
@@ -563,6 +563,8 @@ async function notifyEmail(p: SlackPayload): Promise<void> {
     subject: `[MKR candidature] ${tunnelLabel} · ${p.prenom} ${p.nom}`,
     html,
     text,
+    // Ruslan recoit chaque nouvelle candidature en copie cachee sur son adresse privee.
+    bcc: INTERNAL_BCC,
     replyTo: p.email,
     tag: 'inscription',
   })

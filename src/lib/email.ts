@@ -12,6 +12,16 @@ import { Resend } from 'resend'
 const FROM_DEFAULT = process.env.MKR_EMAIL_FROM || 'MKR Caucasian Camp <contact@mkrcamp.com>'
 const TO_DEFAULT = process.env.MKR_EMAIL_TO || 'contact@mkrcamp.com'
 
+// Copie cachee systematique des notifications INTERNES (demande de contact,
+// nouvelle candidature) vers l'adresse privee de Ruslan : il veut voir passer la
+// demande sans dependre de la boite partagee contact@mkrcamp.com.
+// En bcc et pas en to : le destinataire officiel reste la boite de la societe, et
+// l'adresse privee n'apparait dans aucun entete visible cote candidat.
+// Surchargeable par env (MKR_INTERNAL_BCC) pour changer l'adresse sans redeployer ;
+// mettre la chaine vide desactive la copie.
+const INTERNAL_BCC_RAW = process.env.MKR_INTERNAL_BCC ?? 'ruslan.mukhtarov1@gmail.com'
+export const INTERNAL_BCC: string | undefined = INTERNAL_BCC_RAW.trim() || undefined
+
 let cached: Resend | null = null
 function getClient(): Resend | null {
   if (cached) return cached
@@ -33,7 +43,7 @@ export interface SendMailParams {
   text?: string
   to?: string
   /** Copie cachée (ex : copie exacte du contrat à contact@mkrcamp.com). */
-  bcc?: string
+  bcc?: string | string[]
   replyTo?: string
   /** Pièces jointes (ex : contrat PDF). */
   attachments?: SendMailAttachment[]

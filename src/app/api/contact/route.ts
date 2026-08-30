@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { sendMail, wrapEmail, row, escapeHtml } from '@/lib/email'
+import { sendMail, wrapEmail, row, escapeHtml, INTERNAL_BCC } from '@/lib/email'
 import { rateLimit, clientIp } from '@/lib/rate-limit'
 
 // POST /api/contact
@@ -108,6 +108,8 @@ export async function POST(request: Request) {
     subject: `[MKR contact] ${subjectLabel} · ${name}`,
     html,
     text,
+    // Ruslan recoit la demande en copie cachee sur son adresse privee.
+    bcc: INTERNAL_BCC,
     replyTo: email,
     tag: 'contact',
   })
