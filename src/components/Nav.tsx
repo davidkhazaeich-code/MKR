@@ -536,6 +536,20 @@ export default function Nav() {
             <Link href="/a-propos" className="mob-sub-link">{ICO.about} {t('mobile.infos.a_propos')}</Link>
             <Link href="/contact" className="mob-sub-link">{ICO.contact} {t('mobile.infos.contact')}</Link>
           </MobAccordion>
+          {/* Contact en acces direct, en dernier, comme dans la barre desktop.
+              Il n'existait ici que dans l'accordeon « Decouvrir », donc a deux
+              gestes. On le garde AUSSI dans l'accordeon : le desktop fait
+              pareil, la barre et le mega panel « Decouvrir » le portent tous
+              les deux. */}
+          <div className="mob-acc">
+            <Link
+              href="/contact"
+              className="mob-home-link"
+              aria-current={pathname === '/contact' ? 'page' : undefined}
+            >
+              {t('contact')}
+            </Link>
+          </div>
           <div className="mob-cta-wrap">
             <a
               href={SOCIALS.instagram}

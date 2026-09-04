@@ -3,6 +3,22 @@
 > **Fichier de référence pour Claude Code.** Mise à jour : 2026-09-04 (nouvel ordre des sections de la home + réparation du système de masques montagne sur tout le site).
 > Lis ce fichier en priorité avant toute intervention sur le site MKR. Il évite de re-explorer.
 
+## 🆕 2026-09-04 (Contact en accès direct dans le tiroir mobile)
+
+> **Demande David** : « actualise bien le Mega Menu Mobile pour qu'il y ait les mêmes navigations que sur le header desktop, notamment le bouton contact qui est manquant. »
+
+**Ce qui manquait, et rien d'autre.** Audit fait lien par lien : les **22 destinations** du header desktop (barre + les 4 mega panels) étaient déjà toutes atteignables depuis le tiroir, et le tiroir en offre même deux de plus (`/le-camp`, `/preparer-son-camp`). Le seul vrai écart était de niveau, pas de contenu : **`/contact` n'existait que dans l'accordéon « Découvrir »**, donc à deux gestes, alors que la barre desktop le porte en entrée de premier niveau depuis le 2026-08-21.
+
+`Nav.tsx` : entrée `Contact` ajoutée **en dernier**, après les 4 accordéons, sur le même patron que `Accueil` (`.mob-acc` + `.mob-home-link`, `aria-current`). Le tiroir lit maintenant exactement comme la barre : `Accueil · Le Camp ▾ · Programme ▾ · Destinations ▾ · Découvrir ▾ · Contact`.
+
+⚠️ **Contact reste AUSSI dans l'accordéon « Découvrir »**, volontairement : le desktop fait pareil (barre **et** mega panel « Découvrir » le portent tous les deux). Ne pas « dédoublonner ».
+
+Aucune clé i18n créée : `common.nav.contact` existait déjà pour le desktop, donc rien à propager en EN.
+
+**Contrôle automatique : `npm run check:nav`** (`scripts/nav-parity-check.mjs`). Il compare les destinations du header desktop à celles du tiroir, FR et EN, et vérifie que les entrées de premier niveau (`/`, `/contact`) sont **hors accordéon** — c'est-à-dire à un geste. À relancer à chaque ajout dans la barre desktop.
+
+**QA** : `tsc` 0 erreur · `i18n-check` 2 924 clés · `next build` compile vert · parité 22/22 en FR et EN · tiroir vérifié à 390, 360 et 320px de large : il défile (`overflow-y: auto` sur `#mobile-menu`) et le bouton POSTULER reste atteignable et cliquable après défilement.
+
 ## 🆕 BREAKING — 2026-09-04 (nouvel ordre des sections de la home + masques montagne réparés site-wide)
 
 > **Demande David** : déplacer des sections de la home « en prenant soin que visuellement ça match toujours les transitions entre les sections », et « que les masques d'intersections ne soient jamais par-dessus du contenu qui se trouve sur une section en haut. Ça, il faut que tu corriges également sur les autres pages. »
