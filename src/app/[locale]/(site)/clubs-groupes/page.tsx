@@ -113,7 +113,7 @@ export default async function ClubsGroupesPage({ params }: { params: Promise<{ l
       <PricingTable withHeader={true} />
 
       {/* Processus devis */}
-      <section className="logi-section fx-texture-basalt fx-mask-c fx-stack-5">
+      <section className="logi-section fx-texture-basalt fx-mask-c fx-stack-7">
         <div className="inner">
           <div className="logi-header reveal">
             <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>

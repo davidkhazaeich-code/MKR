@@ -1,7 +1,103 @@
 # SITEMAP MKR Caucasian Camp — Cartographie complète
 
-> **Fichier de référence pour Claude Code.** Mise à jour : 2026-08-21 (WhatsApp direct de Ruslan, roulement automatique des saisons, puis refonte de la page contact).
+> **Fichier de référence pour Claude Code.** Mise à jour : 2026-09-04 (nouvel ordre des sections de la home + réparation du système de masques montagne sur tout le site).
 > Lis ce fichier en priorité avant toute intervention sur le site MKR. Il évite de re-explorer.
+
+## 🆕 BREAKING — 2026-09-04 (nouvel ordre des sections de la home + masques montagne réparés site-wide)
+
+> **Demande David** : déplacer des sections de la home « en prenant soin que visuellement ça match toujours les transitions entre les sections », et « que les masques d'intersections ne soient jamais par-dessus du contenu qui se trouve sur une section en haut. Ça, il faut que tu corriges également sur les autres pages. »
+
+### 1. Le nouvel ordre de la home
+
+`src/app/[locale]/(site)/page.tsx` :
+
+| # | Section | Composant | Ancien rang |
+|---|---|---|---|
+| 1 | Accueil | `Hero` | 1 |
+| 2 | Le film | `VideoSection` | 2 |
+| 3 | **Tout est inclus** | `FacilitatorBand` | 7 |
+| 4 | **Le processus** | `Timeline` | 10 |
+| 5 | Pour qui (4 façons de venir) | `AudienceSwitcher` | 3 |
+| 6 | Témoignages | `Testimonials` | 5 |
+| 7 | Antoine · prépa championnat | `VerticalVideoSplit` | 6 |
+| 8 | Pourquoi le Caucase | `Philosophie` | 4 |
+| 9 | Comment y aller (le chemin vers le Caucase) | `VoyageReveal` | 8 |
+| 10 | Les 4 sessions | `Sessions` | 9 |
+| 11 | FAQ | `FAQ` | 11 |
+| 12 | Prochain camp | `CTAFinal` | 12 |
+
+Deux libellés du sommaire latéral suivent les noms employés par David : « On organise tout » → **« Tout est inclus »**, « Le parcours » → **« Le processus »** (ce sont déjà les eyebrows affichés dans les sections).
+
+⚠️ **`VoyageReveal` est UNE section, pas deux** : son eyebrow dit « COMMENT Y ALLER » et son titre « LE CHEMIN VERS LE CAUCASE ». La demande les citait à la suite, il n'y a pas de section manquante.
+
+### 2. ⚠️ La règle qui rend l'ordre non-libre : le z-index suit le DOM
+
+Chaque section remonte de `-5vw` sur la précédente et découpe une crête de montagne dans son propre fond. **Pour qu'on voie la crête, il faut que la section qui arrive peigne PAR-DESSUS**, donc que son `z-index` soit plus grand. L'échelle est écrite à la main dans `globals.css`, bloc « MOUNTAIN SECTION TRANSITIONS » :
+
+```
+1 hero · 2 video · 3 facilitator · 4 timeline · 5 audiences · 6 testimonials
+· 7 vvs · 8 philosophie · 9 voyage · 10 sessions · 11 faq · 12 cta-final
+```
+
+**Déplacer une section dans `page.tsx` sans renuméroter cette échelle casse la jonction en silence** : la section du haut repasse devant, la crête disparaît et le raccord redevient un bord horizontal plat. C'était déjà le cas avant cette passe sur **voyage → sessions** (voyage était en 8, sessions en 5), depuis un déplacement antérieur non répercuté.
+
+Contrôle automatique : `node scripts/home-order-check.mjs` (ordre attendu + z-index strictement croissant + zéro débordement, FR et EN × 6 largeurs).
+
+### 3. `#audiences` et `.vvs-section` entrent dans la chaîne
+
+Elles n'avaient ni rang ni crête : leur jonction haute était un bord parfaitement droit, seul écart au rythme de la page. Elles reçoivent le même traitement que les autres. Deux précautions :
+
+- `#audiences` était **transparente** (on voyait le fond du body). Sans fond à elle, il n'y a rien à découper : elle peint désormais `var(--bg)`, exactement la couleur déjà rendue.
+- Les deux composants servent **ailleurs** (`/sessions` pour `AudienceSwitcher`, `/programme/mma` et `/temoignages` pour `VerticalVideoSplit`), où ce découpage n'a pas lieu d'être. D'où le préfixe **`#main > [data-scroll-section] >`**, qui n'existe que sur la home.
+
+`.voyage-reveal-outer` gagne un `padding-bottom: 6vw` : son contenu est centré dans un sticky de 100vh, donc il descend très bas dans la section, et la crête de `#sessions` coupait la rangée de badges « visa inclus / vol intérieur inclus ».
+
+### 4. ⚠️ Le vrai bug des masques : une compensation en px face à une remontée en vw
+
+`.fx-mask-a/b/c/d` (le système des pages intérieures) remontent de **-5 à -7vw** et la section du dessus réservait la place avec un **`padding-bottom: 120px` figé**. Ça suffisait à 1440px (5vw = 72px) et ça lâchait au-delà de ~1700px.
+
+**Mesuré au 2026-09-04, avant correction : 46 intrusions sur 17 pages**, jusqu'à 38px de contenu recouvert (photos de `/familles`, `/logistique`, `/programme`, boutons « CHOISIR MON CAMP », tableau de remboursement de `/comment-ca-marche`). Correction : une compensation **en vw, une valeur par variante**, et jamais sous les 7rem d'origine. Idem pour le `padding-top` de la section masquée elle-même, dont le contenu doit commencer sous le creux le plus bas de sa crête.
+
+Trois pièges qui écrasaient la compensation en silence, tous corrigés :
+1. ⚠️ **`section:has(+ .fx-mask-b)` a une spécificité de (0,1,1)**, donc il gagne sur toute règle à une seule classe. C'est ce qui remplaçait le `calc(6rem + 6vw)` de `.facilitator-band` par 120px sur `/familles`.
+2. ⚠️ **`.pricing-table-section` est défini plus BAS que le bloc des masques** : son raccourci `padding: 5rem 0` gagnait sur le `padding-top` du masque, et c'était le titre de la grille tarifaire qui se faisait couper.
+3. ⚠️ **Un `style={{ paddingBlock }}` inline bat tout** : c'est ce qui restait sur `/programme/mma` (section « Briefing »), seule page encore rouge après la première passe.
+
+### 5. Les crêtes invisibles ailleurs (échelle `fx-stack-*` dans le désordre)
+
+Même cause que voyage → sessions, sur les pages intérieures : les classes `fx-stack-N` sont posées à la main et ne suivaient pas l'ordre du DOM. Réparé sur `/familles`, `/comment-ca-marche`, `/sur-mesure`, `/clubs-groupes`, `/mkr-camp-2026`. `PricingTable` passe de `fx-stack-3` à **`fx-stack-6`** (il arrive tard dans la page sur `/familles`), ce qui a obligé à monter à `fx-stack-7` la section qui le suit sur les trois autres pages.
+
+⚠️ **`.fx-stack-8` était utilisé dans le JSX sans exister dans le CSS** : la section retombait en `z-index: auto`. Ajouté. **`fx-stack-1b` (`/sur-mesure`) et `fx-stack-3b` (`/programme`) n'existent toujours pas** et restent donc sans effet : ça ne casse rien aujourd'hui (leurs voisines sont en `auto`), mais ce sont deux pièges dormants.
+
+Contrôle automatique : `node scripts/sections-zorder-check.mjs` (aucune crête ne doit passer derrière la section du dessus).
+
+### 6. Les trois contrôles, dans `scripts/`
+
+```
+npm run dev            # les trois scripts pilotent un vrai navigateur
+npm run check:sections
+```
+
+| Script | Ce qu'il prouve |
+|---|---|
+| `scripts/home-order-check.mjs` | l'ordre des sections de la home, l'échelle z strictement croissante, zéro débordement, un seul `h1`, flux normal sous 768px (FR + EN × 6 largeurs) |
+| `scripts/sections-zorder-check.mjs` | aucune crête ne passe derrière la section du dessus (23 pages) |
+| `scripts/sections-masks-check.mjs` | aucun masque ne recouvre du contenu, ni celui de la section du dessus ni le sien (23 pages × 4 largeurs) |
+
+⚠️ **Ce ne sont pas des tests de rendu à l'œil** : ils mesurent des boîtes, donc ils
+attrapent ce qu'une capture d'écran ne montre pas (un recouvrement de 8px sur un
+écran qu'on n'a pas sous la main). À relancer après toute modification de l'ordre
+des sections, d'une classe `fx-mask-*` ou `fx-stack-*`.
+
+⚠️ **Le troisième dépasse les 10 minutes** (92 chargements de page, chacun scrollé
+de bout en bout pour déclencher le lazy-load). Le lancer seul et en tâche de fond
+plutôt que d'attendre `check:sections` : `node scripts/sections-masks-check.mjs`,
+ou le restreindre aux pages touchées en les passant en arguments
+(`node scripts/sections-masks-check.mjs /familles /logistique`).
+
+### QA
+
+`tsc` 0 erreur · `i18n-check` **2 924 clés** FR=EN (aucun `messages/**` touché) · `next build` compile vert · **masques : 23 pages × 6 largeurs (800 → 2560px) = 138 combinaisons, 0 intrusion** contre 46 avant · **z-order : 0 crête masquée** contre 4 avant · **home : 12 combinaisons FR+EN vertes** · 11 jonctions de la home capturées et relues à l'œil.
 
 ## 🆕 2026-08-21 (page contact refondue : elle trie les demandes au lieu de tout verser dans la boîte mail)
 

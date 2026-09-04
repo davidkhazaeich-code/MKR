@@ -46,19 +46,29 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
   return (
     <>
       <link rel="preload" as="video" href="/videos/hero-mountains.mp4" type="video/mp4" />
+      {/*
+        ORDRE DES SECTIONS (arbitrage David, 2026-09-04).
+        ⚠️ L'ordre visuel n'est pas libre : chaque section s'emboite dans la
+        precedente (margin-top negatif + clip-path en crete de montagne), et la
+        section qui arrive doit peindre PAR-DESSUS celle du haut. Le z-index de
+        la chaine, dans globals.css bloc "MOUNTAIN SECTION TRANSITIONS", suit
+        donc exactement cet ordre. Deplacer une section ici sans renumeroter la
+        chaine fait disparaitre une crete (la section du haut repasse devant) et
+        peut recouvrir le bas de son contenu.
+      */}
       <div data-scroll-section data-scroll-label="Accueil" className="hs-anchor"><Hero /></div>
       {/* Film de présentation (FR + EN depuis 2026-07-22, les 2 exports existent) */}
       <div data-scroll-section data-scroll-label="Le film" className="hs-anchor"><VideoSection /></div>
+      <div data-scroll-section data-scroll-label="Tout est inclus" className="hs-anchor"><FacilitatorBand /></div>
+      <div data-scroll-section data-scroll-label="Le processus" className="hs-anchor"><Timeline /></div>
       <div data-scroll-section data-scroll-label="Pour qui" className="hs-anchor"><AudienceSwitcher /></div>
-      <div data-scroll-section data-scroll-label="Pourquoi le Caucase" className="hs-anchor"><Philosophie /></div>
       <div data-scroll-section data-scroll-label="Témoignages" className="hs-anchor"><Testimonials /></div>
       <div data-scroll-section data-scroll-label="Antoine en vidéo" className="hs-anchor">
         <VerticalVideoSplit {...antoineProps} />
       </div>
-      <div data-scroll-section data-scroll-label="On organise tout" className="hs-anchor"><FacilitatorBand /></div>
+      <div data-scroll-section data-scroll-label="Pourquoi le Caucase" className="hs-anchor"><Philosophie /></div>
       <div data-scroll-section data-scroll-label="Comment y aller" className="hs-anchor"><VoyageReveal /></div>
       <div data-scroll-section data-scroll-label="Sessions" className="hs-anchor"><Sessions /></div>
-      <div data-scroll-section data-scroll-label="Le parcours" className="hs-anchor"><Timeline /></div>
       <div data-scroll-section data-scroll-label="FAQ" className="hs-anchor"><FAQ /></div>
       <div data-scroll-section data-scroll-label="Prochain camp" className="hs-anchor"><CTAFinal /></div>
     </>

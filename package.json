@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "test:i18n": "playwright test --project=i18n",
-    "test:affiliate": "playwright test --project=affiliate"
+    "test:affiliate": "playwright test --project=affiliate",
+    "check:sections": "node scripts/home-order-check.mjs && node scripts/sections-zorder-check.mjs && node scripts/sections-masks-check.mjs"
   },
   "dependencies": {
     "@calcom/embed-react": "^1.5.3",

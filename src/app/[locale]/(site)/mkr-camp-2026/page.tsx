@@ -113,7 +113,7 @@ export default async function MkrCamp2026Page({ params }: { params: Promise<{ lo
       <PricingTable withHeader={true} />
 
       {/* Timeline réservation */}
-      <section className="logi-section fx-texture-concrete fx-mask-b fx-stack-5">
+      <section className="logi-section fx-texture-concrete fx-mask-b fx-stack-7">
         <div className="inner">
           <div className="logi-header reveal">
             <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>

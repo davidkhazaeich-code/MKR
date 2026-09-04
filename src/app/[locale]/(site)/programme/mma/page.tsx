@@ -210,8 +210,13 @@ export default async function ProgrammeMMAPage({ params }: { params: Promise<{ l
         </div>
       </section>
 
-      {/* Briefing & encadrement */}
-      <section className="logi-section fx-grid fx-stack-1" style={{ paddingBlock: '3rem 4rem' }}>
+      {/* Briefing & encadrement.
+          ⚠️ Pas de padding-bottom en style inline ici : la section suivante
+          (DisciplineTechniques) porte fx-mask-b et remonte de 6vw dessus. Le bas
+          est donc reserve par la regle `:has(+ .fx-mask-b)` de globals.css, qu'un
+          style inline ecraserait en silence (c'etait le cas : la crete mangeait
+          jusqu'a 38px de la photo de briefing). */}
+      <section className="logi-section fx-grid fx-stack-1" style={{ paddingTop: '3rem' }}>
         <div className="inner">
           <div className="layout-split layout-split--balanced reveal" style={{ alignItems: 'center' }}>
             <div>

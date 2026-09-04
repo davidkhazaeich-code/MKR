@@ -4915,6 +4915,23 @@ h1, h2, h3, h4, h5 {
    MOUNTAIN SECTION TRANSITIONS
    Chaque section s'emboîte dans la précédente via
    clip-path silhouette montagne + margin-top négatif
+
+   ⚠️ LE Z-INDEX SUIT L'ORDRE DU DOM, PAS LE GOÛT.
+   La section qui arrive remonte de 5vw sur la précédente et découpe une crête
+   dans son propre fond : pour qu'on VOIE la crête, il faut qu'elle peigne
+   par-dessus, donc que son z-index soit plus grand. Si l'ordre de
+   `app/[locale]/(site)/page.tsx` change, cette échelle doit être renumérotée
+   dans la foulée, sinon la section du haut repasse devant et la jonction
+   redevient un bord horizontal plat (c'était le cas de voyage → sessions
+   jusqu'au 2026-09-04).
+
+   Échelle, dans l'ordre de la page :
+     1 hero · 2 video · 3 facilitator · 4 timeline · 5 audiences ·
+     6 testimonials · 7 vvs · 8 philosophie · 9 voyage · 10 sessions ·
+     11 faq · 12 cta-final
+   Seule la jonction hero → video n'a pas de remontée (le hero finit sur les
+   stats et la carte de session, que le recouvrement mangerait) : la crête y est
+   dessinée par le clip-path seul, en 9vw.
 ═══════════════════════════════════════════════ */
 
 /* #coaches n'avait pas position: relative */
@@ -4954,7 +4971,9 @@ h1, h2, h3, h4, h5 {
   z-index: 2;
   margin-top: 0;
   padding-top: calc(4rem + 9vw);
-  padding-bottom: 7rem;
+  /* Suivie par #facilitator, qui remonte de 5vw (fx-mask-c) : les 7rem d'origine
+     ne couvraient plus la remontée au-delà de ~1790px de large. */
+  padding-bottom: max(7rem, calc(2rem + 6vw));
   clip-path: polygon(
     0 9vw, 5% 5vw, 11% 8vw, 17% 3vw, 23% 7.5vw, 29% 1.5vw,
     35% 6vw, 41% 2.5vw, 47% 7vw, 53% 1vw, 59% 6.5vw,
@@ -4964,9 +4983,53 @@ h1, h2, h3, h4, h5 {
   );
 }
 
+/* ── Les trois sections qui n'étaient pas dans l'échelle ──
+   #facilitator portait déjà sa crête (fx-mask-c) mais pas son rang. #audiences
+   et .vvs-section n'avaient ni l'un ni l'autre : leur jonction haute était un
+   bord parfaitement droit, seul écart au rythme de la page. On leur applique le
+   même traitement qu'aux autres plutôt que d'inventer autre chose.
+   ⚠️ Les deux composants servent aussi ailleurs (/sessions pour #audiences,
+   /programme/mma et /temoignages pour .vvs-section) où ce découpage n'a pas
+   lieu d'être : d'où le préfixe `#main > [data-scroll-section] >`, qui
+   n'existe que sur la home. */
+#facilitator { z-index: 3; }
+
+#main > [data-scroll-section] > #audiences {
+  z-index: 5;
+  margin-top: -5vw;
+  /* La section était transparente et laissait voir le fond du body. On peint
+     exactement la même couleur, mais depuis la section : sans fond à elle, il
+     n'y a rien à découper et la crête n'existe pas. */
+  background: var(--bg);
+  padding-top: calc(9rem + 6vw);
+  padding-bottom: calc(6rem + 6vw);
+  clip-path: polygon(
+    0 3.5vw, 9% 1.2vw, 18% 4vw, 27% 0.8vw, 36% 3.5vw,
+    45% 0.3vw, 54% 3vw, 62% 1.5vw, 70% 4.5vw,
+    79% 0.8vw, 87% 3.5vw, 95% 1vw, 100% 4vw,
+    100% 100%, 0 100%
+  );
+}
+
+#main > [data-scroll-section] > .vvs-section {
+  z-index: 7;
+  margin-top: -5vw;
+  padding-top: max(clamp(4rem, 8vw, 7rem), calc(4rem + 5vw));
+  /* Suivie par #philosophie, qui remonte de 5vw. Son padding-block d'origine
+     plafonne à 7rem, insuffisant au-delà de ~2240px (mesuré : 3px avalés du
+     bouton son à 2560px). */
+  padding-bottom: max(clamp(4rem, 8vw, 7rem), calc(2rem + 6vw));
+  clip-path: polygon(
+    0 4vw, 7% 1.5vw, 15% 3.5vw, 23% 0.5vw, 31% 3vw,
+    40% 1vw, 49% 4vw, 57% 0.8vw, 65% 3.5vw,
+    73% 1.8vw, 81% 4.5vw, 90% 1.2vw, 100% 3vw,
+    100% 100%, 0 100%
+  );
+}
+
 /* ── Pattern B -rythme décalé, asymétrique ── */
 #philosophie {
-  z-index: 3;
+  z-index: 8;
   clip-path: polygon(
     0 4vw, 7% 1.5vw, 15% 3.5vw, 23% 0.5vw, 31% 3vw,
     40% 1vw, 49% 4vw, 57% 0.8vw, 65% 3.5vw,
@@ -4987,7 +5050,7 @@ h1, h2, h3, h4, h5 {
 }
 
 #sessions {
-  z-index: 5;
+  z-index: 10;
   clip-path: polygon(
     0 5vw, 8% 2vw, 16% 4.5vw, 24% 1vw, 32% 4vw,
     40% 0.5vw, 49% 3.5vw, 58% 1.5vw, 67% 4.5vw,
@@ -4997,7 +5060,7 @@ h1, h2, h3, h4, h5 {
 }
 
 #timeline {
-  z-index: 6;
+  z-index: 4;
   clip-path: polygon(
     0 4vw, 7% 1.5vw, 15% 3.5vw, 23% 0.5vw, 31% 3vw,
     40% 1vw, 49% 4vw, 57% 0.8vw, 65% 3.5vw,
@@ -5007,7 +5070,7 @@ h1, h2, h3, h4, h5 {
 }
 
 #testimonials {
-  z-index: 7;
+  z-index: 6;
   clip-path: polygon(
     0 3.5vw, 9% 1.2vw, 18% 4vw, 27% 0.8vw, 36% 3.5vw,
     45% 0.3vw, 54% 3vw, 62% 1.5vw, 70% 4.5vw,
@@ -5017,7 +5080,13 @@ h1, h2, h3, h4, h5 {
 }
 
 .voyage-reveal-outer {
-  z-index: 8;
+  z-index: 9;
+  /* Son contenu est centré dans un sticky de 100vh, donc il descend très bas
+     dans la section : sans cette réserve, la crête de #sessions (5vw) coupait
+     la rangée de badges « visa inclus / vol intérieur inclus ». La hauteur est
+     en box-sizing: border-box, la réserve se prend donc sur la course du sticky
+     (1400px), pas sur la hauteur totale. */
+  padding-bottom: 6vw;
   clip-path: polygon(
     0 5vw, 8% 2vw, 16% 4.5vw, 24% 1vw, 32% 4vw,
     40% 0.5vw, 49% 3.5vw, 58% 1.5vw, 67% 4.5vw,
@@ -5034,7 +5103,7 @@ h1, h2, h3, h4, h5 {
 }
 
 #faq {
-  z-index: 10;
+  z-index: 11;
   clip-path: polygon(
     0 3.5vw, 9% 1.2vw, 18% 4vw, 27% 0.8vw, 36% 3.5vw,
     45% 0.3vw, 54% 3vw, 62% 1.5vw, 70% 4.5vw,
@@ -5044,7 +5113,7 @@ h1, h2, h3, h4, h5 {
 }
 
 #cta-final {
-  z-index: 11;
+  z-index: 12;
   clip-path: polygon(
     0 5vw, 8% 2vw, 16% 4.5vw, 24% 1vw, 32% 4vw,
     40% 0.5vw, 49% 3.5vw, 58% 1.5vw, 67% 4.5vw,
@@ -5066,6 +5135,19 @@ h1, h2, h3, h4, h5 {
     padding-bottom: 7rem;
   }
   #cta-final { padding-top: 8rem; }
+  /* Plus de crête à absorber en mobile : on rend leur espacement d'origine aux
+     sections qui réservaient la remontée. */
+  .voyage-reveal-outer { padding-bottom: 0; }
+  #main > [data-scroll-section] > #audiences,
+  #main > [data-scroll-section] > .vvs-section {
+    margin-top: 0;
+    clip-path: none;
+  }
+  #main > [data-scroll-section] > #audiences { padding: 6rem 0; }
+  #main > [data-scroll-section] > .vvs-section {
+    padding-top: clamp(4rem, 8vw, 7rem);
+    padding-bottom: clamp(4rem, 8vw, 7rem);
+  }
 }
 
 
@@ -7786,7 +7868,6 @@ a.content-card:hover .card-title::after {
     90% 1.8vw, 96% 0.6vw, 100% 2vw, 100% 100%, 0% 100%
   );
   margin-top: -5vw;
-  padding-top: 120px;
 }
 .fx-mask-b {
   clip-path: polygon(
@@ -7795,7 +7876,6 @@ a.content-card:hover .card-title::after {
     88% 3vw, 95% 1vw, 100% 2.5vw, 100% 100%, 0% 100%
   );
   margin-top: -6vw;
-  padding-top: 120px;
 }
 .fx-mask-c {
   clip-path: polygon(
@@ -7804,7 +7884,6 @@ a.content-card:hover .card-title::after {
     86% 1.2vw, 94% 3.2vw, 100% 0.8vw, 100% 100%, 0% 100%
   );
   margin-top: -5vw;
-  padding-top: 120px;
 }
 .fx-mask-d {
   clip-path: polygon(
@@ -7813,24 +7892,36 @@ a.content-card:hover .card-title::after {
     92% 2.5vw, 100% 0.5vw, 100% 100%, 0% 100%
   );
   margin-top: -7vw;
-  padding-top: 120px;
 }
-/* Auto-pad sections BEFORE a mountain mask so content isn't hidden by overlap */
+/* Reserve, dans la section du DESSUS, la hauteur que le masque va lui manger.
+   ⚠️ La remontee est en vw (-5 a -7vw), la compensation doit donc l'etre aussi.
+   Elle etait figee a 120px : ca suffisait a 1440px (5vw = 72px) et ca lachait
+   au-dela de ~1700px, ou le masque recouvrait le bas du contenu de la section
+   precedente (mesure le 2026-09-04 : jusqu'a 38px avales a 2560px sur
+   /familles, /logistique, /programme). Une valeur par variante, calee sur SA
+   remontee + une respiration, et jamais en dessous des 7rem d'origine. */
 section:has(+ .fx-mask-a),
-section:has(+ .fx-mask-b),
-section:has(+ .fx-mask-c),
-section:has(+ .fx-mask-d),
 div:has(+ .fx-mask-a),
-div:has(+ .fx-mask-b),
-div:has(+ .fx-mask-c),
-div:has(+ .fx-mask-d) {
-  padding-bottom: 120px;
+section:has(+ .fx-mask-c),
+div:has(+ .fx-mask-c) {
+  padding-bottom: max(7rem, calc(2rem + 6vw)); /* remontee 5vw */
 }
-/* Also pad bottom of masked sections themselves for safety */
+section:has(+ .fx-mask-b),
+div:has(+ .fx-mask-b) {
+  padding-bottom: max(7rem, calc(2rem + 7vw)); /* remontee 6vw */
+}
+section:has(+ .fx-mask-d),
+div:has(+ .fx-mask-d) {
+  padding-bottom: max(7rem, calc(2rem + 8vw)); /* remontee 7vw */
+}
+/* Meme raisonnement pour la section masquee elle-meme : son propre contenu doit
+   commencer sous le creux le plus bas de sa crete (jusqu'a 5vw), sinon c'est son
+   titre a elle que la montagne coupe sur grand ecran. */
 .fx-mask-a,
 .fx-mask-b,
 .fx-mask-c,
 .fx-mask-d {
+  padding-top: max(120px, calc(1.5rem + 5vw));
   padding-bottom: 80px;
 }
 
@@ -7891,6 +7982,10 @@ div:has(+ .fx-mask-d) {
 .fx-stack-5 { position: relative; z-index: 5; }
 .fx-stack-6 { position: relative; z-index: 6; }
 .fx-stack-7 { position: relative; z-index: 7; }
+/* fx-stack-8 etait utilise dans le JSX (/familles) sans exister ici : la section
+   retombait en z-index auto, passait derriere la precedente et sa crete de
+   montagne ne se voyait pas. */
+.fx-stack-8 { position: relative; z-index: 8; }
 
 /* ─── CTA MOUNTAIN SILHOUETTE (SVG bottom decoration) ─── */
 .fx-mountains-bottom {
@@ -8293,7 +8388,11 @@ html.is-loading body {
 
 .pricing-table-section {
   position: relative;
-  padding: 5rem 0;
+  /* Le composant porte fx-mask-b : ce raccourci padding est defini plus bas dans
+     la feuille que le bloc des masques, donc il gagne. Sans le max(), les 5rem
+     passent sous la crete (jusqu'a 4.5vw) et c'est le titre de la grille
+     tarifaire qui se fait couper au-dela de ~1780px de large. */
+  padding: max(5rem, calc(1.5rem + 5vw)) 0 5rem;
   overflow: hidden;
 }
 

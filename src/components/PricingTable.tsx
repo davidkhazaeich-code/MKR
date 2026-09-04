@@ -25,7 +25,11 @@ export default async function PricingTable({ withHeader = true, compact = false 
   return (
     <section
       id="pricing"
-      className="pricing-table-section fx-texture-basalt fx-glow fx-mask-b fx-stack-3"
+      /* fx-stack-6 et pas 3 : sur /familles la grille arrive apres une section
+         en fx-stack-6, donc a 3 elle passait dessous et sa crete de montagne
+         disparaissait. 6 la garde au-dessus partout ou elle est posee, sans
+         jamais passer devant la section qui la suit. */
+      className="pricing-table-section fx-texture-basalt fx-glow fx-mask-b fx-stack-6"
       aria-labelledby="pricing-heading"
     >
       <div className="fx-glow-orb fx-glow-orb--left fx-glow-breathe" aria-hidden="true" />

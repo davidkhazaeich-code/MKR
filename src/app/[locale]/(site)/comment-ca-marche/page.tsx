@@ -95,8 +95,11 @@ export default async function CommentCaMarchePage({ params }: { params: Promise<
         </div>
       </section>
 
-      {/* FAQ process */}
-      <section className="faq-page-section fx-texture-concrete fx-mask-c fx-stack-4">
+      {/* FAQ process.
+          fx-stack-6 et pas 4 : l'echelle doit monter dans l'ordre du DOM, la
+          section precedente est en fx-stack-5. A 4, elle passait derriere et sa
+          crete de montagne n'etait tout simplement pas visible. */}
+      <section className="faq-page-section fx-texture-concrete fx-mask-c fx-stack-6">
         <div className="inner">
           <div className="logi-header reveal">
             <span className="label-tag" style={{ color: 'var(--primary)', display: 'block', marginBottom: '0.8rem' }}>{t('process_faq.label')}</span>
