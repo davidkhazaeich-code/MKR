@@ -220,7 +220,12 @@ export function renderEmailShell(input: EmailShellInput): string {
     <tr><td align="center" style="padding:28px 12px">
       <table role="presentation" width="560" cellpadding="0" cellspacing="0" class="container" style="max-width:560px;width:100%">
         <tr><td style="padding:0 4px 22px">
-          <img src="${SITE_URL}/logo-dark.png" width="140" alt="MKR Caucasian Camp" style="display:block;width:140px;height:auto">
+          <!-- Logo BLANC : ici l'en-tete n'a pas de bandeau, le logo est pose
+               directement sur le fond noir du corps. logo-dark.png a son texte
+               en noir, il devenait invisible. La regle « logo fonce sur bandeau
+               blanc » ne vaut que pour les templates qui ONT un bandeau blanc
+               (visio-email, cancel-page). Fond noir => logo-white.png. -->
+          <img src="${SITE_URL}/logo-white.png" width="140" alt="MKR Caucasian Camp" style="display:block;width:140px;height:auto">
         </td></tr>
         <tr><td class="bg-card" style="background-color:${C.cardBg};border:1px solid ${C.border};border-radius:12px;overflow:hidden" bgcolor="${C.cardBg}">
           <table role="presentation" width="100%" cellpadding="0" cellspacing="0">

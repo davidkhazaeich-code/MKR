@@ -37,7 +37,7 @@ const STATIC_PATHS = [
 ] as const;
 
 /**
- * Date de derniere revision editoriale du site.
+ * Date de derniere revision editoriale du SOCLE de pages.
  * On n'utilise PAS `new Date()` : recalculee a chaque build, elle donnait la
  * meme date « aujourd'hui » aux 72 URL, y compris a des articles publies des
  * mois plus tot. Un signal de fraicheur constant et faux est ignore par Google,
@@ -46,16 +46,55 @@ const STATIC_PATHS = [
  */
 const SITE_LAST_UPDATED = '2026-07-25';
 
+/**
+ * Pages qui ont recu une passe de contenu APRES la date du socle.
+ *
+ * Une constante unique pour tout le site avait le defaut inverse de `new Date()` :
+ * elle ne mentait plus a chaque build, mais plus personne ne la bumpait. La passe
+ * du 2026-08-21 (refonte de /contact, ligne directrice partagee, saisons
+ * auto-rotatives, WhatsApp direct de Ruslan) n'a jamais ete annoncee : le sitemap
+ * a continue d'affirmer pendant un mois que rien n'avait bouge depuis le 25 juillet.
+ *
+ * ⚠️ Ne mettre ici QUE les pages dont le CONTENU a change. Le chrome partage
+ * (barre de navigation, bulle WhatsApp, pied de page) touche techniquement les 72
+ * URL, mais dater tout le site sur ce motif revient a reproduire `new Date()`.
+ *
+ * La cle est le chemin canonique FR de `STATIC_PATHS`, la date s'applique aux
+ * deux locales. Le type est borne sur `STATIC_PATHS` exprès : une faute de frappe
+ * dans une cle serait sinon ignoree en silence, et la page garderait la date du
+ * socle sans que rien ne le signale.
+ */
+type StaticPath = (typeof STATIC_PATHS)[number]['path'];
+
+const PATH_LAST_UPDATED: Partial<Record<StaticPath, string>> = {
+  // Passe du 2026-08-21. Liste etablie sur les fichiers reellement modifies
+  // (page.tsx et namespaces de messages), pas de memoire.
+  '/': '2026-08-21',
+  '/contact': '2026-08-21',
+  '/faq': '2026-08-21',
+  '/le-camp': '2026-08-21',
+  '/mentions-legales': '2026-08-21',
+  '/mkr-camp-2026': '2026-08-21',
+  '/programme/lutte': '2026-08-21',
+  '/programme/mma': '2026-08-21',
+  '/sessions': '2026-08-21',
+  '/inscription': '2026-08-21',
+  '/clubs-groupes': '2026-08-21',
+  '/familles': '2026-08-21',
+  '/sur-mesure': '2026-08-21',
+};
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = SITE_LAST_UPDATED;
   const entries: MetadataRoute.Sitemap = [];
 
   for (const { path, priority, changeFrequency } of STATIC_PATHS) {
+    const pathLastModified = PATH_LAST_UPDATED[path] ?? now;
     for (const locale of routing.locales) {
       const url = `${SITE_URL}${getPathname({ locale, href: path as never })}`;
       entries.push({
         url,
-        lastModified: now,
+        lastModified: pathLastModified,
         changeFrequency,
         priority,
         alternates: {
