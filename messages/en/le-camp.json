@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "The MKR Camp: Wrestling in Dagestan, MMA in Chechnya",
-    "description": "Wrestling or MMA camp in the Caucasus, 1 to 3 weeks all inclusive: Russian visa, domestic flight, housing, 2 meals. Selective entry, 15 spots."
+    "description": "Wrestling or MMA camp in the Caucasus, 1 to 3 weeks all inclusive on site: Russian visa, transfers, housing, 2 meals. Selective entry, 15 spots."
   },
   "breadcrumb": {
     "home": "Home",
@@ -10,7 +10,7 @@
   "hero": {
     "label": "THE CAMP · DAGESTAN AND CHECHNYA",
     "title": "1 TO 3 WEEKS OF IMMERSION THAT CHANGE THE WAY YOU FIGHT.",
-    "subtitle": "Wrestling in Dagestan or MMA in Chechnya. MKR handles the visa, domestic flight, housing, meals and gym access. You train.",
+    "subtitle": "Wrestling in Dagestan or MMA in Chechnya. MKR handles the visa, transfers, housing, meals and gym access, and helps you choose your flights. You train.",
     "image_alt": "Group session in a circle on the mat, MKR camp in the Caucasus"
   },
   "key_facts": {
@@ -19,8 +19,8 @@
       "sub": "Application handled end to end by MKR"
     },
     "flight": {
-      "label": "Domestic flight included",
-      "sub": "Istanbul to Makhachkala or Grozny"
+      "label": "Flight assistance included",
+      "sub": "We help you pick your flights via Istanbul"
     },
     "housing": {
       "label": "Housing + 2 meals/day",
@@ -40,7 +40,7 @@
     "facts": [
       "1, 2 or 3 weeks, 4 sessions per year. 15 Wrestling spots + 15 MMA spots per session, exclusive choice at application.",
       "Wrestling in Dagestan (Makhachkala, Kaspiysk) or MMA in Chechnya (Grozny). Combining both is only possible in Custom format.",
-      "All-inclusive: Russian visa, domestic flight from Istanbul, transfers, housing, 2 meals and 2 training sessions per day. You cover: your flight to Istanbul and travel insurance.",
+      "All-inclusive on site: Russian visa, transfers, housing, 2 meals and 2 training sessions per day. You cover: your flights to Makhachkala or Grozny via Istanbul (MKR helps you choose them) and travel insurance.",
       "Selective entry: minimum 1 year of practice and a real ground game base. MMA: Advanced level (5+ years). Kids 8-17 with a participating parent via the Family track.",
       "Free online application, selection video call with Ruslan Mukhtarov, no payment before validation."
     ]
@@ -74,8 +74,8 @@
         "desc": "Consular fees, invitation letter, questionnaire and full application support. You sign, MKR handles it."
       },
       "flight": {
-        "title": "Domestic flight",
-        "desc": "From Istanbul to Makhachkala (Wrestling) or Grozny (MMA). You only book your flight to Istanbul."
+        "title": "Flight assistance",
+        "desc": "Your flights to Makhachkala (Wrestling) or Grozny (MMA) stay on your side, but you do not choose them alone: MKR helps you find the right route via Istanbul, the right airlines and timings that match the airport pickup."
       },
       "transport": {
         "title": "Transfers",
@@ -107,7 +107,7 @@
     "label": "NOT INCLUDED",
     "title": "WHAT IS NOT INCLUDED",
     "items": [
-      "International flight to Istanbul (book it freely)",
+      "Round-trip flights to Makhachkala or Grozny via Istanbul (booked on your side, MKR helps you choose them)",
       "Travel insurance with repatriation (mandatory, on your side)",
       "Personal equipment (wrestling shoes, MMA and boxing gloves, shin guards, knee pads, elbow pads, groin guard, mouthguard)",
       "Personal expenses on site (bring cash in euros: foreign bank cards do not work in Russia)",
@@ -206,7 +206,7 @@
       },
       {
         "title": "MKR prepares everything",
-        "desc": "Visa, domestic flight, housing, gyms. You: your flight to Istanbul, your insurance and your physical preparation."
+        "desc": "Visa, housing, transfers, gyms. You: your flights (we help you choose them), your insurance and your physical preparation."
       },
       {
         "title": "Departure",

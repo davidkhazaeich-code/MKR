@@ -128,8 +128,8 @@ export function buildRebookingEmail(input: RebookingEmailInput): BuiltRebookingE
         : `Ta candidature est bien arrivée chez nous, on n’a simplement pas eu l’occasion de se parler avant le départ. C’est la seule étape qu’il reste.`,
     wantTitle: 'Ce qui t’attend là-bas',
     want: discipline
-      ? `Deux entraînements par jour dans les salles où se forme l’élite, ${discipline}, avec des gars qui luttent depuis l’enfance. On s’occupe du visa, du vol intérieur depuis Istanbul, des transferts, du logement et des repas. Toi, tu t’entraînes.`
-      : `Deux entraînements par jour dans les salles où se forme l’élite du Caucase, avec des gars qui luttent depuis l’enfance. On s’occupe du visa, du vol intérieur depuis Istanbul, des transferts, du logement et des repas. Toi, tu t’entraînes.`,
+      ? `Deux entraînements par jour dans les salles où se forme l’élite, ${discipline}, avec des gars qui luttent depuis l’enfance. On s’occupe du visa, des transferts, du logement et des repas, et on t’aide à choisir tes vols. Toi, tu t’entraînes.`
+      : `Deux entraînements par jour dans les salles où se forme l’élite du Caucase, avec des gars qui luttent depuis l’enfance. On s’occupe du visa, des transferts, du logement et des repas, et on t’aide à choisir tes vols. Toi, tu t’entraînes.`,
     sessionsTitle: 'Les sessions ouvertes',
     sessionsIntro: weeks
       ? `Tu visais ${weeks} semaine${weeks > 1 ? 's' : ''}. C’est possible sur les quatre, tu choisis ta durée dans la fenêtre.`
@@ -164,8 +164,8 @@ export function buildRebookingEmail(input: RebookingEmailInput): BuiltRebookingE
         : `Your application reached us, we simply never got the chance to talk before departure. That is the only step left.`,
     wantTitle: 'What is waiting for you',
     want: discipline
-      ? `Two training sessions a day in the gyms where the elite is built, ${discipline}, alongside guys who have been wrestling since childhood. We handle the visa, the domestic flight from Istanbul, the transfers, the accommodation and the meals. You train.`
-      : `Two training sessions a day in the gyms where the Caucasus elite is built, alongside guys who have been wrestling since childhood. We handle the visa, the domestic flight from Istanbul, the transfers, the accommodation and the meals. You train.`,
+      ? `Two training sessions a day in the gyms where the elite is built, ${discipline}, alongside guys who have been wrestling since childhood. We handle the visa, the transfers, the accommodation and the meals, and we help you choose your flights. You train.`
+      : `Two training sessions a day in the gyms where the Caucasus elite is built, alongside guys who have been wrestling since childhood. We handle the visa, the transfers, the accommodation and the meals, and we help you choose your flights. You train.`,
     sessionsTitle: 'Open sessions',
     sessionsIntro: weeks
       ? `You were aiming for ${weeks} week${weeks > 1 ? 's' : ''}. That works on all four, you pick your duration inside the window.`

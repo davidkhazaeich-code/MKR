@@ -91,7 +91,7 @@ export async function sendSouvenirIfNeeded(candidatureId: string): Promise<void>
           stepsTitle: 'Next steps',
           steps: [
             'Ruslan sends you the participation agreement and the payment details.',
-            'Prepare your trip: Russian visa (handled by MKR) and your flight to Istanbul.',
+            'Prepare your trip: Russian visa (handled by MKR) and your flights via Istanbul (we help you choose them).',
             'You receive the detailed program before departure.',
           ],
           footer: 'MKR Caucasian Camp. Immersion among champions.',
@@ -109,7 +109,7 @@ export async function sendSouvenirIfNeeded(candidatureId: string): Promise<void>
           stepsTitle: 'Prochaines étapes',
           steps: [
             'Ruslan t\'envoie le contrat de participation et les modalités de paiement.',
-            'Prépare ton voyage : visa russe (géré par MKR) et ton vol jusqu\'à Istanbul.',
+            'Prépare ton voyage : visa russe (géré par MKR) et tes vols via Istanbul (on t\'aide à les choisir).',
             'Tu reçois le programme détaillé avant le départ.',
           ],
           footer: 'MKR Caucasian Camp. L\'immersion au milieu des champions.',

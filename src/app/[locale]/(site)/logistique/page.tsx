@@ -56,6 +56,8 @@ export default async function LogistiquePage({ params }: { params: Promise<{ loc
                   <tr><td>{t('budget.rows.package_adult')}</td><td>{PACKAGE_PER_ADULT_RANGE_LABEL}</td></tr>
                   <tr><td>{t('budget.rows.family_pack')}</td><td>{FAMILY_BASE_RANGE_LABEL}</td></tr>
                   <tr><td>{t('budget.rows.flight_intl')}</td><td>{t('budget.rows.flight_intl_value')}</td></tr>
+                  {/* Depuis le 2026-09-15 le vol Istanbul-Caucase n'est plus inclus : il a sa propre ligne, comme le vol international */}
+                  <tr><td>{t('budget.rows.flight_domestic')}</td><td>{t('budget.rows.flight_domestic_value')}</td></tr>
                   <tr><td>{t('budget.rows.insurance')}</td><td>{t('budget.rows.insurance_value')}</td></tr>
                   <tr><td>{t('budget.rows.equipment')}</td><td>{t('budget.rows.equipment_value')}</td></tr>
                   <tr><td>{t('budget.rows.personal')}</td><td>{t('budget.rows.personal_value')}</td></tr>

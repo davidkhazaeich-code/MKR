@@ -1,19 +1,24 @@
 /**
- * MKR Caucasian Camp - Grille tarifaire publique (révision 2026-05-11)
+ * MKR Caucasian Camp - Grille tarifaire publique (révision 2026-09-15)
  *
  * Modèle par taille de groupe (adultes) + forfait Parent+Enfant pour les familles.
  * La grille est figée et identique pour Sur Mesure et Club & Groupe.
  * Enfants 8-17 ans obligatoirement avec parent participant (tunnel Famille uniquement).
  *
+ * Révision 2026-09-15 : le vol intérieur Istanbul-Caucase n'est plus inclus
+ * (MKR apporte une assistance au choix des vols, la réservation reste au
+ * participant). Chaque siège baisse de 300 € : -300 par adulte, -600 sur le
+ * forfait Famille (parent + enfant), -300 par enfant supplémentaire.
+ *
  * Paliers :
- * - 1-2 adultes : 1 690 / 2 790 / 3 490 € par personne (Solo / Duo)
- * - 3-5 adultes : 1 490 / 2 490 / 3 090 € par personne (Trio / Quatuor / Petit groupe)
- * - 6-10 adultes : 1 290 / 2 190 / 2 690 € par personne (Club / Groupe)
+ * - 1-2 adultes : 1 390 / 2 490 / 3 190 € par personne (Solo / Duo)
+ * - 3-5 adultes : 1 190 / 2 190 / 2 790 € par personne (Trio / Quatuor / Petit groupe)
+ * - 6-10 adultes : 990 / 1 890 / 2 390 € par personne (Club / Groupe)
  * - 11+ : sur devis (privatisation totale)
  *
  * Famille :
- * - Forfait base 1 parent + 1 enfant : 2 490 / 4 390 / 5 890 €
- * - Enfant supplémentaire : +790 / +1 580 / +2 370 € (selon durée)
+ * - Forfait base 1 parent + 1 enfant : 1 890 / 3 790 / 5 290 €
+ * - Enfant supplémentaire : +490 / +1 280 / +2 070 € (selon durée)
  * - Si conjoint(e) participe : 2 × tarif 1-2 adultes + N enfants × supp/sem
  */
 
@@ -37,7 +42,7 @@ export const PRICING_TIERS: Record<GroupTier, TierPricing> = {
   duo: {
     min: 1,
     max: 2,
-    perAdult: { 1: 1690, 2: 2790, 3: 3490 },
+    perAdult: { 1: 1390, 2: 2490, 3: 3190 },
     label: 'Solo / Duo',
     rangeLabel: '1 à 2 personnes',
     pitch: "Tarif appliqué au camp Sur Mesure en solo ou en binôme adulte, ou à la session officielle pour un adulte seul.",
@@ -45,7 +50,7 @@ export const PRICING_TIERS: Record<GroupTier, TierPricing> = {
   trio: {
     min: 3,
     max: 5,
-    perAdult: { 1: 1490, 2: 2490, 3: 3090 },
+    perAdult: { 1: 1190, 2: 2190, 3: 2790 },
     label: 'Trio à 5',
     rangeLabel: '3 à 5 personnes',
     pitch: "Tarif appliqué au camp Sur Mesure en équipe (3 ou 4 amis) ou aux groupes/clubs de 5 athlètes.",
@@ -53,7 +58,7 @@ export const PRICING_TIERS: Record<GroupTier, TierPricing> = {
   club: {
     min: 6,
     max: 10,
-    perAdult: { 1: 1290, 2: 2190, 3: 2690 },
+    perAdult: { 1: 990, 2: 1890, 3: 2390 },
     label: 'Club / Groupe',
     rangeLabel: '6 à 10 personnes',
     pitch: "Tarif appliqué aux clubs ou groupes organisés de 6 à 10 athlètes adultes.",
@@ -71,9 +76,9 @@ export const PRICING_TIERS: Record<GroupTier, TierPricing> = {
 /** Forfait Famille : 1 parent + 1 enfant inclus dans le prix de base, +N enfants supplémentaires */
 export const FAMILY_PRICING = {
   /** Prix de base 1 parent + 1 enfant (par durée) */
-  base: { 1: 2490, 2: 4390, 3: 5890 } as Record<Duration, number>,
+  base: { 1: 1890, 2: 3790, 3: 5290 } as Record<Duration, number>,
   /** Enfant supplémentaire (au-delà du 1er enfant inclus) */
-  extraChildPerWeek: { 1: 790, 2: 1580, 3: 2370 } as Record<Duration, number>,
+  extraChildPerWeek: { 1: 490, 2: 1280, 3: 2070 } as Record<Duration, number>,
 }
 
 /** Récupère le palier groupe correspondant à N adultes */
@@ -226,7 +231,7 @@ export const FAMILY_EXAMPLES = [
 
 /**
  * Détail de calcul lisible (pour tooltip ou récap)
- * Ex: "1 × 2 490 € (forfait 1P+1E) + 1 × 790 € (enfant supp)"
+ * Ex: "1 × 1 890 € (forfait 1P+1E) + 1 × 490 € (enfant supp)"
  */
 export function priceBreakdown({ adults, children = 0, weeks }: PricingInput): string {
   if (adults <= 0 || weeks <= 0) return ''

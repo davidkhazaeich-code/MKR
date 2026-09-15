@@ -1,7 +1,7 @@
 {
   "meta": {
-    "title": "Dates et tarifs {years} : 4 sessions dès 1 690 € | MKR",
-    "description": "Quatre sessions par an, une par saison. Lutte ou MMA, places en direct, tout compris dès 1 690 € par adulte, rien à payer avant validation."
+    "title": "Dates et tarifs {years} : 4 sessions dès 1 390 € | MKR",
+    "description": "Quatre sessions par an, une par saison. Lutte ou MMA, places en direct, tout compris sur place dès 1 390 € par adulte, rien à payer avant validation."
   },
   "breadcrumb": {
     "home": "Accueil",
@@ -28,8 +28,8 @@
   },
   "tout_compris": {
     "label": "TOUT COMPRIS",
-    "title": "VISA, VOL INTÉRIEUR, HÉBERGEMENT, 2 REPAS/JOUR, COACHING",
-    "body": "Le tarif couvre le visa russe (frais et dossier), le vol intérieur depuis Istanbul (Makhachkala pour la Lutte, Grozny pour le MMA), les transferts aéroport-camp, l'hébergement, 2 repas par jour, les 2 sessions d'entraînement quotidiennes et l'encadrement local. Le vol international jusqu'à Istanbul reste à ton organisation. Le détail complet est sur la page Le Camp.",
+    "title": "VISA, TRANSFERTS, HÉBERGEMENT, 2 REPAS/JOUR, COACHING",
+    "body": "Le tarif couvre le visa russe (frais et dossier), les transferts aéroport-camp, l'hébergement, 2 repas par jour, les 2 sessions d'entraînement quotidiennes et l'encadrement local. Tes vols jusqu'à Makhachkala (Lutte) ou Grozny (MMA), via Istanbul, restent à ta charge, mais tu ne les choisis pas seul : MKR t'aide à trouver le bon itinéraire et les horaires compatibles avec l'accueil à l'aéroport. Le détail complet est sur la page Le Camp.",
     "cta": "VOIR LE DÉTAIL SUR LA PAGE LE CAMP"
   },
   "group": {

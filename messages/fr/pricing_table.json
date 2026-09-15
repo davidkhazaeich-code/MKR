@@ -46,14 +46,14 @@
   "included": {
     "accommodation": "Hébergement de camp",
     "visa": "Visa russe (frais et dossier complet)",
-    "flight": "Vol intérieur Istanbul vers Makhachkala (Lutte) ou Grozny (MMA)",
+    "flight": "Assistance au choix de tes vols (itinéraire via Istanbul, compagnies, horaires)",
     "transfers": "Transferts aéroport-camp",
     "meals": "2 repas par jour",
     "sessions": "2 sessions d'entraînement / jour",
     "coaching": "Encadrement par les coachs locaux du Caucase",
     "prep": "Suivi préparatoire à distance"
   },
-  "not_included": "<b>Non inclus</b> : vol international jusqu'à Istanbul (à organiser par le candidat), assurance voyage (obligatoire), équipement personnel, dépenses personnelles. Supplément MKR pour candidature à moins de 30 jours du départ (traitement express).",
+  "not_included": "<b>Non inclus</b> : les vols aller-retour jusqu'à Makhachkala ou Grozny, via Istanbul (réservés par le candidat, MKR t'aide à les choisir), assurance voyage (obligatoire), équipement personnel, dépenses personnelles. Supplément MKR pour candidature à moins de 30 jours du départ (traitement express).",
   "cta_primary": "CHOISIR MON CAMP",
   "cta_secondary": "UNE QUESTION ?"
 }

@@ -150,7 +150,7 @@
       },
       "ville_depart": {
         "label": "Departure city / country",
-        "hint": "Used to estimate flights",
+        "hint": "Helps us advise you on your flights",
         "placeholder": "E.g. Paris, Geneva, Montreal..."
       }
     },
@@ -523,7 +523,7 @@
         }
       },
       "section3_label": "When and how long?",
-      "section3_help": "Booking 90 days minimum before departure to handle visa, flight and logistics.",
+      "section3_help": "Booking 90 days minimum before departure to handle visa, flights and logistics.",
       "fields": {
         "date_debut": {
           "label": "Preferred start date"

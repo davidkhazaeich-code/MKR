@@ -238,7 +238,7 @@ ${emailRow('BIC', `${CONTRACT_RIB.bic} (${CONTRACT_RIB.bank})`)}
 <p style="color:#cbd5e1;font-size:12.5px;line-height:1.5;margin:10px 0 0">${escapeHtml(reference)}</p>
 </div>
 <p style="color:#cbd5e1;font-size:14px;line-height:1.6;margin:0 0 12px">
-Le règlement vaut acceptation du contrat : une fois le virement reçu, ta place est définitivement réservée et on enclenche la préparation (visa, vol intérieur, suivi avant départ).</p>
+Le règlement vaut acceptation du contrat : une fois le virement reçu, ta place est définitivement réservée et on enclenche la préparation (visa, aide au choix des vols, suivi avant départ).</p>
 <p style="color:#cbd5e1;font-size:14px;line-height:1.6;margin:0 0 12px">
 Pense aussi à ton <strong style="color:#f1f5f9">assurance voyage</strong> (rapatriement médical + sports de contact) : elle est obligatoire et reste à ta charge.</p>
 <p style="color:#cbd5e1;font-size:14px;line-height:1.6;margin:0">Une question sur le contrat ou le paiement ? Réponds directement à cet email.</p>`
@@ -289,7 +289,7 @@ ${emailRow('BIC', `${CONTRACT_RIB.bic} (${CONTRACT_RIB.bank})`)}
 <p style="color:#cbd5e1;font-size:12.5px;line-height:1.5;margin:10px 0 0">${escapeHtml(reference)}</p>
 </div>
 <p style="color:#cbd5e1;font-size:14px;line-height:1.6;margin:0 0 12px">
-Payment constitutes acceptance of the agreement: once the transfer is received, your spot is definitively reserved and we start the preparation (visa, domestic flight, pre-departure support).</p>
+Payment constitutes acceptance of the agreement: once the transfer is received, your spot is definitively reserved and we start the preparation (visa, help choosing your flights, pre-departure support).</p>
 <p style="color:#cbd5e1;font-size:14px;line-height:1.6;margin:0 0 12px">
 Also remember your <strong style="color:#f1f5f9">travel insurance</strong> (medical repatriation + contact sports): it is mandatory and at your expense.</p>
 <p style="color:#cbd5e1;font-size:14px;line-height:1.6;margin:0">Any question about the agreement or the payment? Just reply to this email.</p>`

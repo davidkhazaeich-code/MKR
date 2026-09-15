@@ -150,7 +150,7 @@
       },
       "ville_depart": {
         "label": "Ville / pays de départ",
-        "hint": "Utilisé pour estimer les vols",
+        "hint": "Utile pour t'aider à choisir tes vols",
         "placeholder": "Ex : Paris, Genève, Montréal..."
       }
     },
@@ -523,7 +523,7 @@
         }
       },
       "section3_label": "Quand et combien de temps ?",
-      "section3_help": "Réservation 90 jours minimum avant le départ pour gérer visa, vol et organisation.",
+      "section3_help": "Réservation 90 jours minimum avant le départ pour gérer visa, vols et organisation.",
       "fields": {
         "date_debut": {
           "label": "Date de début souhaitée"

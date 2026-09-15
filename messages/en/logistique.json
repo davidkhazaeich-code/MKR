@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "Caucasus Camp Logistics: Visa, Flights, Budget | MKR",
-    "description": "Russian visa and Istanbul-Caucasus domestic flight included in the MKR package. Real budget, paperwork, transfers, insurance: all detailed here."
+    "description": "Russian visa, transfers and housing included in the MKR package, help choosing your flights. Real budget, paperwork, insurance: all detailed here."
   },
   "breadcrumb": {
     "home": "Home",
@@ -10,7 +10,7 @@
   "hero": {
     "label": "LOGISTICS",
     "title": "EVERYTHING YOU NEED<br/>TO KNOW BEFORE YOU GO",
-    "subtitle": "Russian visa and domestic flight included. International flight to Istanbul booked freely on your end. MKR handles your file for the Wrestling camp (Dagestan, Makhachkala airport) or MMA camp (Chechnya, Grozny airport)."
+    "subtitle": "Russian visa, transfers and housing included. Your flights stay on your side, but you do not choose them alone: MKR helps you find the right route via Istanbul. MKR handles your file for the Wrestling camp (Dagestan, Makhachkala airport) or MMA camp (Chechnya, Grozny airport)."
   },
   "budget": {
     "label": "BUDGET",
@@ -22,6 +22,8 @@
       "family_pack": "Family package (1 parent + 1 child)",
       "flight_intl": "International round-trip flight to Istanbul (on your end)",
       "flight_intl_value": "400 - 700 EUR",
+      "flight_domestic": "Round-trip flight Istanbul to Makhachkala or Grozny (on your end, MKR helps you choose it)",
+      "flight_domestic_value": "250 - 350 EUR",
       "insurance": "Travel insurance (mandatory)",
       "insurance_value": "80 - 150 EUR",
       "equipment": "Personal equipment",
@@ -31,12 +33,12 @@
       "express": "MKR express surcharge (application < 30 days before departure)",
       "express_value": "custom quote"
     },
-    "footnote": "Russian visa (fees and file), Istanbul-Caucasus domestic flight and transfers included in the MKR package. Estimates based on a departure from French-speaking Europe. Prices subject to change.",
+    "footnote": "Russian visa (fees and file), transfers, housing and flight assistance included in the MKR package. Estimates based on a departure from French-speaking Europe. Prices subject to change.",
     "included_card": {
       "title": "WHAT IS INCLUDED",
       "items": [
         "Russian visa (fees and full file)",
-        "Istanbul-Caucasus domestic flight (Makhachkala or Grozny)",
+        "Help choosing your flights (route via Istanbul, airlines, timings)",
         "Airport-to-camp transfers and on-site transport",
         "Camp accommodation",
         "2 meals per day",
@@ -68,7 +70,7 @@
       "step4": {
         "num": "04",
         "title": "Documents to bring",
-        "desc": "Passport, printed e-visa documents (sent by MKR, print them before you leave), MKR booking confirmation, insurance certificate, international round-trip ticket you booked to Istanbul. MKR issues the Istanbul-Caucasus domestic flight."
+        "desc": "Passport, printed e-visa documents (sent by MKR, print them before you leave), MKR booking confirmation, insurance certificate, round-trip tickets you booked to Makhachkala or Grozny (via Istanbul)."
       }
     },
     "updated": "Updated: April 2026"
@@ -77,34 +79,34 @@
     "label": "FLIGHTS",
     "title": "HOW TO GET THERE",
     "intro_prefix": "All routes go through Istanbul. ",
-    "intro_strong": "The Istanbul-Makhachkala (MCX) domestic flight for Wrestling in Dagestan or Istanbul-Grozny (GRV) for MMA in Chechnya is included in the MKR package.",
-    "intro_suffix": " The international flight to Istanbul is on your end: you pick your airline, your departure airport and your class based on your budget.",
+    "intro_strong": "Your flights stay on your side, but you do not choose them alone: MKR helps you find the right route, the right airlines and timings that match the airport pickup.",
+    "intro_suffix": " Your city to Istanbul, then Istanbul to Makhachkala (MCX) for Wrestling in Dagestan or Istanbul to Grozny (GRV) for MMA in Chechnya. You pick your airline, your departure airport and your class based on your budget; the Istanbul-Caucasus leg costs 250-350 EUR round trip.",
     "label_connections": "Connections",
     "label_price": "Average round-trip price",
     "label_duration": "Duration",
     "cards": {
       "paris": {
         "city": "Paris CDG",
-        "connections": "To Istanbul then MKR domestic flight to Makhachkala (MCX, Dagestan) or Grozny (GRV, Chechnya). Turkish Airlines, Air France or Pegasus.",
-        "price": "450 - 700 EUR",
+        "connections": "To Istanbul then Makhachkala (MCX, Dagestan) or Grozny (GRV, Chechnya). Turkish Airlines, Air France or Pegasus to Istanbul, Turkish Airlines or Pegasus onwards.",
+        "price": "700 - 1,000 EUR",
         "duration": "~7-9h with layover"
       },
       "geneve": {
         "city": "Geneva / Zurich",
-        "connections": "To Istanbul then MKR domestic flight to Makhachkala (MCX) or Grozny (GRV). Turkish Airlines, Pegasus or Swiss.",
-        "price": "500 - 750 EUR",
+        "connections": "To Istanbul then Makhachkala (MCX) or Grozny (GRV). Turkish Airlines, Pegasus or Swiss to Istanbul, Turkish Airlines or Pegasus onwards.",
+        "price": "750 - 1,050 EUR",
         "duration": "~8-10h with layover"
       },
       "bruxelles": {
         "city": "Brussels",
-        "connections": "To Istanbul then MKR domestic flight to Makhachkala (MCX) or Grozny (GRV). Turkish Airlines, Brussels Airlines or Pegasus.",
-        "price": "480 - 720 EUR",
+        "connections": "To Istanbul then Makhachkala (MCX) or Grozny (GRV). Turkish Airlines, Brussels Airlines or Pegasus to Istanbul, Turkish Airlines or Pegasus onwards.",
+        "price": "730 - 1,020 EUR",
         "duration": "~8-10h with layover"
       }
     },
-    "footnote_prefix": "When booking, aim for a flight landing in Istanbul (IST or SAW) at least 4 hours before your domestic flight. MKR confirms the domestic flight schedule as soon as your application is approved. ",
+    "footnote_prefix": "When booking, allow at least 4 hours of layover in Istanbul (IST and SAW are two different airports, 1h30 apart). As soon as your application is approved, MKR looks at the options with you and tells you which arrival times work for the airport pickup. ",
     "footnote_strong": "Application less than 30 days before departure",
-    "footnote_suffix": " : an MKR surcharge applies for express handling of the file (visa, logistics, domestic ticket)."
+    "footnote_suffix": " : an MKR surcharge applies for express handling of the file (visa, logistics)."
   },
   "assurance": {
     "label": "MANDATORY",

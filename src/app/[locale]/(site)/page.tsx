@@ -22,11 +22,11 @@ const VerticalVideoSplit = dynamic(() => import('@/components/VerticalVideoSplit
 const HOME_META = {
   fr: {
     title: "Camp MMA Tchétchénie et Lutte Daghestan | MKR Caucasian",
-    description: "Entraîne-toi là où naissent les champions. Lutte au Daghestan, MMA en Tchétchénie. 1 à 3 semaines au Caucase, 4 sessions par an, vol intérieur inclus.",
+    description: "Entraîne-toi là où naissent les champions. Lutte au Daghestan, MMA en Tchétchénie. 1 à 3 semaines au Caucase, 4 sessions par an, visa et hébergement inclus.",
   },
   en: {
     title: "MMA Camp Chechnya and Wrestling Camp Dagestan | MKR Caucasian",
-    description: "Train where champions are born. Wrestling in Dagestan, MMA in Chechnya. 1 to 3 weeks in the Caucasus, 4 sessions per year, domestic flight included.",
+    description: "Train where champions are born. Wrestling in Dagestan, MMA in Chechnya. 1 to 3 weeks in the Caucasus, 4 sessions per year, visa and housing included.",
   },
 } as const
 

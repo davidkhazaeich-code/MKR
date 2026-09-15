@@ -35,7 +35,7 @@
       },
       "dates": {
         "title": "Dates fixes, organisation rodée",
-        "desc": "Du 17 août au 5 septembre 2026, fenêtre de 3 semaines. Tu choisis ta durée (1, 2 ou 3 semaines) selon tes contraintes. MKR a calé visa, vols, hébergement, programme et coachs il y a déjà plusieurs mois."
+        "desc": "Du 17 août au 5 septembre 2026, fenêtre de 3 semaines. Tu choisis ta durée (1, 2 ou 3 semaines) selon tes contraintes. MKR a calé visa, hébergement, transferts, programme et coachs il y a déjà plusieurs mois."
       },
       "historique": {
         "title": "Le format historique",
@@ -49,10 +49,10 @@
     "slots": [
       { "time": "J-90", "label": "Inscription", "desc": "Tu remplis le formulaire. Réponse sous 48h." },
       { "time": "J-60", "label": "Visio + paiement", "desc": "Visio de validation avec Ruslan. Si validé : RIB envoyé, paiement intégral par virement. Dossier visa Russie déclenché par MKR." },
-      { "time": "J-45", "label": "Programme prep 6 sem", "desc": "Tu reçois le programme prep physique à distance. Visa russe en cours de finalisation, MKR confirme l'horaire du vol intérieur Istanbul-Makhachkala." },
-      { "time": "J-30", "label": "Visa finalisé", "desc": "Visa russe en main. Tu peux réserver ton vol international jusqu'à Istanbul (vol intérieur MKR déjà calé)." },
-      { "time": "J-7", "label": "Briefing final", "desc": "Brief logistique, vol, transferts, packing list confirmée." },
-      { "time": "JOUR J", "label": "Départ", "desc": "Tu prends ton vol jusqu'à Istanbul. Vol intérieur Istanbul-Makhachkala inclus. Véhicule MKR à l'aéroport au Daghestan." }
+      { "time": "J-45", "label": "Programme prep 6 sem", "desc": "Tu reçois le programme prep physique à distance. Visa russe en cours de finalisation, MKR t'aide à choisir tes vols (itinéraire via Istanbul, horaires d'arrivée à Makhachkala)." },
+      { "time": "J-30", "label": "Visa finalisé", "desc": "Visa russe en main. Tu réserves tes vols jusqu'à Makhachkala via Istanbul et tu nous envoies tes horaires." },
+      { "time": "J-7", "label": "Briefing final", "desc": "Brief logistique, vols, transferts, packing list confirmée." },
+      { "time": "JOUR J", "label": "Départ", "desc": "Tu prends tes vols jusqu'à Makhachkala via Istanbul. Véhicule MKR à l'aéroport au Daghestan, transfert au camp inclus." }
     ]
   },
   "cross_sell": {

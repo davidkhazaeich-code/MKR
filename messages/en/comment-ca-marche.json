@@ -42,8 +42,8 @@
       "step5": {
         "num": "05",
         "title": "DEPARTURE",
-        "desc": "You take your flight to Istanbul (to organize freely). MKR has booked your domestic flight from Istanbul to the Caucasus and a vehicle is waiting for you at the airport. All you have to do is board.",
-        "detail": "Domestic flight and transfer included"
+        "desc": "You take your flights to Makhachkala or Grozny via Istanbul, chosen with MKR's help. A vehicle is waiting for you at the airport. All you have to do is board.",
+        "detail": "Flight assistance and transfer included"
       },
       "step6": {
         "num": "06",
@@ -85,11 +85,11 @@
       },
       "q2": {
         "question": "What if I register less than 30 days before departure?",
-        "answer": "It is possible when spots remain, but an MKR express processing surcharge applies. It covers the expedited visa procedure, securing the domestic Istanbul-Caucasus flight in high season and logistical coordination under tight deadlines. The amount is communicated during the kickoff call, on top of the package price. MKR reserves the right to refuse an application within 30 days if administrative deadlines (Russian visa, domestic flight) cannot be met under reasonable conditions."
+        "answer": "It is possible when spots remain, but an MKR express processing surcharge applies. It covers the expedited visa procedure and logistical coordination under tight deadlines. The amount is communicated during the kickoff call, on top of the package price. MKR reserves the right to refuse an application within 30 days if administrative deadlines (Russian visa) cannot be met under reasonable conditions."
       },
       "q3": {
-        "question": "Does MKR organize my flight to Istanbul?",
-        "answer": "No, the international flight to Istanbul is yours to organize: you choose your airline, your departure airport and your class according to your budget. Your flight must arrive in Istanbul (IST or SAW) at least 4 hours before your MKR domestic flight. MKR confirms the schedule of the domestic flight from Istanbul to Makhachkala (Wrestling in Dagestan) or Istanbul to Grozny (MMA in Chechnya) as soon as your application is approved, and sends you the corresponding ticket."
+        "question": "Does MKR organize my flights?",
+        "answer": "Your flights stay on your side, but you do not choose them alone. The route goes through Istanbul, then Makhachkala (Wrestling in Dagestan) or Grozny (MMA in Chechnya). As soon as your application is approved, MKR helps you find the right route, the right airlines and timings that match the airport pickup. You book, you send us your schedule, and an MKR vehicle is waiting for you on arrival."
       }
     }
   },

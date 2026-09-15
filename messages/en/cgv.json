@@ -77,8 +77,8 @@
           "body": ": consular fees, official invitation letter, EU questionnaire, and full file support"
         },
         "flight": {
-          "strong": "Domestic flight",
-          "body": " Istanbul-Makhachkala (for the Wrestling camp in Dagestan) or Istanbul-Grozny (for the MMA camp in Chechnya)"
+          "strong": "Flight assistance",
+          "body": ": help choosing the route (via Istanbul to Makhachkala for the Wrestling camp in Dagestan, or to Grozny for the MMA camp in Chechnya), the airlines and timings that match the airport pickup. Booking and payment of the flights remain the Participant's responsibility (see Article 6)"
         },
         "transfers": "Airport-to-camp transfers and travel during the stay",
         "accommodation": "Accommodation in camp lodging",
@@ -92,8 +92,8 @@
       "title": "Article 6: Services not included",
       "items": {
         "intl_flight": {
-          "strong": "Round-trip international flight to Istanbul",
-          "body": ": to be booked freely by the Participant. The flight must arrive in Istanbul (IST or SAW) at least 4 hours before the MKR domestic flight time. MKR communicates the domestic flight schedule as soon as the application is approved."
+          "strong": "Round-trip flights to Makhachkala or Grozny, via Istanbul",
+          "body": ": booked and paid by the Participant, with MKR's assistance in choosing the route, the airlines and the timings. The Participant sends their flight schedule to MKR as soon as the booking is made so that the airport pickup and the transfer to the camp can be organized."
         },
         "insurance": "Travel insurance covering medical repatriation and the practice of contact sports (mandatory, to be taken out by the Participant)",
         "gear": "Personal equipment (gloves, shin guards, mouthguard, groin protector)",
@@ -103,9 +103,9 @@
     },
     "article6bis": {
       "title": "Article 6 bis: Late application surcharge (applications less than 30 days before departure)",
-      "p1": "For any application approved less than thirty (30) days before the start of the camp, MKR applies a flat-rate late processing surcharge. This surcharge covers the accelerated visa procedure, securing the domestic flight in high season, and logistical coordination within tight deadlines.",
+      "p1": "For any application approved less than thirty (30) days before the start of the camp, MKR applies a flat-rate late processing surcharge. This surcharge covers the accelerated visa procedure and logistical coordination within tight deadlines.",
       "p2": "The amount of the surcharge is communicated to the Participant during the validation call, based on the departure date and the complexity of the file. It is payable in addition to the package price and is added to the full payment after approval.",
-      "p3": "The Organizer reserves the right to refuse an application received less than thirty (30) days before departure if administrative deadlines (visa, domestic flight) cannot be met under reasonable conditions."
+      "p3": "The Organizer reserves the right to refuse an application received less than thirty (30) days before departure if administrative deadlines (visa, logistics) cannot be met under reasonable conditions."
     },
     "article7": {
       "title": "Article 7: Insurance",

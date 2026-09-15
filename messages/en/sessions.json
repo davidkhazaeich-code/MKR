@@ -1,7 +1,7 @@
 {
   "meta": {
-    "title": "{years} Dates and Prices: 4 Sessions from 1,690 € | MKR",
-    "description": "Four sessions a year, one per season. Wrestling or MMA, live spots, all inclusive from 1,690 € per adult, nothing to pay before approval."
+    "title": "{years} Dates and Prices: 4 Sessions from 1,390 € | MKR",
+    "description": "Four sessions a year, one per season. Wrestling or MMA, live spots, all inclusive on site from 1,390 € per adult, nothing to pay before approval."
   },
   "breadcrumb": {
     "home": "Home",
@@ -28,8 +28,8 @@
   },
   "tout_compris": {
     "label": "ALL INCLUSIVE",
-    "title": "VISA, DOMESTIC FLIGHT, ACCOMMODATION, 2 MEALS/DAY, COACHING",
-    "body": "The price covers the Russian visa (fees and file), the domestic flight from Istanbul (Makhachkala for Wrestling, Grozny for MMA), airport-camp transfers, accommodation, 2 meals per day, the 2 daily training sessions and local coaching. The international flight to Istanbul stays on your side. The full details are on the Camp page.",
+    "title": "VISA, TRANSFERS, ACCOMMODATION, 2 MEALS/DAY, COACHING",
+    "body": "The price covers the Russian visa (fees and file), airport-camp transfers, accommodation, 2 meals per day, the 2 daily training sessions and local coaching. Your flights to Makhachkala (Wrestling) or Grozny (MMA) via Istanbul stay on your side, but you do not choose them alone: MKR helps you find the right route and timings that match the airport pickup. The full details are on the Camp page.",
     "cta": "SEE THE DETAILS ON THE CAMP PAGE"
   },
   "group": {

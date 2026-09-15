@@ -14,7 +14,9 @@ interface KeyFactsBandProps {
 /**
  * Bandeau de faits cles sous le hero des pages destination.
  * Message match avec les composants d'annonces Google Ads (visa inclus,
- * vol interieur, places limitees, paiement apres visio, entree selective).
+ * assistance vols, places limitees, paiement apres visio, entree selective).
+ * Depuis le 2026-09-15 le vol interieur n'est plus inclus : l'item "flight"
+ * porte l'aide au choix des vols, jamais un vol offert.
  */
 export default function KeyFactsBand({ facts, className }: KeyFactsBandProps) {
   return (

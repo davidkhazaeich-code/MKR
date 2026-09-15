@@ -46,7 +46,7 @@
     "label": "QUATRE FAÇONS DE VENIR",
     "title_line1": "CHOISIS TON FORMAT",
     "title_line2": "D'INSCRIPTION",
-    "subtitle": "Tu pars seul, en duo, en famille ou avec ton club ? On a un format pour chaque profil. Lutte au Daghestan ou MMA en Tchétchénie : visa, vol intérieur depuis Istanbul, transferts, hébergement, repas et encadrement sont coordonnés sur place par MKR.",
+    "subtitle": "Tu pars seul, en duo, en famille ou avec ton club ? On a un format pour chaque profil. Lutte au Daghestan ou MMA en Tchétchénie : visa, transferts, hébergement, repas et encadrement sont coordonnés sur place par MKR, qui t'aide aussi à choisir tes vols.",
     "card": {
       "recommended_flag": "RECOMMANDÉ",
       "meta_dates": "Dates",
@@ -118,15 +118,15 @@
     "label": "TOUT EST INCLUS",
     "title_line1": "ON S'OCCUPE DE TOUT.",
     "title_line2": "TOI, TU T'ENTRAÎNES.",
-    "subtitle": "Visa, vol intérieur, navette, hébergement, repas et entraînement : six prestations incluses dans chaque camp, quel que soit le format choisi. Tu organises uniquement ton vol jusqu'à Istanbul.",
+    "subtitle": "Visa, assistance vols, navette, hébergement, repas et entraînement : six prestations incluses dans chaque camp, quel que soit le format choisi. Tes vols restent à ta charge, on t'aide à les choisir.",
     "items": {
       "visa": {
         "title": "Visa Russie inclus",
         "desc": "Frais consulaires, lettre d'invitation officielle, questionnaire UE et accompagnement complet du dossier. Tu fournis ton passeport, MKR pilote la procédure."
       },
       "flight": {
-        "title": "Vol intérieur",
-        "desc": "Depuis Istanbul vers Makhachkala (Lutte au Daghestan) ou Grozny (MMA en Tchétchénie), inclus dans le package. Tu n'organises que le vol international jusqu'à Istanbul."
+        "title": "Assistance vols",
+        "desc": "Tes vols jusqu'à Makhachkala (Lutte au Daghestan) ou Grozny (MMA en Tchétchénie) restent à ta charge, mais tu ne les choisis pas seul : MKR t'aide à trouver le bon itinéraire via Istanbul, les bonnes compagnies et les horaires compatibles avec l'accueil à l'aéroport."
       },
       "transfers": {
         "title": "Transferts",
@@ -157,13 +157,13 @@
     "title_line2_highlight": "CAUCASE",
     "trajet_label": "TRAJET SÉCURISÉ",
     "steps": {
-      "01": "Ton aéroport européen → Istanbul (vol international à organiser)",
-      "02": "Istanbul → Makhachkala (Lutte) ou Grozny (MMA), vol intérieur inclus",
+      "01": "Ton aéroport européen → Istanbul (vol à ta charge, choisi avec MKR)",
+      "02": "Istanbul → Makhachkala (Lutte) ou Grozny (MMA), vol à ta charge, choisi avec MKR",
       "03": "Transfert au camp (Daghestan ~1h30 / Tchétchénie ~30 min, inclus)"
     },
     "badges": {
       "visa": "VISA INCLUS",
-      "flight": "VOL INTÉRIEUR INCLUS",
+      "flight": "ASSISTANCE VOLS INCLUSE",
       "transfers": "TRANSFERTS INCLUS",
       "secure": "DESTINATION SÉCURISÉE"
     }
@@ -178,7 +178,7 @@
     "meta_duration": "Durée",
     "price_sub_prefix": "Tarif Solo / Duo : ",
     "price_sub_middle": " par adulte. Dégressif dès 3 personnes. Forfait Famille (1P+1E) à partir de ",
-    "price_sub_suffix": ". Visa russe, vol intérieur Istanbul → Makhachkala ou Grozny, transferts, hébergement et 2 repas/jour inclus. Vol international à charge.",
+    "price_sub_suffix": ". Visa russe, transferts, hébergement et 2 repas/jour inclus. Vols à ta charge, MKR t'aide à les choisir.",
     "card_cta": "POSTULER"
   },
   "timeline": {

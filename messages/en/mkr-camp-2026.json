@@ -35,7 +35,7 @@
       },
       "dates": {
         "title": "Fixed dates, proven organization",
-        "desc": "From August 17 to September 5, 2026, a 3-week window. You choose your duration (1, 2, or 3 weeks) based on your schedule. MKR locked in the visa, flights, accommodation, program, and coaches months ago."
+        "desc": "From August 17 to September 5, 2026, a 3-week window. You choose your duration (1, 2, or 3 weeks) based on your schedule. MKR locked in the visa, accommodation, transfers, program, and coaches months ago."
       },
       "historique": {
         "title": "The flagship format",
@@ -49,10 +49,10 @@
     "slots": [
       { "time": "D-90", "label": "Registration", "desc": "You fill out the form. Reply within 48 hours." },
       { "time": "D-60", "label": "Kickoff call + payment", "desc": "Validation video call with Ruslan. If approved: bank details sent, full payment by transfer. Russian visa application started by MKR." },
-      { "time": "D-45", "label": "6-week prep program", "desc": "You receive the remote physical prep program. Russian visa being finalized, MKR confirms the Istanbul-Makhachkala domestic flight schedule." },
-      { "time": "D-30", "label": "Visa finalized", "desc": "Russian visa in hand. You can book your international flight to Istanbul (MKR domestic flight already locked in)." },
-      { "time": "D-7", "label": "Final briefing", "desc": "Logistics, flight, transfers, and confirmed packing list briefing." },
-      { "time": "DAY D", "label": "Departure", "desc": "You take your flight to Istanbul. Istanbul-Makhachkala domestic flight included. MKR vehicle at the airport in Dagestan." }
+      { "time": "D-45", "label": "6-week prep program", "desc": "You receive the remote physical prep program. Russian visa being finalized, MKR helps you choose your flights (route via Istanbul, arrival times in Makhachkala)." },
+      { "time": "D-30", "label": "Visa finalized", "desc": "Russian visa in hand. You book your flights to Makhachkala via Istanbul and send us your schedule." },
+      { "time": "D-7", "label": "Final briefing", "desc": "Logistics, flights, transfers, and confirmed packing list briefing." },
+      { "time": "DAY D", "label": "Departure", "desc": "You take your flights to Makhachkala via Istanbul. MKR vehicle at the airport in Dagestan, transfer to the camp included." }
     ]
   },
   "cross_sell": {

@@ -73,6 +73,7 @@
 |---|---|
 | Vol intérieur | Domestic flight |
 | Vol international | International flight |
+| Assistance vols / assistance au choix des vols | Flight assistance / help choosing your flights |
 | Visa russe | Russian visa |
 | Transferts | Airport transfers |
 | Hébergement | Accommodation (standard international) |
@@ -114,7 +115,8 @@
 | MKR organise tout | MKR handles everything |
 | Tout compris | All inclusive |
 | Visa Russie inclus | Russian visa included |
-| Vol intérieur inclus | Domestic flight included |
+| Assistance vols incluse | Flight assistance included |
+| ~~Vol intérieur inclus~~ (retiré le 2026-09-15, plus aucun vol n'est inclus) | ~~Domestic flight included~~ |
 | Pour qui ? | Who is it for? |
 | Comment ça marche | How it works |
 | Pour les parents | For parents |
@@ -224,7 +226,7 @@ Quand on traduit pour le SEO, on cherche à matcher l'intent search anglophone :
 Chaque paragraphe EN doit être **self-contained** : une IA (ChatGPT, Perplexity, Claude, Google AI Overviews) doit pouvoir l'extraire et le citer tel quel sans contexte.
 
 **Bon exemple** :
-> "MKR Caucasian Camp runs training camps from 1 to 3 weeks in Dagestan (wrestling) and Chechnya (MMA), with Russian visa, domestic flight from Istanbul, accommodation, and 2 meals per day included."
+> "MKR Caucasian Camp runs training camps from 1 to 3 weeks in Dagestan (wrestling) and Chechnya (MMA), with Russian visa, transfers, accommodation, and 2 meals per day included, and help choosing your flights."
 
 **Mauvais exemple** (référence implicite) :
 > "Le camp se déroule là-bas, avec tout inclus."

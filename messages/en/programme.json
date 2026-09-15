@@ -68,7 +68,7 @@
   "lutte": {
     "meta": {
       "title": "Wrestling Camp in Dagestan: 15 Spots, All Inclusive | MKR",
-      "description": "Freestyle wrestling camp in Makhachkala and Kaspiysk: visa, flight, housing, 2 sessions a day. From 1 year of practice, ground base. 15 spots."
+      "description": "Freestyle wrestling camp in Makhachkala and Kaspiysk: visa, transfers, housing, 2 sessions a day. From 1 year of practice, ground base. 15 spots."
     },
     "breadcrumb": {
       "home": "Home",
@@ -87,8 +87,8 @@
         "sub": "Application handled end to end by MKR"
       },
       "flight": {
-        "label": "Domestic flight included",
-        "sub": "Istanbul to Makhachkala (MCX)"
+        "label": "Flight assistance included",
+        "sub": "We help you pick your flights to Makhachkala (MCX)"
       },
       "training": {
         "label": "2 sessions/day",
@@ -110,7 +110,7 @@
         "15 spots per official session. Adults from 1 year of practice with a ground base, kids 8-17 with a parent via the Family track.",
         "6 technical modules: takedowns, Dagestani leg rides, chain wrestling, funk rolls, mat returns, defense.",
         "Daily sparring with local wrestlers from the pipeline behind 30+ Olympic medals.",
-        "Sessions at 10:30 and 17:30, 6 days a week. All-inclusive: Russian visa, domestic flight, housing, 2 meals/day."
+        "Sessions at 10:30 and 17:30, 6 days a week. All-inclusive on site: Russian visa, transfers, housing, 2 meals/day. Your flights stay on your side, we help you choose them."
       ]
     },
     "description": {
@@ -260,7 +260,7 @@
         },
         {
           "title": "MKR prepares everything",
-          "desc": "Russian visa, Istanbul-Makhachkala domestic flight, housing, gyms. You: flight to Istanbul, insurance, physical preparation."
+          "desc": "Russian visa, housing, transfers, gyms. You: your flights to Makhachkala via Istanbul (we help you choose them), insurance, physical preparation."
         },
         {
           "title": "Departure",
@@ -295,7 +295,7 @@
         },
         {
           "question": "What is included in the camp price?",
-          "answer": "The package covers the Russian visa (full application handled by MKR), the Istanbul-Makhachkala domestic flight, transfers, housing, 2 meals a day and the 2 daily training sessions. On your side: the flight to Istanbul, your travel insurance and your equipment. The rate depends on group size and duration (1 to 3 weeks): the full grid is public on the Sessions page."
+          "answer": "The package covers the Russian visa (full application handled by MKR), transfers, housing, 2 meals a day and the 2 daily training sessions. On your side: your flights to Makhachkala via Istanbul (MKR helps you choose the route and timings), your travel insurance and your equipment. The rate depends on group size and duration (1 to 3 weeks): the full grid is public on the Sessions page."
         }
       ]
     },
@@ -426,8 +426,8 @@
   },
   "mma": {
     "meta": {
-      "title": "MMA Camp in Grozny: Daily Sparring from 1,690 € | MKR",
-      "description": "All-inclusive MMA camp in Grozny: Russian visa, domestic flight, housing, 2 meals. Daily sparring with pro teams. Advanced level, 15 spots."
+      "title": "MMA Camp in Grozny: Daily Sparring from 1,390 € | MKR",
+      "description": "MMA camp in Grozny, all inclusive on site: Russian visa, transfers, housing, 2 meals. Daily sparring with pro teams. Advanced level, 15 spots."
     },
     "breadcrumb": {
       "home": "Home",
@@ -446,8 +446,8 @@
         "sub": "Application handled end to end by MKR"
       },
       "flight": {
-        "label": "Domestic flight included",
-        "sub": "Istanbul to Grozny (GRV), direct"
+        "label": "Flight assistance included",
+        "sub": "We help you pick your flights to Grozny (GRV), direct from Istanbul"
       },
       "training": {
         "label": "2 sessions/day",
@@ -469,7 +469,7 @@
         "Advanced level minimum required: 5+ years of regular practice or competition experience. The form blocks below that.",
         "6 technical modules: stand-up, clinch, takedowns, ground and pound, submissions, transitions.",
         "Daily sparring with the fighters of Grozny's professional teams, calibrated to your level.",
-        "Sessions at 11:00 and 18:00, 6 days a week. All-inclusive: Russian visa, domestic flight, housing, 2 meals/day."
+        "Sessions at 11:00 and 18:00, 6 days a week. All-inclusive on site: Russian visa, transfers, housing, 2 meals/day. Your flights stay on your side, we help you choose them."
       ]
     },
     "description": {
@@ -598,7 +598,7 @@
         },
         {
           "title": "MKR prepares everything",
-          "desc": "Russian visa, direct Istanbul-Grozny domestic flight, housing, gyms. You: flight to Istanbul, insurance, preparation."
+          "desc": "Russian visa, housing, transfers, gyms. You: your flights to Grozny via Istanbul (we help you choose them), insurance, preparation."
         },
         {
           "title": "Departure",

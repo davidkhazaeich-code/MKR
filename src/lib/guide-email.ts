@@ -54,7 +54,7 @@ const COPY: Record<GuideEmailLocale, GuideEmailCopy> = {
     tips: [
       'Le niveau n est pas un critère d entrée : les entraînements sont adaptés, des amateurs motivés aux pros.',
       'Une session = 15 places maximum. Les dossiers sont validés dans l ordre des visios de sélection.',
-      'Tout est pris en charge sur place (transferts, hébergement, repas, salles). Tu n as que ton billet à gérer.',
+      'Tout est pris en charge sur place (transferts, hébergement, repas, salles). Tu n as que tes vols à réserver, et on t aide à les choisir.',
     ],
     candidatureLine: 'Si tu te projettes déjà, la candidature prend 3 minutes :',
     ctaCandidature: 'Poser ma candidature',
@@ -79,7 +79,7 @@ const COPY: Record<GuideEmailLocale, GuideEmailCopy> = {
     tips: [
       'Your level is not an entry barrier: training is adapted, from motivated amateurs to pros.',
       'One session = 15 spots maximum. Applications are validated in the order of selection calls.',
-      'Everything is handled on site (transfers, accommodation, meals, gyms). You only book your flight.',
+      'Everything is handled on site (transfers, accommodation, meals, gyms). You only book your flights, and we help you choose them.',
     ],
     candidatureLine: 'Already picturing yourself there? Applying takes 3 minutes:',
     ctaCandidature: 'Apply now',

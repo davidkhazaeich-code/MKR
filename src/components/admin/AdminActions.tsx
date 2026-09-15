@@ -502,7 +502,7 @@ export default function AdminActions(props: Props) {
               className="adm-input"
               value={packageEur}
               onChange={(e) => setPackageEur(e.target.value)}
-              placeholder="1690"
+              placeholder="1390"
               disabled={busy}
             />
             {packageDirty && (

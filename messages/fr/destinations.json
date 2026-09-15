@@ -107,8 +107,8 @@
         },
         "aeroport": {
           "label": "Aéroport",
-          "daghestan": "Makhachkala (MCX) · vol intérieur Istanbul vers MCX inclus",
-          "tchetchenie": "Grozny (GRV) · vol intérieur Istanbul vers GRV inclus"
+          "daghestan": "Makhachkala (MCX) · vol Istanbul vers MCX à ta charge, MKR t'aide à le choisir",
+          "tchetchenie": "Grozny (GRV) · vol Istanbul vers GRV à ta charge, MKR t'aide à le choisir"
         },
         "transfert": {
           "label": "Transfert vers le camp",
@@ -163,7 +163,7 @@
         "République du Caucase Nord (Fédération de Russie), capitale Makhachkala, 3,1 millions d'habitants au bord de la mer Caspienne.",
         "Berceau mondial de la lutte libre : plus de 30 médailles olympiques issues de la région, et la seule ville de Khasavyourt compte 8 titres olympiques sur les 4 derniers cycles.",
         "Plus de 50 000 lutteurs licenciés autour de Makhachkala. La lutte s'y apprend dès 5 ans, de père en fils.",
-        "Camp MKR Lutte : salles partenaires de Makhachkala et Kaspiysk, vol intérieur Istanbul-Makhachkala et transfert (1h30) inclus.",
+        "Camp MKR Lutte : salles partenaires de Makhachkala et Kaspiysk, accueil à l'aéroport et transfert (1h30) inclus, assistance pour choisir tes vols via Istanbul.",
         "Lutte adultes (1 an de pratique minimum) et enfants 8-17 ans avec parent. Pour le MMA, voir la Tchétchénie."
       ]
     },
@@ -249,7 +249,7 @@
         },
         {
           "question": "Comment se rendre au Daghestan depuis l'Europe ?",
-          "answer": "Il n'existe pas de vol direct depuis l'Europe de l'Ouest. Le trajet passe par Istanbul : tu prends un vol jusqu'à Istanbul (à ta charge), puis le vol intérieur Istanbul-Makhachkala (MCX), inclus dans ton package MKR, environ 2h30 de vol. À l'arrivée, un référent MKR t'accueille à l'aéroport et le transfert d'1h30 vers le camp est inclus."
+          "answer": "Il n'existe pas de vol direct depuis l'Europe de l'Ouest. Le trajet passe par Istanbul : un vol jusqu'à Istanbul, puis le vol Istanbul-Makhachkala (MCX), environ 2h30. Les deux vols restent à ta charge, mais MKR t'aide à choisir l'itinéraire, les compagnies et les horaires compatibles avec l'accueil à l'aéroport. À l'arrivée, un référent MKR t'attend et le transfert d'1h30 vers le camp est inclus."
         },
         {
           "question": "Peut-on s'entraîner dans les salles locales sans invitation ?",
@@ -267,7 +267,7 @@
     },
     "logistique": {
       "title": "LOGISTIQUE DAGHESTAN",
-      "body": "Aéroport : Makhachkala (MCX). Vol intérieur depuis Istanbul et transfert MKR (1h30) inclus. Hébergement en logement de camp. Visa russe géré par MKR.",
+      "body": "Aéroport : Makhachkala (MCX), via Istanbul. Vols à ta charge avec l'aide de MKR pour les choisir, transfert MKR (1h30) inclus. Hébergement en logement de camp. Visa russe géré par MKR.",
       "cta": "DÉTAIL COMPLET"
     },
     "proof": {
@@ -314,7 +314,7 @@
         "République du Caucase Nord (Fédération de Russie), capitale Grozny, 1,5 million d'habitants.",
         "Épicentre du MMA moderne : écuries d'État et privées, dont l'Akhmat Fight Club, et la 2e organisation MMA au monde par nombre de combattants classés (ACA), basée à Grozny.",
         "Plus de 15 combattants du top mondial MMA formés dans la région, plus de 30 salles professionnelles.",
-        "Camp MKR MMA : salles partenaires de Grozny, vol intérieur Istanbul-Grozny (direct, environ 2h30) et transfert de 30 minutes inclus.",
+        "Camp MKR MMA : salles partenaires de Grozny, accueil à l'aéroport et transfert de 30 minutes inclus, assistance pour choisir tes vols (Istanbul-Grozny direct, environ 2h30).",
         "MMA uniquement, niveau Avancé minimum (5 ans et plus de pratique). Pour la Lutte, voir le Daghestan."
       ]
     },
@@ -394,7 +394,7 @@
         },
         {
           "question": "Comment se rendre à Grozny depuis l'Europe ?",
-          "answer": "Aucun vol direct depuis l'Europe de l'Ouest. Le trajet passe par Istanbul : vol jusqu'à Istanbul à ta charge, puis vol intérieur direct Istanbul-Grozny (GRV), environ 2h30, inclus dans ton package MKR. Un référent t'accueille à l'aéroport et le transfert vers le camp ne prend que 30 minutes, inclus lui aussi."
+          "answer": "Aucun vol direct depuis l'Europe de l'Ouest. Le trajet passe par Istanbul : un vol jusqu'à Istanbul, puis le vol direct Istanbul-Grozny (GRV), environ 2h30. Les deux vols restent à ta charge, mais MKR t'aide à choisir l'itinéraire, les compagnies et les horaires compatibles avec l'accueil à l'aéroport. Un référent t'attend à l'arrivée et le transfert vers le camp ne prend que 30 minutes, inclus."
         },
         {
           "question": "Quel niveau faut-il pour s'entraîner au MMA à Grozny ?",
@@ -408,7 +408,7 @@
     },
     "logistique": {
       "title": "LOGISTIQUE TCHÉTCHÉNIE",
-      "body": "Aéroport : Grozny (GRV). Vol intérieur direct depuis Istanbul et transfert MKR (30 min) inclus. Hébergement en logement de camp à Grozny. Visa russe géré par MKR.",
+      "body": "Aéroport : Grozny (GRV), vol direct depuis Istanbul. Vols à ta charge avec l'aide de MKR pour les choisir, transfert MKR (30 min) inclus. Hébergement en logement de camp à Grozny. Visa russe géré par MKR.",
       "cta": "DÉTAIL COMPLET"
     },
     "proof": {

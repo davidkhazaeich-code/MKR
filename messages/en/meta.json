@@ -14,14 +14,14 @@
     "member_of_name": "French Wrestling Team"
   },
   "events": {
-    "session_description_template": "Training camp of 1 to 3 weeks in the Caucasus. 15 Wrestling spots in Dagestan plus 15 MMA spots in Chechnya (exclusive). Domestic flight from Istanbul, Russian visa, accommodation and 2 meals per day included."
+    "session_description_template": "Training camp of 1 to 3 weeks in the Caucasus. 15 Wrestling spots in Dagestan plus 15 MMA spots in Chechnya (exclusive). Russian visa, transfers, accommodation and 2 meals per day included, help choosing your flights."
   },
   "sports_activity_location": {
     "dagestan": {
       "name": "Wrestling training facilities in Dagestan",
       "description": "Official wrestling halls in Makhachkala and Kaspiysk, partners of the Russian Wrestling Federation.",
       "amenity_visa": "Russian visa included",
-      "amenity_flight": "Istanbul to Makhachkala domestic flight included",
+      "amenity_flight": "Flight assistance (via Istanbul to Makhachkala)",
       "amenity_meals": "2 meals per day",
       "amenity_transfers": "Airport transfers",
       "amenity_lodging": "Accommodation included",
@@ -31,7 +31,7 @@
       "name": "MMA training facilities in Chechnya",
       "description": "MMA gyms in Grozny, in the lineage of Akhmat Fight Club.",
       "amenity_visa": "Russian visa included",
-      "amenity_flight": "Istanbul to Grozny domestic flight included",
+      "amenity_flight": "Flight assistance (via Istanbul to Grozny)",
       "amenity_meals": "2 meals per day",
       "amenity_transfers": "Airport transfers",
       "amenity_lodging": "Accommodation included",

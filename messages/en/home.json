@@ -46,7 +46,7 @@
     "label": "FOUR WAYS TO COME",
     "title_line1": "CHOOSE YOUR",
     "title_line2": "REGISTRATION FORMAT",
-    "subtitle": "Solo, duo, family or with your club? We have a format for every profile. Wrestling in Dagestan or MMA in Chechnya: visa, domestic flight from Istanbul, transfers, accommodation, meals and coaching are all coordinated on site by MKR.",
+    "subtitle": "Solo, duo, family or with your club? We have a format for every profile. Wrestling in Dagestan or MMA in Chechnya: visa, transfers, accommodation, meals and coaching are all coordinated on site by MKR, which also helps you choose your flights.",
     "card": {
       "recommended_flag": "RECOMMENDED",
       "meta_dates": "Dates",
@@ -118,15 +118,15 @@
     "label": "ALL INCLUSIVE",
     "title_line1": "WE HANDLE EVERYTHING.",
     "title_line2": "YOU JUST TRAIN.",
-    "subtitle": "Visa, domestic flight, transfers, accommodation, meals and training: six services included in every camp, whichever format you choose. You only book your flight to Istanbul.",
+    "subtitle": "Visa, flight assistance, transfers, accommodation, meals and training: six services included in every camp, whichever format you choose. Your flights stay on your side, we help you choose them.",
     "items": {
       "visa": {
         "title": "Russian visa included",
         "desc": "Consular fees, official invitation letter, EU questionnaire and full file management. You provide your passport, MKR runs the process."
       },
       "flight": {
-        "title": "Domestic flight",
-        "desc": "From Istanbul to Makhachkala (Wrestling in Dagestan) or Grozny (MMA in Chechnya), included in the package. You only book your international flight to Istanbul."
+        "title": "Flight assistance",
+        "desc": "Your flights to Makhachkala (Wrestling in Dagestan) or Grozny (MMA in Chechnya) stay on your side, but you do not choose them alone: MKR helps you find the right route via Istanbul, the right airlines and timings that match the airport pickup."
       },
       "transfers": {
         "title": "Airport transfers",
@@ -157,13 +157,13 @@
     "title_line2_highlight": "CAUCASUS",
     "trajet_label": "SECURE ROUTE",
     "steps": {
-      "01": "Your European airport → Istanbul (international flight to book)",
-      "02": "Istanbul → Makhachkala (Wrestling) or Grozny (MMA), domestic flight included",
+      "01": "Your European airport → Istanbul (flight on your side, chosen with MKR)",
+      "02": "Istanbul → Makhachkala (Wrestling) or Grozny (MMA), flight on your side, chosen with MKR",
       "03": "Transfer to camp (Dagestan about 1h30 / Chechnya about 30 min, included)"
     },
     "badges": {
       "visa": "VISA INCLUDED",
-      "flight": "DOMESTIC FLIGHT INCLUDED",
+      "flight": "FLIGHT ASSISTANCE INCLUDED",
       "transfers": "TRANSFERS INCLUDED",
       "secure": "SECURE DESTINATION"
     }
@@ -178,7 +178,7 @@
     "meta_duration": "Duration",
     "price_sub_prefix": "Solo / Duo price: ",
     "price_sub_middle": " per adult. Discounts from 3 people. Family package (1P+1C) from ",
-    "price_sub_suffix": ". Russian visa, domestic flight Istanbul → Makhachkala or Grozny, transfers, accommodation and 2 meals per day included. International flight at your charge.",
+    "price_sub_suffix": ". Russian visa, transfers, accommodation and 2 meals per day included. Flights on your side, MKR helps you choose them.",
     "card_cta": "APPLY"
   },
   "timeline": {

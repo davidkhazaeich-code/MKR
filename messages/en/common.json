@@ -23,7 +23,7 @@
         "section_label": "MKR Camp · Choose your stay",
         "feature_title_part1": "CHOOSE",
         "feature_title_part2": "YOUR SESSION.",
-        "feature_body": "Four sessions per year aligned with French-speaking school holidays. MKR handles everything: visa, domestic flight, transfers, accommodation, meals, coaching. You only book your international flight.",
+        "feature_body": "Four sessions per year aligned with French-speaking school holidays. MKR handles everything on site: visa, transfers, accommodation, meals, coaching. Your flights stay on your side, we help you choose them.",
         "feature_link": "See the 4 sessions",
         "sessions_label": "Official sessions {years}",
         "formats_label": "Other formats",
@@ -242,7 +242,7 @@
     "price_anchor": {
       "kicker": "ALL-INCLUSIVE PRICE",
       "main": "{solo} per person · 1 week",
-      "main_sub": "Russian visa, domestic flight from Istanbul, transfers, housing, 2 meals and 2 training sessions per day. You only handle your flight to Istanbul.",
+      "main_sub": "Russian visa, transfers, housing, 2 meals and 2 training sessions per day. Your flights stay on your side, MKR helps you choose them.",
       "degressive": "Group rates (from {min} per person) · Dedicated Family package",
       "next_session": "Next session",
       "cta": "APPLY",

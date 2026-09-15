@@ -23,7 +23,7 @@
         "section_label": "Le Camp MKR · Choisis ta venue",
         "feature_title_part1": "CHOISIS",
         "feature_title_part2": "TA SESSION.",
-        "feature_body": "Quatre sessions par an calées sur les vacances scolaires francophones. MKR organise tout : visa, vol intérieur, transferts, hébergement, repas, encadrement. Vol international à organiser.",
+        "feature_body": "Quatre sessions par an calées sur les vacances scolaires francophones. MKR organise tout sur place : visa, transferts, hébergement, repas, encadrement. Tes vols restent à ta charge, on t'aide à les choisir.",
         "feature_link": "Voir les 4 sessions",
         "sessions_label": "Sessions officielles {years}",
         "formats_label": "Autres formats",
@@ -242,7 +242,7 @@
     "price_anchor": {
       "kicker": "TARIF TOUT COMPRIS",
       "main": "{solo} par personne · 1 semaine",
-      "main_sub": "Visa russe, vol intérieur depuis Istanbul, transferts, hébergement, 2 repas et 2 entraînements par jour. Tu ne gères que ton vol jusqu'à Istanbul.",
+      "main_sub": "Visa russe, transferts, hébergement, 2 repas et 2 entraînements par jour. Tes vols restent à ta charge, MKR t'aide à les choisir.",
       "degressive": "Dégressif en groupe (dès {min} par personne) · Forfait Famille dédié",
       "next_session": "Prochaine session",
       "cta": "POSTULER",

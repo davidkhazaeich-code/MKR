@@ -1,7 +1,37 @@
 # SITEMAP MKR Caucasian Camp — Cartographie complète
 
-> **Fichier de référence pour Claude Code.** Mise à jour : 2026-09-04 (nouvel ordre des sections de la home + réparation du système de masques montagne sur tout le site).
+> **Fichier de référence pour Claude Code.** Mise à jour : 2026-09-15 (les vols ne sont plus inclus, grille -300 € par siège, « assistance vols » partout).
 > Lis ce fichier en priorité avant toute intervention sur le site MKR. Il évite de re-explorer.
+
+## 🆕 BREAKING — 2026-09-15 (plus aucun vol inclus : grille -300 € par siège, « assistance vols » à la place)
+
+> **Décision David** : « on ne va plus offrir les vols. On va seulement offrir tout le reste comme prévu. Donc ça baisse la note de chaque package de 300 €. Il ne faut pas que les anciens prix soient mentionnés. Dire qu'on ne va pas offrir les vols, mais à la place qu'on aide sur le choix du vol si besoin, parler d'assistance. »
+
+**Ce qui change dans l'offre.** Le seul vol qui était inclus était le **vol intérieur Istanbul → Makhachkala / Grozny** (le vol international jusqu'à Istanbul était déjà à la charge du candidat depuis le 2026-05-14). Il ne l'est plus : **le candidat réserve et paie tout son itinéraire** (ville → Istanbul → Makhachkala ou Grozny). En échange, le package porte une **assistance au choix des vols** (itinéraire via Istanbul, compagnies, horaires compatibles avec l'accueil à l'aéroport). Le reste du périmètre est inchangé (visa, transferts, hébergement, 2 repas, encadrement, suivi).
+
+**La nouvelle grille (`data/pricing.ts`)**, -300 € par siège, arbitrage David du 15.09 pour la famille :
+
+| Palier | 1 sem | 2 sem | 3 sem |
+|---|---|---|---|
+| Solo / Duo | **1 390** | **2 490** | **3 190** |
+| Trio à 5 | **1 190** | **2 190** | **2 790** |
+| Club 6-10 | **990** | **1 890** | **2 390** |
+| Forfait Famille (1P + 1E = 2 sièges, donc **-600**) | **1 890** | **3 790** | **5 290** |
+| Enfant supplémentaire (-300) | **+490** | **+1 280** | **+2 070** |
+
+⚠️ **Pièges de chiffres** : plusieurs nouveaux montants coïncident avec d'anciens (**2 490** = ancien Trio 2 sem et ancien Famille 1 sem, désormais Duo 2 sem ; **2 190** = ancien Club 2 sem, désormais Trio 2 sem ; **2 790** = ancien Duo 2 sem, désormais Trio 3 sem). Un grep « 2 490 » ne prouve donc rien : vérifier le CONTEXTE. Le « 2 690 » qui traîne dans chaque page vient du dictionnaire sérialisé de l'article « Combien ça coûte » (budget SOLO 1 840 à 2 690 €), ce n'est pas un prix MKR.
+
+**Ce qui a été touché, en plus de `pricing.ts`** (la propagation dynamique a fait le reste sur PricingTable, PriceAnchor, FAQ, CGV art. 3, admin, `estimateDemandAmountCents`) :
+- **Prix en dur** : `sessions.json` et `programme.json` (metas « dès 1 390 € »), les 3 articles de blog qui citent la grille (`preparer-son-premier-camp`, `comment-s-entrainer-au-dagestan`, `combien-coute-s-entrainer-au-dagestan`), `public/llms.txt` + `llms-en.txt`, placeholder de `AdminActions.tsx` (1390).
+- **Article « Combien ça coûte »** : recalculé à périmètre complet, vols compris (patch rejouable : `.tmp/vols/patch-combien.mjs`). MKR y est désormais présenté en deux temps, **séjour sur place 1 890 à 2 490 € + vols 700 à 900 €**, soit 2 590 à 3 390 € pour deux semaines ; le graphique SVG est passé à une échelle 0-4 500 € et l'organisateur anglophone est chiffré à 3 700-4 290 € une fois visa et vols ajoutés (l'ancien texte n'ajoutait que le tronçon intérieur). ⚠️ Ne pas réintroduire « MKR tout compris » sans « sur place » dans cet article.
+- **Vocabulaire** : « Vol intérieur inclus » → **« Assistance vols incluse »** (`key_facts.flight`, badge VoyageReveal, item FacilitatorBand, item `included.flight` de PricingTable, `amenity_flight` du JSON-LD, article 5 des CGV). Le mot « inclus » ne porte plus jamais sur un vol. Sur les métas et bandeaux, **« tout compris » devient « tout compris sur place »**.
+- **CGV** : art. 5 `items.flight` = assistance (réservation et paiement au Participant, renvoi à l'art. 6) ; art. 6 `intl_flight` = vols A/R jusqu'à Makhachkala ou Grozny via Istanbul, réservés et payés par le Participant, horaires à communiquer à MKR ; art. 6 bis : la « sécurisation du vol intérieur » sort du supplément express.
+- **Logistique** : nouvelle ligne `budget.rows.flight_domestic` (250-350 EUR, rendue par `logistique/page.tsx`), cartes Paris/Genève/Bruxelles repassées au **prix de l'itinéraire complet** (700-1 000 EUR au lieu de 450-700), la règle « 4 h avant ton vol intérieur MKR » devient « 4 h d'escale si tu changes d'aéroport à Istanbul ».
+- **Guide PDF** : `docs/guide-caucase/guide{,.en}.html` (chapitre 03 et chapitre 04) puis `bash docs/guide-caucase/build.sh all`, 20 pages chacun, vérifié au `pdftotext`.
+- **Emails** : `rebooking-email.ts`, `souvenir-notify.tsx`, `guide-email.ts`, `contract-service.ts`. `predeparture-email.ts` était déjà juste (le candidat envoie ses horaires).
+- **Hors site, fait le même jour** : annonces Google Ads du compte MKR (« From 1,690 EUR », « Group Rates From 1,290 EUR », « all inclusive: domestic flight ») → voir memory `project_mkr_google_ads_optimisation_2026_09`.
+
+**Contrôle** : `grep -rniE "vol int[ée]rieur|domestic flight|vols? (inclus|offert)|flights? included" messages src public/llms*.txt docs/guide-caucase/*.html` ne doit rien rendre hors `pricing.ts`, `KeyFactsBand.tsx` (commentaires historiques) et la phrase « vols compris » de l'article « Combien ça coûte » (qui parle du total, pas d'un vol offert). `node scripts/i18n-check.js` : **2 926 clés** (2 nouvelles : `logistique.budget.rows.flight_domestic{,_value}`). `tsc` 0 erreur, `next build` vert, rendu vérifié en `next start` sur 9 pages FR + EN (nouveaux prix présents, zéro « Vol intérieur inclus »).
 
 ## 🆕 2026-09-04 (Contact en accès direct dans le tiroir mobile)
 
@@ -2363,7 +2393,9 @@ GEO = { latitude: 42.9849, longitude: 47.5047, country: 'RU', region: 'Daghestan
 | `data/faq.ts` | ~100 | answer "Lutte adultes et enfants : 10h30 et 17h30. MMA : 11h00 et 18h00" |
 **⚠️** Si les horaires changent, mettre à jour 5 endroits.
 
-### Vol intérieur Istanbul → Makhachkala (inclus)
+### Vols (⚠️ plus AUCUN vol inclus depuis le 2026-09-15 : « assistance vols » à la place)
+> Le vol intérieur Istanbul → Makhachkala / Grozny n'est plus inclus. Le candidat réserve tout son itinéraire, MKR l'aide à le choisir. Les lignes ci-dessous restent la carte des endroits qui parlent de vols ; leur contenu dit désormais « assistance », jamais « inclus ». Détail dans l'entrée BREAKING 2026-09-15 en tête de fichier.
+
 | Fichier | Forme |
 |---|---|
 | `data/faq.ts` (FAQ_HOMEPAGE l.24 + FAQ_CATEGORIES l.70) | "vol intérieur Istanbul-Makhachkala" |
@@ -2462,7 +2494,9 @@ Le footer, le bloc `Contact.tsx` de la home et `/sessions` renvoient vers `/cont
 | `components/Contact.tsx` | bloc Instagram homepage |
 | `app/(site)/contact/page.tsx` | carte Instagram |
 
-### Tarifs publics (grille par taille de groupe + forfait Famille — refonte 2026-05-11)
+### Tarifs publics (grille par taille de groupe + forfait Famille — refonte 2026-05-11, -300 € par siège le 2026-09-15)
+
+> ⚠️ **Grille en vigueur depuis le 2026-09-15** (vols retirés du package) : Solo/Duo 1 390 / 2 490 / 3 190 · Trio à 5 1 190 / 2 190 / 2 790 · Club 990 / 1 890 / 2 390 · Famille 1 890 / 3 790 / 5 290 · enfant supp. +490 / +1 280 / +2 070. Les chiffres cités plus bas dans les entrées historiques (1 690, 1 290, 2 490 Famille…) sont périmés.
 
 > **Propagation 100% dynamique** depuis 2026-05-11 : changer un nombre dans `data/pricing.ts` → toutes les pages re-bake automatiquement au prochain `next build`. Aucun chiffre n'est répété en dur dans le runtime (les commentaires JSDoc d'`pricing.ts` et `pricing-copy.ts` ne sont que de la doc).
 
@@ -2646,7 +2680,7 @@ Le `partnerName` + le modèle de commission sont snapshotés à l'inscription, d
 4. **Pas de chiffre de coachs publié** (décision 2026-05-20). On dit "coachs locaux" ou "coachs daghestanais et tchétchènes en poste à l'année", jamais un nombre exact (le nombre fluctue selon la session).
 5. **2 repas/jour** (jamais 3).
 6. **Excursions (en option)**.
-7. **Vol Istanbul → Makhachkala** inclus dans le package.
+7. **Aucun vol inclus** (depuis le 2026-09-15 ; avant, le vol intérieur Istanbul → Makhachkala / Grozny l'était). Le candidat réserve et paie ses vols, MKR apporte une **assistance au choix des vols**. Ne jamais écrire « vol inclus » ou « vol offert ».
 8. **Transfert 1h30** Makhachkala → camp (pas 2-3h).
 9. **Horaires** : Lutte 10h30/17h30, MMA 11h00/18h00 — par discipline, pas de chevauchement.
 10. **Visa UE** : questionnaire MKR + passeport 6 mois min.

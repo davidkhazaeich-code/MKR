@@ -77,8 +77,8 @@
           "body": " : frais consulaires, lettre d'invitation officielle, questionnaire UE et accompagnement complet du dossier"
         },
         "flight": {
-          "strong": "Vol intérieur",
-          "body": " Istanbul-Makhachkala (pour le camp Lutte au Daghestan) ou Istanbul-Grozny (pour le camp MMA en Tchétchénie)"
+          "strong": "Assistance au choix des vols",
+          "body": " : aide à la sélection de l'itinéraire (via Istanbul jusqu'à Makhachkala pour le camp Lutte au Daghestan, ou jusqu'à Grozny pour le camp MMA en Tchétchénie), des compagnies et des horaires compatibles avec l'accueil à l'aéroport. La réservation et le paiement des vols restent à la charge du Participant (voir Article 6)"
         },
         "transfers": "Transferts aéroport-camp et déplacements pendant le séjour",
         "accommodation": "Hébergement en logement de camp",
@@ -92,8 +92,8 @@
       "title": "Article 6 : Prestations non incluses",
       "items": {
         "intl_flight": {
-          "strong": "Vol international aller-retour jusqu'à Istanbul",
-          "body": " : à réserver librement par le Participant. Le vol doit arriver à Istanbul (IST ou SAW) au moins 4 heures avant l'horaire du vol intérieur MKR. MKR communique l'horaire du vol intérieur dès la validation de la candidature."
+          "strong": "Vols aller-retour jusqu'à Makhachkala ou Grozny, via Istanbul",
+          "body": " : réservés et payés par le Participant, avec l'assistance de MKR pour le choix de l'itinéraire, des compagnies et des horaires. Le Participant communique ses horaires de vol à MKR dès la réservation afin d'organiser l'accueil à l'aéroport et le transfert vers le camp."
         },
         "insurance": "Assurance voyage couvrant le rapatriement médical et la pratique de sports de contact (obligatoire, à souscrire par le Participant)",
         "gear": "Équipement personnel (gants, protège-tibias, protège-dents, coquille)",
@@ -103,9 +103,9 @@
     },
     "article6bis": {
       "title": "Article 6 bis : Supplément traitement express (candidatures à moins de 30 jours du départ)",
-      "p1": "Pour toute candidature acceptée à moins de trente (30) jours du début du camp, MKR applique un supplément forfaitaire de traitement express. Ce supplément couvre la procédure visa accélérée, la sécurisation du vol intérieur en haute-saison et la coordination logistique en délai contraint.",
+      "p1": "Pour toute candidature acceptée à moins de trente (30) jours du début du camp, MKR applique un supplément forfaitaire de traitement express. Ce supplément couvre la procédure visa accélérée et la coordination logistique en délai contraint.",
       "p2": "Le montant du supplément est communiqué au Participant lors de l'entretien de validation, en fonction de la date de départ et de la complexité du dossier. Il est dû en sus du tarif du package et s'ajoute au paiement intégral après validation.",
-      "p3": "L'Organisateur se réserve le droit de refuser une candidature reçue à moins de trente (30) jours du départ si les délais administratifs (visa, vol intérieur) ne peuvent être tenus dans des conditions raisonnables."
+      "p3": "L'Organisateur se réserve le droit de refuser une candidature reçue à moins de trente (30) jours du départ si les délais administratifs (visa, logistique) ne peuvent être tenus dans des conditions raisonnables."
     },
     "article7": {
       "title": "Article 7 : Assurance",

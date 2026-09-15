@@ -42,8 +42,8 @@
       "step5": {
         "num": "05",
         "title": "DÉPART",
-        "desc": "Tu prends ton vol jusqu'à Istanbul (à organiser librement). MKR a réservé ton vol intérieur Istanbul vers Caucase et un véhicule t'attend à l'aéroport. Tu n'as plus qu'à embarquer.",
-        "detail": "Vol intérieur et transfert inclus"
+        "desc": "Tu prends tes vols jusqu'à Makhachkala ou Grozny via Istanbul, choisis avec l'aide de MKR. Un véhicule t'attend à l'aéroport. Tu n'as plus qu'à embarquer.",
+        "detail": "Assistance vols et transfert inclus"
       },
       "step6": {
         "num": "06",
@@ -85,11 +85,11 @@
       },
       "q2": {
         "question": "Et si je m'inscris à moins de 30 jours du départ ?",
-        "answer": "C'est possible quand il reste de la place, mais un supplément MKR de traitement express s'applique. Il couvre la procédure visa accélérée, la sécurisation du vol intérieur Istanbul-Caucase en haute-saison et la coordination logistique en délai contraint. Le montant est communiqué lors de la visio de validation, en sus du tarif du package. MKR se réserve le droit de refuser une candidature à moins de 30 jours si les délais administratifs (visa russe, vol intérieur) ne peuvent être tenus dans des conditions raisonnables."
+        "answer": "C'est possible quand il reste de la place, mais un supplément MKR de traitement express s'applique. Il couvre la procédure visa accélérée et la coordination logistique en délai contraint. Le montant est communiqué lors de la visio de validation, en sus du tarif du package. MKR se réserve le droit de refuser une candidature à moins de 30 jours si les délais administratifs (visa russe) ne peuvent être tenus dans des conditions raisonnables."
       },
       "q3": {
-        "question": "MKR organise mon vol jusqu'à Istanbul ?",
-        "answer": "Non, le vol international jusqu'à Istanbul reste à ton organisation : tu choisis ta compagnie, ton aéroport de départ et ta classe selon ton budget. Ton vol doit arriver à Istanbul (IST ou SAW) au moins 4 heures avant ton vol intérieur MKR. MKR confirme l'horaire du vol intérieur Istanbul vers Makhachkala (Lutte au Daghestan) ou Istanbul vers Grozny (MMA en Tchétchénie) dès la validation de ta candidature, et te transmet le billet correspondant."
+        "question": "MKR organise mes vols ?",
+        "answer": "Tes vols restent à ta charge, mais tu ne les choisis pas seul. Le trajet passe par Istanbul, puis Makhachkala (Lutte au Daghestan) ou Grozny (MMA en Tchétchénie). Dès la validation de ta candidature, MKR t'aide à trouver le bon itinéraire, les bonnes compagnies et les horaires compatibles avec l'accueil à l'aéroport. Tu réserves, tu nous envoies tes horaires, et un véhicule MKR t'attend à l'arrivée."
       }
     }
   },

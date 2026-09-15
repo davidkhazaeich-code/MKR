@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "Le Camp MKR : Lutte au Daghestan, MMA en Tchétchénie",
-    "description": "Camp Lutte ou MMA au Caucase, 1 à 3 semaines tout compris : visa russe, vol intérieur, hébergement, 2 repas. Entrée sélective, 15 places par discipline."
+    "description": "Camp Lutte ou MMA au Caucase, 1 à 3 semaines tout compris sur place : visa russe, transferts, hébergement, 2 repas. Entrée sélective, 15 places par camp."
   },
   "breadcrumb": {
     "home": "Accueil",
@@ -10,7 +10,7 @@
   "hero": {
     "label": "LE CAMP · DAGHESTAN ET TCHÉTCHÉNIE",
     "title": "1 À 3 SEMAINES D'IMMERSION QUI CHANGENT TA MANIÈRE DE COMBATTRE.",
-    "subtitle": "Lutte au Daghestan ou MMA en Tchétchénie. MKR gère le visa, le vol intérieur, l'hébergement, les repas et l'accès aux salles. Toi, tu t'entraînes.",
+    "subtitle": "Lutte au Daghestan ou MMA en Tchétchénie. MKR gère le visa, les transferts, l'hébergement, les repas et l'accès aux salles, et t'aide à choisir tes vols. Toi, tu t'entraînes.",
     "image_alt": "Séance collective en cercle sur le tapis, camp MKR au Caucase"
   },
   "key_facts": {
@@ -19,8 +19,8 @@
       "sub": "Dossier géré de A à Z par MKR"
     },
     "flight": {
-      "label": "Vol intérieur inclus",
-      "sub": "Istanbul vers Makhachkala ou Grozny"
+      "label": "Assistance vols incluse",
+      "sub": "On t'aide à choisir tes vols via Istanbul"
     },
     "housing": {
       "label": "Hébergement + 2 repas/jour",
@@ -40,7 +40,7 @@
     "facts": [
       "Durée 1, 2 ou 3 semaines, 4 sessions par an. 15 places Lutte + 15 places MMA par session, choix exclusif à l'inscription.",
       "Lutte au Daghestan (Makhachkala, Kaspiysk) ou MMA en Tchétchénie (Grozny). Combo des deux uniquement en Sur Mesure.",
-      "Tout compris : visa russe, vol intérieur depuis Istanbul, transferts, hébergement, 2 repas et 2 entraînements par jour. Reste à ta charge : le vol jusqu'à Istanbul et ton assurance voyage.",
+      "Tout compris sur place : visa russe, transferts, hébergement, 2 repas et 2 entraînements par jour. Reste à ta charge : tes vols jusqu'à Makhachkala ou Grozny via Istanbul (MKR t'aide à les choisir) et ton assurance voyage.",
       "Entrée sélective : minimum 1 an de pratique et une vraie base au sol. MMA : niveau Avancé (5 ans et plus). Enfants 8-17 ans avec parent participant via le tunnel Famille.",
       "Candidature gratuite en ligne, visio de sélection avec Ruslan Mukhtarov, aucun paiement avant validation."
     ]
@@ -74,8 +74,8 @@
         "desc": "Frais consulaires, lettre d'invitation, questionnaire et accompagnement du dossier. Tu signes, MKR gère."
       },
       "flight": {
-        "title": "Vol intérieur",
-        "desc": "Depuis Istanbul jusqu'à Makhachkala (Lutte) ou Grozny (MMA). Tu n'organises que le vol jusqu'à Istanbul."
+        "title": "Assistance vols",
+        "desc": "Tes vols jusqu'à Makhachkala (Lutte) ou Grozny (MMA) restent à ta charge, mais tu ne les choisis pas seul : MKR t'aide à trouver le bon itinéraire via Istanbul, les bonnes compagnies et les horaires compatibles avec l'accueil à l'aéroport."
       },
       "transport": {
         "title": "Transferts",
@@ -107,7 +107,7 @@
     "label": "NON INCLUS",
     "title": "CE QUI N'EST PAS INCLUS",
     "items": [
-      "Vol international jusqu'à Istanbul (à organiser librement)",
+      "Vols aller-retour jusqu'à Makhachkala ou Grozny, via Istanbul (à réserver de ton côté, MKR t'aide à les choisir)",
       "Assurance voyage avec rapatriement (obligatoire, à souscrire de ton côté)",
       "Équipement personnel (chaussures de lutte, gants MMA et boxe, protège-tibias, genouillères, coudières, coquille, protège-dents)",
       "Dépenses personnelles sur place (prévois du liquide en euros : les cartes étrangères ne fonctionnent pas en Russie)",
@@ -206,7 +206,7 @@
       },
       {
         "title": "MKR prépare tout",
-        "desc": "Visa, vol intérieur, hébergement, salles. Toi : ton vol jusqu'à Istanbul, ton assurance et ta préparation physique."
+        "desc": "Visa, hébergement, transferts, salles. Toi : tes vols (on t'aide à les choisir), ton assurance et ta préparation physique."
       },
       {
         "title": "Départ",

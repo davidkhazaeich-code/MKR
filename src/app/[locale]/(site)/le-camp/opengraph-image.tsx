@@ -7,13 +7,13 @@ const COPY = {
     alt: 'Le Camp MKR · Lutte Daghestan + MMA Tchétchénie',
     keywords: 'Le Camp · Caucase · 1-3 sem',
     title: '1 à 3 semaines au Caucase',
-    subtitle: 'Visa, vol intérieur, hébergement, 2 repas/jour, coaching local inclus.',
+    subtitle: 'Visa, transferts, hébergement, 2 repas/jour, coaching local inclus.',
   },
   en: {
     alt: 'MKR Camp · Wrestling Dagestan and MMA Chechnya',
     keywords: 'The Camp · Caucasus · 1-3 wk',
     title: '1 to 3 weeks in the Caucasus',
-    subtitle: 'Visa, domestic flight, accommodation, 2 meals per day, local coaching included.',
+    subtitle: 'Visa, transfers, accommodation, 2 meals per day, local coaching included.',
   },
 } as const
 

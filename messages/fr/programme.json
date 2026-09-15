@@ -68,7 +68,7 @@
   "lutte": {
     "meta": {
       "title": "Stage de lutte au Daghestan : 15 places, tout compris | MKR",
-      "description": "Camp de lutte libre à Makhachkala et Kaspiysk : visa, vol intérieur, hébergement, 2 séances par jour. Dès 1 an de pratique et une base au sol."
+      "description": "Camp de lutte libre à Makhachkala et Kaspiysk : visa, transferts, hébergement, 2 séances par jour. Dès 1 an de pratique et une base au sol."
     },
     "breadcrumb": {
       "home": "Accueil",
@@ -87,8 +87,8 @@
         "sub": "Dossier géré de A à Z par MKR"
       },
       "flight": {
-        "label": "Vol intérieur inclus",
-        "sub": "Istanbul vers Makhachkala (MCX)"
+        "label": "Assistance vols incluse",
+        "sub": "On t'aide à choisir tes vols vers Makhachkala (MCX)"
       },
       "training": {
         "label": "2 sessions/jour",
@@ -110,7 +110,7 @@
         "15 places par session officielle. Adultes dès 1 an de pratique avec base au sol, enfants 8-17 ans avec parent via le tunnel Famille.",
         "6 modules techniques : takedowns, leg rides daghestanais, chain wrestling, funk rolls, mat returns, défense.",
         "Sparring quotidien avec des lutteurs locaux issus de la filière aux 30+ médailles olympiques.",
-        "Sessions à 10h30 et 17h30, 6 jours sur 7. Tout compris : visa russe, vol intérieur, hébergement, 2 repas/jour."
+        "Sessions à 10h30 et 17h30, 6 jours sur 7. Tout compris sur place : visa russe, transferts, hébergement, 2 repas/jour. Tes vols restent à ta charge, on t'aide à les choisir."
       ]
     },
     "description": {
@@ -260,7 +260,7 @@
         },
         {
           "title": "MKR prépare tout",
-          "desc": "Visa russe, vol intérieur Istanbul-Makhachkala, hébergement, salles. Toi : vol jusqu'à Istanbul, assurance, préparation physique."
+          "desc": "Visa russe, hébergement, transferts, salles. Toi : tes vols jusqu'à Makhachkala via Istanbul (on t'aide à les choisir), assurance, préparation physique."
         },
         {
           "title": "Départ",
@@ -295,7 +295,7 @@
         },
         {
           "question": "Qu'est-ce qui est inclus dans le prix du camp ?",
-          "answer": "Le package couvre le visa russe (dossier complet géré par MKR), le vol intérieur Istanbul-Makhachkala, les transferts, l'hébergement, 2 repas par jour et les 2 entraînements quotidiens. Restent à ta charge : le vol jusqu'à Istanbul, ton assurance voyage et ton équipement. Le tarif dépend de la taille du groupe et de la durée (1 à 3 semaines) : la grille complète est publique sur la page Sessions."
+          "answer": "Le package couvre le visa russe (dossier complet géré par MKR), les transferts, l'hébergement, 2 repas par jour et les 2 entraînements quotidiens. Restent à ta charge : tes vols jusqu'à Makhachkala via Istanbul (MKR t'aide à choisir l'itinéraire et les horaires), ton assurance voyage et ton équipement. Le tarif dépend de la taille du groupe et de la durée (1 à 3 semaines) : la grille complète est publique sur la page Sessions."
         }
       ]
     },
@@ -426,8 +426,8 @@
   },
   "mma": {
     "meta": {
-      "title": "Camp MMA à Grozny : sparring quotidien dès 1 690 € | MKR",
-      "description": "Stage MMA à Grozny tout compris : visa, vol intérieur, hébergement, 2 repas. Sparring quotidien avec les écuries pro. Niveau avancé, 15 places."
+      "title": "Camp MMA à Grozny : sparring quotidien dès 1 390 € | MKR",
+      "description": "Stage MMA à Grozny tout compris sur place : visa, transferts, hébergement, 2 repas. Sparring quotidien avec les écuries pro. Niveau avancé, 15 places."
     },
     "breadcrumb": {
       "home": "Accueil",
@@ -446,8 +446,8 @@
         "sub": "Dossier géré de A à Z par MKR"
       },
       "flight": {
-        "label": "Vol intérieur inclus",
-        "sub": "Istanbul vers Grozny (GRV), direct"
+        "label": "Assistance vols incluse",
+        "sub": "On t'aide à choisir tes vols vers Grozny (GRV), direct depuis Istanbul"
       },
       "training": {
         "label": "2 sessions/jour",
@@ -469,7 +469,7 @@
         "Niveau Avancé minimum exigé : 5 ans et plus de pratique régulière ou expérience de compétition. Le formulaire bloque en dessous.",
         "6 modules techniques : stand-up, clinch, takedowns, ground et pound, soumissions, transitions.",
         "Sparring quotidien avec les combattants des écuries professionnelles de Grozny, calibré à ton niveau.",
-        "Sessions à 11h00 et 18h00, 6 jours sur 7. Tout compris : visa russe, vol intérieur, hébergement, 2 repas/jour."
+        "Sessions à 11h00 et 18h00, 6 jours sur 7. Tout compris sur place : visa russe, transferts, hébergement, 2 repas/jour. Tes vols restent à ta charge, on t'aide à les choisir."
       ]
     },
     "description": {
@@ -598,7 +598,7 @@
         },
         {
           "title": "MKR prépare tout",
-          "desc": "Visa russe, vol intérieur direct Istanbul-Grozny, hébergement, salles. Toi : vol jusqu'à Istanbul, assurance, préparation."
+          "desc": "Visa russe, hébergement, transferts, salles. Toi : tes vols jusqu'à Grozny via Istanbul (on t'aide à les choisir), assurance, préparation."
         },
         {
           "title": "Départ",

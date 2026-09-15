@@ -428,7 +428,7 @@ export default function CandidatureForm() {
               </Field>
             </div>
 
-            <Field label="Ville / pays de départ" required hint="Utilisé pour estimer les vols">
+            <Field label="Ville / pays de départ" required hint="Utile pour t'aider à choisir tes vols">
               <input className="cand-input" type="text"
                 placeholder="Ex : Paris, Genève, Montréal..."
                 value={form.villeDepart} onChange={e => set('villeDepart', e.target.value)} />

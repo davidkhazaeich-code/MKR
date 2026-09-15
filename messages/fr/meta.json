@@ -14,14 +14,14 @@
     "member_of_name": "Équipe de France de lutte"
   },
   "events": {
-    "session_description_template": "Camp d'entraînement de 1 à 3 semaines au Caucase. 15 places Lutte au Daghestan plus 15 places MMA en Tchétchénie (exclusif). Vol intérieur depuis Istanbul, visa russe, hébergement et 2 repas par jour inclus."
+    "session_description_template": "Camp d'entraînement de 1 à 3 semaines au Caucase. 15 places Lutte au Daghestan plus 15 places MMA en Tchétchénie (exclusif). Visa russe, transferts, hébergement et 2 repas par jour inclus, assistance au choix des vols."
   },
   "sports_activity_location": {
     "dagestan": {
       "name": "Salles d'entraînement de lutte au Daghestan",
       "description": "Salles de lutte officielles à Makhachkala et Kaspiysk, partenaires de la Fédération de Russie de lutte.",
       "amenity_visa": "Visa russe inclus",
-      "amenity_flight": "Vol intérieur Istanbul-Makhachkala inclus",
+      "amenity_flight": "Assistance au choix des vols (via Istanbul vers Makhachkala)",
       "amenity_meals": "2 repas par jour",
       "amenity_transfers": "Transferts aéroport",
       "amenity_lodging": "Hébergement inclus",
@@ -31,7 +31,7 @@
       "name": "Salles d'entraînement MMA en Tchétchénie",
       "description": "Salles MMA à Grozny, dans la lignée de l'Akhmat Fight Club.",
       "amenity_visa": "Visa russe inclus",
-      "amenity_flight": "Vol intérieur Istanbul-Grozny inclus",
+      "amenity_flight": "Assistance au choix des vols (via Istanbul vers Grozny)",
       "amenity_meals": "2 repas par jour",
       "amenity_transfers": "Transferts aéroport",
       "amenity_lodging": "Hébergement inclus",
