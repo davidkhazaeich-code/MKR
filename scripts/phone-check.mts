@@ -1,7 +1,7 @@
 // Teste le VRAI module lib/phone.ts : normalisation E.164 du telephone saisi
 // dans le tunnel d'inscription (indicatif choisi + numero national).
 // Lancer : node --import ./scripts/_alias-hook.mjs scripts/phone-check.mts
-import { toE164, formatIntl, phoneCountries, guessCountry, splitE164 } from '../src/lib/phone.ts'
+import { toE164, formatIntl, phoneCountries, guessCountry, splitE164, flagOf } from '../src/lib/phone.ts'
 
 let ko = 0
 const check = (label: string, got: unknown, want: unknown) => {
@@ -50,6 +50,8 @@ check('nom en anglais', en.find(c => c.iso === 'DE')?.name, 'Germany')
 check('trie par nom (fr)', fr.slice(0, 2).map(c => c.iso), ['AF', 'ZA'])
 check('aucun doublon', new Set(fr.map(c => c.iso)).size, fr.length)
 check('au moins 200 pays', fr.length >= 200, true)
+check('drapeau FR', flagOf('FR'), '\u{1F1EB}\u{1F1F7}')
+check('drapeau porte par la liste', fr.find(c => c.iso === 'CH')?.flag, '\u{1F1E8}\u{1F1ED}')
 
 console.log('--- guessCountry ---')
 check('fr-FR', guessCountry(['fr-FR']), 'FR')

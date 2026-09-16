@@ -2933,7 +2933,7 @@ h1, h2, h3, h4, h5 {
   display: grid;
   /* Colonne fixe : sinon le select prend la largeur de son option la plus
      longue (« Royaume-Uni (+44) ») et ecrase le champ du numero. */
-  grid-template-columns: 6.75rem minmax(0, 1fr);
+  grid-template-columns: 7.5rem minmax(0, 1fr);
   gap: 0.5rem;
 }
 .cand-phone-code {
@@ -2953,7 +2953,8 @@ h1, h2, h3, h4, h5 {
   inset: 0;
   display: flex;
   align-items: center;
-  padding: 0 2rem 0 1rem;
+  padding: 0 2rem 0 0.85rem;
+  gap: 0.4rem;
   font-family: var(--font-barlow), sans-serif;
   font-size: 0.92rem;
   font-variant-numeric: tabular-nums;

@@ -36,12 +36,12 @@ export default function PhoneField({
         >
           <option value="" disabled>{countryLabel}</option>
           {countries.map(c => (
-            <option key={c.iso} value={c.iso}>{c.name} (+{c.code})</option>
+            <option key={c.iso} value={c.iso}>{c.flag} {c.name} (+{c.code})</option>
           ))}
         </select>
         {/* Le select liste les noms complets ; en facade on ne montre que l'indicatif. */}
         <span className={`cand-phone-code-face${selected ? '' : ' is-empty'}`} aria-hidden="true">
-          {selected ? `+${selected.code}` : countryLabel}
+          {selected ? `${selected.flag} +${selected.code}` : countryLabel}
         </span>
       </div>
       <input

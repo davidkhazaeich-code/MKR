@@ -11,7 +11,7 @@ import {
   type CountryCode,
 } from 'libphonenumber-js/min'
 
-export type PhoneCountry = { iso: CountryCode; code: string; name: string }
+export type PhoneCountry = { iso: CountryCode; code: string; name: string; flag: string }
 
 const ISO_SET = new Set<string>(getCountries())
 
@@ -50,6 +50,15 @@ export function splitE164(value: string): { country: CountryCode | ''; national:
 }
 
 /**
+ * Drapeau du pays en indicateurs regionaux Unicode (FR -> U+1F1EB U+1F1F7).
+ * C'est le seul « drapeau » qu'une <option> native accepte : macOS, iOS et
+ * Android le dessinent ; Windows le rend en deux lettres, lisible quand meme.
+ */
+export function flagOf(iso: string): string {
+  return iso.toUpperCase().replace(/[A-Z]/g, c => String.fromCodePoint(0x1f1e6 + c.charCodeAt(0) - 65))
+}
+
+/**
  * Liste des indicatifs, nommee dans la langue du visiteur par Intl.DisplayNames
  * (rien a traduire ni a maintenir), triee par nom. Les territoires sans nom
  * ICU (Ascension, Tristan da Cunha) sont laisses de cote.
@@ -61,7 +70,7 @@ export function phoneCountries(locale: string): PhoneCountry[] {
     let name: string | undefined
     try { name = names.of(iso) } catch { name = undefined }
     if (!name || name === iso) continue
-    out.push({ iso, code: getCountryCallingCode(iso), name })
+    out.push({ iso, code: getCountryCallingCode(iso), name, flag: flagOf(iso) })
   }
   return out.sort((a, b) => a.name.localeCompare(b.name, locale))
 }
