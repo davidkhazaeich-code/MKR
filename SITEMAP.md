@@ -3,6 +3,20 @@
 > **Fichier de référence pour Claude Code.** Mise à jour : 2026-09-15 (les vols ne sont plus inclus, grille -300 € par siège, « assistance vols » partout).
 > Lis ce fichier en priorité avant toute intervention sur le site MKR. Il évite de re-explorer.
 
+## 🆕 2026-09-16 (tunnel d'inscription : indicatif pays + numéro stocké en E.164)
+
+> **Demande David** : « on ne sait pas quel préfixe utiliser pour joindre les personnes de l'étranger sur WhatsApp ». Constat en base : **18 des 45 dernières candidatures** avaient un numéro sans indicatif (`0652042318`, `07835255427`, `2015545214`), donc le bouton WhatsApp de l'admin faisait `wa.me/0652042318`.
+
+- **`src/lib/phone.ts`** (`libphonenumber-js/min`, ~30 Ko gz, chargé sur la route inscription seulement) : `toE164(national, iso)` → `+33652042318` ou `null` si invalide pour ce pays, `formatIntl` (recap, admin), `splitE164`, `phoneCountries(locale)` (noms de pays par `Intl.DisplayNames`, donc **rien à traduire ni à maintenir**), `guessCountry(navigator.languages)`. Test : `node --import ./scripts/_alias-hook.mjs scripts/phone-check.mts` (35 cas, dont ce que les candidats ont réellement tapé).
+- **`src/components/PhoneField.tsx`** : select d'indicatif + input national, utilisé par le tunnel individuel **et** le formulaire groupe. La liste native porte les noms complets (« Allemagne (+49) »), la façade `.cand-phone-code-face` ne montre que « +49 ». ⚠️ **Colonne de code FIXE** (`grid-template-columns: 6.75rem minmax(0,1fr)`) : en `auto`, le select prend la largeur de son option la plus longue et écrase le champ du numéro.
+- **`InscriptionLayout.tsx`** : `form.telephonePays` (ISO 3166-1, pré-rempli **après montage** depuis la région du navigateur, `fr-CH` → CH, sinon vide et obligatoire), validation `telephone_pays_required` puis `telephone_invalid` **par pays** (remplace le seuil de 6 chiffres), `phoneE164` envoyé dans le payload, aux enhanced conversions Google Ads (format attendu par Google) et affiché dans le récap. Un numéro tapé avec son « + » garde son propre indicatif quel que soit le select.
+- **`api/inscription/route.ts`** renormalise par sécurité (client en cache pendant un déploiement) et garde la saisie brute si elle ne se lit pas. **Admin fiche** : numéro affiché en international lisible.
+- i18n : `identity.fields.telephone.{hint,placeholder,country_label}`, idem `groupe_contact.fields.telephone`, `errors.by_field.telephone_pays_required` (FR + EN, **2 929 clés**).
+
+⚠️ **Limite** : un numéro plausible sous le mauvais indicatif passe (`06 52 04 23 18` sous +41 est un numéro suisse valide). ⚠️ `CandidatureForm.tsx` est orphelin, non touché. **Reste** : normaliser les 19 anciens dossiers en base (2 impossibles : « Senegal » `07746032715` qui ressemble à un numéro UK, et UK `793563355` tronqué).
+
+QA : `tsc` 0 erreur · `i18n-check` 2 929 · `next build` compile vert · tunnel joué dans le navigateur intégré FR desktop + EN mobile 375px (0 overflow) : erreur « invalide » sur `0652`, erreur « indicatif » sans pays, récap `+33 6 52 04 23 18`, payload `+33652042318` (fetch stubbé).
+
 ## 🆕 BREAKING — 2026-09-15 (plus aucun vol inclus : grille -300 € par siège, « assistance vols » à la place)
 
 > **Décision David** : « on ne va plus offrir les vols. On va seulement offrir tout le reste comme prévu. Donc ça baisse la note de chaque package de 300 €. Il ne faut pas que les anciens prix soient mentionnés. Dire qu'on ne va pas offrir les vols, mais à la place qu'on aide sur le choix du vol si besoin, parler d'assistance. »
