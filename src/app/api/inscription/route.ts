@@ -6,6 +6,7 @@ import { sendMail, wrapEmail, row, INTERNAL_BCC } from '@/lib/email'
 import { buildVisioEmail } from '@/lib/visio-email'
 import { rateLimit, clientIp as rlClientIp } from '@/lib/rate-limit'
 import { isDisposableEmail } from '@/lib/disposable-email'
+import { toE164 } from '@/lib/phone'
 import { findReferralCode, type ReferralPartnerType } from '@/data/referral-codes'
 import { estimateDemandAmountCents } from '@/data/pricing'
 import {
@@ -201,11 +202,17 @@ export async function POST(request: Request) {
     }
   }
 
+  // Le tunnel envoie deja un E.164 ; on renormalise par securite (client en
+  // cache pendant un deploiement) et on garde la saisie brute si elle ne se
+  // lit pas, plutot que de perdre le numero.
+  const telephoneRaw = candidate.telephone?.trim() || null
+  const telephone = telephoneRaw ? (toE164(telephoneRaw, '') ?? telephoneRaw) : null
+
   const candidateRow = {
     prenom,
     nom,
     email,
-    telephone: candidate.telephone?.trim() || null,
+    telephone,
     date_naissance: candidate.date_naissance || null,
     pays: candidate.pays?.trim() || null,
     ville_depart: candidate.ville_depart?.trim() || null,
@@ -447,7 +454,7 @@ export async function POST(request: Request) {
     nom,
     email,
     pays: candidate.pays?.trim() || null,
-    telephone: candidate.telephone?.trim() || null,
+    telephone,
     duree_semaines: body.duree_semaines ?? null,
     camp_discipline: campDiscipline,
     package_amount_cents: packageAmountCents,

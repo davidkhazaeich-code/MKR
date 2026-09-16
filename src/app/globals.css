@@ -2926,6 +2926,48 @@ h1, h2, h3, h4, h5 {
   padding-right: 2rem;
 }
 
+/* --- Telephone : indicatif + numero national (PhoneField) ---
+   Le select porte les noms complets pour la liste native ; en facade on ne
+   montre que « +33 », le select lui-meme est rendu transparent par-dessus. */
+.cand-phone {
+  display: grid;
+  /* Colonne fixe : sinon le select prend la largeur de son option la plus
+     longue (« Royaume-Uni (+44) ») et ecrase le champ du numero. */
+  grid-template-columns: 6.75rem minmax(0, 1fr);
+  gap: 0.5rem;
+}
+.cand-phone-code {
+  position: relative;
+  min-width: 0;
+}
+.cand-phone-code .cand-select {
+  color: transparent;
+  cursor: pointer;
+}
+.cand-phone-code .cand-select option {
+  color: var(--text-primary);
+  background: var(--surface-high);
+}
+.cand-phone-code-face {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  padding: 0 2rem 0 1rem;
+  font-family: var(--font-barlow), sans-serif;
+  font-size: 0.92rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-primary);
+  white-space: nowrap;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23A8A8A4' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.8rem center;
+}
+.cand-phone-code-face.is-empty {
+  color: var(--text-muted);
+}
+
 /* --- Référentiel code de recommandation (champ Step Identité) --- */
 /* Form rendu sur dark surface : on emploie des verts/oranges plus lumineux. */
 

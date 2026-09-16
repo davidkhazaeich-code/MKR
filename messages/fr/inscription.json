@@ -145,8 +145,9 @@
       },
       "telephone": {
         "label": "Téléphone",
-        "hint": "Avec indicatif international",
-        "placeholder": "+33 6 12 34 56 78"
+        "hint": "Choisis l'indicatif de ton pays, puis ton numéro",
+        "placeholder": "6 12 34 56 78",
+        "country_label": "Indicatif"
       },
       "ville_depart": {
         "label": "Ville / pays de départ",
@@ -200,8 +201,9 @@
       },
       "telephone": {
         "label": "Téléphone / WhatsApp",
-        "hint": "Pour l'appel de cadrage avec Ruslan",
-        "placeholder": "+33 6 12 34 56 78"
+        "hint": "Pour l'appel de cadrage avec Ruslan. Choisis l'indicatif, puis le numéro",
+        "placeholder": "6 12 34 56 78",
+        "country_label": "Indicatif"
       },
       "pays": {
         "label": "Pays de résidence",
@@ -778,6 +780,7 @@
       "pays_required": "Pays de résidence requis",
       "email_invalid": "Email invalide",
       "telephone_required": "Téléphone requis (Ruslan te rappelle pour l'entretien de sélection)",
+      "telephone_pays_required": "Choisis l'indicatif de ton pays",
       "telephone_invalid": "Numéro de téléphone invalide",
       "source_required": "Indique comment tu as connu le camp",
       "villeDepart_required": "Ville de départ requise",

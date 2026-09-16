@@ -9,6 +9,8 @@ import dynamic from 'next/dynamic'
 import { useLocale, useTranslations } from 'next-intl'
 import Icon from './Icon'
 import { trackConversion } from '@/lib/gtag'
+import PhoneField from './PhoneField'
+import { toE164, formatIntl, guessCountry } from '@/lib/phone'
 import { ATTR_COOKIE_NAME } from '@/lib/attribution'
 import {
   REGISTRATION_TYPES,
@@ -88,6 +90,8 @@ export type FamilyChild = {
 type FormData = {
   // Identité (responsable / inscrit principal)
   prenom: string; nom: string; dateNaissance: string; pays: string; email: string; telephone: string
+  // Indicatif du telephone (ISO 3166-1 alpha-2, ex. FR). Le numero part en E.164 (lib/phone.ts).
+  telephonePays: string
   // Expérience individuelle (session, custom responsable, famille parent)
   disciplinePrincipale: string; disciplinesSecondaires: string[]; anneesPratique: string
   niveau: string; club: string; coach: string; palmares: string; lienVideo: string
@@ -126,7 +130,7 @@ const ICON_MMA = <IconMMA />
 const ICON_COMBO = <IconCombo />
 
 const INITIAL: FormData = {
-  prenom: '', nom: '', dateNaissance: '', pays: '', email: '', telephone: '',
+  prenom: '', nom: '', dateNaissance: '', pays: '', email: '', telephone: '', telephonePays: '',
   disciplinePrincipale: '', disciplinesSecondaires: [], anneesPratique: '',
   niveau: '', club: '', coach: '', palmares: '', lienVideo: '',
   conditionPhysique: '', blessuresRecentes: '', blessuresDetail: '',
@@ -317,6 +321,12 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
       window.scrollTo({ top: 0, behavior: 'smooth' })
     }
   }, [step])
+
+  // Indicatif pre-selectionne depuis la region du navigateur (fr-FR -> France),
+  // apres le montage pour ne pas diverger du rendu serveur.
+  useEffect(() => {
+    setForm(prev => prev.telephonePays ? prev : { ...prev, telephonePays: guessCountry(navigator.languages ?? [navigator.language]) })
+  }, [])
 
   useEffect(() => {
     if (errors.length > 0 && errorsRef.current) {
@@ -564,7 +574,8 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
         if (!form.pays.trim()) push(E('pays_required'), 'pays')
         if (!form.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) push(E('email_invalid'), 'email')
         if (!form.telephone.trim()) push(E('telephone_required'), 'telephone')
-        else if (form.telephone.replace(/\D/g, '').length < 6) push(E('telephone_invalid'), 'telephone')
+        else if (!form.telephonePays && !form.telephone.trim().startsWith('+')) push(E('telephone_pays_required'), 'telephone')
+        else if (!toE164(form.telephone, form.telephonePays)) push(E('telephone_invalid'), 'telephone')
         if (!form.villeDepart.trim()) push(E('villeDepart_required'), 'villeDepart')
       } else {
         if (!form.nomClub.trim()) push(E('nomClub_required'), 'nomClub')
@@ -594,7 +605,8 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
         if (!form.pays.trim()) push(E('pays_required'), 'pays')
         if (!form.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) push(E('email_invalid'), 'email')
         if (!form.telephone.trim()) push(E('telephone_required'), 'telephone')
-        else if (form.telephone.replace(/\D/g, '').length < 6) push(E('telephone_invalid'), 'telephone')
+        else if (!form.telephonePays && !form.telephone.trim().startsWith('+')) push(E('telephone_pays_required'), 'telephone')
+        else if (!toE164(form.telephone, form.telephonePays)) push(E('telephone_invalid'), 'telephone')
         if (!form.villeDepart.trim()) push(E('villeDepart_required'), 'villeDepart')
       }
     }
@@ -658,6 +670,10 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
     setMobileStepsOpen(false)
   }
 
+  // Numero normalise (+33652042318) : c'est lui qui part en base, aux
+  // conversions Google Ads et dans le recap. Vide tant qu'il n'est pas valide.
+  const phoneE164 = toE164(form.telephone, form.telephonePays) ?? ''
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
     if (!validate()) return
@@ -684,7 +700,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
         prenom: form.prenom,
         nom: form.nom,
         email: form.email,
-        telephone: form.telephone,
+        telephone: phoneE164,
         date_naissance: form.dateNaissance,
         pays: form.pays,
         ville_depart: form.villeDepart,
@@ -766,7 +782,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
         camp_discipline: form.campDiscipline || undefined,
       }, {
         email: form.email,
-        phone: form.telephone,
+        phone: phoneE164,
         firstName: form.prenom,
         lastName: form.nom,
       })
@@ -884,7 +900,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                 visioTracked.current = true
                 trackConversion('visio', {}, {
                   email: form.email,
-                  phone: form.telephone,
+                  phone: phoneE164,
                   firstName: form.prenom,
                   lastName: form.nom,
                 })
@@ -1238,12 +1254,15 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                       onChange={e => set('email', e.target.value)} />
                   </Field>
                   <Field label={t('identity.fields.telephone.label')} required hint={t('identity.fields.telephone.hint')}>
-                    <input
-                      className={`cand-input${errorFields.has('telephone') ? ' has-error' : ''}`}
-                      type="tel" autoComplete="tel" inputMode="tel"
-                      placeholder={t('identity.fields.telephone.placeholder')} value={form.telephone}
-                      aria-invalid={errorFields.has('telephone') || undefined}
-                      onChange={e => set('telephone', e.target.value)} />
+                    <PhoneField
+                      locale={locale}
+                      country={form.telephonePays}
+                      national={form.telephone}
+                      countryLabel={t('identity.fields.telephone.country_label')}
+                      placeholder={t('identity.fields.telephone.placeholder')}
+                      hasError={errorFields.has('telephone')}
+                      onCountryChange={v => set('telephonePays', v)}
+                      onNationalChange={v => set('telephone', v)} />
                   </Field>
                 </div>
                 {renderReferralCodeField()}
@@ -1293,12 +1312,15 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                       onChange={e => set('email', e.target.value)} />
                   </Field>
                   <Field label={t('groupe_contact.fields.telephone.label')} required hint={t('groupe_contact.fields.telephone.hint')}>
-                    <input
-                      className={`cand-input${errorFields.has('telephone') ? ' has-error' : ''}`}
-                      type="tel" autoComplete="tel" inputMode="tel"
-                      placeholder={t('groupe_contact.fields.telephone.placeholder')} value={form.telephone}
-                      aria-invalid={errorFields.has('telephone') || undefined}
-                      onChange={e => set('telephone', e.target.value)} />
+                    <PhoneField
+                      locale={locale}
+                      country={form.telephonePays}
+                      national={form.telephone}
+                      countryLabel={t('groupe_contact.fields.telephone.country_label')}
+                      placeholder={t('groupe_contact.fields.telephone.placeholder')}
+                      hasError={errorFields.has('telephone')}
+                      onCountryChange={v => set('telephonePays', v)}
+                      onNationalChange={v => set('telephone', v)} />
                   </Field>
                 </div>
                 <div className="cand-row">
@@ -2380,7 +2402,7 @@ export default function InscriptionLayout({ initialAudience, initialSessionId }:
                     <dl>
                       <div><dt>{t('summary.rows.name')}</dt><dd>{form.prenom} {form.nom}</dd></div>
                       <div><dt>{t('summary.rows.email')}</dt><dd>{form.email}</dd></div>
-                      {form.telephone && <div><dt>{t('summary.rows.telephone')}</dt><dd>{form.telephone}</dd></div>}
+                      {phoneE164 && <div><dt>{t('summary.rows.telephone')}</dt><dd>{formatIntl(phoneE164)}</dd></div>}
                       <div><dt>{t('summary.rows.country')}</dt><dd>{form.pays}</dd></div>
                       {form.villeDepart && <div><dt>{t('summary.rows.departure')}</dt><dd>{form.villeDepart}</dd></div>}
                     </dl>

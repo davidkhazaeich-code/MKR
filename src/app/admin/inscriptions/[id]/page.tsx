@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { formatIntl } from '@/lib/phone'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { getSupabaseAdmin } from '@/lib/supabase-admin'
@@ -537,7 +538,7 @@ export default async function CandidatureDetailPage({
                       'Téléphone',
                       c.telephone ? (
                         <a key="t" href={`tel:${phoneTel}`}>
-                          {c.telephone}
+                          {formatIntl(c.telephone)}
                         </a>
                       ) : (
                         '—'
