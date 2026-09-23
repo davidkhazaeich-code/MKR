@@ -183,7 +183,7 @@ export async function POST(request: Request) {
 }
 
 // Heure du rendez-vous : on ne garde qu'un ISO valide, sinon null (l'admin
-// affiche alors « heure non transmise » au lieu d'une date fausse).
+// affiche alors "heure non transmise" au lieu d'une date fausse).
 function toIsoOrNull(v: string | undefined): string | null {
   if (!v) return null
   const t = Date.parse(v)
