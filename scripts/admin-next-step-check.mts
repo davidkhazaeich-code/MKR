@@ -7,7 +7,13 @@ import { computeNextStep, type NextStep } from '../src/lib/admin/next-step.ts'
 import { describeAuditEvent, type AuditRow, actorLabel } from '../src/lib/admin/audit-labels.ts'
 import { buildQueue } from '../src/lib/admin/queue.ts'
 import { buildSessionsOverview, placesSummary } from '../src/lib/admin/sessions-stats.ts'
-import { parseFilters, filtersToQuery, DEFAULT_FILTERS, matchesFilters, statusCounts } from '../src/lib/admin/list-filters.ts'
+import {
+  parseFilters, filtersToQuery, DEFAULT_FILTERS, matchesFilters, statusCounts, sortItems, countExtraFilters,
+  buildFilterOptions, activeFilterChips, filterValueLabel, TRI_OPTIONS,
+} from '../src/lib/admin/list-filters.ts'
+import {
+  STEP_ICON, dossierHref, candidateName, firstNameOf, whatsappHref, campParts, sourceLabel, originOf, mmaLevelToCheck,
+} from '../src/lib/admin/row-helpers.ts'
 
 const NOW = new Date('2026-09-23T10:00:00Z')
 
@@ -144,6 +150,69 @@ check('recherche telephone format international', matchesFilters(karim, { ...DEF
 check('recherche trop courte ne matche pas les chiffres', !matchesFilters(karim, { ...DEFAULT_FILTERS, q: '0012' }))
 check('actifs exclut refusee', !matchesFilters(item({ status: 'refusee' }), DEFAULT_FILTERS))
 check('facettes ignorent le statut', statusCounts([item({}), item({ status: 'refusee' })], DEFAULT_FILTERS).tous === 2)
+// liste : horloge de la page pour "Camps a venir" (toussaint-2026 finit le 7 novembre)
+const toussaint = item({ session_id: 'toussaint-2026' })
+check('camps a venir a la date de la page', matchesFilters(toussaint, { ...DEFAULT_FILTERS, session: 'upcoming' }, undefined, NOW))
+check('camps a venir : session terminee a cette date', !matchesFilters(toussaint, { ...DEFAULT_FILTERS, session: 'upcoming' }, undefined, new Date('2027-01-05T10:00:00Z')))
+check('facettes a la date de la page', statusCounts([toussaint], { ...DEFAULT_FILTERS, session: 'upcoming' }, new Date('2027-01-05T10:00:00Z')).tous === 0
+  && statusCounts([toussaint], { ...DEFAULT_FILTERS, session: 'upcoming' }, NOW).recue === 1)
+check('sans session', matchesFilters(item({ tunnel_type: 'custom' }), { ...DEFAULT_FILTERS, session: 'none' }) && !matchesFilters(toussaint, { ...DEFAULT_FILTERS, session: 'none' }))
+check('source absente = inconnue', matchesFilters(item({}), { ...DEFAULT_FILTERS, source: 'inconnue' }) && !matchesFilters(item({ attribution_source: 'google_ads' }), { ...DEFAULT_FILTERS, source: 'inconnue' }))
+check('partenaire : code, invalide, sans code, bonus du',
+  matchesFilters(item({ referral_code: 'STRIKE', referral_code_valid: true }), { ...DEFAULT_FILTERS, partenaire: 'STRIKE' })
+  && matchesFilters(item({ referral_code: 'FAKE10', referral_code_valid: false }), { ...DEFAULT_FILTERS, partenaire: 'invalid' })
+  && matchesFilters(item({}), { ...DEFAULT_FILTERS, partenaire: 'none' })
+  && !matchesFilters(item({ referral_code: 'STRIKE' }), { ...DEFAULT_FILTERS, partenaire: 'none' })
+  && matchesFilters(item({ referral_payout_status: 'due', referral_code: 'STRIKE' }), { ...DEFAULT_FILTERS, partenaire: 'due' }))
+check('etape : groupe de kinds', matchesFilters(item({ status: 'validee', contract_sent_at: '2026-09-10T10:00:00Z' }), { ...DEFAULT_FILTERS, etape: 'contrat' }))
+check('filtres du panneau comptes (ni recherche, ni statut, ni tri)', countExtraFilters({ ...DEFAULT_FILTERS, q: 'x', statut: 'tous', tri: 'nom', session: 'none', langue: 'en' }) === 2)
+const sorted = sortItems([item({ id: 'b', created_at: '2026-09-02T10:00:00Z' }), item({ id: 'a', created_at: '2026-09-05T10:00:00Z' })], 'recentes')
+check('tri plus recentes', sorted.map((i) => i.row.id).join() === 'a,b')
+const listRows = [
+  row({ id: 'r1', session_id: 'toussaint-2026', camp_discipline: 'lutte', attribution_source: 'meta_ads' }),
+  row({ id: 'r2', session_id: 'toussaint-2026', camp_discipline: 'mma', status: 'validee', attribution_source: 'google_ads' }),
+  row({ id: 'r3', session_id: 'aout-2026', status: 'annulee', attribution_source: 'tiktok' }),
+  row({ id: 'r4', session_id: 'ete-2031' }),
+  row({ id: 'r5', tunnel_type: 'custom' }),
+]
+const opts = buildFilterOptions(listRows, NOW)
+const sessionLabels = opts.session.map((o) => o.label)
+check('session : toutes puis camps a venir', opts.session[0].value === '' && sessionLabels[0] === 'Toutes les sessions' && opts.session[1].value === 'upcoming' && sessionLabels[1] === 'Camps à venir')
+check('session courante avec date et places', sessionLabels[2] === 'Toussaint 2026 · 17 oct. · Lutte 1/15 · MMA 1/15', sessionLabels[2])
+check('session passee portant un dossier', sessionLabels.includes('Août 2026 (passée)'))
+check('id inconnu du calendrier', sessionLabels.includes('ete-2031 (inconnue)'))
+check('sans session en dernier', opts.session.at(-1)?.value === 'none' && sessionLabels.at(-1) === 'Sans session (sur mesure)')
+check('ordre : courantes, passees, inconnues, sans session', opts.session.map((o) => o.value).slice(-3).join() === 'aout-2026,ete-2031,none')
+check('sources presentes (Google Ads en tete) puis inconnue', opts.source.map((o) => o.value).join() === ',google_ads,meta_ads,tiktok,inconnue', opts.source.map((o) => o.value).join())
+check('source inconnue du site : valeur brute', opts.source.find((o) => o.value === 'tiktok')?.label === 'tiktok')
+check('partenaires : codes actifs puis cas speciaux', opts.partenaire[0].label === 'Tous'
+  && opts.partenaire.some((o) => o.value === 'STRIKE' && o.label === 'STRIKE · Strike Academy (Progress Gym SA)')
+  && opts.partenaire.slice(-3).map((o) => o.label).join() === 'Code invalide,Sans code,Bonus dû')
+check('valeur courante absente ajoutee', buildFilterOptions(listRows, NOW, { ...DEFAULT_FILTERS, partenaire: 'ANCIEN', session: 'fevrier-2025' }).partenaire.at(-1)?.value === 'ANCIEN'
+  && buildFilterOptions(listRows, NOW, { ...DEFAULT_FILTERS, session: 'fevrier-2025' }).session.some((o) => o.value === 'fevrier-2025' && o.label === 'Février 2025'))
+check('tunnel, discipline, langue, etape, tri', opts.tunnel.map((o) => o.label).join() === 'Tous,Session officielle,Sur mesure,Famille,Club et Groupe'
+  && opts.discipline.map((o) => o.label).join() === 'Toutes,Lutte,MMA,Combo Lutte + MMA' && opts.langue.map((o) => o.label).join() === 'Toutes,Français,Anglais'
+  && opts.source[0].label === 'Toutes' && opts.etape[0].label === 'Toutes' && opts.etape.length === 11 && opts.tri === TRI_OPTIONS && TRI_OPTIONS[0].value === DEFAULT_FILTERS.tri)
+check('libelles des valeurs', filterValueLabel('session', 'upcoming') === 'Camps à venir' && filterValueLabel('session', 'none') === 'Sans session'
+  && filterValueLabel('session', 'toussaint-2026') === 'Toussaint 2026' && filterValueLabel('source', 'inconnue') === 'Inconnue'
+  && filterValueLabel('partenaire', 'due') === 'Bonus dû' && filterValueLabel('langue', 'en') === 'Anglais' && filterValueLabel('etape', 'a_relancer') === 'À relancer')
+const chips = activeFilterChips({ ...DEFAULT_FILTERS, q: 'x', partenaire: 'STRIKE', source: 'inconnue', session: 'toussaint-2026' })
+check('pastilles dans l ordre du panneau', chips.map((c) => c.label).join(' | ') === 'Session : Toussaint 2026 | Source : Inconnue | Partenaire : STRIKE', chips.map((c) => c.label).join(' | '))
+check('aucune pastille par defaut', activeFilterChips(DEFAULT_FILTERS).length === 0)
+check('options et pastilles sans em dash ni esperluette', !/[\u2013\u2014&]/.test(JSON.stringify([opts, chips])))
+// lignes (accueil et liste)
+check('icone pour chaque etape', Object.keys(STEP_ICON).length === 15 && STEP_ICON.a_relancer === 'bell' && STEP_ICON.clos === 'check')
+check('lien de fiche', dossierHref('abc') === '/admin/inscriptions/abc')
+check('nom absent', candidateName(row({ candidate: null })) === 'Nom non renseigné' && firstNameOf(row({})) === 'Test')
+check('whatsapp', whatsappHref('+33 6 00 00 00 12') === 'https://wa.me/33600000012' && whatsappHref('123') === null && whatsappHref(null) === null)
+check('camp : discipline puis session, ou le tunnel', campParts(row({ camp_discipline: 'mma', session_id: 'toussaint-2026' })).join() === 'MMA,Toussaint 2026'
+  && campParts(row({ tunnel_type: 'groupe' })).join() === 'Club et Groupe')
+check('source referent accentuee', sourceLabel('referral') === 'Site référent' && sourceLabel('inconnu') === 'inconnu')
+check('origine : partenaire prioritaire', originOf(row({ referral_code: 'STRIKE', referral_code_valid: true, attribution_source: 'google_ads' }))?.text === 'Code STRIKE')
+check('origine : code invalide au ton warn', JSON.stringify(originOf(row({ referral_code: 'FAKE10', referral_code_valid: false }))) === JSON.stringify({ text: 'Code invalide (FAKE10)', warn: true }))
+check('origine : source, sinon rien', originOf(row({ attribution_source: 'google_ads' }))?.text === 'Google Ads' && originOf(row({})) === null)
+check('niveau MMA a verifier', mmaLevelToCheck(row({ camp_discipline: 'mma' })) && !mmaLevelToCheck(row({ camp_discipline: 'mma', status: 'validee' }))
+  && !mmaLevelToCheck(row({ camp_discipline: 'mma', tunnel_type: 'groupe' })) && !mmaLevelToCheck(row({ camp_discipline: 'lutte' })))
 
 console.log(ko === 0 ? '\nTOUT VERT' : '\n' + ko + ' ECHEC(S)')
 process.exit(ko === 0 ? 0 : 1)

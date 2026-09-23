@@ -1,22 +1,14 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
-import { getSupabaseAdmin } from '@/lib/supabase-admin'
-import InscriptionsList from '@/components/admin/InscriptionsList'
-import StatsBand from '@/components/admin/StatsBand'
-import Pipeline from '@/components/admin/ui/Pipeline'
 import AdminShell from '@/components/admin/shell/AdminShell'
-import { STATUS_LABEL, STATUS_VALUES, type Status } from '@/lib/admin-transitions'
-import { ATTRIBUTION_SOURCE_LABEL, ATTRIBUTION_SOURCE_COLOR, type AttributionSource } from '@/lib/attribution'
-import { getUnfinishedSessions, sessionFromId, type Session } from '@/data/sessions'
-import { frSessionDisplay } from '@/lib/session-display-fr'
+import { ButtonLink } from '@/components/admin/ui/Button'
+import Icon from '@/components/admin/ui/Icon'
+import CandidaturesView from '@/components/admin/candidatures/CandidaturesView'
+import { loadDossierRows } from '@/lib/admin/data'
+import type { DossierRow } from '@/lib/admin/types'
 
-// L'admin doit lire des dossiers dont la session est sortie des inscriptions
-// depuis longtemps : la copie est reconstruite depuis l'id, jamais cherchee
-// dans une table figee.
-function adminSessionDisplay(id: string) {
-  const session = sessionFromId(id)
-  return session ? frSessionDisplay(session) : null
-}
+// Liste des candidatures : toutes les lignes en une requete (limite 2 000),
+// recherche, filtres et tri cote client (CandidaturesView), refletes dans
+// l'URL. Une seule horloge : nowIso est pris ici et passe a la vue.
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
@@ -26,487 +18,74 @@ export const metadata: Metadata = {
   title: 'Candidatures · MKR Admin',
 }
 
-type TunnelType = 'session' | 'custom' | 'famille' | 'groupe'
+type SearchParams = Promise<Record<string, string | string[] | undefined>>
 
-// Libelles alignes sur le site public : « Club et Groupe », pas d'esperluette.
-const TUNNEL_LABEL: Record<TunnelType, string> = {
-  // Le tunnel ne porte plus d'annee : les sessions tournent (cf. data/sessions.ts).
-  session: 'Session officielle',
-  custom: 'Sur Mesure',
-  famille: 'Famille',
-  groupe: 'Club et Groupe',
-}
-
-const TUNNEL_COLOR: Record<TunnelType, string> = {
-  session: 'var(--adm-tunnel-session)',
-  custom: 'var(--adm-tunnel-custom)',
-  famille: 'var(--adm-tunnel-famille)',
-  groupe: 'var(--adm-tunnel-groupe)',
-}
-
-type CampDiscipline = 'lutte' | 'mma' | 'combo_quote'
-
-interface ListRow {
-  id: string
-  created_at: string
-  status_changed_at: string
-  tunnel_type: TunnelType
-  session_id: string | null
-  duree_semaines: number | null
-  date_debut_souhaitee: string | null
-  camp_discipline: CampDiscipline | null
-  status: Status
-  package_amount_cents: number | null
-  package_paid_at: string | null
-  notes_admin: string | null
-  referral_code: string | null
-  referral_code_valid: boolean | null
-  referral_partner_name: string | null
-  referral_partner_type: string | null
-  referral_bonus_eur: number | null
-  referral_payout_status: string | null
-  submission_language: 'fr' | 'en' | null
-  attribution_source: string | null
-  candidate: {
-    prenom: string
-    nom: string
-    email: string
-    telephone: string | null
-    pays: string | null
-  } | null
-}
-
-interface StatsRow {
-  status: Status
-  status_changed_at: string
-  session_id: string | null
-  tunnel_type: TunnelType
-  camp_discipline: CampDiscipline | null
-  attribution_source: string | null
-}
-
-const CONSUMING_STATUSES: Status[] = ['recue', 'validee', 'soldee']
-
-const TUNNELS: TunnelType[] = ['session', 'custom', 'famille', 'groupe']
-const SEVEN_DAYS = 7 * 24 * 60 * 60 * 1000
-
-// Special values du parametre ?session=
-const SESSION_UPCOMING = 'upcoming'
-const SESSION_NONE = 'none'
-
-// Sources d'acquisition affichees en filtre (ordre : Google Ads en tete = priorite business).
-const ATTRIBUTION_SOURCE_VALUES: string[] = [
-  'google_ads', 'meta_ads', 'instagram', 'facebook', 'google_organic', 'referral', 'other', 'direct',
-]
-
-export default async function AdminInscriptionsPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ tunnel?: string; status?: string; session?: string; discipline?: string; source?: string }>
-}) {
-  const params = await searchParams
-
-  let rows: ListRow[] = []
-  let allRowsForStats: StatsRow[] = []
-  let configError: string | null = null
-  let queryError: string | null = null
-
-  // « A venir » cote admin = camps pas encore termines, donc la fenetre
-  // d'inscription PLUS le camp actuellement en cours (parti mais pas fini).
-  const upcomingIds = getUnfinishedSessions().map((s) => s.id)
-
-  try {
-    const supabase = getSupabaseAdmin()
-
-    // Stats : toute la base avec session_id + tunnel pour pouvoir agreger
-    const statsRes = await supabase
-      .from('candidatures')
-      .select('status, status_changed_at, session_id, tunnel_type, camp_discipline, attribution_source')
-      .limit(2000)
-    allRowsForStats = (statsRes.data ?? []) as unknown as StatsRow[]
-
-    // Liste : appliquer les filtres URL
-    let q = supabase
-      .from('candidatures')
-      .select(`
-        id, created_at, status_changed_at, tunnel_type, session_id, duree_semaines,
-        date_debut_souhaitee, camp_discipline, status,
-        package_amount_cents, package_paid_at,
-        notes_admin,
-        referral_code, referral_code_valid, referral_partner_name, referral_partner_type,
-        referral_bonus_eur, referral_payout_status,
-        submission_language, attribution_source,
-        candidate:candidates ( prenom, nom, email, telephone, pays )
-      `)
-      .order('created_at', { ascending: false })
-      .limit(200)
-
-    if (params.tunnel && (TUNNELS as string[]).includes(params.tunnel)) {
-      q = q.eq('tunnel_type', params.tunnel)
-    }
-    if (params.status && (STATUS_VALUES as readonly string[]).includes(params.status)) {
-      q = q.eq('status', params.status)
-    }
-    if (params.discipline && (['lutte', 'mma', 'combo_quote'] as string[]).includes(params.discipline)) {
-      q = q.eq('camp_discipline', params.discipline)
-    }
-    if (params.source && ATTRIBUTION_SOURCE_VALUES.includes(params.source)) {
-      q = q.eq('attribution_source', params.source)
-    }
-
-    if (params.session === SESSION_NONE) {
-      q = q.is('session_id', null)
-    } else if (params.session === SESSION_UPCOMING) {
-      if (upcomingIds.length > 0) {
-        q = q.in('session_id', upcomingIds)
-      }
-    } else if (params.session && sessionFromId(params.session)) {
-      q = q.eq('session_id', params.session)
-    }
-
-    const { data, error } = await q
-    queryError = error?.message ?? null
-    rows = ((data ?? []) as unknown) as ListRow[]
-  } catch (err) {
-    configError = (err as Error).message
-  }
-
-  if (configError) {
-    return (
-      <AdminShell active="candidatures" title="Candidatures">
-        <div className="adm-container">
-          <h1 className="adm-h1">Candidatures MKR</h1>
-          <p style={{ color: 'var(--adm-status-refusee)' }}>Configuration manquante : {configError}</p>
-        </div>
-      </AdminShell>
-    )
-  }
-
-  // Stats : breakdown par status global
-  const statusCounts = STATUS_VALUES.reduce<Record<Status, number>>((acc, s) => {
-    acc[s] = 0
-    return acc
-  }, {} as Record<Status, number>)
-  let staleVisioCount = 0
-  for (const r of allRowsForStats) {
-    statusCounts[r.status] = (statusCounts[r.status] ?? 0) + 1
-    if (r.status === 'recue' && Date.now() - new Date(r.status_changed_at).getTime() > SEVEN_DAYS) {
-      staleVisioCount += 1
-    }
-  }
-
-  // Counts par session_id (toutes statuts confondus, pour l'affichage de la pile)
-  const sessionCounts: Record<string, number> = {}
-  // Counts qui consomment des places (status recue/validee/soldee + tunnel session)
-  // Detaille par discipline : sessionPlacesPrises[id] = total, sessionPlacesByDiscipline[id] = {lutte, mma}
-  const sessionPlacesPrises: Record<string, number> = {}
-  const sessionPlacesByDiscipline: Record<string, { lutte: number; mma: number }> = {}
-  // Stats discipline globales
-  const disciplineCounts: Record<CampDiscipline, number> = { lutte: 0, mma: 0, combo_quote: 0 }
-  let nullSessionCount = 0
-  let upcomingCount = 0
-  for (const r of allRowsForStats) {
-    if (r.session_id === null) {
-      nullSessionCount += 1
-    } else {
-      sessionCounts[r.session_id] = (sessionCounts[r.session_id] ?? 0) + 1
-      if (upcomingIds.includes(r.session_id)) upcomingCount += 1
-      if (r.tunnel_type === 'session' && CONSUMING_STATUSES.includes(r.status)) {
-        sessionPlacesPrises[r.session_id] = (sessionPlacesPrises[r.session_id] ?? 0) + 1
-        const slice = sessionPlacesByDiscipline[r.session_id] ?? { lutte: 0, mma: 0 }
-        if (r.camp_discipline === 'lutte') slice.lutte += 1
-        else if (r.camp_discipline === 'mma') slice.mma += 1
-        sessionPlacesByDiscipline[r.session_id] = slice
-      }
-    }
-    if (r.camp_discipline) {
-      disciplineCounts[r.camp_discipline] = (disciplineCounts[r.camp_discipline] ?? 0) + 1
-    }
-  }
-  // Liste des pastilles de filtre : les camps encore en cours ou a venir, plus
-  // toutes les sessions passees qui portent au moins un dossier. Recentes en tete.
-  const sessionsById = new Map<string, Session>()
-  for (const s of getUnfinishedSessions()) sessionsById.set(s.id, s)
-  for (const id of Object.keys(sessionCounts)) {
-    const past = sessionFromId(id)
-    if (past && !sessionsById.has(id)) sessionsById.set(id, past)
-  }
-  const sortedSessions = [...sessionsById.values()].sort((a, b) => b.startDate.localeCompare(a.startDate))
-  // Orphelin = un session_id qui ne correspond a aucune session officielle
-  // (saisie manuelle, ancien slug), pas simplement une session passee.
-  const orphanSessionIds = Object.keys(sessionCounts).filter((id) => !sessionFromId(id))
-
-  // Counts par source d'acquisition (toute la base, pour les pills de filtre).
-  const sourceCounts: Record<string, number> = {}
-  for (const r of allRowsForStats) {
-    if (r.attribution_source) {
-      sourceCounts[r.attribution_source] = (sourceCounts[r.attribution_source] ?? 0) + 1
-    }
-  }
-  const sourcesWithData = ATTRIBUTION_SOURCE_VALUES.filter((s) => (sourceCounts[s] ?? 0) > 0)
-
-  // Tunnel counts (basé sur rows actuelles pour montrer ce qui s'affiche)
-  const tunnelCounts: Record<TunnelType, number> = { session: 0, custom: 0, famille: 0, groupe: 0 }
-  for (const r of rows) {
-    tunnelCounts[r.tunnel_type] = (tunnelCounts[r.tunnel_type] ?? 0) + 1
-  }
-
-  const buildHref = (overrides: Partial<{ tunnel: string; status: string; session: string; discipline: string; source: string }>): string => {
-    const merged = { tunnel: params.tunnel, status: params.status, session: params.session, discipline: params.discipline, source: params.source, ...overrides }
-    const usp = new URLSearchParams()
-    if (merged.tunnel) usp.set('tunnel', merged.tunnel)
-    if (merged.status) usp.set('status', merged.status)
-    if (merged.session) usp.set('session', merged.session)
-    if (merged.discipline) usp.set('discipline', merged.discipline)
-    if (merged.source) usp.set('source', merged.source)
-    const qs = usp.toString()
-    return qs ? `/admin/inscriptions?${qs}` : '/admin/inscriptions'
-  }
-
-  const generatedAt = new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })
-  const total = allRowsForStats.length
-
+function LoadError({ title, message, retryHref }: { title: string; message: string; retryHref: string | null }) {
   return (
     <AdminShell active="candidatures" title="Candidatures">
       <div className="adm-container">
-        <h1 className="adm-h1">Candidatures</h1>
-        <p className="adm-h-meta">
-          {total} dossier{total > 1 ? 's' : ''} au total · Mis à jour à {generatedAt}{' '}
-          {/* Vrai <a> : rechargement complet voulu (les <Link> soft-nav suffisent partout ailleurs) */}
-          <a href="/admin/inscriptions">↻ Rafraîchir</a>
-        </p>
-
-        <StatsBand countsByStatus={statusCounts} staleVisioCount={staleVisioCount} total={total} />
-
-        <Pipeline counts={statusCounts} />
-
-        {queryError && (
-          <div
-            style={{
-              marginBottom: '1.5rem',
-              padding: '0.85rem 1rem',
-              borderRadius: '10px',
-              border: '1px solid rgba(239, 68, 68, 0.3)',
-              background: 'rgba(239, 68, 68, 0.06)',
-              color: 'var(--adm-status-refusee)',
-              fontSize: '0.85rem',
-            }}
-          >
-            Erreur Supabase : {queryError}
-          </div>
-        )}
-
-        <div className="adm-toolbar">
-          {/* === Session filter (en premier — c'est le plus impactant business) === */}
-          <div className="adm-filter-row">
-            <span className="adm-filter-row-label">Session</span>
-            <Link
-              href={buildHref({ session: undefined })}
-              className={!params.session ? 'adm-pill adm-pill--active' : 'adm-pill'}
-            >
-              Toutes
-              <span style={{ color: 'var(--adm-text-faint)', fontWeight: 500 }}>{total}</span>
-            </Link>
-            {upcomingIds.length > 0 && (
-              <Link
-                href={buildHref({ session: SESSION_UPCOMING })}
-                data-accent
-                className={params.session === SESSION_UPCOMING ? 'adm-pill adm-pill--active' : 'adm-pill'}
-                style={{ ['--adm-pill-accent' as string]: 'var(--adm-status-validee)' }}
-              >
-                À venir
-                <span style={{ color: 'var(--adm-text-faint)', fontWeight: 500 }}>{upcomingCount}</span>
-              </Link>
-            )}
-            {sortedSessions.map((s) => {
-              const isUpcoming = upcomingIds.includes(s.id)
-              const prises = sessionPlacesPrises[s.id] ?? 0
-              const byDisc = sessionPlacesByDiscipline[s.id] ?? { lutte: 0, mma: 0 }
-              const maxTotal = s.maxCapacity.lutte + s.maxCapacity.mma
-              const restantes = Math.max(0, maxTotal - prises)
-              const isFull = restantes === 0
-              const isLimited = restantes > 0 && restantes <= 6
-              const placesColor = isFull
-                ? 'var(--adm-status-refusee)'
-                : isLimited
-                  ? 'var(--adm-status-reportee)'
-                  : 'var(--adm-status-validee)'
-              const lutteFull = byDisc.lutte >= s.maxCapacity.lutte
-              const mmaFull = byDisc.mma >= s.maxCapacity.mma
-              return (
-                <Link
-                  key={s.id}
-                  href={buildHref({ session: s.id })}
-                  data-accent
-                  className={params.session === s.id ? 'adm-pill adm-pill--active' : 'adm-pill'}
-                  style={{
-                    ['--adm-pill-accent' as string]: isUpcoming
-                      ? 'var(--adm-tunnel-session)'
-                      : 'var(--adm-text-muted)',
-                  }}
-                  title={`${adminSessionDisplay(s.id)?.season_label ?? s.id} (${adminSessionDisplay(s.id)?.dates ?? ''}) · Lutte ${byDisc.lutte}/${s.maxCapacity.lutte}${lutteFull ? ' (COMPLET)' : ''} · MMA ${byDisc.mma}/${s.maxCapacity.mma}${mmaFull ? ' (COMPLET)' : ''} · ${restantes} places totales restantes`}
-                >
-                  {adminSessionDisplay(s.id)?.label ?? s.id}
-                  <span style={{ fontSize: '0.7rem', opacity: 0.7, marginLeft: '0.1rem' }}>
-                    · {(adminSessionDisplay(s.id)?.dates ?? '').split(' - ')[0]}
-                  </span>
-                  <span
-                    style={{
-                      color: placesColor,
-                      fontWeight: 700,
-                      fontSize: '0.7rem',
-                      padding: '0.05rem 0.45rem',
-                      borderRadius: 999,
-                      background: `color-mix(in srgb, ${placesColor} 14%, transparent)`,
-                      border: `1px solid color-mix(in srgb, ${placesColor} 35%, transparent)`,
-                      marginLeft: '0.25rem',
-                      whiteSpace: 'nowrap',
-                    }}
-                  >
-                    L {byDisc.lutte}/{s.maxCapacity.lutte} · M {byDisc.mma}/{s.maxCapacity.mma}
-                  </span>
-                </Link>
-              )
-            })}
-            {orphanSessionIds.map((id) => (
-              <Link
-                key={id}
-                href={buildHref({ session: id })}
-                className={params.session === id ? 'adm-pill adm-pill--active' : 'adm-pill'}
-                title="Session non listée dans data/sessions.ts (orpheline)"
-              >
-                {id} (?)
-                <span style={{ color: 'var(--adm-text-faint)', fontWeight: 500 }}>
-                  {sessionCounts[id]}
-                </span>
-              </Link>
-            ))}
-            {nullSessionCount > 0 && (
-              <Link
-                href={buildHref({ session: SESSION_NONE })}
-                className={params.session === SESSION_NONE ? 'adm-pill adm-pill--active' : 'adm-pill'}
-                title="Tunnels custom / famille (sur mesure) / groupe sans session officielle"
-              >
-                Sur mesure
-                <span style={{ color: 'var(--adm-text-faint)', fontWeight: 500 }}>{nullSessionCount}</span>
-              </Link>
-            )}
-          </div>
-
-          <div className="adm-filter-row">
-            <span className="adm-filter-row-label">Tunnel</span>
-            <Link
-              href={buildHref({ tunnel: undefined })}
-              className={!params.tunnel ? 'adm-pill adm-pill--active' : 'adm-pill'}
-            >
-              Tous
-            </Link>
-            {TUNNELS.map((t) => (
-              <Link
-                key={t}
-                href={buildHref({ tunnel: t })}
-                data-accent
-                className={params.tunnel === t ? 'adm-pill adm-pill--active' : 'adm-pill'}
-                style={{ ['--adm-pill-accent' as string]: TUNNEL_COLOR[t] }}
-              >
-                {TUNNEL_LABEL[t]}
-                <span style={{ color: 'var(--adm-text-faint)', fontWeight: 500 }}>
-                  {tunnelCounts[t] || 0}
-                </span>
-              </Link>
-            ))}
-          </div>
-
-          <div className="adm-filter-row">
-            <span className="adm-filter-row-label">Discipline</span>
-            <Link
-              href={buildHref({ discipline: undefined })}
-              className={!params.discipline ? 'adm-pill adm-pill--active' : 'adm-pill'}
-            >
-              Toutes
-            </Link>
-            <Link
-              href={buildHref({ discipline: 'lutte' })}
-              className={params.discipline === 'lutte' ? 'adm-pill adm-pill--active' : 'adm-pill'}
-              data-accent
-              style={{ ['--adm-pill-accent' as string]: '#4ade80' }}
-              title="Lutte · Daghestan"
-            >
-              Lutte
-              <span style={{ color: 'var(--adm-text-faint)', fontWeight: 500 }}>{disciplineCounts.lutte}</span>
-            </Link>
-            <Link
-              href={buildHref({ discipline: 'mma' })}
-              className={params.discipline === 'mma' ? 'adm-pill adm-pill--active' : 'adm-pill'}
-              data-accent
-              style={{ ['--adm-pill-accent' as string]: '#f59e0b' }}
-              title="MMA · Tchétchénie (niveau avancé à vérifier)"
-            >
-              MMA
-              <span style={{ color: 'var(--adm-text-faint)', fontWeight: 500 }}>{disciplineCounts.mma}</span>
-            </Link>
-            <Link
-              href={buildHref({ discipline: 'combo_quote' })}
-              className={params.discipline === 'combo_quote' ? 'adm-pill adm-pill--active' : 'adm-pill'}
-              data-accent
-              style={{ ['--adm-pill-accent' as string]: '#a78bfa' }}
-              title="Combo Lutte + MMA · sur devis"
-            >
-              Combo
-              <span style={{ color: 'var(--adm-text-faint)', fontWeight: 500 }}>{disciplineCounts.combo_quote}</span>
-            </Link>
-          </div>
-
-          {sourcesWithData.length > 0 && (
-            <div className="adm-filter-row">
-              <span className="adm-filter-row-label">Source</span>
-              <Link
-                href={buildHref({ source: undefined })}
-                className={!params.source ? 'adm-pill adm-pill--active' : 'adm-pill'}
-              >
-                Toutes
-              </Link>
-              {sourcesWithData.map((s) => {
-                const src = s as AttributionSource
-                return (
-                  <Link
-                    key={s}
-                    href={buildHref({ source: s })}
-                    data-accent
-                    className={params.source === s ? 'adm-pill adm-pill--active' : 'adm-pill'}
-                    style={{ ['--adm-pill-accent' as string]: ATTRIBUTION_SOURCE_COLOR[src] }}
-                    title={`Candidatures via ${ATTRIBUTION_SOURCE_LABEL[src]}`}
-                  >
-                    {ATTRIBUTION_SOURCE_LABEL[src]}
-                    <span style={{ color: 'var(--adm-text-faint)', fontWeight: 500 }}>{sourceCounts[s]}</span>
-                  </Link>
-                )
-              })}
+        <div className="adm-page-head">
+          <h1 className="adm-h1">Candidatures</h1>
+        </div>
+        <section className="adm-empty adm-tone--danger" aria-labelledby="cand-error-title">
+          <span className="adm-empty-icon" aria-hidden="true">
+            <Icon name="alert-triangle" size={28} />
+          </span>
+          <h2 id="cand-error-title" className="adm-empty-title">
+            {title}
+          </h2>
+          <p className="adm-empty-text">{message}</p>
+          {retryHref && (
+            <div className="adm-empty-actions">
+              <ButtonLink href={retryHref} variant="primary" icon="refresh">
+                Réessayer
+              </ButtonLink>
             </div>
           )}
-
-          <div className="adm-filter-row">
-            <span className="adm-filter-row-label">Statut</span>
-            <Link
-              href={buildHref({ status: undefined })}
-              className={!params.status ? 'adm-pill adm-pill--active' : 'adm-pill'}
-            >
-              Tous
-            </Link>
-            {STATUS_VALUES.map((s) => (
-              <Link
-                key={s}
-                href={buildHref({ status: s })}
-                className={params.status === s ? 'adm-pill adm-pill--active' : 'adm-pill'}
-              >
-                {STATUS_LABEL[s]}
-              </Link>
-            ))}
-          </div>
-        </div>
-
-        <InscriptionsList rows={rows} />
+        </section>
       </div>
+    </AdminShell>
+  )
+}
+
+/** Meme URL, filtres compris : "Reessayer" relit la liste telle qu'elle etait demandee. */
+async function currentHref(searchParams: SearchParams): Promise<string> {
+  const usp = new URLSearchParams()
+  for (const [key, value] of Object.entries(await searchParams)) {
+    for (const v of Array.isArray(value) ? value : value === undefined ? [] : [value]) usp.append(key, v)
+  }
+  const q = usp.toString()
+  return q ? `/admin/inscriptions?${q}` : '/admin/inscriptions'
+}
+
+export default async function AdminInscriptionsPage({ searchParams }: { searchParams: SearchParams }) {
+  let rows: DossierRow[] = []
+  let configError: string | null = null
+  let queryError: string | null = null
+  try {
+    const result = await loadDossierRows()
+    rows = result.rows
+    queryError = result.error
+  } catch (err) {
+    configError = err instanceof Error ? err.message : String(err)
+  }
+
+  if (configError) {
+    return <LoadError title="Configuration manquante" message={configError} retryHref={null} />
+  }
+  if (queryError) {
+    return (
+      <LoadError
+        title="Erreur Supabase"
+        message={`Les candidatures n'ont pas pu être lues (${queryError}).`}
+        retryHref={await currentHref(searchParams)}
+      />
+    )
+  }
+
+  return (
+    <AdminShell active="candidatures" title="Candidatures">
+      <CandidaturesView rows={rows} nowIso={new Date().toISOString()} />
     </AdminShell>
   )
 }

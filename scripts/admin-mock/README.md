@@ -136,6 +136,10 @@ Zéro email réel n'est jamais envoyé.
 
 - `POST /__reset` — recharge les fixtures avec un `now` frais (vide aussi le
   storage, les emails et remet le compteur de contrat à 20).
+- `POST /__reset?many=N` : idem, puis clone les candidatures (candidats compris,
+  nouveaux ids, `created_at` reculé d'une minute par copie) jusqu'à N lignes
+  (5 000 au plus) : pagination de la liste au-delà de 150 lignes. `POST /__reset`
+  revient aux 60 lignes.
 - `GET /__emails` — liste des emails « envoyés » (pour vérifier un flux sans
   ouvrir une vraie boîte).
 - `GET /__state` — compte des lignes par table (sert de sonde de disponibilité

@@ -14,60 +14,17 @@
 
 import Link from 'next/link'
 import { ButtonLink } from '@/components/admin/ui/Button'
-import Icon, { type IconName } from '@/components/admin/ui/Icon'
+import Icon from '@/components/admin/ui/Icon'
 import { ToneText } from '@/components/admin/ui/StatusLabel'
 import QuickReminderButton from './QuickReminderButton'
 import type { StepKind } from '@/lib/admin/next-step'
 import type { AgendaGroupKey, QueueItem, QueueSectionKey } from '@/lib/admin/queue'
 import type { DossierRow } from '@/lib/admin/types'
-import { DISCIPLINE_LABEL, TUNNEL_LABEL, sessionShortNameFromId } from '@/lib/admin/labels'
+import { STEP_ICON, campParts, candidateName, dossierHref, firstNameOf, whatsappHref } from '@/lib/admin/row-helpers'
 import { formatAgo, formatDayMonth, formatEuros, formatTime, relativeDay } from '@/lib/admin/format'
-
-/** Icone de chaque etape (ligne de liste : icone 16 px + step.short au ton). */
-export const STEP_ICON: Record<StepKind, IconName> = {
-  camp_parti: 'alert-triangle',
-  visio_a_venir: 'video',
-  visio_passee: 'video',
-  visio_reservee: 'video',
-  devis_a_envoyer: 'edit',
-  a_relancer: 'bell',
-  nouvelle: 'inbox',
-  a_solder: 'receipt',
-  contrat_a_envoyer: 'file-text',
-  contrat_sans_echeance: 'calendar',
-  paiement_en_retard: 'clock',
-  paiement_attendu: 'euro',
-  camp_a_cloturer: 'flag',
-  depart_a_venir: 'calendar-days',
-  clos: 'check',
-}
 
 // Etapes dont la ligne affiche le montant du sejour.
 const PAYMENT_KINDS: StepKind[] = ['paiement_en_retard', 'paiement_attendu', 'contrat_sans_echeance', 'a_solder']
-
-export function dossierHref(id: string): string {
-  return `/admin/inscriptions/${id}`
-}
-
-export function candidateName(row: DossierRow): string {
-  const c = row.candidate
-  const name = c ? `${c.prenom ?? ''} ${c.nom ?? ''}`.trim() : ''
-  return name || 'Nom non renseigné'
-}
-
-/** Lien WhatsApp (wa.me attend les chiffres du numero E.164, sans le +). */
-export function whatsappHref(phone: string | null | undefined): string | null {
-  const digits = (phone ?? '').replace(/\D/g, '')
-  return digits.length >= 8 ? `https://wa.me/${digits}` : null
-}
-
-/** Discipline puis session (ou le tunnel quand le sejour est hors session). */
-export function campParts(row: DossierRow): string[] {
-  const parts: string[] = []
-  if (row.camp_discipline) parts.push(DISCIPLINE_LABEL[row.camp_discipline])
-  parts.push(sessionShortNameFromId(row.session_id) ?? TUNNEL_LABEL[row.tunnel_type])
-  return parts
-}
 
 function LangTag({ row }: { row: DossierRow }) {
   if (row.submission_language !== 'en') return null
@@ -88,10 +45,6 @@ function NameLine({ row }: { row: DossierRow }) {
       <LangTag row={row} />
     </p>
   )
-}
-
-function firstNameOf(row: DossierRow): string {
-  return row.candidate?.prenom?.trim() || candidateName(row)
 }
 
 function WhatsAppButton({ row }: { row: DossierRow }) {

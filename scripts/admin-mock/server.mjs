@@ -111,6 +111,30 @@ function loadFixtures() {
   auditIdCounter = db.audit_log.reduce((max, row) => Math.max(max, Number(row.id) || 0), 0) + 1
 }
 
+/**
+ * Volume de test (POST /__reset?many=N) : clone les candidatures des fixtures,
+ * candidat compris (nouveaux ids, email distinct), jusqu'a N lignes. Chaque
+ * copie recule `created_at` d'une minute par tour : ordre stable, meme etape
+ * calculee que l'original. Sert a la pagination de la liste (> 150 lignes).
+ */
+function cloneCandidatures(target) {
+  const originals = db.candidatures.slice()
+  if (originals.length === 0) return
+  const candidateById = new Map(db.candidates.map((c) => [c.id, c]))
+  for (let i = 0; db.candidatures.length < target; i++) {
+    const source = originals[i % originals.length]
+    const round = Math.floor(i / originals.length) + 1
+    const candidate = candidateById.get(source.candidate_id)
+    let candidateId = source.candidate_id
+    if (candidate) {
+      candidateId = randomUUID()
+      db.candidates.push({ ...candidate, id: candidateId, email: String(candidate.email).replace('@', `+copie${round}@`) })
+    }
+    const createdAt = new Date(Date.parse(source.created_at) - round * 60_000).toISOString()
+    db.candidatures.push({ ...source, id: randomUUID(), candidate_id: candidateId, created_at: createdAt })
+  }
+}
+
 function stateCounts() {
   return {
     candidatures: db.candidatures.length,
@@ -560,6 +584,8 @@ async function handleControl(req, url, send) {
   if (url.pathname === '/__reset' && req.method === 'POST') {
     await readRawBody(req)
     loadFixtures()
+    const many = Number(url.searchParams.get('many') ?? 0)
+    if (Number.isInteger(many) && many > db.candidatures.length) cloneCandidatures(Math.min(many, 5000))
     return send(200, { ok: true, counts: stateCounts() })
   }
   if (url.pathname === '/__emails' && req.method === 'GET') return send(200, emails)

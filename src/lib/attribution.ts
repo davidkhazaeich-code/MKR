@@ -30,7 +30,7 @@ export const ATTRIBUTION_SOURCE_LABEL: Record<AttributionSource, string> = {
   meta_ads: 'Meta Ads',
   instagram: 'Instagram',
   facebook: 'Facebook',
-  referral: 'Site referent',
+  referral: 'Site référent',
   direct: 'Direct',
   other: 'Autre',
 }

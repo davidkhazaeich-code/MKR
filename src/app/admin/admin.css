@@ -3392,6 +3392,464 @@ html:has(.adm-login) body {
   color: var(--adm-text-3);
 }
 
+/* ===== Candidatures =====================================================
+   Liste /admin/inscriptions (src/components/admin/candidatures/) : en-tete,
+   onglets de statut, barre d'outils (recherche, filtres, pastilles), lignes.
+   Onglets : sous 1024 px, bande defilante d'un bord a l'autre de l'ecran.
+   Barre d'outils (grille) : sous 1024 px, recherche et bouton "Filtres",
+   puis le panneau replie (data-open) et les pastilles ; au-dessus, le
+   panneau est toujours affiche et ses champs rejoignent la grille de la
+   barre (display: contents), sur 4 colonnes, ou 6 quand la barre fait
+   1000 px (une largeur que seul un ecran >= 1024 px peut donner). La
+   recherche y prend deux colonnes, la session (libelles longs : date et
+   places) deux, puis trois sur 6 colonnes.
+   Lignes : la liste est un conteneur de requete.
+   - etroit : carte en trois lignes (nom ; etape ; statut, camp et meta),
+     WhatsApp a droite des deux premieres ;
+   - >= 560 px : nom et etape cote a cote, meta dessous ;
+   - >= 1040 px : une ligne en colonnes alignees, gabarit fixe commun a
+     toutes les lignes (nom | statut | camp | etape | origine | age |
+     WhatsApp) ; la meta se defait (display: contents) pour que chaque
+     terme prenne sa colonne ; l'avertissement MMA passe sous le camp.
+   Couleurs : jetons uniquement.
+   ======================================================================== */
+
+.adm-cand-head {
+  align-items: flex-start;
+}
+
+.adm-cand-tabs {
+  margin-bottom: 16px;
+}
+
+@media (max-width: 1023.98px) {
+  .adm-cand-tabs {
+    margin-inline: calc(-1 * var(--adm-gutter));
+    padding-inline: var(--adm-gutter);
+  }
+}
+
+/* Barre d'outils */
+.adm-cand-controls {
+  container-type: inline-size;
+  margin-bottom: 16px;
+}
+
+.adm-cand-toolbar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px 8px;
+  align-items: end;
+}
+
+.adm-cand-search {
+  position: relative;
+  min-width: 0;
+}
+
+.adm-cand-search-icon {
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  color: var(--adm-text-3);
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.adm-cand-search-input {
+  padding-left: 40px;
+}
+
+/* Rappel du raccourci "/" (clavier : desktop seulement), masque des que le
+   champ a le focus ou une saisie */
+.adm-cand-search-kbd {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.adm-cand-search-input:focus ~ .adm-cand-search-kbd,
+.adm-cand-search-input:not(:placeholder-shown) ~ .adm-cand-search-kbd {
+  display: none;
+}
+
+.adm-cand-filters {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 12px 16px;
+  padding: 16px;
+  border: 1px solid var(--adm-border);
+  border-radius: var(--adm-radius-lg);
+  background: var(--adm-surface);
+}
+
+.adm-cand-filter {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.adm-cand-chips {
+  grid-column: 1 / -1;
+  align-items: center;
+}
+
+@container (min-width: 480px) {
+  .adm-cand-filters {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .adm-cand-filter--session {
+    grid-column: span 2;
+  }
+}
+
+@media (max-width: 1023.98px) {
+  .adm-cand-search-kbd {
+    display: none;
+  }
+
+  .adm-cand-filters[data-open="false"] {
+    display: none;
+  }
+}
+
+@media (min-width: 1024px) {
+  .adm-cand-toolbar {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px 16px;
+  }
+
+  .adm-cand-search {
+    grid-column: span 2;
+  }
+
+  .adm-cand-filters {
+    display: contents;
+  }
+
+  /* Barre dense (comme les pastilles et les boutons --sm) : la session tient
+     sur deux colonnes des 1024 px */
+  .adm-cand-filter .adm-select {
+    font-size: 14px;
+  }
+}
+
+@container (min-width: 1000px) {
+  /* Deux rangees pleines : recherche, session, tunnel ; puis six champs */
+  .adm-cand-toolbar {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+
+  .adm-cand-filter--session {
+    grid-column: span 3;
+  }
+}
+
+/* Lignes */
+.adm-cand-list {
+  container-type: inline-size;
+}
+
+.adm-cand-row {
+  display: grid;
+  grid-template-columns: 32px minmax(0, 1fr) auto;
+  grid-template-areas:
+    "av name wa"
+    "av step wa"
+    "av meta meta";
+  column-gap: 10px;
+  row-gap: 2px;
+  align-items: center;
+  padding: 12px;
+  scroll-margin-block: 8px;
+}
+
+.adm-cand-row--note {
+  grid-template-areas:
+    "av name wa"
+    "av step wa"
+    "av meta meta"
+    "av note note";
+}
+
+.adm-cand-row > .adm-avatar {
+  grid-area: av;
+  align-self: start;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  font-size: 13px;
+}
+
+/* Nom (prioritaire), puis EN et pays, tronques en premier */
+.adm-cand-name {
+  grid-area: name;
+  display: flex;
+  align-items: baseline;
+  min-width: 0;
+}
+
+.adm-cand-name .adm-row-title {
+  flex: 0 0 auto;
+  max-width: 100%;
+}
+
+.adm-cand-tags {
+  flex: 0 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.3;
+  color: var(--adm-text-3);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.adm-cand-tags > span::before {
+  content: "\00b7";
+  padding: 0 6px;
+  color: var(--adm-text-4);
+}
+
+.adm-cand-step {
+  grid-area: step;
+  min-width: 0;
+  font-size: 14px;
+  line-height: 1.35;
+}
+
+/* Meta sur une ou deux lignes : chaque terme porte son point median
+   (largeur fixe) ; la meta deborde de cette largeur a gauche et la masque
+   (clip-path), si bien qu'aucune ligne, meme renvoyee, ne commence par un
+   point. */
+.adm-cand-meta {
+  grid-area: meta;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  row-gap: 2px;
+  min-width: 0;
+  margin-top: 2px;
+  margin-left: -16px;
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--adm-text-2);
+  clip-path: inset(0 0 0 16px);
+}
+
+.adm-cand-meta > *::before {
+  content: "\00b7";
+  display: inline-block;
+  width: 16px;
+  color: var(--adm-text-4);
+  text-align: center;
+}
+
+.adm-cand-camp > * + *::before {
+  content: "\00b7";
+  padding: 0 6px;
+  color: var(--adm-text-4);
+}
+
+.adm-cand-meta .adm-status {
+  font-size: inherit;
+}
+
+.adm-cand-origin,
+.adm-cand-age {
+  color: var(--adm-text-3);
+}
+
+.adm-cand-age {
+  white-space: nowrap;
+}
+
+.adm-cand-warn,
+.adm-cand-origin--warn {
+  font-weight: 500;
+  color: var(--adm-warn);
+}
+
+.adm-cand-actions {
+  grid-area: wa;
+}
+
+.adm-cand-note {
+  grid-area: note;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  margin-top: 4px;
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--adm-text-2);
+}
+
+.adm-cand-note > svg {
+  flex-shrink: 0;
+  color: var(--adm-text-3);
+}
+
+.adm-cand-note-text {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@container (min-width: 560px) {
+  .adm-cand-row {
+    grid-template-columns: 36px minmax(0, 1fr) minmax(0, 1fr) auto;
+    grid-template-areas:
+      "av name step wa"
+      "av meta meta wa";
+    column-gap: 16px;
+    padding: 10px 16px;
+  }
+
+  .adm-cand-row--note {
+    grid-template-areas:
+      "av name step wa"
+      "av meta meta wa"
+      ". note note wa";
+  }
+
+  .adm-cand-row > .adm-avatar {
+    align-self: center;
+    width: 36px;
+    height: 36px;
+  }
+}
+
+@container (min-width: 1040px) {
+  /* Camp : jamais sous 9.5rem ("Lutte . Toussaint 2026") ; les autres
+     colonnes souples se partagent le reste. */
+  .adm-cand-row {
+    grid-template-columns: 40px minmax(0, 1.6fr) 7rem minmax(9.5rem, 1.1fr) minmax(0, 1.6fr) minmax(0, 1fr) 6.5rem 36px;
+    grid-template-areas: "av name status camp step origin age wa";
+    column-gap: 12px;
+    row-gap: 0;
+    align-content: center;
+    padding: 8px 16px;
+  }
+
+  .adm-cand-row--note {
+    grid-template-areas:
+      "av name status camp step origin age wa"
+      ". note note note note note note note";
+  }
+
+  .adm-cand-row--warn {
+    grid-template-areas:
+      "av name status camp step origin age wa"
+      "av name status warn step origin age wa";
+  }
+
+  .adm-cand-row--warn.adm-cand-row--note {
+    grid-template-areas:
+      "av name status camp step origin age wa"
+      "av name status warn step origin age wa"
+      ". note note note note note note note";
+  }
+
+  .adm-cand-row--warn .adm-cand-camp {
+    align-self: end;
+  }
+
+  .adm-cand-row--warn .adm-cand-warn {
+    align-self: start;
+  }
+
+  .adm-cand-row > .adm-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    font-size: 15px;
+  }
+
+  /* Plus de boite : chaque terme de la meta prend sa colonne (la taille de
+     texte, heritee, reste portee par l'element) */
+  .adm-cand-meta {
+    display: contents;
+    font-size: 14px;
+  }
+
+  .adm-cand-meta > *::before {
+    content: none;
+  }
+
+  .adm-cand-status {
+    grid-area: status;
+  }
+
+  /* Camp et origine longs (Club et Groupe, code invalide) : a la ligne,
+     jamais tronques */
+  .adm-cand-camp {
+    grid-area: camp;
+    min-width: 0;
+  }
+
+  .adm-cand-warn {
+    grid-area: warn;
+  }
+
+  .adm-cand-origin {
+    grid-area: origin;
+    min-width: 0;
+  }
+
+  .adm-cand-age {
+    grid-area: age;
+    justify-self: end;
+  }
+
+  .adm-cand-note {
+    margin-top: 2px;
+  }
+}
+
+.adm-cand-more {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+/* Rappel des raccourcis clavier (desktop) */
+.adm-cand-keys {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  margin-top: 20px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--adm-text-3);
+}
+
+/* Squelette (loading.tsx) */
+.adm-cand-tabs--skeleton {
+  align-items: center;
+  gap: 24px;
+  min-height: 44px;
+  overflow: hidden;
+}
+
+.adm-cand-skeleton-row {
+  height: 88px;
+}
+
+@media (min-width: 1024px) {
+  .adm-cand-skeleton-row {
+    height: 56px;
+  }
+}
+
 /* ------------------------------------------------------------------------
    18. Utilitaires
    ------------------------------------------------------------------------ */
