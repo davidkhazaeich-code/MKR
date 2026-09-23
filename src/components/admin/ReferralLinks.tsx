@@ -1,7 +1,13 @@
 'use client'
 
-import { useState } from 'react'
-import Icon from './ui/Icon'
+// Liens d'affiliation des partenaires actifs, chacun avec "Copier".
+// Copie reussie : le bouton dit "Copie" 2 s et une region aria-live (polite)
+// l'annonce. Presse-papiers indisponible (http non securise, permission
+// refusee) : le lien est selectionne pour une copie manuelle, et le message
+// le dit.
+
+import { useEffect, useRef, useState } from 'react'
+import Button from './ui/Button'
 
 export interface ReferralLinkItem {
   code: string
@@ -9,51 +15,80 @@ export interface ReferralLinkItem {
   url: string
 }
 
+const COPIED_MS = 2000
+
 export default function ReferralLinks({ items }: { items: ReferralLinkItem[] }) {
   const [copied, setCopied] = useState<string | null>(null)
+  const [message, setMessage] = useState('')
+  const timer = useRef<number | undefined>(undefined)
 
-  async function copy(code: string, url: string) {
+  useEffect(() => () => window.clearTimeout(timer.current), [])
+
+  async function copy(item: ReferralLinkItem, row: HTMLElement | null) {
+    window.clearTimeout(timer.current)
     try {
-      await navigator.clipboard.writeText(url)
-      setCopied(code)
-      setTimeout(() => setCopied((c) => (c === code ? null : c)), 2000)
+      await navigator.clipboard.writeText(item.url)
+      setCopied(item.code)
+      setMessage(`Lien de ${item.partnerName} copié`)
+      timer.current = window.setTimeout(() => {
+        setCopied(null)
+        setMessage('')
+      }, COPIED_MS)
     } catch {
-      // clipboard indisponible (http non securise) : fallback silencieux
+      setCopied(null)
+      const url = row?.querySelector('code')
+      const selection = window.getSelection()
+      if (url && selection) {
+        const range = document.createRange()
+        range.selectNodeContents(url)
+        selection.removeAllRanges()
+        selection.addRange(range)
+      }
+      setMessage(`Copie automatique impossible : le lien de ${item.partnerName} est sélectionné, copie-le à la main.`)
     }
   }
 
   if (items.length === 0) return null
 
   return (
-    <section className="adm-card" style={{ marginBottom: '1.5rem' }}>
-      <h2 className="adm-card-title">
-        <Icon name="zap" size={14} />
+    <section className="adm-card adm-links" aria-labelledby="adm-links-title">
+      <h2 id="adm-links-title" className="adm-card-title">
         Liens d&apos;affiliation à partager
       </h2>
-      <p style={{ fontSize: '0.8rem', color: 'var(--adm-text-muted)', margin: '0 0 0.9rem' }}>
+      <p className="adm-links-help">
         Chaque partenaire actif partage son lien. Le code est attribué automatiquement (cookie 90 jours).
       </p>
-      <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'grid', gap: '0.5rem' }}>
+      <ul className="adm-links-list">
         {items.map((it) => (
-          <li
-            key={it.code}
-            style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', flexWrap: 'wrap', padding: '0.5rem 0', borderBottom: '1px solid var(--adm-border-soft, rgba(255,255,255,0.05))' }}
-          >
-            <span style={{ fontWeight: 600, minWidth: 160 }}>{it.partnerName}</span>
-            <code style={{ flex: 1, minWidth: 220, fontSize: '0.8rem', color: 'var(--adm-text-secondary)', wordBreak: 'break-all' }}>
-              {it.url}
-            </code>
-            <button
-              type="button"
-              className="adm-btn adm-btn--ghost"
-              style={{ fontSize: '0.75rem', padding: '4px 10px' }}
-              onClick={() => copy(it.code, it.url)}
+          <li key={it.code} className="adm-links-row">
+            <div className="adm-links-main">
+              <p className="adm-links-name">{it.partnerName}</p>
+              <code className="adm-links-url">{it.url}</code>
+            </div>
+            <Button
+              size="sm"
+              className="adm-links-copy"
+              onClick={(e) => copy(it, e.currentTarget.closest('li'))}
             >
-              {copied === it.code ? 'Copié ✓' : 'Copier'}
-            </button>
+              {copied === it.code ? (
+                'Copié'
+              ) : (
+                <>
+                  Copier<span className="adm-sr-only"> le lien de {it.partnerName}</span>
+                </>
+              )}
+            </Button>
           </li>
         ))}
       </ul>
+      <p className="adm-sr-only" role="status" aria-live="polite">
+        {message}
+      </p>
+      {message && !copied && (
+        <p className="adm-links-fallback adm-tone--warn" aria-hidden="true">
+          {message}
+        </p>
+      )}
     </section>
   )
 }

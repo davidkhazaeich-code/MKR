@@ -2,17 +2,27 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { getSupabaseAdmin } from '@/lib/supabase-admin'
 import AdminShell from '@/components/admin/shell/AdminShell'
-import Badge from '@/components/admin/ui/Badge'
+import RefreshButton from '@/components/admin/shell/RefreshButton'
+import { ButtonLink } from '@/components/admin/ui/Button'
 import Icon from '@/components/admin/ui/Icon'
 import { REFERRAL_CODES, affiliateLink } from '@/data/referral-codes'
 import ReferralLinks, { type ReferralLinkItem } from '@/components/admin/ReferralLinks'
+import { PARTNER_TYPE_LABEL } from '@/lib/admin/labels'
+import { formatTime, plural } from '@/lib/admin/format'
+
+// Partenaires (spec 6.5) : memes donnees et memes calculs que l'ancienne page
+// (aggregateByPartner inchangee), presentes en chiffres cles, liens
+// d'affiliation a copier, puis compteurs par partenaire : tableau quand sa
+// largeur le permet, cartes empilees sinon (admin.css, "Partenaires et Leads
+// guide"). Chaque partenaire mene a ses dossiers, tous statuts (les soldes et
+// camps faits portent les commissions).
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
 
 export const metadata: Metadata = {
   robots: { index: false, follow: false },
-  title: 'Partenaires referral · MKR Admin',
+  title: 'Partenaires · MKR Admin',
 }
 
 // Lecture light de candidatures : on agrege en TS plutot qu'en SQL pour rester
@@ -150,199 +160,287 @@ function aggregateByPartner(rows: Row[]): PartnerSummary[] {
   })
 }
 
-const TYPE_LABEL: Record<string, string> = {
-  gym: 'Salle',
-  influencer: 'Influenceur',
-  coach: 'Coach',
-  other: 'Autre',
+/* ------------------------------------------------------------------ */
+/* Affichage (aucun calcul en plus de aggregateByPartner)              */
+/* ------------------------------------------------------------------ */
+
+const pct = new Intl.NumberFormat('fr-FR', { maximumFractionDigits: 2 })
+
+/** Grand chiffre (Teko) : espace insecable ordinaire, l'espace fine y est presque invisible. */
+const kpiEur = (n: number): string => formatEur(n).replace(/\u202f/g, '\u00a0')
+
+function modelLabel(s: PartnerSummary): string {
+  if (s.commissionType === 'percent') return s.commissionPct === null ? 'Taux non renseigné' : `${pct.format(s.commissionPct)} % du CA`
+  if (s.commissionType === 'flat') return `Forfait ${formatEur(s.bonusEurDefault)}`
+  return 'Non renseigné'
 }
 
-// Meme palette que le badge referral de la liste (InscriptionsList.tsx) :
-// gym vert / influencer violet / coach orange.
-const TYPE_COLOR: Record<string, string> = {
-  gym: '#4ade80',
-  influencer: '#a78bfa',
-  coach: '#f59e0b',
-  other: 'var(--adm-text-muted)',
+const typeLabel = (s: PartnerSummary): string =>
+  s.partnerType ? PARTNER_TYPE_LABEL[s.partnerType] ?? s.partnerType : 'Non renseigné'
+
+const partnerHref = (code: string): string => `/admin/inscriptions?partenaire=${encodeURIComponent(code)}&statut=tous`
+
+/** Nombre et montant separes par un point median ; zero : "0". */
+const countAmount = (n: number, amount: number): string => (n > 0 ? `${n} · ${formatEur(amount)}` : '0')
+
+function MissingAmount({ n }: { n: number }) {
+  if (n === 0) return null
+  return (
+    <span
+      className="adm-partner-missing adm-tone--warn"
+      title={`${plural(n, 'candidature', 'candidatures')} sans CA saisi : commission non calculée`}
+    >
+      <Icon name="alert-triangle" size={14} />
+      {n} CA à saisir
+    </span>
+  )
+}
+
+/** Code inconnu du fichier des codes (icone seule dans le tableau, comme avant) ou inactif. */
+function CodeState({ s, compact = false }: { s: PartnerSummary; compact?: boolean }) {
+  if (!s.isKnown) {
+    return (
+      <span className="adm-partner-flag adm-tone--warn" title="Code saisi non reconnu dans data/referral-codes.ts">
+        <Icon name="alert-triangle" size={14} />
+        {compact ? <span className="adm-sr-only">code non reconnu</span> : 'non reconnu'}
+      </span>
+    )
+  }
+  if (!s.isActive) {
+    return (
+      <span className="adm-partner-flag" title="Code marqué inactif dans data/referral-codes.ts (historique conservé)">
+        inactif
+      </span>
+    )
+  }
+  return null
+}
+
+function LoadError({ title, message, retry }: { title: string; message: string; retry: boolean }) {
+  return (
+    <AdminShell active="partenaires" title="Partenaires">
+      <div className="adm-container">
+        <div className="adm-page-head">
+          <h1 className="adm-h1">Partenaires</h1>
+        </div>
+        <section className="adm-empty adm-tone--danger" aria-labelledby="partners-error-title">
+          <span className="adm-empty-icon" aria-hidden="true">
+            <Icon name="alert-triangle" size={28} />
+          </span>
+          <h2 id="partners-error-title" className="adm-empty-title">
+            {title}
+          </h2>
+          <p className="adm-empty-text">{message}</p>
+          {retry && (
+            <div className="adm-empty-actions">
+              <ButtonLink href="/admin/referrals" variant="primary" icon="refresh">
+                Réessayer
+              </ButtonLink>
+            </div>
+          )}
+        </section>
+      </div>
+    </AdminShell>
+  )
 }
 
 export default async function AdminReferralsPage() {
-  const supabase = getSupabaseAdmin()
+  let rows: Row[] = []
+  try {
+    const { data, error } = await getSupabaseAdmin()
+      .from('candidatures')
+      .select('id, status, package_amount_cents, referral_code, referral_code_valid, referral_partner_name, referral_partner_type, referral_commission_type, referral_commission_pct, referral_bonus_eur, referral_payout_status, referral_payout_paid_at, referral_payout_method')
+      .not('referral_code', 'is', null)
+      .order('referral_code', { ascending: true })
+    if (error) {
+      return <LoadError title="Chargement impossible" message={`Les candidatures n'ont pas pu être lues (${error.message}).`} retry />
+    }
+    rows = (data ?? []) as Row[]
+  } catch (err) {
+    return <LoadError title="Configuration manquante" message={err instanceof Error ? err.message : String(err)} retry={false} />
+  }
 
-  const { data, error } = await supabase
-    .from('candidatures')
-    .select('id, status, package_amount_cents, referral_code, referral_code_valid, referral_partner_name, referral_partner_type, referral_commission_type, referral_commission_pct, referral_bonus_eur, referral_payout_status, referral_payout_paid_at, referral_payout_method')
-    .not('referral_code', 'is', null)
-    .order('referral_code', { ascending: true })
-
-  const rows: Row[] = (data ?? []) as Row[]
   const summaries = aggregateByPartner(rows)
   const totalDue = summaries.reduce((s, x) => s + x.amountDue, 0)
   const totalPaid = summaries.reduce((s, x) => s + x.amountPaid, 0)
   const totalCancelled = summaries.reduce((s, x) => s + x.amountCancelled, 0)
   const totalCandidatures = summaries.reduce((s, x) => s + x.total, 0)
-
-  const generatedAt = new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })
+  const totalPending = summaries.reduce((s, x) => s + x.pending, 0)
 
   const linkItems: ReferralLinkItem[] = REFERRAL_CODES
     .filter((c) => c.active)
     .map((c) => ({ code: c.code, partnerName: c.partnerName, url: affiliateLink(c.code) }))
 
+  const kpis = [
+    { label: 'À payer', value: totalDue, tone: 'warn', hint: null },
+    { label: 'Déjà payé', value: totalPaid, tone: 'ok', hint: null },
+    { label: 'Annulé', value: totalCancelled, tone: null, hint: 'Pour information' },
+    { label: 'Total acquis', value: totalDue + totalPaid, tone: null, hint: 'Payé et dû' },
+  ] as const
+
   return (
     <AdminShell active="partenaires" title="Partenaires">
-      <div className="adm-container">
-        <h1 className="adm-h1">Partenaires referral</h1>
-        <p className="adm-h-meta">
-          {summaries.length} partenaire{summaries.length > 1 ? 's' : ''} · {totalCandidatures} candidature{totalCandidatures > 1 ? 's' : ''} · Mis à jour à {generatedAt}{' '}
-          <a href="/admin/referrals">↻ Rafraîchir</a>
-        </p>
+      <div className="adm-container adm-partners">
+        <header className="adm-page-head adm-partners-head">
+          <div>
+            <h1 className="adm-h1">Partenaires</h1>
+            <p className="adm-page-meta">
+              {plural(summaries.length, 'partenaire', 'partenaires')} · {plural(totalCandidatures, 'candidature', 'candidatures')}
+              {' · '}mis à jour à {formatTime(new Date().toISOString())}
+            </p>
+          </div>
+          <RefreshButton variant="secondary" size="sm" className="adm-only-desktop" />
+        </header>
 
-        {error && (
-          <div
-            style={{
-              marginBottom: '1.5rem',
-              padding: '0.85rem 1rem',
-              borderRadius: '10px',
-              border: '1px solid rgba(239, 68, 68, 0.3)',
-              background: 'rgba(239, 68, 68, 0.06)',
-              color: 'var(--adm-status-refusee)',
-              fontSize: '0.85rem',
-            }}
-          >
-            Erreur Supabase : {error.message}
-          </div>
-        )}
-
-        {/* Stats globales */}
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
-            gap: '1rem',
-            margin: '1.5rem 0 2rem',
-          }}
-        >
-          <div className="adm-stat-card" style={{ ['--adm-stat-accent' as string]: 'var(--adm-status-recue)' }}>
-            <div className="adm-stat-label">À payer</div>
-            <div className="adm-stat-value" style={{ color: 'var(--adm-status-recue)' }}>{formatEur(totalDue)}</div>
-          </div>
-          <div className="adm-stat-card" style={{ ['--adm-stat-accent' as string]: 'var(--adm-status-validee)' }}>
-            <div className="adm-stat-label">Déjà payé</div>
-            <div className="adm-stat-value" style={{ color: 'var(--adm-status-validee)' }}>{formatEur(totalPaid)}</div>
-          </div>
-          <div className="adm-stat-card">
-            <div className="adm-stat-label">Annulé (info)</div>
-            <div className="adm-stat-value" style={{ color: 'var(--adm-text-muted)' }}>{formatEur(totalCancelled)}</div>
-          </div>
-          <div className="adm-stat-card" style={{ ['--adm-stat-accent' as string]: 'var(--adm-brand)' }}>
-            <div className="adm-stat-label">Total acquis (payé + dû)</div>
-            <div className="adm-stat-value">{formatEur(totalDue + totalPaid)}</div>
-          </div>
-        </div>
+        <ul className="adm-partners-kpis" aria-label="Bonus des partenaires">
+          {kpis.map((k) => (
+            <li key={k.label} className="adm-card adm-partners-kpi">
+              <p className={k.tone ? `adm-label adm-partners-kpi-label adm-tone--${k.tone}` : 'adm-label adm-partners-kpi-label'}>
+                {k.tone && <span className="adm-status-dot" aria-hidden="true" />}
+                {k.label}
+              </p>
+              <p className="adm-kpi adm-partners-kpi-value">{kpiEur(k.value)}</p>
+              {k.hint && <p className="adm-partners-kpi-hint">{k.hint}</p>}
+            </li>
+          ))}
+        </ul>
 
         <ReferralLinks items={linkItems} />
 
-        {summaries.length === 0 ? (
-          <div style={{ textAlign: 'center', padding: '3rem 1rem', color: 'var(--adm-text-muted, #6b7280)' }}>
-            Aucune candidature avec code de recommandation pour le moment.
+        <section className="adm-section" aria-labelledby="partners-list-title">
+          <div className="adm-section-head">
+            <h2 id="partners-list-title" className="adm-section-title">
+              Compteurs par partenaire
+            </h2>
+            <span className="adm-section-count">
+              {summaries.length}
+              <span className="adm-sr-only"> {summaries.length > 1 ? 'partenaires' : 'partenaire'}</span>
+            </span>
           </div>
-        ) : (
-          <div className="adm-table-wrap">
-            <table className="adm-table">
-              <thead>
-                <tr>
-                  <th>Code</th>
-                  <th>Partenaire</th>
-                  <th>Type</th>
-                  <th>Modèle</th>
-                  <th className="adm-table-num">Candidatures</th>
-                  <th className="adm-table-num">En attente</th>
-                  <th className="adm-table-num">À payer</th>
-                  <th className="adm-table-num">Payé</th>
-                  <th className="adm-table-num">Annulé</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                {summaries.map((s) => (
-                  <tr key={s.code}>
-                    <td className="adm-table-mono">
-                      {s.code}
-                      {!s.isKnown && (
-                        <span
-                          style={{ marginLeft: 6, color: 'var(--adm-status-reportee)', display: 'inline-flex', verticalAlign: 'middle' }}
-                          title="Code saisi non reconnu dans data/referral-codes.ts"
-                        >
-                          <Icon name="alert-triangle" size={12} strokeWidth={2.4} />
-                        </span>
-                      )}
-                      {s.isKnown && !s.isActive && <span style={{ marginLeft: 6, color: 'var(--adm-text-muted)', fontSize: '0.7rem', fontWeight: 400 }} title="Code marqué inactif dans data/referral-codes.ts (historique conservé)">inactif</span>}
-                    </td>
-                    <td>{s.partnerName}</td>
-                    <td>
-                      {s.partnerType && (
-                        <Badge color={TYPE_COLOR[s.partnerType] ?? TYPE_COLOR.other} dot>
-                          {TYPE_LABEL[s.partnerType] ?? s.partnerType}
-                        </Badge>
-                      )}
-                    </td>
-                    <td style={{ fontSize: '0.8rem' }}>
-                      {s.commissionType === 'percent'
-                        ? `${s.commissionPct ?? '?'} % du CA`
-                        : s.commissionType === 'flat'
-                          ? `Forfait ${s.bonusEurDefault} €`
-                          : '—'}
-                      {s.missingAmount > 0 && (
-                        <span
-                          title={`${s.missingAmount} candidature(s) soldée(s) sans CA saisi : commission non calculée`}
-                          style={{ display: 'flex', alignItems: 'center', gap: '0.3rem', marginTop: 2, color: 'var(--adm-status-reportee)', fontSize: '0.72rem', fontWeight: 600 }}
-                        >
-                          <Icon name="alert-triangle" size={11} strokeWidth={2.4} />
-                          {s.missingAmount} CA à saisir
-                        </span>
-                      )}
-                    </td>
-                    <td className="adm-table-num" style={{ fontWeight: 600 }}>{s.total}</td>
-                    <td className="adm-table-num" style={{ color: 'var(--adm-text-muted)' }}>{s.pending || '-'}</td>
-                    <td className="adm-table-num" style={{ color: s.due > 0 ? 'var(--adm-status-recue)' : 'var(--adm-text-muted)', fontWeight: s.due > 0 ? 700 : 400 }}>
-                      {s.due > 0 ? `${s.due} · ${formatEur(s.amountDue)}` : '-'}
-                    </td>
-                    <td className="adm-table-num" style={{ color: s.paid > 0 ? 'var(--adm-status-validee)' : 'var(--adm-text-muted)' }}>
-                      {s.paid > 0 ? `${s.paid} · ${formatEur(s.amountPaid)}` : '-'}
-                    </td>
-                    <td className="adm-table-num" style={{ color: 'var(--adm-text-muted)' }}>
-                      {s.cancelled > 0 ? `${s.cancelled} · ${formatEur(s.amountCancelled)}` : '-'}
-                    </td>
-                    <td className="adm-table-num">
-                      <Link
-                        href={`/admin/inscriptions?referralCode=${encodeURIComponent(s.code)}`}
-                        className="adm-btn adm-btn--ghost"
-                        style={{ fontSize: '0.75rem', padding: '4px 10px' }}
-                      >
-                        Voir →
-                      </Link>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-              <tfoot>
-                <tr>
-                  <td colSpan={4}>Total</td>
-                  <td className="adm-table-num">{totalCandidatures}</td>
-                  <td className="adm-table-num">-</td>
-                  <td className="adm-table-num" style={{ color: 'var(--adm-status-recue)' }}>{formatEur(totalDue)}</td>
-                  <td className="adm-table-num" style={{ color: 'var(--adm-status-validee)' }}>{formatEur(totalPaid)}</td>
-                  <td className="adm-table-num" style={{ color: 'var(--adm-text-muted)' }}>{formatEur(totalCancelled)}</td>
-                  <td></td>
-                </tr>
-              </tfoot>
-            </table>
-          </div>
-        )}
 
-        <p style={{ marginTop: '2rem', fontSize: '0.75rem', color: 'var(--adm-text-muted)' }}>
-          Le bonus passe automatiquement de "En attente" à "À payer" quand le statut de la candidature devient <strong>soldée</strong>.
-          Clique sur "Voir" pour ouvrir la liste filtrée des candidatures de ce partenaire, puis sur une fiche pour marquer le bonus comme payé.
+          {summaries.length === 0 ? (
+            <section className="adm-empty" aria-labelledby="partners-empty-title">
+              <span className="adm-empty-icon" aria-hidden="true">
+                <Icon name="handshake" size={28} />
+              </span>
+              <h3 id="partners-empty-title" className="adm-empty-title">
+                Aucune candidature avec code de recommandation pour le moment
+              </h3>
+            </section>
+          ) : (
+            <div className="adm-partners-list">
+              <div className="adm-table-wrap adm-partners-table">
+                <table className="adm-table">
+                  <thead>
+                    <tr>
+                      <th scope="col">Code</th>
+                      <th scope="col">Partenaire</th>
+                      <th scope="col">Type</th>
+                      <th scope="col">Modèle</th>
+                      <th scope="col" className="adm-table-num">Candidatures</th>
+                      <th scope="col" className="adm-table-num">En attente</th>
+                      <th scope="col" className="adm-table-num">À payer</th>
+                      <th scope="col" className="adm-table-num">Payé</th>
+                      <th scope="col" className="adm-table-num">Annulé</th>
+                      <th scope="col">
+                        <span className="adm-sr-only">Dossiers</span>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {summaries.map((s) => (
+                      <tr key={s.code}>
+                        <td>
+                          <span className="adm-table-mono">{s.code}</span>
+                          <CodeState s={s} compact />
+                        </td>
+                        <td className="adm-partners-name">{s.partnerName}</td>
+                        <td className="adm-partners-muted adm-partners-type">{typeLabel(s)}</td>
+                        <td>
+                          <span className="adm-partners-model">{modelLabel(s)}</span>
+                          <MissingAmount n={s.missingAmount} />
+                        </td>
+                        <td className="adm-table-num adm-partners-strong">{s.total}</td>
+                        <td className={s.pending > 0 ? 'adm-table-num' : 'adm-table-num adm-partners-zero'}>{s.pending}</td>
+                        <td className={s.due > 0 ? 'adm-table-num adm-partners-due' : 'adm-table-num adm-partners-zero'}>{countAmount(s.due, s.amountDue)}</td>
+                        <td className={s.paid > 0 ? 'adm-table-num adm-partners-paid' : 'adm-table-num adm-partners-zero'}>{countAmount(s.paid, s.amountPaid)}</td>
+                        <td className={s.cancelled > 0 ? 'adm-table-num adm-partners-muted' : 'adm-table-num adm-partners-zero'}>{countAmount(s.cancelled, s.amountCancelled)}</td>
+                        <td className="adm-partners-go">
+                          {s.total > 0 && (
+                            <Link href={partnerHref(s.code)} className="adm-link">
+                              Voir les dossiers<span className="adm-sr-only"> de {s.code}</span>
+                            </Link>
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <td colSpan={4}>Total</td>
+                      <td className="adm-table-num">{totalCandidatures}</td>
+                      <td className="adm-table-num">{totalPending}</td>
+                      <td className="adm-table-num">{formatEur(totalDue)}</td>
+                      <td className="adm-table-num">{formatEur(totalPaid)}</td>
+                      <td className="adm-table-num">{formatEur(totalCancelled)}</td>
+                      <td />
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+
+              <ul className="adm-partners-cards">
+                {summaries.map((s) => (
+                  <li key={s.code} className="adm-card adm-partner-card">
+                    <div className="adm-partner-head">
+                      <h3 className="adm-partner-name">{s.partnerName}</h3>
+                      <p className="adm-meta adm-partner-meta">
+                        <span>
+                          <span className="adm-mono">{s.code}</span>
+                          <CodeState s={s} />
+                        </span>
+                        {s.partnerType && <span>{typeLabel(s)}</span>}
+                        {s.commissionType && <span>{modelLabel(s)}</span>}
+                      </p>
+                      <MissingAmount n={s.missingAmount} />
+                    </div>
+                    <dl className="adm-partner-counts">
+                      <div>
+                        <dt className="adm-label">Candidatures</dt>
+                        <dd className="adm-partners-strong">{s.total}</dd>
+                      </div>
+                      <div>
+                        <dt className="adm-label">En attente</dt>
+                        <dd className={s.pending > 0 ? undefined : 'adm-partners-zero'}>{s.pending}</dd>
+                      </div>
+                      <div>
+                        <dt className="adm-label">À payer</dt>
+                        <dd className={s.due > 0 ? 'adm-partners-due' : 'adm-partners-zero'}>{countAmount(s.due, s.amountDue)}</dd>
+                      </div>
+                      <div>
+                        <dt className="adm-label">Payé</dt>
+                        <dd className={s.paid > 0 ? 'adm-partners-paid' : 'adm-partners-zero'}>{countAmount(s.paid, s.amountPaid)}</dd>
+                      </div>
+                      <div>
+                        <dt className="adm-label">Annulé</dt>
+                        <dd className={s.cancelled > 0 ? 'adm-partners-muted' : 'adm-partners-zero'}>{countAmount(s.cancelled, s.amountCancelled)}</dd>
+                      </div>
+                    </dl>
+                    {s.total > 0 && (
+                      <Link href={partnerHref(s.code)} className="adm-link adm-partner-go">
+                        Voir les dossiers<span className="adm-sr-only"> de {s.code}</span>
+                      </Link>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </section>
+
+        <p className="adm-partners-help">
+          Le bonus passe de « En attente » à « À payer » quand la candidature devient soldée. « Voir les dossiers » ouvre
+          la liste des candidatures du partenaire, tous statuts ; le bonus se marque payé depuis la fiche.
         </p>
       </div>
     </AdminShell>

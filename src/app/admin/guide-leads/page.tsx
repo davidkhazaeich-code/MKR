@@ -2,15 +2,23 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { getSupabaseAdmin } from '@/lib/supabase-admin'
 import AdminShell from '@/components/admin/shell/AdminShell'
-import Badge from '@/components/admin/ui/Badge'
+import RefreshButton from '@/components/admin/shell/RefreshButton'
+import { ButtonLink } from '@/components/admin/ui/Button'
 import Icon from '@/components/admin/ui/Icon'
+import { formatNumericDate, formatTime, plural } from '@/lib/admin/format'
+
+// Leads du guide (spec 6.5) : memes requetes que l'ancienne page (500 leads
+// au plus, filtre ?source= lu cote serveur, sources distinctes sur 2 000
+// lignes), filtres de source en pastilles, export CSV par la route dediee
+// (meme parametre source), tableau quand sa largeur le permet, lignes
+// empilees sinon (admin.css, "Partenaires et Leads guide").
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
 
 export const metadata: Metadata = {
   robots: { index: false, follow: false },
-  title: 'Leads Guide · MKR Admin',
+  title: 'Leads guide · MKR Admin',
 }
 
 interface LeadRow {
@@ -27,10 +35,9 @@ interface LeadRow {
   created_at: string
 }
 
-function formatDate(iso: string) {
-  const d = new Date(iso)
-  return d.toLocaleString('fr-FR', { dateStyle: 'short', timeStyle: 'short' })
-}
+type SearchParams = Promise<{ source?: string | string[] }>
+
+const formatDate = (iso: string): string => `${formatNumericDate(iso)} ${formatTime(iso)}`
 
 // Domaine lisible du referrer (l'URL complete est dans le title au survol).
 function referrerHost(url: string): string {
@@ -41,151 +48,222 @@ function referrerHost(url: string): string {
   }
 }
 
-export default async function AdminGuideLeadsPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ source?: string }>
-}) {
-  const params = await searchParams
-  const supabase = getSupabaseAdmin()
+/** Termes UTM presents : "src : google", "med : cpc", "cmp : mkr-guide-caucase". */
+function utmParts(lead: LeadRow): string[] {
+  const parts: string[] = []
+  if (lead.utm_source) parts.push(`src : ${lead.utm_source}`)
+  if (lead.utm_medium) parts.push(`med : ${lead.utm_medium}`)
+  if (lead.utm_campaign) parts.push(`cmp : ${lead.utm_campaign}`)
+  return parts
+}
 
-  let query = supabase
-    .from('guide_leads')
-    .select('id, email, locale, source, utm_source, utm_medium, utm_campaign, referrer, ip, user_agent, created_at')
-    .order('created_at', { ascending: false })
-    .limit(500)
+const sourceHref = (source: string | null): string =>
+  source ? `/admin/guide-leads?source=${encodeURIComponent(source)}` : '/admin/guide-leads'
 
-  if (params.source) {
-    query = query.eq('source', params.source)
-  }
+/** Email en lien mailto, puis "EN" pour un lead du site anglais. `stretched` : le lien couvre la ligne (liste mobile). */
+function Email({ lead, stretched = false }: { lead: LeadRow; stretched?: boolean }) {
+  // Coupure permise seulement apres l'arobase (jamais au milieu d'un mot).
+  const at = lead.email.indexOf('@')
+  return (
+    <span className="adm-leads-email-line">
+      <a href={`mailto:${lead.email}`} className={stretched ? 'adm-leads-email adm-row-link' : 'adm-leads-email'}>
+        {at > 0 ? (
+          <>
+            {lead.email.slice(0, at + 1)}
+            <wbr />
+            {lead.email.slice(at + 1)}
+          </>
+        ) : (
+          lead.email
+        )}
+      </a>
+      {lead.locale === 'en' && (
+        <span className="adm-leads-lang" title="Lead capté sur le site EN">
+          <span aria-hidden="true">EN</span>
+          <span className="adm-sr-only">site anglais</span>
+        </span>
+      )}
+    </span>
+  )
+}
 
-  const { data: rawLeads, error } = await query
-  const leads: LeadRow[] = (rawLeads ?? []) as LeadRow[]
-
-  // Liste des sources distinctes pour le filtre
-  const { data: sourceData } = await supabase
-    .from('guide_leads')
-    .select('source')
-    .limit(2000)
-  const sources = Array.from(new Set((sourceData ?? []).map((r: { source: string }) => r.source))).sort()
-
-  // Export CSV : route handler dediee (retourner une Response depuis un server
-  // component ne marche pas, Next servait le HTML de la page a la place du CSV).
-  const csvHref = `/api/admin/guide-leads/export${params.source ? `?source=${encodeURIComponent(params.source)}` : ''}`
-
+function LoadError({ title, message, retry }: { title: string; message: string; retry: string | null }) {
   return (
     <AdminShell active="leads" title="Leads guide">
       <div className="adm-container">
-        <h1 className="adm-h1">Leads Guide Caucase</h1>
-        <p className="adm-h-meta">
-          {leads.length} lead{leads.length > 1 ? 's' : ''}
-          {params.source ? ` sur la source « ${params.source} »` : ' au total (500 max affichés)'}
-          {sources.length > 1 && ` · ${sources.length} sources`}
-        </p>
+        <div className="adm-page-head">
+          <h1 className="adm-h1">Leads guide</h1>
+        </div>
+        <section className="adm-empty adm-tone--danger" aria-labelledby="leads-error-title">
+          <span className="adm-empty-icon" aria-hidden="true">
+            <Icon name="alert-triangle" size={28} />
+          </span>
+          <h2 id="leads-error-title" className="adm-empty-title">
+            {title}
+          </h2>
+          <p className="adm-empty-text">{message}</p>
+          {retry && (
+            <div className="adm-empty-actions">
+              <ButtonLink href={retry} variant="primary" icon="refresh">
+                Réessayer
+              </ButtonLink>
+            </div>
+          )}
+        </section>
+      </div>
+    </AdminShell>
+  )
+}
 
-        {error && (
-          <div
-            style={{
-              margin: '1.25rem 0',
-              padding: '0.85rem 1rem',
-              borderRadius: '10px',
-              border: '1px solid rgba(239, 68, 68, 0.3)',
-              background: 'rgba(239, 68, 68, 0.06)',
-              color: 'var(--adm-status-refusee)',
-              fontSize: '0.85rem',
-            }}
-          >
-            Erreur Supabase : {error.message}
-          </div>
-        )}
+export default async function AdminGuideLeadsPage({ searchParams }: { searchParams: SearchParams }) {
+  const raw = (await searchParams).source
+  const source = (Array.isArray(raw) ? raw[0] : raw) || null
 
-        <div className="adm-toolbar" style={{ marginTop: '1.25rem' }}>
-          <div className="adm-filter-row">
-            <span className="adm-filter-row-label">Source</span>
-            <Link
-              href="/admin/guide-leads"
-              className={!params.source ? 'adm-pill adm-pill--active' : 'adm-pill'}
-            >
-              Toutes
-            </Link>
-            {sources.map((s) => (
-              <Link
-                key={s}
-                href={`/admin/guide-leads?source=${encodeURIComponent(s)}`}
-                className={params.source === s ? 'adm-pill adm-pill--active' : 'adm-pill'}
-              >
-                {s}
-              </Link>
-            ))}
-            <a
-              href={csvHref}
-              download
-              className="adm-pill"
-              style={{ marginLeft: 'auto', gap: '0.4rem' }}
-              title="Télécharge les leads affichés en CSV"
-            >
-              <Icon name="file-text" size={13} strokeWidth={2.2} />
-              Export CSV
-            </a>
+  let leads: LeadRow[] = []
+  let sourceRows: { source: string }[] = []
+  try {
+    const supabase = getSupabaseAdmin()
+    let query = supabase
+      .from('guide_leads')
+      .select('id, email, locale, source, utm_source, utm_medium, utm_campaign, referrer, ip, user_agent, created_at')
+      .order('created_at', { ascending: false })
+      .limit(500)
+    if (source) query = query.eq('source', source)
+
+    const { data: rawLeads, error } = await query
+    if (error) {
+      return <LoadError title="Chargement impossible" message={`Les leads n'ont pas pu être lus (${error.message}).`} retry={sourceHref(source)} />
+    }
+    leads = (rawLeads ?? []) as LeadRow[]
+
+    // Liste des sources distinctes pour le filtre
+    const { data: sourceData } = await supabase.from('guide_leads').select('source').limit(2000)
+    sourceRows = (sourceData ?? []) as { source: string }[]
+  } catch (err) {
+    return <LoadError title="Configuration manquante" message={err instanceof Error ? err.message : String(err)} retry={null} />
+  }
+
+  const perSource = new Map<string, number>()
+  for (const r of sourceRows) perSource.set(r.source, (perSource.get(r.source) ?? 0) + 1)
+  const sources = Array.from(perSource.keys()).sort()
+
+  // Export CSV : route handler dediee (retourner une Response depuis un server
+  // component ne marche pas, Next servait le HTML de la page a la place du CSV).
+  const csvHref = `/api/admin/guide-leads/export${source ? `?source=${encodeURIComponent(source)}` : ''}`
+
+  const chips: { label: string; value: string | null; count: number }[] = [
+    { label: 'Toutes', value: null, count: sourceRows.length },
+    ...sources.map((s) => ({ label: s, value: s, count: perSource.get(s) ?? 0 })),
+  ]
+  if (source && !perSource.has(source)) chips.push({ label: source, value: source, count: 0 })
+
+  return (
+    <AdminShell active="leads" title="Leads guide">
+      <div className="adm-container adm-leads">
+        <header className="adm-page-head adm-leads-head">
+          <div>
+            <h1 className="adm-h1">Leads guide</h1>
+            <p className="adm-page-meta">
+              {leads.length === 0 ? 'Aucun lead' : plural(leads.length, 'lead', 'leads')}
+              {source ? ` sur la source « ${source} »` : leads.length > 0 ? ' au total (500 au plus affichés)' : ''}
+              {sources.length > 1 && ` · ${sources.length} sources`}
+            </p>
           </div>
+          <RefreshButton variant="secondary" size="sm" className="adm-only-desktop" />
+        </header>
+
+        <div className="adm-leads-toolbar">
+          <nav className="adm-chips adm-leads-sources" aria-label="Filtrer par source">
+            {chips.map((c) => {
+              const active = c.value === source
+              return (
+                <Link
+                  key={c.value ?? ''}
+                  href={sourceHref(c.value)}
+                  className={active ? 'adm-chip adm-chip--active' : 'adm-chip'}
+                  aria-current={active ? 'true' : undefined}
+                >
+                  {c.label} <span className="adm-chip-count">{c.count}</span>
+                </Link>
+              )
+            })}
+          </nav>
+          <ButtonLink href={csvHref} download size="sm" className="adm-leads-export">
+            Exporter en CSV
+          </ButtonLink>
         </div>
 
         {leads.length === 0 ? (
-          <div className="adm-list-empty" style={{ marginTop: '1rem' }}>
-            <div className="adm-list-empty-icon" aria-hidden="true" style={{ color: 'var(--adm-text-muted)', fontSize: 'inherit' }}>
-              <Icon name="inbox" size={40} strokeWidth={1.6} />
-            </div>
-            <p className="adm-list-empty-title">Aucun lead pour ce filtre</p>
-            <p style={{ margin: 0, fontSize: '0.85rem' }}>
-              Les emails capturés par le formulaire du guide apparaîtront ici.
-            </p>
-          </div>
+          <section className="adm-empty" aria-labelledby="leads-empty-title">
+            <span className="adm-empty-icon" aria-hidden="true">
+              <Icon name="inbox" size={28} />
+            </span>
+            <h2 id="leads-empty-title" className="adm-empty-title">
+              {source ? 'Aucun lead pour cette source' : "Aucun lead pour l'instant"}
+            </h2>
+            <p className="adm-empty-text">Les emails capturés par le formulaire du guide apparaîtront ici.</p>
+            {source && (
+              <div className="adm-empty-actions">
+                <ButtonLink href="/admin/guide-leads">Voir toutes les sources</ButtonLink>
+              </div>
+            )}
+          </section>
         ) : (
-          <div className="adm-table-wrap">
-            <table className="adm-table">
-              <thead>
-                <tr>
-                  <th>Date</th>
-                  <th>Email</th>
-                  <th>Source</th>
-                  <th>UTM</th>
-                  <th>Referrer</th>
-                  <th>IP</th>
-                </tr>
-              </thead>
-              <tbody>
-                {leads.map((lead) => (
-                  <tr key={lead.id}>
-                    <td style={{ whiteSpace: 'nowrap', color: 'var(--adm-text-muted)', fontSize: '0.82rem', fontVariantNumeric: 'tabular-nums' }}>
-                      {formatDate(lead.created_at)}
-                    </td>
-                    <td>
-                      <a href={`mailto:${lead.email}`} style={{ color: 'var(--adm-text-primary)' }}>
-                        {lead.email}
-                      </a>
-                      {lead.locale === 'en' && (
-                        <span style={{ marginLeft: '0.45rem', display: 'inline-flex', verticalAlign: 'middle' }} title="Lead capté sur le site EN">
-                          <Badge color="#3b82f6">EN</Badge>
-                        </span>
-                      )}
-                    </td>
-                    <td style={{ fontSize: '0.82rem' }}>{lead.source}</td>
-                    <td style={{ fontSize: '0.78rem', color: 'var(--adm-text-muted)' }}>
-                      {lead.utm_source && <div>src : {lead.utm_source}</div>}
-                      {lead.utm_medium && <div>med : {lead.utm_medium}</div>}
-                      {lead.utm_campaign && <div>cmp : {lead.utm_campaign}</div>}
-                      {!lead.utm_source && !lead.utm_medium && !lead.utm_campaign && <span>·</span>}
-                    </td>
-                    <td style={{ fontSize: '0.78rem', color: 'var(--adm-text-muted)' }} title={lead.referrer ?? undefined}>
-                      {lead.referrer ? referrerHost(lead.referrer) : '·'}
-                    </td>
-                    <td style={{ fontSize: '0.78rem', color: 'var(--adm-text-muted)', fontVariantNumeric: 'tabular-nums', whiteSpace: 'nowrap' }}>
-                      {lead.ip || '·'}
-                    </td>
+          <div className="adm-leads-list">
+            <div className="adm-table-wrap adm-leads-table">
+              <table className="adm-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Date</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Source</th>
+                    <th scope="col">UTM</th>
+                    <th scope="col">Référent</th>
+                    <th scope="col">IP</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {leads.map((lead) => {
+                    const utm = utmParts(lead)
+                    return (
+                      <tr key={lead.id}>
+                        <td className="adm-leads-date">{formatDate(lead.created_at)}</td>
+                        <td>
+                          <Email lead={lead} />
+                        </td>
+                        <td className="adm-leads-nowrap">{lead.source}</td>
+                        <td className="adm-leads-muted">
+                          {utm.length > 0 ? utm.map((u) => <span key={u} className="adm-leads-utm">{u}</span>) : 'Aucun'}
+                        </td>
+                        <td className="adm-leads-muted adm-leads-nowrap" title={lead.referrer ?? undefined}>
+                          {lead.referrer ? referrerHost(lead.referrer) : 'Aucun'}
+                        </td>
+                        <td className="adm-leads-muted adm-leads-ip">{lead.ip || 'Non renseigné'}</td>
+                      </tr>
+                    )
+                  })}
+                </tbody>
+              </table>
+            </div>
+
+            <ul className="adm-rows adm-leads-rows">
+              {leads.map((lead) => {
+                const utm = utmParts(lead)
+                return (
+                  <li key={lead.id} className="adm-row adm-leads-row">
+                    <Email lead={lead} stretched />
+                    <p className="adm-meta">
+                      <span>{lead.source}</span>
+                      <span>{formatDate(lead.created_at)}</span>
+                    </p>
+                    <p className="adm-leads-detail">{utm.length > 0 ? utm.join(' · ') : 'UTM : aucun'}</p>
+                    <p className="adm-leads-detail">
+                      Référent : {lead.referrer ? referrerHost(lead.referrer) : 'aucun'} · IP : {lead.ip || 'non renseignée'}
+                    </p>
+                  </li>
+                )
+              })}
+            </ul>
           </div>
         )}
       </div>
