@@ -7,7 +7,9 @@
 //   - @media (prefers-color-scheme: dark) :root:not([data-theme="light"])
 //                                      -> doit etre IDENTIQUE au bloc sombre
 // Couleurs translucides : composees sur le fond qu'elles recouvrent.
-// Seuils : 4,5:1 pour le texte ; 3:1 pour --adm-text-4 (placeholders, ornements).
+// Seuils : 4,5:1 pour le texte ; 3:1 pour --adm-text-4 (placeholders, ornements)
+// et pour les contours et etats des controles (WCAG 1.4.11, groupes
+// "controles", "interrupteur", "case").
 // Usage : node scripts/admin-mock/contrast.mjs   (code 1 si un seuil manque)
 
 import { readFileSync } from 'node:fs'
@@ -181,7 +183,10 @@ function pairsFor() {
     add('tons', fg, ['--adm-bg'], 4.5, 'extra')
     add('encadres', '--adm-text', [`--adm-${tone}-bg`, '--adm-surface'], 4.5, 'extra')
     add('encadres', '--adm-text-2', [`--adm-${tone}-bg`, '--adm-surface'], 4.5, 'extra')
+    add('encadres', '--adm-text-3', [`--adm-${tone}-bg`, '--adm-surface'], 4.5)
+    add('encadres', '--adm-text-3', [`--adm-${tone}-bg`, '--adm-bg'], 4.5, 'extra')
   }
+  add('texte', '--adm-text-3', ['--adm-surface-3'], 4.5)
   add('action', '--adm-action-text', ['--adm-surface'], 4.5)
   add('action', '--adm-action-text', ['--adm-bg'], 4.5, 'extra')
   add('action', '--adm-action-text', ['--adm-surface-2'], 4.5, 'extra')
@@ -191,6 +196,18 @@ function pairsFor() {
   add('boutons', '--adm-on-whatsapp', ['--adm-whatsapp-hover'], 4.5, 'extra')
   add('boutons', '--adm-on-danger', ['--adm-danger-solid'], 4.5, 'extra')
   add('composants', '--adm-text-2', ['--adm-surface-3'], 4.5, 'extra')
+  // Non-texte (3:1) : contour des champs et cases, piste et pouce de l'interrupteur
+  for (const g of ['--adm-bg', '--adm-surface', '--adm-surface-2', '--adm-elevated']) {
+    add('controles', '--adm-control-border', [g], 3)
+  }
+  add('interrupteur', '--adm-control-border', ['--adm-surface'], 3)
+  add('interrupteur', '--adm-control-border', ['--adm-surface-2'], 3)
+  add('interrupteur', '--adm-ok', ['--adm-surface'], 3)
+  add('interrupteur', '--adm-ok', ['--adm-surface-2'], 3)
+  add('interrupteur', '--adm-switch-thumb', ['--adm-control-border'], 3)
+  add('interrupteur', '--adm-switch-thumb-on', ['--adm-ok'], 3)
+  add('case', '--adm-text', ['--adm-surface'], 3)
+  add('case', '--adm-surface', ['--adm-text'], 3)
   add('composants', '--adm-text', ['--adm-seg-active'], 4.5, 'extra')
   add('composants', '--adm-surface', ['--adm-text'], 4.5, 'extra')
   for (let n = 0; n < 6; n++) add('avatars', `--adm-av${n}-fg`, [`--adm-av${n}-bg`], 4.5, 'extra')
@@ -221,11 +238,11 @@ for (const [theme, tokens] of Object.entries(THEMES)) {
 
 const pad = (s, n) => String(s).padEnd(n)
 console.log('Contraste des jetons de src/app/admin/admin.css\n')
-console.log(pad('theme', 8) + pad('groupe', 12) + pad('texte', 26) + pad('fond', 48) + pad('ratio', 8) + pad('seuil', 7) + pad('type', 8) + 'etat')
+console.log(pad('theme', 8) + pad('groupe', 13) + pad('couleur', 26) + pad('fond', 48) + pad('ratio', 8) + pad('seuil', 7) + pad('type', 8) + 'etat')
 for (const r of rows) {
   console.log(
     pad(r.theme, 8) +
-      pad(r.group, 12) +
+      pad(r.group, 13) +
       pad(r.fg, 26) +
       pad(r.layers.join(' sur '), 48) +
       pad(r.r.toFixed(2), 8) +

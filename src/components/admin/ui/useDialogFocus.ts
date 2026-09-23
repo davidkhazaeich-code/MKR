@@ -38,7 +38,12 @@ export function useIsClient(): boolean {
 }
 
 // Pile des dialogues ouverts : seul le dernier gere clavier et focus.
+// Le verrou de defilement est pose une fois pour toute la pile (passage de 0
+// a 1 dialogue) et leve une fois (retour a 0) : React ne garantit pas l'ordre
+// des nettoyages (freres dans l'ordre de l'arbre, parent avant enfants), donc
+// chaque dialogue ne doit pas restaurer sa propre copie de la valeur.
 const openStack: symbol[] = []
+let overflowBeforeLock = ''
 
 export function useDialogFocus(
   open: boolean,
@@ -56,17 +61,20 @@ export function useDialogFocus(
   useEffect(() => {
     if (!open) return
     const id = Symbol('dialog')
+    if (openStack.length === 0) {
+      overflowBeforeLock = document.body.style.overflow
+      document.body.style.overflow = 'hidden'
+    }
     openStack.push(id)
     const isTop = () => openStack[openStack.length - 1] === id
     const previous = document.activeElement instanceof HTMLElement ? document.activeElement : null
 
     const container = containerRef.current
+    // Le repli du focus (dialogue sans element focusable) exige un conteneur focusable.
+    if (container && !container.hasAttribute('tabindex')) container.tabIndex = -1
     const target =
       initialFocusRef.current?.() ?? (container ? getFocusable(container)[0] : null) ?? container
     target?.focus()
-
-    const previousOverflow = document.body.style.overflow
-    document.body.style.overflow = 'hidden'
 
     const onKeyDown = (e: KeyboardEvent) => {
       if (!isTop()) return
@@ -118,7 +126,7 @@ export function useDialogFocus(
       document.removeEventListener('focusin', onFocusIn)
       const index = openStack.lastIndexOf(id)
       if (index >= 0) openStack.splice(index, 1)
-      document.body.style.overflow = previousOverflow
+      if (openStack.length === 0) document.body.style.overflow = overflowBeforeLock
       if (previous && previous !== document.body && previous.isConnected) previous.focus()
     }
   }, [open, containerRef])

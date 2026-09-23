@@ -1,7 +1,8 @@
 'use client'
 
 // Fenetre de confirmation. Props inchangees pour les appelants existants ;
-// confirmIcon ajoute l'icone de l'action au bouton de confirmation.
+// confirmIcon ajoute l'icone de l'action au bouton de confirmation, icon
+// remplace l'icone d'en-tete de la variante.
 // Accessibilite : role dialog + aria-modal, titre et message relies
 // (aria-labelledby, aria-describedby), piege de focus (Tab et Maj+Tab
 // bouclent), Echap et clic sur le fond annulent, retour du focus a
@@ -22,16 +23,19 @@ interface Props {
   variant?: 'warning' | 'danger' | 'primary'
   /** Icone de l'action portee par le bouton de confirmation (envoyer = send...). */
   confirmIcon?: IconName
+  /** Icone d'en-tete, a la place de celle de la variante (le ton reste celui de la variante). */
+  icon?: IconName
   onConfirm: () => void
   onCancel: () => void
 }
 
-// warning et danger annoncent un risque (icone au ton) ; primary confirme une
-// action courante (pas d'icone d'alerte).
+// L'icone d'en-tete suit la variante : warning et danger annoncent un risque
+// (triangle au ton) ; primary confirme une action courante (coche au ton info,
+// jamais en rust : la couleur d'action est reservee au cliquable).
 const VARIANT = {
-  warning: { tone: 'warn', button: 'primary' },
-  danger: { tone: 'danger', button: 'danger' },
-  primary: { tone: null, button: 'primary' },
+  warning: { tone: 'warn', icon: 'alert-triangle', button: 'primary' },
+  danger: { tone: 'danger', icon: 'alert-triangle', button: 'danger' },
+  primary: { tone: 'info', icon: 'check-circle', button: 'primary' },
 } as const
 
 export default function ConfirmModal({
@@ -42,6 +46,7 @@ export default function ConfirmModal({
   cancelLabel = 'Annuler',
   variant = 'warning',
   confirmIcon,
+  icon,
   onConfirm,
   onCancel,
 }: Props) {
@@ -79,11 +84,9 @@ export default function ConfirmModal({
         aria-describedby={messageId}
         tabIndex={-1}
       >
-        {cfg.tone && (
-          <div className={`adm-modal-icon adm-tone--${cfg.tone}`} aria-hidden="true">
-            <Icon name="alert-triangle" size={20} />
-          </div>
-        )}
+        <div className={`adm-modal-icon adm-tone--${cfg.tone}`} aria-hidden="true">
+          <Icon name={icon ?? cfg.icon} size={20} />
+        </div>
         <h2 id={titleId} className="adm-modal-title">
           {title}
         </h2>

@@ -64,10 +64,15 @@
   --adm-elevated: #ffffff;
   --adm-border: #e3e0da;
   --adm-border-strong: #cdc8bf;
+  /* Contour des controles (champs, cases, piste d'interrupteur eteint) :
+     >= 3:1 sur bg, surface et surface-2 (WCAG 1.4.11). --adm-border-strong
+     reste reserve aux separateurs decoratifs. */
+  --adm-control-border: #8a857b;
 
   --adm-text: #1c1b19;
   --adm-text-2: #4f4c46;
-  --adm-text-3: #6f6b63;
+  /* #6f6b63 du brief : 4,49:1 sur --adm-surface-3, assombri de 0,5 % */
+  --adm-text-3: #6e6a63;
   --adm-text-4: #8f8a80;
 
   --adm-action: #b8432a;
@@ -101,8 +106,8 @@
   --adm-shadow-md: 0 1px 3px rgba(28, 27, 25, 0.06), 0 6px 20px rgba(28, 27, 25, 0.1);
   --adm-shadow-lg: 0 2px 8px rgba(28, 27, 25, 0.08), 0 18px 48px rgba(28, 27, 25, 0.18);
   --adm-skeleton-sheen: rgba(255, 255, 255, 0.65);
-  --adm-switch-track: #d6d2ca;
   --adm-switch-thumb: #ffffff;
+  --adm-switch-thumb-on: #ffffff;
   --adm-seg-active: #ffffff;
   --adm-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236f6b63' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
 
@@ -139,10 +144,12 @@
   --adm-elevated: #1d1d22;
   --adm-border: rgba(255, 255, 255, 0.08);
   --adm-border-strong: rgba(255, 255, 255, 0.16);
+  --adm-control-border: #6c6c77;
 
   --adm-text: #f3f3f5;
   --adm-text-2: #b9b9c2;
-  --adm-text-3: #8e8e99;
+  /* #8e8e99 du brief : 4,31:1 sur les fonds de ton, eclairci de 3,5 % */
+  --adm-text-3: #92929d;
   --adm-text-4: #676772;
 
   --adm-action: #c84b31;
@@ -176,8 +183,8 @@
   --adm-shadow-md: 0 1px 3px rgba(0, 0, 0, 0.4), 0 8px 24px rgba(0, 0, 0, 0.45);
   --adm-shadow-lg: 0 2px 8px rgba(0, 0, 0, 0.45), 0 20px 56px rgba(0, 0, 0, 0.6);
   --adm-skeleton-sheen: rgba(255, 255, 255, 0.05);
-  --adm-switch-track: #3a3a42;
   --adm-switch-thumb: #f3f3f5;
+  --adm-switch-thumb-on: #0f0f12;
   --adm-seg-active: #34343c;
   --adm-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238e8e99' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
 
@@ -204,10 +211,11 @@
     --adm-elevated: #1d1d22;
     --adm-border: rgba(255, 255, 255, 0.08);
     --adm-border-strong: rgba(255, 255, 255, 0.16);
+    --adm-control-border: #6c6c77;
 
     --adm-text: #f3f3f5;
     --adm-text-2: #b9b9c2;
-    --adm-text-3: #8e8e99;
+    --adm-text-3: #92929d;
     --adm-text-4: #676772;
 
     --adm-action: #c84b31;
@@ -240,8 +248,8 @@
     --adm-shadow-md: 0 1px 3px rgba(0, 0, 0, 0.4), 0 8px 24px rgba(0, 0, 0, 0.45);
     --adm-shadow-lg: 0 2px 8px rgba(0, 0, 0, 0.45), 0 20px 56px rgba(0, 0, 0, 0.6);
     --adm-skeleton-sheen: rgba(255, 255, 255, 0.05);
-    --adm-switch-track: #3a3a42;
     --adm-switch-thumb: #f3f3f5;
+    --adm-switch-thumb-on: #0f0f12;
     --adm-seg-active: #34343c;
     --adm-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238e8e99' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
 
@@ -1117,7 +1125,7 @@ img {
   min-width: 0;
   min-height: 44px;
   padding: 0 12px;
-  border: 1px solid var(--adm-border-strong);
+  border: 1px solid var(--adm-control-border);
   border-radius: var(--adm-radius-md);
   background-color: var(--adm-surface);
   color: var(--adm-text);
@@ -1139,7 +1147,7 @@ img {
   .adm-select:hover:not(:disabled):not(:focus),
   .adm-textarea:hover:not(:disabled):not(:focus),
   .adm-notes-textarea:hover:not(:disabled):not(:focus) {
-    border-color: var(--adm-text-4);
+    border-color: var(--adm-text-3);
   }
 }
 
@@ -1220,13 +1228,47 @@ select.adm-input {
   cursor: pointer;
 }
 
-.adm-check input {
+.adm-check input[type="checkbox"] {
+  -webkit-appearance: none;
+  appearance: none;
+  display: inline-grid;
   flex-shrink: 0;
+  place-content: center;
   width: 20px;
   height: 20px;
   margin: 0;
-  accent-color: var(--adm-text);
+  border: 2px solid var(--adm-control-border);
+  border-radius: 5px;
+  background: var(--adm-surface);
   cursor: pointer;
+  transition:
+    background-color var(--adm-dur) var(--adm-ease),
+    border-color var(--adm-dur) var(--adm-ease);
+}
+
+/* Coche dessinee en couleur de surface sur le fond couleur de texte */
+.adm-check input[type="checkbox"]::before {
+  content: "";
+  width: 11px;
+  height: 11px;
+  background: var(--adm-surface);
+  clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+  transform: scale(0);
+  transition: transform var(--adm-dur) var(--adm-ease);
+}
+
+.adm-check input[type="checkbox"]:checked {
+  border-color: var(--adm-text);
+  background: var(--adm-text);
+}
+
+.adm-check input[type="checkbox"]:checked::before {
+  transform: scale(1);
+}
+
+.adm-check input[type="checkbox"]:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 /* Interrupteur (ui/Switch) */
@@ -1287,7 +1329,7 @@ select.adm-input {
   width: 46px;
   height: 26px;
   border-radius: var(--adm-radius-pill);
-  background: var(--adm-switch-track);
+  background: var(--adm-control-border);
   transition: background-color var(--adm-dur) var(--adm-ease);
   pointer-events: none;
 }
@@ -1301,7 +1343,9 @@ select.adm-input {
   border-radius: 50%;
   background: var(--adm-switch-thumb);
   box-shadow: var(--adm-shadow-sm);
-  transition: transform var(--adm-dur) var(--adm-ease);
+  transition:
+    transform var(--adm-dur) var(--adm-ease),
+    background-color var(--adm-dur) var(--adm-ease);
   pointer-events: none;
 }
 
@@ -1310,6 +1354,7 @@ select.adm-input {
 }
 
 .adm-switch input:checked ~ .adm-switch-thumb {
+  background: var(--adm-switch-thumb-on);
   transform: translateX(20px);
 }
 
