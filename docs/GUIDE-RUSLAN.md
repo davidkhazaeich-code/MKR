@@ -1,19 +1,19 @@
-# Guide Ruslan — Gérer MKR Caucasian Camp
+# Guide Ruslan : gérer MKR Caucasian Camp
 
 Bienvenue Ruslan. Ce guide te dit comment piloter le site et le pipeline candidatures sans avoir besoin de David à chaque modification.
 
 Toutes les opérations se font dans **2 endroits** :
-1. **Le dashboard admin** : `mkrcamp.com/admin/inscriptions` — pour gérer les candidatures du jour
-2. **Le code source** (GitHub) : `github.com/davidkhazaeich-code/MKR` — pour changer les tarifs, ajouter une session, modifier un texte
+1. **Le dashboard admin** : `mkrcamp.com/admin`, pour gérer les candidatures du jour
+2. **Le code source** (GitHub) : `github.com/davidkhazaeich-code/MKR`, pour changer un tarif ou modifier un texte (les sessions, elles, tournent toutes seules)
 
 ---
 
 ## Sommaire
 
 1. [Accéder au dashboard admin](#1-acceder-au-dashboard-admin)
-2. [Gérer une candidature (visio → paiement → validation)](#2-gerer-une-candidature)
+2. [Gérer une candidature (visio, validation, contrat, paiement)](#2-gerer-une-candidature)
 3. [Modifier un tarif (un seul fichier à éditer !)](#3-modifier-un-tarif)
-4. [Ajouter ou modifier une session officielle](#4-sessions-officielles)
+4. [Les sessions officielles, qui tournent toutes seules](#4-sessions-officielles)
 5. [Modifier un texte sur le site (FAQ, descriptions, etc.)](#5-modifier-un-texte)
 6. [Publier les changements (deploy)](#6-deploy)
 7. [Où trouver quoi sur le site (cheat sheet)](#7-cheat-sheet)
@@ -23,171 +23,104 @@ Toutes les opérations se font dans **2 endroits** :
 
 ## 1. Accéder au dashboard admin
 
-URL : **mkrcamp.com/admin/inscriptions**
+URL : **mkrcamp.com/admin**
 
-Le dashboard est protégé par un mot de passe que David t'a transmis. Une fois connecté, tu vois la liste de toutes les candidatures, classées par statut :
-- **Reçue** : candidature en ligne fraîche, à appeler
-- **Visio planifiée** : RDV pris, en attente de la visio
-- **Acceptée** : visio passée, candidat validé, RIB envoyé
-- **Soldée** : virement reçu, dossier complet
-- **Refusée / Annulée** : dossier clos
+Cette adresse t'amène directement sur l'écran « À faire », qui te dit tout de suite ce qui attend une action, sans que tu aies besoin de trier les dossiers toi-même. Le mot de passe est celui que David t'a transmis. Une fois connecté, la connexion reste mémorisée 30 jours sur ton appareil, donc tu n'as pas besoin de le retaper à chaque visite, sauf si tu changes de téléphone ou d'ordinateur, ou si tu te déconnectes toi-même.
 
-Tu peux filtrer par **tunnel** (Session officielle / Sur Mesure / Famille / Club & Groupe) ou par **session** (Été 2026, Toussaint 2026, Hiver 2027, Pâques 2027). La recherche par nom/email fonctionne en haut de la liste.
+Sur ton téléphone, tu peux ajouter l'admin à ton écran d'accueil comme une vraie application, depuis le menu de partage du navigateur (« Sur l'écran d'accueil » ou équivalent selon le navigateur). Il s'ouvre alors en plein écran, sans la barre d'adresse.
+
+### Se déplacer dans l'admin
+
+Sur ordinateur, une barre à gauche donne accès à tout : À faire, Candidatures, Sessions, Partenaires, Leads guide. En bas de cette barre, tu changes l'apparence (claire, sombre ou automatique selon ton appareil) et tu te déconnectes.
+
+Sur téléphone, quatre icônes en bas de l'écran : À faire, Candidatures, Sessions et Plus. Le bouton Plus ouvre un panneau avec Partenaires, Leads guide, l'apparence et la déconnexion.
+
+### Ce que tu vois sur chaque écran
+
+- **À faire** : la date du jour, ta prochaine session qui part et dans combien de jours, le nombre de dossiers par statut, l'agenda des visios à venir groupées par jour, puis des listes classées par urgence, chacune affichée seulement si elle contient un dossier : les visios passées sans décision, les paiements en retard ou attendus, les contrats à envoyer, les devis Club et Groupe, les candidatures sans visio à relancer, les dossiers dont le camp est déjà parti, les camps terminés à clôturer, les bonus partenaires à payer, et enfin les nouvelles candidatures.
+- **Candidatures** : la liste complète, avec une recherche par nom, email ou téléphone, des onglets par statut et des filtres (session, formule, discipline, origine, partenaire, langue, étape, tri). Chaque ligne te dit d'un coup d'œil la prochaine étape du dossier.
+- **Sessions** : une carte par session, avec les places prises en Lutte et en MMA, les montants engagés et encaissés, et un lien direct vers les dossiers de chaque statut pour cette session.
+- **Partenaires** et **Leads guide** : les mêmes informations qu'avant, à savoir les commissions à payer, les liens à partager, et l'export des contacts du guide PDF, simplement plus lisibles sur téléphone.
+
+### Les statuts d'un dossier
+
+Chaque dossier a un statut, qui n'avance que par une action de ta part sur sa fiche : **Reçue** pour une candidature qui vient d'arriver, **Validée** une fois que tu as fait la visio et accepté le candidat, **Soldée** quand le paiement complet est arrivé, **Camp fait** une fois le séjour terminé. À côté de ce chemin normal : **Refusée**, **Annulée** ou **Reportée** pour un dossier qui ne va pas jusqu'au bout.
 
 ---
 
 ## 2. Gérer une candidature
 
-Tu cliques sur une ligne → tu arrives sur la fiche détaillée. Tu y trouves :
+Tu cliques sur une ligne et tu arrives sur la fiche du dossier. Sur téléphone, elle est répartie en quatre onglets (Profil, Suivi, Paiement, Historique) sous un en-tête fixe avec le nom et le statut, et une barre d'actions fixe en bas (WhatsApp, Appeler, action principale). Sur ordinateur, les quatre groupes sont affichés en deux colonnes, sans onglet.
 
-### Section "Identité et coordonnées"
-Prénom, nom, email, téléphone, pays, ville de départ.
+### Le panneau « prochaine étape »
 
-### Section "Expérience sportive"
-Discipline principale, années de pratique, niveau, club, palmarès, lien vidéo.
+En haut de la fiche, un panneau te dit en clair ce qu'il reste à faire sur ce dossier, avec un seul bouton principal qui fait exactement cette action : ouvrir la réservation de la visio, valider, préparer le contrat, enregistrer le paiement, passer le dossier en soldé, proposer une autre session, marquer le camp fait, ou relancer un candidat qui n'a pas encore réservé sa visio. Les autres changements de statut possibles restent disponibles en dessous, en secondaire.
 
-### Section "Santé"
-Condition physique, blessures récentes, contre-indications, capacité à s'entraîner 2× par jour.
+Valider un dossier demande une confirmation, parce que ça envoie automatiquement un email au candidat pour lui annoncer que son dossier est validé.
 
-### Section "Famille" (si tunnel Famille)
-- **Format** : session officielle choisie ou sur-mesure
-- **Enfants** : liste avec prénom, âge, expérience, contre-indications
-- **Conjoint(e) participe aussi** : Oui/Non
-- **Nombre de parents participants** : 1 ou 2
+### Onglet Profil
+Identité et coordonnées (prénom, nom, email, téléphone, pays, ville de départ), expérience sportive (discipline, années de pratique, niveau, club, palmarès, lien vidéo), santé, et selon le tunnel les informations Famille (enfants, conjoint participant ou non, nombre de parents) ou Club et Groupe (nom du club, nombre de participants, niveau, disciplines). Tu y trouves aussi les autres dossiers du même candidat s'il y en a.
 
-> 💡 Si le tunnel est Famille avec 2 parents : applique le tarif Solo/Duo aux 2 parents + 790 €/sem par enfant. Si 1 parent : forfait Parent+Enfant (1er enfant inclus) + 790 €/sem par enfant supplémentaire.
+### Onglet Suivi
+L'heure exacte de la visio réservée sur Cal, un lien direct vers la page de réservation, le compte-rendu de la visio puis tes notes internes. Les deux se sauvegardent tout seuls pendant que tu tapes, donc tu n'as pas de bouton Enregistrer à chercher ni de risque de perdre ce que tu viens d'écrire si tu changes d'écran juste après. Cet onglet porte aussi le bouton pour relancer un candidat sans visio, et celui pour lui proposer une autre session si le camp choisi est déjà parti.
 
-### Section "Groupe / Club" (si tunnel Club & Groupe)
-- Nom du club, nombre de participants (5 / 6-10 / 11-20), niveau du groupe, disciplines, palmarès collectif.
+### Onglet Paiement
+Une carte unique pour le paiement : montant restant, montant du séjour modifiable, méthode, date, et un interrupteur pour marquer le dossier comme soldé. Le bouton « Enregistrer un paiement » ouvre une fenêtre qui pré-remplit tout d'un coup (montant, méthode, date du jour, et la case pour passer directement en Soldée) au lieu de faire les gestes un par un. La carte contrat reste au même endroit qu'avant (préparer, enregistrer, envoyer, renvoyer, avec le RIB toujours inclus dans l'email), tout comme le bonus partenaire s'il y en a un pour ce dossier.
 
-### Actions disponibles
+### Onglet Historique
+Toute action reste tracée dans la timeline, avec un texte clair pour chaque événement. Tout en bas se trouve la zone de suppression définitive d'un dossier, protégée : il faut taper SUPPRIMER dans le champ prévu pour confirmer.
 
-**Changer le statut** : bouton à droite. Le système te rappelle à chaque transition ce que tu dois faire :
-- `Reçue` → `Visio planifiée` : RDV pris avec le candidat
-- `Visio planifiée` → `Acceptée` : visio passée, candidat OK → envoyer le RIB par email
-- `Acceptée` → `Soldée` : virement reçu sur ton compte → marquer comme payé
-
-**Saisir le paiement** (après visio, quand tu envoies le RIB) :
-- **Montant package (€)** : total convenu avec le candidat. Le hint sous le champ te rappelle le tarif Solo/Duo de référence selon la grille actuelle.
-- **Méthode** : Virement bancaire / Espèces / Autre
-- **Date de paiement** : date à laquelle l'argent est arrivé sur le compte
-
-**Notes admin** : champ libre pour tes notes internes (ce que le candidat t'a dit en visio, son niveau réel, ses contraintes, etc.).
-
-**Notes visio** : compte-rendu structuré de la visio.
-
-### Historique
-Toute action est tracée dans la timeline en bas de la fiche (qui a changé quoi, quand). Tu peux remonter l'historique d'un dossier en un coup d'œil.
+### Se déplacer d'un dossier à l'autre
+En haut de la fiche sur téléphone, et sur le côté sur ordinateur : un bouton précédent et un bouton suivant qui gardent l'ordre de la liste ou de l'écran À faire d'où tu venais, sans devoir repasser par la liste à chaque fois.
 
 ---
 
 ## 3. Modifier un tarif
 
-C'est **LE point qui change tout**. La grille tarifaire vit dans **un seul fichier** :
+C'est **LE point qui change tout**. La grille tarifaire vit dans **un seul fichier** : `src/data/pricing.ts`.
 
-📁 `src/data/pricing.ts`
+Tu y modifies un chiffre, tu commits, tu push, Vercel reconstruit, et tout le site (pages, FAQ, CGV, hero stats, formulaire, métadonnées SEO) se met à jour automatiquement, ainsi que le rappel de tarif que tu vois dans la fiche d'un dossier admin.
 
-Tu y modifies les chiffres → tu commits → tu push → Vercel rebuild → tout le site (pages, FAQ, CGV, hero stats, formulaire, métadonnées SEO) est mis à jour automatiquement.
+Le fichier contient quatre paliers par taille de groupe (Solo ou Duo, Trio à cinq, Club ou Groupe, et au-delà sur devis) et le forfait Famille (le prix de base pour un parent et un enfant, puis chaque enfant supplémentaire), chacun décliné sur une semaine, deux semaines et trois semaines.
+
+Les montants eux-mêmes bougent de temps en temps, ils ont encore changé le 15 septembre 2026, donc ce guide ne les recopie pas : ils seraient faux la fois suivante. Pour voir les prix qui sont réellement en ligne aujourd'hui, le plus sûr est d'ouvrir directement le fichier sur GitHub, ou de regarder **mkrcamp.com/sessions**, qui affiche exactement ce que voit un visiteur.
 
 ### Étape par étape
 
-1. Va sur **github.com/davidkhazaeich-code/MKR**
-2. Navigue dans `src/data/pricing.ts`
-3. Clique sur le crayon (✏️) en haut à droite pour éditer
-4. Trouve la section correspondante :
+1. Va sur **github.com/davidkhazaeich-code/MKR**.
+2. Navigue dans `src/data/pricing.ts`.
+3. Clique sur le crayon en haut à droite pour éditer.
+4. Repère la ligne du palier que tu veux changer, puis le bon montant selon la durée choisie, en première position pour une semaine, en deuxième pour deux semaines, en troisième pour trois semaines.
+5. Remplace le chiffre par le nouveau montant, sans toucher au reste de la ligne.
+6. Descends en bas de la page jusqu'à « Commit changes ».
+7. Ajoute un message clair qui dit quel palier tu as changé et dans quel sens.
+8. Confirme. Vercel reconstruit le site en une à deux minutes.
 
-```typescript
-export const PRICING_TIERS = {
-  duo: {  // 1 à 2 personnes
-    perAdult: { 1: 1490, 2: 2290, 3: 2790 },  // 1 sem / 2 sem / 3 sem
-    // ...
-  },
-  trio: {  // 3 à 5 personnes
-    perAdult: { 1: 1390, 2: 1990, 3: 2690 },
-    // ...
-  },
-  club: {  // 6 à 10 personnes
-    perAdult: { 1: 1290, 2: 1790, 3: 2390 },
-    // ...
-  },
-  private: {  // 11+ : sur devis
-    perAdult: { 1: 0, 2: 0, 3: 0 },  // laisser à 0
-    // ...
-  },
-}
+### Ce que tu n'as pas à faire
 
-export const FAMILY_PRICING = {
-  base: { 1: 2590, 2: 4790, 3: 6890 },  // forfait 1P+1E
-  extraChildPerWeek: { 1: 790, 2: 1580, 3: 2370 },  // par enfant supp
-}
-```
-
-5. Change le chiffre. Par exemple, si tu veux passer le palier Duo 1 sem de 1490 à 1500 € : remplace `1: 1490` par `1: 1500`.
-6. Descends en bas de la page → "Commit changes"
-7. Ajoute un message clair : `Hausse tarif Duo 1 sem : 1490 → 1500 €`
-8. Confirme. Vercel reconstruit le site en 1-2 minutes.
-
-### Ce que tu n'as PAS à faire
-
-❌ Tu n'as **PAS** besoin de modifier les pages (sessions, familles, CGV, FAQ, etc.) une par une.
-❌ Tu n'as **PAS** besoin de mettre à jour les métadonnées SEO.
-❌ Tu n'as **PAS** besoin de toucher au formulaire d'inscription.
-
-Tout se propage automatiquement depuis `data/pricing.ts`. C'est le principe central du système.
+Tu n'as pas besoin de modifier les pages une par une, que ce soit sessions, familles, CGV ou FAQ. Tu n'as pas besoin de mettre à jour les métadonnées SEO, ni de toucher au formulaire d'inscription, ni au rappel de tarif dans la fiche d'un dossier admin. Tout se propage automatiquement depuis `data/pricing.ts` : c'est le principe central du système.
 
 ### Cas limite
 
-Si tu veux changer la **structure** des paliers (ex : ajouter un palier "11-20 = 1190 €/pers" au lieu de "11+ = devis"), demande-moi (David). Modifier les chiffres existants = autonome. Changer la structure = on en discute.
+Si tu veux changer la structure des paliers, par exemple ajouter un palier pour onze à vingt personnes au lieu de passer directement sur devis, demande à David. Modifier les chiffres existants reste autonome. Changer la structure se discute avant.
 
 ---
 
 ## 4. Sessions officielles
 
-Le calendrier des 4 sessions vit dans **2 fichiers** (à synchroniser manuellement) :
+Les sessions ne sont plus une liste à tenir à jour : elles tournent toutes seules. Le camp revient quatre fois par an, en février, à Pâques, en août et à la Toussaint, et `src/data/sessions.ts` calcule automatiquement les prochaines dates à partir de ces quatre gabarits de saison. Dès qu'une session démarre, elle sort de la liste des inscriptions, et la même saison de l'année suivante apparaît toute seule à la fin de la liste. Il n'y a plus de tableau à modifier ni de session à ajouter chaque année, et donc plus rien à synchroniser entre deux fichiers.
 
-1. **`src/data/sessions.ts`** : objet `SESSIONS` (source pour Hero homepage, Sessions homepage, form select)
-2. **`src/app/(site)/sessions/page.tsx`** : tableau `SESSIONS` hardcoded en haut du fichier (cards visuelles de la page Sessions)
+### Si une date ou un nombre de places doit être corrigé
 
-### Pour ajouter une session
+Les dates sont calculées depuis le calendrier des vacances scolaires, mais si toi ou David fixez une date différente pour une session précise, ou si le calendrier scolaire ne tombe pas exactement comme prévu, ça se corrige avec une exception dans le même fichier, section `SESSION_OVERRIDES`. Le plus simple est de demander à David de l'ajouter en lui donnant les nouvelles dates de début et de fin. Le nombre de places, en Lutte et en MMA, se règle de la même façon, session par session.
 
-Ouvre `src/data/sessions.ts` et ajoute un objet sur le modèle :
+### Ce qui ne se change pas ici
 
-```typescript
-{
-  id: 'ete-2027',  // slug ASCII, unique
-  season: 'Été',
-  seasonLabel: 'Été 2027',
-  label: 'CAMP\nDAGHESTANAIS',
-  name: 'CAMP\nDAGHESTANAIS',
-  monthAbbr: 'AOÛ',
-  dates: '17 août - 5 septembre 2027',
-  datesFull: '17 août - 5 septembre 2027',
-  startDate: '2027-08-17',
-  endDate: '2027-09-05',
-  price: 1490,
-  priceCurrency: 'EUR',
-  maxCapacity: 15,
-  spotsLabel: 'Places disponibles',
-  status: 'open',
-  intensity: 'Maximale',
-  duration: '1 à 3 semaines',
-  destination: 'Daghestan',
-},
-```
+Le prix d'une session ne vit plus dans ce fichier : il vient de `data/pricing.ts`, voir la section précédente. Ne cherche pas de montant à modifier dans `sessions.ts`.
 
-Puis ouvre `src/app/(site)/sessions/page.tsx` et ajoute un objet équivalent dans le tableau `SESSIONS` en haut du fichier.
+### Pour clôturer une session terminée
 
-Commit + push : le carousel Hero, le formulaire d'inscription, la page Sessions, la FAQ, et le CTA final se mettent à jour automatiquement.
-
-### Pour modifier une session existante (dates, prix, places)
-
-Modifie l'objet dans `data/sessions.ts`. Si tu changes l'ID, met aussi à jour `app/(site)/sessions/page.tsx` (même tableau).
-
-### Pour supprimer une session terminée
-
-Retire l'objet des 2 tableaux. La session disparaît partout (Hero, Sessions homepage, page Sessions, formulaire).
-
-> ⚠️ Avant de supprimer une session, vérifie qu'il n'y a plus de candidatures ouvertes pour celle-ci dans le dashboard admin.
+Rien à faire dans le code. Une fois le camp fini, l'écran Sessions de l'admin te le signale de lui-même, et chaque dossier soldé de cette session passe en « Camp terminé, dossier à clôturer » sur l'écran À faire. Tu le fais alors basculer en Camp fait depuis sa fiche, dossier par dossier.
 
 ---
 
@@ -325,6 +258,6 @@ C'est forcément que `data/pricing.ts` a un chiffre incohérent. Va voir → cor
 
 ---
 
-*Dernière mise à jour : 2026-05-11 (post refonte grille tarifaire par taille de groupe)*
+*Dernière mise à jour : 2026-09-23 (admin v2 : nouvel écran À faire, fiche dossier en onglets, connexion mémorisée 30 jours, sessions qui tournent seules)*
 
-*Une question ? Contacte David — il préfère répondre une fois clairement plutôt que de te laisser bloqué.*
+*Une question ? Contacte David : il préfère répondre une fois clairement plutôt que de te laisser bloqué.*

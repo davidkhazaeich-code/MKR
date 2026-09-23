@@ -32,12 +32,15 @@ Pour `/admin` : sobriété d'outil. L'interface disparaît derrière la tâche ;
 
 ## Design Principles
 
-1. **L'état d'abord** : chaque dossier montre son statut, ses transitions possibles et son historique sans clic supplémentaire. Les actions irréversibles se confirment, jamais les autres.
-2. **Zéro perte** : optimistic UI seulement quand le serveur confirme derrière ; toute erreur revient à l'état précédent avec un message actionnable.
-3. **Densité utile** : tableaux denses, scan rapide, filtres persistants. Pas de cartes décoratives.
-4. **Mobile réel** : Ruslan traite des dossiers depuis son téléphone ; chaque écran admin fonctionne à 375px, cibles tactiles 44px.
-5. **Une seule vocabulaire de composants** : mêmes badges, mêmes boutons, mêmes toasts sur tous les écrans admin.
+Révisés le 2026-09-23 (admin v2, cf. `docs/superpowers/specs/2026-09-23-admin-v2-design.md`) : le critère de réussite reste qu'en ouvrant l'admin, Ruslan sait en trois secondes ce qu'il doit faire, et que chaque action courante se fait en deux gestes au plus depuis un téléphone.
+
+1. **Chaque dossier a une prochaine étape calculée**, jamais devinée à l'œil : une fonction pure (`src/lib/admin/next-step.ts`) est la seule source de vérité, et elle pilote à la fois l'accueil, la colonne « prochaine étape » de la liste et le panneau d'action de la fiche.
+2. **Une action primaire par contexte**, qui porte l'icône de son action ; les actions secondaires restent sans icône, sauf WhatsApp et Appeler.
+3. **La couleur de marque ne sert qu'au cliquable** : boutons primaires, liens, onglet actif, focus. Les statuts et les tons (succès, alerte, danger) restent des couleurs sémantiques, jamais la couleur de marque, et se lisent en point plus texte, sans bordure de bouton.
+4. **Zéro perte** : optimistic UI seulement confirmée par le serveur ensuite ; toute erreur revient à l'état précédent avec un message actionnable ; les notes partent même si Ruslan quitte la page en pleine frappe.
+5. **Mobile réel** : Ruslan traite des dossiers depuis son téléphone entre deux entraînements ; chaque écran admin fonctionne à 375 px, cibles tactiles 44 px, champs de saisie à 16 px pour ne pas déclencher le zoom automatique de l'iPhone, zoom utilisateur toujours autorisé.
+6. **Un seul chrome, un seul vocabulaire de composants** : la même barre latérale sur ordinateur ou la même barre de navigation basse sur téléphone, les mêmes boutons, les mêmes points de statut, les mêmes fenêtres et notifications sur les six écrans admin.
 
 ## Accessibility & Inclusion
 
-WCAG AA visé sur l'admin : contrastes 4.5:1 minimum sur texte, focus visibles, navigation clavier complète (raccourcis existants documentés), `prefers-reduced-motion` respecté. Site public : idem plus alt text soignés (images de camp réelles).
+WCAG AA visé sur l'admin : contrastes 4,5:1 minimum sur texte (les jetons `--adm-*` sont vérifiés par `scripts/admin-mock/contrast.mjs`, clair et sombre), focus visibles, navigation clavier complète (raccourcis existants documentés), `prefers-reduced-motion` respecté. Thème clair ou sombre, suit l'appareil par défaut ; un choix manuel reste mémorisé sur l'appareil (cookie `mkr_admin_theme`), sans flash au chargement. Site public : idem plus alt text soignés (images de camp réelles).

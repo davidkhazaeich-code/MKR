@@ -1,7 +1,65 @@
 # SITEMAP MKR Caucasian Camp — Cartographie complète
 
-> **Fichier de référence pour Claude Code.** Mise à jour : 2026-09-23 (le site redevient statique : fin de la régénération horaire, carte en fichier, traductions client allégées).
+> **Fichier de référence pour Claude Code.** Mise à jour : 2026-09-23 (admin v2 : nouvel accueil, fiche dossier et chrome mobile ; le site redevient statique : fin de la régénération horaire, carte en fichier, traductions client allégées).
 > Lis ce fichier en priorité avant toute intervention sur le site MKR. Il évite de re-explorer.
+
+## 🆕 2026-09-23 (admin v2 : accueil « À faire », prochaine étape calculée, chrome mobile, faux backend local)
+
+> **Demande David, carte blanche (« Go »)** : rendre le back office pratique pour Ruslan sur son téléphone entre deux entraînements et pour David sur ordinateur, sans retirer une seule fonctionnalité. Spec validée : `docs/superpowers/specs/2026-09-23-admin-v2-design.md`. Constat de départ : « À traiter » mélangeait 34 dossiers sans distinction (dont 14 sur un camp déjà parti et 9 visios passées jamais signalées comme telles), l'heure d'une visio réservée sur Cal n'était jamais affichée, valider un dossier sur téléphone demandait une quinzaine d'écrans, et la connexion expirait après 8 heures.
+
+Refonte complète de `/admin/*` (surface **product**, cf. `PRODUCT.md`), livrée en 14 tâches sur les branches `admin-v2` puis `admin-v2-b`, poussée sur `main` au commit `b0dd2c7`. Les URL existantes ne bougent pas : liens Slack, digest et emails internes continuent de fonctionner sans changement.
+
+### 1. Six écrans au lieu d'une liste unique
+
+| Route | Écran |
+|---|---|
+| `/admin` | **À faire** (nouveau, remplace l'ancien accueil pipeline) |
+| `/admin/inscriptions` | **Candidatures** (refonte) |
+| `/admin/inscriptions/[id]` | **Fiche dossier** (refonte) |
+| `/admin/sessions` | **Sessions** (nouveau) |
+| `/admin/referrals` | **Partenaires** (refonte visuelle, mêmes données) |
+| `/admin/guide-leads` | **Leads guide** (refonte visuelle, mêmes données) |
+| `/admin/login` | Connexion (restyle, 30 jours) |
+
+`À faire` (`src/app/admin/page.tsx`) liste, dans l'ordre et seulement si la section contient un dossier : l'agenda des visios groupé par jour, les visios passées sans décision, les paiements en retard ou attendus, les contrats à envoyer, les devis Club et Groupe, les candidatures à relancer, les dossiers sur un camp déjà parti, les camps terminés à clôturer, les bonus partenaires dus, puis les nouvelles candidatures. `Sessions` (`src/app/admin/sessions/page.tsx`) montre une carte par session avec les places Lutte et MMA, les montants engagés et encaissés, et un lien vers la liste filtrée pour chaque statut.
+
+### 2. Moteur « prochaine étape » (`src/lib/admin/next-step.ts`)
+
+`computeNextStep(row, now)` : fonction pure, aucune I/O, qui calcule un `kind` parmi 15 (`camp_parti`, `visio_a_venir`, `visio_passee`, `visio_reservee`, `devis_a_envoyer`, `a_relancer`, `nouvelle`, `a_solder`, `contrat_a_envoyer`, `contrat_sans_echeance`, `paiement_en_retard`, `paiement_attendu`, `camp_a_cloturer`, `depart_a_venir`, `clos`) selon le statut, les dates et les champs du dossier. Seule source de vérité : elle pilote l'accueil, la colonne « prochaine étape » de la liste, et le panneau d'action de la fiche (bouton primaire à l'icône de l'action, transitions permises en secondaire). Calculée en `Europe/Zurich`, comme le digest quotidien. Testée par `scripts/admin-next-step-check.mts` (130 assertions).
+
+### 3. Chrome : barre latérale, navigation mobile, thème
+
+`src/components/admin/shell/` : `AdminShell` compose soit une barre latérale fixe (`Sidebar.tsx`, dès 1024 px), soit un en-tête fixe plus une barre d'onglets basse (`MobileTopBar.tsx` + `BottomNav.tsx`) avec un panneau « Plus » (`MoreSheet.tsx`) pour Partenaires, Leads guide, apparence et déconnexion. Sombre dans les deux thèmes, logo blanc. Sections déclarées dans `NavLinks.ts` (`NAV_ITEMS`).
+
+Thème (`ThemeSwitch.tsx`) : clair, sombre ou automatique (suit l'appareil). Le choix manuel est mémorisé dans le cookie `mkr_admin_theme`, lu côté serveur par `src/app/admin/layout.tsx` : aucun flash au chargement.
+
+Admin installable : `metadata.manifest` pointe vers `/admin/manifest.webmanifest` (route handler, hors du proxy qui ne s'applique pas aux chemins à point), avec les icônes `public/icons/icon-{192,512}.png` et `icon-maskable-512.png`. Ruslan peut l'ajouter à l'écran d'accueil de son téléphone.
+
+`error.tsx`, `not-found.tsx` et chaque `loading.tsx` passent désormais par `AdminShell` : plus aucun écran de l'admin ne sort du chrome, y compris une panne.
+
+### 4. Connexion mémorisée 30 jours
+
+`src/app/api/admin/login/route.ts` : cookie `mkr_admin` porté de 8 heures à 30 jours (`httpOnly`, `secure`, `sameSite: 'strict'` inchangés), redirection par défaut vers `/admin` (au lieu de `/admin/inscriptions`). Champ « Mot de passe » en `autocomplete="current-password"` avec un identifiant fixe pour les gestionnaires de mots de passe.
+
+### 5. Heure de la visio en base (`visio_starts_at`) et webhook Cal
+
+Migration `supabase-migrations/2026-09-23_add_visio_starts_at.sql` : colonne additive `candidatures.visio_starts_at timestamptz`, remplie au déploiement depuis le dernier `audit_log.visio_booked.data.start_time` de chaque dossier déjà réservé. **Appliquée en production** (vérifié après coup : 0 réservation sans heure).
+
+`src/app/api/webhooks/cal/route.ts` (webhook existant depuis l'automatisation email, pas recréé) : `BOOKING_CREATED` et `BOOKING_RESCHEDULED` écrivent désormais `visio_starts_at` en plus de `visio_booked_at`, `BOOKING_CANCELLED` le remet à `null`. C'est ce qui permet à l'agenda de l'accueil et à la fiche dossier d'afficher l'heure exacte du rendez-vous, jusque-là invisible.
+
+### 6. Faux backend local et QA (`scripts/admin-mock/`)
+
+`npm run admin:dev` (= `node scripts/admin-mock/dev.mjs`) démarre un serveur Node pur qui émule Supabase (PostgREST et Storage) et Resend en mémoire, puis `next dev`, avec un jeu de données synthétique déterministe et sans aucune donnée réelle. Ports configurables par variables d'environnement `ADMIN_MOCK_PORT` et `ADMIN_NEXT_PORT` (défaut 54321 et 3100) pour faire tourner deux instances en parallèle. Voir `scripts/admin-mock/README.md` pour le jeton de démonstration et le détail de ce qui est émulé.
+
+Committés : `smoke.mjs` (5 pages contre le mock, code de sortie 1 au premier échec), `contrast.mjs` (contraste WCAG des jetons `--adm-*`, 186 paires, clair et sombre), et les tests purs `scripts/admin-next-step-check.mts`. Le balayage Playwright multi-écrans et les parcours de bout en bout (spec section 10) ont tourné à la main pendant chaque tâche mais ne sont pas encore committés en scripts réutilisables : `qa-sweep.mjs` et `qa-flows.mjs` restent à faire (suivi noté dans `progress.md` du dossier de la spec).
+
+### 7. Composants de l'ancienne interface retirés
+
+`src/components/admin/ui/Topbar.tsx`, `ui/Pipeline.tsx`, `ui/BackShortcut.tsx`, `ui/Badge.tsx`, `StatsBand.tsx`, `InscriptionsList.tsx`, `AdminActions.tsx` : supprimés, plus aucune référence dans `src`. Remplacés respectivement par `AdminShell` et `Sidebar`/`MobileTopBar`/`BottomNav` (le chrome), la ligne pipeline de l'accueil, `DossierNav` (précédent et suivant), `StatusLabel.tsx` (point de statut ; plus aucun badge dans l'admin), la ligne pipeline et les sections de l'accueil, `CandidaturesView.tsx` plus `CandidatureRow.tsx`, et `DossierProvider` plus `NextStepPanel`/`ActionBar` et les cartes de la fiche (`PaymentCard`, `ContractCard`, `NotesCard`, `VisioCard`, entre autres).
+
+### QA
+
+`tsc` 0 erreur · tests purs (`admin-next-step-check.mts`) 130 assertions TOUT VERT · `smoke.mjs` 5/5 · `contrast.mjs` 186/186 · `i18n-check` 2 929 clés (inchangé, admin 100 % FR, aucune clé `messages/**`) · `next build` vert · balayage Playwright par tâche (centaines de contrôles cumulés : 360/390/768/1024/1440 px, clair et sombre, zéro débordement, cibles tactiles 44 px, zéro erreur console hors `eval()` du mode dev) puis une revue finale sur la branche complète avant fusion · vérification en production après déploiement : `/admin/manifest.webmanifest` 200 JSON, `/admin` redirige vers la connexion, migration `visio_starts_at` reconfirmée (0 réservation sans heure).
 
 ## 🆕 BREAKING 2026-09-23 (fin de la régénération horaire : le site redevient statique)
 
@@ -1854,8 +1912,7 @@ mkrcamp.com/
 │   ├── robots.ts                → robots.txt
 │   ├── api/
 │   │   └── inscription/route.ts → POST /api/inscription (Supabase upsert candidate + insert candidature)
-│   ├── admin/
-│   │   └── inscriptions/page.tsx → /admin/inscriptions?token=XXX (read-only liste 200 dossiers, token-protégé)
+│   ├── admin/                   → /admin/* (CRM v2, chrome et connexion 30 j ; détail écran par écran : entrée « admin v2 » du 2026-09-23 en tête de fichier, et §6 ci-dessous)
 │   └── (site)/                  → group route avec layout commun
 │       ├── layout.tsx           → wrap Nav + Footer + StickyMobileCTA
 │       ├── page.tsx             → /  (homepage, sections dynamic-imported)
@@ -2352,6 +2409,7 @@ GEO = { latitude: 42.9849, longitude: 47.5047, country: 'RU', region: 'Daghestan
 | **Photos coachs** | `public/images/coaches/{firstname-lastname}.webp` (lowercase, tirets) |
 | **Vidéos hero** | Boucle 2 vidéos : `public/videos/hero-mountains.mp4` (3.5s) puis MKR core qui joue en entier avant retour montagne. Desktop : `hero-mkr-core.mp4` (55s, cycle 58.5s). Mobile ≤700px : `hero-mkr-core-vertical.mp4` (720x1280, 45.5s, cycle 49s). Switch desktop/mobile via matchMedia dans `components/Hero.tsx`. Posters JPG `hero-*-poster.jpg` évitent l'écran noir avant `canplay`. Pexels village/forest/clouds gardés sur disque mais non utilisés. |
 | **Vidéo Antoine parcours (3 surfaces)** | `src/data/antoine-parcours.ts` (single source : assets + moments + 3 variants mma/temoignages/home). Composant : `src/components/VerticalVideoSplit.tsx`. Assets : `public/videos/testimonials/antoine-parcours.{mp4,webm,jpg}`. Pour changer la copy, toucher uniquement le data file. |
+| **Admin / back office (`/admin`, admin v2)** | `src/app/admin/*` (six écrans, layout, manifest) + `src/components/admin/*` (chrome dans `shell/`, fiche dans `dossier/`, liste dans `candidatures/`, composants communs dans `ui/`) + `src/lib/admin/*` (`next-step.ts` = prochaine étape, `data.ts` = lecture serveur, `format.ts`/`labels.ts`/`list-filters.ts` = purs). Faux backend pour tester sans la prod : `npm run admin:dev`. Détail écran par écran : entrée « admin v2 » du 2026-09-23 en tête de fichier |
 
 ---
 
@@ -2564,7 +2622,7 @@ Le footer, le bloc `Contact.tsx` de la home et `/sessions` renvoient vers `/cont
 | `data/faq.ts` | 5 Q/R tarifs (groupe, sessions, enfants, inscription famille, âge max) |
 | `data/sessions.ts` | helper `formatPriceFrom()` retourne `À partir de 1 490 €` |
 | `components/Sessions.tsx` (homepage) | sub-price card |
-| `components/admin/AdminActions.tsx` | hint montant package |
+| `components/admin/dossier/PaymentCard.tsx` | hint montant package (référence Solo/Duo, `ADMIN_SOLO_DUO_HINT` ; déplacé depuis `AdminActions.tsx`, retiré par l'admin v2 du 2026-09-23) |
 **⚠️** Si on change un tarif : modifier UNIQUEMENT `data/pricing.ts`. La plupart des autres endroits propagent. Les pages textuelles avec mention de chiffres en dur (CGV, FAQ, hero stats, sessions sub-price) doivent être retouchées séparément, voir la liste exhaustive ci-dessus.
 
 ### Codes de recommandation + liens d'affiliation (ajouté 2026-05-23, étendu 2026-06-12)
