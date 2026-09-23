@@ -4020,3 +4020,256 @@ html:has(.adm-login) body {
     animation: none !important;
   }
 }
+
+/* ===== Sessions =========================================================
+   Ecran /admin/sessions (src/app/admin/sessions/, src/components/admin/
+   sessions/SessionCard.tsx) : en-tete, cartes des sessions en cours et a
+   venir, puis blocs "Sans session", "Sessions inconnues" et sessions
+   passees (details ferme).
+   Grille : autant de colonnes de 320 px minimum que la largeur en tient
+   (une en mobile, deux en tablette et de 1024 a ~1250 px, trois au-dela).
+   Carte : en-tete, jauges (barre plafonnee a 100 %, remplissage et texte
+   d'etat au ton de la jauge), montants en grands chiffres, dossiers par
+   statut en lignes-liens de 44 px (40 px en desktop).
+   Couleurs : jetons uniquement.
+   ======================================================================== */
+
+.adm-sess-head {
+  align-items: flex-start;
+}
+
+.adm-sess-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.adm-sess-grid > * {
+  display: flex;
+  min-width: 0;
+}
+
+.adm-sess-card {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.adm-sess-card-head {
+  min-width: 0;
+}
+
+.adm-sess-name {
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--adm-text);
+}
+
+.adm-sess-when {
+  margin-top: 2px;
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--adm-text-2);
+}
+
+.adm-sess-open {
+  margin-top: 2px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--adm-tone);
+}
+
+.adm-sess-block > .adm-label {
+  margin-bottom: 8px;
+}
+
+/* Jauges : libelle et places prises, barre, etat au ton */
+.adm-sess-gauges {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.adm-sess-gauge-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 6px;
+  font-size: 14px;
+  line-height: 1.3;
+}
+
+.adm-sess-gauge-label {
+  font-weight: 500;
+  color: var(--adm-text);
+}
+
+.adm-sess-gauge-count {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--adm-text);
+}
+
+.adm-sess-meter {
+  height: 8px;
+}
+
+.adm-sess-gauge-status {
+  margin-top: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.35;
+  color: var(--adm-tone);
+}
+
+/* Montants : deux grands chiffres cote a cote (36 px a toutes les largeurs :
+   la carte fait 320 px au plus etroit) */
+.adm-sess-money {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin: 0;
+}
+
+.adm-sess-money dd {
+  margin: 6px 0 0;
+}
+
+.adm-kpi.adm-sess-kpi {
+  font-size: 36px;
+  overflow-wrap: anywhere;
+}
+
+/* Dossiers par statut (et ids inconnus) : lignes-liens separees par un filet */
+.adm-sess-links {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--adm-border);
+}
+
+.adm-sess-links > li {
+  border-bottom: 1px solid var(--adm-border);
+}
+
+.adm-sess-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 4px 6px;
+  border-radius: 8px;
+  color: var(--adm-text);
+  transition: background-color var(--adm-dur) var(--adm-ease);
+}
+
+@media (hover: hover) {
+  .adm-sess-link:hover {
+    background: var(--adm-surface-2);
+  }
+}
+
+.adm-sess-link:focus-visible {
+  outline-offset: -2px;
+}
+
+.adm-sess-link > .adm-status,
+.adm-sess-orphan-id {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.adm-sess-orphan-id {
+  overflow-wrap: anywhere;
+}
+
+.adm-sess-link-count {
+  flex-shrink: 0;
+  font-size: 14px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--adm-text);
+}
+
+.adm-sess-chevron {
+  flex-shrink: 0;
+  color: var(--adm-text-3);
+}
+
+.adm-sess-all {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  min-height: 44px;
+  margin-top: 4px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.adm-sess-none {
+  font-size: 15px;
+  color: var(--adm-text-3);
+}
+
+@media (min-width: 1024px) {
+  .adm-sess-link {
+    min-height: 40px;
+  }
+
+  .adm-sess-all {
+    min-height: 36px;
+  }
+}
+
+/* Sessions passees : resume en tete de section, chevron qui pivote */
+.adm-sess-past-summary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: fit-content;
+  min-height: 44px;
+  margin-top: -8px;
+  padding-right: 4px;
+  border-radius: var(--adm-radius-sm);
+  cursor: pointer;
+  list-style: none;
+}
+
+.adm-sess-past-summary::-webkit-details-marker {
+  display: none;
+}
+
+.adm-sess-past-chevron {
+  flex-shrink: 0;
+  color: var(--adm-text-3);
+  transition: transform var(--adm-dur) var(--adm-ease);
+}
+
+.adm-sess-past[open] .adm-sess-past-chevron {
+  transform: rotate(180deg);
+}
+
+@media (hover: hover) {
+  .adm-sess-past-summary:hover .adm-section-title,
+  .adm-sess-past-summary:hover .adm-sess-past-chevron {
+    color: var(--adm-text);
+  }
+}
+
+.adm-sess-past-grid {
+  margin-top: 8px;
+}
+
+/* Squelette (loading.tsx) : hauteur d'une carte a venir */
+.adm-sess-skeleton-card {
+  flex: 1 1 auto;
+  height: 560px;
+  border-radius: var(--adm-radius-lg);
+}

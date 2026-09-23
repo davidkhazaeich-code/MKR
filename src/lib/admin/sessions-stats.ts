@@ -1,7 +1,7 @@
 import { getUnfinishedSessions, isSessionOpen, sessionFromId, type Session } from '@/data/sessions'
 import { frSessionDisplay } from '@/lib/session-display-fr'
 import { STATUS_VALUES, type Status } from '@/lib/admin-transitions'
-import type { DossierRow } from '@/lib/admin/types'
+import type { DossierRow, Tone } from '@/lib/admin/types'
 import { sessionShortName } from '@/lib/admin/labels'
 import { daysBetween, zurichDay } from '@/lib/admin/format'
 
@@ -88,4 +88,35 @@ export function buildSessionsOverview(rows: DossierRow[], now: Date): SessionsOv
 
 export function placesSummary(s: Pick<SessionStat, 'lutte' | 'mma'>): string {
   return `Lutte ${s.lutte.prises}/${s.lutte.max} · MMA ${s.mma.prises}/${s.mma.max}`
+}
+
+/* Textes de l'ecran Sessions (aucun calcul : mise en mots des chiffres ci-dessus). */
+
+/** Ton d'une jauge : places libres, 3 places ou moins, complet. */
+export const GAUGE_TONE: Record<PlaceGauge['level'], Tone> = { ok: 'ok', limited: 'warn', full: 'danger' }
+
+/** "5 places restantes", "1 place restante", "Complet", "Complet, 6 au-dela de la jauge" (accents dans le texte). */
+export function gaugeStatus(g: PlaceGauge): string {
+  if (g.level === 'full') {
+    const over = g.prises - g.max
+    return over > 0 ? `Complet, ${over} au-delà de la jauge` : 'Complet'
+  }
+  return g.restantes > 1 ? `${g.restantes} places restantes` : `${g.restantes} place restante`
+}
+
+/** Valeur lue par un lecteur d'ecran : "21 places prises sur 15, complet". */
+export function gaugeValueText(g: PlaceGauge): string {
+  const taken = `${g.prises} ${g.prises > 1 ? 'places prises' : 'place prise'} sur ${g.max}`
+  return g.level === 'full' ? `${taken}, complet` : `${taken}, ${gaugeStatus(g)}`
+}
+
+/** "part dans 24 j", "part demain", "part aujourd'hui", "en cours, fin dans 3 j", "termine" (accents dans le texte). */
+export function sessionTiming(s: Pick<SessionStat, 'state' | 'daysToStart' | 'daysToEnd'>): string {
+  if (s.state === 'terminee') return 'terminé'
+  if (s.state === 'en_cours') {
+    if (s.daysToStart === 0) return "part aujourd'hui"
+    if (s.daysToEnd === 0) return "en cours, fin aujourd'hui"
+    return s.daysToEnd === 1 ? 'en cours, fin demain' : `en cours, fin dans ${s.daysToEnd} j`
+  }
+  return s.daysToStart === 1 ? 'part demain' : `part dans ${s.daysToStart} j`
 }

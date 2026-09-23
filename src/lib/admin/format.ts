@@ -28,6 +28,12 @@ export function daysBetween(a: string, b: string): number {
 export function formatEuros(cents: number): string {
   return cents % 100 === 0 ? eur0.format(cents / 100) : eur2.format(cents / 100)
 }
+/** Montant en grands chiffres (Teko) : l'espace fine insecable des milliers
+ *  (U+202F) n'y fait que 3 px a 36 px, "21 750" se lit "21750" ; espace
+ *  insecable ordinaire (U+00A0) a la place. */
+export function formatEurosLarge(cents: number): string {
+  return formatEuros(cents).replace(/\u202f/g, '\u00a0')
+}
 export const formatDayMonth = (v: string): string => fmtDayMonth.format(toDate(v))
 export const formatDayLong = (v: string): string => fmtDayLong.format(toDate(v))
 export const formatNumericDate = (v: string): string => fmtNumeric.format(toDate(v))
