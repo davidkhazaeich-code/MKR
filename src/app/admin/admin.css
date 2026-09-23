@@ -2979,6 +2979,419 @@ html:has(.adm-login) body {
   }
 }
 
+/* ===== A faire ==========================================================
+   Accueil /admin (src/app/admin/page.tsx, src/components/admin/queue/).
+   Ordre du DOM = ordre de lecture en mobile : en-tete, vue d'ensemble
+   (prochain depart, dossiers par statut), agenda des visios, sections.
+   >= 1200 px : deux colonnes. La vue d'ensemble et l'agenda
+   (.adm-todo-side) passent a droite par placement explicite, sans changer
+   l'ordre du DOM ; ils couvrent les deux rangees, dont la seconde est en
+   1fr : leur hauteur ne repousse jamais les sections sous l'en-tete.
+   Lignes : chaque liste est un conteneur de requete (container query), une
+   ligne passe de la pile mobile aux colonnes selon la largeur de sa liste
+   (mobile, colonne principale ou colonne de droite).
+   Couleurs : jetons uniquement.
+   ======================================================================== */
+
+.adm-todo {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 28px;
+  align-items: start;
+}
+
+.adm-todo-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px 16px;
+  min-width: 0;
+}
+
+.adm-todo-titles {
+  min-width: 0;
+}
+
+.adm-todo-date {
+  margin-top: 6px;
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--adm-text-2);
+}
+
+.adm-todo-count {
+  margin-top: 2px;
+  font-size: 15px;
+  line-height: 1.4;
+  color: var(--adm-text);
+}
+
+.adm-todo-count strong {
+  font-weight: 600;
+}
+
+.adm-todo-side,
+.adm-todo-main {
+  min-width: 0;
+}
+
+.adm-todo-side {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+@media (min-width: 1200px) {
+  .adm-todo {
+    grid-template-columns: minmax(0, 1fr) 340px;
+    grid-template-rows: auto 1fr;
+    column-gap: 32px;
+    row-gap: 28px;
+  }
+
+  .adm-todo-head {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .adm-todo-side {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+  }
+
+  .adm-todo-main {
+    grid-column: 1;
+    grid-row: 2;
+  }
+}
+
+/* Blocs de la vue d'ensemble */
+.adm-todo-block {
+  min-width: 0;
+}
+
+.adm-todo-block-title {
+  margin-bottom: 12px;
+}
+
+/* Prochain depart : une ligne a lien etire vers Sessions */
+.adm-todo-depart-line {
+  font-size: 15px;
+  line-height: 1.35;
+  color: var(--adm-text-2);
+  overflow-wrap: anywhere;
+}
+
+.adm-todo-depart-name {
+  font-weight: 600;
+  color: var(--adm-text);
+}
+
+.adm-todo-chevron {
+  flex-shrink: 0;
+  color: var(--adm-text-3);
+}
+
+/* Dossiers par statut : une ligne de 4 cases (point au ton du statut devant
+   le chiffre, libelle dessous), chaque case est un lien vers la liste
+   filtree. Filets = fond du cadre vu entre les cases. */
+.adm-todo-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background: var(--adm-border);
+  border: 1px solid var(--adm-border);
+  border-radius: var(--adm-radius-lg);
+  overflow: hidden;
+}
+
+.adm-todo-stats > li {
+  display: flex;
+  min-width: 0;
+}
+
+.adm-todo-stat {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  min-width: 0;
+  min-height: 64px;
+  padding: 10px 8px 10px 12px;
+  background: var(--adm-surface);
+  color: var(--adm-text);
+  transition: background-color var(--adm-dur) var(--adm-ease);
+}
+
+@media (hover: hover) {
+  .adm-todo-stat:hover {
+    background: var(--adm-surface-2);
+  }
+}
+
+/* Anneau a l'interieur de la case (le cadre coupe tout ce qui depasse) */
+.adm-todo-stat:focus-visible {
+  outline: none;
+  box-shadow: inset 0 0 0 2px var(--adm-action);
+}
+
+.adm-todo-stat-num {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--adm-ff-display);
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  color: var(--adm-text);
+}
+
+/* Le Teko porte sa hauteur de capitale haut : le point suit le chiffre */
+.adm-todo-stat-num .adm-status-dot {
+  margin-top: -3px;
+}
+
+.adm-todo-stat-label {
+  overflow: hidden;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.35;
+  color: var(--adm-text-2);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Lignes : nom (+ EN), etape, contexte */
+.adm-todo-list {
+  container-type: inline-size;
+}
+
+.adm-todo-name {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  min-width: 0;
+}
+
+.adm-todo-name .adm-row-title {
+  min-width: 0;
+}
+
+.adm-todo-lang {
+  flex-shrink: 0;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--adm-text-3);
+}
+
+.adm-todo-lang::before {
+  content: "\00b7";
+  padding-right: 6px;
+  color: var(--adm-text-4);
+}
+
+.adm-todo-step {
+  min-width: 0;
+  font-size: 14px;
+  line-height: 1.35;
+}
+
+.adm-todo-amount {
+  font-weight: 600;
+  color: var(--adm-text);
+}
+
+/* Ligne de section. Etroit : nom, etape, contexte, ligne en plus empiles,
+   boutons a droite (deux boutons : l'un sous l'autre). Large : deux rangees
+   en colonnes (nom et contexte | etape, centree ou suivie de la ligne en
+   plus | boutons cote a cote). */
+.adm-todo-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    "name actions"
+    "step actions"
+    "ctx actions"
+    "extra actions";
+  column-gap: 12px;
+  row-gap: 2px;
+  align-items: center;
+  padding-block: 12px;
+}
+
+.adm-todo-row .adm-todo-name {
+  grid-area: name;
+}
+
+.adm-todo-row .adm-todo-step {
+  grid-area: step;
+}
+
+.adm-todo-row .adm-todo-ctx {
+  grid-area: ctx;
+}
+
+.adm-todo-row .adm-todo-extra {
+  grid-area: extra;
+}
+
+.adm-todo-row .adm-todo-actions {
+  grid-area: actions;
+}
+
+.adm-todo-row--pair .adm-todo-actions {
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+@container (min-width: 600px) {
+  /* Colonne des boutons de largeur commune (WhatsApp + Relancer) : l'etape
+     commence au meme endroit dans toutes les sections. */
+  .adm-todo-row {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(128px, max-content);
+    grid-template-areas:
+      "name step actions"
+      "ctx step actions";
+    column-gap: 16px;
+  }
+
+  .adm-todo-row .adm-todo-actions {
+    justify-self: end;
+  }
+
+  .adm-todo-row--extra {
+    grid-template-areas:
+      "name step actions"
+      "ctx extra actions";
+  }
+
+  /* Ligne en plus sur deux lignes (nom de partenaire long) : le contexte
+     reste colle au nom */
+  .adm-todo-row--extra .adm-todo-ctx,
+  .adm-todo-row--extra .adm-todo-extra {
+    align-self: start;
+  }
+
+  .adm-todo-row--pair .adm-todo-actions {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+/* Agenda des visios : groupes par jour, ligne = heure puis dossier.
+   Etroit : boutons sous le texte ; large : boutons a droite. */
+.adm-todo-day + .adm-todo-day {
+  margin-top: 16px;
+}
+
+.adm-todo-day-title {
+  margin: 0 0 8px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--adm-text-2);
+}
+
+.adm-todo-visio {
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr);
+  grid-template-areas:
+    "time name"
+    "time ctx"
+    "time extra"
+    "time actions";
+  column-gap: 12px;
+  row-gap: 2px;
+  align-items: start;
+  padding-block: 12px;
+}
+
+.adm-todo-visio .adm-todo-time {
+  grid-area: time;
+}
+
+.adm-todo-visio .adm-todo-name {
+  grid-area: name;
+}
+
+.adm-todo-visio .adm-todo-ctx {
+  grid-area: ctx;
+}
+
+.adm-todo-visio .adm-todo-extra {
+  grid-area: extra;
+}
+
+.adm-todo-visio .adm-todo-actions {
+  grid-area: actions;
+  justify-self: start;
+  margin-top: 8px;
+}
+
+@container (min-width: 520px) {
+  .adm-todo-visio {
+    grid-template-columns: 60px minmax(0, 1fr) auto;
+    grid-template-areas:
+      "time name actions"
+      "time ctx actions"
+      "time extra actions";
+    column-gap: 16px;
+  }
+
+  .adm-todo-visio .adm-todo-actions {
+    align-self: center;
+    justify-self: end;
+    margin-top: 0;
+  }
+}
+
+.adm-todo-time,
+.adm-todo-time time {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.adm-todo-time-hour {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--adm-text);
+}
+
+.adm-todo-time-day {
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.4;
+  white-space: nowrap;
+  color: var(--adm-text-2);
+}
+
+.adm-todo-time-live {
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--adm-info);
+}
+
+/* Aujourd'hui : l'heure au ton de l'etape (visio = info) */
+.adm-todo-day--today .adm-todo-time-hour {
+  color: var(--adm-info);
+}
+
+.adm-todo-time-unknown {
+  display: inline-flex;
+  padding-top: 1px;
+  color: var(--adm-text-3);
+}
+
 /* ------------------------------------------------------------------------
    18. Utilitaires
    ------------------------------------------------------------------------ */
