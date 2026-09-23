@@ -1,8 +1,11 @@
 // Stepper horizontal montrant la progression d'un dossier.
 // 4 etapes principales: Recue -> Validee -> Soldee -> Camp fait.
 // Branches refusee/annulee/reportee = etapes terminales sans progression.
+// L'etape courante porte le ton de son statut (point colore) ; sous 540 px
+// seules les etiquettes courantes restent visibles (les autres restent lues).
 
 import type { Status } from '@/lib/admin-transitions'
+import { STATUS_TONE } from '@/lib/admin/labels'
 
 interface Step {
   key: Status
@@ -23,10 +26,12 @@ const TERMINAL: Record<string, string> = {
 }
 
 export default function Progress({ status }: { status: Status }) {
+  const currentTone = `adm-tone--${STATUS_TONE[status]}`
+
   if (TERMINAL[status]) {
     return (
       <ol className="adm-progress" aria-label="Progression">
-        <li className="adm-progress-step adm-progress-step--current">
+        <li className={`adm-progress-step adm-progress-step--current ${currentTone}`} aria-current="step">
           <span>{TERMINAL[status]}</span>
         </li>
       </ol>
@@ -41,9 +46,9 @@ export default function Progress({ status }: { status: Status }) {
         const isCurrent = i === currentIndex
         const cls = ['adm-progress-step']
         if (isDone) cls.push('adm-progress-step--done')
-        if (isCurrent) cls.push('adm-progress-step--current')
+        if (isCurrent) cls.push('adm-progress-step--current', currentTone)
         return (
-          <li key={step.key} className={cls.join(' ')}>
+          <li key={step.key} className={cls.join(' ')} aria-current={isCurrent ? 'step' : undefined}>
             <span>{step.label}</span>
           </li>
         )

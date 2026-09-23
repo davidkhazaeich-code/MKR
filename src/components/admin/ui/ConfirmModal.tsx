@@ -1,7 +1,17 @@
 'use client'
 
-import { useEffect } from 'react'
-import Icon from './Icon'
+// Fenetre de confirmation. Props inchangees pour les appelants existants ;
+// confirmIcon ajoute l'icone de l'action au bouton de confirmation.
+// Accessibilite : role dialog + aria-modal, titre et message relies
+// (aria-labelledby, aria-describedby), piege de focus (Tab et Maj+Tab
+// bouclent), Echap et clic sur le fond annulent, retour du focus a
+// l'element declencheur. Rendu dans document.body (portail).
+
+import { useId, useRef } from 'react'
+import { createPortal } from 'react-dom'
+import Button from './Button'
+import Icon, { type IconName } from './Icon'
+import { useDialogFocus, useIsClient } from './useDialogFocus'
 
 interface Props {
   open: boolean
@@ -10,15 +20,19 @@ interface Props {
   confirmLabel?: string
   cancelLabel?: string
   variant?: 'warning' | 'danger' | 'primary'
+  /** Icone de l'action portee par le bouton de confirmation (envoyer = send...). */
+  confirmIcon?: IconName
   onConfirm: () => void
   onCancel: () => void
 }
 
-const VARIANT_COLORS = {
-  warning: { bg: 'rgba(245, 158, 11, 0.14)', color: '#f59e0b' },
-  danger: { bg: 'rgba(239, 68, 68, 0.14)', color: '#ef4444' },
-  primary: { bg: 'rgba(255, 107, 0, 0.14)', color: '#ff6b00' },
-}
+// warning et danger annoncent un risque (icone au ton) ; primary confirme une
+// action courante (pas d'icone d'alerte).
+const VARIANT = {
+  warning: { tone: 'warn', button: 'primary' },
+  danger: { tone: 'danger', button: 'danger' },
+  primary: { tone: null, button: 'primary' },
+} as const
 
 export default function ConfirmModal({
   open,
@@ -27,62 +41,70 @@ export default function ConfirmModal({
   confirmLabel = 'Confirmer',
   cancelLabel = 'Annuler',
   variant = 'warning',
+  confirmIcon,
   onConfirm,
   onCancel,
 }: Props) {
-  // Escape pour fermer.
-  useEffect(() => {
-    if (!open) return
-    const handler = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onCancel()
-    }
-    document.addEventListener('keydown', handler)
-    document.body.style.overflow = 'hidden'
-    return () => {
-      document.removeEventListener('keydown', handler)
-      document.body.style.overflow = ''
-    }
-  }, [open, onCancel])
+  const isClient = useIsClient()
+  const dialogRef = useRef<HTMLDivElement>(null)
+  const confirmRef = useRef<HTMLButtonElement>(null)
+  const cancelRef = useRef<HTMLButtonElement>(null)
+  const titleId = useId()
+  const messageId = useId()
+  const visible = open && isClient
 
-  if (!open) return null
+  // Focus initial : Annuler pour une suppression (Entree ne detruit rien),
+  // Confirmer sinon.
+  useDialogFocus(visible, dialogRef, onCancel, () =>
+    variant === 'danger' ? cancelRef.current : confirmRef.current,
+  )
 
-  const colors = VARIANT_COLORS[variant]
+  if (!visible) return null
 
-  return (
+  const cfg = VARIANT[variant]
+
+  return createPortal(
     <div
       className="adm-modal-backdrop"
-      onClick={onCancel}
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="adm-modal-title"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onCancel()
+      }}
     >
-      <div className="adm-modal" onClick={(e) => e.stopPropagation()}>
-        <div
-          className="adm-modal-icon"
-          style={{
-            ['--adm-modal-icon-bg' as string]: colors.bg,
-            ['--adm-modal-icon-color' as string]: colors.color,
-          }}
-          aria-hidden="true"
-        >
-          <Icon name="alert-triangle" size={22} strokeWidth={2.2} />
-        </div>
-        <h2 id="adm-modal-title" className="adm-modal-title">{title}</h2>
-        <p className="adm-modal-message">{message}</p>
+      <div
+        ref={dialogRef}
+        className="adm-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={titleId}
+        aria-describedby={messageId}
+        tabIndex={-1}
+      >
+        {cfg.tone && (
+          <div className={`adm-modal-icon adm-tone--${cfg.tone}`} aria-hidden="true">
+            <Icon name="alert-triangle" size={20} />
+          </div>
+        )}
+        <h2 id={titleId} className="adm-modal-title">
+          {title}
+        </h2>
+        <p id={messageId} className="adm-modal-message">
+          {message}
+        </p>
         <div className="adm-modal-actions">
-          <button type="button" className="adm-btn adm-btn--ghost" onClick={onCancel}>
+          <Button ref={cancelRef} variant="secondary" onClick={onCancel}>
             {cancelLabel}
-          </button>
-          <button
-            type="button"
-            className={`adm-btn ${variant === 'danger' ? 'adm-btn--danger' : 'adm-btn--primary'}`}
+          </Button>
+          <Button
+            ref={confirmRef}
+            variant={cfg.button}
+            icon={confirmIcon}
             onClick={onConfirm}
-            autoFocus
           >
             {confirmLabel}
-          </button>
+          </Button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   )
 }

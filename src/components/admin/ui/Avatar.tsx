@@ -1,18 +1,9 @@
-// Avatar circle avec initiales et couleur dérivée de l'identifiant.
-// Hash deterministe : meme nom = meme couleur a chaque fois.
+// Avatar avec initiales et teinte derivee de l'identifiant.
+// Hash deterministe : meme nom = meme teinte a chaque fois. Les teintes
+// (classes adm-avatar--c0 a c5) sont des jetons clair et sombre de admin.css,
+// sourdes et distinctes des tons semantiques des statuts.
 
-const PALETTE = [
-  '#FF6B00', // brand orange
-  '#60a5fa', // blue
-  '#4ade80', // green
-  '#a78bfa', // purple
-  '#f472b6', // pink
-  '#fbbf24', // amber
-  '#2dd4bf', // teal
-  '#fb7185', // rose
-  '#34d399', // emerald
-  '#818cf8', // indigo
-] as const
+const HUE_COUNT = 6
 
 function hashString(input: string): number {
   let h = 0
@@ -44,13 +35,11 @@ export default function Avatar({
   size?: 'md' | 'lg'
 }) {
   const hashSeed = seed || `${prenom ?? ''}-${nom ?? ''}` || 'default'
-  const color = PALETTE[hashString(hashSeed) % PALETTE.length]
+  const hue = hashString(hashSeed) % HUE_COUNT
+  const cls = ['adm-avatar', `adm-avatar--c${hue}`]
+  if (size === 'lg') cls.push('adm-avatar--lg')
   return (
-    <span
-      className={size === 'lg' ? 'adm-avatar adm-avatar--lg' : 'adm-avatar'}
-      style={{ ['--adm-avatar-bg' as string]: color }}
-      aria-hidden="true"
-    >
+    <span className={cls.join(' ')} aria-hidden="true">
       {initials(prenom, nom)}
     </span>
   )

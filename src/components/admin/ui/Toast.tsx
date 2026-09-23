@@ -1,7 +1,7 @@
 'use client'
 
 import { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react'
-import Icon from './Icon'
+import Icon, { type IconName } from './Icon'
 
 type ToastVariant = 'success' | 'error' | 'info'
 
@@ -24,10 +24,11 @@ export function useToast(): ToastContextValue {
   return ctx
 }
 
-const VARIANT_CONFIG: Record<ToastVariant, { color: string; icon: 'check' | 'alert-triangle' | 'check-circle' }> = {
-  success: { color: 'var(--adm-status-validee)', icon: 'check' },
-  error: { color: 'var(--adm-status-refusee)', icon: 'alert-triangle' },
-  info: { color: 'var(--adm-brand)', icon: 'check-circle' },
+// Couleur portee par la classe adm-toast--{variant} (jetons du theme).
+const VARIANT_ICON: Record<ToastVariant, IconName> = {
+  success: 'check',
+  error: 'alert-triangle',
+  info: 'info',
 }
 
 export function ToastProvider({ children }: { children: React.ReactNode }) {
@@ -47,7 +48,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
   return (
     <ToastContext.Provider value={{ show }}>
       {children}
-      <div className="adm-toast-container" aria-live="polite" aria-atomic="false">
+      <div className="adm-toast-stack" aria-live="polite" aria-atomic="false">
         {toasts.map((t) => (
           <ToastItem key={t.id} toast={t} onDismiss={() => dismiss(t.id)} />
         ))}
@@ -57,21 +58,15 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
 }
 
 function ToastItem({ toast, onDismiss }: { toast: Toast; onDismiss: () => void }) {
-  const cfg = VARIANT_CONFIG[toast.variant]
-
   useEffect(() => {
     const timer = setTimeout(onDismiss, toast.duration)
     return () => clearTimeout(timer)
   }, [toast.duration, onDismiss])
 
   return (
-    <div
-      className={`adm-toast adm-toast--${toast.variant}`}
-      style={{ ['--adm-toast-color' as string]: cfg.color }}
-      role="status"
-    >
+    <div className={`adm-toast adm-toast--${toast.variant}`} role="status">
       <span className="adm-toast-icon" aria-hidden="true">
-        <Icon name={cfg.icon} size={16} strokeWidth={2.5} />
+        <Icon name={VARIANT_ICON[toast.variant]} size={16} strokeWidth={2.5} />
       </span>
       <span className="adm-toast-message">{toast.message}</span>
       <button
@@ -80,7 +75,7 @@ function ToastItem({ toast, onDismiss }: { toast: Toast; onDismiss: () => void }
         className="adm-toast-close"
         aria-label="Fermer la notification"
       >
-        <Icon name="x" size={14} />
+        <Icon name="x" size={16} />
       </button>
     </div>
   )

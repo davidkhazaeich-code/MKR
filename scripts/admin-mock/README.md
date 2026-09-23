@@ -65,6 +65,7 @@ l'admin sélectionne une colonne qui n'existe pas dans le schéma ci-dessous.
 | `server.mjs` | Serveur Node pur (aucune dépendance) : PostgREST-lite + Storage-lite + Resend-lite, tout en mémoire |
 | `dev.mjs` | Démarre `server.mjs` puis `next dev -p 3100` avec les bonnes variables |
 | `smoke.mjs` | Vérifie l'admin actuel contre le mock (voir ci-dessus) |
+| `contrast.mjs` | Contraste WCAG des jetons `--adm-*` de `src/app/admin/admin.css`, thèmes clair et sombre, et identité des deux copies du thème sombre : `node scripts/admin-mock/contrast.mjs` (code 1 si une paire passe sous 4,5:1, ou sous 3:1 pour `--adm-text-4`). Sans serveur |
 
 ## Ce que `server.mjs` émule
 
