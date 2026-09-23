@@ -1160,6 +1160,13 @@ img {
   cursor: not-allowed;
 }
 
+/* Champ en erreur (aria-invalid, message relie par aria-describedby) */
+.adm-input[aria-invalid="true"],
+.adm-select[aria-invalid="true"],
+.adm-textarea[aria-invalid="true"] {
+  border-color: var(--adm-danger);
+}
+
 .adm-select,
 select.adm-input {
   -webkit-appearance: none;
@@ -2406,6 +2413,570 @@ select.adm-input {
   height: 8px;
   border-radius: 50%;
   background: var(--adm-badge-color, var(--adm-text-3));
+}
+
+/* ===== Chrome ===========================================================
+   Application (src/components/admin/shell/AdminShell.tsx) : barre laterale
+   (>= 1024 px), en-tete et barre d'onglets (< 1024 px), panneau Plus,
+   connexion, squelettes de page.
+   Chrome sombre dans les deux themes : fond --adm-chrome-*, et
+   data-theme="dark" sur la barre laterale, l'en-tete, la barre du bas et
+   l'ecran de connexion, pour que les primitives reutilisees (bouton ghost,
+   controle segmente, champ, carte) y prennent les jetons sombres.
+   ======================================================================== */
+
+/* Hauteurs des barres mobiles (< 1024 px), zones sures comprises. Pour les
+   elements colles sous l'en-tete ou poses au-dessus de la barre du bas
+   (barre d'actions de la fiche : meme hauteur que la barre d'onglets). */
+:root {
+  --adm-topbar-h: calc(56px + env(safe-area-inset-top));
+  --adm-bottombar-h: calc(60px + env(safe-area-inset-bottom));
+}
+
+.adm-app {
+  min-height: 100dvh;
+}
+
+.adm-app-main {
+  min-width: 0;
+}
+
+.adm-main {
+  display: block;
+  min-width: 0;
+}
+
+/* Cible du lien d'evitement (tabindex -1), pas un controle : pas d'anneau */
+.adm-main:focus {
+  outline: none;
+}
+
+@media (max-width: 1023.98px) {
+  /* Le contenu finit au-dessus de la barre du bas (fixe) */
+  .adm-app--bottomnav .adm-main {
+    padding-bottom: var(--adm-bottombar-h);
+  }
+
+  /* Ancres et element focalise au clavier : jamais sous l'en-tete ni sous la barre du bas */
+  html:has(.adm-topbar) {
+    scroll-padding-top: var(--adm-topbar-h);
+  }
+
+  html:has(.adm-app--bottomnav) {
+    scroll-padding-bottom: var(--adm-bottombar-h);
+  }
+}
+
+/* Barre laterale (>= 1024 px) */
+.adm-sidebar {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .adm-app {
+    display: grid;
+    grid-template-columns: 232px minmax(0, 1fr);
+  }
+
+  .adm-sidebar {
+    position: sticky;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    height: 100dvh;
+    padding: 16px 12px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    background: var(--adm-chrome-bg);
+    border-right: 1px solid var(--adm-chrome-border);
+    color: var(--adm-chrome-text);
+  }
+}
+
+.adm-sidebar-brand {
+  display: flex;
+  align-self: flex-start;
+  align-items: center;
+  min-height: 44px;
+  padding: 6px 12px;
+  border-radius: var(--adm-radius-md);
+}
+
+.adm-sidebar-logo {
+  display: block;
+  width: auto;
+  height: 32px;
+}
+
+.adm-sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.adm-sidebar-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Sections secondaires (panneau Plus en mobile) sous un filet */
+.adm-sidebar-list + .adm-sidebar-list {
+  padding-top: 12px;
+  border-top: 1px solid var(--adm-chrome-border);
+}
+
+.adm-sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-width: 0;
+  min-height: 40px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--adm-chrome-text-2);
+  font-family: var(--adm-ff-text);
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.2;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color var(--adm-dur) var(--adm-ease),
+    color var(--adm-dur) var(--adm-ease);
+}
+
+.adm-sidebar-link > svg {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+}
+
+@media (hover: hover) {
+  .adm-sidebar-link:hover {
+    background: var(--adm-chrome-hover);
+    color: var(--adm-chrome-text);
+  }
+}
+
+.adm-sidebar-link[aria-current="page"] {
+  background: var(--adm-chrome-active-bg);
+  color: var(--adm-chrome-active-text);
+}
+
+.adm-sidebar-link:focus-visible,
+.adm-sidebar-brand:focus-visible {
+  outline-offset: -2px;
+}
+
+.adm-sidebar-foot {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid var(--adm-chrome-border);
+}
+
+/* Selecteur d'apparence (ThemeSwitch) : libelle puis controle segmente */
+.adm-theme {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+/* Barre laterale : libelle aligne sur les icones des liens, segments
+   resserres (libelles seuls, 3 dans 208 px) */
+.adm-sidebar .adm-theme > .adm-label {
+  padding: 0 12px;
+}
+
+.adm-sidebar .adm-seg-item {
+  padding: 0 6px;
+}
+
+/* En-tete mobile (< 1024 px) : [debut] [titre centre] [fin] */
+.adm-topbar {
+  position: sticky;
+  top: 0;
+  z-index: var(--adm-z-nav);
+  display: grid;
+  grid-template-columns: minmax(max-content, 1fr) minmax(0, auto) minmax(max-content, 1fr);
+  align-items: center;
+  gap: 8px;
+  height: var(--adm-topbar-h);
+  padding: env(safe-area-inset-top) max(6px, env(safe-area-inset-right)) 0 max(6px, env(safe-area-inset-left));
+  background: var(--adm-chrome-bg);
+  box-shadow: 0 1px 0 var(--adm-chrome-border);
+  color: var(--adm-chrome-text);
+}
+
+@media (min-width: 1024px) {
+  .adm-topbar {
+    display: none;
+  }
+}
+
+.adm-topbar-start,
+.adm-topbar-end {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+}
+
+.adm-topbar-end {
+  justify-content: flex-end;
+}
+
+.adm-topbar-title {
+  min-width: 0;
+  margin: 0;
+  overflow: hidden;
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.2;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--adm-chrome-text);
+}
+
+.adm-topbar-brand {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0 8px;
+  border-radius: var(--adm-radius-md);
+}
+
+.adm-topbar-brand:focus-visible {
+  outline-offset: -2px;
+}
+
+.adm-topbar-logo {
+  display: block;
+  width: auto;
+  height: 28px;
+}
+
+/* Barre d'onglets du bas (< 1024 px) */
+.adm-bottomnav {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: var(--adm-z-nav);
+  padding: 0 env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  background: var(--adm-chrome-bg);
+  box-shadow: 0 -1px 0 var(--adm-chrome-border);
+}
+
+@media (min-width: 1024px) {
+  .adm-bottomnav {
+    display: none;
+  }
+}
+
+.adm-bottomnav-list {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  height: 60px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.adm-bottomnav-cell {
+  display: flex;
+  min-width: 0;
+}
+
+.adm-bottomnav-item {
+  position: relative;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-width: 0;
+  padding: 2px 4px 0;
+  border: 0;
+  border-radius: var(--adm-radius-md);
+  background: transparent;
+  color: var(--adm-chrome-text-2);
+  font-family: var(--adm-ff-text);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition:
+    background-color var(--adm-dur) var(--adm-ease),
+    color var(--adm-dur) var(--adm-ease);
+}
+
+.adm-bottomnav-item > svg {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+}
+
+/* Barre de 2 px en haut de l'onglet actif */
+.adm-bottomnav-item::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 32px;
+  height: 2px;
+  border-radius: 0 0 2px 2px;
+  background: transparent;
+  transform: translateX(-50%);
+  transition: background-color var(--adm-dur) var(--adm-ease);
+}
+
+.adm-bottomnav-label {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (hover: hover) {
+  .adm-bottomnav-item:hover {
+    color: var(--adm-chrome-text);
+  }
+}
+
+.adm-bottomnav-item:active {
+  background: var(--adm-chrome-hover);
+}
+
+/* Actif : lien de la page (page) ou entree Plus qui contient la page (true) */
+.adm-bottomnav-item[aria-current="page"],
+.adm-bottomnav-item[aria-current="true"] {
+  color: var(--adm-chrome-active-text);
+}
+
+.adm-bottomnav-item[aria-current="page"]::before,
+.adm-bottomnav-item[aria-current="true"]::before {
+  background: var(--adm-chrome-active-text);
+}
+
+.adm-bottomnav-item:focus-visible {
+  outline-offset: -2px;
+}
+
+/* Panneau Plus (theme de la page, pas le chrome) */
+.adm-more-list {
+  display: flex;
+  flex-direction: column;
+  margin: 0 -12px;
+  padding: 0;
+  list-style: none;
+}
+
+.adm-more-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  min-height: 52px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: var(--adm-radius-md);
+  background: transparent;
+  color: var(--adm-text);
+  font-family: var(--adm-ff-text);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.25;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color var(--adm-dur) var(--adm-ease);
+}
+
+.adm-more-item > svg {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  color: var(--adm-text-2);
+}
+
+.adm-more-item-label {
+  flex: 1;
+  min-width: 0;
+}
+
+.adm-more-item > .adm-more-item-chevron {
+  width: 18px;
+  height: 18px;
+  color: var(--adm-text-3);
+}
+
+@media (hover: hover) {
+  .adm-more-item:hover {
+    background: var(--adm-surface-2);
+  }
+}
+
+.adm-more-item:active {
+  background: var(--adm-surface-3);
+}
+
+.adm-more-item[aria-current="page"] {
+  background: var(--adm-action-soft);
+  color: var(--adm-action-text);
+}
+
+.adm-more-item[aria-current="page"] > svg {
+  color: currentColor;
+}
+
+.adm-more-item:focus-visible {
+  outline-offset: -2px;
+}
+
+.adm-more-group {
+  margin-top: 12px;
+  padding-top: 16px;
+  border-top: 1px solid var(--adm-border);
+}
+
+/* Bouton Deconnexion du panneau : meme debord que les liens */
+.adm-more-group > .adm-more-item {
+  width: calc(100% + 24px);
+  margin: 0 -12px;
+}
+
+/* Connexion : ecran chrome sombre, carte centree */
+.adm-login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  min-height: 100dvh;
+  padding: calc(32px + env(safe-area-inset-top)) 16px calc(32px + env(safe-area-inset-bottom));
+  background: var(--adm-chrome-bg);
+  color: var(--adm-text);
+}
+
+/* Fond sombre jusque dans le rebond du defilement (iOS) */
+html:has(.adm-login),
+html:has(.adm-login) body {
+  background: var(--adm-chrome-bg);
+}
+
+.adm-login-logo {
+  display: block;
+  width: auto;
+  height: 56px;
+}
+
+.adm-login-card {
+  width: 100%;
+  max-width: 400px;
+}
+
+@media (min-width: 640px) {
+  .adm-login-card {
+    padding: 28px;
+  }
+}
+
+.adm-login-intro {
+  margin-top: 6px;
+  color: var(--adm-text-2);
+}
+
+.adm-login-form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.adm-login-form > .adm-field {
+  align-self: stretch;
+}
+
+.adm-login-note {
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--adm-text-3);
+}
+
+/* Remplissage par un gestionnaire de mots de passe : couleurs du theme */
+.adm-login .adm-input:-webkit-autofill,
+.adm-login .adm-input:-webkit-autofill:hover,
+.adm-login .adm-input:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--adm-text);
+  caret-color: var(--adm-text);
+  box-shadow: 0 0 0 1000px var(--adm-surface) inset;
+}
+
+/* Squelettes de page (loading.tsx) */
+.adm-skeleton-head {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.adm-skeleton-avatar {
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+}
+
+.adm-skeleton-lines {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+}
+
+.adm-skeleton-kpis {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.adm-skeleton-cols {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
+}
+
+@media (min-width: 1024px) {
+  .adm-skeleton-kpis {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .adm-skeleton-cols {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+  }
 }
 
 /* ------------------------------------------------------------------------

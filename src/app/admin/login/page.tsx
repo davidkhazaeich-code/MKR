@@ -1,5 +1,12 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
+import Button from '@/components/admin/ui/Button'
+
+// Connexion admin : formulaire POST vers /api/admin/login (champs token et
+// next), cookie de 30 jours pose par la route. Chrome sombre dans les deux
+// themes (data-theme="dark" sur l'ecran).
+// Gestionnaires de mots de passe : identifiant fixe "admin" (champ
+// visuellement masque) + jeton en autocomplete="current-password".
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
@@ -9,58 +16,78 @@ export const metadata: Metadata = {
   title: 'Connexion · MKR Admin',
 }
 
+// Retour apres connexion : une page /admin, jamais la connexion elle-meme.
+function safeNext(raw: string | undefined): string {
+  if (!raw || !raw.startsWith('/admin') || raw.startsWith('/admin/login')) return '/admin'
+  return raw
+}
+
 export default async function AdminLoginPage({
   searchParams,
 }: {
   searchParams: Promise<{ error?: string; next?: string }>
 }) {
   const params = await searchParams
-  const next = params.next && params.next.startsWith('/admin') ? params.next : '/admin/inscriptions'
+  const next = safeNext(params.next)
   const hasError = params.error === '1'
 
   return (
-    <div className="adm-login-shell">
-      <form method="POST" action="/api/admin/login" className="adm-login-card">
-        <div className="adm-login-logo">
-          <Image
-            src="/logo-white.webp"
-            alt="MKR Caucasian Camp"
-            width={320}
-            height={193}
-            className="adm-brand-logo"
-            priority
+    <main className="adm-login" data-theme="dark">
+      <Image
+        src="/logo-white.webp"
+        alt="MKR Caucasian Camp"
+        width={93}
+        height={56}
+        className="adm-login-logo"
+        loading="eager"
+      />
+
+      <div className="adm-card adm-login-card">
+        <h1 className="adm-h1">Connexion</h1>
+        <p className="adm-login-intro">Espace réservé à l’équipe MKR Caucasian Camp.</p>
+
+        <form method="POST" action="/api/admin/login" className="adm-login-form">
+          <input type="hidden" name="next" value={next} />
+          {/* Identifiant pour les gestionnaires de mots de passe, jamais saisi */}
+          <input
+            type="text"
+            name="username"
+            defaultValue="admin"
+            autoComplete="username"
+            tabIndex={-1}
+            aria-hidden="true"
+            className="adm-sr-only"
           />
-          <span className="adm-brand-mark-tagline" aria-hidden="true">Admin</span>
-        </div>
 
-        <h1 className="adm-login-title">Bienvenue</h1>
-        <p className="adm-login-help">
-          Token requis pour accéder au tableau de bord des candidatures.
-        </p>
-
-        <input type="hidden" name="next" value={next} />
-
-        <div className="adm-login-form">
-          <label>
-            <p className="adm-login-field-label">Token admin</p>
+          <div className="adm-field">
+            <label htmlFor="adm-login-token" className="adm-field-label">
+              Mot de passe
+            </label>
             <input
+              id="adm-login-token"
               name="token"
               type="password"
-              autoComplete="off"
+              autoComplete="current-password"
               autoFocus
               required
-              placeholder="••••••••••••••••"
-              className="adm-login-field-input"
+              className="adm-input"
+              aria-invalid={hasError || undefined}
+              aria-describedby={hasError ? 'adm-login-error' : undefined}
             />
-          </label>
+            {hasError && (
+              <p id="adm-login-error" className="adm-field-error" role="alert">
+                Mot de passe incorrect. Réessaie.
+              </p>
+            )}
+          </div>
 
-          {hasError && <p className="adm-login-error">Token invalide. Réessaye.</p>}
-
-          <button type="submit" className="adm-login-submit">
+          <Button type="submit" variant="primary" icon="log-in">
             Se connecter
-          </button>
-        </div>
-      </form>
-    </div>
+          </Button>
+
+          <p className="adm-login-note">Connexion mémorisée 30 jours sur cet appareil.</p>
+        </form>
+      </div>
+    </main>
   )
 }

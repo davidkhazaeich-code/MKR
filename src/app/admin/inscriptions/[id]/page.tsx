@@ -20,7 +20,7 @@ import BackShortcut from '@/components/admin/ui/BackShortcut'
 import Badge from '@/components/admin/ui/Badge'
 import Icon from '@/components/admin/ui/Icon'
 import Progress from '@/components/admin/ui/Progress'
-import Topbar from '@/components/admin/ui/Topbar'
+import AdminShell from '@/components/admin/shell/AdminShell'
 
 /**
  * Libelle lisible d'une session, y compris une session sortie des inscriptions.
@@ -378,12 +378,11 @@ export default async function CandidatureDetailPage({
 
   if (configError) {
     return (
-      <>
-        <Topbar />
+      <AdminShell active="candidatures" title="Dossier">
         <div className="adm-container">
           <p style={{ color: 'var(--adm-status-refusee)' }}>Configuration manquante : {configError}</p>
         </div>
-      </>
+      </AdminShell>
     )
   }
 
@@ -416,15 +415,9 @@ export default async function CandidatureDetailPage({
   const phoneTel = c?.telephone?.replace(/[^+0-9]/g, '') ?? ''
 
   return (
-    <>
-      <Topbar
-        crumbs={[
-          { label: 'Candidatures', href: '/admin/inscriptions' },
-          { label: c ? `${c.prenom ?? ''} ${c.nom ?? ''}`.trim() || 'Dossier' : 'Dossier' },
-        ]}
-      />
+    <AdminShell active="candidatures" title="Dossier">
       <BackShortcut to="/admin/inscriptions" />
-      <main className="adm-container" style={{ paddingBottom: '6rem' }}>
+      <div className="adm-container" style={{ paddingBottom: '6rem' }}>
         <Link href="/admin/inscriptions" className="adm-back-link">
           <Icon name="arrow-left" size={15} />
           Retour à la liste
@@ -804,7 +797,7 @@ export default async function CandidatureDetailPage({
 
         {/* Danger zone — full width, en bas, separe du workflow normal */}
         <DangerSection candidatureId={candidature.id} candidateName={fullName} />
-      </main>
+      </div>
 
       {/* FAB mobile vers les actions admin (caché desktop, sticky desktop suffit) */}
       <a
@@ -816,7 +809,7 @@ export default async function CandidatureDetailPage({
         <Icon name="zap" size={18} strokeWidth={2.2} />
         <span>Actions</span>
       </a>
-    </>
+    </AdminShell>
   )
 }
 

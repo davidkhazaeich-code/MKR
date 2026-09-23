@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { getSupabaseAdmin } from '@/lib/supabase-admin'
-import Topbar from '@/components/admin/ui/Topbar'
+import AdminShell from '@/components/admin/shell/AdminShell'
 import Badge from '@/components/admin/ui/Badge'
 import Icon from '@/components/admin/ui/Icon'
 import { REFERRAL_CODES, affiliateLink } from '@/data/referral-codes'
@@ -189,9 +189,8 @@ export default async function AdminReferralsPage() {
     .map((c) => ({ code: c.code, partnerName: c.partnerName, url: affiliateLink(c.code) }))
 
   return (
-    <>
-      <Topbar nav="referrals" />
-      <main className="adm-container">
+    <AdminShell active="partenaires" title="Partenaires">
+      <div className="adm-container">
         <h1 className="adm-h1">Partenaires referral</h1>
         <p className="adm-h-meta">
           {summaries.length} partenaire{summaries.length > 1 ? 's' : ''} · {totalCandidatures} candidature{totalCandidatures > 1 ? 's' : ''} · Mis à jour à {generatedAt}{' '}
@@ -345,7 +344,7 @@ export default async function AdminReferralsPage() {
           Le bonus passe automatiquement de "En attente" à "À payer" quand le statut de la candidature devient <strong>soldée</strong>.
           Clique sur "Voir" pour ouvrir la liste filtrée des candidatures de ce partenaire, puis sur une fiche pour marquer le bonus comme payé.
         </p>
-      </main>
-    </>
+      </div>
+    </AdminShell>
   )
 }

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { getSupabaseAdmin } from '@/lib/supabase-admin'
-import Topbar from '@/components/admin/ui/Topbar'
+import AdminShell from '@/components/admin/shell/AdminShell'
 import Badge from '@/components/admin/ui/Badge'
 import Icon from '@/components/admin/ui/Icon'
 
@@ -74,9 +74,8 @@ export default async function AdminGuideLeadsPage({
   const csvHref = `/api/admin/guide-leads/export${params.source ? `?source=${encodeURIComponent(params.source)}` : ''}`
 
   return (
-    <>
-      <Topbar nav="guide-leads" />
-      <main className="adm-container">
+    <AdminShell active="leads" title="Leads guide">
+      <div className="adm-container">
         <h1 className="adm-h1">Leads Guide Caucase</h1>
         <p className="adm-h-meta">
           {leads.length} lead{leads.length > 1 ? 's' : ''}
@@ -189,7 +188,7 @@ export default async function AdminGuideLeadsPage({
             </table>
           </div>
         )}
-      </main>
-    </>
+      </div>
+    </AdminShell>
   )
 }

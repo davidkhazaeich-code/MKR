@@ -1,28 +1,29 @@
-import Link from 'next/link'
-import Topbar from '@/components/admin/ui/Topbar'
+import AdminShell from '@/components/admin/shell/AdminShell'
+import { ButtonLink } from '@/components/admin/ui/Button'
 import Icon from '@/components/admin/ui/Icon'
 
-// 404 admin (dossier inconnu, URL erronee). Sans ce fichier, notFound()
-// tombe sur la 404 publique, hors design system admin.
+// 404 admin (dossier inconnu, URL erronee), dans le chrome sans section
+// active. Sans ce fichier, notFound() tombe sur la 404 publique, hors design
+// system admin.
 export default function AdminNotFound() {
   return (
-    <>
-      <Topbar />
-      <main className="adm-container">
-        <div className="adm-list-empty" style={{ marginTop: '2.5rem', padding: '4rem 2rem' }}>
-          <div className="adm-list-empty-icon" aria-hidden="true" style={{ color: 'var(--adm-text-muted)', fontSize: 'inherit' }}>
-            <Icon name="search" size={40} strokeWidth={1.6} />
+    <AdminShell title="Introuvable">
+      <div className="adm-container">
+        <section className="adm-empty" aria-labelledby="adm-not-found-title">
+          <span className="adm-empty-icon" aria-hidden="true">
+            <Icon name="search" size={28} />
+          </span>
+          <h1 id="adm-not-found-title" className="adm-empty-title">
+            Dossier introuvable
+          </h1>
+          <p className="adm-empty-text">Ce dossier n’existe pas ou a été supprimé.</p>
+          <div className="adm-empty-actions">
+            <ButtonLink href="/admin/inscriptions" variant="primary" icon="arrow-left">
+              Retour aux candidatures
+            </ButtonLink>
           </div>
-          <p className="adm-list-empty-title">Dossier introuvable</p>
-          <p style={{ margin: '0 0 1.5rem', fontSize: '0.85rem' }}>
-            Ce dossier n&apos;existe pas ou a été supprimé.
-          </p>
-          <Link href="/admin/inscriptions" className="adm-btn adm-btn--primary" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.45rem' }}>
-            <Icon name="arrow-left" size={14} strokeWidth={2.4} />
-            Retour aux candidatures
-          </Link>
-        </div>
-      </main>
-    </>
+        </section>
+      </div>
+    </AdminShell>
   )
 }

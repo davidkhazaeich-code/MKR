@@ -4,7 +4,7 @@ import { getSupabaseAdmin } from '@/lib/supabase-admin'
 import InscriptionsList from '@/components/admin/InscriptionsList'
 import StatsBand from '@/components/admin/StatsBand'
 import Pipeline from '@/components/admin/ui/Pipeline'
-import Topbar from '@/components/admin/ui/Topbar'
+import AdminShell from '@/components/admin/shell/AdminShell'
 import { STATUS_LABEL, STATUS_VALUES, type Status } from '@/lib/admin-transitions'
 import { ATTRIBUTION_SOURCE_LABEL, ATTRIBUTION_SOURCE_COLOR, type AttributionSource } from '@/lib/attribution'
 import { getUnfinishedSessions, sessionFromId, type Session } from '@/data/sessions'
@@ -173,13 +173,12 @@ export default async function AdminInscriptionsPage({
 
   if (configError) {
     return (
-      <>
-        <Topbar nav="inscriptions" />
+      <AdminShell active="candidatures" title="Candidatures">
         <div className="adm-container">
           <h1 className="adm-h1">Candidatures MKR</h1>
           <p style={{ color: 'var(--adm-status-refusee)' }}>Configuration manquante : {configError}</p>
         </div>
-      </>
+      </AdminShell>
     )
   }
 
@@ -268,9 +267,8 @@ export default async function AdminInscriptionsPage({
   const total = allRowsForStats.length
 
   return (
-    <>
-      <Topbar nav="inscriptions" />
-      <main className="adm-container">
+    <AdminShell active="candidatures" title="Candidatures">
+      <div className="adm-container">
         <h1 className="adm-h1">Candidatures</h1>
         <p className="adm-h-meta">
           {total} dossier{total > 1 ? 's' : ''} au total · Mis à jour à {generatedAt}{' '}
@@ -508,7 +506,7 @@ export default async function AdminInscriptionsPage({
         </div>
 
         <InscriptionsList rows={rows} />
-      </main>
-    </>
+      </div>
+    </AdminShell>
   )
 }

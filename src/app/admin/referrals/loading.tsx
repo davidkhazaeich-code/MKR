@@ -1,20 +1,29 @@
-import Topbar from '@/components/admin/ui/Topbar'
+import AdminShell from '@/components/admin/shell/AdminShell'
+
+// Squelette de la page partenaires : chiffres cles, tableau, liens d'affiliation.
+const KPIS = [0, 1, 2, 3]
 
 export default function LoadingReferrals() {
   return (
-    <>
-      <Topbar nav="referrals" />
-      <main className="adm-container" aria-busy="true" aria-label="Chargement des partenaires">
-        <h1 className="adm-h1">Partenaires referral</h1>
-        <div className="adm-skeleton--text adm-skeleton" style={{ width: 260, marginTop: 4 }} />
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '1rem', margin: '1.5rem 0 2rem' }}>
-          {[0, 1, 2, 3].map((i) => (
+    <AdminShell active="partenaires" title="Partenaires">
+      <div className="adm-container" aria-busy="true">
+        <p className="adm-sr-only" role="status">
+          Chargement des partenaires
+        </p>
+        <div className="adm-page-head">
+          <div>
+            <h1 className="adm-h1">Partenaires</h1>
+            <div className="adm-skeleton adm-skeleton--text" style={{ width: 260, marginTop: 10 }} />
+          </div>
+        </div>
+        <div className="adm-skeleton-kpis">
+          {KPIS.map((i) => (
             <div key={i} className="adm-skeleton" style={{ height: 96 }} />
           ))}
         </div>
-        <div className="adm-skeleton" style={{ height: 300, marginBottom: '1.5rem' }} />
-        <div className="adm-skeleton" style={{ height: 360 }} />
-      </main>
-    </>
+        <div className="adm-skeleton" style={{ height: 300, marginTop: 24 }} />
+        <div className="adm-skeleton" style={{ height: 200, marginTop: 16 }} />
+      </div>
+    </AdminShell>
   )
 }

@@ -1,15 +1,22 @@
-import Topbar from '@/components/admin/ui/Topbar'
+import AdminShell from '@/components/admin/shell/AdminShell'
 
+// Squelette de la page des leads du guide : filtres de source, tableau.
 export default function LoadingGuideLeads() {
   return (
-    <>
-      <Topbar nav="guide-leads" />
-      <main className="adm-container" aria-busy="true" aria-label="Chargement des leads">
-        <h1 className="adm-h1">Leads Guide Caucase</h1>
-        <div className="adm-skeleton--text adm-skeleton" style={{ width: 220, marginTop: 4 }} />
-        <div className="adm-skeleton" style={{ height: 36, margin: '1.5rem 0 1rem' }} />
+    <AdminShell active="leads" title="Leads guide">
+      <div className="adm-container" aria-busy="true">
+        <p className="adm-sr-only" role="status">
+          Chargement des leads
+        </p>
+        <div className="adm-page-head">
+          <div>
+            <h1 className="adm-h1">Leads guide</h1>
+            <div className="adm-skeleton adm-skeleton--text" style={{ width: 220, marginTop: 10 }} />
+          </div>
+        </div>
+        <div className="adm-skeleton" style={{ height: 44, marginBottom: 20 }} />
         <div className="adm-skeleton" style={{ height: 420 }} />
-      </main>
-    </>
+      </div>
+    </AdminShell>
   )
 }

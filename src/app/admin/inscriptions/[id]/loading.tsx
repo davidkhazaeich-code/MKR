@@ -1,26 +1,34 @@
-import Topbar from '@/components/admin/ui/Topbar'
+import AdminShell from '@/components/admin/shell/AdminShell'
 
-// Skeleton du dossier pendant le fetch Supabase (force-dynamic).
+// Squelette de la fiche pendant le chargement serveur (force-dynamic) :
+// en-tete (avatar, nom), prochaine etape, puis les panneaux (deux colonnes
+// en desktop).
 export default function LoadingCandidature() {
   return (
-    <>
-      <Topbar crumbs={[{ label: 'Candidatures', href: '/admin/inscriptions' }, { label: 'Dossier' }]} />
-      <main className="adm-container" aria-busy="true" aria-label="Chargement du dossier">
-        <div className="adm-skeleton--text adm-skeleton" style={{ width: 140, marginBottom: '1.25rem' }} />
-        <div className="adm-skeleton" style={{ height: 150, marginBottom: '1.25rem' }} />
-        <div className="adm-skeleton" style={{ height: 74, marginBottom: '1rem' }} />
-        <div className="adm-card-grid adm-card-grid--detail">
+    <AdminShell active="candidatures" title="Dossier">
+      <div className="adm-container adm-container--wide" aria-busy="true">
+        <p className="adm-sr-only" role="status">
+          Chargement du dossier
+        </p>
+        <div className="adm-skeleton-head">
+          <div className="adm-skeleton adm-skeleton-avatar" />
+          <div className="adm-skeleton-lines">
+            <div className="adm-skeleton adm-skeleton--title" />
+            <div className="adm-skeleton adm-skeleton--text" style={{ width: '60%' }} />
+          </div>
+        </div>
+        <div className="adm-skeleton" style={{ height: 132, marginBottom: 20 }} />
+        <div className="adm-skeleton-cols">
           <div className="adm-skeleton-stack">
             <div className="adm-skeleton" style={{ height: 220 }} />
             <div className="adm-skeleton" style={{ height: 180 }} />
-            <div className="adm-skeleton" style={{ height: 260 }} />
           </div>
           <div className="adm-skeleton-stack">
             <div className="adm-skeleton" style={{ height: 160 }} />
-            <div className="adm-skeleton" style={{ height: 320 }} />
+            <div className="adm-skeleton" style={{ height: 260 }} />
           </div>
         </div>
-      </main>
-    </>
+      </div>
+    </AdminShell>
   )
 }
