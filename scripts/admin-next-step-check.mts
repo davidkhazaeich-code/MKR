@@ -112,6 +112,7 @@ const allSteps = [
 check('aucun em dash ni esperluette dans les textes', !JSON.stringify(allSteps).includes('—') && !JSON.stringify(allSteps).includes('&'))
 // audit
 const d = (event: string, extra: Partial<AuditRow> = {}) => describeAuditEvent({ id: 1, event, from_value: null, to_value: null, data: null, actor_email: 'admin', at: '2026-09-20T10:00:00Z', ...extra })
+check('email de cloture traduit', d('closure_email_sent').label === 'Dossier clôturé, email de réinscription envoyé')
 check('visio_booked traduit avec heure', d('visio_booked', { data: { start_time: '2026-10-09T08:00:00Z' }, actor_email: 'cal-webhook' }).label === 'Visio réservée' && d('visio_booked', { data: { start_time: '2026-10-09T08:00:00Z' } }).detail === 'pour le vendredi 9 octobre à 10:00')
 check('package_amount_estimated traduit', d('package_amount_estimated', { to_value: { package_amount_cents: 319000 } }).label === 'Montant estimé depuis la grille tarifaire')
 check('evenement inconnu lisible', d('some_new_event').label === 'Some new event')

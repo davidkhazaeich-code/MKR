@@ -81,6 +81,7 @@ export function describeAuditEvent(e: AuditRow): AuditDescription {
       return { ...base, label: again(n, 'Autre session proposée au candidat', 'Autre session reproposée'), detail: str(data.to), tone: 'info' }
     }
     case 'rebooking_reminder_sent': return { ...base, label: 'Rappel automatique de la proposition de session', detail: str(data.to), tone: 'info' }
+    case 'closure_email_sent': return { ...base, label: 'Dossier clôturé, email de réinscription envoyé', detail: str(data.to), tone: 'info' }
     case 'payment_reminder_sent': return { ...base, label: 'Rappel de paiement automatique envoyé', detail: str(data.to), tone: 'info' }
     case 'predeparture_sent': return { ...base, label: 'Infos pré-départ envoyées', detail: str(data.to), tone: 'info' }
     case 'attribution_captured': {
