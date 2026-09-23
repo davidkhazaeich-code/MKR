@@ -24,8 +24,8 @@ export async function POST(request: Request) {
 
   const form = await request.formData()
   const provided = String(form.get('token') ?? '')
-  const nextRaw = String(form.get('next') ?? '/admin/inscriptions')
-  const next = nextRaw.startsWith('/admin') ? nextRaw : '/admin/inscriptions'
+  const nextRaw = String(form.get('next') ?? '/admin')
+  const next = nextRaw.startsWith('/admin') ? nextRaw : '/admin'
 
   if (!provided || !safeEqual(provided, expected)) {
     const url = new URL('/admin/login', request.url)
@@ -42,7 +42,9 @@ export async function POST(request: Request) {
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'strict',
     path: '/',
-    maxAge: 60 * 60 * 8, // 8h
+    // 30 jours : Ruslan travaille depuis son telephone, ressaisir 64 caracteres
+    // chaque jour le decourageait ; cookie toujours httpOnly, secure, sameSite strict
+    maxAge: 60 * 60 * 24 * 30,
   })
   return response
 }

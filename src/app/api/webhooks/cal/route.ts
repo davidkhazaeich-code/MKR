@@ -60,6 +60,7 @@ export async function POST(request: Request) {
   const p = body.payload ?? {}
   const uid = p.uid ?? (p.bookingId != null ? String(p.bookingId) : null)
   const attendeeEmail = p.attendees?.[0]?.email?.trim().toLowerCase() ?? null
+  const startIso = toIsoOrNull(p.startTime)
   const supabase = getSupabaseAdmin()
 
   try {
@@ -95,7 +96,7 @@ export async function POST(request: Request) {
       const nowIso = new Date().toISOString()
       await supabase
         .from('candidatures')
-        .update({ visio_booked_at: nowIso, visio_booking_uid: uid })
+        .update({ visio_booked_at: nowIso, visio_booking_uid: uid, visio_starts_at: startIso })
         .eq('id', candidature.id)
       await supabase.from('audit_log').insert({
         candidature_id: candidature.id,
@@ -134,7 +135,7 @@ export async function POST(request: Request) {
       if (candidatureId) {
         await supabase
           .from('candidatures')
-          .update({ visio_booked_at: null, visio_booking_uid: null })
+          .update({ visio_booked_at: null, visio_booking_uid: null, visio_starts_at: null })
           .eq('id', candidatureId)
         await supabase.from('audit_log').insert({
           candidature_id: candidatureId,
@@ -153,10 +154,23 @@ export async function POST(request: Request) {
       const oldUid = p.rescheduleUid ?? null
       const nowIso = new Date().toISOString()
       if (oldUid && uid) {
-        await supabase
+        const { data: updated } = await supabase
           .from('candidatures')
-          .update({ visio_booked_at: nowIso, visio_booking_uid: uid })
+          .update({ visio_booked_at: nowIso, visio_booking_uid: uid, visio_starts_at: startIso })
           .eq('visio_booking_uid', oldUid)
+          .select('id')
+        const matchedIds = (updated ?? []).map((row) => row.id)
+        if (matchedIds.length) {
+          await supabase.from('audit_log').insert(
+            matchedIds.map((candidatureId) => ({
+              candidature_id: candidatureId,
+              event: 'visio_rescheduled',
+              to_value: { visio_starts_at: startIso, visio_booking_uid: uid },
+              data: { start_time: p.startTime ?? null, previous_uid: oldUid },
+              actor_email: 'cal-webhook',
+            }))
+          )
+        }
       }
       return NextResponse.json({ ok: true })
     }
@@ -166,6 +180,14 @@ export async function POST(request: Request) {
     console.error('[webhooks/cal] traitement échoué (200 quand même, pas de retry storm)', err)
     return NextResponse.json({ ok: true, error: 'traitement partiel' })
   }
+}
+
+// Heure du rendez-vous : on ne garde qu'un ISO valide, sinon null (l'admin
+// affiche alors « heure non transmise » au lieu d'une date fausse).
+function toIsoOrNull(v: string | undefined): string | null {
+  if (!v) return null
+  const t = Date.parse(v)
+  return Number.isFinite(t) ? new Date(t).toISOString() : null
 }
 
 function safeEqual(a: string, b: string): boolean {
