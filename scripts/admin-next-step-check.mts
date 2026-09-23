@@ -199,6 +199,9 @@ check('libelles des valeurs', filterValueLabel('session', 'upcoming') === 'Camps
 const chips = activeFilterChips({ ...DEFAULT_FILTERS, q: 'x', partenaire: 'STRIKE', source: 'inconnue', session: 'toussaint-2026' })
 check('pastilles dans l ordre du panneau', chips.map((c) => c.label).join(' | ') === 'Session : Toussaint 2026 | Source : Inconnue | Partenaire : STRIKE', chips.map((c) => c.label).join(' | '))
 check('aucune pastille par defaut', activeFilterChips(DEFAULT_FILTERS).length === 0)
+const panelOrder = { ...DEFAULT_FILTERS, etape: 'contrat', partenaire: 'STRIKE', langue: 'en' }
+check('ordre du panneau : langue avant partenaire (URL et pastilles)', filtersToQuery(panelOrder) === 'langue=en&partenaire=STRIKE&etape=contrat'
+  && activeFilterChips(panelOrder).map((c) => c.key).join() === 'langue,partenaire,etape', filtersToQuery(panelOrder))
 check('options et pastilles sans em dash ni esperluette', !/[\u2013\u2014&]/.test(JSON.stringify([opts, chips])))
 // lignes (accueil et liste)
 check('icone pour chaque etape', Object.keys(STEP_ICON).length === 15 && STEP_ICON.a_relancer === 'bell' && STEP_ICON.clos === 'check')

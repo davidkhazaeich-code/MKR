@@ -3396,8 +3396,13 @@ html:has(.adm-login) body {
    Liste /admin/inscriptions (src/components/admin/candidatures/) : en-tete,
    onglets de statut, barre d'outils (recherche, filtres, pastilles), lignes.
    Onglets : sous 1024 px, bande defilante d'un bord a l'autre de l'ecran.
+   Des qu'ils debordent (mobile, desktop de 1024 a 1279 px), fondu du cote
+   des onglets masques ; a la souris, barre de defilement fine et visible
+   (le tactile garde le glisser, sans barre).
    Barre d'outils (grille) : sous 1024 px, recherche et bouton "Filtres",
-   puis le panneau replie (data-open) et les pastilles ; au-dessus, le
+   puis le panneau replie (data-open) et les pastilles ; ouvert, le panneau
+   met les champs courts sur deux colonnes, session et partenaire sur toute
+   la largeur, puis "Voir les N candidatures". Au-dessus de 1024 px, le
    panneau est toujours affiche et ses champs rejoignent la grille de la
    barre (display: contents), sur 4 colonnes, ou 6 quand la barre fait
    1000 px (une largeur que seul un ecran >= 1024 px peut donner). La
@@ -3407,10 +3412,11 @@ html:has(.adm-login) body {
    - etroit : carte en trois lignes (nom ; etape ; statut, camp et meta),
      WhatsApp a droite des deux premieres ;
    - >= 560 px : nom et etape cote a cote, meta dessous ;
-   - >= 1040 px : une ligne en colonnes alignees, gabarit fixe commun a
-     toutes les lignes (nom | statut | camp | etape | origine | age |
-     WhatsApp) ; la meta se defait (display: contents) pour que chaque
-     terme prenne sa colonne ; l'avertissement MMA passe sous le camp.
+   - >= 1100 px : une ligne en colonnes alignees, gabarit commun a toutes
+     les lignes (nom | statut | camp | etape | origine | age | WhatsApp),
+     colonnes fixes sauf l'etape, qui prend la largeur libre ; la meta se
+     defait (display: contents) pour que chaque terme prenne sa colonne ;
+     l'avertissement MMA passe sous le camp.
    Couleurs : jetons uniquement.
    ======================================================================== */
 
@@ -3426,6 +3432,56 @@ html:has(.adm-login) body {
   .adm-cand-tabs {
     margin-inline: calc(-1 * var(--adm-gutter));
     padding-inline: var(--adm-gutter);
+  }
+}
+
+/* Fondu du cote des onglets masques (data-fade, tenu a jour par la vue).
+   Masque : seule l'opacite du degrade compte, pas sa couleur. */
+.adm-cand-tabs[data-fade="start"] {
+  mask-image: linear-gradient(to right, transparent, black 40px);
+}
+
+.adm-cand-tabs[data-fade="end"] {
+  mask-image: linear-gradient(to left, transparent, black 40px);
+}
+
+.adm-cand-tabs[data-fade="both"] {
+  mask-image: linear-gradient(to right, transparent, black 40px, black calc(100% - 40px), transparent);
+}
+
+/* Souris : barre de defilement fine et visible quand les onglets debordent
+   (la barre masquee de .adm-tabs reste celle du tactile). Contour des
+   controles : >= 3:1 sur le fond, dans les deux themes.
+   Chromium et Safari ne dessinent une barre toujours visible (et non la
+   barre flottante de macOS) qu'a partir de ::-webkit-scrollbar, regles que
+   Chromium ignore des que scrollbar-width ou scrollbar-color est pose : ces
+   deux proprietes reviennent donc a auto, sauf la ou ::-webkit-scrollbar
+   n'existe pas (Firefox), qui recoit la barre fine standard. */
+@media (pointer: fine) {
+  .adm-cand-tabs {
+    scrollbar-width: auto;
+    scrollbar-color: auto;
+  }
+
+  .adm-cand-tabs::-webkit-scrollbar {
+    display: block;
+    height: 8px;
+  }
+
+  .adm-cand-tabs::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .adm-cand-tabs::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background: var(--adm-control-border);
+  }
+
+  @supports not selector(::-webkit-scrollbar) {
+    .adm-cand-tabs {
+      scrollbar-width: thin;
+      scrollbar-color: var(--adm-control-border) transparent;
+    }
   }
 }
 
@@ -3475,12 +3531,14 @@ html:has(.adm-login) body {
   display: none;
 }
 
+/* Panneau ouvert (< 1024 px) : champs courts par paires, marges serrees
+   pour que "Plus recentes" tienne a 360 px en 16 px */
 .adm-cand-filters {
   grid-column: 1 / -1;
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 12px 16px;
-  padding: 16px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  padding: 12px;
   border: 1px solid var(--adm-border);
   border-radius: var(--adm-radius-lg);
   background: var(--adm-surface);
@@ -3500,11 +3558,8 @@ html:has(.adm-login) body {
 
 @container (min-width: 480px) {
   .adm-cand-filters {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .adm-cand-filter--session {
-    grid-column: span 2;
+    gap: 12px 16px;
+    padding: 16px;
   }
 }
 
@@ -3515,6 +3570,24 @@ html:has(.adm-login) body {
 
   .adm-cand-filters[data-open="false"] {
     display: none;
+  }
+
+  .adm-cand-filter--full {
+    grid-column: 1 / -1;
+  }
+
+  /* Deux colonnes a 360 px : chevron rapproche du bord, 4 px de texte en
+     plus ("Plus recentes" en 16 px) */
+  .adm-cand-filter .adm-select {
+    padding-right: 32px;
+    background-position: right 10px center;
+  }
+
+  /* "Voir les N candidatures" : ferme le panneau et ramene la liste */
+  .adm-cand-filters-done {
+    grid-column: 1 / -1;
+    justify-self: center;
+    margin-top: 4px;
   }
 }
 
@@ -3530,6 +3603,10 @@ html:has(.adm-login) body {
 
   .adm-cand-filters {
     display: contents;
+  }
+
+  .adm-cand-filter--session {
+    grid-column: span 2;
   }
 
   /* Barre dense (comme les pastilles et les boutons --sm) : la session tient
@@ -3728,16 +3805,31 @@ html:has(.adm-login) body {
   }
 }
 
-@container (min-width: 1040px) {
-  /* Camp : jamais sous 9.5rem ("Lutte . Toussaint 2026") ; les autres
-     colonnes souples se partagent le reste. */
+@container (min-width: 1100px) {
+  /* Colonnes fixes (mesurees sur leur contenu en 14 px : nom et balises,
+     statut, camp, origine, age), communes a toutes les lignes ; l'etape
+     prend la largeur libre : 248 px a 1100 px de liste, 268 a 1120, pour
+     243 px au plus (etape la plus longue, icone comprise). */
   .adm-cand-row {
-    grid-template-columns: 40px minmax(0, 1.6fr) 7rem minmax(9.5rem, 1.1fr) minmax(0, 1.6fr) minmax(0, 1fr) 6.5rem 36px;
+    grid-template-columns: 40px 12.5rem 5.5rem 9.75rem minmax(0, 1fr) 8rem 5.5rem 36px;
     grid-template-areas: "av name status camp step origin age wa";
     column-gap: 12px;
     row-gap: 0;
     align-content: center;
     padding: 8px 16px;
+  }
+
+  /* Etape sur une ligne ; points de suspension (texte complet en titre)
+     seulement si elle ne tient vraiment pas */
+  .adm-cand-step .adm-tone-text {
+    max-width: 100%;
+  }
+
+  .adm-cand-step .adm-tone-text > span {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .adm-cand-row--note {

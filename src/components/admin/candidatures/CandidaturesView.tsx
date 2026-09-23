@@ -87,7 +87,13 @@ export default function CandidaturesView({ rows, nowIso }: CandidaturesViewProps
 
   const now = useMemo(() => new Date(nowIso), [nowIso])
   const items = useMemo<ListItem[]>(() => rows.map((row) => ({ row, step: computeNextStep(row, now) })), [rows, now])
-  const options = useMemo(() => buildFilterOptions(rows, now, filters), [rows, now, filters])
+  // Options : ne dependent que des filtres du panneau (pas de la recherche,
+  // du statut ni du tri) ; pas de recalcul a chaque frappe.
+  const { session, tunnel, discipline, source, partenaire, langue, etape } = filters
+  const options = useMemo(
+    () => buildFilterOptions(rows, now, { ...DEFAULT_FILTERS, session, tunnel, discipline, source, partenaire, langue, etape }),
+    [rows, now, session, tunnel, discipline, source, partenaire, langue, etape],
+  )
   const counts = useMemo(() => statusCounts(items, filters, now), [items, filters, now])
   const filtered = useMemo(
     () => sortItems(items.filter((item) => matchesFilters(item, filters, undefined, now)), filters.tri),
@@ -129,6 +135,29 @@ export default function CandidaturesView({ rows, nowIso }: CandidaturesViewProps
     setFilters(next)
     setVisible(PAGE_SIZE)
   }, [urlQuery])
+
+  // Bande d'onglets qui deborde (ecrans etroits, desktop de 1024 a 1279 px) :
+  // data-fade dit de quel cote des onglets sont masques (fondu en CSS), mis a
+  // jour au defilement et au redimensionnement de la bande ou d'un onglet.
+  useEffect(() => {
+    const list = tabsRef.current
+    if (!list) return
+    const sync = () => {
+      const max = list.scrollWidth - list.clientWidth
+      const start = list.scrollLeft > 1
+      const end = list.scrollLeft < max - 1
+      list.dataset.fade = start && end ? 'both' : start ? 'start' : end ? 'end' : 'none'
+    }
+    sync()
+    list.addEventListener('scroll', sync, { passive: true })
+    const observer = new ResizeObserver(sync)
+    observer.observe(list)
+    for (const tab of Array.from(list.children)) observer.observe(tab)
+    return () => {
+      list.removeEventListener('scroll', sync)
+      observer.disconnect()
+    }
+  }, [])
 
   // Onglet actif ramene dans la bande des onglets (defilement horizontal
   // seulement : jamais de saut vertical de la page).
@@ -192,6 +221,7 @@ export default function CandidaturesView({ rows, nowIso }: CandidaturesViewProps
   )
 
   const focusSearch = useCallback(() => searchRef.current?.focus(), [])
+  const showResults = useCallback(() => document.getElementById(RESULTS_ID)?.scrollIntoView({ block: 'start' }), [])
 
   const onTabsKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     const i = TABS.findIndex((tab) => tab.value === filters.statut)
@@ -307,7 +337,14 @@ export default function CandidaturesView({ rows, nowIso }: CandidaturesViewProps
               /
             </kbd>
           </div>
-          <FiltersPanel filters={filters} options={options} onChange={update} onFocusSearch={focusSearch} />
+          <FiltersPanel
+            filters={filters}
+            options={options}
+            onChange={update}
+            onFocusSearch={focusSearch}
+            resultCount={filtered.length}
+            onShowResults={showResults}
+          />
         </div>
       </div>
 

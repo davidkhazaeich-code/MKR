@@ -33,7 +33,7 @@ export const ETAPE_OPTIONS: { value: string; label: string; kinds: StepKind[] }[
 ]
 const TRI_VALUES: TriKey[] = ['recentes', 'anciennes', 'nom', 'depart']
 const STATUT_VALUES: StatutFilter[] = ['actifs', 'tous', ...STATUS_VALUES]
-const EXTRA_KEYS = ['session', 'tunnel', 'discipline', 'source', 'partenaire', 'langue', 'etape'] as const
+const EXTRA_KEYS = ['session', 'tunnel', 'discipline', 'source', 'langue', 'partenaire', 'etape'] as const
 /** Filtres du panneau (hors recherche, statut et tri) : compteur "Filtres (n)" et pastilles. */
 export type ExtraKey = (typeof EXTRA_KEYS)[number]
 

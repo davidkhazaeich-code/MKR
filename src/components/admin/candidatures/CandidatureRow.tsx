@@ -67,7 +67,7 @@ function CandidatureRow({ item, now, onIntent }: CandidatureRowProps) {
         )}
       </p>
 
-      <p className="adm-cand-step">
+      <p className="adm-cand-step" title={step.short}>
         <ToneText tone={step.tone} icon={STEP_ICON[step.kind]} strong={step.needsAction}>
           {step.short}
         </ToneText>
