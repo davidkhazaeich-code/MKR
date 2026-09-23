@@ -15,8 +15,8 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
 const REPO_ROOT = join(__dirname, '..', '..')
 
 const MOCK_HOST = '127.0.0.1'
-const MOCK_PORT = 54321
-const NEXT_PORT = 3100
+const MOCK_PORT = Number(process.env.ADMIN_MOCK_PORT ?? 54321)
+const NEXT_PORT = Number(process.env.ADMIN_NEXT_PORT ?? 3100)
 
 const ENV_OVERRIDES = {
   NEXT_PUBLIC_SUPABASE_URL: `http://${MOCK_HOST}:${MOCK_PORT}`,

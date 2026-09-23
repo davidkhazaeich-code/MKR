@@ -7,7 +7,7 @@
 // verifications de pages qui le composent (4 pages "200 + contenu fixture" +
 // 1 page "404 + Dossier introuvable").
 
-const BASE = 'http://localhost:3100'
+const BASE = `http://localhost:${process.env.ADMIN_NEXT_PORT ?? 3100}`
 const TOTAL = 5
 let passed = 0
 

@@ -27,7 +27,7 @@ import { fileURLToPath } from 'node:url'
 import { dirname, join } from 'node:path'
 
 const HOST = '127.0.0.1'
-const PORT = 54321
+const PORT = Number(process.env.ADMIN_MOCK_PORT ?? 54321)
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const REPO_ROOT = join(__dirname, '..', '..')
