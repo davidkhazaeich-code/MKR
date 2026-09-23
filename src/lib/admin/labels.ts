@@ -18,20 +18,20 @@ export const TUNNEL_LABEL: Record<TunnelType, string> = {
 }
 export const DISCIPLINE_LABEL: Record<CampDiscipline, string> = { lutte: 'Lutte', mma: 'MMA', combo_quote: 'Combo Lutte + MMA' }
 export const DISCIPLINE_LABEL_FULL: Record<CampDiscipline, string> = {
-  lutte: 'Lutte - Daghestan (Makhachkala, Kaspiysk)',
-  mma: 'MMA - Tchetchenie (Grozny, Akhmat)',
-  combo_quote: 'Combo Lutte + MMA - sur devis',
+  lutte: 'Lutte · Daghestan (Makhachkala, Kaspiysk)',
+  mma: 'MMA · Tchétchénie (Grozny, Akhmat)',
+  combo_quote: 'Combo Lutte + MMA · sur devis',
 }
-export const PAYMENT_METHOD_LABEL: Record<PaymentMethod, string> = { virement: 'Virement bancaire', cash: 'Especes', autre: 'Autre' }
+export const PAYMENT_METHOD_LABEL: Record<PaymentMethod, string> = { virement: 'Virement bancaire', cash: 'Espèces', autre: 'Autre' }
 export const PARTNER_TYPE_LABEL: Record<string, string> = { gym: 'Salle', influencer: 'Influenceur', coach: 'Coach', other: 'Autre' }
 export const PARTNER_TYPE_LABEL_LONG: Record<string, string> = { gym: 'Salle ou club partenaire', influencer: 'Influenceur', coach: 'Coach', other: 'Autre' }
-export const PAYOUT_STATUS_LABEL: Record<string, string> = { not_applicable: 'Sans objet', pending: 'En attente', due: 'A payer', paid: 'Paye', cancelled: 'Annule' }
+export const PAYOUT_STATUS_LABEL: Record<string, string> = { not_applicable: 'Sans objet', pending: 'En attente', due: 'À payer', paid: 'Payé', cancelled: 'Annulé' }
 export const PAYOUT_STATUS_TONE: Record<string, Tone> = { not_applicable: 'neutral', pending: 'neutral', due: 'warn', paid: 'ok', cancelled: 'neutral' }
-export const LANG_LABEL: Record<Lang, string> = { fr: 'Francais', en: 'Anglais' }
+export const LANG_LABEL: Record<Lang, string> = { fr: 'Français', en: 'Anglais' }
 
 const SEASONS = (frSessions as unknown as { seasons: Record<string, { period: string }> }).seasons
 
-/** Nom court d'une session tel que Ruslan en parle : « Toussaint 2026 », « Aout 2027 ». */
+/** Nom court d'une session tel que Ruslan en parle : « Toussaint 2026 », « Août 2027 ». */
 export function sessionShortName(session: Session): string {
   return `${SEASONS[session.seasonKey]?.period ?? session.seasonKey} ${session.startDate.slice(0, 4)}`
 }

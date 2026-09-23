@@ -24,15 +24,15 @@ const SECTION_OF: Partial<Record<StepKind, QueueSectionKey>> = {
 const KIND_PRIORITY: Partial<Record<StepKind, number>> = { paiement_en_retard: 0, a_solder: 1, contrat_sans_echeance: 2, paiement_attendu: 3 }
 
 export const SECTION_META: Record<QueueSectionKey, { title: string; hint: string }> = {
-  a_trancher: { title: 'A trancher', hint: 'Visio passee, dossier encore « Recue » : valide, refuse ou relance.' },
-  paiements: { title: 'Paiements', hint: 'Contrats envoyes en attente de reglement, par echeance.' },
-  contrats: { title: 'Contrats a envoyer', hint: 'Dossiers valides sans contrat.' },
-  devis: { title: 'Devis Club et Groupe', hint: 'A contacter sous 48 h pour cadrer le sejour.' },
-  a_relancer: { title: 'A relancer', hint: 'Aucune visio reservee depuis 3 jours ou plus.' },
-  camp_parti: { title: 'Camp parti', hint: 'Dossiers encore ouverts sur un camp deja parti : autre session, annulation ou report.' },
-  a_cloturer: { title: 'Camps termines', hint: 'Dossiers soldes a passer en « Camp fait ».' },
-  bonus: { title: 'Bonus partenaires a payer', hint: 'Commission due au partenaire qui a recommande le candidat.' },
-  nouvelles: { title: 'Nouvelles candidatures', hint: 'Moins de 3 jours : le lien de reservation de la visio vient de leur etre envoye.' },
+  a_trancher: { title: 'À trancher', hint: 'Visio passée, dossier encore « Reçue » : valide, refuse ou relance.' },
+  paiements: { title: 'Paiements', hint: 'Contrats envoyés en attente de règlement, par échéance.' },
+  contrats: { title: 'Contrats à envoyer', hint: 'Dossiers validés sans contrat.' },
+  devis: { title: 'Devis Club et Groupe', hint: 'À contacter sous 48 h pour cadrer le séjour.' },
+  a_relancer: { title: 'À relancer', hint: 'Aucune visio réservée depuis 3 jours ou plus.' },
+  camp_parti: { title: 'Camp parti', hint: 'Dossiers encore ouverts sur un camp déjà parti : autre session, annulation ou report.' },
+  a_cloturer: { title: 'Camps terminés', hint: 'Dossiers soldés à passer en « Camp fait ».' },
+  bonus: { title: 'Bonus partenaires à payer', hint: 'Commission due au partenaire qui a recommandé le candidat.' },
+  nouvelles: { title: 'Nouvelles candidatures', hint: 'Moins de 3 jours : le lien de réservation de la visio vient de leur être envoyé.' },
 }
 export const SECTION_ORDER: QueueSectionKey[] = ['a_trancher', 'paiements', 'contrats', 'devis', 'a_relancer', 'camp_parti', 'a_cloturer', 'bonus', 'nouvelles']
 const AGENDA_LABEL: Record<AgendaGroupKey, string> = { today: "Aujourd'hui", tomorrow: 'Demain', week: 'Cette semaine', later: 'Plus tard', unknown: 'Heure non transmise' }

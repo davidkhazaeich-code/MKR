@@ -32,7 +32,7 @@ export const formatDayMonth = (v: string): string => fmtDayMonth.format(toDate(v
 export const formatDayLong = (v: string): string => fmtDayLong.format(toDate(v))
 export const formatNumericDate = (v: string): string => fmtNumeric.format(toDate(v))
 export const formatTime = (v: string): string => fmtTime.format(toDate(v))
-export const formatDateTime = (v: string): string => `${formatNumericDate(v)} a ${formatTime(v)}`
+export const formatDateTime = (v: string): string => `${formatNumericDate(v)} à ${formatTime(v)}`
 
 export function plural(n: number, one: string, many: string): string {
   return `${n} ${n > 1 ? many : one}`
@@ -51,14 +51,14 @@ export function relativeDay(v: string, now: Date): string {
   return diff > 0 ? `dans ${diff} j` : `il y a ${-diff} j`
 }
 
-/** « aujourd'hui a 14:15 », « demain a 09:00 », « vendredi 9 octobre a 10:00 ». */
+/** « aujourd'hui à 14:15 », « demain à 09:00 », « vendredi 9 octobre à 10:00 ». */
 export function formatVisioMoment(iso: string, now: Date): string {
   const diff = daysBetween(zurichDay(now), zurichDay(iso))
   const time = formatTime(iso)
-  if (diff === 0) return `aujourd'hui a ${time}`
-  if (diff === 1) return `demain a ${time}`
-  if (diff === -1) return `hier a ${time}`
-  return `${formatDayLong(iso)} a ${time}`
+  if (diff === 0) return `aujourd'hui à ${time}`
+  if (diff === 1) return `demain à ${time}`
+  if (diff === -1) return `hier à ${time}`
+  return `${formatDayLong(iso)} à ${time}`
 }
 
 /** Version courte pour une ligne : « aujourd'hui 14:15 », « demain 09:00 », « 9 oct. 10:00 ». */
@@ -71,10 +71,10 @@ export function formatVisioShort(iso: string, now: Date): string {
   return `${formatDayMonth(iso)} ${time}`
 }
 
-/** Anciennete : « a l'instant », « il y a 12 min », « il y a 3 h », « hier », « il y a 4 j », puis la date. */
+/** Anciennete : « à l'instant », « il y a 12 min », « il y a 3 h », « hier », « il y a 4 j », puis la date. */
 export function formatAgo(iso: string, now: Date): string {
   const min = Math.floor((now.getTime() - Date.parse(iso)) / 60_000)
-  if (min < 1) return "a l'instant"
+  if (min < 1) return "à l'instant"
   if (min < 60) return `il y a ${min} min`
   const h = Math.floor(min / 60)
   if (h < 24) return `il y a ${h} h`

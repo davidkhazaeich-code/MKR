@@ -15,11 +15,11 @@ export type StepKind =
 export interface NextStep {
   kind: StepKind
   tone: Tone
-  /** Phrase de la fiche, ex. « Visio passee, decision a prendre ». */
+  /** Phrase de la fiche, ex. « Visio passée, décision à prendre ». */
   title: string
-  /** Precision datee, ex. « Visio hier a 11:45. Valide ou refuse... ». */
+  /** Precision datee, ex. « Visio hier à 11:45. Valide ou refuse... ». */
   detail: string
-  /** Ligne de liste, ex. « Visio passee · 18 sept. ». */
+  /** Ligne de liste, ex. « Visio passée · 18 sept. ». */
   short: string
   /** Vrai quand Ruslan doit agir (sert a l'emphase et au compteur de l'accueil). */
   needsAction: boolean
@@ -46,7 +46,7 @@ export const PAIEMENT_BIENTOT_DAYS = 3
 const ms = (iso: string): number => Date.parse(iso)
 const dayMs = (d: string): number => Date.parse(`${d}T00:00:00Z`)
 
-const CLOS_TITLE = { refusee: 'Dossier refuse', annulee: 'Dossier annule', reportee: 'Dossier reporte', camp_fait: 'Camp effectue' } as const
+const CLOS_TITLE = { refusee: 'Dossier refusé', annulee: 'Dossier annulé', reportee: 'Dossier reporté', camp_fait: 'Camp effectué' } as const
 
 export function computeNextStep(row: NextStepInput, now: Date): NextStep {
   const nowMs = now.getTime()
@@ -72,9 +72,9 @@ export function computeNextStep(row: NextStepInput, now: Date): NextStep {
       kind: 'camp_parti', tone: 'danger',
       title: 'Camp parti sans ce candidat',
       detail: sent
-        ? `Le camp ${campName} est parti le ${formatDayLong(session.startDate)}. Autre session proposee ${relativeDay(row.rebooking_sent_at as string, now)} (${plural(row.rebooking_sent_count ?? 1, 'envoi', 'envois')}). Sans reponse, annule ou reporte le dossier.`
+        ? `Le camp ${campName} est parti le ${formatDayLong(session.startDate)}. Autre session proposée ${relativeDay(row.rebooking_sent_at as string, now)} (${plural(row.rebooking_sent_count ?? 1, 'envoi', 'envois')}). Sans réponse, annule ou reporte le dossier.`
         : `Le camp ${campName} est parti le ${formatDayLong(session.startDate)}. Propose-lui une autre session, ou annule ou reporte le dossier.`,
-      short: sent ? 'Camp parti - autre session proposee' : 'Camp parti',
+      short: sent ? 'Camp parti · autre session proposée' : 'Camp parti',
       needsAction: true, dueAt: session.startDate, sortKey: dayMs(session.startDate),
     }
   }
@@ -83,9 +83,9 @@ export function computeNextStep(row: NextStepInput, now: Date): NextStep {
     if (row.visio_booked_at) {
       if (!row.visio_starts_at) {
         return {
-          kind: 'visio_reservee', tone: 'info', title: 'Visio reservee',
-          detail: `Reservation recue ${formatAgo(row.visio_booked_at, now)}. Cal n'a pas transmis l'heure du rendez-vous.`,
-          short: 'Visio reservee', needsAction: false, dueAt: null, sortKey: ms(row.visio_booked_at),
+          kind: 'visio_reservee', tone: 'info', title: 'Visio réservée',
+          detail: `Réservation reçue ${formatAgo(row.visio_booked_at, now)}. Cal n'a pas transmis l'heure du rendez-vous.`,
+          short: 'Visio réservée', needsAction: false, dueAt: null, sortKey: ms(row.visio_booked_at),
         }
       }
       const start = ms(row.visio_starts_at)
@@ -95,45 +95,45 @@ export function computeNextStep(row: NextStepInput, now: Date): NextStep {
           kind: 'visio_a_venir', tone: 'info',
           title: `Visio ${formatVisioMoment(row.visio_starts_at, now)}`,
           detail: start <= nowMs
-            ? `La visio a commence ${formatAgo(row.visio_starts_at, now)}.`
-            : `Rendez-vous ${relativeDay(row.visio_starts_at, now)}. Relis son profil et ses reponses avant l'appel.`,
+            ? `La visio a commencé ${formatAgo(row.visio_starts_at, now)}.`
+            : `Rendez-vous ${relativeDay(row.visio_starts_at, now)}. Relis son profil et ses réponses avant l'appel.`,
           short: `Visio ${formatVisioShort(row.visio_starts_at, now)}`,
           needsAction: isToday, dueAt: row.visio_starts_at, sortKey: start,
         }
       }
       return {
-        kind: 'visio_passee', tone: 'warn', title: 'Visio passee, decision a prendre',
-        detail: `Visio ${formatVisioMoment(row.visio_starts_at, now)}. Valide ou refuse le dossier, ou renvoie le lien si le candidat ne s'est pas presente.`,
-        short: `Visio passee - ${formatDayMonth(row.visio_starts_at)}`,
+        kind: 'visio_passee', tone: 'warn', title: 'Visio passée, décision à prendre',
+        detail: `Visio ${formatVisioMoment(row.visio_starts_at, now)}. Valide ou refuse le dossier, ou renvoie le lien si le candidat ne s'est pas présenté.`,
+        short: `Visio passée · ${formatDayMonth(row.visio_starts_at)}`,
         needsAction: true, dueAt: row.visio_starts_at, sortKey: -start,
       }
     }
     if (row.tunnel_type === 'groupe') {
       return {
         kind: 'devis_a_envoyer', tone: 'warn', title: 'Demande de devis Club et Groupe',
-        detail: `Recue ${formatAgo(row.created_at, now)}. A contacter sous 48 h pour cadrer le sejour (objectifs, dates, niveau, budget), puis envoyer un devis.`,
-        short: 'Devis a envoyer', needsAction: true, dueAt: null, sortKey: ms(row.created_at),
+        detail: `Reçue ${formatAgo(row.created_at, now)}. À contacter sous 48 h pour cadrer le séjour (objectifs, dates, niveau, budget), puis envoyer un devis.`,
+        short: 'Devis à envoyer', needsAction: true, dueAt: null, sortKey: ms(row.created_at),
       }
     }
     const age = daysBetween(zurichDay(row.created_at), today)
     if (age < RELANCE_AFTER_DAYS) {
       return {
         kind: 'nouvelle', tone: 'neutral', title: 'Nouvelle candidature',
-        detail: `Recue ${formatAgo(row.created_at, now)}. Le lien pour reserver la visio lui a ete envoye.`,
-        short: 'Nouvelle - visio pas encore reservee', needsAction: false, dueAt: null, sortKey: -ms(row.created_at),
+        detail: `Reçue ${formatAgo(row.created_at, now)}. Le lien pour réserver la visio lui a été envoyé.`,
+        short: 'Nouvelle · visio pas encore réservée', needsAction: false, dueAt: null, sortKey: -ms(row.created_at),
       }
     }
     const count = row.visio_reminder_count ?? 0
     const last = row.visio_reminder_sent_at ?? row.created_at
     const relances = count === 0
-      ? 'Aucune relance envoyee.'
+      ? 'Aucune relance envoyée.'
       : count === 1
-        ? `1 relance envoyee ${relativeDay(last, now)}.`
-        : `${count} relances, la derniere ${relativeDay(last, now)}.`
+        ? `1 relance envoyée ${relativeDay(last, now)}.`
+        : `${count} relances, la dernière ${relativeDay(last, now)}.`
     return {
-      kind: 'a_relancer', tone: 'warn', title: 'Pas encore de visio reservee',
-      detail: `Recue ${formatAgo(row.created_at, now)}. ${relances}`,
-      short: count === 0 ? 'Sans visio - jamais relance' : `Sans visio - ${plural(count, 'relance', 'relances')}`,
+      kind: 'a_relancer', tone: 'warn', title: 'Pas encore de visio réservée',
+      detail: `Reçue ${formatAgo(row.created_at, now)}. ${relances}`,
+      short: count === 0 ? 'Sans visio · jamais relancé' : `Sans visio · ${plural(count, 'relance', 'relances')}`,
       needsAction: true, dueAt: null, sortKey: ms(last),
     }
   }
@@ -143,23 +143,23 @@ export function computeNextStep(row: NextStepInput, now: Date): NextStep {
       const when = row.payment_date ? ` le ${formatDayMonth(row.payment_date)}` : ''
       const how = row.payment_method ? ` (${PAYMENT_METHOD_LABEL[row.payment_method].toLowerCase()})` : ''
       return {
-        kind: 'a_solder', tone: 'warn', title: 'Paiement recu, dossier a solder',
-        detail: `Le paiement est marque recu${when}${how}, mais le dossier est encore « Validee ».`,
-        short: 'Paye - a passer en Soldee', needsAction: true, dueAt: null, sortKey: ms(row.package_paid_at),
+        kind: 'a_solder', tone: 'warn', title: 'Paiement reçu, dossier à solder',
+        detail: `Le paiement est marqué reçu${when}${how}, mais le dossier est encore « Validée ».`,
+        short: 'Payé · à passer en Soldée', needsAction: true, dueAt: null, sortKey: ms(row.package_paid_at),
       }
     }
     if (!row.contract_sent_at) {
       return {
-        kind: 'contrat_a_envoyer', tone: 'warn', title: 'Contrat a envoyer',
-        detail: `Dossier valide ${relativeDay(row.status_changed_at, now)}. Verifie les dates, le montant et l'echeance, puis envoie le contrat.`,
-        short: 'Contrat a envoyer', needsAction: true, dueAt: null, sortKey: ms(row.status_changed_at),
+        kind: 'contrat_a_envoyer', tone: 'warn', title: 'Contrat à envoyer',
+        detail: `Dossier validé ${relativeDay(row.status_changed_at, now)}. Vérifie les dates, le montant et l'échéance, puis envoie le contrat.`,
+        short: 'Contrat à envoyer', needsAction: true, dueAt: null, sortKey: ms(row.status_changed_at),
       }
     }
     if (!row.contract_payment_deadline) {
       return {
-        kind: 'contrat_sans_echeance', tone: 'warn', title: 'Contrat envoye sans echeance',
-        detail: `Contrat envoye ${relativeDay(row.contract_sent_at, now)}. Ajoute une echeance de paiement pour suivre le reglement.`,
-        short: 'Contrat sans echeance', needsAction: true, dueAt: null, sortKey: ms(row.contract_sent_at),
+        kind: 'contrat_sans_echeance', tone: 'warn', title: 'Contrat envoyé sans échéance',
+        detail: `Contrat envoyé ${relativeDay(row.contract_sent_at, now)}. Ajoute une échéance de paiement pour suivre le règlement.`,
+        short: 'Contrat sans échéance', needsAction: true, dueAt: null, sortKey: ms(row.contract_sent_at),
       }
     }
     const deadline = row.contract_payment_deadline
@@ -169,13 +169,13 @@ export function computeNextStep(row: NextStepInput, now: Date): NextStep {
       return {
         kind: 'paiement_en_retard', tone: 'danger', title: 'Paiement en retard',
         detail: `${amount ? `${amount} attendus` : 'Paiement attendu'} le ${formatDayLong(deadline)}, en retard de ${plural(-diff, 'jour', 'jours')}. Relance le candidat.`,
-        short: `Paiement en retard - ${-diff} j`, needsAction: true, dueAt: deadline, sortKey: dayMs(deadline),
+        short: `Paiement en retard · ${-diff} j`, needsAction: true, dueAt: deadline, sortKey: dayMs(deadline),
       }
     }
     return {
       kind: 'paiement_attendu', tone: diff <= PAIEMENT_BIENTOT_DAYS ? 'warn' : 'info', title: 'Paiement attendu',
-      detail: `${amount ? `${amount} a regler` : 'Paiement a recevoir'} au plus tard le ${formatDayLong(deadline)} (${relativeDay(deadline, now)}).`,
-      short: `Paiement attendu - ${formatDayMonth(deadline)}`,
+      detail: `${amount ? `${amount} à régler` : 'Paiement à recevoir'} au plus tard le ${formatDayLong(deadline)} (${relativeDay(deadline, now)}).`,
+      short: `Paiement attendu · ${formatDayMonth(deadline)}`,
       needsAction: diff <= PAIEMENT_BIENTOT_DAYS, dueAt: deadline, sortKey: dayMs(deadline),
     }
   }
@@ -185,23 +185,23 @@ export function computeNextStep(row: NextStepInput, now: Date): NextStep {
   const end = session?.endDate ?? row.contract_end_date
   if (end && end < today) {
     return {
-      kind: 'camp_a_cloturer', tone: 'warn', title: 'Camp termine, dossier a cloturer',
-      detail: `Le camp s'est termine le ${formatDayLong(end)}. Passe le dossier en « Camp fait ».`,
-      short: 'Camp termine - a cloturer', needsAction: true, dueAt: end, sortKey: dayMs(end),
+      kind: 'camp_a_cloturer', tone: 'warn', title: 'Camp terminé, dossier à clôturer',
+      detail: `Le camp s'est terminé le ${formatDayLong(end)}. Passe le dossier en « Camp fait ».`,
+      short: 'Camp terminé · à clôturer', needsAction: true, dueAt: end, sortKey: dayMs(end),
     }
   }
   if (start && start <= today) {
     return {
       kind: 'depart_a_venir', tone: 'ok', title: 'Camp en cours',
       detail: `Parti le ${formatDayLong(start)}${campName ? ` (${campName})` : ''}.`,
-      short: 'Solde - camp en cours', needsAction: false, dueAt: start, sortKey: dayMs(start),
+      short: 'Soldé · camp en cours', needsAction: false, dueAt: start, sortKey: dayMs(start),
     }
   }
   return {
     kind: 'depart_a_venir', tone: 'ok',
-    title: start ? `Solde, depart ${relativeDay(start, now)}` : 'Dossier solde',
-    detail: start ? `Depart le ${formatDayLong(start)}${campName ? ` (${campName})` : ''}.` : 'Dates du sejour a confirmer dans le contrat.',
-    short: start ? `Solde - depart ${formatDayMonth(start)}` : 'Solde',
+    title: start ? `Soldé, départ ${relativeDay(start, now)}` : 'Dossier soldé',
+    detail: start ? `Départ le ${formatDayLong(start)}${campName ? ` (${campName})` : ''}.` : 'Dates du séjour à confirmer dans le contrat.',
+    short: start ? `Soldé · départ ${formatDayMonth(start)}` : 'Soldé',
     needsAction: false, dueAt: start ?? null, sortKey: start ? dayMs(start) : Number.MAX_SAFE_INTEGER,
   }
 }

@@ -87,5 +87,5 @@ export function buildSessionsOverview(rows: DossierRow[], now: Date): SessionsOv
 }
 
 export function placesSummary(s: Pick<SessionStat, 'lutte' | 'mma'>): string {
-  return `Lutte ${s.lutte.prises}/${s.lutte.max} - MMA ${s.mma.prises}/${s.mma.max}`
+  return `Lutte ${s.lutte.prises}/${s.lutte.max} · MMA ${s.mma.prises}/${s.mma.max}`
 }

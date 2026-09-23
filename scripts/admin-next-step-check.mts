@@ -61,15 +61,14 @@ check('formatEuros entier', formatEuros(139000).replace(/\s/g, ' ') === '1 390 �
 check('formatEuros decimal', formatEuros(139050).replace(/\s/g, ' ') === '1 390,50 €')
 check('formatDayLong', formatDayLong('2026-10-09T08:00:00Z') === 'vendredi 9 octobre')
 check('formatDayLong date seule', formatDayLong('2026-10-17') === 'samedi 17 octobre')
-check('formatVisioMoment aujourd hui', formatVisioMoment('2026-09-23T12:15:00Z', NOW) === "aujourd'hui a 14:15")
-check('formatVisioMoment demain', formatVisioMoment('2026-09-24T07:00:00Z', NOW) === 'demain a 09:00')
+check('formatVisioMoment aujourd hui', formatVisioMoment('2026-09-23T12:15:00Z', NOW) === "aujourd'hui à 14:15")
+check('formatVisioMoment demain', formatVisioMoment('2026-09-24T07:00:00Z', NOW) === 'demain à 09:00')
 check('formatVisioShort plus tard', formatVisioShort('2026-10-09T08:00:00Z', NOW) === '9 oct. 10:00')
 check('relativeDay futur', relativeDay('2026-10-17', NOW) === 'dans 24 j')
 check('relativeDay passe', relativeDay('2026-09-20T10:00:00Z', NOW) === 'il y a 3 j')
 check('formatAgo minutes', formatAgo('2026-09-23T09:48:00Z', NOW) === 'il y a 12 min')
 check('ageOn', ageOn('2000-09-24', NOW) === 25 && ageOn('2000-09-23', NOW) === 26)
-
-console.log('\n--- next-step ---')
+// next-step : une assertion par ligne du tableau de la spec (section 5)
 const k = (over: Partial<DossierRow>) => computeNextStep(row(over), NOW).kind
 check('clos refusee', k({ status: 'refusee' }) === 'clos')
 check('camp parti recue (aout-2026)', k({ session_id: 'aout-2026' }) === 'camp_parti')
@@ -89,10 +88,8 @@ check('paiement attendu', k({ status: 'validee', contract_sent_at: '2026-09-01T1
 check('depart a venir', k({ status: 'soldee', session_id: 'toussaint-2026', package_paid_at: '2026-09-01T10:00:00Z' }) === 'depart_a_venir')
 check('cloture sur mesure via contract_end_date', k({ status: 'soldee', contract_end_date: '2026-09-01' }) === 'camp_a_cloturer')
 check('camp parti prime sur la visio', k({ session_id: 'aout-2026', visio_booked_at: '2026-08-01T10:00:00Z', visio_starts_at: '2026-08-02T10:00:00Z' }) === 'camp_parti')
-
 const retard = computeNextStep(row({ status: 'validee', contract_sent_at: '2026-09-01T10:00:00Z', contract_payment_deadline: '2026-09-19', package_amount_cents: 139000 }), NOW)
 check('detail retard chiffre', retard.detail.includes('1') && retard.detail.includes('en retard de 4 jours') && retard.tone === 'danger' && retard.needsAction)
-
 const allSteps = [
   row({ session_id: 'aout-2026' }), row({ visio_booked_at: '2026-09-10T10:00:00Z', visio_starts_at: '2026-09-18T09:45:00Z' }),
   row({ created_at: '2026-09-01T10:00:00Z', visio_reminder_count: 2, visio_reminder_sent_at: '2026-09-15T10:00:00Z' }),
@@ -100,15 +97,13 @@ const allSteps = [
   row({ status: 'annulee' }), row({ tunnel_type: 'groupe' }),
 ].map((r) => computeNextStep(r, NOW))
 check('aucun em dash ni esperluette dans les textes', !JSON.stringify(allSteps).includes('—') && !JSON.stringify(allSteps).includes('&'))
-
-console.log('\n--- audit ---')
+// audit
 const d = (event: string, extra: Partial<AuditRow> = {}) => describeAuditEvent({ id: 1, event, from_value: null, to_value: null, data: null, actor_email: 'admin', at: '2026-09-20T10:00:00Z', ...extra })
-check('visio_booked traduit avec heure', d('visio_booked', { data: { start_time: '2026-10-09T08:00:00Z' }, actor_email: 'cal-webhook' }).label === 'Visio reservee' && d('visio_booked', { data: { start_time: '2026-10-09T08:00:00Z' } }).detail === 'pour le vendredi 9 octobre a 10:00')
-check('package_amount_estimated traduit', d('package_amount_estimated', { to_value: { package_amount_cents: 319000 } }).label === 'Montant estime depuis la grille tarifaire')
+check('visio_booked traduit avec heure', d('visio_booked', { data: { start_time: '2026-10-09T08:00:00Z' }, actor_email: 'cal-webhook' }).label === 'Visio réservée' && d('visio_booked', { data: { start_time: '2026-10-09T08:00:00Z' } }).detail === 'pour le vendredi 9 octobre à 10:00')
+check('package_amount_estimated traduit', d('package_amount_estimated', { to_value: { package_amount_cents: 319000 } }).label === 'Montant estimé depuis la grille tarifaire')
 check('evenement inconnu lisible', d('some_new_event').label === 'Some new event')
 check('acteur cron', actorLabel('system-cron') === 'Automatique')
-
-console.log('\n--- queue ---')
+// queue
 const q = buildQueue([
   row({ id: 'a', visio_booked_at: '2026-09-20T10:00:00Z', visio_starts_at: '2026-09-23T12:15:00Z' }),
   row({ id: 'b', visio_booked_at: '2026-09-10T10:00:00Z', visio_starts_at: '2026-09-18T09:45:00Z' }),
@@ -121,8 +116,7 @@ check('a trancher contient b', q.sections.find((s) => s.key === 'a_trancher')?.i
 check('paiements : retard avant attendu', q.sections.find((s) => s.key === 'paiements')?.items.map((i) => i.row.id).join() === 'c,d')
 check('bonus du', q.sections.find((s) => s.key === 'bonus')?.items[0]?.row.id === 'e')
 check('pipeline', q.pipeline.recue === 2 && q.pipeline.validee === 2 && q.pipeline.soldee === 1)
-
-console.log('\n--- sessions ---')
+// sessions
 const so = buildSessionsOverview([
   row({ id: 's1', session_id: 'toussaint-2026', camp_discipline: 'lutte' }),
   row({ id: 's2', session_id: 'toussaint-2026', camp_discipline: 'mma', status: 'validee', package_amount_cents: 139000 }),
@@ -136,16 +130,14 @@ check('toussaint montants', t.engagedCents === 139000 && t.collectedCents === 0)
 check('toussaint depart dans 24 j', t.daysToStart === 24 && t.state === 'a_venir')
 check('sur mesure compte', so.surMesure.total === 1)
 check('orphelin', so.orphans.some((o) => o.id === 'ete-2031'))
-check('placesSummary', placesSummary(t) === 'Lutte 1/15 - MMA 1/15')
-
-console.log('\n--- filtres ---')
+check('placesSummary', placesSummary(t) === 'Lutte 1/15 · MMA 1/15')
+// filtres
 const f = parseFilters(new URLSearchParams('status=validee&referralCode=STRIKE'))
 check('anciens parametres', f.statut === 'validee' && f.partenaire === 'STRIKE')
 check('serialisation par defaut vide', filtersToQuery(DEFAULT_FILTERS) === '')
-check('serialisation aller-retour', parseFilters(new URLSearchParams(filtersToQuery({ ...DEFAULT_FILTERS, q: 'el', session: 'toussaint-2026' }))).session === 'toussaint-2026')
-
+check('serialisation aller-retour', parseFilters(new URLSearchParams(filtersToQuery({ ...DEFAULT_FILTERS, q: 'él', session: 'toussaint-2026' }))).session === 'toussaint-2026')
 const item = (over: Partial<DossierRow>) => { const r = row(over); return { row: r, step: computeNextStep(r, NOW) } }
-const karim = item({ candidate: { prenom: 'Karim', nom: 'Dupre', email: 'karim@example.com', telephone: '+33600000012', pays: 'France' } })
+const karim = item({ candidate: { prenom: 'Karim', nom: 'Dupré', email: 'karim@example.com', telephone: '+33600000012', pays: 'France' } })
 check('recherche sans accent', matchesFilters(karim, { ...DEFAULT_FILTERS, q: 'dupre' }))
 check('recherche telephone format national', matchesFilters(karim, { ...DEFAULT_FILTERS, q: '06 00 00 00 12' }))
 check('recherche telephone format international', matchesFilters(karim, { ...DEFAULT_FILTERS, q: '+33 6 00 00 00 12' }))
@@ -153,5 +145,6 @@ check('recherche trop courte ne matche pas les chiffres', !matchesFilters(karim,
 check('actifs exclut refusee', !matchesFilters(item({ status: 'refusee' }), DEFAULT_FILTERS))
 check('facettes ignorent le statut', statusCounts([item({}), item({ status: 'refusee' })], DEFAULT_FILTERS).tous === 2)
 
-console.log(ko === 0 ? '\nTOUT VERT' : `\n${ko} ECHEC(S)`)
+console.log(ko === 0 ? '\nTOUT VERT' : '\n' + ko + ' ECHEC(S)')
 process.exit(ko === 0 ? 0 : 1)
+

@@ -16,16 +16,16 @@ export const DEFAULT_FILTERS: ListFilters = {
   q: '', statut: 'actifs', session: '', tunnel: '', discipline: '', source: '', partenaire: '', langue: '', etape: '', tri: 'recentes',
 }
 export const ETAPE_OPTIONS: { value: string; label: string; kinds: StepKind[] }[] = [
-  { value: 'visio', label: 'Visio a venir', kinds: ['visio_a_venir', 'visio_reservee'] },
-  { value: 'a_trancher', label: 'Visio passee, a trancher', kinds: ['visio_passee'] },
-  { value: 'a_relancer', label: 'A relancer', kinds: ['a_relancer'] },
+  { value: 'visio', label: 'Visio à venir', kinds: ['visio_a_venir', 'visio_reservee'] },
+  { value: 'a_trancher', label: 'Visio passée, à trancher', kinds: ['visio_passee'] },
+  { value: 'a_relancer', label: 'À relancer', kinds: ['a_relancer'] },
   { value: 'nouvelle', label: 'Nouvelles', kinds: ['nouvelle'] },
-  { value: 'devis', label: 'Devis a envoyer', kinds: ['devis_a_envoyer'] },
-  { value: 'contrat', label: 'Contrat a envoyer', kinds: ['contrat_a_envoyer', 'contrat_sans_echeance'] },
+  { value: 'devis', label: 'Devis à envoyer', kinds: ['devis_a_envoyer'] },
+  { value: 'contrat', label: 'Contrat à envoyer', kinds: ['contrat_a_envoyer', 'contrat_sans_echeance'] },
   { value: 'paiement', label: 'Paiement attendu ou en retard', kinds: ['paiement_attendu', 'paiement_en_retard', 'a_solder'] },
   { value: 'camp_parti', label: 'Camp parti', kinds: ['camp_parti'] },
-  { value: 'depart', label: 'Soldes, depart a venir', kinds: ['depart_a_venir'] },
-  { value: 'a_cloturer', label: 'Camp termine, a cloturer', kinds: ['camp_a_cloturer'] },
+  { value: 'depart', label: 'Soldés, départ à venir', kinds: ['depart_a_venir'] },
+  { value: 'a_cloturer', label: 'Camp terminé, à clôturer', kinds: ['camp_a_cloturer'] },
 ]
 const TRI_VALUES: TriKey[] = ['recentes', 'anciennes', 'nom', 'depart']
 const STATUT_VALUES: StatutFilter[] = ['actifs', 'tous', ...STATUS_VALUES]
