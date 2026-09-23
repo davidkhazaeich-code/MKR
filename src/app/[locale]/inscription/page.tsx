@@ -10,9 +10,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const t = await getTranslations({ locale, namespace: 'inscription' })
   return localizedMetadata('/inscription', locale as Locale, t('meta.title'), t('meta.description'))
 }
-/* Meme raison que le layout du site : la liste des sessions proposees vient de
-   la fenetre glissante, elle doit etre recalculee sans redeploiement. */
-export const revalidate = 3600
+/* Pas de `revalidate` : la page lit `searchParams`, elle est donc rendue a
+   chaque requete et propose toujours la fenetre de sessions du jour. */
 
 const VALID_TYPES: RegistrationTypeId[] = ['session', 'custom', 'famille', 'groupe']
 

@@ -1,7 +1,33 @@
 # SITEMAP MKR Caucasian Camp — Cartographie complète
 
-> **Fichier de référence pour Claude Code.** Mise à jour : 2026-09-15 (les vols ne sont plus inclus, grille -300 € par siège, « assistance vols » partout).
+> **Fichier de référence pour Claude Code.** Mise à jour : 2026-09-23 (le site redevient statique : fin de la régénération horaire, carte en fichier, traductions client allégées).
 > Lis ce fichier en priorité avant toute intervention sur le site MKR. Il évite de re-explorer.
+
+## 🆕 BREAKING 2026-09-23 (fin de la régénération horaire : le site redevient statique)
+
+> **Pourquoi.** Du 20 août au 23 septembre, `revalidate = 3600` sur le layout `(site)` régénérait les ~76 pages FR + EN toutes les heures. Le flux RSC de Next 16 sort dans un ordre différent à chaque rendu : Vercel y voit une nouvelle version et facture une écriture ISR complète, même quand le texte visible est identique au caractère près (vérifié en comparant deux régénérations de l'accueil). Résultat : **72 000 unités d'écriture ISR par jour**, contre une centaine avant, et le premier poste de la facture Vercel de l'équipe (7 $ sur 15 $ d'usage en septembre). L'accueil pesait en plus 2,9 Mo de HTML.
+
+### 1. Pages statiques et cron de bascule
+
+- Plus de `revalidate` sur `src/app/[locale]/(site)/layout.tsx`, ni sur `inscription/page.tsx` (dynamique de toute façon, elle lit `searchParams`).
+- `src/app/api/cron/revalidate-sessions/route.ts`, planifié à **00:05 UTC** dans `vercel.json`. Il compare la fenêtre de sessions du jour à celle d'il y a 3 jours et n'appelle `revalidatePath('/', 'layout')` que si elle a changé : 12 régénérations par an (4 bascules, plus 2 jours de rattrapage chacune). Première bascule : **17 octobre 2026**, départ de Toussaint 2026.
+- Même secret que le cron des emails (`CRON_SECRET`). `?force=1` régénère sans condition, pour un contrôle manuel :
+  `curl -H "Authorization: Bearer $CRON_SECRET" "https://mkrcamp.com/api/cron/revalidate-sessions?force=1"`
+- ⛔ **Ne jamais remettre de `revalidate` horaire sur un layout** : il se multiplie par toutes les pages et toutes les langues.
+
+### 2. Carte du monde en fichier statique
+
+`WorldMap.tsx` calculait la carte `dotted-map` à chaque rendu et l'inlinait en data URI, deux fois (balise img et preload) : 2,2 Mo dans le HTML de l'accueil. Elle est servie depuis `public/images/world-map-dots.svg`, identique à l'octet (24 Ko compressé), régénérable par `node scripts/generate-world-map.mjs`. Plus de `priority` : la section « Comment y aller » est loin sous la ligne de flottaison.
+
+### 3. Seuls les textes des composants client partent dans le navigateur
+
+`NextIntlClientProvider` recevait les 383 Ko de messages dans chaque page, dont 148 Ko d'articles de blog. `src/i18n/client-messages.ts` ne transmet plus que les namespaces listés dans `src/i18n/client-namespaces.json` (92 Ko). Les composants serveur lisent toujours tout via `getTranslations`.
+
+⚠️ **Nouveau composant `'use client'` qui lit un namespace absent de la liste** : le texte s'afficherait en clé brute (`home.hero.title`). `scripts/i18n-client-check.mjs` le détecte et **fait échouer `npm run build`**, donc le déploiement Vercel, en citant le fichier et la ligne. Correctif : ajouter le namespace dans `client-namespaces.json`.
+
+### QA
+
+`tsc` clean · `i18n-check` 2 929 clés · `i18n-client-check` 75 modules navigateur, 25 namespaces couverts · `sessions-rotation-check` vert · `npm run build` vert, plus aucune route en ISR 1 h · les 72 pages du sitemap comparées à la prod : **texte visible identique sur les 72**, HTML total 48,7 Mo → 23,0 Mo, accueil 2,9 Mo → 435 Ko · console sans erreur de traduction ni d'hydratation (accueil, inscription avec interaction, contact, FAQ, sessions, galerie, guide) · cron testé en `next start` : 401 sans secret, rien un jour normal, `force=1` puis page suivante en MISS puis HIT · simulation sur un an : 12 régénérations.
 
 ## 🆕 2026-09-16 (tunnel d'inscription : indicatif pays + numéro stocké en E.164)
 
@@ -383,7 +409,7 @@ Conséquence : une session 2030 s'affiche correctement sans qu'une seule clé so
 
 ### 3. Régénération en prod (indispensable)
 
-`export const revalidate = 3600` sur `src/app/[locale]/(site)/layout.tsx` et sur `src/app/[locale]/inscription/page.tsx`. **Sans ça la bascule ne se produit pas** : les pages SSG figées au build continueraient d'annoncer un camp déjà parti jusqu'au prochain déploiement.
+⛔ **Remplacé le 2026-09-23** par le cron `/api/cron/revalidate-sessions` (section du 2026-09-23 en tête de fichier) : la régénération horaire coûtait 72 000 écritures ISR par jour. Texte d'origine : `export const revalidate = 3600` sur `src/app/[locale]/(site)/layout.tsx` et sur `src/app/[locale]/inscription/page.tsx`. **Sans ça la bascule ne se produit pas** : les pages SSG figées au build continueraient d'annoncer un camp déjà parti jusqu'au prochain déploiement.
 
 ### 4. Garde-fous ajoutés
 
