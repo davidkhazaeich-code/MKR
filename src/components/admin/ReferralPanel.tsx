@@ -1,16 +1,25 @@
 'use client'
 
-import { useEffect, useState, useTransition } from 'react'
-import { useRouter } from 'next/navigation'
-import Badge from './ui/Badge'
-import Icon from './ui/Icon'
-import { useToast } from './ui/Toast'
+// Bonus partenaire du dossier (onglet Paiement de la fiche) : code saisi,
+// partenaire, modele de commission, montant (projete tant que le dossier
+// n'est pas solde), statut du versement ; "Marquer payé" (date et methode,
+// dans un panneau) et "Annuler le paiement" (retour a "À payer", confirme).
+// Montant du sejour lu dans l'etat live de la fiche (projection a jour apres
+// une saisie dans la carte Paiement ou le contrat).
 
-type ReferralPayoutStatus = 'not_applicable' | 'pending' | 'due' | 'paid' | 'cancelled'
-type ReferralPayoutMethod = 'virement' | 'cash' | 'autre'
+import { useId, useState, useTransition } from 'react'
+import { useRouter } from 'next/navigation'
+import Button from './ui/Button'
+import ConfirmModal from './ui/ConfirmModal'
+import Icon from './ui/Icon'
+import Sheet from './ui/Sheet'
+import { useToast } from './ui/Toast'
+import { useDossier } from './dossier/DossierProvider'
+import { formatNumericDate, zurichDay } from '@/lib/admin/format'
+import { PARTNER_TYPE_LABEL_LONG, PAYMENT_METHOD_LABEL, PAYOUT_STATUS_LABEL, PAYOUT_STATUS_TONE } from '@/lib/admin/labels'
+import type { PaymentMethod } from '@/lib/admin/types'
 
 interface Props {
-  candidatureId: string
   referralCode: string | null
   referralCodeValid: boolean | null
   referralPartnerName: string | null
@@ -21,147 +30,115 @@ interface Props {
   referralPayoutMethod: string | null
   referralCommissionType: string | null
   referralCommissionPct: number | null
-  packageAmountCents: number | null
-}
-
-const STATUS_LABEL: Record<ReferralPayoutStatus, string> = {
-  not_applicable: 'N/A',
-  pending: 'En attente',
-  due: 'À payer',
-  paid: 'Payé',
-  cancelled: 'Annulé',
-}
-
-const STATUS_COLOR: Record<ReferralPayoutStatus, string> = {
-  not_applicable: 'var(--adm-text-muted)',
-  pending: 'var(--adm-text-secondary)',
-  due: 'var(--adm-status-reportee)',
-  paid: 'var(--adm-status-validee)',
-  cancelled: 'var(--adm-text-muted)',
-}
-
-const METHOD_LABEL: Record<ReferralPayoutMethod, string> = {
-  virement: 'Virement bancaire',
-  cash: 'Espèces',
-  autre: 'Autre',
-}
-
-const PARTNER_TYPE_LABEL: Record<string, string> = {
-  gym: 'Salle / club partenaire',
-  influencer: 'Influenceur',
-  coach: 'Coach',
-  other: 'Autre',
-}
-
-function formatDateFr(iso: string): string {
-  const [y, m, d] = iso.split('-')
-  if (!y || !m || !d) return iso
-  return `${d}/${m}/${y}`
 }
 
 export default function ReferralPanel(props: Props) {
   const router = useRouter()
   const toast = useToast()
-  const [, startTransition] = useTransition()
-  const [showPayModal, setShowPayModal] = useState(false)
-  const [showRevertConfirm, setShowRevertConfirm] = useState(false)
-  const [payDate, setPayDate] = useState(new Date().toISOString().slice(0, 10))
-  const [payMethod, setPayMethod] = useState<ReferralPayoutMethod>('virement')
+  const { id, live } = useDossier()
+  const uid = useId()
+  const [refreshing, startTransition] = useTransition()
+  const [payOpen, setPayOpen] = useState(false)
+  const [revertOpen, setRevertOpen] = useState(false)
+  const [payDate, setPayDate] = useState('')
+  const [payMethod, setPayMethod] = useState<PaymentMethod>('virement')
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  // Escape pour fermer la modale (cohérent avec ConfirmModal).
-  useEffect(() => {
-    if (!showPayModal && !showRevertConfirm) return
-    const handler = (e: KeyboardEvent) => {
-      if (e.key !== 'Escape' || submitting) return
-      setShowPayModal(false)
-      setShowRevertConfirm(false)
-    }
-    document.addEventListener('keydown', handler)
-    document.body.style.overflow = 'hidden'
-    return () => {
-      document.removeEventListener('keydown', handler)
-      document.body.style.overflow = ''
-    }
-  }, [showPayModal, showRevertConfirm, submitting])
-
   if (!props.referralCode) return null
 
-  const statusKey = (props.referralPayoutStatus ?? 'not_applicable') as ReferralPayoutStatus
-  const statusLabel = STATUS_LABEL[statusKey] ?? statusKey
-  const statusColor = STATUS_COLOR[statusKey] ?? 'var(--adm-text-muted)'
+  const statusKey = props.referralPayoutStatus ?? 'not_applicable'
+  const statusLabel = PAYOUT_STATUS_LABEL[statusKey] ?? statusKey
+  const statusTone = PAYOUT_STATUS_TONE[statusKey] ?? 'neutral'
+  const packageAmountCents = live.packageCents
+  const partner = props.referralPartnerName ?? props.referralCode
 
-  async function patch(body: Record<string, unknown>, successMessage: string) {
+  async function patch(body: Record<string, unknown>, successMessage: string): Promise<boolean> {
     setSubmitting(true)
     setError(null)
     try {
-      const res = await fetch(`/api/admin/candidature/${props.candidatureId}`, {
+      const res = await fetch(`/api/admin/candidature/${id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
       })
       const data = await res.json().catch(() => ({}))
-      if (!res.ok || !data.ok) {
-        throw new Error(data.error || `HTTP ${res.status}`)
-      }
-      // Soft refresh (props server resynchronisees) : pas de location.reload,
-      // qui perdait le scroll et rechargeait tout le dashboard.
-      setShowPayModal(false)
-      setShowRevertConfirm(false)
-      setSubmitting(false)
+      if (!res.ok || !data.ok) throw new Error(data.error || `HTTP ${res.status}`)
+      // Rafraichissement doux (props serveur resynchronisees), sans rechargement.
       toast.show(successMessage, 'success')
       startTransition(() => router.refresh())
+      return true
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Erreur inconnue')
+      return false
+    } finally {
       setSubmitting(false)
     }
   }
 
-  async function markPaid() {
-    await patch({
-      referral_payout_status: 'paid',
-      referral_payout_paid_at: payDate,
-      referral_payout_method: payMethod,
-    }, 'Bonus marqué payé')
+  async function markPaid(e: React.FormEvent) {
+    e.preventDefault()
+    const ok = await patch(
+      { referral_payout_status: 'paid', referral_payout_paid_at: payDate, referral_payout_method: payMethod },
+      'Bonus marqué payé',
+    )
+    if (ok) setPayOpen(false)
   }
 
   async function revertPaid() {
-    await patch({
-      referral_payout_status: 'due',
-      referral_payout_paid_at: null,
-      referral_payout_method: null,
-    }, 'Paiement du bonus annulé (repasse À payer)')
+    const ok = await patch(
+      { referral_payout_status: 'due', referral_payout_paid_at: null, referral_payout_method: null },
+      'Paiement du bonus annulé (repasse À payer)',
+    )
+    setRevertOpen(false)
+    if (!ok) toast.show('Annulation du paiement impossible. Réessaie.', 'error', 5000)
+  }
+
+  const openPay = () => {
+    setError(null)
+    // "Aujourd'hui a Zurich" lu au clic, jamais pendant le rendu.
+    setPayDate(zurichDay(new Date()))
+    setPayMethod('virement')
+    setPayOpen(true)
   }
 
   const partnerTypeLabel = props.referralPartnerType
-    ? PARTNER_TYPE_LABEL[props.referralPartnerType] ?? props.referralPartnerType
+    ? PARTNER_TYPE_LABEL_LONG[props.referralPartnerType] ?? props.referralPartnerType
     : null
+  const methodLabel = props.referralPayoutMethod
+    ? PAYMENT_METHOD_LABEL[props.referralPayoutMethod as PaymentMethod] ?? props.referralPayoutMethod
+    : null
+  const projection =
+    props.referralBonusEur === null
+    && props.referralCommissionType === 'percent'
+    && props.referralCommissionPct
+    && packageAmountCents
+    && packageAmountCents > 0
+      ? Math.round((props.referralCommissionPct * packageAmountCents) / 10000)
+      : null
 
   return (
-    <section className="adm-card">
-      <h2 className="adm-card-title">
-        <Icon name="sparkles" size={14} />
-        Recommandation
+    <section className="adm-card" aria-labelledby={`${uid}-title`}>
+      <h2 id={`${uid}-title`} className="adm-card-title">
+        <Icon name="handshake" size={14} />
+        Bonus partenaire
       </h2>
 
-      <dl className="adm-defs">
+      <dl className="adm-defs adm-dossier-defs">
         <div className="adm-def">
           <dt className="adm-def-key">Code saisi</dt>
-          <dd className="adm-def-val">
-            <span style={{ fontFamily: 'var(--adm-font-mono, monospace)', fontWeight: 700 }}>
-              {props.referralCode}
-            </span>
+          <dd className="adm-def-val adm-dossier-code">
+            <span className="adm-mono">{props.referralCode}</span>
             {props.referralCodeValid === true && (
-              <span style={{ marginLeft: '0.5rem', color: 'var(--adm-status-validee)', display: 'inline-flex', alignItems: 'center', gap: '0.25rem' }}>
-                <Icon name="check" size={13} strokeWidth={2.4} />
-                Valide
+              <span className="adm-tone-text adm-tone--ok">
+                <Icon name="check" size={16} />
+                <span>Valide</span>
               </span>
             )}
             {props.referralCodeValid === false && (
-              <span style={{ marginLeft: '0.5rem', color: 'var(--adm-status-refusee)', display: 'inline-flex', alignItems: 'center', gap: '0.25rem' }}>
-                <Icon name="alert-triangle" size={13} strokeWidth={2.4} />
-                Non reconnu
+              <span className="adm-tone-text adm-tone--danger">
+                <Icon name="alert-triangle" size={16} />
+                <span>Non reconnu</span>
               </span>
             )}
           </dd>
@@ -188,7 +165,7 @@ export default function ReferralPanel(props: Props) {
               ? `${props.referralCommissionPct ?? '?'} % du CA encaissé`
               : props.referralCommissionType === 'flat'
                 ? 'Forfait fixe'
-                : '—'}
+                : <span className="adm-def-val--muted">Non renseigné</span>}
           </dd>
         </div>
 
@@ -197,43 +174,38 @@ export default function ReferralPanel(props: Props) {
           <dd className="adm-def-val">
             {props.referralBonusEur !== null ? (
               <strong>{props.referralBonusEur} €</strong>
-            ) : props.referralCommissionType === 'percent'
-              && props.referralCommissionPct
-              && props.packageAmountCents
-              && props.packageAmountCents > 0 ? (
-              // CA connu mais commission pas encore due : montrer la projection
-              // (elle sera figée automatiquement au passage en Soldée).
+            ) : projection !== null ? (
+              // CA connu mais commission pas encore due : projection (figee
+              // automatiquement au passage en Soldee).
               <span>
-                ~{Math.round((props.referralCommissionPct * props.packageAmountCents) / 10000)} €
-                <span style={{ color: 'var(--adm-text-muted)', marginLeft: '0.35rem', fontSize: '0.82rem' }}>
-                  estimée, figée à la soldée
-                </span>
+                ~{projection} € <span className="adm-muted adm-small">estimée, figée à la soldée</span>
               </span>
             ) : props.referralCommissionType === 'percent' ? (
-              <span style={{ color: 'var(--adm-status-reportee)', display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}>
-                <Icon name="alert-triangle" size={13} strokeWidth={2.4} />
-                CA à saisir pour calculer la commission
+              <span className="adm-tone-text adm-tone--warn">
+                <Icon name="alert-triangle" size={16} />
+                <span>CA à saisir pour calculer la commission</span>
               </span>
             ) : (
-              <span className="adm-def-val--muted">—</span>
+              <span className="adm-def-val--muted">Non renseignée</span>
             )}
             {props.referralCommissionType === 'percent'
               && props.referralBonusEur !== null
-              && props.packageAmountCents
-              && props.packageAmountCents > 0 && (
-              <span style={{ color: 'var(--adm-text-muted)', marginLeft: '0.4rem', fontSize: '0.82rem' }}>
-                ({props.referralCommissionPct} % × {Math.round(props.packageAmountCents / 100)} €)
+              && packageAmountCents
+              && packageAmountCents > 0 && (
+              <span className="adm-muted adm-small">
+                {' '}({props.referralCommissionPct} % × {Math.round(packageAmountCents / 100)} €)
               </span>
             )}
           </dd>
         </div>
 
         <div className="adm-def">
-          <dt className="adm-def-key">Statut paiement</dt>
+          <dt className="adm-def-key">Versement</dt>
           <dd className="adm-def-val">
-            <Badge color={statusColor} dot>
+            <span className={`adm-status adm-tone--${statusTone}`}>
+              <span className="adm-status-dot" aria-hidden="true" />
               {statusLabel}
-            </Badge>
+            </span>
           </dd>
         </div>
 
@@ -241,220 +213,101 @@ export default function ReferralPanel(props: Props) {
           <div className="adm-def">
             <dt className="adm-def-key">Payé le</dt>
             <dd className="adm-def-val">
-              {props.referralPayoutPaidAt ? formatDateFr(props.referralPayoutPaidAt) : '—'}
-              {props.referralPayoutMethod && (
-                <span style={{ color: 'var(--adm-text-muted)' }}>
-                  {' · '}
-                  {METHOD_LABEL[props.referralPayoutMethod as ReferralPayoutMethod] ?? props.referralPayoutMethod}
-                </span>
-              )}
+              {props.referralPayoutPaidAt ? formatNumericDate(props.referralPayoutPaidAt) : 'Non renseigné'}
+              {methodLabel && <span className="adm-muted"> · {methodLabel}</span>}
             </dd>
           </div>
         )}
       </dl>
 
-      {(props.referralPayoutStatus === 'due' || props.referralPayoutStatus === 'paid') && (
-        <div style={{ display: 'flex', gap: '0.55rem', marginTop: '1rem', flexWrap: 'wrap' }}>
-          {props.referralPayoutStatus === 'due' && (
-            <button
-              type="button"
-              className="adm-btn adm-btn--primary"
-              onClick={() => setShowPayModal(true)}
-            >
-              <Icon name="check" size={14} strokeWidth={2.4} />
-              {' '}Marquer payé
-            </button>
-          )}
-          {props.referralPayoutStatus === 'paid' && (
-            <button
-              type="button"
-              className="adm-btn adm-btn--ghost"
-              onClick={() => setShowRevertConfirm(true)}
-            >
-              <Icon name="rotate-ccw" size={14} strokeWidth={2.4} />
-              {' '}Annuler le paiement
-            </button>
-          )}
+      {props.referralPayoutStatus === 'due' && (
+        <div className="adm-btn-row adm-dossier-card-actions">
+          <Button variant="primary" icon="receipt" onClick={openPay}>
+            Marquer payé
+          </Button>
+        </div>
+      )}
+      {props.referralPayoutStatus === 'paid' && (
+        <div className="adm-btn-row adm-dossier-card-actions">
+          <Button loading={submitting || refreshing} onClick={() => setRevertOpen(true)}>
+            Annuler le paiement
+          </Button>
         </div>
       )}
 
       {props.referralPayoutStatus === 'pending' && (
-        <p style={{ marginTop: '0.85rem', fontSize: '0.82rem', color: 'var(--adm-text-muted)', lineHeight: 1.5 }}>
+        <p className="adm-dossier-text adm-dossier-card-actions">
           Le bonus passera automatiquement à <strong>À payer</strong> quand la candidature sera soldée.
         </p>
       )}
-
       {props.referralPayoutStatus === 'cancelled' && (
-        <p style={{ marginTop: '0.85rem', fontSize: '0.82rem', color: 'var(--adm-text-muted)', lineHeight: 1.5 }}>
+        <p className="adm-dossier-text adm-dossier-card-actions">
           Bonus annulé (candidature refusée ou annulée). Aucun versement ne sera effectué.
         </p>
       )}
 
-      {showPayModal && (
-        <div
-          className="adm-modal-backdrop"
-          onClick={() => !submitting && setShowPayModal(false)}
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="adm-referral-pay-title"
-        >
-          <div className="adm-modal" onClick={(e) => e.stopPropagation()}>
-            <div
-              className="adm-modal-icon"
-              style={{
-                ['--adm-modal-icon-bg' as string]: 'rgba(34, 197, 94, 0.14)',
-                ['--adm-modal-icon-color' as string]: 'var(--adm-status-validee)',
-              }}
-              aria-hidden="true"
-            >
-              <Icon name="check" size={22} strokeWidth={2.4} />
-            </div>
-            <h2 id="adm-referral-pay-title" className="adm-modal-title">
-              Marquer le bonus comme payé
-            </h2>
-            <p className="adm-modal-message">
-              Confirme la date et la méthode de paiement du bonus de{' '}
-              <strong>{props.referralBonusEur} €</strong> à{' '}
-              <strong>{props.referralPartnerName ?? props.referralCode}</strong>.
-            </p>
-
-            <div className="adm-input-row" style={{ borderBottom: 'none', padding: '0.4rem 0' }}>
-              <label className="adm-input-row-label" htmlFor="referral-pay-date">
+      <Sheet open={payOpen} onClose={() => !submitting && setPayOpen(false)} title="Marquer le bonus comme payé" autoFocusBody={false}>
+        <form className="adm-dossier-payform" onSubmit={markPaid}>
+          <p className="adm-dossier-text">
+            Bonus de <strong>{props.referralBonusEur ?? 'montant non renseigné'} €</strong> pour <strong>{partner}</strong>.
+            Confirme la date et la méthode du versement.
+          </p>
+          <div className="adm-dossier-payform-row">
+            <div className="adm-field">
+              <label htmlFor={`${uid}-date`} className="adm-field-label">
                 Date du paiement
               </label>
               <input
-                id="referral-pay-date"
+                id={`${uid}-date`}
                 type="date"
                 className="adm-input"
                 value={payDate}
                 onChange={(e) => setPayDate(e.target.value)}
                 disabled={submitting}
-                style={{ width: 160 }}
+                required
               />
             </div>
-
-            <div className="adm-input-row" style={{ borderBottom: 'none', padding: '0.4rem 0', marginBottom: '0.6rem' }}>
-              <label className="adm-input-row-label" htmlFor="referral-pay-method">
+            <div className="adm-field">
+              <label htmlFor={`${uid}-method`} className="adm-field-label">
                 Méthode
               </label>
               <select
-                id="referral-pay-method"
-                className="adm-input"
+                id={`${uid}-method`}
+                className="adm-select"
                 value={payMethod}
-                onChange={(e) => setPayMethod(e.target.value as ReferralPayoutMethod)}
+                onChange={(e) => setPayMethod(e.target.value as PaymentMethod)}
                 disabled={submitting}
-                style={{ width: 'auto', minWidth: 160 }}
               >
                 <option value="virement">Virement bancaire</option>
                 <option value="cash">Espèces</option>
                 <option value="autre">Autre</option>
               </select>
             </div>
-
-            {error && (
-              <p
-                style={{
-                  color: 'var(--adm-status-refusee)',
-                  background: 'rgba(239, 68, 68, 0.08)',
-                  border: '1px solid rgba(239, 68, 68, 0.25)',
-                  padding: '0.55rem 0.75rem',
-                  borderRadius: 'var(--adm-r-sm)',
-                  margin: '0 0 0.85rem',
-                  fontSize: '0.82rem',
-                }}
-              >
-                {error}
-              </p>
-            )}
-
-            <div className="adm-modal-actions">
-              <button
-                type="button"
-                className="adm-btn adm-btn--ghost"
-                onClick={() => setShowPayModal(false)}
-                disabled={submitting}
-              >
-                Annuler
-              </button>
-              <button
-                type="button"
-                className="adm-btn adm-btn--primary"
-                onClick={markPaid}
-                disabled={submitting}
-                autoFocus
-              >
-                {submitting ? 'Enregistrement…' : 'Confirmer le paiement'}
-              </button>
-            </div>
           </div>
-        </div>
-      )}
-
-      {showRevertConfirm && (
-        <div
-          className="adm-modal-backdrop"
-          onClick={() => !submitting && setShowRevertConfirm(false)}
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="adm-referral-revert-title"
-        >
-          <div className="adm-modal" onClick={(e) => e.stopPropagation()}>
-            <div
-              className="adm-modal-icon"
-              style={{
-                ['--adm-modal-icon-bg' as string]: 'rgba(245, 158, 11, 0.14)',
-                ['--adm-modal-icon-color' as string]: 'var(--adm-status-reportee)',
-              }}
-              aria-hidden="true"
-            >
-              <Icon name="alert-triangle" size={22} strokeWidth={2.2} />
-            </div>
-            <h2 id="adm-referral-revert-title" className="adm-modal-title">
-              Annuler le paiement ?
-            </h2>
-            <p className="adm-modal-message">
-              Le bonus repassera en statut <strong>À payer</strong>. La date et la méthode
-              actuellement enregistrées seront effacées. Cette action est réversible.
-            </p>
-
-            {error && (
-              <p
-                style={{
-                  color: 'var(--adm-status-refusee)',
-                  background: 'rgba(239, 68, 68, 0.08)',
-                  border: '1px solid rgba(239, 68, 68, 0.25)',
-                  padding: '0.55rem 0.75rem',
-                  borderRadius: 'var(--adm-r-sm)',
-                  margin: '0 0 0.85rem',
-                  fontSize: '0.82rem',
-                }}
-              >
-                {error}
-              </p>
-            )}
-
-            <div className="adm-modal-actions">
-              <button
-                type="button"
-                className="adm-btn adm-btn--ghost"
-                onClick={() => setShowRevertConfirm(false)}
-                disabled={submitting}
-              >
-                Non, garder
-              </button>
-              <button
-                type="button"
-                className="adm-btn adm-btn--danger"
-                onClick={revertPaid}
-                disabled={submitting}
-                autoFocus
-              >
-                {submitting ? 'Enregistrement…' : 'Oui, annuler'}
-              </button>
-            </div>
+          {error && <p className="adm-field-error" role="alert">{error}</p>}
+          <div className="adm-modal-actions">
+            <Button onClick={() => setPayOpen(false)} disabled={submitting}>
+              Annuler
+            </Button>
+            <Button type="submit" variant="primary" icon="receipt" loading={submitting}>
+              Confirmer le paiement
+            </Button>
           </div>
-        </div>
-      )}
+        </form>
+      </Sheet>
+
+      <ConfirmModal
+        open={revertOpen}
+        title={'Annuler le paiement\u00a0?'}
+        message={`Le bonus repassera en statut « À payer ». La date et la méthode actuellement enregistrées seront effacées. Cette action est réversible.${error ? `\n\n${error}` : ''}`}
+        confirmLabel="Oui, annuler"
+        cancelLabel="Non, garder"
+        variant="warning"
+        icon="alert-triangle"
+        confirmIcon="rotate-ccw"
+        onConfirm={() => void revertPaid()}
+        onCancel={() => setRevertOpen(false)}
+      />
     </section>
   )
 }

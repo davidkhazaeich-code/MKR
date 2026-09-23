@@ -1,16 +1,19 @@
 'use client'
 
 /**
- * Carte « Contrat » du dashboard admin (rendue par AdminActions, colonne droite).
+ * Carte "Contrat" de la fiche dossier (onglet Paiement, ancre #contrat).
  *
- * Workflow : Ruslan valide le dossier → remplit/ajuste les champs (pré-remplis
- * depuis la demande) → « Enregistrer » (attribue le n° de contrat) →
- * « Prévisualiser » (PDF filigrané, nouvel onglet, save-then-open) →
- * « Envoyer » (modale de confirmation) → email candidat + copie bcc +
+ * Workflow : Ruslan valide le dossier -> remplit/ajuste les champs (pre-remplis
+ * depuis la demande) -> "Enregistrer" (attribue le n de contrat) ->
+ * "Previsualiser" (PDF filigrane, nouvel onglet, save-then-open) ->
+ * "Envoyer" (modale de confirmation) -> email candidat + copie bcc +
  * archive Storage. Renvoi possible (vN).
  *
  * Enregistrement EXPLICITE (pas d'auto-save) : document contractuel.
- * Les garde-fous UI sont un miroir de ceux du serveur (source d'autorité).
+ * Les garde-fous UI sont un miroir de ceux du serveur (source d'autorite).
+ *
+ * DossierContractCard : la meme carte branchee sur l'etat live de la fiche
+ * (statut et montant live ; montant, echeance et envoi remontes a la fiche).
  */
 
 import { useEffect, useMemo, useRef, useState } from 'react'
@@ -26,22 +29,29 @@ import {
 } from '@/data/contract'
 import { sessionFromId } from '@/data/sessions'
 import type { Status } from '@/lib/admin-transitions'
+import Button from './ui/Button'
 import ConfirmModal from './ui/ConfirmModal'
 import Icon from './ui/Icon'
 import { useToast } from './ui/Toast'
+import { useDossier } from './dossier/DossierProvider'
+import { formatDateTime } from '@/lib/admin/format'
 
 export interface ContractCardProps {
   candidatureId: string
-  /** Statut LIVE (état optimiste d'AdminActions, pas la prop server). */
+  /** Statut LIVE (etat de la fiche, pas la prop serveur). */
   status: Status
-  /** Montant LIVE (état optimiste d'AdminActions). */
+  /** Montant LIVE (etat de la fiche). */
   packageAmountCents: number | null
   /**
-   * Callback quand le montant est modifié + enregistré depuis CETTE carte,
-   * pour resynchroniser l'état de la carte Paiement (AdminActions) sans
-   * attendre le router.refresh. Source unique : package_amount_cents.
+   * Callback quand le montant est modifie + enregistre depuis CETTE carte,
+   * pour resynchroniser la carte Paiement sans attendre le router.refresh.
+   * Source unique : package_amount_cents.
    */
   onAmountSaved?: (cents: number) => void
+  /** Champs enregistres (echeance telle que renvoyee par le serveur). */
+  onSaved?: (saved: { contractPaymentDeadline: string | null }) => void
+  /** Contrat envoye (la fiche passe a l'etape paiement). */
+  onSent?: (sent: { contractSentAt: string; contractPaymentDeadline: string | null }) => void
   candidateEmail: string | null
   submissionLanguage: 'fr' | 'en'
   sessionId: string | null
@@ -64,7 +74,10 @@ export interface ContractCardProps {
 
 const SENDABLE_STATUSES: Status[] = ['validee', 'soldee']
 
-/* ─────────── Helpers dates (date-only, UTC, zéro dépendance) ─────────── */
+// Espace insecable avant la ponctuation haute (typographie francaise).
+const NBSP = '\u00a0'
+
+/* ----------------- Helpers dates (date-only, UTC, zero dependance) ----------------- */
 
 function addDaysIso(iso: string, days: number): string {
   const d = new Date(`${iso}T00:00:00.000Z`)
@@ -82,7 +95,7 @@ function formatDateFr(iso: string): string {
   return `${d}/${m}/${y}`
 }
 
-/** Fin suggérée : fin de session officielle si durée pleine, sinon début + N semaines. */
+/** Fin suggeree : fin de session officielle si duree pleine, sinon debut + N semaines. */
 function suggestEnd(start: string, weeks: number | null, sessionId: string | null): string {
   if (!start || !weeks) return ''
   const session = sessionFromId(sessionId)
@@ -101,7 +114,7 @@ function isDefaultList(value: string, kind: 'inc' | 'exc'): boolean {
   return value.trim() === '' || value === defaults.fr || value === defaults.en
 }
 
-/* ─────────────────────────── Composant ─────────────────────────── */
+/* ----------------------------------- Composant ----------------------------------- */
 
 export default function ContractCard(props: ContractCardProps) {
   const toast = useToast()
@@ -110,7 +123,7 @@ export default function ContractCard(props: ContractCardProps) {
 
   const ribOk = isRibConfigured()
 
-  // Pré-remplissage : valeur DB sinon dérivée de la demande.
+  // Pre-remplissage : valeur DB sinon derivee de la demande.
   const initialLocale: ContractLocale = props.contractLocale ?? props.submissionLanguage
   const session = sessionFromId(props.sessionId)
   const initialStart = props.contractStartDate ?? session?.startDate ?? props.dateDebutSouhaitee ?? ''
@@ -130,10 +143,10 @@ export default function ContractCard(props: ContractCardProps) {
   const [exclusions, setExclusions] = useState(props.contractExclusions ?? DEFAULT_EXCLUSIONS[initialLocale])
   const [note, setNote] = useState(props.contractNote ?? '')
 
-  // Montant du séjour : MÊME champ que la carte Paiement (package_amount_cents,
-  // source unique — suivi paiement, commissions referral % et contrat restent
-  // cohérents). Draft local, resynchronisé depuis la prop tant que non touché
-  // (édition possible depuis la carte Paiement en parallèle).
+  // Montant du sejour : MEME champ que la carte Paiement (package_amount_cents,
+  // source unique : suivi paiement, commissions referral % et contrat restent
+  // coherents). Draft local, resynchronise depuis la prop tant que non touche
+  // (edition possible depuis la carte Paiement en parallele).
   const [amountEur, setAmountEur] = useState(
     props.packageAmountCents ? String(props.packageAmountCents / 100) : '',
   )
@@ -147,16 +160,16 @@ export default function ContractCard(props: ContractCardProps) {
   const amountDraftCents =
     amountEur.trim() === '' ? null : Math.round(parseFloat(amountEur) * 100)
   const amountDraftValid = amountDraftCents !== null && Number.isFinite(amountDraftCents) && amountDraftCents > 0
-  /** Montant effectif pour les garde-fous UI et le récap : draft si touché, sinon la valeur live. */
+  /** Montant effectif pour les garde-fous UI et le recap : draft si touche, sinon la valeur live. */
   const effectiveAmountCents = amountTouched
     ? (amountDraftValid ? amountDraftCents : null)
     : props.packageAmountCents
   const amountDirty = amountTouched && amountDraftCents !== props.packageAmountCents
 
-  // Fin auto-liée tant que Ruslan ne l'a pas éditée à la main.
+  // Fin auto-liee tant que Ruslan ne l'a pas editee a la main.
   const autoEndRef = useRef<string>(props.contractEndDate ? '' : initialEnd)
 
-  // Snapshot persisté (pour dirty). Mis à jour après chaque save réussi.
+  // Snapshot persiste (pour dirty). Mis a jour apres chaque save reussi.
   const [saved, setSaved] = useState(() => ({
     locale: props.contractLocale,
     start: props.contractStartDate,
@@ -178,8 +191,8 @@ export default function ContractCard(props: ContractCardProps) {
 
   const weeksNum = weeks === '' ? null : parseInt(weeks, 10)
 
-  // Dirty = différent du dernier état PERSISTÉ. Avant le premier save, les
-  // pré-remplissages rendent la carte dirty : voulu (rien n'est en DB).
+  // Dirty = different du dernier etat PERSISTE. Avant le premier save, les
+  // pre-remplissages rendent la carte dirty : voulu (rien n'est en DB).
   const dirty =
     locale !== (saved.locale ?? '') ||
     start !== (saved.start ?? '') ||
@@ -193,7 +206,7 @@ export default function ContractCard(props: ContractCardProps) {
 
   const neverSaved = number === null
 
-  /* ─────────── Garde-fous (miroir serveur) ─────────── */
+  /* ----------------------- Garde-fous (miroir serveur) ----------------------- */
 
   const fieldBlockers = useMemo(() => {
     const list: string[] = []
@@ -201,7 +214,7 @@ export default function ContractCard(props: ContractCardProps) {
     else if (end < start) list.push('La date de fin précède le début')
     if (!weeksNum || weeksNum < 1 || weeksNum > 12) list.push('Durée (1 à 12 semaines)')
     if (!effectiveAmountCents || effectiveAmountCents <= 0)
-      list.push('Montant du séjour manquant ou invalide (« sur devis » bloqué) — saisis-le dans le champ Montant')
+      list.push('Montant du séjour manquant ou invalide (« sur devis » bloqué) : saisis-le dans le champ Montant')
     if (!deadline) list.push('Échéance de paiement')
     else if (start && deadline > start) list.push('Échéance après le début du camp')
     return list
@@ -216,13 +229,12 @@ export default function ContractCard(props: ContractCardProps) {
   }, [props.status, props.candidateEmail, ribOk])
 
   const canPreview = fieldBlockers.length === 0 && !busy && !props.busyExternal
-  const canSend = canPreview && sendBlockers.length === 0
 
-  /* ─────────── Handlers ─────────── */
+  /* --------------------------------- Handlers --------------------------------- */
 
   const handleLocaleChange = (next: ContractLocale) => {
     setLocale(next)
-    // Listes non modifiées → on bascule les défauts dans la nouvelle langue.
+    // Listes non modifiees -> on bascule les defauts dans la nouvelle langue.
     if (isDefaultList(inclusions, 'inc')) setInclusions(DEFAULT_INCLUSIONS[next])
     if (isDefaultList(exclusions, 'exc')) setExclusions(DEFAULT_EXCLUSIONS[next])
   }
@@ -237,7 +249,7 @@ export default function ContractCard(props: ContractCardProps) {
   }
 
   const save = async (): Promise<boolean> => {
-    // Montant touché mais invalide : on refuse d'enregistrer plutôt que
+    // Montant touche mais invalide : on refuse d'enregistrer plutot que
     // d'ignorer silencieusement la saisie de Ruslan.
     if (amountTouched && amountEur.trim() !== '' && !amountDraftValid) {
       toast.show('Montant du séjour invalide (doit être supérieur à 0)', 'error')
@@ -258,8 +270,8 @@ export default function ContractCard(props: ContractCardProps) {
           contract_inclusions: inclusions,
           contract_exclusions: exclusions,
           contract_note: note,
-          // Même champ que la carte Paiement : audit package_amount_change +
-          // recalcul des commissions % gérés par le PATCH existant.
+          // Meme champ que la carte Paiement : audit package_amount_change +
+          // recalcul des commissions % geres par le PATCH existant.
           ...(sendAmount ? { package_amount_cents: amountDraftCents } : {}),
         }),
       })
@@ -281,8 +293,14 @@ export default function ContractCard(props: ContractCardProps) {
       })
       if (sendAmount && amountDraftCents !== null) {
         props.onAmountSaved?.(amountDraftCents)
-        setAmountTouched(false) // re-liaison sur la prop (désormais à jour)
+        setAmountTouched(false) // re-liaison sur la prop (desormais a jour)
       }
+      props.onSaved?.({
+        contractPaymentDeadline:
+          data.candidature && 'contract_payment_deadline' in data.candidature
+            ? data.candidature.contract_payment_deadline
+            : deadline || null,
+      })
       startTransition(() => router.refresh())
       return true
     } catch {
@@ -298,8 +316,8 @@ export default function ContractCard(props: ContractCardProps) {
     if (ok) toast.show('Infos contrat enregistrées', 'success')
   }
 
-  // Save-then-open : onglet ouvert de manière synchrone (anti popup-blocker),
-  // pointé vers l'aperçu une fois l'état persisté.
+  // Save-then-open : onglet ouvert de maniere synchrone (anti popup-blocker),
+  // pointe vers l'apercu une fois l'etat persiste.
   const handlePreview = async () => {
     const url = `/api/admin/candidature/${props.candidatureId}/contract/preview`
     if (!dirty && !neverSaved) {
@@ -331,10 +349,12 @@ export default function ContractCard(props: ContractCardProps) {
         return
       }
       const c = data.contract ?? {}
-      setSentAt(c.contract_sent_at ?? new Date().toISOString())
+      const nextSentAt: string = c.contract_sent_at ?? new Date().toISOString()
+      setSentAt(nextSentAt)
       setSentCount(c.contract_sent_count ?? sentCount + 1)
       setPdfPath(c.contract_pdf_path ?? pdfPath)
       if (c.contract_number) setNumber(c.contract_number)
+      props.onSent?.({ contractSentAt: nextSentAt, contractPaymentDeadline: deadline || null })
       toast.show(`Contrat envoyé à ${props.candidateEmail}`, 'success')
       startTransition(() => router.refresh())
     } catch {
@@ -344,7 +364,7 @@ export default function ContractCard(props: ContractCardProps) {
     }
   }
 
-  /* ─────────── Rendu ─────────── */
+  /* ----------------------------------- Rendu ----------------------------------- */
 
   const displayNumber = number !== null ? formatContractNumber(number, new Date().getFullYear()) : null
   const amountLabel =
@@ -353,11 +373,11 @@ export default function ContractCard(props: ContractCardProps) {
       : null
   const isResend = sentCount > 0
 
-  // Dossier pas encore actionnable et jamais de contrat : état compact.
+  // Dossier pas encore actionnable et jamais de contrat : etat compact.
   if (!SENDABLE_STATUSES.includes(props.status) && !sentAt) {
     return (
-      <section className="adm-card">
-        <h2 className="adm-card-title">
+      <section id="contrat" className="adm-card adm-dossier-anchor" tabIndex={-1} aria-labelledby="adm-contrat-title">
+        <h2 id="adm-contrat-title" className="adm-card-title">
           <Icon name="file-text" size={14} />
           Contrat
         </h2>
@@ -371,60 +391,24 @@ export default function ContractCard(props: ContractCardProps) {
   }
 
   const inputsDisabled = busy || props.busyExternal || !SENDABLE_STATUSES.includes(props.status)
+  const blockers = [...fieldBlockers, ...sendBlockers]
 
   return (
-    <section className="adm-card">
-      <h2 className="adm-card-title">
-        <Icon name="file-text" size={14} />
-        Contrat
-        {displayNumber && (
-          <span
-            style={{
-              marginLeft: 'auto',
-              fontSize: '0.7rem',
-              color: 'var(--adm-text-secondary)',
-              fontWeight: 600,
-              letterSpacing: '0.04em',
-              textTransform: 'none',
-            }}
-          >
-            {displayNumber}
-          </span>
-        )}
-      </h2>
+    <section id="contrat" className="adm-card adm-dossier-anchor" tabIndex={-1} aria-labelledby="adm-contrat-title">
+      <div className="adm-card-header">
+        <h2 id="adm-contrat-title" className="adm-card-title">
+          <Icon name="file-text" size={14} />
+          Contrat
+        </h2>
+        {displayNumber && <span className="adm-dossier-card-aside adm-mono">{displayNumber}</span>}
+      </div>
 
-      {/* État envoi */}
+      {/* Etat envoi */}
       {sentAt && (
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'flex-start',
-            gap: '0.5rem',
-            padding: '0.6rem 0.75rem',
-            borderRadius: 8,
-            border: '1px solid rgba(34, 197, 94, 0.35)',
-            background: 'rgba(34, 197, 94, 0.08)',
-            marginBottom: '0.9rem',
-            fontSize: '0.8rem',
-            color: 'var(--adm-text-secondary)',
-            lineHeight: 1.45,
-          }}
-        >
-          <span style={{ color: 'var(--adm-status-validee)', flexShrink: 0, marginTop: 1 }}>
-            <Icon name="check-circle" size={14} strokeWidth={2.4} />
-          </span>
+        <p className="adm-dossier-note adm-tone--ok">
+          <Icon name="check-circle" size={16} />
           <span>
-            <strong style={{ color: 'var(--adm-status-validee)' }}>
-              Contrat envoyé le{' '}
-              {new Date(sentAt).toLocaleString('fr-FR', {
-                day: '2-digit',
-                month: '2-digit',
-                year: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit',
-              })}
-            </strong>{' '}
-            ({sentCount} envoi{sentCount > 1 ? 's' : ''})
+            <strong>Contrat envoyé le {formatDateTime(sentAt)}</strong> ({sentCount} envoi{sentCount > 1 ? 's' : ''})
             {pdfPath && (
               <>
                 {' · '}
@@ -432,27 +416,27 @@ export default function ContractCard(props: ContractCardProps) {
                   href={`/api/admin/candidature/${props.candidatureId}/contract/file`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  style={{ color: 'var(--adm-text-primary)', textDecoration: 'underline' }}
+                  className="adm-link"
                 >
                   Voir le PDF envoyé
                 </a>
               </>
             )}
           </span>
-        </div>
+        </p>
       )}
 
       {/* Langue */}
       <div className="adm-input-row">
         <label className="adm-input-row-label" htmlFor="contract-locale">
           Langue du contrat
-          <span style={{ display: 'block', fontSize: '0.75rem', color: 'var(--adm-text-muted)', marginTop: '0.15rem' }}>
-            PDF + email. Pré-réglée sur la langue d’inscription du candidat ({props.submissionLanguage.toUpperCase()}).
+          <span className="adm-field-help adm-dossier-row-help">
+            PDF et email. Pré-réglée sur la langue d’inscription du candidat ({props.submissionLanguage.toUpperCase()}).
           </span>
         </label>
         <select
           id="contract-locale"
-          className="adm-input"
+          className="adm-select"
           value={locale}
           onChange={(e) => handleLocaleChange(e.target.value as ContractLocale)}
           disabled={inputsDisabled}
@@ -462,7 +446,7 @@ export default function ContractCard(props: ContractCardProps) {
         </select>
       </div>
 
-      {/* Dates + durée */}
+      {/* Dates + duree */}
       <div className="adm-input-row">
         <label className="adm-input-row-label" htmlFor="contract-start">
           Début du séjour
@@ -501,8 +485,8 @@ export default function ContractCard(props: ContractCardProps) {
       <div className="adm-input-row">
         <label className="adm-input-row-label" htmlFor="contract-end">
           Fin du séjour
-          <span style={{ display: 'block', fontSize: '0.75rem', color: 'var(--adm-text-muted)', marginTop: '0.15rem' }}>
-            Calculée depuis début + durée (fin de session officielle si durée pleine). Modifiable.
+          <span className="adm-field-help adm-dossier-row-help">
+            Calculée depuis le début et la durée (fin de session officielle si durée pleine). Modifiable.
           </span>
         </label>
         <input
@@ -512,7 +496,7 @@ export default function ContractCard(props: ContractCardProps) {
           value={end}
           onChange={(e) => {
             setEnd(e.target.value)
-            autoEndRef.current = '' // édition manuelle : on coupe le lien auto
+            autoEndRef.current = '' // edition manuelle : on coupe le lien auto
           }}
           disabled={inputsDisabled}
         />
@@ -520,8 +504,9 @@ export default function ContractCard(props: ContractCardProps) {
       <div className="adm-input-row">
         <label className="adm-input-row-label" htmlFor="contract-amount">
           Montant du séjour (€)
-          <span style={{ display: 'block', fontSize: '0.75rem', color: 'var(--adm-text-muted)', marginTop: '0.15rem' }}>
-            Montant unique du dossier : contrat, suivi paiement et commissions partenaire. Repris de la carte Paiement, modifiable ici.
+          <span className="adm-field-help adm-dossier-row-help">
+            Montant unique du dossier : contrat, suivi du paiement et commissions partenaire. Repris de la carte
+            Paiement, modifiable ici.
           </span>
         </label>
         <input
@@ -542,8 +527,8 @@ export default function ContractCard(props: ContractCardProps) {
       <div className="adm-input-row">
         <label className="adm-input-row-label" htmlFor="contract-deadline">
           Échéance de paiement
-          <span style={{ display: 'block', fontSize: '0.75rem', color: 'var(--adm-text-muted)', marginTop: '0.15rem' }}>
-            Au plus tard le jour du début du camp. Défaut : J+14.
+          <span className="adm-field-help adm-dossier-row-help">
+            Au plus tard le jour du début du camp. Par défaut : dans 14 jours.
           </span>
         </label>
         <input
@@ -558,130 +543,117 @@ export default function ContractCard(props: ContractCardProps) {
       </div>
 
       {/* Prestations */}
-      <div style={{ marginTop: '0.4rem' }}>
-        <label className="adm-input-row-label" htmlFor="contract-inclusions" style={{ display: 'block', marginBottom: '0.3rem' }}>
-          Prestations incluses
-          <span style={{ display: 'block', fontSize: '0.75rem', color: 'var(--adm-text-muted)', marginTop: '0.15rem' }}>
-            1 prestation par ligne. Pré-rempli depuis les CGV (art. 5) dans la langue choisie.
-          </span>
-        </label>
-        <textarea
-          id="contract-inclusions"
-          className="adm-notes-textarea"
-          rows={6}
-          value={inclusions}
-          onChange={(e) => setInclusions(e.target.value)}
-          disabled={inputsDisabled}
-          maxLength={8000}
-        />
-      </div>
-      <div style={{ marginTop: '0.7rem' }}>
-        <label className="adm-input-row-label" htmlFor="contract-exclusions" style={{ display: 'block', marginBottom: '0.3rem' }}>
-          Prestations non incluses
-        </label>
-        <textarea
-          id="contract-exclusions"
-          className="adm-notes-textarea"
-          rows={4}
-          value={exclusions}
-          onChange={(e) => setExclusions(e.target.value)}
-          disabled={inputsDisabled}
-          maxLength={8000}
-        />
-      </div>
-      <div style={{ marginTop: '0.7rem' }}>
-        <label className="adm-input-row-label" htmlFor="contract-note" style={{ display: 'block', marginBottom: '0.3rem' }}>
-          Conditions particulières (optionnel)
-          <span style={{ display: 'block', fontSize: '0.75rem', color: 'var(--adm-text-muted)', marginTop: '0.15rem' }}>
+      <div className="adm-dossier-fields">
+        <div className="adm-field">
+          <label className="adm-field-label" htmlFor="contract-inclusions">
+            Prestations incluses
+          </label>
+          <p id="contract-inclusions-help" className="adm-field-help">
+            Une prestation par ligne. Pré-rempli depuis les CGV (art. 5) dans la langue choisie.
+          </p>
+          <textarea
+            id="contract-inclusions"
+            className="adm-textarea"
+            rows={6}
+            value={inclusions}
+            onChange={(e) => setInclusions(e.target.value)}
+            disabled={inputsDisabled}
+            maxLength={8000}
+            aria-describedby="contract-inclusions-help"
+          />
+        </div>
+        <div className="adm-field">
+          <label className="adm-field-label" htmlFor="contract-exclusions">
+            Prestations non incluses
+          </label>
+          <textarea
+            id="contract-exclusions"
+            className="adm-textarea"
+            rows={4}
+            value={exclusions}
+            onChange={(e) => setExclusions(e.target.value)}
+            disabled={inputsDisabled}
+            maxLength={8000}
+          />
+        </div>
+        <div className="adm-field">
+          <label className="adm-field-label" htmlFor="contract-note">
+            Conditions particulières (optionnel)
+          </label>
+          <p id="contract-note-help" className="adm-field-help">
             Affichées dans un encadré dédié du PDF (ex. régime alimentaire, arrivée décalée, accord spécifique).
-          </span>
-        </label>
-        <textarea
-          id="contract-note"
-          className="adm-notes-textarea"
-          rows={3}
-          value={note}
-          onChange={(e) => setNote(e.target.value)}
-          disabled={inputsDisabled}
-          maxLength={8000}
-          placeholder="Rien à signaler ? Laisse vide, la section n’apparaîtra pas dans le PDF."
-        />
+          </p>
+          <textarea
+            id="contract-note"
+            className="adm-textarea"
+            rows={3}
+            value={note}
+            onChange={(e) => setNote(e.target.value)}
+            disabled={inputsDisabled}
+            maxLength={8000}
+            aria-describedby="contract-note-help"
+            placeholder="Rien à signaler ? Laisse vide, la section n’apparaîtra pas dans le PDF."
+          />
+        </div>
       </div>
 
       {/* Blocages */}
-      {(fieldBlockers.length > 0 || sendBlockers.length > 0) && (
-        <div
-          style={{
-            marginTop: '0.9rem',
-            padding: '0.6rem 0.75rem',
-            borderRadius: 8,
-            border: '1px solid rgba(251, 191, 36, 0.35)',
-            background: 'rgba(251, 191, 36, 0.07)',
-            fontSize: '0.78rem',
-            color: 'var(--adm-text-secondary)',
-            lineHeight: 1.5,
-          }}
-        >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', color: 'var(--adm-status-reportee)', fontWeight: 700, marginBottom: '0.25rem' }}>
-            <Icon name="alert-triangle" size={13} strokeWidth={2.2} />
+      {blockers.length > 0 && (
+        <div className="adm-dossier-note adm-dossier-note--block adm-tone--warn">
+          <p className="adm-dossier-note-title">
+            <Icon name="alert-triangle" size={16} />
             À compléter avant envoi
-          </div>
-          {[...fieldBlockers, ...sendBlockers].map((b, i) => (
-            <div key={i}>· {b}</div>
-          ))}
+          </p>
+          <ul className="adm-dossier-note-list">
+            {blockers.map((b, i) => (
+              <li key={i}>{b}</li>
+            ))}
+          </ul>
         </div>
       )}
 
       {/* Actions */}
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', marginTop: '0.9rem' }}>
+      <div className="adm-btn-row adm-dossier-card-actions">
         {(dirty || neverSaved) && (
-          <button type="button" className="adm-btn adm-btn--ghost" onClick={handleSave} disabled={inputsDisabled} style={{ padding: '0.5rem 0.8rem' }}>
+          <Button onClick={handleSave} disabled={inputsDisabled}>
             Enregistrer
-          </button>
+          </Button>
         )}
-        <button
-          type="button"
-          className="adm-btn adm-btn--ghost"
+        <Button
           onClick={handlePreview}
           disabled={!canPreview || inputsDisabled}
-          style={{ padding: '0.5rem 0.8rem' }}
           title={fieldBlockers.length > 0 ? fieldBlockers.join(' · ') : 'Ouvre le PDF filigrané dans un nouvel onglet'}
         >
           Prévisualiser le PDF
-        </button>
-        <button
-          type="button"
-          className="adm-action-btn"
+        </Button>
+        <Button
+          variant="primary"
+          icon="send"
           onClick={() => setConfirmOpen(true)}
-          disabled={!canSend || inputsDisabled}
-          style={{
-            ['--adm-action-color' as string]: 'var(--adm-status-validee)',
-            ['--adm-action-bg' as string]: 'rgba(34, 197, 94, 0.1)',
-            ['--adm-action-border' as string]: 'rgba(34, 197, 94, 0.4)',
-            ['--adm-action-hover-bg' as string]: 'rgba(34, 197, 94, 0.1)',
-            opacity: !canSend ? 0.55 : undefined,
-          }}
-          title={!canSend ? [...fieldBlockers, ...sendBlockers].join(' · ') : undefined}
+          loading={busy}
+          disabled={blockers.length > 0 || !!props.busyExternal}
+          title={blockers.length > 0 ? blockers.join(' · ') : undefined}
         >
-          <Icon name="mail" size={15} strokeWidth={2.4} />
           {isResend ? 'Renvoyer le contrat' : 'Envoyer le contrat'}
-        </button>
+        </Button>
       </div>
 
       <ConfirmModal
         open={confirmOpen}
-        title={isResend ? 'Renvoyer le contrat ?' : 'Envoyer le contrat ?'}
+        title={isResend ? `Renvoyer le contrat${NBSP}?` : `Envoyer le contrat${NBSP}?`}
         message={[
-          `Destinataire : ${props.candidateEmail ?? '—'}`,
-          `Contrat : ${displayNumber ?? 'n° attribué à l’enregistrement'} · ${locale === 'fr' ? 'Français' : 'English'}`,
-          `Séjour : ${start ? formatDateFr(start) : '—'} → ${end ? formatDateFr(end) : '—'}`,
-          `Montant : ${amountLabel ?? '—'} · à régler avant le ${deadline ? formatDateFr(deadline) : '—'}`,
+          `Destinataire${NBSP}: ${props.candidateEmail ?? 'Non renseigné'}`,
+          `Contrat${NBSP}: ${displayNumber ?? 'n° attribué à l’enregistrement'} · ${locale === 'fr' ? 'Français' : 'English'}`,
+          `Séjour${NBSP}: ${start && end ? `du ${formatDateFr(start)} au ${formatDateFr(end)}` : 'dates non renseignées'}`,
+          `Montant${NBSP}: ${amountLabel ?? 'Non renseigné'} · à régler avant le ${deadline ? formatDateFr(deadline) : 'Non renseigné'}`,
           '',
-          `Copie exacte en bcc à contact@mkrcamp.com + PDF archivé.${isResend ? `\n\nRenvoi : le candidat recevra une nouvelle version (v${sentCount + 1}).` : ''}`,
+          `Copie exacte en bcc à contact@mkrcamp.com et PDF archivé.${isResend ? `\n\nRenvoi : le candidat recevra une nouvelle version (v${sentCount + 1}).` : ''}`,
         ].join('\n')}
         confirmLabel={isResend ? 'Renvoyer' : 'Envoyer'}
         cancelLabel="Annuler"
         variant="primary"
+        icon="send"
+        confirmIcon="send"
         onConfirm={() => {
           setConfirmOpen(false)
           void handleSend()
@@ -689,5 +661,33 @@ export default function ContractCard(props: ContractCardProps) {
         onCancel={() => setConfirmOpen(false)}
       />
     </section>
+  )
+}
+
+/** Champs contrat lus cote serveur (le reste vient de la fiche). */
+export type DossierContractCardProps = Pick<
+  ContractCardProps,
+  | 'sessionId' | 'dureeSemaines' | 'dateDebutSouhaitee' | 'contractStartDate' | 'contractEndDate'
+  | 'contractDurationWeeks' | 'contractInclusions' | 'contractExclusions' | 'contractNote'
+  | 'contractPaymentDeadline' | 'contractLocale' | 'contractNumber' | 'contractSentAt'
+  | 'contractSentCount' | 'contractPdfPath'
+>
+
+/** Carte branchee sur la fiche : statut et montant live, remontees vers l'etat live. */
+export function DossierContractCard(props: DossierContractCardProps) {
+  const { id, live, staticData: s, pendingStatus, setLive } = useDossier()
+  return (
+    <ContractCard
+      {...props}
+      candidatureId={id}
+      status={live.status}
+      packageAmountCents={live.packageCents}
+      onAmountSaved={(cents) => setLive({ packageCents: cents })}
+      onSaved={(saved) => setLive({ contractPaymentDeadline: saved.contractPaymentDeadline })}
+      onSent={(sent) => setLive({ contractSentAt: sent.contractSentAt, contractPaymentDeadline: sent.contractPaymentDeadline })}
+      candidateEmail={s.email}
+      submissionLanguage={s.lang}
+      busyExternal={pendingStatus !== null}
+    />
   )
 }

@@ -1,62 +1,158 @@
 'use client'
 
 /**
- * Carte « Relance visio » du dashboard admin (rendue par AdminActions, colonne droite).
- *
- * Renvoie a la demande l'email invitant le candidat a reserver sa visio de selection
- * avec Ruslan (meme template que l'email post-inscription, variante 'reminder'). Utile
- * quand le candidat n'a pas encore reserve : la visio est la seule etape qui valide le
- * dossier. Visible uniquement sur les dossiers en attente (statut « Recue »).
+ * Relance visio : renvoie a la demande l'email invitant le candidat a reserver
+ * sa visio de selection avec Ruslan (meme template que l'email post-inscription,
+ * variante 'reminder'). Utile quand le candidat n'a pas encore reserve : la visio
+ * est la seule etape qui valide le dossier. Visible uniquement sur les dossiers en
+ * attente (statut "Recue").
  *
  * Workflow : Previsualiser (ouvre l'email rendu dans un onglet) -> Envoyer (modale de
- * confirmation) -> POST -> etat « Rappel envoye le X, N fois ». Renvoi possible.
+ * confirmation) -> POST -> etat "Rappel envoye le X, N fois". Renvoi possible.
+ *
+ * Fiche v2 : section de la carte Visio (VisioCard), plus une carte a part. La
+ * logique d'envoi vit dans useVisioReminder, partage avec l'action primaire de
+ * la fiche ("Envoyer un rappel visio") : meme confirmation, meme route.
+ * sentAt et count suivent les props (etat live de la fiche) : un envoi fait
+ * depuis l'action primaire se voit aussitot ici.
  */
 
 import { useState, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
 import type { Status } from '@/lib/admin-transitions'
+import Button from './ui/Button'
 import ConfirmModal from './ui/ConfirmModal'
 import Icon from './ui/Icon'
 import { useToast } from './ui/Toast'
+import { formatDateTime, plural } from '@/lib/admin/format'
+import { LANG_LABEL } from '@/lib/admin/labels'
 
 export interface VisioReminderCardProps {
   candidatureId: string
-  /** Statut LIVE (etat optimiste d'AdminActions). */
+  /** Statut LIVE (etat de la fiche). */
   status: Status
   candidateEmail: string | null
   submissionLanguage: 'fr' | 'en'
   visioReminderSentAt: string | null
   visioReminderCount: number
   busyExternal?: boolean
+  /** Envoi reussi (la fiche met a jour son etat live). */
+  onSent?: (sent: { sentAt: string; count: number }) => void
 }
 
-function formatDateTimeFr(iso: string): string {
-  return new Date(iso).toLocaleString('fr-FR', {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-  })
+// Espace insecable avant la ponctuation haute (typographie francaise).
+const NBSP = '\u00a0'
+
+export interface VisioReminderOptions {
+  candidatureId: string
+  candidateEmail: string | null
+  submissionLanguage: 'fr' | 'en'
+  /** Relances deja envoyees. */
+  count: number
+  onSent?: (sent: { sentAt: string; count: number }) => void
+}
+
+/**
+ * Envoi de la relance visio avec sa confirmation. Rendre `dialog` a cote du
+ * bouton qui appelle `open` ; `busy` couvre l'envoi et le rafraichissement.
+ */
+export function useVisioReminder(opts: VisioReminderOptions): {
+  open: () => void
+  busy: boolean
+  canSend: boolean
+  dialog: React.ReactNode
+} {
+  const toast = useToast()
+  const router = useRouter()
+  const [refreshing, startTransition] = useTransition()
+  const [sending, setSending] = useState(false)
+  const [confirmOpen, setConfirmOpen] = useState(false)
+  const email = opts.candidateEmail
+  const isResend = opts.count > 0
+  const busy = sending || refreshing
+
+  const send = async () => {
+    setConfirmOpen(false)
+    setSending(true)
+    try {
+      const res = await fetch(`/api/admin/candidature/${opts.candidatureId}/visio-reminder`, { method: 'POST' })
+      const data = (await res.json().catch(() => ({}))) as {
+        ok?: boolean
+        error?: string
+        reminder?: { visio_reminder_sent_at?: string; visio_reminder_count?: number }
+      }
+      if (!res.ok || !data.ok) {
+        toast.show(data.error || 'Envoi du rappel échoué', 'error', 5000)
+        return
+      }
+      const r = data.reminder ?? {}
+      opts.onSent?.({
+        sentAt: r.visio_reminder_sent_at ?? new Date().toISOString(),
+        count: r.visio_reminder_count ?? opts.count + 1,
+      })
+      toast.show(`Rappel visio envoyé à ${email}`, 'success')
+      startTransition(() => router.refresh())
+    } catch {
+      toast.show('Connexion impossible. Vérifie ton réseau.', 'error', 5000)
+    } finally {
+      setSending(false)
+    }
+  }
+
+  const dialog = (
+    <ConfirmModal
+      open={confirmOpen}
+      title={isResend ? `Renvoyer le rappel visio${NBSP}?` : `Envoyer le rappel visio${NBSP}?`}
+      message={[
+        `Destinataire${NBSP}: ${email ?? 'Non renseigné'}`,
+        `Langue${NBSP}: ${LANG_LABEL[opts.submissionLanguage]}`,
+        '',
+        `Le candidat recevra l'email l'invitant à réserver sa visio de sélection avec Ruslan (lien Cal). Copie en bcc à contact@mkrcamp.com.${
+          isResend ? `\n\nRappel déjà envoyé ${opts.count} fois.` : ''
+        }`,
+      ].join('\n')}
+      confirmLabel={isResend ? 'Renvoyer' : 'Envoyer'}
+      cancelLabel="Annuler"
+      variant="primary"
+      icon="send"
+      confirmIcon="send"
+      onConfirm={() => void send()}
+      onCancel={() => setConfirmOpen(false)}
+    />
+  )
+
+  return { open: () => setConfirmOpen(true), busy, canSend: !!email, dialog }
 }
 
 export default function VisioReminderCard(props: VisioReminderCardProps) {
-  const toast = useToast()
-  const router = useRouter()
-  const [, startTransition] = useTransition()
-
-  const [busy, setBusy] = useState(false)
-  const [confirmOpen, setConfirmOpen] = useState(false)
   const [sentAt, setSentAt] = useState<string | null>(props.visioReminderSentAt)
   const [count, setCount] = useState<number>(props.visioReminderCount)
+  // Suivre les props (etat live) quand elles changent : envoi fait ailleurs.
+  const [seen, setSeen] = useState({ sentAt: props.visioReminderSentAt, count: props.visioReminderCount })
+  if (seen.sentAt !== props.visioReminderSentAt || seen.count !== props.visioReminderCount) {
+    setSeen({ sentAt: props.visioReminderSentAt, count: props.visioReminderCount })
+    setSentAt(props.visioReminderSentAt)
+    setCount(props.visioReminderCount)
+  }
+
+  const reminder = useVisioReminder({
+    candidatureId: props.candidatureId,
+    candidateEmail: props.candidateEmail,
+    submissionLanguage: props.submissionLanguage,
+    count,
+    onSent: (sent) => {
+      setSentAt(sent.sentAt)
+      setCount(sent.count)
+      props.onSent?.(sent)
+    },
+  })
 
   // Le rappel sert a faire reserver la visio de selection : pertinent tant que le
-  // dossier n'est pas valide. On n'affiche la carte que sur les dossiers « Recue ».
+  // dossier n'est pas valide. On n'affiche la section que sur les dossiers "Recue".
   if (props.status !== 'recue') return null
 
   const hasEmail = !!props.candidateEmail
-  const inputsDisabled = busy || !!props.busyExternal
-  const canSend = hasEmail && !inputsDisabled
+  const inputsDisabled = !!props.busyExternal
   const isResend = count > 0
 
   const handlePreview = () => {
@@ -67,171 +163,69 @@ export default function VisioReminderCard(props: VisioReminderCardProps) {
     )
   }
 
-  const handleSend = async () => {
-    setBusy(true)
-    try {
-      const res = await fetch(`/api/admin/candidature/${props.candidatureId}/visio-reminder`, {
-        method: 'POST',
-      })
-      const data = await res.json().catch(() => ({}))
-      if (!res.ok || !data.ok) {
-        toast.show(data.error || 'Envoi du rappel échoué', 'error')
-        return
-      }
-      const r = data.reminder ?? {}
-      setSentAt(r.visio_reminder_sent_at ?? new Date().toISOString())
-      setCount(r.visio_reminder_count ?? count + 1)
-      toast.show(`Rappel visio envoyé à ${props.candidateEmail}`, 'success')
-      startTransition(() => router.refresh())
-    } catch {
-      toast.show('Connexion impossible. Vérifie ton réseau.', 'error')
-    } finally {
-      setBusy(false)
-    }
-  }
-
   return (
-    <section className="adm-card">
-      <h2 className="adm-card-title">
-        <Icon name="calendar" size={14} />
+    <div id="relance" className="adm-dossier-sub adm-dossier-anchor" tabIndex={-1}>
+      <h3 className="adm-dossier-sub-title">
         Relance visio
-      </h2>
+      </h3>
 
-      <p
-        style={{
-          fontSize: '0.85rem',
-          color: 'var(--adm-text-secondary)',
-          lineHeight: 1.55,
-          margin: '0 0 0.9rem',
-        }}
-      >
+      <p className="adm-dossier-text">
         Renvoie au candidat l&apos;email l&apos;invitant à réserver sa visio de sélection avec
         Ruslan (mise en page complète, photo et logo, dans sa langue). À utiliser quand il n&apos;a
         pas encore réservé son créneau.
       </p>
 
-      {/* Etat envoi */}
       {sentAt && (
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'flex-start',
-            gap: '0.5rem',
-            padding: '0.6rem 0.75rem',
-            borderRadius: 8,
-            border: '1px solid rgba(34, 197, 94, 0.35)',
-            background: 'rgba(34, 197, 94, 0.08)',
-            marginBottom: '0.9rem',
-            fontSize: '0.8rem',
-            color: 'var(--adm-text-secondary)',
-            lineHeight: 1.45,
-          }}
-        >
-          <span style={{ color: 'var(--adm-status-validee)', flexShrink: 0, marginTop: 1 }}>
-            <Icon name="check-circle" size={14} strokeWidth={2.4} />
-          </span>
+        <p className="adm-dossier-note adm-tone--ok">
+          <Icon name="check-circle" size={16} />
           <span>
-            <strong style={{ color: 'var(--adm-status-validee)' }}>
-              Rappel envoyé le {formatDateTimeFr(sentAt)}
-            </strong>{' '}
-            ({count} envoi{count > 1 ? 's' : ''})
+            <strong>Rappel envoyé le {formatDateTime(sentAt)}</strong> ({plural(count, 'envoi', 'envois')})
           </span>
-        </div>
+        </p>
       )}
 
-      {/* Recap destinataire + langue */}
-      <dl className="adm-defs" style={{ marginBottom: '0.9rem' }}>
+      <dl className="adm-defs adm-dossier-defs">
         <div className="adm-def">
           <dt className="adm-def-key">Destinataire</dt>
           <dd className="adm-def-val">
             {props.candidateEmail ? (
               <a href={`mailto:${props.candidateEmail}`}>{props.candidateEmail}</a>
             ) : (
-              <span className="adm-def-val--muted">—</span>
+              <span className="adm-def-val--muted">Non renseigné</span>
             )}
           </dd>
         </div>
         <div className="adm-def">
           <dt className="adm-def-key">Langue de l&apos;email</dt>
-          <dd className="adm-def-val">{props.submissionLanguage === 'en' ? 'English' : 'Français'}</dd>
+          <dd className="adm-def-val">{LANG_LABEL[props.submissionLanguage]}</dd>
         </div>
       </dl>
 
-      {/* Blocage si pas d'email */}
       {!hasEmail && (
-        <div
-          style={{
-            marginBottom: '0.9rem',
-            padding: '0.6rem 0.75rem',
-            borderRadius: 8,
-            border: '1px solid rgba(251, 191, 36, 0.35)',
-            background: 'rgba(251, 191, 36, 0.07)',
-            fontSize: '0.78rem',
-            color: 'var(--adm-text-secondary)',
-            lineHeight: 1.5,
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.4rem',
-          }}
-        >
-          <span style={{ color: 'var(--adm-status-reportee)', flexShrink: 0 }}>
-            <Icon name="alert-triangle" size={13} strokeWidth={2.2} />
-          </span>
-          Email du candidat manquant, impossible d&apos;envoyer le rappel.
-        </div>
+        <p className="adm-dossier-note adm-tone--warn">
+          <Icon name="alert-triangle" size={16} />
+          <span>Email du candidat manquant, impossible d&apos;envoyer le rappel.</span>
+        </p>
       )}
 
-      {/* Actions */}
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
-        <button
-          type="button"
-          className="adm-btn adm-btn--ghost"
+      <div className="adm-btn-row">
+        <Button
           onClick={handlePreview}
           disabled={inputsDisabled}
-          style={{ padding: '0.5rem 0.8rem' }}
           title="Ouvre l'email de relance dans un nouvel onglet"
         >
           Prévisualiser l&apos;email
-        </button>
-        <button
-          type="button"
-          className="adm-action-btn"
-          onClick={() => setConfirmOpen(true)}
-          disabled={!canSend}
-          style={{
-            ['--adm-action-color' as string]: 'var(--adm-status-validee)',
-            ['--adm-action-bg' as string]: 'rgba(34, 197, 94, 0.1)',
-            ['--adm-action-border' as string]: 'rgba(34, 197, 94, 0.4)',
-            ['--adm-action-hover-bg' as string]: 'rgba(34, 197, 94, 0.1)',
-            opacity: !canSend ? 0.55 : undefined,
-          }}
+        </Button>
+        <Button
+          onClick={reminder.open}
+          loading={reminder.busy}
+          disabled={!hasEmail || inputsDisabled}
           title={!hasEmail ? 'Email du candidat manquant' : undefined}
         >
-          <Icon name="mail" size={15} strokeWidth={2.4} />
           {isResend ? 'Renvoyer le rappel' : 'Envoyer le rappel'}
-        </button>
+        </Button>
       </div>
-
-      <ConfirmModal
-        open={confirmOpen}
-        title={isResend ? 'Renvoyer le rappel visio ?' : 'Envoyer le rappel visio ?'}
-        message={[
-          `Destinataire : ${props.candidateEmail ?? '—'}`,
-          `Langue : ${props.submissionLanguage === 'en' ? 'English' : 'Français'}`,
-          '',
-          `Le candidat recevra l'email l'invitant à réserver sa visio de sélection avec Ruslan (lien Cal). Copie en bcc à contact@mkrcamp.com.${
-            isResend ? `\n\nRappel déjà envoyé ${count} fois.` : ''
-          }`,
-        ].join('\n')}
-        confirmLabel={isResend ? 'Renvoyer' : 'Envoyer'}
-        cancelLabel="Annuler"
-        variant="primary"
-        onConfirm={() => {
-          setConfirmOpen(false)
-          void handleSend()
-        }}
-        onCancel={() => setConfirmOpen(false)}
-      />
-    </section>
+      {reminder.dialog}
+    </div>
   )
 }

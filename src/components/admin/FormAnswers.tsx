@@ -2,7 +2,7 @@ import type { ReactNode } from 'react'
 import { frSessionDisplayFromId } from '@/lib/session-display-fr'
 
 /**
- * FormAnswers — rendu lisible des reponses du formulaire d'inscription sur la
+ * FormAnswers : rendu lisible des reponses du formulaire d'inscription sur la
  * fiche candidat admin.
  *
  * Probleme resolu : le `form_data` (JSON Supabase) stocke des codes bruts
@@ -65,7 +65,7 @@ interface SectionDef {
   muted?: boolean
 }
 
-/* ─────────────── Maps d'options (valeur stockee -> libelle candidat) ─────────────── */
+/* ---------------- Maps d'options (valeur stockee -> libelle candidat) ---------------- */
 
 const ANNEES_PRATIQUE: Record<string, string> = {
   '1-2': '1 à 2 ans',
@@ -168,7 +168,7 @@ const NOMBRE_PARENTS: Record<string, string> = {
 const OUI_NON: Record<string, string> = { non: 'Non, première expérience', oui: 'Oui, déjà pratiquant' }
 const CONTRE_INDIC_ENFANT: Record<string, string> = { non: 'Non, aucune', oui: 'Oui, à préciser' }
 
-/* ─────────────── Sous-catalogues des tableaux d'objets ─────────────── */
+/* ---------------- Sous-catalogues des tableaux d'objets ---------------- */
 
 const CHILD_FIELDS: FieldDef[] = [
   { key: 'prenom', question: 'Prénom de l\'enfant', type: 'text' },
@@ -200,7 +200,7 @@ const PARTICIPANT_FIELDS: FieldDef[] = [
   { key: 'discipline', question: 'Discipline principale', type: 'select', optional: true },
 ]
 
-/* ─────────────── Catalogue par section ─────────────── */
+/* ---------------- Catalogue par section ---------------- */
 
 const CGV_SENTENCE =
   "J'accepte les conditions générales du camp (rythme intensif, règles de vie collective, discipline de groupe) et la politique de confidentialité."
@@ -350,7 +350,7 @@ function buildCatalog(tunnel: string): SectionDef[] {
   ]
 }
 
-/* ─────────────── Helpers de rendu ─────────────── */
+/* ---------------- Helpers de rendu ---------------- */
 
 function isBlank(v: unknown): boolean {
   return v === '' || (Array.isArray(v) && v.length === 0)
@@ -358,7 +358,7 @@ function isBlank(v: unknown): boolean {
 
 // null/undefined = champ non applicable pour ce tunnel -> on masque totalement.
 // ''/[] = champ propose mais laisse vide -> masque si optionnel/conditionnel,
-// sinon affiche "Non renseigné" (drapeau utile pour un champ requis).
+// sinon affiche "Non renseigne" (drapeau utile pour un champ requis).
 function shouldSkip(field: FieldDef, value: unknown): boolean {
   if (value === null || value === undefined) return true
   if (isBlank(value) && (field.optional || field.conditional)) return true
@@ -438,7 +438,7 @@ function GenericAnswer({ value }: { value: unknown }) {
   return <p className="adm-qa-a">{String(value)}</p>
 }
 
-/* ─────────────── Composant ─────────────── */
+/* ---------------- Composant ---------------- */
 
 export default function FormAnswers({
   formData,

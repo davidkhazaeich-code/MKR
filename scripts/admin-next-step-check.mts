@@ -14,6 +14,13 @@ import {
 import {
   STEP_ICON, dossierHref, candidateName, firstNameOf, whatsappHref, campParts, sourceLabel, originOf, mmaLevelToCheck,
 } from '../src/lib/admin/row-helpers.ts'
+import {
+  DOSSIER_TABS, tabFromHash, toNextStepInput, liveFromServer, isCampDeparted, sessionTiming, bookingHref, telHref,
+  TRANSITION_LABEL, TRANSITION_SHORTCUTS, shortcutOf, primaryActionFor, secondaryTransitions, transitionConfirm,
+  transitionSuccess, parseEuros, centsToInput, planPayment, paymentSummary, remindersLine, canMarkSoldee,
+  type DossierLive, type DossierStatic, type PrimaryContext,
+} from '../src/lib/admin/dossier.ts'
+import type { StepKind } from '../src/lib/admin/next-step.ts'
 
 const NOW = new Date('2026-09-23T10:00:00Z')
 
@@ -216,6 +223,143 @@ check('origine : code invalide au ton warn', JSON.stringify(originOf(row({ refer
 check('origine : source, sinon rien', originOf(row({ attribution_source: 'google_ads' }))?.text === 'Google Ads' && originOf(row({})) === null)
 check('niveau MMA a verifier', mmaLevelToCheck(row({ camp_discipline: 'mma' })) && !mmaLevelToCheck(row({ camp_discipline: 'mma', status: 'validee' }))
   && !mmaLevelToCheck(row({ camp_discipline: 'mma', tunnel_type: 'groupe' })) && !mmaLevelToCheck(row({ camp_discipline: 'lutte' })))
+
+// fiche dossier (src/lib/admin/dossier.ts)
+console.log('--- fiche dossier ---')
+function split(r: DossierRow): { s: DossierStatic; l: DossierLive } {
+  return {
+    s: {
+      id: r.id, firstName: r.candidate?.prenom ?? '', fullName: candidateName(r), email: r.candidate?.email ?? null,
+      phoneE164: r.candidate?.telephone ?? null, lang: r.submission_language ?? 'fr', tunnelType: r.tunnel_type,
+      sessionId: r.session_id, createdAt: r.created_at, visioBookedAt: r.visio_booked_at, visioStartsAt: r.visio_starts_at,
+      visioBookingUid: r.visio_booking_uid, contractStartDate: r.contract_start_date, contractEndDate: r.contract_end_date,
+      campDeparted: isCampDeparted(r.session_id, NOW), missedSessionLabel: null,
+    },
+    l: {
+      status: r.status, statusChangedAt: r.status_changed_at, packageCents: r.package_amount_cents,
+      packagePaidAt: r.package_paid_at, paymentMethod: r.payment_method, paymentDate: r.payment_date,
+      visioReminderSentAt: r.visio_reminder_sent_at, visioReminderCount: r.visio_reminder_count ?? 0,
+      rebookingSentAt: r.rebooking_sent_at, rebookingSentCount: r.rebooking_sent_count ?? 0,
+      contractSentAt: r.contract_sent_at, contractPaymentDeadline: r.contract_payment_deadline,
+    },
+  }
+}
+check('onglets : ordre et libelles', DOSSIER_TABS.map((t) => t.label).join() === 'Profil,Suivi,Paiement,Historique')
+check('onglet depuis le hash', tabFromHash('#paiement') === 'paiement' && tabFromHash('historique') === 'historique'
+  && tabFromHash('#contrat') === null && tabFromHash('') === null && tabFromHash(null) === null)
+// Le moteur donne la meme etape depuis la fiche (statique + live) que depuis la ligne.
+const stepRows: DossierRow[] = [
+  row({ status: 'refusee' }), row({ session_id: 'aout-2026' }),
+  row({ session_id: 'aout-2026', status: 'validee', rebooking_sent_at: '2026-09-10T10:00:00Z', rebooking_sent_count: 2 }),
+  row({ visio_booked_at: '2026-09-20T10:00:00Z', visio_starts_at: '2026-10-09T08:00:00Z', visio_booking_uid: 'u1' }),
+  row({ visio_booked_at: '2026-09-20T10:00:00Z', visio_starts_at: '2026-09-23T09:20:00Z' }),
+  row({ visio_booked_at: '2026-09-20T10:00:00Z' }), row({ tunnel_type: 'groupe' }),
+  row({ created_at: '2026-09-21T10:00:00Z' }), row({ created_at: '2026-09-01T10:00:00Z', visio_reminder_count: 2, visio_reminder_sent_at: '2026-09-15T10:00:00Z' }),
+  row({ status: 'validee', package_paid_at: '2026-09-20T10:00:00Z', payment_method: 'cash', payment_date: '2026-09-20' }),
+  row({ status: 'validee', status_changed_at: '2026-09-20T10:00:00Z' }),
+  row({ status: 'validee', contract_sent_at: '2026-09-10T10:00:00Z' }),
+  row({ status: 'validee', contract_sent_at: '2026-09-01T10:00:00Z', contract_payment_deadline: '2026-09-19', package_amount_cents: 139000 }),
+  row({ status: 'validee', contract_sent_at: '2026-09-01T10:00:00Z', contract_payment_deadline: '2026-10-01' }),
+  row({ status: 'soldee', contract_end_date: '2026-09-01' }),
+  row({ status: 'soldee', session_id: 'toussaint-2026', package_paid_at: '2026-09-01T10:00:00Z' }),
+]
+const viaDossier = stepRows.map((r) => { const { s, l } = split(r); return computeNextStep(toNextStepInput(s, l), NOW) })
+check('etape identique depuis la fiche (16 cas, 15 kinds)', stepRows.every((r, i) => JSON.stringify(computeNextStep(r, NOW)) === JSON.stringify(viaDossier[i]))
+  && new Set(viaDossier.map((st) => st.kind)).size === 15, [...new Set(viaDossier.map((st) => st.kind))].join())
+const live0 = split(row({ status: 'validee', package_amount_cents: 139000 })).l
+const synced = liveFromServer(live0, {
+  status: 'soldee', status_changed_at: '2026-09-23T10:00:00Z', package_amount_cents: 150000, package_paid_at: '2026-09-23T10:00:00Z',
+  payment_method: 'cash', payment_date: '2026-09-22', contract_sent_at: '2026-09-02T10:00:00Z', contract_payment_deadline: '2026-10-01',
+  notes_admin: 'x',
+})
+check('live depuis data.candidature', synced.status === 'soldee' && synced.statusChangedAt === '2026-09-23T10:00:00Z'
+  && synced.packageCents === 150000 && synced.packagePaidAt === '2026-09-23T10:00:00Z' && synced.paymentMethod === 'cash'
+  && synced.paymentDate === '2026-09-22' && synced.contractSentAt === '2026-09-02T10:00:00Z' && synced.contractPaymentDeadline === '2026-10-01'
+  && synced.visioReminderCount === live0.visioReminderCount)
+check('live : colonnes absentes ou invalides ignorees', JSON.stringify(liveFromServer(live0, { status: 'inconnu', payment_method: 'cb' })) === JSON.stringify(live0)
+  && liveFromServer(live0, undefined) === live0 && liveFromServer(live0, { package_paid_at: null }).packagePaidAt === null
+  && liveFromServer(live0, { contract_payment_deadline: null }).contractPaymentDeadline === null)
+check('camp parti : jour de Zurich', isCampDeparted('aout-2026', NOW) && !isCampDeparted('toussaint-2026', NOW) && !isCampDeparted(null, NOW)
+  && isCampDeparted('toussaint-2026', new Date('2026-10-16T22:30:00Z')) && !isCampDeparted('toussaint-2026', new Date('2026-10-16T21:30:00Z')))
+check('situation de session', JSON.stringify(sessionTiming('toussaint-2026', NOW)) === JSON.stringify({ state: 'a_venir', days: 24 })
+  && sessionTiming('aout-2026', NOW)?.state === 'terminee' && sessionTiming(null, NOW) === null
+  && sessionTiming('toussaint-2026', new Date('2026-10-20T10:00:00Z'))?.state === 'en_cours')
+check('liens Cal et tel', bookingHref('abc/1') === 'https://cal.com/booking/abc%2F1' && telHref('+33 6 00-00') === 'tel:+3360000')
+// action primaire par etape
+const pc = (over: Partial<PrimaryContext> = {}): PrimaryContext => ({ status: 'recue', hasBooking: true, hasPhone: true, hasEmail: true, ...over })
+const prim = (kind: StepKind, over: Partial<PrimaryContext> = {}) => primaryActionFor(kind, pc(over))
+const primJson = (kind: StepKind, over: Partial<PrimaryContext> = {}) => JSON.stringify(prim(kind, over))
+check('visio a venir : reservation Cal', primJson('visio_a_venir') === JSON.stringify({ type: 'booking', label: 'Ouvrir la réservation', icon: 'external-link' }))
+check('visio a venir sans uid : rappel', prim('visio_a_venir', { hasBooking: false })?.type === 'reminder' && prim('visio_a_venir', { hasBooking: false })?.label === 'Envoyer un rappel'
+  && prim('visio_a_venir', { hasBooking: false, hasEmail: false }) === null)
+check('visio passee ou reservee : valider (check-circle)', primJson('visio_passee') === JSON.stringify({ type: 'transition', to: 'validee', label: 'Valider le dossier', icon: 'check-circle' })
+  && prim('visio_reservee')?.type === 'transition')
+check('a relancer et nouvelle : rappel visio (send)', primJson('a_relancer') === JSON.stringify({ type: 'reminder', label: 'Envoyer un rappel visio', icon: 'send' })
+  && prim('nouvelle')?.type === 'reminder' && prim('a_relancer', { hasEmail: false }) === null)
+check('devis : WhatsApp, sinon email', prim('devis_a_envoyer')?.type === 'whatsapp' && prim('devis_a_envoyer', { hasPhone: false })?.type === 'email'
+  && prim('devis_a_envoyer', { hasPhone: false, hasEmail: false }) === null)
+check('contrat : preparer le contrat (file-text) vers Paiement', primJson('contrat_a_envoyer', { status: 'validee' }) === JSON.stringify({ type: 'goto', tab: 'paiement', anchor: 'contrat', label: 'Préparer le contrat', icon: 'file-text' })
+  && prim('contrat_sans_echeance', { status: 'validee' })?.label === 'Ajouter l’échéance')
+check('paiement : enregistrer (receipt)', primJson('paiement_attendu', { status: 'validee' }) === JSON.stringify({ type: 'payment', label: 'Enregistrer le paiement', icon: 'receipt' })
+  && prim('paiement_en_retard', { status: 'validee' })?.type === 'payment')
+check('a solder : passer en Soldee (check)', primJson('a_solder', { status: 'validee' }) === JSON.stringify({ type: 'transition', to: 'soldee', label: 'Passer en Soldée', icon: 'check' }))
+check('camp a cloturer : camp fait (flag)', primJson('camp_a_cloturer', { status: 'soldee' }) === JSON.stringify({ type: 'transition', to: 'camp_fait', label: 'Marquer « Camp fait »', icon: 'flag' }))
+check('camp parti : proposer une autre session (send) vers Suivi', primJson('camp_parti') === JSON.stringify({ type: 'goto', tab: 'suivi', anchor: 'report', label: 'Proposer une autre session', icon: 'send' }))
+check('depart a venir et clos : pas de primaire', prim('depart_a_venir', { status: 'soldee' }) === null && prim('clos', { status: 'refusee' }) === null)
+check('primaire de transition seulement si permise', prim('a_solder', { status: 'recue' }) === null)
+check('secondaires sans doublon', secondaryTransitions('recue', prim('visio_passee')).join() === 'refusee,annulee,reportee'
+  && secondaryTransitions('recue', prim('a_relancer')).join() === 'validee,refusee,annulee,reportee'
+  && secondaryTransitions('validee', prim('contrat_a_envoyer', { status: 'validee' })).join() === 'soldee,annulee,reportee,recue'
+  && secondaryTransitions('soldee', prim('camp_a_cloturer', { status: 'soldee' })).join() === 'annulee'
+  && secondaryTransitions('refusee', null).length === 0)
+check('libelles des secondaires', ['refusee', 'annulee', 'reportee', 'recue', 'soldee', 'camp_fait'].map((s) => TRANSITION_LABEL[s as keyof typeof TRANSITION_LABEL]).join(' | ')
+  === 'Refuser | Annuler le dossier | Reporter | Retirer la validation | Passer en Soldée | Marquer camp fait')
+check('raccourcis V R A Z S T', Object.entries(TRANSITION_SHORTCUTS).map(([k, v]) => `${k}${v}`).join() === 'vvalidee,rrefusee,aannulee,zreportee,ssoldee,tcamp_fait'
+  && shortcutOf('validee') === 'V' && shortcutOf('camp_fait') === 'T' && shortcutOf('recue') === null)
+// confirmations
+const cv = transitionConfirm('validee', 'lucas@example.com')
+check('valider : confirmation, email souvenir, rappel', !!cv && cv.variant === 'primary' && cv.icon === 'check-circle' && cv.confirmIcon === 'check-circle'
+  && cv.message.includes('« dossier validé »') && cv.message.includes('lucas@example.com') && cv.message.includes('Rappel post-action') && cv.confirmLabel === 'Valider le dossier')
+check('soldee et camp fait : sans confirmation', transitionConfirm('soldee', null) === null && transitionConfirm('camp_fait', null) === null)
+const ca = transitionConfirm('annulee', null)
+check('annuler : danger, texte repris, bouton de retour distinct', !!ca && ca.variant === 'danger' && ca.cancelLabel === 'Garder le dossier'
+  && ca.message.startsWith('Si un paiement a déjà été reçu') && ca.confirmIcon === 'x')
+check('refuser danger, reporter et retirer en avertissement', transitionConfirm('refusee', null)?.variant === 'danger'
+  && transitionConfirm('reportee', null)?.variant === 'warning' && transitionConfirm('recue', null)?.confirmLabel === 'Retirer la validation'
+  && transitionConfirm('recue', null)?.message.includes('Validation retirée'))
+const allConfirms = (['validee', 'refusee', 'annulee', 'reportee', 'recue'] as const).map((s) => transitionConfirm(s, 'x@example.com'))
+check('confirmations : ni em dash ni esperluette, espace insecable avant ?', !/[\u2013\u2014&]/.test(JSON.stringify(allConfirms))
+  && allConfirms.every((c) => !!c && c.title.endsWith('\u00a0?')))
+check('notification de transition', transitionSuccess('validee') === 'Statut passé à « Validée »')
+// paiement
+check('saisie en euros', JSON.stringify(parseEuros('')) === JSON.stringify({ ok: true, cents: null }) && JSON.stringify(parseEuros('2900')) === JSON.stringify({ ok: true, cents: 290000 })
+  && JSON.stringify(parseEuros('2 900,50')) === JSON.stringify({ ok: true, cents: 290050 }) && JSON.stringify(parseEuros('2900.5 €')) === JSON.stringify({ ok: true, cents: 290050 })
+  && !parseEuros('abc').ok && !parseEuros('-5').ok && !parseEuros('2.900').ok && !parseEuros('1,2,3').ok)
+check('centimes vers champ', centsToInput(290000) === '2900' && centsToInput(290050) === '2900,50' && centsToInput(null) === '')
+const payLive = split(row({ status: 'validee', package_amount_cents: 290000, payment_method: null })).l
+const plan1 = planPayment({ amount: '2900', method: 'virement', date: '2026-09-23', toSoldee: true }, payLive, '2026-09-23T10:00:00Z')
+check('fenetre de paiement : un PATCH, Soldee si permis', plan1.ok && JSON.stringify(plan1.body) === JSON.stringify({ payment_method: 'virement', payment_date: '2026-09-23', package_paid: true, status: 'soldee' })
+  && plan1.optimistic.status === 'soldee' && plan1.optimistic.packagePaidAt === '2026-09-23T10:00:00Z' && plan1.rollback.status === 'validee'
+  && plan1.rollback.packagePaidAt === null && plan1.success === 'Paiement enregistré, dossier passé en Soldée')
+const plan2 = planPayment({ amount: '3 100,50', method: 'cash', date: '2026-09-20', toSoldee: false }, payLive, '2026-09-23T10:00:00Z')
+check('fenetre de paiement : montant change, sans Soldee', plan2.ok && plan2.body.package_amount_cents === 310050 && !('status' in plan2.body)
+  && plan2.rollback.packageCents === 290000 && plan2.success === 'Paiement enregistré')
+const soldLive = split(row({ status: 'soldee', package_amount_cents: 290000, package_paid_at: '2026-09-01T10:00:00Z' })).l
+const plan3 = planPayment({ amount: '', method: 'autre', date: '2026-09-20', toSoldee: true }, soldLive, '2026-09-23T10:00:00Z')
+check('fenetre de paiement : pas de statut si Soldee impossible, date de paiement conservee', plan3.ok && !('status' in plan3.body)
+  && !('package_amount_cents' in plan3.body) && plan3.optimistic.packagePaidAt === '2026-09-01T10:00:00Z' && !canMarkSoldee('soldee') && canMarkSoldee('validee'))
+const bad1 = planPayment({ amount: 'deux mille', method: 'virement', date: '2026-09-23', toSoldee: false }, payLive, '2026-09-23T10:00:00Z')
+const bad2 = planPayment({ amount: '2900', method: 'virement', date: '', toSoldee: false }, payLive, '2026-09-23T10:00:00Z')
+check('fenetre de paiement : erreurs par champ', !bad1.ok && bad1.field === 'amount' && !bad2.ok && bad2.field === 'date')
+const sumPaid = paymentSummary(soldLive, NOW)
+const sumLate = paymentSummary({ ...payLive, contractPaymentDeadline: '2026-09-19' }, NOW)
+const sumNone = paymentSummary({ ...payLive, packageCents: null }, NOW)
+check('reste a payer', sumPaid.headline === 'Soldé' && sumPaid.progress === 100 && sumPaid.tone === 'ok'
+  && sumLate.headline.replace(/\s/g, ' ') === '2 900 €' && sumLate.deadline?.tone === 'danger' && sumLate.deadline.text === 'Échéance dépassée depuis le samedi 19 septembre'
+  && sumNone.headline === 'Montant à définir' && sumNone.state === 'unknown'
+  && paymentSummary({ ...payLive, contractPaymentDeadline: '2026-09-25' }, NOW).deadline?.tone === 'warn')
+check('rappels envoyes', remindersLine(0, null) === 'Aucun' && remindersLine(1, '2026-09-19T10:00:00Z') === '1 envoyé le 19/09/2026'
+  && remindersLine(3, '2026-09-19T10:00:00Z') === '3 envoyés, le dernier le 19/09/2026')
 
 console.log(ko === 0 ? '\nTOUT VERT' : '\n' + ko + ' ECHEC(S)')
 process.exit(ko === 0 ? 0 : 1)
