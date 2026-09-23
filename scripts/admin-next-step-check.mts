@@ -290,8 +290,8 @@ const pc = (over: Partial<PrimaryContext> = {}): PrimaryContext => ({ status: 'r
 const prim = (kind: StepKind, over: Partial<PrimaryContext> = {}) => primaryActionFor(kind, pc(over))
 const primJson = (kind: StepKind, over: Partial<PrimaryContext> = {}) => JSON.stringify(prim(kind, over))
 check('visio a venir : reservation Cal', primJson('visio_a_venir') === JSON.stringify({ type: 'booking', label: 'Ouvrir la réservation', icon: 'external-link' }))
-check('visio a venir sans uid : rappel', prim('visio_a_venir', { hasBooking: false })?.type === 'reminder' && prim('visio_a_venir', { hasBooking: false })?.label === 'Envoyer un rappel'
-  && prim('visio_a_venir', { hasBooking: false, hasEmail: false }) === null)
+check('visio a venir sans uid : WhatsApp, sinon rien (jamais de relance "reserve ta visio")', prim('visio_a_venir', { hasBooking: false })?.type === 'whatsapp'
+  && prim('visio_a_venir', { hasBooking: false, hasPhone: false }) === null)
 check('visio passee ou reservee : valider (check-circle)', primJson('visio_passee') === JSON.stringify({ type: 'transition', to: 'validee', label: 'Valider le dossier', icon: 'check-circle' })
   && prim('visio_reservee')?.type === 'transition')
 check('a relancer et nouvelle : rappel visio (send)', primJson('a_relancer') === JSON.stringify({ type: 'reminder', label: 'Envoyer un rappel visio', icon: 'send' })
@@ -321,6 +321,7 @@ const cv = transitionConfirm('validee', 'lucas@example.com')
 check('valider : confirmation, email souvenir, rappel', !!cv && cv.variant === 'primary' && cv.icon === 'check-circle' && cv.confirmIcon === 'check-circle'
   && cv.message.includes('« dossier validé »') && cv.message.includes('lucas@example.com') && cv.message.includes('Rappel post-action') && cv.confirmLabel === 'Valider le dossier')
 check('soldee et camp fait : sans confirmation', transitionConfirm('soldee', null) === null && transitionConfirm('camp_fait', null) === null)
+check('valider sans email : pas de promesse d email', transitionConfirm('validee', null)?.message.startsWith('Aucun email enregistré : le candidat ne recevra pas l’email « dossier validé ».') === true)
 const ca = transitionConfirm('annulee', null)
 check('annuler : danger, texte repris, bouton de retour distinct', !!ca && ca.variant === 'danger' && ca.cancelLabel === 'Garder le dossier'
   && ca.message.startsWith('Si un paiement a déjà été reçu') && ca.confirmIcon === 'x')
@@ -346,8 +347,9 @@ check('fenetre de paiement : montant change, sans Soldee', plan2.ok && plan2.bod
   && plan2.rollback.packageCents === 290000 && plan2.success === 'Paiement enregistré')
 const soldLive = split(row({ status: 'soldee', package_amount_cents: 290000, package_paid_at: '2026-09-01T10:00:00Z' })).l
 const plan3 = planPayment({ amount: '', method: 'autre', date: '2026-09-20', toSoldee: true }, soldLive, '2026-09-23T10:00:00Z')
-check('fenetre de paiement : pas de statut si Soldee impossible, date de paiement conservee', plan3.ok && !('status' in plan3.body)
-  && !('package_amount_cents' in plan3.body) && plan3.optimistic.packagePaidAt === '2026-09-01T10:00:00Z' && !canMarkSoldee('soldee') && canMarkSoldee('validee'))
+check('fenetre de paiement : deja paye, ni statut ni nouvel horodatage', plan3.ok && !('status' in plan3.body)
+  && !('package_amount_cents' in plan3.body) && !('package_paid' in plan3.body) && !('packagePaidAt' in plan3.optimistic)
+  && !canMarkSoldee('soldee') && canMarkSoldee('validee'))
 const bad1 = planPayment({ amount: 'deux mille', method: 'virement', date: '2026-09-23', toSoldee: false }, payLive, '2026-09-23T10:00:00Z')
 const bad2 = planPayment({ amount: '2900', method: 'virement', date: '', toSoldee: false }, payLive, '2026-09-23T10:00:00Z')
 check('fenetre de paiement : erreurs par champ', !bad1.ok && bad1.field === 'amount' && !bad2.ok && bad2.field === 'date')

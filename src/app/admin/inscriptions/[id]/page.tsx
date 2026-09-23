@@ -22,7 +22,7 @@ import SiblingsCard from '@/components/admin/dossier/SiblingsCard'
 import Timeline from '@/components/admin/dossier/Timeline'
 import VisioCard from '@/components/admin/dossier/VisioCard'
 import { sessionFromId } from '@/data/sessions'
-import { loadDossierDetail } from '@/lib/admin/data'
+import { DossierReadError, loadDossierDetail } from '@/lib/admin/data'
 import { isCampDeparted, type DossierLive, type DossierStatic } from '@/lib/admin/dossier'
 import { campParts, candidateName } from '@/lib/admin/row-helpers'
 import { frSessionDisplay } from '@/lib/session-display-fr'
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
   title: 'Dossier · MKR Admin',
 }
 
-function LoadError({ message }: { message: string }) {
+function LoadError({ title, message, retryHref }: { title: string; message: string; retryHref: string | null }) {
   return (
     <AdminShell active="candidatures" title="Dossier">
       <div className="adm-container">
@@ -50,10 +50,15 @@ function LoadError({ message }: { message: string }) {
             <Icon name="alert-triangle" size={28} />
           </span>
           <h1 id="adm-dossier-error-title" className="adm-empty-title">
-            Configuration manquante
+            {title}
           </h1>
           <p className="adm-empty-text">{message}</p>
           <div className="adm-empty-actions">
+            {retryHref && (
+              <ButtonLink href={retryHref} variant="primary" icon="refresh">
+                Réessayer
+              </ButtonLink>
+            )}
             <ButtonLink href="/admin/inscriptions" variant="secondary">
               Retour aux candidatures
             </ButtonLink>
@@ -71,13 +76,17 @@ export default async function DossierPage({ params }: { params: Promise<{ id: st
   // ci-dessous, sinon le catch l'avale et affiche "Configuration manquante :
   // NEXT_HTTP_ERROR_FALLBACK;404" au lieu de la 404 (bug du 2026-07-13).
   let detail: Awaited<ReturnType<typeof loadDossierDetail>> | null = null
-  let configError: string | null = null
+  let loadError: { title: string; message: string; retryHref: string | null } | null = null
   try {
     detail = await loadDossierDetail(id)
   } catch (err) {
-    configError = err instanceof Error ? err.message : String(err)
+    const message = err instanceof Error ? err.message : String(err)
+    // Lecture refusee par Supabase : on peut reessayer ; sinon variables absentes.
+    loadError = err instanceof DossierReadError
+      ? { title: 'Erreur Supabase', message: `Le dossier n'a pas pu être lu (${message}).`, retryHref: `/admin/inscriptions/${encodeURIComponent(id)}` }
+      : { title: 'Configuration manquante', message, retryHref: null }
   }
-  if (configError) return <LoadError message={configError} />
+  if (loadError) return <LoadError {...loadError} />
   const dossier = detail?.dossier
   // Id inconnu ou non-uuid : vraie 404 admin (src/app/admin/not-found.tsx).
   if (!detail || !dossier) notFound()

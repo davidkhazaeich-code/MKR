@@ -2,7 +2,8 @@
 
 // Fenetre de confirmation. Props inchangees pour les appelants existants ;
 // confirmIcon ajoute l'icone de l'action au bouton de confirmation, icon
-// remplace l'icone d'en-tete de la variante.
+// remplace l'icone d'en-tete de la variante, busy garde la fenetre ouverte
+// pendant l'envoi (confirmation en chargement, annulation impossible).
 // Accessibilite : role dialog + aria-modal, titre et message relies
 // (aria-labelledby, aria-describedby), piege de focus (Tab et Maj+Tab
 // bouclent), Echap et clic sur le fond annulent, retour du focus a
@@ -25,6 +26,8 @@ interface Props {
   confirmIcon?: IconName
   /** Icone d'en-tete, a la place de celle de la variante (le ton reste celui de la variante). */
   icon?: IconName
+  /** Envoi en cours : bouton de confirmation en chargement, pas d'annulation (Echap, fond, bouton). */
+  busy?: boolean
   onConfirm: () => void
   onCancel: () => void
 }
@@ -47,6 +50,7 @@ export default function ConfirmModal({
   variant = 'warning',
   confirmIcon,
   icon,
+  busy = false,
   onConfirm,
   onCancel,
 }: Props) {
@@ -57,10 +61,13 @@ export default function ConfirmModal({
   const titleId = useId()
   const messageId = useId()
   const visible = open && isClient
+  const cancel = () => {
+    if (!busy) onCancel()
+  }
 
   // Focus initial : Annuler pour une suppression (Entree ne detruit rien),
   // Confirmer sinon.
-  useDialogFocus(visible, dialogRef, onCancel, () =>
+  useDialogFocus(visible, dialogRef, cancel, () =>
     variant === 'danger' ? cancelRef.current : confirmRef.current,
   )
 
@@ -72,7 +79,7 @@ export default function ConfirmModal({
     <div
       className="adm-modal-backdrop"
       onClick={(e) => {
-        if (e.target === e.currentTarget) onCancel()
+        if (e.target === e.currentTarget) cancel()
       }}
     >
       <div
@@ -94,13 +101,14 @@ export default function ConfirmModal({
           {message}
         </p>
         <div className="adm-modal-actions">
-          <Button ref={cancelRef} variant="secondary" onClick={onCancel}>
+          <Button ref={cancelRef} variant="secondary" onClick={cancel} disabled={busy}>
             {cancelLabel}
           </Button>
           <Button
             ref={confirmRef}
             variant={cfg.button}
             icon={confirmIcon}
+            loading={busy}
             onClick={onConfirm}
           >
             {confirmLabel}

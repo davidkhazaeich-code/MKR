@@ -201,7 +201,9 @@ export function primaryActionFor(kind: StepKind, ctx: PrimaryContext): PrimaryAc
   switch (kind) {
     case 'visio_a_venir':
       if (ctx.hasBooking) return { type: 'booking', label: 'Ouvrir la réservation', icon: 'external-link' }
-      return ctx.hasEmail ? { type: 'reminder', label: 'Envoyer un rappel', icon: 'send' } : null
+      // Sans lien Cal : la visio est deja reservee, pas de relance "reserve ta
+      // visio" ; WhatsApp si on a le telephone, sinon rien.
+      return ctx.hasPhone ? { type: 'whatsapp', label: 'Écrire sur WhatsApp' } : null
     case 'visio_passee':
     case 'visio_reservee':
       return transitionAction('validee', 'Valider le dossier', ctx)
@@ -286,7 +288,9 @@ export function transitionConfirm(next: Status, email: string | null): ConfirmSp
     return {
       title: `Valider le dossier${NBSP}?`,
       message: withReminder(
-        `L’email « dossier validé » part au candidat${email ? ` (${email})` : ''}, avec son image souvenir.`,
+        email
+          ? `L’email « dossier validé » part au candidat (${email}), avec son image souvenir.`
+          : 'Aucun email enregistré : le candidat ne recevra pas l’email « dossier validé ».',
         next,
       ),
       confirmLabel: 'Valider le dossier',
@@ -357,9 +361,10 @@ export type PaymentPlan =
   | { ok: false; field: 'amount' | 'date'; error: string }
 
 /**
- * Fenetre "Enregistrer un paiement" : un seul PATCH existant (montant s'il a
- * change, methode, date, paiement recu, et le statut Soldee si demande et
- * permis), avec l'etat optimiste et son retour arriere.
+ * Fenetre "Enregistrer un paiement" : un seul PATCH existant (montant du
+ * sejour s'il a change, methode, date, paiement recu s'il ne l'etait pas, et
+ * le statut Soldee si demande et permis), avec l'etat optimiste et son retour
+ * arriere. Pas de paiement partiel : le paiement est enregistre comme complet.
  */
 export function planPayment(draft: PaymentDraft, live: DossierLive, nowIso: string): PaymentPlan {
   const amount = parseEuros(draft.amount)
@@ -376,13 +381,16 @@ export function planPayment(draft: PaymentDraft, live: DossierLive, nowIso: stri
   }
   body.payment_method = draft.method
   body.payment_date = draft.date
-  body.package_paid = true
   optimistic.paymentMethod = draft.method
   optimistic.paymentDate = draft.date
-  optimistic.packagePaidAt = live.packagePaidAt ?? nowIso
   rollback.paymentMethod = live.paymentMethod
   rollback.paymentDate = live.paymentDate
-  rollback.packagePaidAt = live.packagePaidAt
+  // Deja marque recu : on garde sa date (package_paid rejoue la re-horodaterait).
+  if (!live.packagePaidAt) {
+    body.package_paid = true
+    optimistic.packagePaidAt = nowIso
+    rollback.packagePaidAt = null
+  }
   const toSoldee = draft.toSoldee && canMarkSoldee(live.status)
   if (toSoldee) {
     body.status = 'soldee'
