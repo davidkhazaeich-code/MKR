@@ -16,6 +16,7 @@ import SiteLoader from '@/components/SiteLoader'
 import CookieConsent from '@/components/CookieConsent'
 import AttributionCapture from '@/components/AttributionCapture'
 import { routing, type Locale } from '@/i18n/routing'
+import { pickClientMessages } from '@/i18n/client-messages'
 import { GADS_ID } from '@/lib/gtag'
 import '../globals.css'
 
@@ -289,7 +290,8 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
 
   const locale = requestedLocale as 'fr' | 'en'
   setRequestLocale(locale)
-  const messages = await getMessages()
+  // Seulement les namespaces des composants 'use client' (cf. i18n/client-messages.ts).
+  const messages = pickClientMessages(await getMessages())
 
   const { jsonLdWebSite, jsonLdMain } = await buildJsonLd(locale)
 

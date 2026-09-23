@@ -1,8 +1,7 @@
 'use client'
 
-import { useRef, useState, useMemo } from 'react'
+import { useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import DottedMap from 'dotted-map'
 import Image from 'next/image'
 
 interface MapDot {
@@ -15,7 +14,6 @@ interface MapDot {
 interface WorldMapProps {
   dots?: MapDot[]
   lineColor?: string
-  mapBg?: string
   animationDuration?: number
   loop?: boolean
 }
@@ -23,25 +21,11 @@ interface WorldMapProps {
 export function WorldMap({
   dots = [],
   lineColor = '#C84B31',
-  mapBg = '#0E0E0E',
   animationDuration = 2.2,
   loop = true,
 }: WorldMapProps) {
   const svgRef = useRef<SVGSVGElement>(null)
   const [hoveredLocation, setHoveredLocation] = useState<string | null>(null)
-
-  const map = useMemo(() => new DottedMap({ height: 100, grid: 'diagonal' }), [])
-
-  const svgMap = useMemo(
-    () =>
-      map.getSVG({
-        radius: 0.22,
-        color: 'rgba(200,75,49,0.28)',
-        shape: 'circle',
-        backgroundColor: mapBg,
-      }),
-    [map, mapBg]
-  )
 
   const projectPoint = (lat: number, lng: number) => ({
     x: (lng + 180) * (800 / 360),
@@ -64,14 +48,17 @@ export function WorldMap({
 
   return (
     <div className="world-map-wrap">
+      {/* Fond pointille statique, genere par scripts/generate-world-map.mjs.
+          Ne pas revenir a dotted-map au rendu : la carte finissait inlinee
+          deux fois dans le HTML de l'accueil (2,2 Mo par page). */}
       <Image
-        src={`data:image/svg+xml;utf8,${encodeURIComponent(svgMap)}`}
+        src="/images/world-map-dots.svg"
         className="world-map-img"
         alt="Carte du monde, routes vers le Daghestan"
         height={495}
         width={1056}
         draggable={false}
-        priority
+        unoptimized
       />
 
       <svg
