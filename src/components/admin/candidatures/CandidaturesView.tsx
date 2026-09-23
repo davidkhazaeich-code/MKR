@@ -43,7 +43,10 @@ const LIST_PATH = '/admin/inscriptions'
 const RESULTS_ID = 'adm-cand-results'
 const DOSSIER_LINK = 'a[data-dossier-id]'
 
+// "Toutes" d'abord : la liste s'ouvre sur tous les dossiers, refuses compris
+// (comme l'ancienne admin) ; "Actifs" reste a un geste.
 const TABS: { value: StatutFilter; label: string }[] = [
+  { value: 'tous', label: 'Toutes' },
   { value: 'actifs', label: 'Actifs' },
   { value: 'recue', label: 'Reçues' },
   { value: 'validee', label: 'Validées' },
@@ -52,7 +55,6 @@ const TABS: { value: StatutFilter; label: string }[] = [
   { value: 'refusee', label: 'Refusées' },
   { value: 'annulee', label: 'Annulées' },
   { value: 'reportee', label: 'Reportées' },
-  { value: 'tous', label: 'Toutes' },
 ]
 
 const FILTER_KEYS = Object.keys(DEFAULT_FILTERS) as (keyof ListFilters)[]

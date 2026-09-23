@@ -17,7 +17,7 @@ export interface ListFilters {
 export interface ListItem { row: DossierRow; step: NextStep }
 
 export const DEFAULT_FILTERS: ListFilters = {
-  q: '', statut: 'actifs', session: '', tunnel: '', discipline: '', source: '', partenaire: '', langue: '', etape: '', tri: 'recentes',
+  q: '', statut: 'tous', session: '', tunnel: '', discipline: '', source: '', partenaire: '', langue: '', etape: '', tri: 'recentes',
 }
 export const ETAPE_OPTIONS: { value: string; label: string; kinds: StepKind[] }[] = [
   { value: 'visio', label: 'Visio à venir', kinds: ['visio_a_venir', 'visio_reservee'] },
