@@ -86,6 +86,7 @@ export default function QuickReminderButton({ id, name, email, lang, count }: Qu
         ].join('\n')}
         confirmLabel="Envoyer la relance"
         confirmIcon="send"
+        icon="send"
         cancelLabel="Annuler"
         onConfirm={() => void send()}
         onCancel={() => setOpen(false)}

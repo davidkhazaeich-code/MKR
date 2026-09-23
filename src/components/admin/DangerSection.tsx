@@ -1,9 +1,19 @@
 'use client'
 
+// Zone dangereuse de la fiche (onglet Historique) : suppression definitive du
+// dossier, confirmee par la saisie de SUPPRIMER dans une fenetre dediee
+// (piege de focus, Echap, retour du focus). Apres succes : retour a la liste
+// d'origine (contexte precedent/suivant, sans le dossier supprime), sinon aux
+// candidatures.
+
+import { useId, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { useRouter } from 'next/navigation'
-import { useEffect, useRef, useState } from 'react'
+import Button from './ui/Button'
 import Icon from './ui/Icon'
 import { useToast } from './ui/Toast'
+import { useDialogFocus, useIsClient } from './ui/useDialogFocus'
+import { readNavContext, saveNavContext } from '@/lib/admin/nav-context'
 
 interface Props {
   candidatureId: string
@@ -11,33 +21,19 @@ interface Props {
 }
 
 const REQUIRED_TEXT = 'SUPPRIMER'
+const FALLBACK_BACK = '/admin/inscriptions'
 
 export default function DangerSection({ candidatureId, candidateName }: Props) {
   const router = useRouter()
   const toast = useToast()
+  const isClient = useIsClient()
+  const uid = useId()
   const [open, setOpen] = useState(false)
   const [confirmText, setConfirmText] = useState('')
   const [busy, setBusy] = useState(false)
+  const dialogRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
-
-  // Esc pour fermer + autofocus input
-  useEffect(() => {
-    if (!open) return
-    inputRef.current?.focus()
-    const handler = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        e.preventDefault()
-        cancel()
-      }
-    }
-    document.addEventListener('keydown', handler)
-    document.body.style.overflow = 'hidden'
-    return () => {
-      document.removeEventListener('keydown', handler)
-      document.body.style.overflow = ''
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [open])
+  const visible = open && isClient
 
   const cancel = () => {
     if (busy) return
@@ -45,15 +41,18 @@ export default function DangerSection({ candidatureId, candidateName }: Props) {
     setConfirmText('')
   }
 
+  useDialogFocus(visible, dialogRef, cancel, () => inputRef.current)
+
+  const canConfirm = confirmText.trim().toUpperCase() === REQUIRED_TEXT
+
   const confirm = async () => {
-    if (busy) return
-    if (confirmText.trim().toUpperCase() !== REQUIRED_TEXT) return
+    if (busy || !canConfirm) return
     setBusy(true)
     try {
       const res = await fetch(`/api/admin/candidature/${candidatureId}`, { method: 'DELETE' })
       const data = await res.json().catch(() => ({}))
       if (!res.ok || !data.ok) {
-        toast.show(data.error || 'Suppression échouée', 'error')
+        toast.show(data.error || 'Suppression échouée', 'error', 5000)
         setBusy(false)
         return
       }
@@ -61,114 +60,96 @@ export default function DangerSection({ candidatureId, candidateName }: Props) {
         ? `Dossier et candidat « ${candidateName} » supprimés`
         : `Dossier « ${candidateName} » supprimé (candidat conservé)`
       toast.show(msg, 'success', 4000)
-      router.push('/admin/inscriptions')
+      // Retour a la liste d'origine, dont on retire le dossier supprime.
+      const ctx = readNavContext()
+      if (ctx) saveNavContext({ ...ctx, ids: ctx.ids.filter((x) => x !== candidatureId) })
+      router.push(ctx?.backHref ?? FALLBACK_BACK)
       router.refresh()
     } catch {
-      toast.show('Connexion impossible. Réessaye.', 'error')
+      toast.show('Connexion impossible. Réessaye.', 'error', 5000)
       setBusy(false)
     }
   }
 
-  const canConfirm = confirmText.trim().toUpperCase() === REQUIRED_TEXT
-
   return (
     <>
-      <section
-        className="adm-card"
-        style={{
-          marginTop: '1rem',
-          borderColor: 'rgba(239, 68, 68, 0.2)',
-          background: 'rgba(239, 68, 68, 0.03)',
-        }}
-      >
-        <h2 className="adm-card-title" style={{ color: 'var(--adm-status-refusee)' }}>
+      <section className="adm-card adm-dossier-danger" aria-labelledby={`${uid}-title`}>
+        <h2 id={`${uid}-title`} className="adm-card-title adm-tone--danger">
           <Icon name="alert-triangle" size={14} />
           Zone dangereuse
         </h2>
-        <p style={{ fontSize: '0.85rem', color: 'var(--adm-text-secondary)', margin: '0 0 1rem', lineHeight: 1.5 }}>
-          Supprimer ce dossier le retire <strong>définitivement</strong> de la base
-          (candidature, formulaire, historique). Si le candidat n&apos;a aucun autre dossier,
-          il sera également supprimé. Cette action est <strong>irréversible</strong>.
+        <p className="adm-dossier-text">
+          Supprimer ce dossier le retire <strong>définitivement</strong>{' '}
+          de la base (candidature, formulaire, historique). Si le candidat n&apos;a aucun autre
+          dossier, il sera également supprimé. Cette action est <strong>irréversible</strong>.
         </p>
-        <button
-          type="button"
-          onClick={() => setOpen(true)}
-          className="adm-btn adm-btn--danger"
-          style={{ display: 'inline-flex', alignItems: 'center', gap: '0.45rem' }}
-        >
-          <Icon name="x" size={14} strokeWidth={2.5} />
-          Supprimer définitivement
-        </button>
+        <div className="adm-btn-row adm-dossier-card-actions">
+          <Button onClick={() => setOpen(true)}>Supprimer ce dossier</Button>
+        </div>
       </section>
 
-      {open && (
-        <div className="adm-modal-backdrop" role="dialog" aria-modal="true" onClick={cancel}>
-          <div className="adm-modal" onClick={(e) => e.stopPropagation()}>
+      {visible &&
+        createPortal(
+          <div
+            className="adm-modal-backdrop"
+            onClick={(e) => {
+              if (e.target === e.currentTarget) cancel()
+            }}
+          >
             <div
-              className="adm-modal-icon"
-              style={{
-                ['--adm-modal-icon-bg' as string]: 'rgba(239, 68, 68, 0.14)',
-                ['--adm-modal-icon-color' as string]: 'var(--adm-status-refusee)',
-              }}
-              aria-hidden="true"
+              ref={dialogRef}
+              className="adm-modal"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby={`${uid}-dialog-title`}
+              aria-describedby={`${uid}-dialog-text`}
+              tabIndex={-1}
             >
-              <Icon name="alert-triangle" size={22} strokeWidth={2.4} />
+              <div className="adm-modal-icon adm-tone--danger" aria-hidden="true">
+                <Icon name="alert-triangle" size={20} />
+              </div>
+              <h2 id={`${uid}-dialog-title`} className="adm-modal-title">
+                Supprimer ce dossier{'\u00a0'}?
+              </h2>
+              <p id={`${uid}-dialog-text`} className="adm-modal-message">
+                Tu vas supprimer <strong>définitivement</strong> le dossier de <strong>{candidateName}</strong>{' '}
+                ainsi que son historique complet. Cette action ne peut <strong>pas être annulée</strong>.
+              </p>
+              <div className="adm-field adm-dossier-delete-field">
+                <label htmlFor={`${uid}-input`} className="adm-field-label">
+                  Pour confirmer, tape {REQUIRED_TEXT}
+                </label>
+                <input
+                  ref={inputRef}
+                  id={`${uid}-input`}
+                  type="text"
+                  className="adm-input adm-mono adm-dossier-delete-input"
+                  value={confirmText}
+                  onChange={(e) => setConfirmText(e.target.value)}
+                  placeholder={REQUIRED_TEXT}
+                  autoComplete="off"
+                  autoCapitalize="characters"
+                  spellCheck={false}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' && canConfirm && !busy) {
+                      e.preventDefault()
+                      void confirm()
+                    }
+                  }}
+                />
+              </div>
+              <div className="adm-modal-actions">
+                <Button onClick={cancel} disabled={busy}>
+                  Annuler
+                </Button>
+                <Button variant="danger" icon="trash" onClick={() => void confirm()} disabled={!canConfirm} loading={busy}>
+                  Supprimer définitivement
+                </Button>
+              </div>
             </div>
-            <h2 className="adm-modal-title">Supprimer ce dossier ?</h2>
-            <p className="adm-modal-message">
-              Tu vas supprimer <strong>définitivement</strong> le dossier de{' '}
-              <strong>{candidateName}</strong> ainsi que son historique complet. Cette action
-              ne peut <strong>pas être annulée</strong>.
-            </p>
-            <p className="adm-modal-message" style={{ marginBottom: '0.5rem' }}>
-              Pour confirmer, tape <code style={{ background: 'var(--adm-bg-base)', padding: '0.1rem 0.4rem', borderRadius: 4, color: 'var(--adm-status-refusee)', fontWeight: 700, letterSpacing: '0.05em' }}>{REQUIRED_TEXT}</code> ci-dessous :
-            </p>
-            <input
-              ref={inputRef}
-              type="text"
-              value={confirmText}
-              onChange={(e) => setConfirmText(e.target.value)}
-              placeholder={REQUIRED_TEXT}
-              autoComplete="off"
-              spellCheck={false}
-              style={{
-                width: '100%',
-                padding: '0.7rem 0.85rem',
-                marginBottom: '1.25rem',
-                borderRadius: 'var(--adm-r-md)',
-                border: `1px solid ${canConfirm ? 'var(--adm-status-refusee)' : 'var(--adm-border-default)'}`,
-                background: 'var(--adm-bg-base)',
-                color: 'var(--adm-text-primary)',
-                fontSize: '0.95rem',
-                fontFamily: 'var(--adm-font-mono)',
-                letterSpacing: '0.05em',
-                textAlign: 'center',
-                fontWeight: 600,
-                transition: 'border-color var(--adm-tr-fast)',
-              }}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' && canConfirm && !busy) {
-                  e.preventDefault()
-                  confirm()
-                }
-              }}
-            />
-            <div className="adm-modal-actions">
-              <button type="button" className="adm-btn adm-btn--ghost" onClick={cancel} disabled={busy}>
-                Annuler
-              </button>
-              <button
-                type="button"
-                className="adm-btn adm-btn--danger"
-                onClick={confirm}
-                disabled={!canConfirm || busy}
-              >
-                {busy ? 'Suppression…' : 'Supprimer définitivement'}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+          </div>,
+          document.body,
+        )}
     </>
   )
 }
