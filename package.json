@@ -9,7 +9,8 @@
     "test:i18n": "playwright test --project=i18n",
     "test:affiliate": "playwright test --project=affiliate",
     "check:sections": "node scripts/home-order-check.mjs && node scripts/sections-zorder-check.mjs && node scripts/sections-masks-check.mjs",
-    "check:nav": "node scripts/nav-parity-check.mjs"
+    "check:nav": "node scripts/nav-parity-check.mjs",
+    "admin:dev": "node scripts/admin-mock/dev.mjs"
   },
   "dependencies": {
     "@calcom/embed-react": "^1.5.3",
