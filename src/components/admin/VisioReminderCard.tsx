@@ -17,7 +17,7 @@
  * depuis l'action primaire se voit aussitot ici.
  */
 
-import { useState, useTransition } from 'react'
+import { useState, useSyncExternalStore, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
 import type { Status } from '@/lib/admin-transitions'
 import Button from './ui/Button'
@@ -52,9 +52,29 @@ export interface VisioReminderOptions {
   onSent?: (sent: { sentAt: string; count: number }) => void
 }
 
+// Envois en cours, par dossier, partages par tous les declencheurs de la
+// relance (action primaire du panneau, barre d'actions mobile, carte) : un
+// seul envoi a la fois, et chaque bouton montre qu'un envoi est en cours.
+const sendingIds = new Set<string>()
+const sendingListeners = new Set<() => void>()
+
+function markSending(id: string, on: boolean): void {
+  if (on) sendingIds.add(id)
+  else sendingIds.delete(id)
+  sendingListeners.forEach((listener) => listener())
+}
+
+function subscribeSending(listener: () => void): () => void {
+  sendingListeners.add(listener)
+  return () => {
+    sendingListeners.delete(listener)
+  }
+}
+
 /**
  * Envoi de la relance visio avec sa confirmation. Rendre `dialog` a cote du
- * bouton qui appelle `open` ; `busy` couvre l'envoi et le rafraichissement.
+ * bouton qui appelle `open` ; `busy` couvre l'envoi (quel que soit le bouton
+ * qui l'a lance) et le rafraichissement qui suit.
  */
 export function useVisioReminder(opts: VisioReminderOptions): {
   open: () => void
@@ -65,7 +85,8 @@ export function useVisioReminder(opts: VisioReminderOptions): {
   const toast = useToast()
   const router = useRouter()
   const [refreshing, startTransition] = useTransition()
-  const [sending, setSending] = useState(false)
+  const id = opts.candidatureId
+  const sending = useSyncExternalStore(subscribeSending, () => sendingIds.has(id), () => false)
   const [confirmOpen, setConfirmOpen] = useState(false)
   const email = opts.candidateEmail
   const isResend = opts.count > 0
@@ -73,7 +94,8 @@ export function useVisioReminder(opts: VisioReminderOptions): {
 
   const send = async () => {
     setConfirmOpen(false)
-    setSending(true)
+    if (sendingIds.has(id)) return
+    markSending(id, true)
     try {
       const res = await fetch(`/api/admin/candidature/${opts.candidatureId}/visio-reminder`, { method: 'POST' })
       const data = (await res.json().catch(() => ({}))) as {
@@ -95,7 +117,7 @@ export function useVisioReminder(opts: VisioReminderOptions): {
     } catch {
       toast.show('Connexion impossible. Vérifie ton réseau.', 'error', 5000)
     } finally {
-      setSending(false)
+      markSending(id, false)
     }
   }
 
@@ -121,7 +143,14 @@ export function useVisioReminder(opts: VisioReminderOptions): {
     />
   )
 
-  return { open: () => setConfirmOpen(true), busy, canSend: !!email, dialog }
+  return {
+    open: () => {
+      if (!sendingIds.has(id)) setConfirmOpen(true)
+    },
+    busy,
+    canSend: !!email,
+    dialog,
+  }
 }
 
 export default function VisioReminderCard(props: VisioReminderCardProps) {

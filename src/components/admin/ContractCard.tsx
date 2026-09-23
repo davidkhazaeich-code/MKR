@@ -34,7 +34,7 @@ import ConfirmModal from './ui/ConfirmModal'
 import Icon from './ui/Icon'
 import { useToast } from './ui/Toast'
 import { useDossier } from './dossier/DossierProvider'
-import { formatDateTime } from '@/lib/admin/format'
+import { formatDateTime, zurichDay } from '@/lib/admin/format'
 
 export interface ContractCardProps {
   candidatureId: string
@@ -85,10 +85,6 @@ function addDaysIso(iso: string, days: number): string {
   return d.toISOString().slice(0, 10)
 }
 
-function todayIso(): string {
-  return new Date().toISOString().slice(0, 10)
-}
-
 function formatDateFr(iso: string): string {
   const [y, m, d] = iso.split('-')
   if (!y || !m || !d) return iso
@@ -130,15 +126,12 @@ export default function ContractCard(props: ContractCardProps) {
   const initialWeeks = props.contractDurationWeeks ?? props.dureeSemaines ?? null
   const initialEnd =
     props.contractEndDate ?? (initialStart && initialWeeks ? suggestEnd(initialStart, initialWeeks, props.sessionId) : '')
-  const initialDeadline =
-    props.contractPaymentDeadline ??
-    (initialStart && addDaysIso(todayIso(), 14) > initialStart ? initialStart : addDaysIso(todayIso(), 14))
 
   const [locale, setLocale] = useState<ContractLocale>(initialLocale)
   const [start, setStart] = useState(initialStart)
   const [end, setEnd] = useState(initialEnd)
   const [weeks, setWeeks] = useState<string>(initialWeeks ? String(initialWeeks) : '')
-  const [deadline, setDeadline] = useState(initialDeadline)
+  const [deadline, setDeadline] = useState(props.contractPaymentDeadline ?? '')
   const [inclusions, setInclusions] = useState(props.contractInclusions ?? DEFAULT_INCLUSIONS[initialLocale])
   const [exclusions, setExclusions] = useState(props.contractExclusions ?? DEFAULT_EXCLUSIONS[initialLocale])
   const [note, setNote] = useState(props.contractNote ?? '')
@@ -151,6 +144,17 @@ export default function ContractCard(props: ContractCardProps) {
     props.packageAmountCents ? String(props.packageAmountCents / 100) : '',
   )
   const [amountTouched, setAmountTouched] = useState(false)
+
+  // Echeance par defaut (dans 14 jours, jour de Zurich, au plus tard le debut
+  // du sejour), posee apres le montage : aucune lecture de l'horloge au rendu,
+  // et plus de jour de retard entre 00:00 et 02:00 (ancien jour UTC). Une
+  // seule fois, au montage : elle ne suit pas les champs ensuite.
+  useEffect(() => {
+    if (props.contractPaymentDeadline) return
+    const inTwoWeeks = addDaysIso(zurichDay(new Date()), 14)
+    setDeadline((current) => current || (initialStart && inTwoWeeks > initialStart ? initialStart : inTwoWeeks))
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
   useEffect(() => {
     if (!amountTouched) {
       setAmountEur(props.packageAmountCents ? String(props.packageAmountCents / 100) : '')

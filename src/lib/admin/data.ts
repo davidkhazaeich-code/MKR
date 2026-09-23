@@ -49,6 +49,17 @@ export interface DossierDetail extends Omit<DossierRow, 'candidate'> {
 }
 export interface SiblingDossier { id: string; status: Status; session_id: string | null; tunnel_type: TunnelType; created_at: string }
 
+/** Lecture du dossier refusee par Supabase (panne, colonne, droits) : pas une 404. */
+export class DossierReadError extends Error {
+  constructor(message: string) {
+    super(message)
+    this.name = 'DossierReadError'
+  }
+}
+
+/** Code PostgREST d'un id qui n'est pas un uuid : dossier introuvable. */
+const INVALID_UUID = '22P02'
+
 export async function loadDossierDetail(id: string): Promise<{ dossier: DossierDetail | null; audit: AuditRow[]; siblings: SiblingDossier[] }> {
   const supabase = getSupabaseAdmin()
   const [cand, audit] = await Promise.all([
@@ -56,7 +67,11 @@ export async function loadDossierDetail(id: string): Promise<{ dossier: DossierD
     supabase.from('audit_log').select('id, event, from_value, to_value, data, actor_email, at')
       .eq('candidature_id', id).order('at', { ascending: false }).limit(80),
   ])
-  const dossier = (cand.data as unknown as DossierDetail | null) ?? null
+  // Id invalide ou dossier absent : null (404). Toute autre erreur remonte,
+  // la page affiche son erreur de chargement (jamais une fausse 404).
+  if (cand.error && cand.error.code !== INVALID_UUID) throw new DossierReadError(cand.error.message)
+  const dossier = cand.error ? null : ((cand.data as unknown as DossierDetail | null) ?? null)
+  if (dossier && audit.error) throw new DossierReadError(audit.error.message)
   let siblings: SiblingDossier[] = []
   if (dossier?.candidate_id) {
     const { data } = await supabase.from('candidatures')

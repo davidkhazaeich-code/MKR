@@ -9,9 +9,16 @@
 //   pagehide et au demontage (J/K ou Echap demontent la fiche : c'est ce
 //   flush qui sauve la note tapee juste avant) ;
 // - pas de passage par DossierProvider.patch : ni etat live a modifier, ni
-//   boutons d'action a griser a chaque frappe.
+//   boutons d'action a griser a chaque frappe ;
+// - apres chaque enregistrement reussi, router.refresh() : Next 16 garde la
+//   page en cache pour Precedent/Suivant (bfcache du routeur) ; sans
+//   rafraichissement, revenir sur la fiche remontrait l'ancienne note, et la
+//   frappe suivante l'ecraserait en base. Les brouillons ne suivent jamais
+//   les props (useState initial) : un rafraichissement pendant la frappe ne
+//   touche pas a la saisie.
 
-import { useEffect, useId, useRef, useState } from 'react'
+import { useEffect, useId, useRef, useState, useTransition } from 'react'
+import { useRouter } from 'next/navigation'
 import Icon from '@/components/admin/ui/Icon'
 import { useToast } from '@/components/admin/ui/Toast'
 import { useDossier } from './DossierProvider'
@@ -39,6 +46,8 @@ interface NoteState {
 
 function useAutoSavedNote(id: string, field: NoteField, initial: string): NoteState {
   const toast = useToast()
+  const router = useRouter()
+  const [, startTransition] = useTransition()
   const [draft, setDraftState] = useState(initial)
   const [state, setState] = useState<SaveState>('idle')
   const saved = useRef(initial)
@@ -71,6 +80,8 @@ function useAutoSavedNote(id: string, field: NoteField, initial: string): NoteSt
       return
     }
     saved.current = value
+    // Cache du routeur (Precedent/Suivant) a jour avec la note enregistree.
+    startTransition(() => router.refresh())
     if (draftRef.current !== value) {
       // Saisie reprise pendant l'envoi : le minuteur suivant l'enregistrera.
       setState('dirty')

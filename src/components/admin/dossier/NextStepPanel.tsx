@@ -9,6 +9,8 @@
 // StepPrimaryButton est partage avec la barre d'actions mobile (ActionBar) :
 // meme bouton, meme handler (transition, fenetre de paiement, relance visio,
 // onglet et carte cibles, lien Cal, WhatsApp ou email).
+// Boutons de transition : desactives tant qu'un enregistrement de la fiche
+// est en cours (busy), sauf celui de la transition envoyee (en chargement).
 
 import Button, { ButtonLink } from '@/components/admin/ui/Button'
 import Icon from '@/components/admin/ui/Icon'
@@ -53,7 +55,7 @@ export function StepPrimaryButton({ action }: { action: PrimaryAction }) {
           variant="primary"
           icon={action.icon}
           loading={d.pendingStatus === action.to}
-          disabled={d.pendingStatus !== null && d.pendingStatus !== action.to}
+          disabled={d.busy && d.pendingStatus !== action.to}
           aria-keyshortcuts={shortcutOf(action.to) ?? undefined}
           onClick={() => d.requestTransition(action.to)}
         >
@@ -159,7 +161,7 @@ export default function NextStepPanel() {
             <Button
               key={to}
               loading={d.pendingStatus === to}
-              disabled={d.pendingStatus !== null && d.pendingStatus !== to}
+              disabled={d.busy && d.pendingStatus !== to}
               aria-keyshortcuts={shortcutOf(to) ?? undefined}
               onClick={() => d.requestTransition(to)}
             >

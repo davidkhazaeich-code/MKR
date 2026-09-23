@@ -9,7 +9,7 @@
 // - DossierNav : contenu de l'en-tete mobile de la fiche (retour, position,
 //   precedent, suivant), rendu hors du DossierProvider.
 // - DossierKeyboard : J suivant, K precedent, Echap retour (hors champ, hors
-//   dialogue ouvert : un dialogue garde Echap).
+//   dialogue ouvert : un dialogue garde Echap ; repetition de touche ignoree).
 // - Apres un passage au dossier voisin (navigation client), la fiche suivante
 //   donne le focus a son nom (h1) : clavier et lecteur d'ecran repartent du
 //   haut de la fiche.
@@ -133,6 +133,8 @@ export function DossierKeyboard({ id }: { id: string }) {
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.defaultPrevented || e.metaKey || e.ctrlKey || e.altKey) return
       if (isEditableTarget(e.target) || isDialogOpen()) return
+      // Touche maintenue : une seule navigation (pas d'entrees d'historique en double).
+      if (e.repeat) return
       const key = e.key.toLowerCase()
       const target = key === 'j' ? next : key === 'k' ? prev : null
       if (target) {

@@ -4451,6 +4451,14 @@ html:has(.adm-login) body {
 }
 
 /* Fenetres (paiement, bonus partenaire) */
+/* Prix du sejour modifie dans la fenetre de paiement */
+.adm-dossier-price-change {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--adm-tone, var(--adm-text-2));
+}
+
 .adm-dossier-payform {
   display: flex;
   flex-direction: column;

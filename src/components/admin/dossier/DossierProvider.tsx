@@ -9,8 +9,9 @@
 //   a chaque changement de `live`.
 // - live : etat optimiste. patch() applique `optimistic`, appelle le PATCH
 //   existant, puis se cale sur data.candidature (le serveur fait foi) ; en cas
-//   d'erreur, `rollback` et notification. Puis router.refresh() dans une
-//   transition : `busy` reste vrai jusqu'a la fin du rafraichissement.
+//   d'erreur, `rollback` et notification (message du serveur). Puis
+//   router.refresh() dans une transition, apres un succes comme apres un refus
+//   du serveur : `busy` reste vrai jusqu'a la fin du rafraichissement.
 // - Resynchronisation : quand la valeur serialisee de `initial` change (apres
 //   un router.refresh, y compris celui de RefreshOnFocus) et qu'aucun patch
 //   n'est en vol, live repart de `initial`. Un rendu serveur arrive pendant
@@ -19,6 +20,7 @@
 //   candidat), Refusee, Annulee, Reportee et Recue (retirer la validation) ;
 //   Soldee et Camp fait partent directement. Raccourcis V R A Z S T (hors
 //   champ, hors dialogue, sans touche de modification, transition permise).
+//   Transition devenue impossible pendant la confirmation : notification.
 // - La confirmation et la fenetre "Enregistrer un paiement" sont rendues ici.
 // - Onglets (sous 1024 px) : onglet memorise dans le hash (#paiement), lu
 //   apres le montage ; goTo() change d'onglet puis amene une carte a l'ecran.
@@ -144,12 +146,14 @@ export function DossierProvider({ staticData, initial, nowIso, children }: Dossi
       setInFlightCount((n) => n + 1)
       if (opts.optimistic) setLive(opts.optimistic)
       let ok = false
+      let answered = false
       try {
         const res = await fetch(`/api/admin/candidature/${id}`, {
           method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(body),
         })
+        answered = true
         const data = (await res.json().catch(() => ({}))) as { ok?: boolean; error?: string; candidature?: unknown }
         if (!res.ok || !data.ok) {
           toast.show(data.error || 'Enregistrement impossible. Réessaie.', 'error', 5000)
@@ -171,6 +175,8 @@ export function DossierProvider({ staticData, initial, nowIso, children }: Dossi
       if (!ok) {
         if (opts.rollback) setLive(opts.rollback)
         if (inFlight.current === 0) applyServerLive()
+        // Refus du serveur (dossier change ailleurs, garde-fou) : relire son etat.
+        if (answered) startRefresh(() => router.refresh())
       }
       return ok
     },
@@ -185,7 +191,11 @@ export function DossierProvider({ staticData, initial, nowIso, children }: Dossi
   const doTransition = useCallback(
     async (next: Status) => {
       const prev = liveRef.current
-      if (!canTransitionTo(prev.status, next)) return
+      if (!canTransitionTo(prev.status, next)) {
+        // Un rafraichissement a change le statut pendant la confirmation.
+        toast.show('Cette action n’est plus possible, la page a été mise à jour.', 'info', 5000)
+        return
+      }
       setPendingStatus(next)
       await patch(
         { status: next },
@@ -196,7 +206,7 @@ export function DossierProvider({ staticData, initial, nowIso, children }: Dossi
         },
       )
     },
-    [patch],
+    [patch, toast],
   )
 
   const requestTransition = useCallback(

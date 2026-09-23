@@ -1,11 +1,15 @@
 'use client'
 
-// Fenetre "Enregistrer un paiement" (spec 6.3), rendue par DossierProvider :
-// montant recu (pre-rempli avec le montant du sejour), methode (virement par
-// defaut), date de reception (aujourd'hui a Zurich, lue a l'ouverture), case
-// "Passer le dossier en Soldee" (cochee et visible quand la transition est
-// permise). Un seul PATCH existant (planPayment), etat optimiste et retour
-// arriere en cas d'erreur ; la fenetre reste ouverte si l'envoi echoue.
+// Fenetre "Enregistrer un paiement" (spec 6.3), rendue par DossierProvider.
+// Le modele ne connait pas le paiement partiel : le paiement est enregistre
+// comme complet. Champs : montant du sejour (pre-rempli ; le modifier change
+// le prix du sejour, base du contrat et des commissions, d'ou l'avertissement
+// "passera de ... a ..."), methode (virement par defaut), date de reception
+// (aujourd'hui a Zurich, lue a l'ouverture), case "Passer le dossier en
+// Soldee" (cochee et visible quand la transition est permise). Un seul PATCH
+// existant (planPayment), etat optimiste et retour arriere en cas d'erreur ;
+// la fenetre reste ouverte si l'envoi echoue, et ne se ferme pas pendant
+// l'envoi (Echap, fond, croix, Annuler).
 // Panneau bas sous 640 px ; a l'ouverture, le focus va au panneau (titre
 // relie), pas au premier champ : le clavier du telephone ne couvre pas le
 // formulaire.
@@ -14,7 +18,8 @@ import { useId, useRef, useState } from 'react'
 import Button from '@/components/admin/ui/Button'
 import Sheet from '@/components/admin/ui/Sheet'
 import { useDossier } from './DossierProvider'
-import { PAYMENT_METHOD_OPTIONS, canMarkSoldee, centsToInput, planPayment } from '@/lib/admin/dossier'
+import { PAYMENT_METHOD_OPTIONS, canMarkSoldee, centsToInput, parseEuros, planPayment } from '@/lib/admin/dossier'
+import { formatEuros } from '@/lib/admin/format'
 import type { PaymentMethod } from '@/lib/admin/types'
 
 export interface PaymentModalProps {
@@ -38,8 +43,18 @@ export default function PaymentModal({ today, onClose }: PaymentModalProps) {
   const [submitting, setSubmitting] = useState(false)
 
   const ids = {
-    amount: `${uid}-amount`, amountHelp: `${uid}-amount-help`, method: `${uid}-method`,
-    date: `${uid}-date`, error: `${uid}-error`,
+    amount: `${uid}-amount`, amountHelp: `${uid}-amount-help`, amountChange: `${uid}-amount-change`,
+    method: `${uid}-method`, date: `${uid}-date`, error: `${uid}-error`,
+  }
+  // Prix du sejour modifie : on le dit, avec l'ancien et le nouveau montant.
+  const typed = parseEuros(amount)
+  const priceChange =
+    typed.ok && typed.cents !== null && live.packageCents !== null && typed.cents !== live.packageCents
+      ? `Le montant du séjour passera de ${formatEuros(live.packageCents)} à ${formatEuros(typed.cents)}.`
+      : null
+  // Pas de fermeture pendant l'envoi (Echap, fond, croix, Annuler).
+  const close = () => {
+    if (!submitting) onClose()
   }
 
   const submit = async (e: React.FormEvent) => {
@@ -66,11 +81,11 @@ export default function PaymentModal({ today, onClose }: PaymentModalProps) {
     ) : null
 
   return (
-    <Sheet open onClose={onClose} title="Enregistrer un paiement" autoFocusBody={false}>
+    <Sheet open onClose={close} title="Enregistrer un paiement" autoFocusBody={false}>
       <form className="adm-dossier-payform" onSubmit={submit} noValidate>
         <div className="adm-field">
           <label htmlFor={ids.amount} className="adm-field-label">
-            Montant reçu (€)
+            Montant du séjour (€)
           </label>
           <input
             ref={amountRef}
@@ -83,11 +98,16 @@ export default function PaymentModal({ today, onClose }: PaymentModalProps) {
             onChange={(e) => setAmount(e.target.value)}
             placeholder="2900"
             aria-invalid={error?.field === 'amount' || undefined}
-            aria-describedby={error?.field === 'amount' ? `${ids.error} ${ids.amountHelp}` : ids.amountHelp}
+            aria-describedby={[error?.field === 'amount' ? ids.error : null, priceChange ? ids.amountChange : null, ids.amountHelp].filter(Boolean).join(' ')}
           />
           <p id={ids.amountHelp} className="adm-field-help">
-            Montant du séjour, modifiable s’il a changé. Vide : le montant enregistré est conservé.
+            Le paiement est enregistré comme complet. Ne change ce montant que si le prix du séjour a changé.
           </p>
+          {priceChange && (
+            <p id={ids.amountChange} className="adm-dossier-price-change adm-tone--warn">
+              {priceChange}
+            </p>
+          )}
           {fieldError('amount')}
         </div>
 
@@ -135,7 +155,9 @@ export default function PaymentModal({ today, onClose }: PaymentModalProps) {
         )}
 
         <div className="adm-modal-actions">
-          <Button onClick={onClose}>Annuler</Button>
+          <Button onClick={close} disabled={submitting}>
+            Annuler
+          </Button>
           <Button type="submit" variant="primary" icon="receipt" loading={submitting}>
             Enregistrer le paiement
           </Button>

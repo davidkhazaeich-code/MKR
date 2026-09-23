@@ -85,13 +85,15 @@ export default function ReferralPanel(props: Props) {
     if (ok) setPayOpen(false)
   }
 
+  // Echec : la fenetre reste ouverte avec le message du serveur ; pendant
+  // l'envoi, confirmation en chargement (pas de second PATCH).
   async function revertPaid() {
+    if (submitting) return
     const ok = await patch(
       { referral_payout_status: 'due', referral_payout_paid_at: null, referral_payout_method: null },
       'Paiement du bonus annulé (repasse À payer)',
     )
-    setRevertOpen(false)
-    if (!ok) toast.show('Annulation du paiement impossible. Réessaie.', 'error', 5000)
+    if (ok) setRevertOpen(false)
   }
 
   const openPay = () => {
@@ -229,7 +231,13 @@ export default function ReferralPanel(props: Props) {
       )}
       {props.referralPayoutStatus === 'paid' && (
         <div className="adm-btn-row adm-dossier-card-actions">
-          <Button loading={submitting || refreshing} onClick={() => setRevertOpen(true)}>
+          <Button
+            loading={refreshing}
+            onClick={() => {
+              setError(null)
+              setRevertOpen(true)
+            }}
+          >
             Annuler le paiement
           </Button>
         </div>
@@ -299,12 +307,13 @@ export default function ReferralPanel(props: Props) {
       <ConfirmModal
         open={revertOpen}
         title={'Annuler le paiement\u00a0?'}
-        message={`Le bonus repassera en statut « À payer ». La date et la méthode actuellement enregistrées seront effacées. Cette action est réversible.${error ? `\n\n${error}` : ''}`}
+        message={`Le bonus repassera en statut « À payer ». La date et la méthode actuellement enregistrées seront effacées. Cette action est réversible.${error ? `\n\nÉchec de l’annulation : ${error}` : ''}`}
         confirmLabel="Oui, annuler"
         cancelLabel="Non, garder"
         variant="warning"
         icon="alert-triangle"
         confirmIcon="rotate-ccw"
+        busy={submitting}
         onConfirm={() => void revertPaid()}
         onCancel={() => setRevertOpen(false)}
       />
