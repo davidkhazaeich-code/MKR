@@ -269,47 +269,6 @@
 }
 
 /* ------------------------------------------------------------------------
-   Legacy aliases, removed in Task 11.
-   Anciens noms encore lus par des styles inline des composants conserves
-   (ContractCard, ReferralPanel, DangerSection...). Declares aussi sur
-   [data-theme] pour qu'un sous-arbre de theme les recalcule.
-   Supprimer ce bloc quand `grep -rn "adm-status-\|adm-text-primary\|adm-bg-\|adm-brand\|adm-r-\|adm-tr-\|adm-font" src --include='*.tsx'` est vide.
-   ------------------------------------------------------------------------ */
-:root,
-[data-theme] {
-  --adm-status-recue: var(--adm-warn);
-  --adm-status-validee: var(--adm-ok);
-  --adm-status-refusee: var(--adm-danger);
-  --adm-status-soldee: var(--adm-info);
-  --adm-status-camp_fait: var(--adm-violet);
-  --adm-status-annulee: var(--adm-neutral);
-  --adm-status-reportee: var(--adm-neutral);
-  --adm-text-primary: var(--adm-text);
-  --adm-text-secondary: var(--adm-text-2);
-  --adm-text-muted: var(--adm-text-3);
-  --adm-text-faint: var(--adm-text-4);
-  --adm-bg-base: var(--adm-bg);
-  --adm-bg-surface: var(--adm-surface);
-  --adm-bg-elevated: var(--adm-surface-2);
-  --adm-bg-hover: var(--adm-surface-3);
-  --adm-border-subtle: var(--adm-border);
-  --adm-border-default: var(--adm-border);
-  --adm-border-soft: var(--adm-border);
-  --adm-brand: var(--adm-action);
-  --adm-r-sm: var(--adm-radius-sm);
-  --adm-r-md: var(--adm-radius-md);
-  --adm-r-lg: var(--adm-radius-lg);
-  --adm-r-xl: var(--adm-radius-xl);
-  --adm-tr-fast: var(--adm-dur) var(--adm-ease);
-  --adm-tr-default: var(--adm-dur-panel) var(--adm-ease);
-  --adm-font: var(--adm-ff-text);
-  --adm-font-mono: var(--adm-ff-mono);
-  --adm-font-display: var(--adm-ff-display);
-  --adm-font-condensed: var(--adm-ff-label);
-}
-/* ---------------------- fin des legacy aliases ---------------------- */
-
-/* ------------------------------------------------------------------------
    2. Base
    ------------------------------------------------------------------------ */
 
@@ -2388,31 +2347,6 @@ select.adm-input {
   font-family: var(--adm-ff-mono);
   font-size: 13px;
   line-height: 1.5;
-}
-
-/* Ancien ui/Badge (ReferralPanel et pages a reecrire) : rendu comme un statut,
-   sans pastille bordee. Supprime avec ui/Badge.tsx (Task 11). */
-.adm-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 1.3;
-  color: var(--adm-text-2);
-  white-space: nowrap;
-}
-
-.adm-badge--lg {
-  font-size: 15px;
-}
-
-.adm-badge-dot {
-  flex-shrink: 0;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--adm-badge-color, var(--adm-text-3));
 }
 
 /* ===== Chrome ===========================================================

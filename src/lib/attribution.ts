@@ -35,18 +35,6 @@ export const ATTRIBUTION_SOURCE_LABEL: Record<AttributionSource, string> = {
   other: 'Autre',
 }
 
-// Couleurs de badge (Google Ads en bleu Google, paid social violet, organique neutre).
-export const ATTRIBUTION_SOURCE_COLOR: Record<AttributionSource, string> = {
-  google_ads: '#4285F4',
-  google_organic: '#94a3b8',
-  meta_ads: '#a78bfa',
-  instagram: '#ec4899',
-  facebook: '#3b82f6',
-  referral: '#22d3ee',
-  direct: 'var(--adm-text-muted)',
-  other: 'var(--adm-text-secondary)',
-}
-
 // Champs d'attribution capturees depuis l'URL (query string).
 // Click ids : signaux forts (paid). utm_* : taggage campagne.
 export const CLICK_ID_KEYS = ['gclid', 'gbraid', 'wbraid', 'fbclid', 'msclkid', 'ttclid'] as const
