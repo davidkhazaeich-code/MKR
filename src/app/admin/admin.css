@@ -939,6 +939,18 @@ img {
   color: var(--adm-text-3);
 }
 
+/* Liens seuls dans une valeur (email, telephone, video du formulaire) : zone
+   tactile de 44 px sous 1024 px, sans changer la mise en page (le padding est
+   compense par une marge negative). */
+@media (max-width: 1023.98px) {
+  .adm-def-val a,
+  .adm-qa-a a {
+    display: inline-block;
+    padding-block: 13px;
+    margin-block: -13px;
+  }
+}
+
 .adm-action-empty {
   margin: 0;
   font-size: 15px;
@@ -5158,6 +5170,15 @@ html:has(.adm-login) body {
 
 .adm-leads-table .adm-leads-email {
   overflow-wrap: normal;
+}
+
+/* Zone tactile de 44 px sous 1024 px (tablette en tableau). */
+@media (max-width: 1023.98px) {
+  .adm-leads-table .adm-leads-email {
+    display: inline-block;
+    padding-block: 13px;
+    margin-block: -13px;
+  }
 }
 
 .adm-leads-nowrap {
