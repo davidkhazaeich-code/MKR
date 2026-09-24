@@ -1,7 +1,22 @@
 # SITEMAP MKR Caucasian Camp — Cartographie complète
 
-> **Fichier de référence pour Claude Code.** Mise à jour : 2026-09-23 (admin v2 : nouvel accueil, fiche dossier et chrome mobile ; le site redevient statique : fin de la régénération horaire, carte en fichier, traductions client allégées).
+> **Fichier de référence pour Claude Code.** Mise à jour : 2026-09-24 (lien « Voir le dossier » des emails réparé, session réservée dans la notification de candidature ; la veille : admin v2, site redevenu statique).
 > Lis ce fichier en priorité avant toute intervention sur le site MKR. Il évite de re-explorer.
+
+## 🆕 2026-09-24 (lien « Voir le dossier » des emails réparé, session dans la notification de candidature)
+
+> **Demande David** : le lien de l'email « nouvelle candidature » n'ouvrait pas la fiche du dossier, et la notification doit dire quelle session le candidat réserve.
+
+**Lien « Voir le dossier »** (commit `9c3a899`). Deux causes, reproduites dans Chromium (clic depuis une page d'un autre site, en direct et par un redirecteur comme `google.com/url` de Gmail) :
+
+- `src/app/api/admin/login/route.ts` : le cookie `mkr_admin` était en `sameSite: 'strict'`. Un lien ouvert depuis une boîte mail est une navigation venue d'un autre site, le cookie n'était pas envoyé : la fiche retombait sur la connexion, même connecté. Passé en `lax` : envoyé sur les liens (GET), toujours absent des POST, PATCH et DELETE venus d'un autre site, les seules méthodes qui écrivent dans l'admin (aucune route GET ni page de l'admin n'écrit, aucune server action). Un ancien cookie `strict` est remplacé à la première connexion.
+- `src/proxy.ts` : sans cookie, la réécriture vers `/admin/login` effaçait la page demandée, et la connexion ramenait sur l'accueil. Le proxy passe désormais la page (chemin et paramètres) en `?next=`, déjà validé par la page de connexion (`safeNext`) et par la route. Les appels `/api/admin/*` sans cookie gardent la réécriture nue.
+
+**Session dans la notification** (commit `36267c7`). `src/lib/admin/booked-session.ts` (module serveur, la copie des sessions reste hors du bundle client) : `bookedSessionLabel(sessionId, dateDebutSouhaitee)` rend « Toussaint 2026 · 17 oct. - 7 nov. 2026 », le libellé de la fiche, ou « Sur mesure · début souhaité le 17/12/2026 » sans session. `notificationSubjectLead` met la session en tête d'objet : « [MKR candidature] Toussaint 2026 · Prénom Nom », « [MKR candidature] Famille · Toussaint 2026 · Prénom Nom ». `notifyEmail` (ligne « Session » en premier, version texte) et `notifySlack` s'en servent. Tests dans `scripts/admin-next-step-check.mts`.
+
+Faux backend : `GET /__emails` garde le `html` et le `text` de chaque email, pour relire une notification sans vraie boîte.
+
+**Garde de l'admin sur toutes les variantes d'adresse** (commit `6cb315b`, trouvé par la relecture finale). Le matcher général du proxy exclut tout chemin à point, or Next ajoute à chaque matcher les variantes `.rsc` et `.segments/…` d'une page : ces variantes échappaient au garde. En production, `/admin/sessions.segments/_tree.segment.rsc` répondait sans connexion avec l'arbre de la page Sessions (sondages par simples compteurs de marqueurs : squelette de chargement seulement, aucune donnée de candidat). `config.matcher` ajoute `'/admin/:path*'` et `'/api/admin/:path*'` ; `/admin/manifest.webmanifest` reste public (le navigateur le lit sans cookie) ; `?next=` n'est posé que pour un chemin sans point. Contrôle : `getMiddlewareMatchers` de Next (`next/dist/build/analysis/get-page-static-info.js`) sur la liste des variantes, sautées avant, gardées après. Dans la notification, un id de session inconnu ou une date postée mal formée sont omis (valeurs libres hors tunnel session) : `formatNumericDate` levait une exception et la notification tombait.
 
 ## 🆕 2026-09-23 (admin v2 : accueil « À faire », prochaine étape calculée, chrome mobile, faux backend local)
 
@@ -39,7 +54,7 @@ Admin installable : `metadata.manifest` pointe vers `/admin/manifest.webmanifest
 
 ### 4. Connexion mémorisée 30 jours
 
-`src/app/api/admin/login/route.ts` : cookie `mkr_admin` porté de 8 heures à 30 jours (`httpOnly`, `secure`, `sameSite: 'strict'` inchangés), redirection par défaut vers `/admin` (au lieu de `/admin/inscriptions`). Champ « Mot de passe » en `autocomplete="current-password"` avec un identifiant fixe pour les gestionnaires de mots de passe.
+`src/app/api/admin/login/route.ts` : cookie `mkr_admin` porté de 8 heures à 30 jours (`httpOnly` et `secure` inchangés ; `sameSite` passé de `strict` à `lax` le 2026-09-24, voir plus haut), redirection par défaut vers `/admin` (au lieu de `/admin/inscriptions`). Champ « Mot de passe » en `autocomplete="current-password"` avec un identifiant fixe pour les gestionnaires de mots de passe.
 
 ### 5. Heure de la visio en base (`visio_starts_at`) et webhook Cal
 
