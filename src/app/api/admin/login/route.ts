@@ -40,10 +40,15 @@ export async function POST(request: Request) {
     value: expected,
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
-    sameSite: 'strict',
+    // Lax, pas Strict : le lien « Voir le dossier » d'un email interne arrive
+    // d'un autre site (Gmail, Outlook, redirecteur google.com/url), et un cookie
+    // Strict n'y est pas envoye : le lien retombait sur la connexion meme
+    // connecte. Lax suit ces liens (GET) mais reste absent des POST, PATCH et
+    // DELETE venus d'ailleurs, les seules methodes qui ecrivent dans l'admin.
+    sameSite: 'lax',
     path: '/',
     // 30 jours : Ruslan travaille depuis son telephone, ressaisir 64 caracteres
-    // chaque jour le decourageait ; cookie toujours httpOnly, secure, sameSite strict
+    // chaque jour le decourageait ; cookie toujours httpOnly et secure
     maxAge: 60 * 60 * 24 * 30,
   })
   return response

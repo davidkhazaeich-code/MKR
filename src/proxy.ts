@@ -6,7 +6,8 @@ import { findReferralCode } from './data/referral-codes';
 // Proxy combine deux roles :
 // 1) Guard admin : protege /admin/* et /api/admin/* via cookie httpOnly 'mkr_admin'.
 //    Le cookie est pose par POST /api/admin/login apres verification du token.
-//    Si pas de cookie ou cookie invalide -> rewrite vers /admin/login.
+//    Si pas de cookie ou cookie invalide -> rewrite vers /admin/login, avec la
+//    page demandee en ?next= pour y revenir apres la connexion.
 // 2) i18n routing : detection Accept-Language + slugs traduits FR/EN via next-intl.
 //    Admin reste 100% FR : on bloque /en/admin/* en redirigeant vers /admin/*.
 //
@@ -34,7 +35,7 @@ function handleAdminGuard(request: NextRequest): NextResponse | null {
       return NextResponse.next();
     }
 
-    // Comparaison strict equality : le cookie est pose httpOnly + secure + sameSite=strict,
+    // Comparaison strict equality : le cookie est pose httpOnly + secure + sameSite=lax,
     // seul un user authentifie le possede. Pas de risque de timing leak via cookie.
     const expected = process.env.ADMIN_TOKEN;
     const provided = request.cookies.get(COOKIE_NAME)?.value;
@@ -43,6 +44,12 @@ function handleAdminGuard(request: NextRequest): NextResponse | null {
       const url = request.nextUrl.clone();
       url.pathname = '/admin/login';
       url.search = '';
+      // Page admin (lien « Voir le dossier » d'un email interne) : la connexion
+      // ramene sur la page demandee, pas sur l'accueil. Les appels API gardent
+      // la reecriture nue.
+      if (pathname.startsWith('/admin')) {
+        url.searchParams.set('next', pathname + request.nextUrl.search);
+      }
       return NextResponse.rewrite(url);
     }
     return NextResponse.next();
