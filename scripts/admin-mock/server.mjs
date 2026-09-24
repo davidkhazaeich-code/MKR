@@ -572,6 +572,9 @@ async function handleResend(req, send) {
     tags: body.tags ?? null,
     attachmentsCount: Array.isArray(body.attachments) ? body.attachments.length : 0,
     at: new Date().toISOString(),
+    // Contenu garde pour relire un email sans vraie boite (objet, lien, lignes).
+    html: body.html ?? null,
+    text: body.text ?? null,
   })
   return send(200, { id: `mock_${emails.length}` })
 }

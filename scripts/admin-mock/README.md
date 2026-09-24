@@ -140,8 +140,8 @@ Zéro email réel n'est jamais envoyé.
   nouveaux ids, `created_at` reculé d'une minute par copie) jusqu'à N lignes
   (5 000 au plus) : pagination de la liste au-delà de 150 lignes. `POST /__reset`
   revient aux 60 lignes.
-- `GET /__emails` — liste des emails « envoyés » (pour vérifier un flux sans
-  ouvrir une vraie boîte).
+- `GET /__emails` — liste des emails « envoyés », avec leur `html` et leur
+  `text` (pour vérifier un flux et relire un email sans ouvrir une vraie boîte).
 - `GET /__state` — compte des lignes par table (sert de sonde de disponibilité
   à `dev.mjs`).
 

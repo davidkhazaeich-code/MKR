@@ -9,6 +9,7 @@ import { isDisposableEmail } from '@/lib/disposable-email'
 import { toE164 } from '@/lib/phone'
 import { findReferralCode, type ReferralPartnerType } from '@/data/referral-codes'
 import { estimateDemandAmountCents } from '@/data/pricing'
+import { bookedSessionLabel, notificationSubjectLead } from '@/lib/admin/booked-session'
 import {
   sanitizeAttribution,
   ATTRIBUTION_SOURCE_LABEL,
@@ -456,6 +457,8 @@ export async function POST(request: Request) {
     pays: candidate.pays?.trim() || null,
     telephone,
     duree_semaines: body.duree_semaines ?? null,
+    session_id: candidatureRow.session_id,
+    date_debut_souhaitee: candidatureRow.date_debut_souhaitee,
     camp_discipline: campDiscipline,
     package_amount_cents: packageAmountCents,
     candidature_id: candidature.id,
@@ -498,6 +501,8 @@ interface SlackPayload {
   pays: string | null
   telephone: string | null
   duree_semaines: number | null
+  session_id: string | null
+  date_debut_souhaitee: string | null
   camp_discipline: CampDiscipline | null
   package_amount_cents: number | null
   candidature_id: string
@@ -541,6 +546,7 @@ async function notifyEmail(p: SlackPayload): Promise<void> {
       : null
 
   const montantLabel = formatAmountLabel(p.package_amount_cents)
+  const sessionLabel = bookedSessionLabel(p.session_id, p.date_debut_souhaitee)
 
   const acquisitionLabel = p.attribution_source
     ? `${ATTRIBUTION_SOURCE_LABEL[p.attribution_source]}${p.utm_campaign ? ` (campagne ${p.utm_campaign})` : ''}`
@@ -548,6 +554,7 @@ async function notifyEmail(p: SlackPayload): Promise<void> {
 
   const bodyHtml = `
     <table style="width:100%;border-collapse:collapse;background:#0b1220;border:1px solid #1e293b;border-radius:6px">
+      ${row('Session', sessionLabel)}
       ${row('Tunnel', tunnelLabel)}
       ${row('Camp', discipline)}
       ${row('Montant (selon demande)', montantLabel)}
@@ -564,10 +571,16 @@ async function notifyEmail(p: SlackPayload): Promise<void> {
     </p>
   `
   const html = wrapEmail(`Nouvelle candidature · ${tunnelLabel}`, bodyHtml, 'Notif automatique envoyee par /api/inscription · Reply-To = candidat.')
-  const text = `Nouvelle candidature ${tunnelLabel}\n${p.prenom} ${p.nom} <${p.email}>\nDossier: ${adminBase}/admin/inscriptions/${p.candidature_id}`
+  const text = [
+    `Nouvelle candidature ${tunnelLabel}`,
+    `${p.prenom} ${p.nom} <${p.email}>`,
+    sessionLabel ? `Session: ${sessionLabel}` : null,
+    `Dossier: ${adminBase}/admin/inscriptions/${p.candidature_id}`,
+  ].filter(Boolean).join('\n')
 
   await sendMail({
-    subject: `[MKR candidature] ${tunnelLabel} · ${p.prenom} ${p.nom}`,
+    // La session en tete d'objet : lisible dans la liste de la boite mail.
+    subject: `[MKR candidature] ${notificationSubjectLead(p.tunnel, tunnelLabel, p.session_id)} · ${p.prenom} ${p.nom}`,
     html,
     text,
     // Ruslan recoit chaque nouvelle candidature en copie cachee sur son adresse privee.
@@ -604,6 +617,7 @@ async function notifySlack(p: SlackPayload): Promise<void> {
   const url = process.env.SLACK_WEBHOOK_URL
   if (!url) return
   const adminBase = process.env.NEXT_PUBLIC_SITE_URL || 'https://mkrcamp.com'
+  const sessionLabel = bookedSessionLabel(p.session_id, p.date_debut_souhaitee)
   const referralLine =
     p.referral_code_valid === true
       ? `*Recommandé par* : ${p.referral_partner_name} (code ${p.referral_code} - bonus ${p.referral_bonus_eur} EUR pending)`
@@ -618,6 +632,7 @@ async function notifySlack(p: SlackPayload): Promise<void> {
   const text = [
     `${enFlag}*Nouvelle candidature MKR* (${TUNNEL_LABELS[p.tunnel] ?? p.tunnel})`,
     `*${p.prenom} ${p.nom}* — ${p.email}${p.pays ? ` — ${p.pays}` : ''}${p.duree_semaines ? ` — ${p.duree_semaines} sem.` : ''}`,
+    sessionLabel ? `*Session* : ${sessionLabel}` : null,
     p.camp_discipline ? `*Camp* : ${DISCIPLINE_LABELS[p.camp_discipline]}` : null,
     `*Montant (selon demande)* : ${formatAmountLabel(p.package_amount_cents)}`,
     p.attribution_source

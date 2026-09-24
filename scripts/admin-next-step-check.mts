@@ -21,6 +21,7 @@ import {
   type DossierLive, type DossierStatic, type PrimaryContext,
 } from '../src/lib/admin/dossier.ts'
 import type { StepKind } from '../src/lib/admin/next-step.ts'
+import { bookedSessionLabel, notificationSubjectLead } from '../src/lib/admin/booked-session.ts'
 
 const NOW = new Date('2026-09-23T10:00:00Z')
 
@@ -364,6 +365,17 @@ check('reste a payer', sumPaid.headline === 'Soldé' && sumPaid.progress === 100
   && paymentSummary({ ...payLive, contractPaymentDeadline: '2026-09-25' }, NOW).deadline?.tone === 'warn')
 check('rappels envoyes', remindersLine(0, null) === 'Aucun' && remindersLine(1, '2026-09-19T10:00:00Z') === '1 envoyé le 19/09/2026'
   && remindersLine(3, '2026-09-19T10:00:00Z') === '3 envoyés, le dernier le 19/09/2026')
+
+// Notification interne d'une nouvelle candidature : la session reservee.
+check('session reservee : nom et dates, passee comprise', bookedSessionLabel('toussaint-2026', null) === 'Toussaint 2026 · 17 oct. - 7 nov. 2026'
+  && bookedSessionLabel('fevrier-2027', null) === 'Février 2027 · 13 févr. - 6 mars 2027'
+  && bookedSessionLabel('aout-2026', null) === 'Août 2026 · 17 août - 5 sept. 2026')
+check('session reservee : sur mesure, id inconnu, rien', bookedSessionLabel(null, '2026-12-17') === 'Sur mesure · début souhaité le 17/12/2026'
+  && bookedSessionLabel('n-existe-pas', null) === 'n-existe-pas' && bookedSessionLabel(null, null) === null)
+check('objet de la notification : la session d abord', notificationSubjectLead('session', 'Session officielle', 'toussaint-2026') === 'Toussaint 2026'
+  && notificationSubjectLead('famille', 'Famille', 'fevrier-2027') === 'Famille · Février 2027'
+  && notificationSubjectLead('custom', 'Sur Mesure', null) === 'Sur Mesure'
+  && notificationSubjectLead('session', 'Session officielle', 'n-existe-pas') === 'Session officielle')
 
 console.log(ko === 0 ? '\nTOUT VERT' : '\n' + ko + ' ECHEC(S)')
 process.exit(ko === 0 ? 0 : 1)
