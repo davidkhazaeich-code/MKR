@@ -9,16 +9,24 @@ import { formatNumericDate } from '@/lib/admin/format'
 import { sessionShortName, sessionShortNameFromId } from '@/lib/admin/labels'
 import { frSessionDisplay } from '@/lib/session-display-fr'
 
+/** Date seule lisible par formatNumericDate, qui leve une exception sur une date invalide. */
+function isIsoDay(v: string): boolean {
+  return /^\d{4}-\d{2}-\d{2}$/.test(v) && !Number.isNaN(Date.parse(`${v}T12:00:00Z`))
+}
+
 /**
  * « Toussaint 2026 · 17 oct. - 7 nov. 2026 » pour une session officielle,
- * « Sur mesure · début souhaité le 17/12/2026 » sans session, null si le
- * candidat n'a indique ni l'un ni l'autre.
+ * « Sur mesure · début souhaité le 17/12/2026 » sans session, null sinon.
+ * Hors tunnel session, l'id et la date arrivent tels que postes : un id
+ * inconnu ou une date mal formee ne doivent ni faire tomber la notification
+ * ni passer bruts dans Slack. Ils sont donc omis.
  */
 export function bookedSessionLabel(sessionId: string | null, dateDebutSouhaitee: string | null): string | null {
   const session = sessionFromId(sessionId)
   if (session) return `${sessionShortName(session)} · ${frSessionDisplay(session).dates_short}`
-  if (sessionId) return sessionId
-  if (dateDebutSouhaitee) return `Sur mesure · début souhaité le ${formatNumericDate(dateDebutSouhaitee)}`
+  if (dateDebutSouhaitee && isIsoDay(dateDebutSouhaitee)) {
+    return `Sur mesure · début souhaité le ${formatNumericDate(dateDebutSouhaitee)}`
+  }
   return null
 }
 

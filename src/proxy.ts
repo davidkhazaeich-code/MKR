@@ -31,7 +31,8 @@ function handleAdminGuard(request: NextRequest): NextResponse | null {
 
   // Routes admin (FR uniquement)
   if (pathname.startsWith('/admin') || pathname.startsWith('/api/admin')) {
-    if (pathname === '/admin/login' || pathname === '/api/admin/login') {
+    // Connexion, et manifeste de l'admin installable (lu sans cookie par le navigateur).
+    if (pathname === '/admin/login' || pathname === '/api/admin/login' || pathname === '/admin/manifest.webmanifest') {
       return NextResponse.next();
     }
 
@@ -45,9 +46,9 @@ function handleAdminGuard(request: NextRequest): NextResponse | null {
       url.pathname = '/admin/login';
       url.search = '';
       // Page admin (lien « Voir le dossier » d'un email interne) : la connexion
-      // ramene sur la page demandee, pas sur l'accueil. Les appels API gardent
-      // la reecriture nue.
-      if (pathname.startsWith('/admin')) {
+      // ramene sur la page demandee, pas sur l'accueil. Les appels API et les
+      // variantes techniques a point (.rsc, .segments) gardent la reecriture nue.
+      if (pathname.startsWith('/admin') && !pathname.includes('.')) {
         url.searchParams.set('next', pathname + request.nextUrl.search);
       }
       return NextResponse.rewrite(url);
@@ -106,5 +107,10 @@ export const config = {
     // - _vercel (preview)
     // - fichiers statiques (.ext)
     '/((?!_next|_vercel|.*\\..*).*)',
+    // Admin : tous les chemins, points compris. Next ajoute a chaque matcher les
+    // variantes .rsc et .segments/ d'une page, que l'exclusion des chemins a
+    // point ci-dessus retire : le garde doit aussi passer sur elles.
+    '/admin/:path*',
+    '/api/admin/:path*',
   ],
 };

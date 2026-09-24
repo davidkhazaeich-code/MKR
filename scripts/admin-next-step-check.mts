@@ -371,7 +371,9 @@ check('session reservee : nom et dates, passee comprise', bookedSessionLabel('to
   && bookedSessionLabel('fevrier-2027', null) === 'Février 2027 · 13 févr. - 6 mars 2027'
   && bookedSessionLabel('aout-2026', null) === 'Août 2026 · 17 août - 5 sept. 2026')
 check('session reservee : sur mesure, id inconnu, rien', bookedSessionLabel(null, '2026-12-17') === 'Sur mesure · début souhaité le 17/12/2026'
-  && bookedSessionLabel('n-existe-pas', null) === 'n-existe-pas' && bookedSessionLabel(null, null) === null)
+  && bookedSessionLabel('n-existe-pas', null) === null && bookedSessionLabel(null, null) === null)
+check('session reservee : date postee invalide omise sans exception', bookedSessionLabel(null, 'tomorrow') === null
+  && bookedSessionLabel(null, '2026-13-45') === null && bookedSessionLabel('<https://x|Voir le dossier>', null) === null)
 check('objet de la notification : la session d abord', notificationSubjectLead('session', 'Session officielle', 'toussaint-2026') === 'Toussaint 2026'
   && notificationSubjectLead('famille', 'Famille', 'fevrier-2027') === 'Famille · Février 2027'
   && notificationSubjectLead('custom', 'Sur Mesure', null) === 'Sur Mesure'
